@@ -17,7 +17,7 @@ namespace UnitTests.Subtext
             CreateDatabase(connectionString.Server, databaseName, directory);
 
             var installer = new SqlInstaller(connectionString);
-            installer.Install(VersionInfo.FrameworkVersion);
+            installer.Install(VersionInfo.CurrentAssemblyVersion);
         }
 
         public static void CreateDatabase(string serverName, string databaseName, string directory)
@@ -54,7 +54,7 @@ namespace UnitTests.Subtext
         public static void InstallDatabase(string connectionString)
         {
             var installer = new SqlInstaller(connectionString);
-            installer.Install(VersionInfo.FrameworkVersion);
+            installer.Install(VersionInfo.CurrentAssemblyVersion);
         }
 
         public static void DeleteDatabase(string serverName, string databaseName, string directory)

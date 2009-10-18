@@ -1,4 +1,4 @@
-#region Disclaimer/Info
+﻿#region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
@@ -15,18 +15,20 @@
 
 #endregion
 
-using System;
-using Subtext.Framework.Infrastructure.Installation;
-
-namespace Subtext.Framework
+namespace Subtext.Framework.Infrastructure.Installation
 {
-    public interface IInstallationManager
+    /// <summary>
+    /// Returns the current state of the installation.
+    /// </summary>
+    public enum InstallationState
     {
-        void Install(Version currentAssemblyVersion);
-        void Upgrade(Version currentAssemblyVersion);
-        bool InstallationActionRequired(Version assemblyVersion, Exception unhandledException);
-        void ResetInstallationStatusCache();
-        InstallationState GetInstallationStatus(Version currentAssemblyVersion);
-        bool IsPermissionDeniedException(Exception exception);
+        /// <summary>No information available</summary>
+        None = 0,
+        /// <summary>Subtext is installed, but needs to be upgraded.</summary>
+        NeedsUpgrade = 1,
+        /// <summary>Subtext needs to be installed.</summary>
+        NeedsInstallation = 3,
+        /// <summary>Subtext is installed and seems to be working properly.</summary>
+        Complete = 4,
     }
 }

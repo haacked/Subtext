@@ -16,11 +16,8 @@
 #endregion
 
 using System;
-using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Infrastructure.Installation;
-using Subtext.Framework.Logging;
 
 namespace Subtext.Web.Install
 {
@@ -33,13 +30,11 @@ namespace Subtext.Web.Install
     /// </remarks>
     public partial class Step03_CreateBlog : InstallationBase
     {
-        static ILog log = new Log();
-
         protected override void OnLoad(EventArgs e)
         {
             btnQuickCreate.Attributes["onclick"] = "this.disabled=true;"
                                                    +
-                                                   ClientScript.GetPostBackEventReference(btnQuickCreate, "").ToString();
+                                                   ClientScript.GetPostBackEventReference(btnQuickCreate, "");
             base.OnLoad(e);
         }
 
@@ -63,16 +58,15 @@ namespace Subtext.Web.Install
                 }
                 //We probably should have creating the blog authenticate the user 
                 //automatically so this redirect doesn't require a login.
-                var installManager = new InstallationManager(InstallationProvider.Provider);
-                installManager.ResetInstallationStatusCache();
+                InstallationManager.ResetInstallationStatusCache();
                 Response.Redirect("~/Admin/Configure.aspx");
             }
             else
             {
-                string errorMessage = "I'm sorry, but we had a problem creating your initial "
-                                      +
-                                      "configuration. Please <a href=\"http://sourceforge.net/tracker/?group_id=137896&atid=739979\">report "
-                                      + "this issue</a> to the Subtext team.";
+                const string errorMessage = "I'm sorry, but we had a problem creating your initial "
+                                            +
+                                            "configuration. Please <a href=\"http://sourceforge.net/tracker/?group_id=137896&atid=739979\">report "
+                                            + "this issue</a> to the Subtext team.";
 
                 //TODO: Pick a non-generic exception.
                 throw new InvalidOperationException(errorMessage);

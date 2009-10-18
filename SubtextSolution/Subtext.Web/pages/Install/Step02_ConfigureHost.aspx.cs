@@ -19,7 +19,6 @@ using System;
 using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Security;
 
 namespace Subtext.Web.Install
@@ -83,43 +82,21 @@ namespace Subtext.Web.Install
                     }
                     else
                     {
-                        var installManager = new InstallationManager(InstallationProvider.Provider);
-                        installManager.ResetInstallationStatusCache();
+                        InstallationManager.ResetInstallationStatusCache();
                         Response.Redirect("InstallationComplete.aspx");
                     }
                 }
                 else
                 {
-                    string errorMessage = "I'm sorry, but we had a problem creating your initial "
-                                          +
-                                          "configuration. Please <a href=\"http://sourceforge.net/tracker/?group_id=137896&atid=739979\">report "
-                                          + "this issue</a> to the Subtext team.";
+                    const string errorMessage = "I'm sorry, but we had a problem creating your initial "
+                                                +
+                                                "configuration. Please <a href=\"http://sourceforge.net/tracker/?group_id=137896&atid=739979\">report "
+                                                + "this issue</a> to the Subtext team.";
 
                     //TODO: Pick a non-generic exception.
                     throw new Exception(errorMessage);
                 }
             }
         }
-
-        #region Web Form Designer generated code
-
-        override protected void OnInit(EventArgs e)
-        {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-        }
-
-        #endregion
     }
 }

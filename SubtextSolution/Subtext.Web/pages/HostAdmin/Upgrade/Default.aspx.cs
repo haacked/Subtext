@@ -20,6 +20,7 @@ using Subtext.Framework;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Scripting.Exceptions;
 using Subtext.Web.Properties;
+using Ninject;
 
 namespace Subtext.Web.HostAdmin.Upgrade
 {
@@ -32,9 +33,16 @@ namespace Subtext.Web.HostAdmin.Upgrade
     /// </remarks>
     public partial class Default : HostAdminPage
     {
+        [Inject]
+        public IInstallationManager InstallationManager
+        {
+            get; 
+            set;
+        }
+
         protected override void OnLoad(EventArgs e)
         {
-            if(InstallationProvider.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) == InstallationState.Complete)
+            if(InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion) == InstallationState.Complete)
             {
                 Response.Redirect("~/HostAdmin/Upgrade/UpgradeComplete.aspx");
             }
@@ -49,22 +57,22 @@ namespace Subtext.Web.HostAdmin.Upgrade
             plcHolderUpgradeMessage.Visible = false;
             try
             {
-                InstallationProvider.Provider.Upgrade();
+                InstallationManager.Upgrade(VersionInfo.CurrentAssemblyVersion);
                 Response.Redirect("~/HostAdmin/Upgrade/UpgradeComplete.aspx");
             }
-            catch(SqlScriptExecutionException ex)
+            catch(SqlScriptExecutionException exception)
             {
                 plcHolderUpgradeMessage.Visible = true;
 
-                if(InstallationProvider.Provider.IsPermissionDeniedException(ex))
+                if(InstallationManager.IsPermissionDeniedException(exception))
                 {
                     messageLiteral.Text = Resources.Upgrade_UserDoesNotHavePermission;
                     return;
                 }
 
-                messageLiteral.Text = Resources.Upgrade_SomethingWentWrongWithInstall + "<p>" + ex.Message + "</p><p>" +
-                                      ex.GetType().FullName + "</p>";
-                messageLiteral.Text += "<p>" + ex.StackTrace + "</p>";
+                messageLiteral.Text = Resources.Upgrade_SomethingWentWrongWithInstall + "<p>" + exception.Message + "</p><p>" +
+                                      exception.GetType().FullName + "</p>";
+                messageLiteral.Text += "<p>" + exception.StackTrace + "</p>";
 
                 return;
             }

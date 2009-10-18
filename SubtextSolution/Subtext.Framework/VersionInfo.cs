@@ -51,10 +51,10 @@ namespace Subtext.Framework
         static Version _version;
 
         /// <summary>
-        /// Gets the version of the Subtext.Framework assembly.
+        /// Gets the version of the Subtext assembly.
         /// </summary>
         /// <value></value>
-        public static Version FrameworkVersion
+        public static Version CurrentAssemblyVersion
         {
             get
             {
@@ -72,7 +72,7 @@ namespace Subtext.Framework
         /// <value></value>
         public static string VersionDisplayText
         {
-            get { return string.Format(CultureInfo.InvariantCulture, "Subtext Version {0}", FrameworkVersion); }
+            get { return string.Format(CultureInfo.InvariantCulture, "Subtext Version {0}", CurrentAssemblyVersion); }
         }
 
         /// <summary>

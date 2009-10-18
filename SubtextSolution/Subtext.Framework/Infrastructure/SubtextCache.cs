@@ -30,8 +30,6 @@ namespace Subtext.Infrastructure
 
         protected Cache Cache { get; set; }
 
-        #region ICache Members
-
         public object this[string key]
         {
             get { return Cache[key]; }
@@ -59,7 +57,6 @@ namespace Subtext.Infrastructure
             Cache.Remove(key);
         }
 
-
         public void Insert(string key, object value, CacheDependency dependencies, DateTime absoluteExpiration,
                            TimeSpan slidingExpiration, CacheItemPriority priority,
                            CacheItemRemovedCallback onRemoveCallback)
@@ -71,7 +68,5 @@ namespace Subtext.Infrastructure
         {
             return Cache.GetEnumerator();
         }
-
-        #endregion
     }
 }

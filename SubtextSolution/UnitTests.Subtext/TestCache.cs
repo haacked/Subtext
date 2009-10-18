@@ -7,8 +7,6 @@ namespace UnitTests.Subtext
 {
     internal class TestCache : NameObjectCollectionBase, ICache
     {
-        #region ICache Members
-
         public object this[string key]
         {
             get { return BaseGet(key); }
@@ -42,7 +40,5 @@ namespace UnitTests.Subtext
         {
             this[key] = value;
         }
-
-        #endregion
     }
 }

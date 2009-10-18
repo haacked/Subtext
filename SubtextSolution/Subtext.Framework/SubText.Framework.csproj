@@ -403,7 +403,9 @@
     <Compile Include="ImportExport\IBlogMLWriter.cs" />
     <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
     <Compile Include="Infrastructure\Installation\ConnectionStringBuilder.cs" />
-    <Compile Include="Infrastructure\Installation\InstallationProvider.cs" />
+    <Compile Include="Infrastructure\Installation\IInstaller.cs" />
+    <Compile Include="Infrastructure\Installation\InstallationScriptInfo.cs" />
+    <Compile Include="Infrastructure\Installation\InstallationState.cs" />
     <Compile Include="Infrastructure\Installation\ScriptHelper.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\ConnectionString.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\Exceptions\SqlParseException.cs" />
@@ -417,7 +419,6 @@
     <Compile Include="Infrastructure\Installation\Scripting\SqlScriptRunner.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\TemplateParameter.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\TemplateParameterCollection.cs" />
-    <Compile Include="Infrastructure\Installation\SqlInstallationProvider.cs" />
     <Compile Include="Infrastructure\Installation\SqlInstaller.cs" />
     <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />

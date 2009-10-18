@@ -17,7 +17,7 @@
 
 using System;
 using System.Web;
-using Subtext.Extensibility.Providers;
+using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Infrastructure.Installation;
@@ -30,7 +30,14 @@ namespace Subtext.Web.Install
     /// </summary>
     public class InstallationBase : SubtextPage
     {
-        static readonly string[] _wizardPages =
+        [Inject]
+        public IInstallationManager InstallationManager
+        {
+            get;
+            set;
+        }
+
+        static readonly string[] WizardPages =
             {
                 "Default.aspx"
                 , "Step02_ConfigureHost.aspx"
@@ -45,11 +52,11 @@ namespace Subtext.Web.Install
         {
             get
             {
-                for(int i = 0; i < _wizardPages.Length; i++)
+                for(int i = 0; i < WizardPages.Length; i++)
                 {
-                    if(IsOnPage(_wizardPages[i]) && i < _wizardPages.Length - 1)
+                    if(IsOnPage(WizardPages[i]) && i < WizardPages.Length - 1)
                     {
-                        return _wizardPages[i + 1];
+                        return WizardPages[i + 1];
                     }
                 }
                 return "InstallationComplete.aspx";
@@ -62,7 +69,7 @@ namespace Subtext.Web.Install
         /// <param name="e">E.</param>
         protected override void OnLoad(EventArgs e)
         {
-            InstallationState status = InstallationProvider.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
+            InstallationState status = InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion);
 
             switch(status)
             {
@@ -107,7 +114,7 @@ namespace Subtext.Web.Install
 
             foreach(string page in pages)
             {
-                if(page != null && page.Length > 0)
+                if(!string.IsNullOrEmpty(page))
                 {
                     if(IsOnPage(page))
                     {
