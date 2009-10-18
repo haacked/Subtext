@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Web.Handlers;
@@ -27,9 +28,16 @@ namespace Subtext.Web
     /// </summary>
     public partial class UpgradeInProgress : SubtextPage
     {
+        [Inject]
+        public IInstallationManager InstallationManager
+        {
+            get; 
+            set;
+        }
+
         protected override void OnLoad(EventArgs e)
         {
-            InstallationState state = InstallationProvider.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion);
+            InstallationState state = InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion);
             if(state == InstallationState.NeedsUpgrade)
             {
                 plcUpgradeInProgressMessage.Visible = true;

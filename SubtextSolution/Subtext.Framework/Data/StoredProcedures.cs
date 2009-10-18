@@ -20,6 +20,13 @@ namespace Subtext.Framework.Data
             ConnectionString = connectionString;
         }
 
+        public StoredProcedures(SqlTransaction transaction)
+        {
+            _transaction = transaction;
+        }
+
+        private SqlTransaction _transaction;
+
         private IDataReader GetReader(string sql)
         {
             LogSql(sql, null);
@@ -35,7 +42,11 @@ namespace Subtext.Framework.Data
         private int NonQueryInt(string sql, SqlParameter[] p)
         {
             LogSql(sql, p);
-            return SqlHelper.ExecuteNonQuery(ConnectionString, CommandType.StoredProcedure, sql, p);
+            if(_transaction == null)
+            {
+                return SqlHelper.ExecuteNonQuery(ConnectionString, CommandType.StoredProcedure, sql, p);
+            }
+            return SqlHelper.ExecuteNonQuery(_transaction, CommandType.StoredProcedure, sql, p);
         }
 
         private bool NonQueryBool(string sql, SqlParameter[] p)

@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Infrastructure.Installation;
@@ -34,7 +33,7 @@ namespace Subtext.Web.Install
     {
         protected override void OnLoad(EventArgs e)
         {
-            if(InstallationProvider.Provider.GetInstallationStatus(VersionInfo.FrameworkVersion) == InstallationState.Complete)
+            if(InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion) == InstallationState.Complete)
             {
                 Response.Redirect("InstallationComplete.aspx");
             }
@@ -47,7 +46,7 @@ namespace Subtext.Web.Install
 
         protected virtual void OnInstallClick(object sender, EventArgs e)
         {
-            InstallationProvider.Provider.Install(VersionInfo.FrameworkVersion);
+            InstallationManager.Install(VersionInfo.CurrentAssemblyVersion);
             Response.Redirect(NextStepUrl);
         }
     }

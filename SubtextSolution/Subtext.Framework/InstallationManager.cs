@@ -16,9 +16,12 @@
 #endregion
 
 using System;
-using System.Web;
+using System.Data.SqlClient;
+using System.Text.RegularExpressions;
+using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Infrastructure.Installation;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework
 {
@@ -27,24 +30,25 @@ namespace Subtext.Framework
     /// </summary>
     public class InstallationManager : IInstallationManager
     {
-        public InstallationManager(InstallationProvider installationProvider)
+        public InstallationManager(IInstaller installer, ICache cache)
         {
-            InstallationProvider = installationProvider;
+            Installer = installer;
+            Cache = cache;
         }
 
-        protected InstallationProvider InstallationProvider { get; private set; }
+        protected ICache Cache { get; set; }
+        protected IInstaller Installer { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is installation action required.
-        /// </summary>
-        /// <param name="assemblyVersion">The version of the currently installed assembly.</param>
-        /// <value>
-        /// 	<c>true</c> if this instance is installation action required; otherwise, <c>false</c>.
-        /// </value>
-        public virtual bool InstallationActionRequired(Version assemblyVersion)
+        public void Install(Version assemblyVersion)
         {
-            InstallationState currentState = InstallationProvider.GetInstallationStatus(assemblyVersion);
-            return InstallationActionRequired(currentState);
+            Installer.Install(assemblyVersion);
+            ResetInstallationStatusCache();
+        }
+
+        public void Upgrade(Version currentAssemblyVersion)
+        {
+            Installer.Upgrade(currentAssemblyVersion);
+            ResetInstallationStatusCache();
         }
 
         /// <summary>
@@ -63,12 +67,12 @@ namespace Subtext.Framework
                 return true;
             }
 
-            if(InstallationProvider.IsInstallationException(unhandledException))
+            if(IsInstallationException(unhandledException))
             {
                 return true;
             }
 
-            InstallationState status = InstallationProvider.GetInstallationStatus(assemblyVersion);
+            InstallationState status = GetInstallationStatus(assemblyVersion);
             switch(status)
             {
                 case InstallationState.NeedsInstallation:
@@ -81,9 +85,52 @@ namespace Subtext.Framework
             return false;
         }
 
+        private static bool IsInstallationException(Exception exception)
+        {
+            var tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            bool isSqlException = exception is SqlException;
+
+            if(isSqlException && tableRegex.IsMatch(exception.Message))
+            {
+                return true;
+            }
+
+            var spRegex = new Regex("'Could not find stored procedure '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            if(isSqlException && spRegex.IsMatch(exception.Message))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public virtual InstallationState GetInstallationStatus(Version currentAssemblyVersion)
         {
-            return InstallationProvider.GetInstallationStatus(currentAssemblyVersion);
+            object cachedInstallationState = Cache["NeedsInstallation"];
+            if(cachedInstallationState != null)
+            {
+                return (InstallationState)cachedInstallationState;
+            }
+
+            var status = GetInstallationState(currentAssemblyVersion);
+            Cache.Insert("NeedsInstallation", status);
+            return status;
+        }
+
+        private InstallationState GetInstallationState(Version currentAssemblyVersion)
+        {
+            Version installationVersion = Installer.GetCurrentInstallationVersion();
+            if(installationVersion == null)
+            {
+                return InstallationState.NeedsInstallation;
+            }
+
+            if(Installer.NeedsUpgrade(installationVersion, currentAssemblyVersion))
+            {
+                return InstallationState.NeedsUpgrade;
+            }
+
+            return InstallationState.Complete;
         }
 
         public bool InstallationActionRequired(InstallationState currentState)
@@ -96,10 +143,31 @@ namespace Subtext.Framework
 
         public void ResetInstallationStatusCache()
         {
-            if(HttpContext.Current != null && HttpContext.Current.Application["NeedsInstallation"] != null)
+            object cachedInstallationState = Cache["NeedsInstallation"];
+            if(cachedInstallationState != null)
             {
-                HttpContext.Current.Application["NeedsInstallation"] = null;
+                Cache.Remove("NeedsInstallation");
             }
         }
+
+        /// <summary>
+        /// Determines whether the specified exception is due to a permission 
+        /// denied error.
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        public bool IsPermissionDeniedException(Exception exception)
+        {
+            var sqlexc = exception.InnerException as SqlException;
+            return sqlexc != null
+                   &&
+                   (
+                       sqlexc.Number == (int)SqlErrorMessage.PermissionDeniedInDatabase
+                       || sqlexc.Number == (int)SqlErrorMessage.PermissionDeniedOnProcedure
+                       || sqlexc.Number == (int)SqlErrorMessage.PermissionDeniedInOnColumn
+                       || sqlexc.Number == (int)SqlErrorMessage.PermissionDeniedInOnObject
+                   );
+        }
+
     }
 }

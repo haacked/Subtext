@@ -18,15 +18,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
-using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Infrastructure.Installation
 {
-    public class SqlInstaller
+    public class SqlInstaller : IInstaller
     {
         private readonly string _connectionString;
 
@@ -47,7 +45,7 @@ namespace Subtext.Framework.Infrastructure.Installation
                     try
                     {
                         ReadOnlyCollection<string> scripts = ListInstallationScripts(GetCurrentInstallationVersion(),
-                                                                                     VersionInfo.FrameworkVersion);
+                                                                                     VersionInfo.CurrentAssemblyVersion);
                         foreach(string scriptName in scripts)
                         {
                             ScriptHelper.ExecuteScript(scriptName, transaction, DBUser);
@@ -70,7 +68,7 @@ namespace Subtext.Framework.Infrastructure.Installation
         /// Upgrades this instance. Returns true if it was successful.
         /// </summary>
         /// <returns></returns>
-        public void Upgrade()
+        public void Upgrade(Version currentAssemblyVersion)
         {
             using(var connection = new SqlConnection(_connectionString))
             {
@@ -80,15 +78,14 @@ namespace Subtext.Framework.Infrastructure.Installation
                     try
                     {
                         Version installationVersion = GetCurrentInstallationVersion() ?? new Version(1, 0, 0, 0);
-                        ReadOnlyCollection<string> scripts = ListInstallationScripts(installationVersion,
-                                                                                     VersionInfo.FrameworkVersion);
+                        ReadOnlyCollection<string> scripts = ListInstallationScripts(installationVersion, currentAssemblyVersion);
                         foreach(string scriptName in scripts)
                         {
                             ScriptHelper.ExecuteScript(scriptName, transaction, DBUser);
                         }
                         ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction, DBUser);
 
-                        UpdateInstallationVersionNumber(VersionInfo.FrameworkVersion, transaction);
+                        UpdateInstallationVersionNumber(currentAssemblyVersion, transaction);
                         transaction.Commit();
                     }
                     catch(Exception)
@@ -115,8 +112,7 @@ namespace Subtext.Framework.Infrastructure.Installation
             var collection = new List<string>();
             foreach(string resourceName in resourceNames)
             {
-                SqlInstallationProvider.InstallationScriptInfo scriptInfo =
-                    SqlInstallationProvider.InstallationScriptInfo.Parse(resourceName);
+                InstallationScriptInfo scriptInfo = InstallationScriptInfo.Parse(resourceName);
                 if(scriptInfo == null)
                 {
                     continue;
@@ -143,20 +139,8 @@ namespace Subtext.Framework.Infrastructure.Installation
         /// <param name="transaction">The transaction to perform this action within.</param>
         public static void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
         {
-            const string sql = "subtext_VersionAdd";
-            SqlParameter[] p =
-                {
-                    CreateParameter("@Major", SqlDbType.Int, 4, newVersion.Major),
-                    CreateParameter("@Minor", SqlDbType.Int, 4, newVersion.Minor),
-                    CreateParameter("@Build", SqlDbType.Int, 4, newVersion.Build)
-                };
-            SqlHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, sql, p);
-        }
-
-        static SqlParameter CreateParameter(string name, SqlDbType dbType, int size, object value)
-        {
-            var param = new SqlParameter(name, dbType, size) {Value = value};
-            return param;
+            var procedures = new StoredProcedures(transaction);
+            procedures.VersionAdd(newVersion.Major, newVersion.Minor, newVersion.Build, DateTime.Now);
         }
 
         /// <summary>
@@ -167,11 +151,10 @@ namespace Subtext.Framework.Infrastructure.Installation
         /// <returns></returns>
         public Version GetCurrentInstallationVersion()
         {
-            const string sql = "subtext_VersionGetCurrent";
-
+            var procedures = new StoredProcedures(_connectionString);
             try
             {
-                using(IDataReader reader = SqlHelper.ExecuteReader(_connectionString, CommandType.StoredProcedure, sql))
+                using(var reader = procedures.VersionGetCurrent())
                 {
                     if(reader.Read())
                     {
@@ -179,7 +162,6 @@ namespace Subtext.Framework.Infrastructure.Installation
                         reader.Close();
                         return version;
                     }
-                    reader.Close();
                 }
             }
             catch(SqlException exception)
@@ -199,9 +181,9 @@ namespace Subtext.Framework.Infrastructure.Installation
         /// <value>
         /// 	<c>true</c> if [needs upgrade]; otherwise, <c>false</c>.
         /// </value>
-        public bool NeedsUpgrade(Version installationVersion)
+        public bool NeedsUpgrade(Version installationVersion, Version currentAssemblyVersion)
         {
-            if(installationVersion >= VersionInfo.FrameworkVersion)
+            if(installationVersion >= currentAssemblyVersion)
             {
                 return false;
             }
@@ -213,8 +195,7 @@ namespace Subtext.Framework.Infrastructure.Installation
                 //into the database.
                 installationVersion = new Version(1, 0, 0, 0);
             }
-            ReadOnlyCollection<string> scripts = ListInstallationScripts(installationVersion,
-                                                                         VersionInfo.FrameworkVersion);
+            ReadOnlyCollection<string> scripts = ListInstallationScripts(installationVersion, currentAssemblyVersion);
             return scripts.Count > 0;
         }
     }

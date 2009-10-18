@@ -26,12 +26,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using log4net;
+using Ninject;
 using Ninject.Modules;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
@@ -50,8 +50,7 @@ namespace Subtext.Web
         private const string ErrorPageLocation = "~/SystemMessages/error.aspx";
         private readonly static ILog Log = new Log(LogManager.GetLogger(typeof(SubtextApplication)));
 
-        public SubtextApplication()
-            : this(new Dependencies())
+        public SubtextApplication() : this(new Dependencies())
         {
         }
 
@@ -84,15 +83,16 @@ namespace Subtext.Web
             var factory = new SubtextControllerFactory(routes.Kernel);
             ControllerBuilder.Current.SetControllerFactory(factory);
 
-            var deprecatedPaths = new string[]
+            var deprecatedPaths = new[]
             {
                 "~/Admin", "~/HostAdmin", "~/Install",
                 "~/SystemMessages", "~/AggDefault.aspx", "~/DTP.aspx",
                 "~/ForgotPassword.aspx", "~/login.aspx", "~/logout.aspx", "~/MainFeed.aspx"
             };
-            IEnumerable<string> invalidPaths =
-                deprecatedPaths.Where(
-                    path => Directory.Exists(server.MapPath(path)) || File.Exists(server.MapPath(path)));
+            var invalidPaths = 
+                from path in deprecatedPaths 
+                where Directory.Exists(server.MapPath(path)) || File.Exists(server.MapPath(path))
+                select path;
             DeprecatedPhysicalPaths = new ReadOnlyCollection<string>(invalidPaths.ToList());
         }
 
@@ -168,11 +168,12 @@ namespace Subtext.Web
             Exception exception = Server.GetLastError();
             if(BlogRequest.Current.RequestLocation != RequestLocation.StaticFile)
             {
-                OnApplicationError(exception, new HttpServerUtilityWrapper(Server), Log);
+                var installationManager = Bootstrapper.Kernel.Get<IInstallationManager>();
+                OnApplicationError(exception, new HttpServerUtilityWrapper(Server), Log, installationManager);
             }
         }
 
-        public void OnApplicationError(Exception exception, HttpServerUtilityBase server, ILog log)
+        public void OnApplicationError(Exception exception, HttpServerUtilityBase server, ILog log, IInstallationManager installationManager)
         {
             exception = UnwrapHttpUnhandledException(exception);
             if(exception == null)
@@ -193,9 +194,8 @@ namespace Subtext.Web
                 return;
             }
 
-            var installManager = new InstallationManager(InstallationProvider.Provider);
             BlogRequest blogRequest = BlogRequest.Current;
-            if(HandleRequestLocationException(exception, blogRequest, installManager, new HttpResponseWrapper(Response)))
+            if(HandleRequestLocationException(exception, blogRequest, installationManager, new HttpResponseWrapper(Response)))
             {
                 return;
             }
@@ -307,13 +307,12 @@ namespace Subtext.Web
             return false;
         }
 
-        public static bool HandleRequestLocationException(Exception exception, BlogRequest blogRequest,
-                                                          InstallationManager installManager, HttpResponseBase response)
+        public static bool HandleRequestLocationException(Exception exception, BlogRequest blogRequest, IInstallationManager installManager, HttpResponseBase response)
         {
             if(blogRequest.RequestLocation != RequestLocation.Installation &&
                blogRequest.RequestLocation != RequestLocation.Upgrade)
             {
-                if(installManager.InstallationActionRequired(VersionInfo.FrameworkVersion, exception))
+                if(installManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, exception))
                 {
                     response.Redirect("~/install/default.aspx", true);
                     return true;
@@ -371,8 +370,6 @@ namespace Subtext.Web
         /// <summary>
         /// Handles the End event of the Application control.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void Application_End()
         {
             EndApplication();

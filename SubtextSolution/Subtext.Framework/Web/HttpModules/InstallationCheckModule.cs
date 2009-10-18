@@ -17,7 +17,9 @@
 
 using System;
 using System.Web;
+using Ninject;
 using Subtext.Framework.Infrastructure.Installation;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Web.HttpModules
 {
@@ -26,7 +28,7 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class InstallationCheckModule : IHttpModule
     {
-        public InstallationCheckModule() : this(new InstallationManager(InstallationProvider.Provider))
+        public InstallationCheckModule() : this(null)
         {
         }
 
@@ -35,7 +37,7 @@ namespace Subtext.Framework.Web.HttpModules
         /// </summary>
         public InstallationCheckModule(IInstallationManager installationManager)
         {
-            InstallationManager = installationManager;
+            InstallationManager = installationManager ?? Bootstrapper.Kernel.Get<IInstallationManager>();
         }
 
         public IInstallationManager InstallationManager { get; private set; }
@@ -100,9 +102,9 @@ namespace Subtext.Framework.Web.HttpModules
 
             // Want to redirect to install if installation is required, 
             // or if we're missing a HostInfo record.
-            if((InstallationManager.InstallationActionRequired(VersionInfo.FrameworkVersion) || hostInfo == null))
+            if((InstallationManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, null) || hostInfo == null))
             {
-                InstallationState state = InstallationManager.GetInstallationStatus(VersionInfo.FrameworkVersion);
+                InstallationState state = InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion);
                 if(state == InstallationState.NeedsInstallation
                    && !blogRequest.IsHostAdminRequest
                    && blogRequest.RequestLocation != RequestLocation.Installation)

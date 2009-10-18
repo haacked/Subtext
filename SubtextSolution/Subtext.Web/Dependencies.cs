@@ -27,6 +27,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Emoticons;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
@@ -82,6 +83,9 @@ namespace Subtext
             Bind<OpmlWriter>().To<OpmlWriter>().InRequestScope();
             Bind<IKernel>().ToMethod(context => context.Kernel).InSingletonScope();
             Bind<Tracking>().ToMethod(context => Config.Settings.Tracking).InSingletonScope();
+
+            Bind<IInstallationManager>().To<InstallationManager>();
+            Bind<IInstaller>().ToMethod(context => new SqlInstaller(Config.ConnectionString));
 
             Bind<RouteCollection>().ToConstant(RouteTable.Routes).InSingletonScope();
             Bind<HttpContext>().ToMethod(c => HttpContext.Current).InRequestScope();

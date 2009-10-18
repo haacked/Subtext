@@ -12,7 +12,6 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Web;
-using Subtext.Framework.Infrastructure.Installation;
 
 namespace UnitTests.Subtext.SubtextWeb
 {
@@ -151,7 +150,6 @@ namespace UnitTests.Subtext.SubtextWeb
         public void OnApplicationError_WithUnhandledExceptionAndCustomErrorsEnabled_TransfersToErrorPage()
         {
             // arrange
-            var app = new SubtextApplication(null);
             string transferLocation = null;
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
@@ -168,7 +166,6 @@ namespace UnitTests.Subtext.SubtextWeb
         public void OnApplicationError_WithUnhandledExceptionAndCustomErrorsDisabled_LogsMessage()
         {
             // arrange
-            var app = new SubtextApplication(null);
             var log = new Mock<ILog>();
             string logMessage = null;
             log.Setup(l => l.Error(It.IsAny<object>(), It.IsAny<Exception>())).Callback<object, Exception>(
@@ -192,7 +189,7 @@ namespace UnitTests.Subtext.SubtextWeb
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
 
             // act
-            app.OnApplicationError(new HttpUnhandledException(), server.Object, new Mock<ILog>().Object);
+            app.OnApplicationError(new HttpUnhandledException(), server.Object, new Mock<ILog>().Object, null);
 
             // assert
             Assert.AreEqual("~/SystemMessages/error.aspx", transferLocation);
@@ -247,7 +244,6 @@ namespace UnitTests.Subtext.SubtextWeb
         {
             // arrange
             var exception = new DeprecatedPhysicalPathsException(new[] {"~/Admin"});
-            var log = new Mock<ILog>();
             var server = new Mock<HttpServerUtilityBase>();
             string transferLocation = null;
             server.Setup(s => s.Execute(It.IsAny<string>(), false)).Callback<string, bool>(
@@ -283,7 +279,6 @@ namespace UnitTests.Subtext.SubtextWeb
             ()
         {
             // arrange
-            var log = new Mock<ILog>();
             var server = new Mock<HttpServerUtilityBase>();
             string transferLocation = null;
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
@@ -304,7 +299,7 @@ namespace UnitTests.Subtext.SubtextWeb
             ()
         {
             // arrange
-            var log = new Mock<ILog>();
+            
             var server = new Mock<HttpServerUtilityBase>();
             string transferLocation = null;
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
@@ -319,20 +314,19 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        public void HandleRequestLocationException_HandlesInstallationRequired()
+        public void HandleRequestLocationException_WithInstallationActionRequired_RedirectsToInstallDefault()
         {
             // arrange
-            var exception = new HostDataDoesNotExistException();
             var response = new Mock<HttpResponseBase>();
             string redirectLocation = null;
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Callback<string, bool>(
                 (s, endRequest) => redirectLocation = s);
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false);
-            var installManager = new InstallationManager(null);
+            var installationManager = new Mock<IInstallationManager>();
+            installationManager.Setup(i => i.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
 
             // act
-            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
-                                                                             response.Object);
+            bool handled = SubtextApplication.HandleRequestLocationException(null, blogRequest, installationManager.Object, response.Object);
 
             // assert
             Assert.AreEqual("~/install/default.aspx", redirectLocation);
@@ -343,16 +337,16 @@ namespace UnitTests.Subtext.SubtextWeb
         public void HandleRequestLocationException_IgnoresInstallationLocation()
         {
             // arrange
-            var exception = new HostDataDoesNotExistException();
             var response = new Mock<HttpResponseBase>();
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(
                 new Exception("Test Failed. Should not have redirected"));
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false,
                                               RequestLocation.Installation, "/");
-            var installManager = new InstallationManager(null);
+            var installManager = new Mock<IInstallationManager>();
+            installManager.Setup(i => i.InstallationActionRequired(It.IsAny<Version>(), null)).Throws(new InvalidOperationException());
 
             // act
-            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
+            bool handled = SubtextApplication.HandleRequestLocationException(new Exception(), blogRequest, installManager.Object,
                                                                              response.Object);
 
             // assert
@@ -363,16 +357,15 @@ namespace UnitTests.Subtext.SubtextWeb
         public void HandleRequestLocationException_IgnoresUpgradeLocation()
         {
             // arrange
-            var exception = new HostDataDoesNotExistException();
             var response = new Mock<HttpResponseBase>();
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(
                 new Exception("Test Failed. Should not have redirected"));
-            var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false, RequestLocation.Upgrade,
-                                              "/");
-            var installManager = new InstallationManager(null);
+            var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false, RequestLocation.Upgrade, "/");
+            var installManager = new Mock<IInstallationManager>();
+            installManager.Setup(i => i.InstallationActionRequired(It.IsAny<Version>(), It.IsAny<Exception>())).Throws(new InvalidOperationException());
 
             // act
-            bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
+            bool handled = SubtextApplication.HandleRequestLocationException(new Exception(), blogRequest, installManager.Object,
                                                                              response.Object);
 
             // assert
@@ -389,7 +382,7 @@ namespace UnitTests.Subtext.SubtextWeb
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Callback<string, bool>(
                 (s, endRequest) => redirectLocation = s);
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false);
-            var installManager = new InstallationManager(new Mock<InstallationProvider>().Object);
+            var installManager = new Mock<IInstallationManager>().Object;
 
             // act
             bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
@@ -409,7 +402,7 @@ namespace UnitTests.Subtext.SubtextWeb
             response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(new Exception("Should not have redirected"));
             var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false,
                                               RequestLocation.SystemMessages, "/");
-            var installManager = new InstallationManager(new Mock<InstallationProvider>().Object);
+            var installManager = new Mock<IInstallationManager>().Object;
 
             // act
             bool handled = SubtextApplication.HandleRequestLocationException(exception, blogRequest, installManager,
