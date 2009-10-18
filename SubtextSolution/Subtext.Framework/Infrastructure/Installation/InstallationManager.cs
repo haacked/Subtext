@@ -20,10 +20,9 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Infrastructure;
 
-namespace Subtext.Framework
+namespace Subtext.Framework.Infrastructure.Installation
 {
     /// <summary>
     /// Class used to help make determine whether an installation is required or not.

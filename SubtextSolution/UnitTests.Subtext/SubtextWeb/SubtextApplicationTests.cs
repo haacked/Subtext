@@ -9,6 +9,7 @@ using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Web;
