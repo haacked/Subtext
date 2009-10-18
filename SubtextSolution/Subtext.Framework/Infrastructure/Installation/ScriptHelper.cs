@@ -63,40 +63,6 @@ namespace Subtext.Framework.Infrastructure.Installation
         }
 
         /// <summary>
-        /// Executes the script.
-        /// </summary>
-        /// <remarks>
-        /// Use script.Execute(transaction) to do the work. We will also pull the
-        /// status of our script exection from here.
-        /// </remarks>
-        /// <param name="scripts">The collection of scripts to execute.</param>
-        /// <param name="transaction">The current transaction.</param>
-        public static void ExecuteScript(ScriptCollection scripts, SqlTransaction transaction)
-        {
-            ExecuteScript(scripts, transaction, null);
-        }
-
-        /// <summary>
-        /// Executes the script.
-        /// </summary>
-        /// <remarks>
-        /// Use script.Execute(transaction) to do the work. We will also pull the
-        /// status of our script exection from here.
-        /// </remarks>
-        /// <param name="scripts">The collection of scripts to execute.</param>
-        /// <param name="transaction">The current transaction.</param>
-        /// <param name="dbUserName">Name of the DB owner.</param>
-        public static void ExecuteScript(ScriptCollection scripts, SqlTransaction transaction, string dbUserName)
-        {
-            var scriptRunner = new SqlScriptRunner(scripts);
-            if(!string.IsNullOrEmpty(dbUserName))
-            {
-                scriptRunner.TemplateParameters.SetValue("dbUser", dbUserName);
-            }
-            scriptRunner.Execute(transaction);
-        }
-
-        /// <summary>
         /// Unpacks an embedded script into a string.
         /// </summary>
         /// <param name="scriptName">The file name of the script to run.</param>
