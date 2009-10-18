@@ -64,7 +64,7 @@ namespace Subtext.Web.Install
                     blog.Email = Request.QueryString["email"];
                     Repository.UpdateConfigData(blog);
                 }
-                InstallationManager.CreateWelcomeContent(Repository, EntryPublisher, Blog);
+                InstallationManager.CreateWelcomeContent(SubtextContext, EntryPublisher, Blog);
                 
 
                 //We probably should have creating the blog authenticate the user 

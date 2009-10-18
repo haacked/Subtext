@@ -71,8 +71,9 @@ namespace Subtext.Framework.Infrastructure.Installation
 
             var entry = new Entry(PostType.BlogPost)
             {
+                Title = "Welcome to Subtext!",
                 BlogId = blog.Id,
-                Author = HostInfo.Instance.HostUserName,
+                Author = blog.Author,
                 Body = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomePost.htm")
             };
             
