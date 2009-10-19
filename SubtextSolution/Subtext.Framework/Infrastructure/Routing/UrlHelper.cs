@@ -277,6 +277,10 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath BlogUrl(Blog blog)
         {
+            if(String.IsNullOrEmpty(blog.Subfolder))
+            {
+                return BlogUrl();
+            }
             string vp = GetVirtualPath("root", new {subfolder = blog.Subfolder});
             return BlogUrl(vp);
         }

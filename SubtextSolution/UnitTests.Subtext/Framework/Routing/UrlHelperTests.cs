@@ -603,6 +603,20 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void BlogUrlWithExplicitBlogNotHavingSubfolderAndVirtualPath_WithoutSubfolderInRouteData_ReturnsSubfolder()
+        {
+            //arrange
+            var routeData = new RouteData();
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string url = helper.BlogUrl(new Blog { Subfolder = null });
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/default.aspx", url);
+        }
+
+        [Test]
         public void BlogUrlWithExplicitBlogHavingSubfolderAndVirtualPath_WithoutSubfolderInRouteData_ReturnsSubfolder()
         {
             //arrange
