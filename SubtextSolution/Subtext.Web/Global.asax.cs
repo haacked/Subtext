@@ -166,7 +166,7 @@ namespace Subtext.Web
         protected void Application_Error(Object sender, EventArgs e)
         {
             Exception exception = Server.GetLastError();
-            if(BlogRequest.Current.RequestLocation != RequestLocation.StaticFile)
+            if(BlogRequest.Current == null || BlogRequest.Current.RequestLocation != RequestLocation.StaticFile)
             {
                 var installationManager = Bootstrapper.Kernel.Get<IInstallationManager>();
                 OnApplicationError(exception, new HttpServerUtilityWrapper(Server), Log, installationManager);

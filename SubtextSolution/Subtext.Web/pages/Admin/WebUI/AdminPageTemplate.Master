@@ -40,7 +40,7 @@
     <div id="container">
 	    <div id="login-status">
 		    <span id="blog-title">
-		        <a title="Blog Home Page" href="<%= Url.BlogUrl(Blog) %>"><%= Blog.Title %></a>
+		        <a title="Blog Home Page" href="<%= Url.BlogUrl() %>"><%= Blog.Title %></a>
 		    </span>
 		    Logged in as 
 		    <strong>

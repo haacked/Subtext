@@ -22,7 +22,6 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Infrastructure;
 
@@ -57,7 +56,7 @@ namespace Subtext.Framework.Infrastructure.Installation
                 Description = "Blog posts related to programming", 
                 BlogId = blog.Id, 
                 IsActive = true, 
-                CategoryType = CategoryType.PostCollection
+                CategoryType = CategoryType.PostCollection,
             });
             repository.CreateLinkCategory(new LinkCategory
             {
@@ -69,12 +68,21 @@ namespace Subtext.Framework.Infrastructure.Installation
             }
             );
 
+            string body = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomePost.htm");
+            body = String.Format(body, context.UrlHelper.AdminUrl("default.aspx"), context.UrlHelper.GetVirtualPath("hostadmin", new {page="default.aspx"}));
+
             var entry = new Entry(PostType.BlogPost)
             {
                 Title = "Welcome to Subtext!",
                 BlogId = blog.Id,
                 Author = blog.Author,
-                Body = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomePost.htm")
+                Body = body,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                DateSyndicated = DateTime.Now,
+                IsActive = true,
+                IncludeInMainSyndication = true,
+                DisplayOnHomePage = true
             };
             
             entryPublisher.Publish(entry);

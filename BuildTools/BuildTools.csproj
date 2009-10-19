@@ -102,8 +102,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ccnet.config</LastGenOutput>
     </None>
-    <None Include="CCNET_Config\templates\ProjectSideBar.vm" />
-    <None Include="CCNET_Config\templates\SiteTemplate.vm" />
     <None Include="CCNET_Config\Update-CCNET.build" />
     <None Include="CCNET_Config\webdashboard\dashboard.config" />
     <None Include="CCNET_Config\webdashboard\templates\ActionException.vm" />
@@ -126,6 +124,7 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CCNET_Config\templates\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

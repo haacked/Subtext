@@ -29,25 +29,38 @@ namespace Subtext.Framework.Services
     /// </summary>
     public class KeywordExpander : ITextTransformation
     {
-        public KeywordExpander(ObjectProvider repository) : this(GetKeywordsFromRepository(repository))
+        public KeywordExpander(ObjectProvider repository)
         {
+            _repository = repository;
         }
+
+        readonly ObjectProvider _repository;
 
         public KeywordExpander(IEnumerable<KeyWord> keyWords)
         {
-            Keywords = keyWords;
+            _keywords = keyWords;
         }
 
-        public IEnumerable<KeyWord> Keywords { get; private set; }
+        public IEnumerable<KeyWord> Keywords
+        {
+            get
+            {
+                if(_keywords == null)
+                {
+                    if(_repository != null)
+                    {
+                        _keywords = _repository.GetKeyWords();
+                    }
+                }
+                return _keywords;
+            }
+        }
+
+        IEnumerable<KeyWord> _keywords;
 
         public string Transform(string original)
         {
             return Keywords != null ? Keywords.Aggregate(original, ReplaceFormat) : original;
-        }
-
-        private static IEnumerable<KeyWord> GetKeywordsFromRepository(ObjectProvider repository)
-        {
-            return repository != null ? repository.GetKeyWords() : null;
         }
 
         /// <summary>
