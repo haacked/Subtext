@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Infrastructure.Installation

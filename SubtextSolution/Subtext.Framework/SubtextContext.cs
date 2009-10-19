@@ -24,8 +24,6 @@ namespace Subtext.Framework
 
         protected IKernel Kernel { get; private set; }
 
-        #region ISubtextContext Members
-
         public Blog Blog { get; private set; }
 
         public RequestContext RequestContext { get; private set; }
@@ -47,7 +45,5 @@ namespace Subtext.Framework
         {
             return Kernel.Get<TService>();
         }
-
-        #endregion
     }
 }

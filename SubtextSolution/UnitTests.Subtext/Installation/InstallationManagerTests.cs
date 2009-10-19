@@ -156,8 +156,10 @@ namespace UnitTests.Subtext.InstallationTests
             Entry entry = null;
             entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => entry = e);
             var urlHelper = new Mock<UrlHelper>();
+            urlHelper.Setup(u => u.AdminUrl("default.aspx")).Returns("/admin/default.aspx");
+            urlHelper.Setup(u => u.GetVirtualPath("hostadmin", It.IsAny<object>())).Returns("/hostadmin/default.aspx");
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
+            context.SetupUrlHelper(urlHelper);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var blog = new Blog {Id = 123, Author = "TestAuthor"};
 
@@ -166,6 +168,10 @@ namespace UnitTests.Subtext.InstallationTests
 
             // assert
             Assert.AreEqual(entry.Title, "Welcome to Subtext!");
+            Assert.Contains(entry.Body, @"<a href=""/admin/default.aspx");
+            Assert.Contains(entry.Body, @"<a href=""/hostadmin/default.aspx");
+            Assert.IsTrue(!entry.Body.Contains(@"<a href=""{0}"));
+            Assert.IsTrue(!entry.Body.Contains(@"<a href=""{1}"));
         }
 
         /// <summary>

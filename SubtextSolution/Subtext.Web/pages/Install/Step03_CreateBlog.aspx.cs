@@ -20,6 +20,8 @@ using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Services;
+using Subtext.Framework.Web.HttpModules;
+using Subtext.Infrastructure;
 
 namespace Subtext.Web.Install
 {
@@ -59,6 +61,9 @@ namespace Subtext.Web.Install
             if(blogId > -1)
             {
                 var blog = Repository.GetBlogById(blogId);
+                BlogRequest.Current.Blog = blog;
+                // Need to refresh the context now that we have a blog.
+                SubtextContext = Bootstrapper.Kernel.Get<ISubtextContext>();
                 if(!String.IsNullOrEmpty(Request.QueryString["email"]))
                 {
                     blog.Email = Request.QueryString["email"];
