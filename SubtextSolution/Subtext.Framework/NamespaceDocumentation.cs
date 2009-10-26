@@ -8,19 +8,12 @@
 //
 // For updated news and information please visit http://subtextproject.com/
 // Subtext is hosted at Google Code at http://code.google.com/p/subtext/
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
+// The development mailing list is at subtext@googlegroups.com 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endregion
-
-// This file contains documentation for the various Namespaces within this assembly.
-// These classes are only used by NDoc to generate namespace documentation.
-// They should all be internal sealed classes with private constructors.
-//
-// http://ndoc.sourceforge.net/reference/NDoc.Core.Reflection.BaseReflectionDocumenterConfig.UseNamespaceDocSummaries.html
-
 
 #if DOCUMENTATION
 using System.Diagnostics.CodeAnalysis;

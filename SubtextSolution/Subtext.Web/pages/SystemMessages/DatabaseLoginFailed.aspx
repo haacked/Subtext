@@ -29,7 +29,7 @@
 		</p>
 		<p>
 			If you are seeing this message as a remote user, then we have a serious problem. 
-			Please be kind and report the issue to the <a href="mailto:subtext-devs@lists.sourceforge.net?subject=Houston,+We+Have+a+Problem!" title="Email The Subtext Team">subtext team</a>.
+			Please be kind and report the issue to the <a href="mailto:subtext@googlegroups.com?subject=Houston,+We+Have+a+Problem!" title="Email The Subtext Team">subtext team</a>.
 		</p>
 		<h2>Original Error Information</h2>
 		<p><strong>Message:</strong><br />

@@ -8,7 +8,7 @@
 //
 // For updated news and information please visit http://subtextproject.com/
 // Subtext is hosted at Google Code at http://code.google.com/p/subtext/
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
+// The development mailing list is at subtext@googlegroups.com 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,9 +19,12 @@ using System;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Providers;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Infrastructure;
 
@@ -50,6 +53,82 @@ namespace Subtext.Framework.Infrastructure.Installation
         public void CreateWelcomeContent(ISubtextContext context, IEntryPublisher entryPublisher, Blog blog)
         {
             var repository = context.Repository;
+            CreateWelcomeCategories(repository, blog);
+
+            var adminUrlHelper = new AdminUrlHelper(context.UrlHelper);
+            Entry article = CreateWelcomeArticle(blog, entryPublisher, adminUrlHelper);
+            Entry entry = CreateWelcomeBlogPost(context, blog, entryPublisher, adminUrlHelper, article);
+            CreateWelcomeComment(repository, adminUrlHelper, entry);
+            
+        }
+
+        private static void CreateWelcomeComment(ObjectProvider repository, AdminUrlHelper adminUrlHelper, Entry entry)
+        {
+            string commentBody = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomeComment.htm");
+            string feedbackUrl = adminUrlHelper.FeedbackList();
+            commentBody = string.Format(commentBody, feedbackUrl);
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {
+                Title = "re: Welcome to Subtext!",
+                Entry = entry,
+                Author = "Subtext",
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                Approved = true,
+                Body = commentBody
+            };
+            repository.Create(comment);
+        }
+
+        private static Entry CreateWelcomeBlogPost(ISubtextContext context, Blog blog, IEntryPublisher entryPublisher, AdminUrlHelper adminUrlHelper, IEntryIdentity article)
+        {
+            string body = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomePost.htm");
+            string articleUrl = context.UrlHelper.EntryUrl(article);
+            body = String.Format(body, articleUrl, adminUrlHelper.Home(), context.UrlHelper.GetVirtualPath("hostadmin", new { page = "default.aspx" }));
+
+            var entry = new Entry(PostType.BlogPost)
+            {
+                Title = "Welcome to Subtext!",
+                EntryName = "welcome-to-subtext",
+                BlogId = blog.Id,
+                Author = blog.Author,
+                Body = body,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                DateSyndicated = DateTime.Now,
+                IsActive = true,
+                IncludeInMainSyndication = true,
+                DisplayOnHomePage = true,
+                AllowComments = true
+            };
+
+            entryPublisher.Publish(entry);
+            return entry;
+        }
+
+        private static Entry CreateWelcomeArticle(Blog blog, IEntryPublisher entryPublisher, AdminUrlHelper adminUrlHelper)
+        {
+            string body = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomeArticle.htm");
+            body = String.Format(body, adminUrlHelper.ArticlesList());
+
+            var article = new Entry(PostType.Story)
+            {
+                EntryName = "welcome-to-subtext-article",
+                Title = "Welcome to Subtext!",
+                BlogId = blog.Id,
+                Author = blog.Author,
+                Body = body,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                IsActive = true,
+            };
+
+            entryPublisher.Publish(article);
+            return article;
+        }
+
+        private static void CreateWelcomeCategories(ObjectProvider repository, Blog blog)
+        {
             repository.CreateLinkCategory(new LinkCategory
             {
                 Title = "Programming", 
@@ -65,27 +144,7 @@ namespace Subtext.Framework.Infrastructure.Installation
                 BlogId = blog.Id, 
                 IsActive = true, 
                 CategoryType = CategoryType.PostCollection
-            }
-            );
-
-            string body = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomePost.htm");
-            body = String.Format(body, context.UrlHelper.AdminUrl("default.aspx"), context.UrlHelper.GetVirtualPath("hostadmin", new {page="default.aspx"}));
-
-            var entry = new Entry(PostType.BlogPost)
-            {
-                Title = "Welcome to Subtext!",
-                BlogId = blog.Id,
-                Author = blog.Author,
-                Body = body,
-                DateCreated = DateTime.Now,
-                DateModified = DateTime.Now,
-                DateSyndicated = DateTime.Now,
-                IsActive = true,
-                IncludeInMainSyndication = true,
-                DisplayOnHomePage = true
-            };
-            
-            entryPublisher.Publish(entry);
+            });
         }
 
         public void Upgrade(Version currentAssemblyVersion)

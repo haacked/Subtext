@@ -1,3 +1,4 @@
+<%@ Control %>
 <!--
 Skin inspired from Blojsom 2.0 Theme
 Name:     Asual
@@ -8,7 +9,6 @@ Date:     1 October 2004
 and later adapted for the SubText blogging platform by Simone Chiaretta www.piyodesign.it
 -->
 
-<%@ Control %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="uc1" TagName="Footer" Src="Controls/Footer.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
@@ -42,7 +42,7 @@ and later adapted for the SubText blogging platform by Simone Chiaretta www.piyo
 						</div>
 						<uc1:SingleColumn id="column" runat="server" />
 						<div id="subtext" class="links">
-							<p><asp:hyperlink imageurl="~/images/PoweredBySubtext85x33.png" navigateurl="http://sourceforge.net/projects/subtext/" runat="server" id="Hyperlink2" ToolTip="Click here to visit the homepage of the SubText project"/></p>
+							<p><a href="http://subtextproject.com/" title="Powered By Subtext"><img src="<%= Url.ResolveUrl("~/images/PoweredBySubtext85x33.png") %>" width="85" height="33" alt="Powered By Subtext" /></a></p>
 						</div>
 					</div>
 				</div>

@@ -8,7 +8,7 @@
 //
 // For updated news and information please visit http://subtextproject.com/
 // Subtext is hosted at Google Code at http://code.google.com/p/subtext/
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
+// The development mailing list is at subtext@googlegroups.com 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,13 +75,13 @@ namespace Subtext.Web.Install
                 //We probably should have creating the blog authenticate the user 
                 //automatically so this redirect doesn't require a login.
                 InstallationManager.ResetInstallationStatusCache();
-                Response.Redirect("~/Admin/Configure.aspx");
+                Response.Redirect(Url.BlogUrl());
             }
             else
             {
                 const string errorMessage = "I'm sorry, but we had a problem creating your initial "
                                             +
-                                            "configuration. Please <a href=\"http://sourceforge.net/tracker/?group_id=137896&atid=739979\">report "
+                                            "configuration. Please <a href=\"http://code.google.com/p/subtext/issues/\" title=\"Subtext at Google Code\">report "
                                             + "this issue</a> to the Subtext team.";
 
                 //TODO: Pick a non-generic exception.

@@ -22,10 +22,6 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// <para>
         /// Makes sure that the CommentRssHandler produces a valid RSS feed even if 
         /// the entry has no feed items.
-        /// This test is in response to case [1446934] 
-        /// </para>
-        /// <para>
-        /// https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1446934&amp;group_id=137896&amp;atid=739979"
         /// </para>
         /// </summary>
         [Test]

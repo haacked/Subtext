@@ -8,7 +8,7 @@
 //
 // For updated news and information please visit http://subtextproject.com/
 // Subtext is hosted at Google Code at http://code.google.com/p/subtext/
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
+// The development mailing list is at subtext@googlegroups.com 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +94,14 @@ namespace Subtext.Framework.Components
                 }
                 return _entry;
             }
-            set { _entry = value; }
+            set
+            {
+                _entry = value;
+                if(value != null)
+                {
+                    EntryId = value.Id;
+                }
+            }
         }
 
         /// <summary>

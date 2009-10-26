@@ -2,8 +2,8 @@
 <p id="footer">
 	<p class="powererdby">
 	Powered by: <br />
-	<asp:HyperLink ImageUrl="~/images/PoweredBySubtext85x33.png" NavigateUrl="http://sourceforge.net/projects/subtext/" Runat="server" ID="Hyperlink2" NAME="Hyperlink1" ToolTip="Powered By Subtext" />
-	<asp:HyperLink ImageUrl="~/images/PoweredByAsp.Net.gif" NavigateUrl="http://ASP.NET" Runat="server" ID="Hyperlink3" ToolTip="Powered By ASP.NET" />
+	<a href="http://subtextproject.com/" title="Powered By Subtext"><img src="<%= Url.ResolveUrl("~/images/PoweredBySubtext85x33.png") %>" width="85" height="33" alt="Powered By Subtext" /></a>
+	<a href="http://asp.net/" title="Powered By ASP.NET"><img src="<%= Url.ResolveUrl("~/images/PoweredByAsp.Net.gif") %>" width="85" height="33" alt="Powered By ASP.NET" /></a>
 	</p>
 	<p class="copyright">
 	Copyright &copy; <asp:Literal id="FooterText" runat="server" />
