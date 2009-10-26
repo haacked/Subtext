@@ -8,7 +8,7 @@
 //
 // For updated news and information please visit http://subtextproject.com/
 // Subtext is hosted at Google Code at http://code.google.com/p/subtext/
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
+// The development mailing list is at subtext@googlegroups.com 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +78,10 @@ namespace Subtext.Web.UI.Controls
                 if(Syndication != null)
                 {
                     Syndication.NavigateUrl = Url.RssUrl(Blog).ToString();
+                    if(Syndication.ImageUrl.StartsWith("~/"))
+                    {
+                        Syndication.ImageUrl = Url.ResolveUrl(Syndication.ImageUrl);
+                    }
                     ControlHelper.SetTitleIfNone(Syndication, "Subscribe to this feed.");
                 }
             }

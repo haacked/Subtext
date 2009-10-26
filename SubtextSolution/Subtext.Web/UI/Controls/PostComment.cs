@@ -8,7 +8,7 @@
 //
 // For updated news and information please visit http://subtextproject.com/
 // Subtext is hosted at Google Code at http://code.google.com/p/subtext/
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
+// The development mailing list is at subtext@googlegroups.com 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,8 +57,6 @@ namespace Subtext.Web.UI.Controls
             get { return Blog.CommentsEnabled && Entry != null && Entry.AllowComments && !Entry.CommentingClosed; }
         }
 
-        #region IEntryControl Members
-
         public EntryViewModel Entry
         {
             get
@@ -78,8 +76,6 @@ namespace Subtext.Web.UI.Controls
                 return _entryViewModel;
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Handles the OnLoad event.  Attempts to prepopulate comment 
@@ -377,40 +373,25 @@ namespace Subtext.Web.UI.Controls
             Controls.Add(pbr);
         }
 
-        #region Web Form Designer generated code
-
         override protected void OnInit(EventArgs e)
         {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        ///		Required method for Designer support - do not modify
-        ///		the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            if(this.btnSubmit != null)
+            if(btnSubmit != null)
             {
-                this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+                btnSubmit.Click += btnSubmit_Click;
             }
 
-            if(this.btnCompliantSubmit != null)
+            if(btnCompliantSubmit != null)
             {
-                this.btnCompliantSubmit.Click += new EventHandler(this.btnSubmit_Click);
+                btnCompliantSubmit.Click += btnSubmit_Click;
             }
 
             //Captcha should not be given to admin.
             if(!SecurityHelper.IsAdmin)
             {
-                int btnIndex = 0;
-                btnIndex = Controls.IndexOf(this.btnSubmit);
+                int btnIndex = Controls.IndexOf(btnSubmit);
                 if(btnIndex < 0)
                 {
-                    btnIndex = Controls.IndexOf(this.btnCompliantSubmit);
+                    btnIndex = Controls.IndexOf(btnCompliantSubmit);
                 }
 
                 AddCaptchaIfNecessary(ref captcha, ref invisibleCaptchaValidator, btnIndex);
@@ -420,7 +401,5 @@ namespace Subtext.Web.UI.Controls
                 RemoveCaptcha();
             }
         }
-
-        #endregion
     }
 }

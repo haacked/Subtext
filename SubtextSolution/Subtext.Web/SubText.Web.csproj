@@ -1006,8 +1006,6 @@
     <Content Include="transform.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Subtext2.2.mdf">
-    </Content>
     <Content Include="Default.aspx" />
     <Content Include="Images\accept.png" />
     <Content Include="Images\admin.gif" />
@@ -2144,7 +2142,6 @@
     <Content Include="Skins\RedBook\Controls\Day.ascx" />
     <Content Include="Skins\RedBook\Controls\DayCollection.ascx" />
     <Content Include="Log4Net.config" />
-    <Content Include="Images\IdenticonHandler.ashx" />
     <Content Include="pages\Admin\Articles\Articles.Master" />
     <Content Include="pages\Admin\Feedback\Feedback.Master" />
     <Content Include="pages\Admin\Navigation.config" />
@@ -2421,6 +2418,7 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Skins\Mobile\Images\" />
     <Folder Include="Skins\Mobile\Scripts\" />
     <Folder Include="Skins\Naked\Images\" />

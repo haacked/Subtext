@@ -715,6 +715,8 @@
     <Compile Include="XmlRpc\SubtextXmlRpcService.cs" />
     <Content Include="Infrastructure\Installation\Scripting\Subtext.Scripting.csproj" />
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\WelcomePost.htm" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\WelcomeComment.htm" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\WelcomeArticle.htm" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
     <EmbeddedResource Include="Util\TimeZones.txt" />

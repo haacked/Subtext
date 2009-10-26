@@ -8,7 +8,7 @@
 //
 // For updated news and information please visit http://subtextproject.com/
 // Subtext is hosted at Google Code at http://code.google.com/p/subtext/
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
+// The development mailing list is at subtext@googlegroups.com 
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,16 +114,19 @@ namespace Subtext.Web.UI.Pages
                     }
                     control.ID = controlId.Replace(".", "_");
 
-                    if(controlId.Equals("Comments.ascx"))
+                    if(controlId.Equals("Comments.ascx", StringComparison.OrdinalIgnoreCase))
                     {
                         control.Visible = true;
                         commentsControl = control as Comments;
                         apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
                     }
-                    else if(controlId.Equals("PostComment.ascx"))
+                    else if(controlId.Equals("PostComment.ascx", StringComparison.OrdinalIgnoreCase))
                     {
-                        postCommentControl = (PostComment)control;
-                        postCommentControl.CommentApproved += OnCommentPosted;
+                        postCommentControl = control as PostComment;
+                        if(postCommentControl != null)
+                        {
+                            postCommentControl.CommentApproved += OnCommentPosted;
+                        }
                         apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
                         CenterBodyControl.Controls.Add(apnlCommentsWrapper);
                     }
