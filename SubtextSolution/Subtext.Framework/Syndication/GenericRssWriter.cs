@@ -131,7 +131,7 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         public virtual Uri GetRssImage()
         {
-            VirtualPath url = UrlHelper.ResolveUrl("~/images/RSS2Image.gif");
+            VirtualPath url = UrlHelper.ImageUrl("RSS2Image.gif");
             return url.ToFullyQualifiedUrl(Blog);
         }
 

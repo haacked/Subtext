@@ -93,7 +93,6 @@ namespace Subtext.Web.UI.Pages
             MaintainScrollPositionOnPostBack = true;
 
             string skinFolder = CurrentSkin.TemplateFolder;
-
             IEnumerable<string> controls = _controls;
             if(controls != null)
             {

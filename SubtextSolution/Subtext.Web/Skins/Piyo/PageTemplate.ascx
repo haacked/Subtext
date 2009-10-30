@@ -19,7 +19,6 @@ and later adapted for the SubText blogging platform by Simone Chiaretta www.piyo
 <%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 
 <div id="main">
-
 	<div id="header">
 		<uc1:header id="Header1" runat="server" />		
 	</div>
@@ -42,7 +41,9 @@ and later adapted for the SubText blogging platform by Simone Chiaretta www.piyo
 						</div>
 						<uc1:SingleColumn id="column" runat="server" />
 						<div id="subtext" class="links">
-							<p><a href="http://subtextproject.com/" title="Powered By Subtext"><img src="<%= Url.ResolveUrl("~/images/PoweredBySubtext85x33.png") %>" width="85" height="33" alt="Powered By Subtext" /></a></p>
+							<asp:PlaceHolder runat="server" ID="poweredBy">
+							    <p><a href="http://subtextproject.com/" title="Powered By Subtext"><img src="<%= Url.ImageUrl("PoweredBySubtext85x33.png") %>" width="85" height="33" alt="Powered By Subtext" /></a></p>
+							</asp:PlaceHolder>
 						</div>
 					</div>
 				</div>
