@@ -30,7 +30,7 @@
             </asp:ScriptManager>
 			<st:MasterPage id="MPContainer" runat="server">
 				<st:ContentRegion id="MPMain" runat="server">
-					<asp:PlaceHolder id="CenterBodyControl" runat="server"></asp:PlaceHolder>
+					<asp:PlaceHolder id="CenterBodyControl" runat="server" />
 				</st:ContentRegion>
 			</st:MasterPage>
 		</form>

@@ -162,7 +162,7 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void OnDayRender(object sender, DayRenderEventArgs e)
+        protected void entryCal_DayRender(object sender, DayRenderEventArgs e)
         {
             if(_currentDateIndex >= _dateCount || _currentDateIndex < 0)
             {
@@ -200,7 +200,7 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void OnVisibleMonthChanged(object sender, MonthChangedEventArgs e)
+        protected void entryCal_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
         {
             //string url = CurrentBlog.UrlFormats.MonthUrl(e.NewDate);
 

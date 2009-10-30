@@ -119,12 +119,5 @@ namespace Subtext.Framework.Components
         {
             get { return Path.Combine(LocalDirectoryPath, ResizedFile); }
         }
-
-        public string GetImageDirectoryUrlFromBlog(Blog blog)
-        {
-            string urlFormat = "~/images/{0}/{1}";
-            string subfolder = String.IsNullOrEmpty(blog.Subfolder) ? String.Empty : blog.Subfolder + "/";
-            return String.Format(CultureInfo.InvariantCulture, urlFormat, blog.Host, subfolder);
-        }
     }
 }

@@ -1,4 +1,4 @@
-<%@ Control Language="C#" EnableTheming="false"  inherits="Subtext.Web.UI.Controls.Calendar" %>
+<%@ Control Language="C#" EnableTheming="false" inherits="Subtext.Web.UI.Controls.Calendar" %>
 
 <div id="calendar">
 <asp:calendar id="entryCal" runat="server" cellpadding="0"
