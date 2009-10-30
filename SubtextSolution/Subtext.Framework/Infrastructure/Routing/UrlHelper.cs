@@ -182,6 +182,16 @@ namespace Subtext.Framework.Routing
         }
 
         /// <summary>
+        /// Returns the URL for a system image that's directly in the images directory.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public virtual VirtualPath ImageUrl(string filename)
+        {
+            return ResolveUrl("~/images/" + filename);
+        }
+
+        /// <summary>
         /// Returns the direct URL to an image within a gallery.
         /// </summary>
         /// <param name="image"></param>
@@ -466,6 +476,12 @@ namespace Subtext.Framework.Routing
         {
             VirtualPath vp = GetVirtualPath("rsd", null);
             return vp.ToFullyQualifiedUrl(blog);
+        }
+
+        public virtual VirtualPath WlwManifestUrl()
+        {
+            VirtualPath vp = GetVirtualPath("wlwmanifest", null);
+            return vp;
         }
 
         public virtual VirtualPath CustomCssUrl()

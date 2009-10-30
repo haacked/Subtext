@@ -146,6 +146,7 @@
       <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
     <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\ManifestController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Dependencies.cs" />
     <Compile Include="Controllers\CommentApiController.cs" />

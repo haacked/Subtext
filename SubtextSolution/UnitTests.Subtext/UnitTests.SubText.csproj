@@ -488,6 +488,7 @@
     <Compile Include="SubtextWeb\Admin\AdminPageTests.cs" />
     <Compile Include="SubtextWeb\Admin\FeedbackTests.cs" />
     <Compile Include="SubtextWeb\Controllers\ExportControllerTests.cs" />
+    <Compile Include="SubtextWeb\Controllers\ManifestControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\StatisticsControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\CommentApiControllerTests.cs" />
     <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />

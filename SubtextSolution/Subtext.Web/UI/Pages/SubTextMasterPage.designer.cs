@@ -1,4 +1,21 @@
-﻿using System.Web.UI.HtmlControls;
+﻿#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext@googlegroups.com 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Web.UI.Controls;
 
@@ -11,6 +28,7 @@ namespace Subtext.Web.UI.Pages
         protected HtmlLink CustomCss;
         protected HtmlLink RSSLink;
         protected HtmlLink Rsd;
+        protected HtmlLink wlwmanifest;
         protected HtmlLink AtomLink;
         protected PlaceHolder CenterBodyControl;
         protected Literal versionMetaTag;

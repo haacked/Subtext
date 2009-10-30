@@ -269,6 +269,90 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void ImageUrl_WithoutBlogWithAppPathWithoutSubfolderAndImage_ReturnsRootedImageUrl()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web");
+
+            //act
+            string url = helper.ImageUrl("random.gif");
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/images/random.gif", url);
+        }
+
+        [Test]
+        public void ImageUrl_WithoutBlogWithEmptyAppPathWithoutSubfolderAndImage_ReturnsRootedImageUrl()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+
+            //act
+            string url = helper.ImageUrl("random.gif");
+
+            //assert
+            Assert.AreEqual("/images/random.gif", url);
+        }
+
+        [Test]
+        public void ImageUrl_WithoutBlogWithSubfolderAndImage_IgnoresSubfolderInUrl()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "foobar");
+            UrlHelper helper = SetupUrlHelper("/", routeData);
+
+            //act
+            string url = helper.ImageUrl("random.gif");
+
+            //assert
+            Assert.AreEqual("/images/random.gif", url);
+        }
+
+        [Test]
+        public void ImageUrl_WithBlogWithAppPathWithoutSubfolderAndImage_ReturnsUrlForImageUploadDirectory()
+        {
+            //arrange
+            var blog = new Blog {Host = "localhost", Subfolder = "sub"};
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web");
+
+            //act
+            string url = helper.ImageUrl(blog, "random.gif");
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/sub/random.gif", url);
+        }
+
+        [Test]
+        public void ImageUrl_WithBlogWithEmptyAppPathWithoutSubfolderAndImage_ReturnsUrlForImageUploadDirectory()
+        {
+            //arrange
+            var blog = new Blog { Host = "localhost", Subfolder = "" };
+            UrlHelper helper = SetupUrlHelper("/");
+
+            //act
+            string url = helper.ImageUrl(blog, "random.gif");
+
+            //assert
+            Assert.AreEqual("/images/localhost/random.gif", url);
+        }
+
+        [Test]
+        public void ImageUrl_WithBlogWithSubfolderAndImage_IgnoresSubfolderInUrl()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "foobar");
+            UrlHelper helper = SetupUrlHelper("/", routeData);
+
+            //act
+            string url = helper.ImageUrl("random.gif");
+
+            //assert
+            Assert.AreEqual("/images/random.gif", url);
+        }
+
+        [Test]
         public void GalleryUrl_WithId_ReturnsGalleryUrlWithId()
         {
             //arrange
@@ -312,7 +396,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.GalleryImagePageUrl(new Image {ImageID = 1234, Blog = new Blog {}});
+            string url = helper.GalleryImagePageUrl(new Image {ImageID = 1234, Blog = new Blog()});
 
             //assert
             Assert.AreEqual("/gallery/image/1234.aspx", url);
@@ -333,7 +417,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void ImageUrl_WithImageHavingUrlAndFileName_ReturnsUrlToImage()
+        public void GalleryImageUrl_WithImageHavingUrlAndFileName_ReturnsUrlToImage()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
@@ -347,7 +431,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void ImageUrl_WithBlogHavingSubfolderAndVirtualPathAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
+        public void GalleryImageUrl_WithBlogHavingSubfolderAndVirtualPathAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
@@ -362,7 +446,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void ImageUrl_WithBlogHavingSubfolderAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
+        public void GalleryImageUrl_WithBlogHavingSubfolderAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
@@ -377,7 +461,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void ImageUrl_WithBlogHavingNoSubfolderAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
+        public void GalleryImageUrl_WithBlogHavingNoSubfolderAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
@@ -392,7 +476,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void ImageUrl_WithAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
+        public void GalleryImageUrl_WithAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
@@ -406,7 +490,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void ImageUrl_WithoutAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
+        public void GalleryImageUrl_WithoutAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
@@ -421,7 +505,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void ImageUrl_WithAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
+        public void GalleryImageUrl_WithAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
@@ -436,7 +520,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void ImageUrl_WithoutAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
+        public void GalleryImageUrl_WithoutAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
@@ -860,7 +944,6 @@ namespace UnitTests.Subtext.Framework.Routing
         public void AdminRssUrl_WithFeednameAndSubfolderAndApp_ReturnsAdminRssUrl()
         {
             //arrange
-            var blog = new Blog {Host = "example.com", Subfolder = "sub"};
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "sub");
             UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
@@ -930,6 +1013,47 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert
             Assert.AreEqual("/Subtext.Web/sub/contact.aspx", url);
+        }
+
+        [Test]
+        public void WlwManifestUrl_WithoutSubfolderWithoutApp_ReturnsPerBlogManifestUrl()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+
+            //act
+            string manifestUrl = helper.WlwManifestUrl();
+
+            //assert
+            Assert.AreEqual("/wlwmanifest.xml.ashx", manifestUrl);
+        }
+
+        [Test]
+        public void WlwManifestUrl_WithoutSubfolderAndApp_ReturnsPerBlogManifestUrl()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web");
+
+            //act
+            string manifestUrl = helper.WlwManifestUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/wlwmanifest.xml.ashx", manifestUrl);
+        }
+
+        [Test]
+        public void WlwManifestUrl_WithSubfolderAndApp_ReturnsPerBlogManifestUrl()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string manifestUrl = helper.WlwManifestUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/sub/wlwmanifest.xml.ashx", manifestUrl);
         }
 
         [Test]
@@ -1028,7 +1152,6 @@ namespace UnitTests.Subtext.Framework.Routing
         public void AppRootUrl_WithSubfolder_ReturnsAppRootAndIgnoresSubfolder()
         {
             //arrange
-            var blog = new Blog {Host = "example.com", Subfolder = "sub"};
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "sub");
             UrlHelper helper = SetupUrlHelper("/", routeData);
@@ -1044,7 +1167,6 @@ namespace UnitTests.Subtext.Framework.Routing
         public void AppRootUrl_WithSubfolderAndApp_ReturnsAppRootAndIgnoresSubfolder()
         {
             //arrange
-            var blog = new Blog {Host = "example.com", Subfolder = "sub"};
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "sub");
             UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
@@ -1060,7 +1182,6 @@ namespace UnitTests.Subtext.Framework.Routing
         public void EditIcon_WithSubfolderAndApp_ReturnsAppRootAndIgnoresSubfolder()
         {
             //arrange
-            var blog = new Blog {Host = "example.com", Subfolder = "sub"};
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "sub");
             UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);

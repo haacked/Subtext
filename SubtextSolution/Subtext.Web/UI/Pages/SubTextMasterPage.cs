@@ -152,6 +152,11 @@ namespace Subtext.Web.UI.Pages
                 Rsd.Attributes.Add("href", Url.RsdUrl(Blog).ToString());
             }
 
+            if(wlwmanifest != null)
+            {
+                wlwmanifest.Attributes.Add("href", Url.WlwManifestUrl());
+            }
+
             if(RSSLink != null)
             {
                 RSSLink.Attributes.Add("href", Url.RssUrl(Blog).ToString());
