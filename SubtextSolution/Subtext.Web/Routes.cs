@@ -47,6 +47,7 @@ public static class Routes
         routes.MapHttpHandler<AjaxServices>("ajax-services", "admin/Services/Ajax/AjaxServices.ashx");
         routes.MapHttpHandler<RssAdminHandler>("admin-rss", "admin/{feedName}Rss.axd");
         routes.MapRoute("export", "admin/export.ashx", new { controller = "export", action = "blogml" });
+        routes.MapRoute("wlwmanifest", "wlwmanifest.xml.ashx", new { controller = "manifest", action = "index" });
         routes.MapDirectory("admin");
         routes.MapDirectory("providers");
 

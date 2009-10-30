@@ -572,5 +572,10 @@ namespace Subtext.Framework.Text
             }
             return text;
         }
+
+        public static string ToYesNo(this bool value)
+        {
+            return value ? "Yes" : "No";
+        }
     }
 }
