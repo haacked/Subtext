@@ -191,7 +191,7 @@ namespace UnitTests.Subtext
                 imagePath = applicationPath + imagePath;
             }
 
-            urlHelper.Setup(url => url.ResolveUrl(It.IsAny<string>())).Returns(new VirtualPath(imagePath));
+            urlHelper.Setup(url => url.ImageUrl(It.IsAny<string>())).Returns(new VirtualPath(imagePath));
             urlHelper.Setup(u => u.AggBugUrl(It.IsAny<int>())).Returns<int>(id => "/Subtext.Web/aggbug/" + id + ".aspx");
             urlHelper.Setup(u => u.CommentRssUrl(It.IsAny<int>())).Returns<int>(
                 id => "/Subtext.Web/comments/commentRss/" + id + ".aspx");

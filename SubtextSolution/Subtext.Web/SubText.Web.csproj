@@ -70,10 +70,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Identicon, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Identicon.dll</HintPath>
-    </Reference>
     <Reference Include="Jayrock, Version=0.9.8316.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Jayrock.dll</HintPath>
@@ -146,6 +142,7 @@
       <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
     <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\IdenticonController.cs" />
     <Compile Include="Controllers\ManifestController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Dependencies.cs" />
@@ -2388,7 +2385,6 @@
     <Content Include="Skins\_System\ForgotPassword.Master" />
     <Content Include="UI\WebControls\ContentRegion.bmp" />
     <Content Include="UI\WebControls\MasterPage.bmp" />
-    <Content Include="wlwmanifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">

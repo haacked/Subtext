@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             entry.PostType = PostType.None;
 
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Setup(url => url.ResolveUrl(It.IsAny<string>())).Returns("/images/RSS2Image.gif");
+            urlHelper.Setup(url => url.ImageUrl(It.IsAny<string>())).Returns("/images/RSS2Image.gif");
             urlHelper.Setup(url => url.GetVirtualPath(It.IsAny<string>(), It.IsAny<object>())).Returns(
                 "/blog/Admin/Feedback.aspx?status=2");
             urlHelper.Setup(url => url.EntryUrl(It.IsAny<Entry>())).Returns("/blog/Admin/Feedback.aspx?status=2");
@@ -141,7 +141,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
                 "/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
             urlHelper.Setup(url => url.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns(
                 "/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#1002");
-            urlHelper.Setup(url => url.ResolveUrl(It.IsAny<string>())).Returns("/Subtext.Web/images/RSS2Image.gif");
+            urlHelper.Setup(url => url.ImageUrl(It.IsAny<string>())).Returns("/Subtext.Web/images/RSS2Image.gif");
             urlHelper.Setup(url => url.AdminUrl(It.IsAny<string>(), It.IsAny<object>())).Returns(
                 "/Subtext.Web/Admin/Feedback.aspx?status=2");
             var context = new Mock<ISubtextContext>();

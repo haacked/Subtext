@@ -238,18 +238,7 @@ namespace Subtext.Web.UI.Controls
                             }
                             else
                             {
-                                string identiconSizeSetting = ConfigurationManager.AppSettings["IdenticonSize"];
-
-                                int identiconSize = 40;
-                                if(!String.IsNullOrEmpty(identiconSizeSetting))
-                                {
-                                    int.TryParse(identiconSizeSetting, out identiconSize);
-                                }
-                                string identiconUrl = string.Format(CultureInfo.InvariantCulture,
-                                                                    "~/images/IdenticonHandler.ashx?size={0}&code={1}"
-                                                                    , identiconSize
-                                                                    , IdenticonUtil.Code(ip));
-
+                                string identiconUrl = Url.IdenticonUrl(IdenticonUtil.Code(ip));
                                 gravatarImage.ImageUrl = identiconUrl;
                                 gravatarImage.Visible = true;
                             }

@@ -16,6 +16,8 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Caching;
@@ -64,6 +66,7 @@ namespace Subtext
 
             // Dependencies you're less likely to change.
             LoadCoreDependencies();
+            LoadGenericDependencies();
         }
 
         private void LoadCoreDependencies()
@@ -83,14 +86,18 @@ namespace Subtext
             Bind<OpmlWriter>().To<OpmlWriter>().InRequestScope();
             Bind<IKernel>().ToMethod(context => context.Kernel).InSingletonScope();
             Bind<Tracking>().ToMethod(context => Config.Settings.Tracking).InSingletonScope();
-
             Bind<IInstallationManager>().To<InstallationManager>();
             Bind<IInstaller>().ToMethod(context => new SqlInstaller(Config.ConnectionString));
-
             Bind<RouteCollection>().ToConstant(RouteTable.Routes).InSingletonScope();
             Bind<HttpContext>().ToMethod(c => HttpContext.Current).InRequestScope();
             Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
             Bind<RequestContext>().ToMethod(c => Bootstrapper.RequestContext).InRequestScope();
+            
+        }
+
+        private void LoadGenericDependencies()
+        {
+            Bind<NameValueCollection>().ToMethod(c => ConfigurationManager.AppSettings).When(c => c.Target.Name == "appSettings").InRequestScope();
         }
 
         private void BindBlogMLDependencies()
@@ -100,7 +107,6 @@ namespace Subtext
             Bind<IBlogMLImportMapper>().To<BlogMLImportMapper>().InRequestScope();
             Bind<IBlogMLExportMapper>().To<BlogMLExportMapper>().InRequestScope();
             Bind<IBlogMLSource>().To<BlogMLSource>().InRequestScope();
-            
         }
     }
 }
