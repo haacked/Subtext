@@ -196,6 +196,7 @@
         <include name="installSQL.sql" />
         <include name="manifest.xml" />
         <include name="parameters.xml" />
+        <include name="readme.txt" />
       </fileset>
     </copy>
 		
