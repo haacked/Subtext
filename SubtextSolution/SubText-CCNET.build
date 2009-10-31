@@ -21,6 +21,7 @@
 		<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
 		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
 		<property name="buildtools.dir" value="${CCNetWorkingDirectory}\BuildTools" />
+    <property name="webPI.dir" value="${buildtools.dir}\WebPI" />
 		<property name="fxcop.dir" value="${buildtools.dir}\FxCop" />
 		<property name="fxcop.exe" value="${fxcop.dir}\FxCopCmd.exe" />
 		<property name="mbunit.exe" value="${buildtools.dir}\MbUnit\MbUnit.Cons.exe" />
@@ -40,6 +41,7 @@
 		<property name="log.dir" value="${CCNetWorkingDirectory}\logs" />
 
 		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
+    <property name="publish.dir.latest.web" value="${publish.dir.latest}\Subtext.Web" />
 		<property name="publish.dir.archive" value="${CCNetArtifactDirectory}\builds\archive" />
 		<property name="publish.dir.latestsource" value="${CCNetArtifactDirectory}\builds\latestsource" />
 		
@@ -165,13 +167,16 @@
 	</target>
 	
 	<target name="dist.publish.latest" depends="compile-release">
-		<delete dir="${publish.dir.latest}" failonerror="false" />
+    <delete dir="${publish.dir.latest.web}" failonerror="false" />
+    <delete dir="${publish.dir.latest}" failonerror="false" />
 		<mkdir dir="${publish.dir.latest}" />
-		
+    <mkdir dir="${publish.dir.latest.web}" />
+    
 		<echo message="deploying binaries to latest" />
 		
-		<copy todir="${publish.dir.latest}" includeemptydirs="false">
+		<copy todir="${publish.dir.latest.web}" includeemptydirs="false">
 			<fileset basedir="Subtext.Web">
+        <include name="emoticons.txt" />
 				<include name="**/*" />
 				<exclude name="**/*.bmp" />
 				<exclude name="ExternalDependencies/*" />
@@ -185,12 +190,14 @@
 				<exclude name="obj/**"/>
 			</fileset>
 		</copy>
-		
-		<copy todir="${publish.dir.latest}" includeemptydirs="false">
-			<fileset basedir="Subtext.Web">
-				<include name="emoticons.txt" />
-			</fileset>
-		</copy>
+
+    <copy todir="${publish.dir.latest}" includeemptydirs="false">
+      <fileset basedir="${webPI.dir}">
+        <include name="installSQL.sql" />
+        <include name="manifest.xml" />
+        <include name="parameters.xml" />
+      </fileset>
+    </copy>
 		
 		<attrib readonly="false" >
 			<fileset basedir="${publish.dir.latest}">
@@ -204,7 +211,7 @@
 	<target name="javascript.minify" depends="get-publishing-properties">
 		<foreach item="File" property="filename">
 			<in>
-				<items basedir="${publish.dir.latest}">
+				<items basedir="${publish.dir.latest.web}">
 					<include name="Skins/**/*.js" />
 					<include name="Scripts/**/*.js" />
 					<include name="Skins/**/*.css" />
