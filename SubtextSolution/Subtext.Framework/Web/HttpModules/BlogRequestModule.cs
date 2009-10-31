@@ -40,8 +40,6 @@ namespace Subtext.Framework.Web.HttpModules
 
         protected IBlogLookupService BlogLookup { get; private set; }
 
-        #region IHttpModule Members
-
         /// <summary>
         /// Initializes a module and prepares it to handle
         /// requests.
@@ -60,8 +58,6 @@ namespace Subtext.Framework.Web.HttpModules
         {
             //Do Nothing.
         }
-
-        #endregion
 
         /// <summary>
         /// Maps the incoming URL to the corresponding blog. If no blog matches, then 

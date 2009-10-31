@@ -169,7 +169,8 @@ namespace Subtext.Framework.Web.HttpModules
                    || filePath.EndsWith(".xml", StringComparison.OrdinalIgnoreCase)
                    || filePath.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
                    || filePath.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
-                   || filePath.EndsWith(".htm", StringComparison.OrdinalIgnoreCase);
+                   || filePath.EndsWith(".htm", StringComparison.OrdinalIgnoreCase)
+                   || filePath.Contains("/images/", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsEmbeddedResource(HttpRequestBase request)

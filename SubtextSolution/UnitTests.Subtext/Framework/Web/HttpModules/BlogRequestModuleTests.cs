@@ -176,6 +176,30 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(request.Blog);
         }
 
+        [Test]
+        public void ConvertRequestToBlogRequestForStaticImage_WithNoMatchingBlog_DoesNotRedirect()
+        {
+            //arrange
+            var service = new Mock<IBlogLookupService>();
+            var result = new BlogLookupResult(null, new Uri("http://localhost/images/blog/identiconhandler.ashx"));
+            service.Setup(s => s.Lookup(It.IsAny<BlogRequest>())).Returns(result);
+            var httpResponse = new Mock<HttpResponseBase>();
+            httpResponse.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(new InvalidOperationException("Should not redirect"));
+            Mock<HttpRequestBase> httpRequest = CreateRequest("example.com", "/", "/images/identiconhandler.ashx", true);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Setup(c => c.Request).Returns(httpRequest.Object);
+            httpContext.Setup(c => c.Response).Returns(httpResponse.Object);
+            var module = new BlogRequestModule(service.Object);
+
+            //act
+            BlogRequest request = module.ConvertRequestToBlogRequest(httpContext.Object);
+
+            //assert
+            Assert.IsNotNull(request);
+            Assert.IsNull(request.Blog);
+            Assert.AreEqual(RequestLocation.StaticFile, request.RequestLocation);
+        }
+
         private static Mock<HttpRequestBase> CreateRequest(string host, string applicationPath, string rawUrl,
                                                            bool useParametersForHost)
         {
