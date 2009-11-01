@@ -159,7 +159,7 @@ namespace UnitTests.Subtext.InstallationTests
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(u => u.AdminUrl("")).Returns("/admin/default.aspx");
             urlHelper.Setup(u => u.EntryUrl(It.Is<Entry>(e => e.PostType == PostType.Story))).Returns<Entry>(e => "/articles/" + e.EntryName + ".aspx");
-            urlHelper.Setup(u => u.GetVirtualPath("hostadmin", It.IsAny<object>())).Returns("/hostadmin/default.aspx");
+            urlHelper.Setup(u => u.HostAdminUrl("default.aspx")).Returns("/hostadmin/default.aspx");
             var context = new Mock<ISubtextContext>();
             context.SetupUrlHelper(urlHelper);
             context.Setup(c => c.Repository).Returns(repository.Object);
