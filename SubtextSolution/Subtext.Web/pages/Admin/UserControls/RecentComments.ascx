@@ -1,11 +1,12 @@
 ﻿<%@ Control Language="C#" Inherits="Subtext.Web.UI.Controls.RecentComments" %>
+<%@ Import Namespace="Docuverse.Identicon"%>
 <st:RepeaterWithEmptyDataTemplate ID="feedList" runat="server" OnItemCreated="EntryCreated" OnItemDataBound="OnItemBound">
     <HeaderTemplate>
         <ul class="comments">
     </HeaderTemplate>
     <ItemTemplate>
         <li class="recent-comment<%# AlternatingCssClass %>">
-            <img src="<%# H(Gravatar.GenerateUrl(Comment.Email, null)) %>" alt="commenter gravatar icon" class="gravatar" />
+            <img src="<%# H(Gravatar.GenerateUrl(Comment.Email, Url.IdenticonUrl(IdenticonUtil.Code(Comment.IpAddress.ToString())))) %>" alt="commenter gravatar icon" class="gravatar" />
             <div class="info">
                 <span class="meta">
                     From <span class="author"><asp:Literal runat="server" Text="<%# H(Comment.Author) %>" /></span>

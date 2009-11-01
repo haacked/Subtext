@@ -2,13 +2,17 @@
     margin-left: 0;
 }
 
-body.dashboard #content .column {
-    padding-left: 10px;
+body.dashboard #content 
+{
+	min-width: 680px;
 }
 
-#content .column {
+body.dashboard #content .column {
+    padding-left: 10px;
     float: left;
+    width: 48%;
     padding-right: 0.5%;
+    min-width: 300px;
 }
 
 #content .column .container {
@@ -41,11 +45,10 @@ body.dashboard #content .column {
 .section .body {
     margin: 10px;
     position: relative;
-    min-width: 400px;
 }
 
 .section .body .table {
-    margin: 0 -9px;
+    margin: 0 -9px 8px -9px;
     padding: 0 10px;
     background-color: #f9f9f9;
     border: solid 1px #ececec;
@@ -54,6 +57,12 @@ body.dashboard #content .column {
 .section .body table {  
     width: 100%;
 }
+
+.section .body table th {
+    padding: 5px 5px 5px 0;
+    text-align: left;
+}
+
 
 .section .body table td {
     padding: 5px 5px 5px 0;
@@ -103,6 +112,7 @@ img.gravatar {
     display: block;
     clear: left;
     width: 40px;
+    height: 40px;
     margin: 5px;
 }
 
@@ -150,4 +160,16 @@ ul.inline li:first-child:before {
 
 tr.highlight td {
     background-color: #ffe;
+}
+
+.section-footer 
+{
+  padding-top: 8px;	
+}
+
+div.filter 
+{
+	position: relative;
+	top: -30px;
+	left: 100px;
 }

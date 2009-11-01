@@ -2,9 +2,9 @@
 <st:RepeaterWithEmptyDataTemplate id="postList" Runat="server" OnItemCreated="PostCreated">
     <HeaderTemplate>
             <div class="filter">
-                <% if (FilterType == DateFilter.None) { %>All Time<% } else {%><a href="?popular-posts=None">All Time</a><% }%> | 
+                [ <% if (FilterType == DateFilter.None) { %>All Time<% } else {%><a href="?popular-posts=None">All Time</a><% }%> | 
                 <% if (FilterType == DateFilter.LastMonth) { %>Last Month<% } else {%><a href="?popular-posts=LastMonth">Last Month</a><% }%> | 
-                <% if (FilterType == DateFilter.LastWeek) { %>Last Week<% } else {%><a href="?popular-posts=LastWeek">Last Week</a><% }%>
+                <% if (FilterType == DateFilter.LastWeek) { %>Last Week<% } else {%><a href="?popular-posts=LastWeek">Last Week</a><% }%> ]
             </div>
 		    <table>
 		        <tr>

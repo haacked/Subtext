@@ -49,7 +49,7 @@ namespace Subtext.Framework.Services
         {
             if(String.IsNullOrEmpty(email))
             {
-                return string.Empty;
+                return defaultImage ?? string.Empty;
             }
             defaultImage = defaultImage ?? "identicon";
             string emailForUrl = email.ToLowerInvariant();

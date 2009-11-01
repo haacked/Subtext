@@ -1031,9 +1031,16 @@ select.number
     width: 4em;
 }
 
-#configure-form input.textbox, #configure-form textarea.textarea
+#configure-form input.textbox
 {
     width: 315px;
+}
+
+#configure-form textarea.textarea
+{
+	width: 708px;
+	float: left;
+	margin-bottom: 10px;
 }
 
 #stylesheetTest {
