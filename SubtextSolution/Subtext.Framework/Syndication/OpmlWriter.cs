@@ -16,6 +16,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -45,7 +46,12 @@ namespace Subtext.Framework.Syndication
                     //OPML ROOT
                     xmlWriter.WriteStartElement("opml");
                     xmlWriter.WriteAttributeString("version", "1.0");
+                    xmlWriter.WriteStartElement("head");
+                    xmlWriter.WriteStartElement("title");
+                    xmlWriter.WriteString(ConfigurationManager.AppSettings["AggregateTitle"]);
+                    xmlWriter.WriteEndElement();
 
+                    xmlWriter.WriteEndElement();
                     //Body
                     xmlWriter.WriteStartElement("body");
 
