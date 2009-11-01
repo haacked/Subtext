@@ -34,6 +34,9 @@ namespace UnitTests.Subtext.Framework.Syndication
             //assert
             string expected =
                 @"<opml version=""1.0"">
+	<head>
+		<title>A Subtext Community</title>
+	</head>
 	<body>
 		<outline title=""example blog"" htmlUrl=""http://example.com/blog1"" xmlUrl=""http://example.com/blog1/Rss.aspx"" />
 		<outline title=""You've Been Haacked"" htmlUrl=""http://haacked.com/"" xmlUrl=""http://haacked.com/Rss.aspx"" />
