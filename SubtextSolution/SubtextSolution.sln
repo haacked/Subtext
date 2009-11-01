@@ -2,7 +2,10 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D145684-0EDA-4147-BF81-3B0BED7DA439}"
 	ProjectSection(SolutionItems) = preProject
+		..\BuildTools\WebPI\installSQL.sql = ..\BuildTools\WebPI\installSQL.sql
 		License.txt = License.txt
+		..\BuildTools\WebPI\manifest.xml = ..\BuildTools\WebPI\manifest.xml
+		..\BuildTools\WebPI\parameters.xml = ..\BuildTools\WebPI\parameters.xml
 		recreateDB.build = recreateDB.build
 		ReleaseChecklist.txt = ReleaseChecklist.txt
 		SolutionInfo.cs = SolutionInfo.cs
