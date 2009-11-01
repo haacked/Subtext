@@ -40,7 +40,7 @@ namespace Subtext.Web.Admin.Pages
         {
             HyperLink lnkConfigure = Utilities.CreateHyperLink("Configure", "Configure.aspx");
             HyperLink lnkSkins = Utilities.CreateHyperLink("Skins", "Skins.aspx");
-            HyperLink lnkCustomize = Utilities.CreateHyperLink("Customize", "Customize.aspx");
+            HyperLink lnkCustomize = Utilities.CreateHyperLink("Meta Tags", "Customize.aspx");
             HyperLink lnkPreferences = Utilities.CreateHyperLink("Preferences", "Preferences.aspx");
             HyperLink lnkSyndication = Utilities.CreateHyperLink("Syndication", "Syndication.aspx");
             HyperLink lnkComments = Utilities.CreateHyperLink("Comments", "Comments.aspx");

@@ -56,11 +56,20 @@
             <label accesskey="e" for="Edit_txbAuthorEmail">
                 Owner's <u>E</u>mail</label>
             <asp:TextBox ID="txbAuthorEmail" runat="server" CssClass="textbox" />            
-            <asp:CheckBox ID="ckbShowEmailonRssFeed" runat="server" CssClass="checkbox" AccessKey="r" Text="Show email address on <u>R</u>SS Feed" /><br />
             <div>
-                <asp:CheckBox ID="ckbAllowServiceAccess" runat="server" CssClass="checkbox" AccessKey="w"
+                <asp:CheckBox ID="ckbShowEmailonRssFeed" runat="server" TextAlign="Right" CssClass="checkbox" AccessKey="r" Text="Show email address on <u>R</u>SS Feed" />
+            </div>
+            <div>
+                <asp:CheckBox ID="ckbAllowServiceAccess" runat="server" TextAlign="Right" CssClass="checkbox" AccessKey="w"
                     Text="Allow <u>W</u>eb Service Access" />
             </div>
+            <div>
+	            <asp:CheckBox id="chkAutoGenerate" runat="server" TextAlign="Right" Text="Auto-Generate Friendly Url" CssClass="checkbox" AccessKey="g" />
+		        <st:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, blog posts and articles will have friendly Urls auto-generated based on the title. For example, the title 'My Blog Post' will become 'my-blog-post.aspx'.">
+			            <img src="~/pages/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" alt="Information" />
+		        </st:HelpToolTip>
+	        </div>
+
         </asp:Panel>
         <asp:Panel runat="server" GroupingText="Location Settings" CssClass="options wide">
             <p>

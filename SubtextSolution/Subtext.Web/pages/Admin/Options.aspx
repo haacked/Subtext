@@ -17,8 +17,8 @@
         <dt><a href="Skins.aspx" title="Choose a Skin">Skins</a></dt>
 	    <dd>Choose a Skin</dd>
         
-        <dt><a href="Customize.aspx" title="Customize your blog">Customize</a></dt>
-	    <dd>Customize your blog</dd>
+        <dt><a href="Customize.aspx" title="Customize your blog's Meta Tags">Meta Tags</a></dt>
+	    <dd>Customize the meta tags for your blog</dd>
 	   
 	    <dt><a href="Preferences.aspx" title="Manage Preferences">Preferences</a></dt>
 	    <dd>Set common preferences</dd>

@@ -74,7 +74,7 @@
 	        <asp:ContentPlaceHolder ID="MainContent" runat="server">
 	            <div id="sidebar">
                     <asp:ContentPlaceHolder ID="actionsHeading" runat="server">Actions</asp:ContentPlaceHolder>
-		            <div>
+		            <div class="actions">
 			            <st:LinkList id="LinksActions" runat="server" />
 		            </div>
 		            <asp:ContentPlaceHolder ID="categoryListHeading" runat="server" />

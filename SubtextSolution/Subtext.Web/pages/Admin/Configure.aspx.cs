@@ -102,6 +102,7 @@ namespace Subtext.Web.Admin.Pages
             ckbShowEmailonRssFeed.Checked = info.ShowEmailAddressInRss;
             txbGenericTrackingCode.Text = info.TrackingCode;
             ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
+            chkAutoGenerate.Checked = info.AutoFriendlyUrlEnabled;
             ddlTimezone.DataSource = TimeZones.GetTimeZones();
             ddlTimezone.DataTextField = "DisplayName";
             ddlTimezone.DataValueField = "Id";
@@ -205,7 +206,7 @@ namespace Subtext.Web.Admin.Pages
 
                 info.OpenIdServer = tbOpenIDServer.Text;
                 info.OpenIdDelegate = tbOpenIDDelegate.Text;
-
+                info.AutoFriendlyUrlEnabled = chkAutoGenerate.Checked;
                 Repository.UpdateConfigData(info);
 
                 Messages.ShowMessage(SuccessMessage);

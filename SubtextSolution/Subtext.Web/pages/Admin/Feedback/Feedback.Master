@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="actionsHeading" runat="server">
     <h2>Folders</h2>
-    <ul>
+    <ul class="folders">
         <li>
             <a href="<%= GetListUrl(FeedbackStatusFlag.Approved) %>" 
                 title="Approved Comments">Approved</a> (<%= Counts.ApprovedCount%>)
@@ -19,7 +19,7 @@
         </li>
         <li>
             <a href="<%= GetListUrl(FeedbackStatusFlag.Deleted) %>" 
-                title="Comments In The Trash Bin (Confirmed Spam or Deleted Items)">Trash / Confirmed Spam</a> (<%= Counts.DeletedCount %>)
+                title="Comments In The Trash Bin (Confirmed Spam or Deleted Items)">Trash / Spam</a> (<%= Counts.DeletedCount %>)
         </li>
     </ul>
 </asp:Content>
