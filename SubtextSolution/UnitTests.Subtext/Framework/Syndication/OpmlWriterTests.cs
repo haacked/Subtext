@@ -32,8 +32,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             opml.Write(blogs, writer, urlHelper.Object);
 
             //assert
-            string expected =
-                @"<opml version=""1.0"">
+            const string expected = @"<opml version=""1.0"">
 	<head>
 		<title>A Subtext Community</title>
 	</head>
