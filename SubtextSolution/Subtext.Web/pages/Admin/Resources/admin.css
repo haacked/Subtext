@@ -1043,6 +1043,30 @@ select.number
 	margin-bottom: 10px;
 }
 
+#configure-form .options div
+{
+	margin-top: 4px;
+	padding: 5px 0;	
+}
+
+#configure-form .options div label
+{
+	font-size: 1.2em;
+	font-weight: normal;
+	font-family: calibri, verdana, Arial, helvetica;
+	margin-left: 6px;
+}
+
+#configure-form .options div label, 
+#configure-form .options div input,
+#configure-form .options div a, 
+#configure-form .options span.checkbox
+{
+	float: none;
+	clear: none;
+	display: inline;
+}
+
 #stylesheetTest {
     height: 25px;
     clear: both;
@@ -1196,4 +1220,29 @@ div.skin-selection {
 
 div.skin-selection label {
     font-size: 2em;
+}
+
+div.preferences div
+{
+	margin-bottom: 8px;
+}
+
+div.preferences div label 
+{
+	font-size: 1.2em;
+	padding-left: 4px;
+	width: 300px;
+	display: inline-block;
+}
+
+div.actions 
+{
+	margin-bottom: 8px;
+}
+
+div.actions ul li a, ul.categoriesList li a, ul.folders li a
+{
+	font-size: 1.4em;
+	font-weight: normal;
+	font-family: Calibri;
 }

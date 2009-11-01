@@ -10,7 +10,7 @@
 <asp:Content ContentPlaceHolderID="categoryListLinks" runat="server" />
 
 <asp:Content ContentPlaceHolderID="pageContent" runat="server">
-    <h2>Customize</h2>
+    <h2>Meta Tags</h2>
     <div id="messagePanelWrapper">
         <div id="messagePanel" style="display: none;"></div>
     </div>
