@@ -444,11 +444,28 @@ namespace Subtext.Framework.Routing
             return AdminUrl(path, routeValueDict);
         }
 
+        public virtual VirtualPath HostAdminUrl(string path)
+        {
+            return ResolveUrl("~/hostadmin/" + EnsureDefaultAspx(path));
+        }
+
         public virtual VirtualPath AdminUrl(string path, RouteValueDictionary routeValues)
+        {
+            return GetUrl("admin", path, routeValues);
+        }
+
+        private VirtualPath GetUrl(string directory, string path, RouteValueDictionary routeValues)
         {
             routeValues = routeValues ?? new RouteValueDictionary();
             // TODO: Provide a flag to turn this off.
             //       This is to support IIS 6 / IIS 7 Classic Mode
+            path = EnsureDefaultAspx(path);
+            routeValues.Add("pathinfo", path);
+            return GetVirtualPath(directory, routeValues);
+        }
+
+        private string EnsureDefaultAspx(string path)
+        {
             if(!path.EndsWith(".aspx"))
             {
                 if(path.Length > 0 && !path.EndsWith("/"))
@@ -457,8 +474,7 @@ namespace Subtext.Framework.Routing
                 }
                 path += "default.aspx";
             }
-            routeValues.Add("pathinfo", path);
-            return GetVirtualPath("admin", routeValues);
+            return path;
         }
 
         public virtual VirtualPath AdminRssUrl(string feedName)

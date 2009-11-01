@@ -84,7 +84,7 @@ namespace Subtext.Framework.Infrastructure.Installation
         {
             string body = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomePost.htm");
             string articleUrl = context.UrlHelper.EntryUrl(article);
-            body = String.Format(body, articleUrl, adminUrlHelper.Home(), context.UrlHelper.GetVirtualPath("hostadmin", new { page = "default.aspx" }));
+            body = String.Format(body, articleUrl, adminUrlHelper.Home(), context.UrlHelper.HostAdminUrl("default.aspx"));
 
             var entry = new Entry(PostType.BlogPost)
             {

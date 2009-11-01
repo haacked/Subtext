@@ -1234,6 +1234,35 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/edit.gif", url.ToString());
         }
 
+        [Test]
+        public void HostAdminUrl_WithBlogHavingSubfolder_RendersUrlToHostAdmin()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/", routeData);
+
+            //act
+            string url = helper.HostAdminUrl("default.aspx");
+
+            //assert
+            Assert.AreEqual("/hostadmin/default.aspx", url);
+        }
+
+        [Test]
+        public void HostAdminUrl_WithAppPathAndBlogHavingSubfolder_RendersUrlToHostAdmin()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string url = helper.HostAdminUrl("default.aspx");
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/hostadmin/default.aspx", url);
+        }
 
         private static UrlHelper SetupUrlHelper(string appPath)
         {
