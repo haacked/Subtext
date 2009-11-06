@@ -16,6 +16,7 @@
 #endregion
 
 using System.IO;
+using System.Xml;
 
 namespace SubtextUpgrader
 {
@@ -33,6 +34,24 @@ namespace SubtextUpgrader
 
         private static void UpgradeConfig(FileInfo skinConfig)
         {
+            var xml = new XmlDocument();
+            xml.Load(skinConfig.OpenRead());
+            var templates = xml.SelectNodes("/SkinTemplates/Skins/SkinTemplate");
+            foreach(XmlNode templateNode in templates)
+            {
+                TransformTemplateToSkinConfig(templateNode);
+            }
+            // Delete Skins.user.config
+        }
+
+        public static XmlNode TransformTemplateToSkinConfig(XmlNode templateNode)
+        {
+            var skinNode = templateNode.SelectSingleNode("/SkinTemplates/Skins");
+            templateNode.InnerXml = skinNode.InnerXml;
+            var transformed = new XmlDocument();
+            templateNode.FirstChild.Attributes.RemoveNamedItem("TemplateFolder");
+            transformed.LoadXml(@"<?xml version=""1.0""?><SkinTemplates>" + templateNode.OuterXml + "</SkinTemplates>");
+            return transformed;
         }
     }
 }
