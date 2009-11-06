@@ -59,7 +59,7 @@ namespace SubtextUpgrader
             OverwriteChildren(doc => doc.SelectFriendlyUrlSettingsNode(), source, destination);
         }
 
-        private static void OverwriteChildren(Func<XmlNode, XmlNode> nodeSelector, XmlNode sourceDocument, XmlNode destinationDocument)
+        public static void OverwriteChildren(Func<XmlNode, XmlNode> nodeSelector, XmlNode sourceDocument, XmlNode destinationDocument)
         {
             var sourceNode = nodeSelector(sourceDocument);
             if(sourceNode == null || sourceNode.ChildNodes.Count == 0)
@@ -79,7 +79,7 @@ namespace SubtextUpgrader
             
             foreach(XmlNode node in sourceChildNodes)
             {
-                destinationNode.AppendChild(node);
+                destinationNode.InnerXml = node.OuterXml;
             }
         }
     }

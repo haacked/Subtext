@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextUpgrader", "SubtextU
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{ED6D2474-6402-4392-AFF0-6115A3F13C28}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextUpgraderTests", "SubtextUpgraderTests\SubtextUpgraderTests.csproj", "{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Build|.NET = Build|.NET
@@ -233,6 +235,26 @@ Global
 		{C49C4F5E-C147-40CF-96BB-EE12A7168CCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C49C4F5E-C147-40CF-96BB-EE12A7168CCF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C49C4F5E-C147-40CF-96BB-EE12A7168CCF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Build|.NET.ActiveCfg = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Build|Any CPU.ActiveCfg = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Build|Any CPU.Build.0 = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Build|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Build|Mixed Platforms.Build.0 = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Documentation|.NET.ActiveCfg = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Documentation|Mixed Platforms.Build.0 = Debug|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Release|.NET.ActiveCfg = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -240,5 +262,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8A910A5B-E14B-4963-99FD-99704BB35097} = {DD225739-6817-4A4F-9386-765ABA27C754}
 		{C49C4F5E-C147-40CF-96BB-EE12A7168CCF} = {ED6D2474-6402-4392-AFF0-6115A3F13C28}
+		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D} = {ED6D2474-6402-4392-AFF0-6115A3F13C28}
 	EndGlobalSection
 EndGlobal
