@@ -1,6 +1,6 @@
 ﻿using System.Xml;
-using SubtextUpgrader;
 using MbUnit.Framework;
+using SubtextUpgrader;
 
 namespace SubtextUpgraderTests
 {

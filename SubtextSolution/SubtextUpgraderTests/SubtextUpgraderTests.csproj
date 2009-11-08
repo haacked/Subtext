@@ -53,8 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileDeployerTests.cs" />
     <Compile Include="LegacySkinsConfigTests.cs" />
     <Compile Include="SkinConfigTests.cs" />
+    <Compile Include="SubtextDirectoryTests.cs" />
     <Compile Include="WebConfigUpgraderTests.cs" />
     <Compile Include="XmlExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

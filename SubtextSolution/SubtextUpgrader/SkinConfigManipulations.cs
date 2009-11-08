@@ -19,9 +19,9 @@ namespace SubtextUpgrader
 {
     public static class SkinConfigManipulations
     {
-        public static LegacySkinsConfig GetCustomSkinsConfig(this IDirectory destination)
+        public static LegacySkinsConfig GetCustomSkinsConfig(this IDirectory source)
         {
-            var skinConfig = destination.CombineFile(@"Admin\Skins.user.config");
+            var skinConfig = source.CombineFile(@"Admin\Skins.user.config");
             return new LegacySkinsConfig(skinConfig);
         }
     }

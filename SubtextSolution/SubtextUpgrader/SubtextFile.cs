@@ -19,12 +19,13 @@ using System.IO;
 
 namespace SubtextUpgrader
 {
-    public class SkinFile : IFile
+    public class SubtextFile : IFile
     {
-        public SkinFile(FileInfo file)
+        public SubtextFile(FileInfo file)
         {
             File = file;
             Path = file.FullName;
+            Name = file.Name;
         }
 
         protected FileInfo File
@@ -36,6 +37,12 @@ namespace SubtextUpgrader
         public string Path
         {
             get; 
+            private set;
+        }
+
+        public string Name
+        {
+            get;
             private set;
         }
 
@@ -76,7 +83,7 @@ namespace SubtextUpgrader
             {
                 if(_directory == null)
                 {
-                    _directory = new SkinDirectory(File.Directory);
+                    _directory = new SubtextDirectory(File.Directory);
                 }
                 return _directory;
             }
@@ -91,7 +98,12 @@ namespace SubtextUpgrader
 
         public IFile CopyTo(string path)
         {
-            return new SkinFile(File.CopyTo(path));
+            return new SubtextFile(File.CopyTo(path));
+        }
+
+        public IFile CopyTo(IDirectory directory)
+        {
+            return Overwrite(directory.CombineFile(Name));
         }
 
         public IFile Overwrite(IFile file)
@@ -99,9 +111,14 @@ namespace SubtextUpgrader
             return CopyTo(file.Path);
         }
 
-        public IFile Backup()
+        public IFile Backup(string fileName)
         {
-            return new SkinFile(File.CopyTo(Directory.CombinePath("web.bak.config")));
+            return new SubtextFile(File.CopyTo(Directory.CombinePath(fileName)));
+        }
+
+        public void Delete()
+        {
+            File.Delete();
         }
     }
 }

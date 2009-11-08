@@ -15,65 +15,50 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
 namespace SubtextUpgrader
 {
     public class FileDeployer
     {
-        public void CopyDirectory(DirectoryInfo source, DirectoryInfo destination)
+        public FileDeployer(IDirectory sourceWebroot, IDirectory destination)
         {
-            var files = from file in source.GetFiles()
-                        where !String.Equals("Web.config", Path.GetFileName(file.Name))
-                        select file;
-
-            CopyFiles(files, destination);
-            foreach(var subdir in source.GetDirectories())
-            {
-                var directoryName = Path.GetDirectoryName(subdir.Name);
-                var destinationPath = Path.Combine(destination.Name, directoryName);
-                var destinationSubdir = EnsureDirectory(destinationPath);
-                CopyDirectory(subdir, destinationSubdir);
-            }
+            WebRoot = sourceWebroot;
+            Destination = destination;
         }
 
-        private static void CopyFiles(IEnumerable<FileInfo> files, DirectoryInfo destination)
+        public IDirectory WebRoot
         {
-            foreach(var file in files)
-            {
-                file.CopyTo(Path.Combine(destination.Name, file.Name));
-            }
+            get; 
+            private set;
         }
 
-        private static DirectoryInfo EnsureDirectory(string path)
+        public IDirectory Destination
         {
-            var directory = new DirectoryInfo(path);
-            if(directory.Exists)
-            {
-                return directory;
-            }
-            directory.Create();
-            return directory;
+            get;
+            private set;
         }
 
-        public void RemoveOldDirectories(DirectoryInfo destination)
+        public void Deploy()
         {
-            var directories = new[] { "Admin", "HostAdmin", "Install", "SystemMessages" };
-            foreach(var directory in directories)
+            WebRoot.CopyTo(Destination);
+            RemoveOldDirectories();
+        }
+
+        public void RemoveOldDirectories()
+        {
+            var folderNames = new[] { "Admin", "HostAdmin", "Install", "SystemMessages" };
+            foreach(var folderName in folderNames)
             {
-                Directory.Delete(Path.Combine(destination.Name, directory), true);
+                Destination.Combine(folderName).Delete(true /*recursive*/);
             }
 
             var fileNames = new[] { "SystemMessages", "AggDefault.aspx", "DTP.aspx",
                 "ForgotPassword.aspx", "login.aspx", "logout.aspx", "MainFeed.aspx",
                 @"Admin\Skins.config", @"Admin\Skins.user.config", @"bin\Subtext.BlogML.dll",
                 @"bin\Subtext.Installation.dll", @"bin\Subtext.Scripting", @"bin\Identicon.dll"};
+            
             foreach(var fileName in fileNames)
             {
-                File.Delete(Path.Combine(destination.Name, fileName));
+                Destination.CombineFile(fileName).Delete();
             }
         }
     }

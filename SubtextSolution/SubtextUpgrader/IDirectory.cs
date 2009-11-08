@@ -15,15 +15,22 @@
 
 #endregion
 
+using System.Collections.Generic;
+
 namespace SubtextUpgrader
 {
     public interface IDirectory
     {
         bool Exists { get; }
+        string Name { get; }
         string Path { get; }
         IDirectory Combine(string path);
-        IFile CombineFile(string path);
+        IFile CombineFile(string fileName);
         string CombinePath(string path);
         void Create();
+        IEnumerable<IFile> GetFiles();
+        IEnumerable<IDirectory> GetDirectories();
+        void Delete(bool recursive);
+        IDirectory CopyTo(IDirectory directory);
     }
 }
