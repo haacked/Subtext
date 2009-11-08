@@ -42,9 +42,10 @@ namespace SubtextUpgrader
 
             var sourceDirectory = new DirectoryInfo(Assembly.GetExecutingAssembly().Location);
             var destinationDirectory = new DirectoryInfo(destinationPath);
-            
-            var skinUpgrader = new SkinUpgrader();
-            skinUpgrader.UpgradeCustomSkins(destinationDirectory);
+
+            var skinsDirectory = new SkinDirectory(destinationDirectory);
+            LegacySkinsConfig skinConfig = skinsDirectory.GetCustomSkinsConfig();
+            skinConfig.UpgradeSkins(skinsDirectory);
 
             var deployer = new FileDeployer();
             deployer.CopyDirectory(sourceDirectory, destinationDirectory);

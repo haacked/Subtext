@@ -46,11 +46,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileDeployer.cs" />
+    <Compile Include="FileUtils.cs" />
+    <Compile Include="IDirectory.cs" />
+    <Compile Include="IFile.cs" />
+    <Compile Include="LegacySkinsConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SkinUpgrader.cs" />
+    <Compile Include="SkinConfig.cs" />
+    <Compile Include="SkinConfigManipulations.cs" />
+    <Compile Include="SkinDirectory.cs" />
+    <Compile Include="SkinFile.cs" />
     <Compile Include="WebConfigUpgrader.cs" />
     <Compile Include="XmlExtensions.cs" />
+    <Compile Include="XmlManipulations.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
