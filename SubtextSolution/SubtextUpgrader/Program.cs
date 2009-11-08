@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Reflection;
 
 namespace SubtextUpgrader
@@ -28,19 +29,61 @@ namespace SubtextUpgrader
     {
         static void Main(string[] args)
         {
-            string destinationPath;
             if(args.Length == 0)
             {
-                Console.WriteLine("Please enter the destination path and hit ENTER:");
-                destinationPath = Console.ReadLine();
+                Console.WriteLine("SubtextUpgrader.exe");
+                Console.WriteLine("Utility for upgrading Subtext instances");
+                Console.WriteLine();
+                Console.Write(CommandLineParser.CommandLineParser.GetInfo<Settings>());
+                return;
             }
-            else
+            var settings = CommandLineParser.CommandLineParser.Parse<Settings>(args);
+            var program = new Program(settings);
+            program.Run();
+        }
+
+        public Program(Settings settings)
+        {
+            Settings = settings;
+        }
+
+        public Settings Settings
+        {
+            get; 
+            private set;
+        }
+
+        public void Run()
+        {
+            string destinationPath = Settings.UpgradeTargetDirectory;
+
+            var sourceDirectory = new SubtextDirectory(Settings.SourceDirectory ?? Path.Combine(Assembly.GetExecutingAssembly().Location ?? ".", "Subtext.Web"));
+            if(!VerifyDirectory(sourceDirectory, "source"))
             {
-                destinationPath = args[0];
+                return;
+            }
+            var destinationDirectory = new SubtextDirectory(destinationPath);
+            if(!VerifyDirectory(destinationDirectory, "target"))
+            {
+                return;
             }
 
-            var sourceDirectory = new SubtextDirectory(Assembly.GetExecutingAssembly().Location);
-            var destinationDirectory = new SubtextDirectory(destinationPath);
+            Console.WriteLine("");
+            Console.WriteLine("Upgrading using the following settings:");
+            Console.WriteLine("");
+            Console.WriteLine("\tSource Directory: '{0}'", Settings.SourceDirectory);
+            Console.WriteLine("\tTarget Directory: '{0}", Settings.UpgradeTargetDirectory);
+            Console.WriteLine(""); if(!Settings.QuietMode)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Press 'Y' to continue or any other key to quit");
+                var keyInfo = Console.ReadKey(false);
+                if(keyInfo.KeyChar != 'y' && keyInfo.KeyChar != 'Y')
+                {
+                    return;
+                }
+            }
+            Console.WriteLine();
 
             var configUpgrader = new WebConfigUpgrader(sourceDirectory);
             configUpgrader.UpgradeConfig(destinationDirectory);
@@ -52,6 +95,16 @@ namespace SubtextUpgrader
             var deployer = new FileDeployer(sourceDirectory, destinationDirectory);
             deployer.Deploy();
             deployer.RemoveOldDirectories();
+        }
+
+        static bool VerifyDirectory(IDirectory directory, string directoryLabel)
+        {
+            if(!directory.Exists)
+            {
+                Console.WriteLine("The {0} directory: '{1}' does not exist", directoryLabel, directory.Path);
+                return false;
+            }
+            return true;
         }
     }
 }
