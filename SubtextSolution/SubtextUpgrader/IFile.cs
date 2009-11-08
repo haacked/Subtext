@@ -27,8 +27,11 @@ namespace SubtextUpgrader
         string CombinePath(string path);
         IDirectory Directory { get;  }
         IFile CopyTo(string path);
+        IFile CopyTo(IDirectory directory);
         IFile Overwrite(IFile file);
+        string Name { get; }
         string Path { get; }
-        IFile Backup();
+        IFile Backup(string fileName);
+        void Delete();
     }
 }

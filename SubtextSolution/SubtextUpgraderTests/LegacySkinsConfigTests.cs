@@ -27,8 +27,10 @@ namespace SubtextUpgraderTests
       </Styles>
     </SkinTemplate>
   </Skins>
-</SkinTemplates>".ToXml();
-            var oldConfig = new LegacySkinsConfig(configXml);
+</SkinTemplates>";
+            var file = new Mock<IFile>();
+            file.Setup(f => f.Contents).Returns(configXml);
+            var oldConfig = new LegacySkinsConfig(file.Object);
 
             // act
             var configs = oldConfig.GetNewSkinConfigs();

@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Reflection;
 
 namespace SubtextUpgrader
@@ -40,16 +39,19 @@ namespace SubtextUpgrader
                 destinationPath = args[0];
             }
 
-            var sourceDirectory = new DirectoryInfo(Assembly.GetExecutingAssembly().Location);
-            var destinationDirectory = new DirectoryInfo(destinationPath);
+            var sourceDirectory = new SubtextDirectory(Assembly.GetExecutingAssembly().Location);
+            var destinationDirectory = new SubtextDirectory(destinationPath);
 
-            var skinsDirectory = new SkinDirectory(destinationDirectory);
+            var configUpgrader = new WebConfigUpgrader(sourceDirectory);
+            configUpgrader.UpgradeConfig(destinationDirectory);
+
+            var skinsDirectory = sourceDirectory.Combine(@"Admin\Skins.config");
             LegacySkinsConfig skinConfig = skinsDirectory.GetCustomSkinsConfig();
-            skinConfig.UpgradeSkins(skinsDirectory);
+            skinConfig.UpgradeSkins(destinationDirectory.Combine(@"pages\skins"));
 
-            var deployer = new FileDeployer();
-            deployer.CopyDirectory(sourceDirectory, destinationDirectory);
-            deployer.RemoveOldDirectories(destinationDirectory);
+            var deployer = new FileDeployer(sourceDirectory, destinationDirectory);
+            deployer.Deploy();
+            deployer.RemoveOldDirectories();
         }
     }
 }

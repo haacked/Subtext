@@ -16,7 +16,6 @@
 #endregion
 
 using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 namespace SubtextUpgrader
@@ -91,13 +90,6 @@ namespace SubtextUpgrader
             {
                 insertionNode.FirstChild.AppendChild(importedNode);
             }
-            return xml;
-        }
-
-        public static XmlDocument ToXml(this Stream stream)
-        {
-            var xml = new XmlDocument();
-            xml.Load(stream);
             return xml;
         }
 

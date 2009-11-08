@@ -22,9 +22,20 @@ namespace SubtextUpgrader
 {
     public class WebConfigUpgrader
     {
-        public void UpgradeConfig(IDirectory source, IDirectory destination)
+        public WebConfigUpgrader(IDirectory sourceWebRoot)
         {
-            var newConfig = source.CombineFile("Web.config");
+            SourceWebRootDirectory = sourceWebRoot;
+        }
+
+        protected IDirectory SourceWebRootDirectory
+        {
+            get; 
+            private set;
+        }
+
+        public void UpgradeConfig(IDirectory destination)
+        {
+            var newConfig = SourceWebRootDirectory.CombineFile("Web.config");
             var existingConfig = destination.CombineFile("Web.config");
             if(!existingConfig.Exists)
             {
@@ -36,8 +47,8 @@ namespace SubtextUpgrader
         private static void UpgradeConfig(IFile newConfig, IFile existingConfig)
         {
             // backup
-            newConfig.CopyTo(newConfig.Directory.CombinePath("web.bak.config"));
-            existingConfig.CopyTo(existingConfig.Directory.CombinePath("web.bak.config"));
+            newConfig.Backup("Web.bak.config");
+            existingConfig.Backup("Web.bak.config");
 
             var newXml = newConfig.ToXml();
             var existingXml = existingConfig.ToXml();

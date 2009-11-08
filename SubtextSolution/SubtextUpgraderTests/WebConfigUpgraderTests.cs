@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
 using MbUnit.Framework;
 using Moq;
 using SubtextUpgrader;
@@ -12,22 +13,36 @@ namespace SubtextUpgraderTests
         public void UpgradeConfig_WithSourceAndDestinationDirectory_UpgradesWebConfig()
         {
             // arrange
-            const string newConfig = @"<configuration><new /></configuration>";
-            const string oldConfig = @"<configuration><old /></configuration>";
+            const string newConfig = @"<configuration><connectionStrings><connectionString name=""default"" /></connectionStrings><Foo /></configuration>";
+            const string oldConfig = @"<configuration><connectionStrings><connectionString name=""mine"" /></connectionStrings></configuration>";
             var newConfigFile = new Mock<IFile>();
+            
+            var stream = new MemoryStream();
+            newConfigFile.Setup(f => f.OpenWrite()).Returns(stream);
+            newConfigFile.Setup(f => f.Contents).Returns(newConfig);
             var existingFileConfig = new Mock<IFile>();
+            newConfigFile.Setup(f => f.Overwrite(existingFileConfig.Object));
+            existingFileConfig.Setup(f => f.Contents).Returns(oldConfig);
             existingFileConfig.Setup(f => f.Exists).Returns(true);
             var sourceDirectory = new Mock<IDirectory>();
             sourceDirectory.Setup(s => s.CombineFile("Web.config")).Returns(newConfigFile.Object);
             var destinationDirectory = new Mock<IDirectory>();
             destinationDirectory.Setup(d => d.CombineFile("Web.config")).Returns(existingFileConfig.Object);
-            var upgrader = new WebConfigUpgrader();
+            var upgrader = new WebConfigUpgrader(sourceDirectory.Object);
 
             // act
-            //upgrader.UpgradeConfig(sourceDirectory.Object, destinationDirectory.Object);
+            upgrader.UpgradeConfig(destinationDirectory.Object);
 
             // assert
-
+            newConfigFile.Verify(f => f.Backup("Web.bak.config"));
+            existingFileConfig.Verify(f => f.Backup("Web.bak.config"));
+            const string expected = @"<configuration>
+  <connectionStrings>
+    <connectionString name=""mine"" />
+  </connectionStrings>
+  <Foo />
+</configuration>";
+            Assert.AreEqual(expected, stream.ToStringContents());
         }
 
         [Test]

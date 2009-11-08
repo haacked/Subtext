@@ -54,8 +54,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SkinConfig.cs" />
     <Compile Include="SkinConfigManipulations.cs" />
-    <Compile Include="SkinDirectory.cs" />
-    <Compile Include="SkinFile.cs" />
+    <Compile Include="SubtextDirectory.cs" />
+    <Compile Include="SubtextFile.cs" />
     <Compile Include="WebConfigUpgrader.cs" />
     <Compile Include="XmlExtensions.cs" />
     <Compile Include="XmlManipulations.cs" />
