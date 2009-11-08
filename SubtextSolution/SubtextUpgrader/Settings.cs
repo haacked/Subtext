@@ -30,5 +30,11 @@ namespace SubtextUpgrader
 
         [OptionName("q"), Description("Quiet mode, do not prompt to continue.")]
         public bool QuietMode { get; private set; }
+
+        [OptionName("b"), Description("Backup directory.")]
+        public string BackupDirectory { get; private set; }
+
+        [OptionName("v"), Description("Enables verbose logging")]
+        public bool Verbose { get; private set; }
     }
 }

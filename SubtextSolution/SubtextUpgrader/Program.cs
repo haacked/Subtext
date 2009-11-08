@@ -68,11 +68,25 @@ namespace SubtextUpgrader
                 return;
             }
 
+            IDirectory backup = null;
+            if(!String.IsNullOrEmpty(Settings.BackupDirectory))
+            {
+                backup = new SubtextDirectory(Settings.BackupDirectory);
+                if(!VerifyDirectory(backup, "backup"))
+                {
+                    return;
+                }
+            }
+
             Console.WriteLine("");
             Console.WriteLine("Upgrading using the following settings:");
             Console.WriteLine("");
             Console.WriteLine("\tSource Directory: '{0}'", Settings.SourceDirectory);
             Console.WriteLine("\tTarget Directory: '{0}", Settings.UpgradeTargetDirectory);
+            if(backup != null)
+            {
+                Console.WriteLine("\tBackup Directory: '{0}", Settings.BackupDirectory);
+            }
             Console.WriteLine(""); if(!Settings.QuietMode)
             {
                 Console.WriteLine("");
@@ -85,7 +99,17 @@ namespace SubtextUpgrader
             }
             Console.WriteLine();
 
+            if(backup != null)
+            {
+                Console.WriteLine("Backing up source and target directories");
+                backup.Delete(true);
+                backup.Create();
+                sourceDirectory.CopyTo(backup.Combine("source"));
+                destinationDirectory.CopyTo(backup.Combine("target"));
+            }
+
             var configUpgrader = new WebConfigUpgrader(sourceDirectory);
+            Console.WriteLine("Upgrading Web.config");
             configUpgrader.UpgradeConfig(destinationDirectory);
 
             var skinsDirectory = sourceDirectory.Combine(@"Admin\Skins.config");
