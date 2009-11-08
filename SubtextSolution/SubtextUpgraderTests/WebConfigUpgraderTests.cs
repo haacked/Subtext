@@ -1,5 +1,6 @@
 ﻿using System.Xml;
 using MbUnit.Framework;
+using Moq;
 using SubtextUpgrader;
 
 namespace SubtextUpgraderTests
@@ -7,6 +8,28 @@ namespace SubtextUpgraderTests
     [TestFixture]
     public class WebConfigUpgraderTests
     {
+        [Test]
+        public void UpgradeConfig_WithSourceAndDestinationDirectory_UpgradesWebConfig()
+        {
+            // arrange
+            const string newConfig = @"<configuration><new /></configuration>";
+            const string oldConfig = @"<configuration><old /></configuration>";
+            var newConfigFile = new Mock<IFile>();
+            var existingFileConfig = new Mock<IFile>();
+            existingFileConfig.Setup(f => f.Exists).Returns(true);
+            var sourceDirectory = new Mock<IDirectory>();
+            sourceDirectory.Setup(s => s.CombineFile("Web.config")).Returns(newConfigFile.Object);
+            var destinationDirectory = new Mock<IDirectory>();
+            destinationDirectory.Setup(d => d.CombineFile("Web.config")).Returns(existingFileConfig.Object);
+            var upgrader = new WebConfigUpgrader();
+
+            // act
+            //upgrader.UpgradeConfig(sourceDirectory.Object, destinationDirectory.Object);
+
+            // assert
+
+        }
+
         [Test]
         public void OverwriteChildren_DoesJustThat()
         {

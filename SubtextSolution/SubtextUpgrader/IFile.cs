@@ -23,5 +23,12 @@ namespace SubtextUpgrader
     {
         string Contents { get; }
         Stream OpenWrite();
+        bool Exists { get; }
+        string CombinePath(string path);
+        IDirectory Directory { get;  }
+        IFile CopyTo(string path);
+        IFile Overwrite(IFile file);
+        string Path { get; }
+        IFile Backup();
     }
 }
