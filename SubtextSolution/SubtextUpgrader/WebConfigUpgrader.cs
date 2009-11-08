@@ -16,17 +16,16 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Xml;
 
 namespace SubtextUpgrader
 {
     public class WebConfigUpgrader
     {
-        public void UpgradeConfig(DirectoryInfo source, DirectoryInfo destination)
+        public void UpgradeConfig(IDirectory source, IDirectory destination)
         {
-            var newConfig = new FileInfo(Path.Combine(source.Name, @"Web.config"));
-            var existingConfig = new FileInfo(Path.Combine(destination.Name, @"Web.config"));
+            var newConfig = source.CombineFile("Web.config");
+            var existingConfig = destination.CombineFile("Web.config");
             if(!existingConfig.Exists)
             {
                 return;
@@ -34,21 +33,19 @@ namespace SubtextUpgrader
             UpgradeConfig(newConfig, existingConfig);
         }
 
-        private static void UpgradeConfig(FileInfo newConfig, FileInfo existingConfig)
+        private static void UpgradeConfig(IFile newConfig, IFile existingConfig)
         {
             // backup
-            newConfig.CopyTo(Path.Combine(newConfig.DirectoryName, "web.bak.config")); 
-            existingConfig.CopyTo(Path.Combine(existingConfig.DirectoryName, "web.bak.config")); 
-            
-            var newXml = new XmlDocument();
-            newXml.Load(newConfig.OpenRead());
-            var existingXml = new XmlDocument();
-            existingXml.Load(existingConfig.OpenRead());
+            newConfig.CopyTo(newConfig.Directory.CombinePath("web.bak.config"));
+            existingConfig.CopyTo(existingConfig.Directory.CombinePath("web.bak.config"));
+
+            var newXml = newConfig.ToXml();
+            var existingXml = existingConfig.ToXml();
 
             ApplyCustomizations(existingXml, newXml);
             
             newXml.Save(newConfig.OpenWrite());
-            newConfig.CopyTo(existingConfig.FullName);
+            newConfig.Overwrite(existingConfig);
         }
 
         private static void ApplyCustomizations(XmlNode source, XmlNode destination)

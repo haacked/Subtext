@@ -24,9 +24,16 @@ namespace SubtextUpgrader
         public SkinFile(FileInfo file)
         {
             File = file;
+            Path = file.FullName;
         }
 
         protected FileInfo File
+        {
+            get; 
+            private set;
+        }
+
+        public string Path
         {
             get; 
             private set;
@@ -53,6 +60,48 @@ namespace SubtextUpgrader
         public Stream OpenWrite()
         {
             return File.OpenWrite();
+        }
+
+        public bool Exists
+        {
+            get
+            {
+                return File.Exists;
+            }
+        }
+
+        public IDirectory Directory
+        {
+            get
+            {
+                if(_directory == null)
+                {
+                    _directory = new SkinDirectory(File.Directory);
+                }
+                return _directory;
+            }
+        }
+
+        IDirectory _directory;
+
+        public string CombinePath(string fileName)
+        {
+            return Directory.CombinePath(fileName);
+        }
+
+        public IFile CopyTo(string path)
+        {
+            return new SkinFile(File.CopyTo(path));
+        }
+
+        public IFile Overwrite(IFile file)
+        {
+            return CopyTo(file.Path);
+        }
+
+        public IFile Backup()
+        {
+            return new SkinFile(File.CopyTo(Directory.CombinePath("web.bak.config")));
         }
     }
 }

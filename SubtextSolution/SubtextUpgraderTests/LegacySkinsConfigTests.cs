@@ -3,7 +3,6 @@ using System.Linq;
 using MbUnit.Framework;
 using Moq;
 using SubtextUpgrader;
-using System;
 
 namespace SubtextUpgraderTests
 {
