@@ -25,7 +25,10 @@ namespace SubtextUpgrader
         public static IFile CreateXmlFile(this IDirectory directory, string filename, XmlDocument xml)
         {
             IFile file = directory.CombineFile(filename);
-            xml.Save(file.OpenWrite());
+            using(var stream = file.OpenWrite())
+            {
+                xml.Save(stream);
+            }
             return file;
         }
 

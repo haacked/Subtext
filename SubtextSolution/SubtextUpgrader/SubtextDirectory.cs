@@ -15,7 +15,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -67,9 +66,10 @@ namespace SubtextUpgrader
             return new SubtextDirectory(new DirectoryInfo(CombinePath(path)));
         }
 
-        public void Create()
+        public IDirectory Create()
         {
             PhysicalDirectory.Create();
+            return this;
         }
 
         public string CombinePath(string path)
@@ -100,7 +100,10 @@ namespace SubtextUpgrader
 
         public void Delete(bool recursive)
         {
-            PhysicalDirectory.Delete(recursive);
+            if(PhysicalDirectory.Exists)
+            {
+                PhysicalDirectory.Delete(recursive);
+            }
         }
 
         public IDirectory CopyTo(IDirectory destination)
@@ -115,19 +118,19 @@ namespace SubtextUpgrader
             {
                 var directoryName = subdir.Name;
                 var destinationSubDir = destination.Combine(directoryName);
-                EnsureDirectory(destinationSubDir);
+                destinationSubDir.Ensure();
                 subdir.CopyTo(destinationSubDir);
             }
             return destination;
         }
 
-        private static void EnsureDirectory(IDirectory destination)
+        public IDirectory Ensure()
         {
-            if(!destination.Exists)
+            if(!Exists)
             {
-                destination.Create();
+                Create();
             }
+            return this;
         }
-
     }
 }
