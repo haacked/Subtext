@@ -61,6 +61,20 @@ namespace SubtextUpgrader
             }
         }
 
+        public IDirectory Parent
+        {
+            get
+            {
+                if(_parent == null)
+                {
+                    _parent = new SubtextDirectory(PhysicalDirectory.Parent);
+                }
+                return _parent;
+            }
+        }
+
+        IDirectory _parent;
+
         public IDirectory Combine(string path)
         {
             return new SubtextDirectory(new DirectoryInfo(CombinePath(path)));

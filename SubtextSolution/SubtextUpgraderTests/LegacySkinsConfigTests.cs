@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using MbUnit.Framework;
 using Moq;
 using SubtextUpgrader;
@@ -13,7 +12,7 @@ namespace SubtextUpgraderTests
         public void GetNewSkinConfigs_WithLegacySkinConfigXml_ExtractsSkinConfigs()
         {
             // arrange
-            var configXml = @"<?xml version=""1.0""?>
+            const string configXml = @"<?xml version=""1.0""?>
 <SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
   <Skins>
     <SkinTemplate Name=""Foo"" TemplateFolder=""Foo"" StyleMergeMode=""MergedAfter"">
@@ -51,7 +50,11 @@ namespace SubtextUpgraderTests
         public void UpgradeSkins_WritesNewSkins_ToSkinTemplateDirectory()
         {
             // arrange
-            var configXml = @"<?xml version=""1.0""?>
+            var targetDirectory = new Mock<IDirectory>();
+            targetDirectory.Setup(d => d.Combine("Skins")).Returns(targetDirectory.Object);
+            targetDirectory.Setup(d => d.Combine("Foo")).Returns(targetDirectory.Object);
+
+            const string configXml = @"<?xml version=""1.0""?>
 <SkinTemplates xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
   <Skins>
     <SkinTemplate Name=""Foo"" TemplateFolder=""Foo"" StyleMergeMode=""MergedAfter"">
@@ -60,8 +63,10 @@ namespace SubtextUpgraderTests
       </Styles>
     </SkinTemplate>
   </Skins>
-</SkinTemplates>".ToXml();
-            var oldConfig = new LegacySkinsConfig(configXml);
+</SkinTemplates>";
+            var file = new Mock<IFile>();
+            file.Setup(f => f.Contents).Returns(configXml);
+            file.Setup(f => f.Directory.Parent).Returns(targetDirectory.Object);
             var memoryStream = new NonDisposableMemoryStream();
             var skinFile = new Mock<IFile>();
             skinFile.Setup(f => f.OpenWrite()).Returns(memoryStream);
@@ -72,11 +77,13 @@ namespace SubtextUpgraderTests
             var skinsDirectory = new Mock<IDirectory>();
             skinsDirectory.Setup(d => d.Combine("Foo")).Returns(skinDirectory.Object);
             skinsDirectory.Setup(d => d.Ensure()).Returns(skinDirectory.Object);
+            var oldConfig = new LegacySkinsConfig(file.Object);
 
             // act
             oldConfig.UpgradeSkins(skinsDirectory.Object);
 
             // assert
+            targetDirectory.Verify(d => d.CopyTo(skinDirectory.Object));
             const string expected =
                 @"<SkinTemplates>
   <SkinTemplate Name=""Foo"" StyleMergeMode=""MergedAfter"">

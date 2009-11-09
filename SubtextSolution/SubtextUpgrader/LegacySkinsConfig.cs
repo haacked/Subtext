@@ -26,20 +26,30 @@ namespace SubtextUpgrader
     /// </summary>
     public class LegacySkinsConfig
     {
-        public LegacySkinsConfig(IFile file) : this(file.ToXml())
+        public LegacySkinsConfig(IFile file)
         {
+            SkinsConfigFile = file;
         }
 
-        public LegacySkinsConfig(XmlDocument xml)
+        protected IFile SkinsConfigFile
         {
-            Xml = xml;
+            get; 
+            private set;
         }
 
         public XmlDocument Xml 
         { 
-            get; 
-            private set;
+            get
+            {
+                if(_xml == null)
+                {
+                    _xml = SkinsConfigFile.ToXml();
+                }
+                return _xml;
+            }
         }
+
+        XmlDocument _xml;
 
         /// <summary>
         /// Extracts the new skin config files from the old one.
@@ -59,11 +69,14 @@ namespace SubtextUpgrader
             }
         }
 
-        public void UpgradeSkins(IDirectory skinsDirectory)
+        public void UpgradeSkins(IDirectory newSkinsDirectory)
         {
+            var oldSkinsDirectory = SkinsConfigFile.Directory.Parent.Combine("Skins");
+
             foreach(var skin in GetNewSkinConfigs())
             {
-                IDirectory skinDirectory = skinsDirectory.Combine(skin.TemplateFolder).Ensure();
+                IDirectory skinDirectory = newSkinsDirectory.Combine(skin.TemplateFolder).Ensure();
+                oldSkinsDirectory.Combine(skin.TemplateFolder).CopyTo(skinDirectory);
                 skinDirectory.CreateXmlFile("skin.config", skin.Xml);
             }
         }
