@@ -27,10 +27,11 @@ namespace SubtextUpgrader
         IDirectory Combine(string path);
         IFile CombineFile(string fileName);
         string CombinePath(string path);
-        void Create();
+        IDirectory Create();
         IEnumerable<IFile> GetFiles();
         IEnumerable<IDirectory> GetDirectories();
         void Delete(bool recursive);
         IDirectory CopyTo(IDirectory directory);
+        IDirectory Ensure();
     }
 }

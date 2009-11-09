@@ -63,11 +63,7 @@ namespace SubtextUpgrader
         {
             foreach(var skin in GetNewSkinConfigs())
             {
-                IDirectory skinDirectory = skinsDirectory.Combine(skin.TemplateFolder);
-                if(!skinDirectory.Exists)
-                {
-                    skinsDirectory.Create();
-                }
+                IDirectory skinDirectory = skinsDirectory.Combine(skin.TemplateFolder).Ensure();
                 skinDirectory.CreateXmlFile("skin.config", skin.Xml);
             }
         }

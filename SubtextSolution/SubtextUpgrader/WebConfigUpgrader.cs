@@ -46,16 +46,15 @@ namespace SubtextUpgrader
 
         private static void UpgradeConfig(IFile newConfig, IFile existingConfig)
         {
-            // backup
-            newConfig.Backup("Web.bak.config");
-            existingConfig.Backup("Web.bak.config");
-
             var newXml = newConfig.ToXml();
             var existingXml = existingConfig.ToXml();
 
             ApplyCustomizations(existingXml, newXml);
-            
-            newXml.Save(newConfig.OpenWrite());
+
+            using(var stream = newConfig.OpenWrite())
+            {
+                newXml.Save(stream);
+            }
             newConfig.Overwrite(existingConfig);
         }
 

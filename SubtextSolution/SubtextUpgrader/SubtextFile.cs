@@ -98,7 +98,7 @@ namespace SubtextUpgrader
 
         public IFile CopyTo(string path)
         {
-            return new SubtextFile(File.CopyTo(path));
+            return new SubtextFile(File.CopyTo(path, true /*overwrite*/));
         }
 
         public IFile CopyTo(IDirectory directory)
@@ -113,12 +113,15 @@ namespace SubtextUpgrader
 
         public IFile Backup(string fileName)
         {
-            return new SubtextFile(File.CopyTo(Directory.CombinePath(fileName)));
+            return new SubtextFile(File.CopyTo(Directory.CombinePath(fileName), true /*overwrite*/));
         }
 
         public void Delete()
         {
-            File.Delete();
+            if(File.Exists)
+            {
+                File.Delete();
+            }
         }
     }
 }

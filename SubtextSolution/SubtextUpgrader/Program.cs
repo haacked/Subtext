@@ -55,15 +55,14 @@ namespace SubtextUpgrader
 
         public void Run()
         {
-            string destinationPath = Settings.UpgradeTargetDirectory;
-
             var sourceDirectory = new SubtextDirectory(Settings.SourceDirectory ?? Path.Combine(Assembly.GetExecutingAssembly().Location ?? ".", "Subtext.Web"));
             if(!VerifyDirectory(sourceDirectory, "source"))
             {
                 return;
             }
-            var destinationDirectory = new SubtextDirectory(destinationPath);
-            if(!VerifyDirectory(destinationDirectory, "target"))
+
+            var targetDirectory = new SubtextDirectory(Settings.UpgradeTargetDirectory);
+            if(!VerifyDirectory(targetDirectory, "target"))
             {
                 return;
             }
@@ -101,23 +100,35 @@ namespace SubtextUpgrader
 
             if(backup != null)
             {
-                Console.WriteLine("Backing up source and target directories");
+                Console.WriteLine("Clearing backup directory '{0}'", backup.Path);
                 backup.Delete(true);
                 backup.Create();
-                sourceDirectory.CopyTo(backup.Combine("source"));
-                destinationDirectory.CopyTo(backup.Combine("target"));
+                Console.WriteLine("Backing up source and target directories");
+                sourceDirectory.CopyTo(backup.Combine("source").Create());
+                targetDirectory.CopyTo(backup.Combine("target").Create());
             }
 
             var configUpgrader = new WebConfigUpgrader(sourceDirectory);
             Console.WriteLine("Upgrading Web.config");
-            configUpgrader.UpgradeConfig(destinationDirectory);
+            configUpgrader.UpgradeConfig(targetDirectory);
 
-            var skinsDirectory = sourceDirectory.Combine(@"Admin\Skins.config");
-            LegacySkinsConfig skinConfig = skinsDirectory.GetCustomSkinsConfig();
-            skinConfig.UpgradeSkins(destinationDirectory.Combine(@"pages\skins"));
+            var customSkinConfig = targetDirectory.CombineFile(@"Admin\Skins.User.config");
+            if(customSkinConfig.Exists)
+            {
+                Console.WriteLine("Updating skin.config for custom skins");
+                var skinConfig = new LegacySkinsConfig(customSkinConfig);
+                var skinsDirectory = sourceDirectory.Combine(@"pages\skins").Ensure();
+                skinConfig.UpgradeSkins(skinsDirectory);
+            }
+            else
+            {
+                Console.WriteLine("Did not find custom skins file at '{0}'", customSkinConfig.Path);
+            }
 
-            var deployer = new FileDeployer(sourceDirectory, destinationDirectory);
+            Console.WriteLine("Deploying '{0}' to '{1}'", sourceDirectory.Path, targetDirectory.Path);
+            var deployer = new FileDeployer(sourceDirectory, targetDirectory);
             deployer.Deploy();
+            Console.WriteLine("Cleaning up old directories");
             deployer.RemoveOldDirectories();
         }
 
