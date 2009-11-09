@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Xml;
+﻿using System.Xml;
 using MbUnit.Framework;
 using Moq;
 using SubtextUpgrader;
@@ -17,7 +16,7 @@ namespace SubtextUpgraderTests
             const string oldConfig = @"<configuration><connectionStrings><connectionString name=""mine"" /></connectionStrings></configuration>";
             var newConfigFile = new Mock<IFile>();
             
-            var stream = new MemoryStream();
+            var stream = new NonDisposableMemoryStream();
             newConfigFile.Setup(f => f.OpenWrite()).Returns(stream);
             newConfigFile.Setup(f => f.Contents).Returns(newConfig);
             var existingFileConfig = new Mock<IFile>();
@@ -34,8 +33,6 @@ namespace SubtextUpgraderTests
             upgrader.UpgradeConfig(destinationDirectory.Object);
 
             // assert
-            newConfigFile.Verify(f => f.Backup("Web.bak.config"));
-            existingFileConfig.Verify(f => f.Backup("Web.bak.config"));
             const string expected = @"<configuration>
   <connectionStrings>
     <connectionString name=""mine"" />

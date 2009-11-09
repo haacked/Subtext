@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="FileDeployerTests.cs" />
     <Compile Include="LegacySkinsConfigTests.cs" />
+    <Compile Include="NonDisposableMemoryStream.cs" />
     <Compile Include="SkinConfigTests.cs" />
     <Compile Include="SubtextDirectoryTests.cs" />
     <Compile Include="WebConfigUpgraderTests.cs" />

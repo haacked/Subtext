@@ -62,20 +62,21 @@ namespace SubtextUpgraderTests
   </Skins>
 </SkinTemplates>".ToXml();
             var oldConfig = new LegacySkinsConfig(configXml);
-            var memoryStream = new MemoryStream();
+            var memoryStream = new NonDisposableMemoryStream();
             var skinFile = new Mock<IFile>();
             skinFile.Setup(f => f.OpenWrite()).Returns(memoryStream);
             var skinDirectory = new Mock<IDirectory>();
             skinDirectory.Setup(d => d.Exists).Returns(false);
             skinDirectory.Setup(d => d.CombineFile("skin.config")).Returns(skinFile.Object);
+            skinDirectory.Setup(d => d.Ensure()).Returns(skinDirectory.Object);
             var skinsDirectory = new Mock<IDirectory>();
             skinsDirectory.Setup(d => d.Combine("Foo")).Returns(skinDirectory.Object);
+            skinsDirectory.Setup(d => d.Ensure()).Returns(skinDirectory.Object);
 
             // act
             oldConfig.UpgradeSkins(skinsDirectory.Object);
 
             // assert
-            skinsDirectory.Verify(d => d.Create());
             const string expected =
                 @"<SkinTemplates>
   <SkinTemplate Name=""Foo"" StyleMergeMode=""MergedAfter"">
