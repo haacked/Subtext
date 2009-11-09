@@ -24,6 +24,7 @@ namespace SubtextUpgrader
         bool Exists { get; }
         string Name { get; }
         string Path { get; }
+        IDirectory Parent { get; }
         IDirectory Combine(string path);
         IFile CombineFile(string fileName);
         string CombinePath(string path);
