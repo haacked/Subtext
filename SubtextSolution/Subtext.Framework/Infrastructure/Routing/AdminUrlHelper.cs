@@ -46,7 +46,7 @@ namespace Subtext.Framework.Routing
 
         public VirtualPath Export(bool embedAttachments)
         {
-            return Url.GetVirtualPath("export", new { embed = embedAttachments });
+            return Url.GetVirtualPath("export", new RouteValueDictionary{ {"embed", embedAttachments }});
         }
 
         public VirtualPath PostsList()

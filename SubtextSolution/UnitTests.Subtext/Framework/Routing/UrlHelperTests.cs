@@ -897,6 +897,20 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void RssUrl_ForBlogWithSubfolderWithoutRssProxy_ReturnsRssUri()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web");
+            var blog = new Blog { Host = "example.com", Subfolder = "blog"};
+
+            //act
+            Uri url = helper.RssUrl(blog);
+
+            //assert
+            Assert.AreEqual("http://example.com/Subtext.Web/blog/rss.aspx", url.ToString());
+        }
+
+        [Test]
         public void RssUrl_WithRssProxy_ReturnsProxyUrl()
         {
             //arrange

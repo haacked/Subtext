@@ -52,7 +52,7 @@ namespace Subtext.Framework.Syndication
             else
             {
                 int? groupId = GetGroupIdFromQueryString(SubtextContext.HttpContext.Request);
-                blogs = SubtextContext.Repository.GetBlogsByGroup(hostInfo.AggregateBlog.Host, groupId);
+                blogs = SubtextContext.Repository.GetBlogsByGroup(SubtextContext.HttpContext.Request.Url.Host, groupId);
             }
 
             OpmlWriter.Write(blogs, response.Output, SubtextContext.UrlHelper);
