@@ -55,23 +55,23 @@ namespace Subtext.Framework.Syndication
                     //Body
                     xmlWriter.WriteStartElement("body");
 
+                    xmlWriter.WriteStartElement("outline");
+                    xmlWriter.WriteAttributeString("text", ConfigurationManager.AppSettings["AggregateTitle"] + " Feeds");
                     foreach(Blog blog in blogs)
                     {
                         xmlWriter.WriteStartElement("outline");
 
                         string title = blog.Title;
-                        VirtualPath htmlPath = urlHelper.BlogUrl(blog);
-                        string htmlUrl = htmlPath.ToFullyQualifiedUrl(blog).ToString();
                         string xmlUrl = urlHelper.RssUrl(blog).ToString();
 
-                        xmlWriter.WriteAttributeString("title", title);
-                        xmlWriter.WriteAttributeString("htmlUrl", htmlUrl);
+                        xmlWriter.WriteAttributeString("type", "rss");
+                        xmlWriter.WriteAttributeString("text", title);
                         xmlWriter.WriteAttributeString("xmlUrl", xmlUrl);
-
                         xmlWriter.WriteEndElement();
                     }
-                    xmlWriter.WriteEndElement();
-                    xmlWriter.WriteEndElement();
+                    xmlWriter.WriteEndElement(); //outline
+                    xmlWriter.WriteEndElement(); //body
+                    xmlWriter.WriteEndElement(); //opml
                     xmlWriter.Flush();
                 }
             }
