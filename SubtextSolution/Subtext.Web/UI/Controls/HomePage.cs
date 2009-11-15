@@ -25,7 +25,7 @@ using Subtext.Framework.Data;
 
 namespace Subtext.Web.UI.Controls
 {
-    [PartialCaching(45, null, null, "Blogger", false)]
+    [PartialCaching(120, null, null, "Blogger", false)]
     public class HomePage : BaseControl
     {
         protected DayCollection HomePageDays;

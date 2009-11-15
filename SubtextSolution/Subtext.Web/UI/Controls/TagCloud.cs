@@ -27,7 +27,7 @@ using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
-    [PartialCaching(60, null, null, "Blogger")]
+    [PartialCaching(120, null, null, "Blogger", true)]
     public class TagCloud : BaseControl
     {
         public IEnumerable<Tag> TagItems { get; set; }

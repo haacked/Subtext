@@ -8,7 +8,7 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.WebControls
 {
-    [PartialCaching(600, null, null, "Blogger")]
+    [PartialCaching(600, null, null, "Blogger", true)]
     public class MetaTagsControl : Control
     {
         public Blog Blog

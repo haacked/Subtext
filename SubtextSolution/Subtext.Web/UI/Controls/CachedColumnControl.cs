@@ -22,7 +22,7 @@ namespace Subtext.Web.UI.Controls
     /// <summary>
     /// Summary description for CachedColumnControl.
     /// </summary>
-    [PartialCaching(30, null, null, "Blogger", true)]
+    [PartialCaching(240, null, null, "Blogger", true)]
     public class CachedColumnControl : BaseControl
     {
     }
