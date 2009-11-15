@@ -1,5 +1,5 @@
-<%@ Page CodeBehind="default.aspx.cs" EnableViewState="false" Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.AggDefault" %>
-<%@ OutputCache Duration="600" VaryByParam="GroupID" VaryByHeader="Accept-Language" %>
+<%@ Page CodeBehind="AggDefault.aspx.cs" EnableViewState="false" Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.AggDefault" %>
+<%@ OutputCache VaryByParam="GroupID" VaryByHeader="Accept-Language" CacheProfile="ChangedFrequently" %>
 <%@ Import namespace="Subtext.Framework.Configuration"%>
 <%@ Register TagPrefix="uc1" TagName="AggSyndication" Src="~/Skins/Aggregate/Simple/Controls/AggSyndication.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="AggBlogStats" Src="~/Skins/Aggregate/Simple/Controls/AggBlogStats.ascx" %>

@@ -33,7 +33,7 @@ namespace Subtext.Web.UI.Controls
     /// <summary>
     /// Displays the most recent comments on the skin.
     /// </summary>
-    [PartialCaching(60, null, null, "Blogger")]
+    [PartialCaching(120, null, null, "Blogger", true)]
     public class RecentComments : BaseControl
     {
         private const int DefaultRecentPostCount = 5;
