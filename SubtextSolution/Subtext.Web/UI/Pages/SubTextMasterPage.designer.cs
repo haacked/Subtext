@@ -18,6 +18,7 @@
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Web.UI.Controls;
+using Subtext.Web.UI.WebControls;
 
 namespace Subtext.Web.UI.Pages
 {
@@ -43,5 +44,6 @@ namespace Subtext.Web.UI.Pages
         protected PlaceHolder metaTagsPlaceHolder;
         protected Comments commentsControl;
         protected PostComment postCommentControl;
+        protected MetaTagsControl metaTags;
     }
 }

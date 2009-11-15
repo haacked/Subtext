@@ -182,24 +182,9 @@ namespace Subtext.Web.UI.Pages
                 openIDDelegate.Text = string.Format(OpenIdDelegateLocation, Blog.OpenIdDelegate);
             }
 
-            // Add the per-blog MetaTags to the page Head section.
-            IPagedCollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(Blog, 0, int.MaxValue);
-            foreach(MetaTag tag in blogMetaTags)
+            if(metaTags != null)
             {
-                var htmlMetaTag = new HtmlMeta {Content = tag.Content};
-
-                if(!string.IsNullOrEmpty(tag.Name))
-                {
-                    htmlMetaTag.Name = tag.Name;
-                }
-                else
-                {
-                    htmlMetaTag.HttpEquiv = tag.HttpEquiv;
-                }
-
-                var newLineLiteral = new Literal {Text = Environment.NewLine};
-                metaTagsPlaceHolder.Controls.Add(newLineLiteral);
-                metaTagsPlaceHolder.Controls.Add(htmlMetaTag);
+                metaTags.Blog = Blog;
             }
         }
 

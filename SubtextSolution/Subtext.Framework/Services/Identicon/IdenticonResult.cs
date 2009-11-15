@@ -49,12 +49,12 @@ namespace Subtext.Framework.Services.Identicon
             private set;
         }
 
-        private static readonly IdenticonRenderer _renderer = new IdenticonRenderer();
+        private static readonly IdenticonRenderer Renderer = new IdenticonRenderer();
 
         protected override void WriteFile(HttpResponseBase response)
         {
             response.AppendHeader("ETag", Etag);
-            using(Bitmap b = _renderer.Render(Code, Size))
+            using(Bitmap b = Renderer.Render(Code, Size))
             {
                 b.Save(response.OutputStream, ImageFormat.Png);
             }

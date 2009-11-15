@@ -855,6 +855,7 @@
     <Compile Include="UI\WebControls\MasterPage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UI\WebControls\MetaTagsControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="emoticons.txt" />
