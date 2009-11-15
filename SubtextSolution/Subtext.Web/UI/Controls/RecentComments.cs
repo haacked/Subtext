@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -32,6 +33,7 @@ namespace Subtext.Web.UI.Controls
     /// <summary>
     /// Displays the most recent comments on the skin.
     /// </summary>
+    [PartialCaching(60, null, null, "Blogger")]
     public class RecentComments : BaseControl
     {
         private const int DefaultRecentPostCount = 5;

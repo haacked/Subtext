@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -26,6 +27,7 @@ using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
+    [PartialCaching(60, null, null, "Blogger")]
     public class TagCloud : BaseControl
     {
         public IEnumerable<Tag> TagItems { get; set; }
