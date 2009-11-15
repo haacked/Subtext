@@ -22,9 +22,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             };
             var writer = new StringWriter();
             var urlHelper = new Mock<UrlHelper>();
-            urlHelper.Setup(u => u.BlogUrl(blogs[0])).Returns("/blog1");
             urlHelper.Setup(u => u.RssUrl(blogs[0])).Returns(new Uri("http://example.com/blog1/Rss.aspx"));
-            urlHelper.Setup(u => u.BlogUrl(blogs[1])).Returns("/");
             urlHelper.Setup(u => u.RssUrl(blogs[1])).Returns(new Uri("http://haacked.com/Rss.aspx"));
             var opml = new OpmlWriter();
 
@@ -32,15 +30,19 @@ namespace UnitTests.Subtext.Framework.Syndication
             opml.Write(blogs, writer, urlHelper.Object);
 
             //assert
-            const string expected = @"<opml version=""1.0"">
+            const string expected =
+                @"<opml version=""1.0"">
 	<head>
 		<title>A Subtext Community</title>
 	</head>
 	<body>
-		<outline title=""example blog"" htmlUrl=""http://example.com/blog1"" xmlUrl=""http://example.com/blog1/Rss.aspx"" />
-		<outline title=""You've Been Haacked"" htmlUrl=""http://haacked.com/"" xmlUrl=""http://haacked.com/Rss.aspx"" />
+		<outline text=""A Subtext Community Feeds"">
+			<outline type=""rss"" text=""example blog"" xmlUrl=""http://example.com/blog1/Rss.aspx"" />
+			<outline type=""rss"" text=""You've Been Haacked"" xmlUrl=""http://haacked.com/Rss.aspx"" />
+		</outline>
 	</body>
 </opml>";
+
             UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, writer.ToString());
             Assert.AreEqual(expected, writer.ToString());
         }
