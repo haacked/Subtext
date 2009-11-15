@@ -245,7 +245,10 @@ namespace Subtext.Framework.Routing
             {
                 throw new ArgumentNullException("image");
             }
-            return GetVirtualPath("gallery-image", new {id = image.ImageID, subfolder = image.Blog.Subfolder});
+            var routeValues = GetRouteValuesWithSubfolder(image.Blog.Subfolder) ?? new RouteValueDictionary();
+            routeValues.Add("id", image.ImageID);
+
+            return GetVirtualPath("gallery-image", routeValues);
         }
 
         public virtual VirtualPath ImageGalleryDirectoryUrl(Blog blog, int galleryId)
@@ -261,17 +264,20 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath GalleryUrl(int id)
         {
-            return GetVirtualPath("gallery", new {id});
+            return GetVirtualPath("gallery", new RouteValueDictionary{{"id", id}});
         }
 
         public virtual VirtualPath GalleryUrl(Image image)
         {
-            return GetVirtualPath("gallery", new {id = image.CategoryID, subfolder = image.Blog.Subfolder});
+            var routeValues = GetRouteValuesWithSubfolder(image.Blog.Subfolder) ?? new RouteValueDictionary();
+            routeValues.Add("id", image.CategoryID);
+
+            return GetVirtualPath("gallery", routeValues);
         }
 
         public virtual VirtualPath AggBugUrl(int id)
         {
-            return GetVirtualPath("aggbug", new {id});
+            return GetVirtualPath("aggbug", new RouteValueDictionary { { "id", id } });
         }
 
         public virtual VirtualPath ResolveUrl(string virtualPath)
@@ -281,7 +287,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath BlogUrl()
         {
-            string vp = GetVirtualPath("root", new {});
+            string vp = GetVirtualPath("root", null);
             return BlogUrl(vp);
         }
 
@@ -291,7 +297,7 @@ namespace Subtext.Framework.Routing
             {
                 return BlogUrl();
             }
-            string vp = GetVirtualPath("root", new {subfolder = blog.Subfolder});
+            string vp = GetVirtualPath("root", GetRouteValuesWithSubfolder(blog.Subfolder));
             return BlogUrl(vp);
         }
 
@@ -313,37 +319,38 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath MonthUrl(DateTime dateTime)
         {
-            return GetVirtualPath("entries-by-month",
-                                  new
-                                  {
-                                      year = dateTime.ToString("yyyy", CultureInfo.InvariantCulture),
-                                      month = dateTime.ToString("MM", CultureInfo.InvariantCulture)
-                                  });
+            var routeValues = new RouteValueDictionary
+            {
+                { "year", dateTime.ToString("yyyy", CultureInfo.InvariantCulture) }, 
+                { "month", dateTime.ToString("MM", CultureInfo.InvariantCulture) }
+            };
+            return GetVirtualPath("entries-by-month", routeValues);
         }
 
         public virtual VirtualPath CommentApiUrl(int entryId)
         {
-            return GetVirtualPath("comment-api", new {id = entryId});
+            return GetVirtualPath("comment-api", new RouteValueDictionary { { "id", entryId } });
         }
 
         public virtual VirtualPath CommentRssUrl(int entryId)
         {
-            return GetVirtualPath("comment-rss", new {id = entryId});
+            return GetVirtualPath("comment-rss", new RouteValueDictionary { { "id", entryId } });
         }
 
         public virtual VirtualPath TrackbacksUrl(int entryId)
         {
-            return GetVirtualPath("trackbacks", new {id = entryId});
+            return GetVirtualPath("trackbacks", new RouteValueDictionary { { "id", entryId } });
         }
 
         public virtual VirtualPath CategoryUrl(Category category)
         {
-            return GetVirtualPath("category", new {slug = category.Id, categoryType = "category"});
+            var routeValues = new RouteValueDictionary {{"slug", category.Id}, {"categoryType", "category"}};
+            return GetVirtualPath("category", routeValues);
         }
 
         public virtual VirtualPath CategoryRssUrl(Category category)
         {
-            return GetVirtualPath("rss", new {catId = category.Id});
+            return GetVirtualPath("rss", new RouteValueDictionary {{"catId", category.Id}});
         }
 
         /// <summary>
@@ -353,13 +360,14 @@ namespace Subtext.Framework.Routing
         /// <returns></returns>
         public virtual VirtualPath DayUrl(DateTime date)
         {
-            return GetVirtualPath("entries-by-day",
-                                  new
-                                  {
-                                      year = date.ToString("yyyy", CultureInfo.InvariantCulture),
-                                      month = date.ToString("MM", CultureInfo.InvariantCulture),
-                                      day = date.ToString("dd", CultureInfo.InvariantCulture)
-                                  });
+            var routeValues = new RouteValueDictionary
+            {
+                { "year", date.ToString("yyyy", CultureInfo.InvariantCulture) }, 
+                { "month", date.ToString("MM", CultureInfo.InvariantCulture) }, 
+                { "day", date.ToString("dd", CultureInfo.InvariantCulture) }
+            };
+
+            return GetVirtualPath("entries-by-day", routeValues);
         }
 
         /// <summary>
@@ -372,7 +380,8 @@ namespace Subtext.Framework.Routing
                 return RssProxyUrl(blog);
             }
 
-            return GetVirtualPath("rss", null).ToFullyQualifiedUrl(blog);
+            RouteValueDictionary routeValues = GetRouteValuesWithSubfolder(blog.Subfolder);
+            return GetVirtualPath("rss", routeValues).ToFullyQualifiedUrl(blog);
         }
 
         /// <summary>
@@ -398,18 +407,23 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath GetVirtualPath(string routeName, object routeValues)
         {
-            RouteValueDictionary routeValueDictionary;
+            RouteValueDictionary routeValueDictionary = null;
 
             if(routeValues is RouteValueDictionary)
             {
                 routeValueDictionary = (RouteValueDictionary)routeValues;
             }
-            else
+
+            if(routeValues != null)
             {
                 routeValueDictionary = new RouteValueDictionary(routeValues);
             }
+            return GetVirtualPath(routeName, routeValueDictionary);
+        }
 
-            VirtualPathData virtualPath = Routes.GetVirtualPath(RequestContext, routeName, routeValueDictionary);
+        public virtual VirtualPath GetVirtualPath(string routeName, RouteValueDictionary routeValues)
+        {
+            VirtualPathData virtualPath = Routes.GetVirtualPath(RequestContext, routeName, routeValues);
             if(virtualPath == null)
             {
                 return null;
@@ -419,17 +433,17 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath LoginUrl()
         {
-            return GetVirtualPath("login", new {});
+            return GetVirtualPath("login", null);
         }
 
         public virtual VirtualPath LogoutUrl()
         {
-            return GetVirtualPath("logout", new {});
+            return GetVirtualPath("logout", null);
         }
 
         public virtual VirtualPath ArchivesUrl()
         {
-            return GetVirtualPath("archives", new {});
+            return GetVirtualPath("archives", null);
         }
 
         public virtual VirtualPath AdminUrl(string path)
@@ -464,7 +478,7 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath(directory, routeValues);
         }
 
-        private string EnsureDefaultAspx(string path)
+        private static string EnsureDefaultAspx(string path)
         {
             if(!path.EndsWith(".aspx"))
             {
@@ -479,7 +493,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath AdminRssUrl(string feedName)
         {
-            return GetVirtualPath("admin-rss", new {feedName});
+            return GetVirtualPath("admin-rss", new RouteValueDictionary{{"feedName", feedName}});
         }
 
         public virtual Uri MetaWeblogApiUrl(Blog blog)
@@ -512,7 +526,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath TagUrl(string tagName)
         {
-            return GetVirtualPath("tag", new {tag = tagName.Replace("#", "{:#:}")});
+            return GetVirtualPath("tag", new RouteValueDictionary{{"tag", tagName.Replace("#", "{:#:}")}});
         }
 
         public virtual VirtualPath TagCloudUrl()
@@ -522,7 +536,16 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath IdenticonUrl(int code)
         {
-            return GetVirtualPath("identicon", new {code});
+            return GetVirtualPath("identicon", new RouteValueDictionary{{"code", code}});
+        }
+
+        private static RouteValueDictionary GetRouteValuesWithSubfolder(string subfolder)
+        {
+            if(String.IsNullOrEmpty(subfolder))
+            {
+                return null;
+            }
+            return new RouteValueDictionary {{"subfolder", subfolder}};
         }
     }
 }

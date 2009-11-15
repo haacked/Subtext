@@ -75,13 +75,12 @@ namespace Subtext.Framework.Routing
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
             var subfolderInRouteData = requestContext.RouteData.Values["subfolder"] as string;
-            if(String.IsNullOrEmpty(subfolderInRouteData))
+            if(String.IsNullOrEmpty(subfolderInRouteData) && values != null)
             {
                 subfolderInRouteData = values["subfolder"] as string;
             }
             if(String.IsNullOrEmpty(subfolderInRouteData))
             {
-                //values["subfolder"] = subfolderInRouteData;
                 return base.GetVirtualPath(requestContext, values);
             }
             return RouteForSubfolder.GetVirtualPath(requestContext, values);
