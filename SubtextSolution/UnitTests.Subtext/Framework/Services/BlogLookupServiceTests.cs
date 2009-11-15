@@ -137,7 +137,6 @@ namespace UnitTests.Subtext.Framework.Services
             pagedCollection.Setup(p => p.MaxItems).Returns(0);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection.Object);
-            ;
             var service = new BlogLookupService(repository.Object, new HostInfo {BlogAggregationEnabled = false});
 
             //act
@@ -156,8 +155,7 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             var onlyBlog = new Blog {Host = "example.com", Subfolder = "not-sub"};
-            var pagedCollection = new PagedCollection<Blog>();
-            pagedCollection.Add(onlyBlog);
+            var pagedCollection = new PagedCollection<Blog> {onlyBlog};
             pagedCollection.MaxItems = 1;
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection);
@@ -174,6 +172,30 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreSame(aggregateBlog, result.Blog);
         }
 
+        [Test]
+        public void RequestWithSubfolderNotMatchingAnyBlog_ButWithAggregateBlogsEnabledAndMoreThanOneActiveBlogsInTheSystem_ReturnsNull()
+        {
+            //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
+            var blog1 = new Blog { Host = "example.com", Subfolder = "not-sub" };
+            var blog2 = new Blog { Host = "example.com", Subfolder = "not-sub-2" };
+            var pagedCollection = new PagedCollection<Blog> {blog1, blog2};
+            pagedCollection.MaxItems = 2;
+            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
+                pagedCollection);
+            var aggregateBlog = new Blog();
+            var service = new BlogLookupService(repository.Object,
+                                                new HostInfo { BlogAggregationEnabled = true, AggregateBlog = aggregateBlog });
+            var blogRequest = new BlogRequest("example.com", "blog1234", new Uri("http://example.com/foo/bar"), false);
+
+            //act
+            BlogLookupResult result = service.Lookup(blogRequest);
+
+            //assert
+            Assert.IsNull(result);
+        }
+
         /// <summary>
         /// This test makes sure we deal gracefully with a common deployment problem. 
         /// A user sets up the blog on his/her local machine (aka "localhost"), then 
@@ -187,8 +209,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var onlyBlog = new Blog {Host = "example.com", Subfolder = "not-sub"};
-            var pagedCollection = new PagedCollection<Blog>();
-            pagedCollection.Add(onlyBlog);
+            var pagedCollection = new PagedCollection<Blog> {onlyBlog};
             pagedCollection.MaxItems = 1;
 
             var repository = new Mock<ObjectProvider>();
@@ -219,8 +240,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var onlyBlog = new Blog {Host = "localhost", Subfolder = ""};
-            var pagedCollection = new PagedCollection<Blog>();
-            pagedCollection.Add(onlyBlog);
+            var pagedCollection = new PagedCollection<Blog> {onlyBlog};
             pagedCollection.MaxItems = 1;
 
             var repository = new Mock<ObjectProvider>();
@@ -254,8 +274,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var onlyBlog = new Blog {Host = "localhost", Subfolder = "sub"};
-            var pagedCollection = new PagedCollection<Blog>();
-            pagedCollection.Add(onlyBlog);
+            var pagedCollection = new PagedCollection<Blog> {onlyBlog};
             pagedCollection.MaxItems = 1;
 
             var repository = new Mock<ObjectProvider>();
