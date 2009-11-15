@@ -37,6 +37,7 @@ using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
 using Subtext.Web.Infrastructure;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web
 {
@@ -124,7 +125,7 @@ namespace Subtext.Web
         {
             if(custom == "Blogger")
             {
-                return Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
+                return Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture) + ":" + SecurityHelper.IsAdmin;
             }
 
             return base.GetVaryByCustomString(context, custom);
