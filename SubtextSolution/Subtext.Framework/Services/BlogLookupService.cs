@@ -73,6 +73,10 @@ namespace Subtext.Framework.Services
             int totalBlogCount = pagedBlogs.MaxItems;
             if(Host.BlogAggregationEnabled && totalBlogCount > 0)
             {
+                if(!String.IsNullOrEmpty(blogRequest.Subfolder))
+                {
+                    return null;
+                }
                 return new BlogLookupResult(Host.AggregateBlog, null);
             }
 
