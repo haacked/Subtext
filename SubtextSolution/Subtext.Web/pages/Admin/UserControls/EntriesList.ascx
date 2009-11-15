@@ -37,7 +37,7 @@
 			<td>
 				<a href="<%# PostsEditUrl(Container.DataItem) %>" title="Edit Post">Edit</a>
 			</td>
-			<td>
+			<td class="deletepost">
 				<asp:LinkButton id="lnkDelete" CausesValidation="False" CommandName="Delete" CommandArgument='<%# GetEntry(Container.DataItem).Id %>' Text="Delete" runat="server" />
 			</td>
 		</tr>
@@ -64,7 +64,7 @@
 			<td>
 				<a href="Edit.aspx?PostId=<%# Eval("Id") %>" title="Edit Post">Edit</a>
 			</td>
-			<td>
+			<td class="deletepost">
 				<asp:LinkButton id="lnkDeleteAlt" CausesValidation="False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
 			</td>
 		</tr>

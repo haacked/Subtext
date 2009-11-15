@@ -28,6 +28,20 @@ function SetAllCheckboxes(form, checked)
 	}
 }
 
+$(document).ready(function() {
+    addDelConfirmation();
+
+});
+
+function addDelConfirmation() {
+      $("#Listing .deletepost a").click(function(evt) {      
+        var ans = confirm("Please confirm deletion");
+        if (!ans) {            
+        evt.preventDefault();    
+        } 
+    });
+}
+
 function toggleHideOnCheckbox()
 {
 }
