@@ -20,10 +20,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Web;
-using System.Web.Caching;
 using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
@@ -187,9 +187,9 @@ namespace Subtext.Web.UI.Pages
 
         void OnCommentPosted(object sender, EventArgs e)
         {
-            commentsControl.BindFeedback(false); //don't get it from cache.
+            commentsControl.InvalidateFeedbackCache();
+            commentsControl.BindFeedback(true); //don't get it from cache.
         }
-
 
         /// <summary>
         /// Before rendering, turns off ViewState again (why? not sure),  

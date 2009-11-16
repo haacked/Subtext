@@ -73,6 +73,7 @@ namespace Subtext.Web
         /// <param name="e"></param>
         protected void Application_Start(object sender, EventArgs e)
         {
+            HttpContext.Current.Cache.Insert("Comments", DateTime.Now, null, DateTime.MaxValue, TimeSpan.Zero, System.Web.Caching.CacheItemPriority.NotRemovable, null);
             var routes = new SubtextRouteMapper(RouteTable.Routes, Bootstrapper.Kernel);
             StartApplication(routes, new HttpServerUtilityWrapper(Server));
             Application["DeprecatedPhysicalPaths"] = DeprecatedPhysicalPaths;

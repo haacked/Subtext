@@ -117,7 +117,7 @@ namespace Subtext.Framework.Syndication
             if(cache != null)
             {
                 cache.InsertDuration(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublished), feed,
-                                     Cacher.MediumDuration);
+                                     Cacher.MediumDuration, null);
             }
         }
     }

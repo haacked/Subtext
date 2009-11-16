@@ -21,6 +21,7 @@ using System.Globalization;
 using System.Web;
 using System.Web.Caching;
 using Subtext.Configuration;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -38,7 +39,7 @@ namespace Subtext.Framework.Data
         private const string EntriesByCategoryKey = "EC:Count{0}Category{1}BlogId{2}";
         private const string EntryKeyId = "Entry{0}BlogId{1}";
         private const string EntryKeyName = "EntryName{0}BlogId{1}";
-        public const int LongDuration = 30;
+        public const int LongDuration = 600;
         public const int MediumDuration = 20;
         public const int ShortDuration = 10;
         private const string EntryDayKey = "EntryDay:Date{0:yyyyMMdd}Blog{1}";
@@ -48,20 +49,36 @@ namespace Subtext.Framework.Data
         private const string ParentCommentEntryKey = "ParentEntry:Comments:EntryId{0}:BlogId{1}";
         private const string TagsKey = "TagsCount{0}BlogId{1}";
 
-        public static T GetOrInsert<T>(this ICache cache, string key, Func<T> retrievalFunction, int duration)
+        public static T GetOrInsert<T>(this ICache cache, string key, Func<T> retrievalFunction, int duration, CacheDependency cacheDependency)
         {
             var item = cache[key];
             if(item == null)
             {
                 item = retrievalFunction();
-                cache.InsertDuration(key, item, duration);
+                cache.InsertDuration(key, item, duration, cacheDependency);
             }
             return (T)item;
+        }
+
+        public static T GetOrInsertSliding<T>(this ICache cache, string key, Func<T> retrievalFunction, CacheDependency cacheDependency, int slidingDuration)
+        {
+            var item = cache[key];
+            if(item == null)
+            {
+                item = retrievalFunction();
+                cache.InsertDurationSliding(key, item, cacheDependency, slidingDuration);
+            }
+            return (T)item;
+        }
+
+        public static T GetOrInsert<T>(this ICache cache, string key, Func<T> retrievalFunction, int duration)
+        {
+            return cache.GetOrInsert(key, retrievalFunction, duration, null);
         }
         
         public static T GetOrInsert<T>(this ICache cache, string key, Func<T> retrievalFunction)
         {
-            return cache.GetOrInsert(key, retrievalFunction, ShortDuration);
+            return cache.GetOrInsert(key, retrievalFunction, ShortDuration, null);
         }
 
         /// <summary>
@@ -238,14 +255,29 @@ namespace Subtext.Framework.Data
         /// </summary>
         public static ICollection<FeedbackItem> GetFeedback(Entry parentEntry, ISubtextContext context)
         {
-            string key = string.Format(CultureInfo.InvariantCulture, ParentCommentEntryKey, parentEntry.Id, context.Blog.Id);
-            return context.Cache.GetOrInsert(key, () => context.Repository.GetFeedbackForEntry(parentEntry));
+            string key = GetFeedbackCacheKey(parentEntry, context);
+            return context.Cache.GetOrInsertSliding(key, () => context.Repository.GetFeedbackForEntry(parentEntry), null, LongDuration);
         }
 
-        public static void InsertDuration(this ICache cache, string key, object value, int duration)
+        private static string GetFeedbackCacheKey(IIdentifiable parentEntry, ISubtextContext context)
         {
-            cache.Insert(key, value, null, DateTime.Now.AddSeconds(duration), TimeSpan.Zero, CacheItemPriority.Normal,
-                         null);
+            return string.Format(CultureInfo.InvariantCulture, ParentCommentEntryKey, parentEntry.Id, context.Blog.Id);
+        }
+
+        public static void InvalidateFeedback(IIdentifiable parentEntry, ISubtextContext context)
+        {
+            string key = GetFeedbackCacheKey(parentEntry, context);
+            context.Cache.Remove(key);
+        }
+
+        public static void InsertDuration(this ICache cache, string key, object value, int duration, CacheDependency cacheDependency)
+        {
+            cache.Insert(key, value, cacheDependency, DateTime.Now.AddSeconds(duration), TimeSpan.Zero, CacheItemPriority.Normal, null);
+        }
+
+        public static void InsertDurationSliding(this ICache cache, string key, object value, CacheDependency cacheDependency, int slidingExpiration)
+        {
+            cache.Insert(key, value, cacheDependency, DateTime.MaxValue, TimeSpan.FromSeconds(slidingExpiration), CacheItemPriority.Normal, null);
         }
     }
 }
