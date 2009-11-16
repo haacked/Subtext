@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="Subtext.Web.UI.Controls.RecentComments" %>
-<%@ Import Namespace="Docuverse.Identicon"%>
+<%@ Import Namespace="Subtext.Identicon"%>
 <st:RepeaterWithEmptyDataTemplate ID="feedList" runat="server" OnItemCreated="EntryCreated" OnItemDataBound="OnItemBound">
     <HeaderTemplate>
         <ul class="comments">

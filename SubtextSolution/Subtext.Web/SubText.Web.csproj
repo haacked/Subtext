@@ -654,9 +654,7 @@
     </Compile>
     <Compile Include="Routes.cs" />
     <Compile Include="SiteMap\ChangeFrequency.cs" />
-    <Compile Include="SiteMap\SiteMapHttpHandler.ashx.cs">
-      <DependentUpon>SiteMapHttpHandler.ashx</DependentUpon>
-    </Compile>
+    <Compile Include="SiteMap\SiteMapHttpHandler.ashx.cs" />
     <Compile Include="SiteMap\UrlElement.cs" />
     <Compile Include="SiteMap\UrlElementCollection.cs" />
     <Compile Include="Skins\_System\ForgotPassword.Master.cs">
@@ -2152,7 +2150,6 @@
     <Content Include="pages\HostAdmin\HostAdminTemplate.Master" />
     <Content Include="pages\SystemMessages\SystemMessageTemplate.Master" />
     <Content Include="pages\Web.config" />
-    <Content Include="SiteMap\SiteMapHttpHandler.ashx" />
     <Content Include="Skins\Piyo\skin.config" />
     <Content Include="Skins\AnotherEon001\skin.config" />
     <Content Include="Skins\GlossyBlue\skin.config" />
@@ -2171,7 +2168,7 @@
     <Content Include="pages\Providers\BlogEntryEditor\FCKeditor\editor\filemanager\upload\aspx\Web.config" />
     <Content Include="pages\Providers\BlogEntryEditor\FTB\Web.config" />
     <Content Include="Skins\Colors\skin.config" />
-    <None Include="Skins\RedBook\Controls\EntryList.ascx" />
+    <Content Include="Skins\RedBook\Controls\EntryList.ascx" />
     <Content Include="Skins\RedBook\Controls\Footer.ascx" />
     <Content Include="Skins\RedBook\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\RedBook\Controls\Header.ascx" />

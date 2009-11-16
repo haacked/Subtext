@@ -2,7 +2,7 @@
 <a name = "links">
 <div id="relatedlinks">
 	<h3>Related Links</h3>
-		<asp:Repeater id="Links" runat="server" OnItemCreated="MoreReadingCreated" OnItemCommand="RemovePTR_ItemCommand">
+		<asp:Repeater id="Links" runat="server" OnItemCreated="MoreReadingCreated">
 			<HeaderTemplate>
 				<ul>
 			</HeaderTemplate>

@@ -20,7 +20,6 @@ using System.Configuration;
 using System.Globalization;
 using System.Web;
 using System.Web.UI.WebControls;
-using Docuverse.Identicon;
 using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -30,6 +29,7 @@ using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
+using Subtext.Identicon;
 using Subtext.Web.Controls;
 using Image=System.Web.UI.WebControls.Image;
 

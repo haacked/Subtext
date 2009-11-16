@@ -4,7 +4,7 @@
 	<div class = "moreinfotitle">
 		Related Links
 	</div>
-		<asp:Repeater id="Links" runat="server" OnItemCreated="MoreReadingCreated" OnItemCommand="RemovePTR_ItemCommand">
+		<asp:Repeater id="Links" runat="server" OnItemCreated="MoreReadingCreated">
 			<HeaderTemplate>
 				<ul class = "morelist">
 			</HeaderTemplate>

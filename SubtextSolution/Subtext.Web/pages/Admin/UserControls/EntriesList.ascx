@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EntriesList.ascx.cs" Inherits="Subtext.Web.Admin.UserControls.EntriesList" %>
-
 <h2 id="title" runat="server">Title</h2>
 
 <asp:Repeater id="rprSelectionList" runat="server">
@@ -18,7 +17,7 @@
 	<ItemTemplate>
 		<tr>
 			<td>
-			    <asp:HyperLink runat="server" NavigateUrl='<%# Url.EntryUrl((Entry)Container.DataItem) %>' ToolTip="View Entry" >
+			    <asp:HyperLink runat="server" NavigateUrl='<%# Url.EntryUrl((IEntryIdentity)Container.DataItem) %>' ToolTip="View Entry" >
 			        <%# GetEntry(Container.DataItem).Title %>
 			    </asp:HyperLink>
 			</td>
@@ -45,7 +44,7 @@
 	<AlternatingItemTemplate>
 		<tr class="alt">
 			<td>
-				<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# Url.EntryUrl((Entry)Container.DataItem) %>' ToolTip="View Entry" >
+				<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# Url.EntryUrl((IEntryIdentity)Container.DataItem) %>' ToolTip="View Entry" >
 			        <%# GetEntry(Container.DataItem).Title %>
 			    </asp:HyperLink>
 			</td>

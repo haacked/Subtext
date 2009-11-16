@@ -1,6 +1,6 @@
 using System;
-using Docuverse.Identicon;
 using MbUnit.Framework;
+using Subtext.Identicon;
 
 namespace UnitTests.Subtext.Framework.Services.Identicon
 {
