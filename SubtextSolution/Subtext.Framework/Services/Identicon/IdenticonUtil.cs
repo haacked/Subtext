@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Docuverse.Identicon
+namespace Subtext.Identicon
 {
     /// <summary>
     /// Code borrowed from http://identicon.codeplex.com/

@@ -17,10 +17,10 @@
 
 using System.Collections.Specialized;
 using System.Web.Mvc;
-using Docuverse.Identicon;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework.Services.Identicon;
+using Subtext.Identicon;
 using Subtext.Web.Controllers;
 using Subtext.Infrastructure.ActionResults;
 

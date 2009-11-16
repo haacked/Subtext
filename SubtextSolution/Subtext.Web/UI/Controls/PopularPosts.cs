@@ -30,7 +30,7 @@ namespace Subtext.Web.UI.Controls
     {
         protected Repeater postList;
 
-        public EntryStatsView Entry { get; private set; }
+        public EntryStatsView CurrentEntry { get; private set; }
 
         public DateFilter FilterType { get; set; }
 
@@ -75,7 +75,7 @@ namespace Subtext.Web.UI.Controls
         {
             if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                Entry = (EntryStatsView)e.Item.DataItem;
+                CurrentEntry = (EntryStatsView)e.Item.DataItem;
             }
         }
     }

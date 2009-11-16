@@ -18,8 +18,8 @@
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Web.Mvc;
-using Docuverse.Identicon;
 using Subtext.Framework.Services.Identicon;
+using Subtext.Identicon;
 using Subtext.Infrastructure.ActionResults;
 
 namespace Subtext.Web.Controllers

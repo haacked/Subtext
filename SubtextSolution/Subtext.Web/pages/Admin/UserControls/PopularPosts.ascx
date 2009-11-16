@@ -16,10 +16,10 @@
     </HeaderTemplate>
     <ItemTemplate>
 		        <tr>
-		            <td><a href="<%# Url.EntryUrl(Entry) %>" title="Recent post"><%# Entry.Title %></a></td>
-		            <td><%# Entry.FeedBackCount %></td>
-		            <td><%# Entry.WebCount %></td>
-		            <td><%# Entry.AggCount %></td>
+		            <td><a href="<%# Url.EntryUrl(CurrentEntry) %>" title="Recent post"><%# CurrentEntry.Title%></a></td>
+		            <td><%# CurrentEntry.FeedBackCount %></td>
+		            <td><%# CurrentEntry.WebCount%></td>
+		            <td><%# CurrentEntry.AggCount%></td>
 		        </tr>
     </ItemTemplate>
     <FooterTemplate>
