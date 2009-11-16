@@ -64,14 +64,28 @@ namespace Subtext.Web.UI.Controls
             get { return Comment.IsBlogAuthor ? " author" : ""; }
         }
 
-        #region ICommentControl Members
-
         public FeedbackItem Comment
         {
             get { return _comment; }
         }
 
-        #endregion
+        private Entry RealEntry
+        {
+            get
+            {
+                if(_entry == null)
+                {
+                    _entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+                    if(_entry == null)
+                    {
+                        HttpHelper.SetFileNotFoundResponse();
+                    }
+                }
+                return _entry;
+            }
+        }
+
+        Entry _entry;
 
         public string EditUrl(FeedbackItem feedback)
         {
@@ -99,7 +113,7 @@ namespace Subtext.Web.UI.Controls
 
         internal void BindFeedback(bool fromCache)
         {
-            Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+            Entry entry = RealEntry;
 
             if(entry != null && entry.AllowComments)
             {
@@ -311,7 +325,6 @@ namespace Subtext.Web.UI.Controls
             try
             {
                 CommentList.DataSource = fromCache ? Cacher.GetFeedback(entry, SubtextContext) : Repository.GetFeedbackForEntry(entry);
-
                 CommentList.DataBind();
 
                 if(CommentList.Items.Count == 0)
@@ -326,12 +339,22 @@ namespace Subtext.Web.UI.Controls
                         NoCommentMessage.Text = "No comments posted yet.";
                     }
                 }
+                else
+                {
+                    CommentList.Visible = true;
+                    NoCommentMessage.Text = string.Empty;
+                }
             }
             catch(Exception e)
             {
                 Log.Error(e.Message, e);
                 Visible = false;
             }
+        }
+
+        public void InvalidateFeedbackCache()
+        {
+            Cacher.InvalidateFeedback(RealEntry, SubtextContext);
         }
     }
 }

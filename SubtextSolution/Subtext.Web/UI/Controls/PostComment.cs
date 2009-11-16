@@ -61,6 +61,18 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
+                if(_entryViewModel == null)
+                {
+                    _entryViewModel = new EntryViewModel(RealEntry, SubtextContext);
+                }
+                return _entryViewModel;
+            }
+        }
+
+        private Entry RealEntry
+        {
+            get
+            {
                 if(_entry == null)
                 {
                     _entry = Cacher.GetEntryFromRequest(true, SubtextContext);
@@ -69,11 +81,7 @@ namespace Subtext.Web.UI.Controls
                         HttpHelper.SetFileNotFoundResponse();
                     }
                 }
-                if(_entryViewModel == null)
-                {
-                    _entryViewModel = new EntryViewModel(_entry, SubtextContext);
-                }
-                return _entryViewModel;
+                return _entry;
             }
         }
 
@@ -116,8 +124,8 @@ namespace Subtext.Web.UI.Controls
                             coCommentPlaceHolder.Controls.Add(coComment);
                         }
                     }
-                    coComment.PostTitle = _entry.Title;
-                    coComment.PostUrl = Url.EntryUrl(_entry).ToFullyQualifiedUrl(Blog).ToString();
+                    coComment.PostTitle = RealEntry.Title;
+                    coComment.PostUrl = Url.EntryUrl(RealEntry).ToFullyQualifiedUrl(Blog).ToString();
                 }
             }
 
@@ -176,41 +184,43 @@ namespace Subtext.Web.UI.Controls
 
         public event EventHandler<EventArgs> CommentApproved;
 
-        private void btnSubmit_Click(object sender, EventArgs e)
+        private void OnSubmitButtonClick(object sender, EventArgs e)
         {
-            if(Page.IsValid)
+            if(!Page.IsValid)
             {
-                LastDitchValidation();
-                try
+                return;
+            }
+            
+            LastDitchValidation();
+            try
+            {
+                Entry currentEntry = RealEntry;
+                if(IsCommentAllowed)
                 {
-                    Entry currentEntry = Cacher.GetEntryFromRequest(true, SubtextContext);
-                    if(IsCommentAllowed)
+                    FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
+                    ICommentSpamService feedbackService = null;
+                    if(Blog.FeedbackSpamServiceEnabled)
                     {
-                        FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
-                        ICommentSpamService feedbackService = null;
-                        if(Blog.FeedbackSpamServiceEnabled)
-                        {
-                            feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
-                        }
-                        var commentService = new CommentService(SubtextContext,
-                                                                new CommentFilter(SubtextContext, feedbackService));
-                        commentService.Create(feedbackItem);
-                        var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(),
-                                                            SubtextContext);
-                        emailService.EmailCommentToBlogAuthor(feedbackItem);
-
-                        if(chkRemember == null || chkRemember.Checked)
-                        {
-                            SetRememberedUserCookie();
-                        }
-
-                        DisplayResultMessage(feedbackItem);
+                        feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
                     }
+                    var commentService = new CommentService(SubtextContext,
+                                                            new CommentFilter(SubtextContext, feedbackService));
+                    commentService.Create(feedbackItem);
+                    var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(),
+                                                        SubtextContext);
+                    emailService.EmailCommentToBlogAuthor(feedbackItem);
+
+                    if(chkRemember == null || chkRemember.Checked)
+                    {
+                        SetRememberedUserCookie();
+                    }
+
+                    DisplayResultMessage(feedbackItem);
                 }
-                catch(BaseCommentException exception)
-                {
-                    Message.Text = exception.Message;
-                }
+            }
+            catch(BaseCommentException exception)
+            {
+                Message.Text = exception.Message;
             }
         }
 
@@ -302,19 +312,9 @@ namespace Subtext.Web.UI.Controls
                 tbName.Text = SecurityHelper.IsAdmin ? Blog.UserName : string.Empty;
             }
 
-            if(_entry == null)
-            {
-                _entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-            }
-
-            if(_entryViewModel == null)
-            {
-                _entryViewModel = new EntryViewModel(_entry, SubtextContext);
-            }
-
             if(tbTitle != null)
             {
-                tbTitle.Text = "re: " + HttpUtility.HtmlDecode(_entry.Title);
+                tbTitle.Text = "re: " + HttpUtility.HtmlDecode(RealEntry.Title);
             }
 
             if(tbUrl != null)
@@ -343,7 +343,7 @@ namespace Subtext.Web.UI.Controls
 
             if(IsCommentsRendered)
             {
-                if(_entry.CommentingClosed)
+                if(RealEntry.CommentingClosed)
                 {
                     Controls.Clear();
                     Controls.Add(
@@ -352,7 +352,7 @@ namespace Subtext.Web.UI.Controls
                 }
                 else
                 {
-                    tbTitle.Text = "re: " + HttpUtility.HtmlDecode(_entry.Title);
+                    tbTitle.Text = "re: " + HttpUtility.HtmlDecode(RealEntry.Title);
                 }
             }
             else
@@ -377,12 +377,12 @@ namespace Subtext.Web.UI.Controls
         {
             if(btnSubmit != null)
             {
-                btnSubmit.Click += btnSubmit_Click;
+                btnSubmit.Click += OnSubmitButtonClick;
             }
 
             if(btnCompliantSubmit != null)
             {
-                btnCompliantSubmit.Click += btnSubmit_Click;
+                btnCompliantSubmit.Click += OnSubmitButtonClick;
             }
 
             //Captcha should not be given to admin.

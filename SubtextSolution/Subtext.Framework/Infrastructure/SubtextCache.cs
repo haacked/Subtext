@@ -32,7 +32,7 @@ namespace Subtext.Infrastructure
 
         public object this[string key]
         {
-            get { return Cache[key]; }
+            get { return Cache.Get(key); }
             set { Cache[key] = value; }
         }
 
