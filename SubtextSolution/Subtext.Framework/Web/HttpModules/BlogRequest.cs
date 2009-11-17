@@ -236,8 +236,7 @@ namespace Subtext.Framework.Web.HttpModules
 
         private static string SubfolderFromRequest(HttpRequestBase request)
         {
-            string subfolder = UrlFormats.GetBlogSubfolderFromRequest(request.RawUrl, request.ApplicationPath) ??
-                               string.Empty;
+            string subfolder = UrlFormats.GetBlogSubfolderFromRequest(request.RawUrl, request.ApplicationPath) ?? string.Empty;
             if(!Config.IsValidSubfolderName(subfolder))
             {
                 subfolder = string.Empty;

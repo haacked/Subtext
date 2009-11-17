@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Subtext.Framework.Web;
@@ -59,26 +60,28 @@ namespace Subtext.Framework.Format
                 throw new ArgumentNullException("applicationPath");
             }
 
-            // The {0} represents a potential virtual directory
-            const string urlPatternFormat = "{0}/(?<app>.*?)/";
+            Debug.Assert(applicationPath.StartsWith("/"), "ApplicationPaths always start with a slash");
 
-            //Remove any / from App.
-            string cleanApp = "/" + HttpHelper.StripSurroundingSlashes(applicationPath);
-            if(cleanApp == "/")
+            if(!rawUrl.StartsWith(applicationPath, StringComparison.OrdinalIgnoreCase))
             {
-                cleanApp = string.Empty;
+                return string.Empty;
             }
-            string appRegex = Regex.Escape(cleanApp);
-
-            string urlRegexPattern = string.Format(CultureInfo.InvariantCulture, urlPatternFormat, appRegex);
-
-            var urlRegex = new Regex(urlRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            Match match = urlRegex.Match(rawUrl);
-            if(match.Success)
+            int appPathLength = applicationPath.Length;
+            int startIndex = appPathLength; 
+            if(appPathLength > 1)
             {
-                return match.Groups["app"].Value;
+                startIndex++;
+            } 
+            if(startIndex > rawUrl.Length)
+            {
+                return string.Empty;
             }
-            return string.Empty;
+            int endIndex = rawUrl.IndexOf('/', startIndex);
+            if(endIndex < 0)
+            {
+                return string.Empty;
+            }
+            return rawUrl.Substring(startIndex, endIndex - startIndex);
         }
     }
 }
