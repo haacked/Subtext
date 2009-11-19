@@ -51,7 +51,7 @@ namespace Subtext.Framework.UI.Skinning
 
         public override string ToString()
         {
-            return "Href: " + Href + ", Media: " + Media;
+            return string.Format("Href: {0}, Media: {1}", Href, Media);
         }
 
         public override bool Equals(object obj)

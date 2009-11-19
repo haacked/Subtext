@@ -34,7 +34,7 @@
 				</st:ContentRegion>
 			</st:MasterPage>
 		</form>
-	<asp:Literal ID="customTrackingCode" Runat="server" />
-	<div id="stylesheetTest"></div>
+	    <asp:Literal ID="customTrackingCode" Runat="server" />
+	    <div id="stylesheetTest"></div>
 	</body>
 </html>

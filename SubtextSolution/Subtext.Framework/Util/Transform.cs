@@ -113,7 +113,7 @@ namespace Subtext.Framework.Util
                 throw new ArgumentNullException("filename");
             }
 
-            return HttpContext.Current.Request.MapPath("~/" + filename);
+            return HttpContext.Current.Request.MapPath(string.Format("~/{0}", filename));
         }
 
         public static IList<string> LoadTransformFile(ICache cache, string filePath)
@@ -128,7 +128,7 @@ namespace Subtext.Framework.Util
                 throw new ArgumentNullException("filePath");
             }
 
-            string cacheKey = "transformTable-" + Path.GetFileName(filePath);
+            string cacheKey = string.Format("transformTable-{0}", Path.GetFileName(filePath));
 
             // read the transformation hashtable from the cache
             //

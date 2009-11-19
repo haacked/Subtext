@@ -73,7 +73,6 @@ namespace Subtext.Web
         /// <param name="e"></param>
         protected void Application_Start(object sender, EventArgs e)
         {
-            HttpContext.Current.Cache.Insert("Comments", DateTime.Now, null, DateTime.MaxValue, TimeSpan.Zero, System.Web.Caching.CacheItemPriority.NotRemovable, null);
             var routes = new SubtextRouteMapper(RouteTable.Routes, Bootstrapper.Kernel);
             StartApplication(routes, new HttpServerUtilityWrapper(Server));
             Application["DeprecatedPhysicalPaths"] = DeprecatedPhysicalPaths;
@@ -126,7 +125,7 @@ namespace Subtext.Web
         {
             if(custom == "Blogger")
             {
-                return Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture) + ":" + SecurityHelper.IsAdmin;
+                return string.Format("{0}:{1}", Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), SecurityHelper.IsAdmin);
             }
 
             return base.GetVaryByCustomString(context, custom);
@@ -261,7 +260,7 @@ namespace Subtext.Web
                 string message = "Comment exception thrown and handled in Global.asax.";
                 if(HttpContext.Current != null && HttpContext.Current.Request != null)
                 {
-                    message += "-- User Agent: " + HttpContext.Current.Request.UserAgent;
+                    message += string.Format("-- User Agent: {0}", HttpContext.Current.Request.UserAgent);
                 }
                 log.Info(message, commentException);
             }

@@ -314,7 +314,7 @@ namespace Subtext.Web.UI.Controls
 
             if(tbTitle != null)
             {
-                tbTitle.Text = "re: " + HttpUtility.HtmlDecode(RealEntry.Title);
+                tbTitle.Text = string.Format("re: {0}", HttpUtility.HtmlDecode(RealEntry.Title));
             }
 
             if(tbUrl != null)
@@ -352,7 +352,7 @@ namespace Subtext.Web.UI.Controls
                 }
                 else
                 {
-                    tbTitle.Text = "re: " + HttpUtility.HtmlDecode(RealEntry.Title);
+                    tbTitle.Text = string.Format("re: {0}", HttpUtility.HtmlDecode(RealEntry.Title));
                 }
             }
             else

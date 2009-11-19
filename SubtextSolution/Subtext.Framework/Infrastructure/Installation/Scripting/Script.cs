@@ -319,7 +319,7 @@ namespace Subtext.Scripting
                     result += string.Format(CultureInfo.InvariantCulture, @" name=""{0}"" value=""{1}"" type=""{2}""",
                                             _parameter.Name, _parameter.Value, _parameter.DataType);
                 }
-                result += " />" + Environment.NewLine;
+                result += string.Format(" />{0}", Environment.NewLine);
                 if(Next != null)
                 {
                     result += Next.ToString();

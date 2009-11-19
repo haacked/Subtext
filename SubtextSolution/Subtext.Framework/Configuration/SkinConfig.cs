@@ -75,7 +75,7 @@ namespace Subtext.Framework.Configuration
             {
                 if(HasStyleSheet)
                 {
-                    return TemplateFolder + "-" + SkinStyleSheet;
+                    return string.Format("{0}-{1}", TemplateFolder, SkinStyleSheet);
                 }
                 return TemplateFolder;
             }

@@ -523,7 +523,7 @@ namespace Subtext.Framework.Text
 
             if(!text.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase))
             {
-                text = "http://" + text;
+                text = string.Format("http://{0}", text);
             }
 
             return new Uri(text);
@@ -590,7 +590,7 @@ namespace Subtext.Framework.Text
                     bool isEndTag = match.Groups["endTag"].Value.Length > 0;
                     if(isEndTag)
                     {
-                        sb.Append("</" + tagName + ">");
+                        sb.AppendFormat("</{0}>", tagName);
                     }
                     else
                     {

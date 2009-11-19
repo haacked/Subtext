@@ -103,19 +103,19 @@ namespace Subtext.Framework.Routing
 
         public static void MapPage(this SubtextRouteMapper routes, string name)
         {
-            string url = name + ".aspx";
+            string url = string.Format("{0}.aspx", name);
             routes.Add(name,
                        new SubtextRoute(url,
-                                        new PageRouteHandler("~/pages/" + url, routes.Kernel.Get<ISubtextPageBuilder>(),
+                                        new PageRouteHandler(string.Format("~/pages/{0}", url), routes.Kernel.Get<ISubtextPageBuilder>(),
                                                              routes.Kernel)));
         }
 
         public static void MapSystemPage(this SubtextRouteMapper routes, string name)
         {
-            string url = name + ".aspx";
+            string url = string.Format("{0}.aspx", name);
             routes.Add(name,
                        new Route(url,
-                                 new PageRouteHandler("~/pages/" + url, routes.Kernel.Get<ISubtextPageBuilder>(),
+                                 new PageRouteHandler(string.Format("~/pages/{0}", url), routes.Kernel.Get<ISubtextPageBuilder>(),
                                                       routes.Kernel)));
         }
 

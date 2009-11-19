@@ -158,7 +158,10 @@ namespace Subtext.Framework.Security
                 return false;
             }
 
-            Log.Debug("SetAuthenticationTicket-Admins via OpenID for " + currentBlog.UserName);
+            if(Log.IsDebugEnabled)
+            {
+                Log.Debug("SetAuthenticationTicket-Admins via OpenID for " + currentBlog.UserName);
+            }
             HttpContextBase httpContext = new HttpContextWrapper(HttpContext.Current);
             httpContext.SetAuthenticationTicket(currentBlog, currentBlog.UserName, persist, "Admins");
             return true;
@@ -188,7 +191,10 @@ namespace Subtext.Framework.Security
                 return false;
             }
 
-            Log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
+            if(Log.IsDebugEnabled)
+            {
+                Log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
+            }
             HttpContextBase httpContext = new HttpContextWrapper(HttpContext.Current);
             httpContext.SetAuthenticationTicket(Config.CurrentBlog, username, persist, true, "HostAdmins");
 
@@ -260,8 +266,10 @@ namespace Subtext.Framework.Security
             {
                 name.Append("null");
             }
-
-            Log.Debug("GetFullCookieName selected cookie named " + name);
+            if(Log.IsDebugEnabled)
+            {
+                Log.Debug("GetFullCookieName selected cookie named " + name);
+            }
             return name.ToString();
         }
 
@@ -314,8 +322,11 @@ namespace Subtext.Framework.Security
             if(Log.IsDebugEnabled)
             {
                 string username = HttpContext.Current.User.Identity.Name;
-                Log.Debug("Logging out " + username);
-                Log.Debug("the code MUST call a redirect after this");
+                if(Log.IsDebugEnabled)
+                {
+                    Log.Debug("Logging out " + username);
+                    Log.Debug("the code MUST call a redirect after this");
+                }
             }
 
             #endregion

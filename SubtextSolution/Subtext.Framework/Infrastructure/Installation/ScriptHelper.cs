@@ -82,7 +82,7 @@ namespace Subtext.Framework.Infrastructure.Installation
         public static Stream UnpackEmbeddedScript(string scriptName)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            return assembly.GetManifestResourceStream(typeof(ScriptHelper), "Scripts." + scriptName);
+            return assembly.GetManifestResourceStream(typeof(ScriptHelper), string.Format("Scripts.{0}", scriptName));
         }
     }
 }

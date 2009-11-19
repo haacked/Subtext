@@ -176,13 +176,13 @@ namespace Subtext.Web.Controls
             }
             else
             {
-                hrefString = " href=\"" + Href + "\"";
+                hrefString = string.Format(" href=\"{0}\"", Href);
             }
 
             string idText = string.Empty;
             if(IsAttributeDefined("id"))
             {
-                idText = " id=\"" + Attributes["id"] + "\"";
+                idText = string.Format(" id=\"{0}\"", Attributes["id"]);
             }
 
             writer.Write(string.Format(CultureInfo.InvariantCulture, format, cssClass, idText, hrefString, Title, Text));

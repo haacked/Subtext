@@ -222,7 +222,7 @@ namespace Subtext.Web.UI.Controls
                             }
                             else
                             {
-                                ip = DateTime.Now.Millisecond + " " + DateTime.Now.Second;
+                                ip = string.Format("{0} {1}", DateTime.Now.Millisecond, DateTime.Now.Second);
                             }
 
                             //This allows a host-wide setting of the default gravatar image.
@@ -233,7 +233,7 @@ namespace Subtext.Web.UI.Controls
                                 {
                                     string host = Request.Url.Host;
                                     string scheme = Request.Url.Scheme;
-                                    string port = Request.Url.Port == 80 ? string.Empty : ":" + Request.Url.Port;
+                                    string port = Request.Url.Port == 80 ? string.Empty : string.Format(":{0}", Request.Url.Port);
                                     string defaultImagePath = HttpHelper.ExpandTildePath(defaultGravatarImage);
                                     defaultGravatarImage = string.Format(CultureInfo.InvariantCulture, "{0}://{1}{2}{3}",
                                                                          scheme, host, port, defaultImagePath);
@@ -288,7 +288,7 @@ namespace Subtext.Web.UI.Controls
                         if(editlink != null)
                         {
                             //editlink.CommandName = "Remove";
-                            editlink.Text = "Remove Comment " + feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
+                            editlink.Text = string.Format("Remove Comment {0}", feedbackItem.Id.ToString(CultureInfo.InvariantCulture));
                             editlink.CommandName = feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
                             editlink.Attributes.Add("onclick",
                                                     "return confirm(\"Are you sure you want to delete comment " +

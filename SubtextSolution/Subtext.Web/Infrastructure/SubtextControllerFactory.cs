@@ -23,7 +23,7 @@ using Subtext.Infrastructure;
 
 namespace Subtext.Web.Infrastructure
 {
-    public class SubtextControllerFactory : DefaultControllerFactory
+    public class SubtextControllerFactory : IControllerFactory
     {
         public SubtextControllerFactory(IKernel kernel)
         {
@@ -32,12 +32,12 @@ namespace Subtext.Web.Infrastructure
 
         protected IKernel Kernel { get; private set; }
 
-        public override IController CreateController(RequestContext requestContext, string controllerName)
+        public IController CreateController(RequestContext requestContext, string controllerName)
         {
             Bootstrapper.RequestContext = requestContext;
 
             IController instance = null;
-            Type controllerType = base.GetControllerType(controllerName);
+            Type controllerType = Type.GetType(string.Format("Subtext.Web.Controllers.{0}Controller", controllerName), false);
             if(controllerType != null)
             {
                 instance = Kernel.Get(controllerType) as IController;
@@ -49,6 +49,12 @@ namespace Subtext.Web.Infrastructure
             }
 
             return instance;
+        }
+
+
+        public void ReleaseController(IController controller)
+        {
+            
         }
     }
 }

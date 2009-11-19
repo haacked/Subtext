@@ -71,11 +71,7 @@ namespace Subtext.Web.Controls
         /// <returns>Contents of the script.</returns>
         public static string UnpackScript(string scriptName, string scriptLanguage)
         {
-            return "<script type=\"text/" + scriptLanguage + "\">"
-                   + Environment.NewLine
-                   + UnpackEmbeddedResourceToString("Resources." + scriptName)
-                   + Environment.NewLine
-                   + "</script>";
+            return string.Format("<script type=\"text/{0}\">{1}{2}{3}</script>", scriptLanguage, Environment.NewLine, UnpackEmbeddedResourceToString(string.Format("Resources.{0}", scriptName)), Environment.NewLine);
         }
 
         /// <summary>

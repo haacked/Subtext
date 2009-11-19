@@ -113,10 +113,10 @@ namespace Subtext.Web.UI.Controls
                     bool displaySize;
                     Boolean.TryParse(enclosure.Attributes["DisplaySize"], out displaySize);
 
-                    string sizeStr = "";
+                    string sizeStr = null;
                     if(displaySize)
                     {
-                        sizeStr = " (" + entry.Enclosure.FormattedSize + ")";
+                        sizeStr = string.Format(" ({0})", entry.Enclosure.FormattedSize);
                     }
                     enclosure.Text = string.Format(LinkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title,
                                                    entry.Enclosure.Title, sizeStr);

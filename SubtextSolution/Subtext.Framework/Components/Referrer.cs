@@ -33,7 +33,7 @@ namespace Subtext.Framework.Components
             {
                 if(!_referrerUrl.StartsWith("http://"))
                 {
-                    return "http://" + _referrerUrl;
+                    return string.Format("http://{0}", _referrerUrl);
                 }
                 return _referrerUrl;
             }
