@@ -278,7 +278,7 @@ namespace Subtext.Framework.Components
             {
                 if(String.IsNullOrEmpty(_feedbackChecksumHash))
                 {
-                    _feedbackChecksumHash = CalculateChecksum(Body) + "." + SecurityHelper.HashPassword(Body);
+                    _feedbackChecksumHash = string.Format("{0}.{1}", CalculateChecksum(Body), SecurityHelper.HashPassword(Body));
                 }
                 return _feedbackChecksumHash;
             }

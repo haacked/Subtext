@@ -123,7 +123,7 @@ namespace Subtext.Scripting.Exceptions
                     message += string.Format(CultureInfo.InvariantCulture, "{0}ScriptName: {1}", Environment.NewLine,
                                              _script);
                 }
-                message += "Return Value: " + ReturnValue;
+                message += string.Format("Return Value: {0}", ReturnValue);
                 return message;
             }
         }

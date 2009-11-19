@@ -67,7 +67,7 @@ namespace Subtext.Framework.Data
             {
                 foreach(SqlParameter parameter in parameters)
                 {
-                    query += " " + parameter.ParameterName + "=" + parameter.Value + ",";
+                    query += string.Format(" {0}={1},", parameter.ParameterName, parameter.Value);
                 }
                 if(query.EndsWith(","))
                 {
@@ -75,7 +75,10 @@ namespace Subtext.Framework.Data
                 }
             }
 
-            Log.Debug("SQL: " + query);
+            if(Log.IsDebugEnabled)
+            {
+                Log.Debug("SQL: " + query);
+            }
 #endif
         }
 

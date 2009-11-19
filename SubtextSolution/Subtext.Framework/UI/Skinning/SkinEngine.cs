@@ -75,7 +75,7 @@ namespace Subtext.Framework.UI.Skinning
 
         private IEnumerable<SkinTemplate> GetSkinTemplatesFromDir(VirtualFileBase virtualDirectory)
         {
-            string skinConfigPath = RootSkinsVirtualPath + "/" + virtualDirectory.Name + "/skin.config";
+            string skinConfigPath = string.Format("{0}/{1}/skin.config", RootSkinsVirtualPath, virtualDirectory.Name);
 
             if(VirtualPathProvider.FileExists(skinConfigPath))
             {
@@ -97,14 +97,10 @@ namespace Subtext.Framework.UI.Skinning
             }
         }
 
-        #region Nested type: SkinTemplates
-
         public class SkinTemplates
         {
             [XmlElement("SkinTemplate")]
             public SkinTemplate[] Templates { get; set; }
         }
-
-        #endregion
     }
 }

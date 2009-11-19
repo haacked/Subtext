@@ -99,11 +99,17 @@ namespace Subtext.Web.Pages
         {
             if(!string.IsNullOrEmpty(Request.QueryString["ReturnURL"]))
             {
-                Log.Debug("redirecting to " + Request.QueryString["ReturnURL"]);
+                if(Log.IsDebugEnabled)
+                {
+                    Log.Debug(string.Format("redirecting to {0}", Request.QueryString["ReturnURL"]));
+                }
                 Response.Redirect(Request.QueryString["ReturnURL"], false);
                 return;
             }
-            Log.Debug("redirecting to " + defaultReturnUrl);
+            if(Log.IsDebugEnabled)
+            {
+                Log.Debug(string.Format("redirecting to {0}", defaultReturnUrl));
+            }
             Response.Redirect(defaultReturnUrl, false);
             return;
         }

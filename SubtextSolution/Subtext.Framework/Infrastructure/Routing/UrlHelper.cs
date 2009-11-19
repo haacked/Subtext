@@ -80,7 +80,7 @@ namespace Subtext.Framework.Routing
             {
                 return null;
             }
-            return entryUrl + "#" + comment.Id;
+            return string.Format("{0}#{1}", entryUrl, comment.Id);
         }
 
         public virtual VirtualPath EntryUrl(IEntryIdentity entry)
@@ -156,7 +156,7 @@ namespace Subtext.Framework.Routing
             string host = blog.Host.Replace(":", "_").Replace(".", "_");
             string appPath = GetNormalizedAppPath().Replace(".", "_");
             string subfolder = String.IsNullOrEmpty(blog.Subfolder) ? String.Empty : blog.Subfolder + "/";
-            return "~/images/" + host + appPath + subfolder;
+            return string.Format("~/images/{0}{1}{2}", host, appPath, subfolder);
         }
 
         private string GetImageTildePath(Blog blog, string filename)
@@ -166,7 +166,7 @@ namespace Subtext.Framework.Routing
 
         private string GetGalleryImageTildePath(Image image, string filename)
         {
-            return GetImageDirectoryTildePath(image.Blog) + image.CategoryID + "/" + filename;
+            return string.Format("{0}{1}/{2}", GetImageDirectoryTildePath(image.Blog), image.CategoryID, filename);
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace Subtext.Framework.Routing
         /// <returns></returns>
         public virtual VirtualPath ImageUrl(string filename)
         {
-            return ResolveUrl("~/images/" + filename);
+            return ResolveUrl(string.Format("~/images/{0}", filename));
         }
 
         /// <summary>
@@ -460,7 +460,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath HostAdminUrl(string path)
         {
-            return ResolveUrl("~/hostadmin/" + EnsureDefaultAspx(path));
+            return ResolveUrl(string.Format("~/hostadmin/{0}", EnsureDefaultAspx(path)));
         }
 
         public virtual VirtualPath AdminUrl(string path, RouteValueDictionary routeValues)

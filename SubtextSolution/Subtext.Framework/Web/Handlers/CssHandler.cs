@@ -60,12 +60,12 @@ namespace Subtext.Framework.Web.Handlers
 
             //Append all styles into one file
 
-            context.Response.Write("/*" + Environment.NewLine);
+            context.Response.Write(string.Format("/*{0}", Environment.NewLine));
             foreach(StyleDefinition style in styles)
             {
                 context.Response.Write(style + Environment.NewLine);
             }
-            context.Response.Write("*/" + Environment.NewLine);
+            context.Response.Write(string.Format("*/{0}", Environment.NewLine));
 
             foreach(StyleDefinition style in styles)
             {

@@ -54,7 +54,10 @@ namespace Subtext.Framework.Web.HttpModules
 
             if(null == authCookie)
             {
-                Log.Debug("There is no authentication cookie.");
+                if(Log.IsDebugEnabled)
+                {
+                    Log.Debug("There is no authentication cookie.");
+                }
                 return;
             }
 
@@ -79,7 +82,10 @@ namespace Subtext.Framework.Web.HttpModules
 
             if(authTicket.Expired)
             {
-                Log.Debug("Authentication ticket expired.");
+                if(Log.IsDebugEnabled)
+                {
+                    Log.Debug("Authentication ticket expired.");
+                }
                 httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
                 return;
             }
@@ -99,7 +105,10 @@ namespace Subtext.Framework.Web.HttpModules
             var principal = new GenericPrincipal(id, roles);
             // Attach the new principal object to the current HttpContext object
             httpContext.User = principal;
-            Log.Debug("Authentication succeeded. Current.User=" + id.Name + "; " + authTicket.UserData);
+            if(Log.IsDebugEnabled)
+            {
+                Log.Debug(string.Format("Authentication succeeded. Current.User={0}; {1}", id.Name, authTicket.UserData));
+            }
         }
 
         void OnAuthenticateRequest(object sender, EventArgs e)

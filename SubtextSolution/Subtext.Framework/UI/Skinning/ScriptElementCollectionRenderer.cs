@@ -37,24 +37,17 @@ namespace Subtext.Framework.UI.Skinning
 
         private static string RenderScriptAttribute(string attributeName, string attributeValue)
         {
-            return attributeValue != null ? " " + attributeName + "=\"" + attributeValue + "\"" : String.Empty;
+            return attributeValue != null ? string.Format(" {0}=\"{1}\"", attributeName, attributeValue) : String.Empty;
         }
 
         public static string RenderScriptElement(string skinPath, Script script)
         {
-            return "<script" +
-                   RenderScriptAttribute("type", script.Type) +
-                   RenderScriptAttribute("src", GetScriptSourcePath(skinPath, script)) +
-                   RenderScriptAttribute("defer", script.Defer ? "defer" : null) +
-                   "></script>" + Environment.NewLine;
+            return string.Format("<script{0}{1}{2}></script>{3}", RenderScriptAttribute("type", script.Type), RenderScriptAttribute("src", GetScriptSourcePath(skinPath, script)), RenderScriptAttribute("defer", script.Defer ? "defer" : null), Environment.NewLine);
         }
 
         public static string RenderScriptElement(string scriptPath)
         {
-            return "<script" +
-                   RenderScriptAttribute("type", "text/javascript") +
-                   RenderScriptAttribute("src", scriptPath) +
-                   "></script>" + Environment.NewLine;
+            return string.Format("<script{0}{1}></script>{2}", RenderScriptAttribute("type", "text/javascript"), RenderScriptAttribute("src", scriptPath), Environment.NewLine);
         }
 
         private static string GetScriptSourcePath(string skinPath, Script script)
@@ -78,7 +71,7 @@ namespace Subtext.Framework.UI.Skinning
         private static string GetSkinPath(string skinTemplateFolder)
         {
             string applicationPath = HttpContext.Current.Request.ApplicationPath;
-            return (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinTemplateFolder + "/";
+            return string.Format("{0}/Skins/{1}/", (applicationPath == "/" ? String.Empty : applicationPath), skinTemplateFolder);
         }
 
         /// <summary>
@@ -96,7 +89,7 @@ namespace Subtext.Framework.UI.Skinning
                 string skinPath = GetSkinPath(skinTemplate.TemplateFolder);
                 if(CanScriptsBeMerged(skinTemplate))
                 {
-                    result.Append(RenderScriptElement(skinPath + "js.axd?name=" + skinKey));
+                    result.Append(RenderScriptElement(string.Format("{0}js.axd?name={1}", skinPath, skinKey)));
                 }
                 else
                 {
@@ -145,8 +138,7 @@ namespace Subtext.Framework.UI.Skinning
         private static string CreateStylePath(string skinTemplateFolder)
         {
             string applicationPath = HttpContext.Current.Request.ApplicationPath;
-            string path = (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinTemplateFolder +
-                          "/";
+            string path = string.Format("{0}/Skins/{1}/", (applicationPath == "/" ? String.Empty : applicationPath), skinTemplateFolder);
             return path;
         }
 

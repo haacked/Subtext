@@ -92,17 +92,17 @@ namespace Subtext.Framework.Components
 
         public string OriginalFile
         {
-            get { return "o_" + FileName; }
+            get { return string.Format("o_{0}", FileName); }
         }
 
         public string ThumbNailFile
         {
-            get { return "t_" + FileName; }
+            get { return string.Format("t_{0}", FileName); }
         }
 
         public string ResizedFile
         {
-            get { return "r_" + FileName; }
+            get { return string.Format("r_{0}", FileName); }
         }
 
         public string OriginalFilePath

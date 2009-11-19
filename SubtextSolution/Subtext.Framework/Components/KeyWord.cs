@@ -75,8 +75,8 @@ namespace Subtext.Framework.Components
         private void ProcessFormat()
         {
             _format = string.Format(CultureInfo.InvariantCulture, "<a href=\"{1}\"{0}{2}{3}>{4}</a>",
-                                    Title != null ? " title=\"" + Title + "\"" : String.Empty, Url,
-                                    Rel != null ? " rel=\"" + Rel + "\"" : string.Empty,
+                                    Title != null ? string.Format(" title=\"{0}\"", Title) : String.Empty, Url,
+                                    Rel != null ? string.Format(" rel=\"{0}\"", Rel) : string.Empty,
                                     OpenInNewWindow ? " target=\"_blank\"" : string.Empty, Text);
         }
     }

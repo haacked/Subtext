@@ -38,7 +38,7 @@ namespace Subtext.Framework.UI.Skinning
 
         private static string RenderStyleAttribute(string attributeName, string attributeValue)
         {
-            return attributeValue != null ? " " + attributeName + "=\"" + attributeValue + "\"" : String.Empty;
+            return attributeValue != null ? string.Format(" {0}=\"{1}\"", attributeName, attributeValue) : String.Empty;
         }
 
         private static string RenderStyleElement(string skinPath, Style style)
@@ -51,10 +51,7 @@ namespace Subtext.Framework.UI.Skinning
             string element = string.Empty;
             element += "<link";
             element +=
-                RenderStyleAttribute("type", "text/css") +
-                RenderStyleAttribute("rel", "stylesheet") +
-                RenderStyleAttribute("href", skinPath + cssFilename) +
-                " />" + Environment.NewLine;
+                string.Format("{0}{1}{2} />{3}", RenderStyleAttribute("type", "text/css"), RenderStyleAttribute("rel", "stylesheet"), RenderStyleAttribute("href", skinPath + cssFilename), Environment.NewLine);
 
             return element;
         }
@@ -84,21 +81,17 @@ namespace Subtext.Framework.UI.Skinning
             if(string.IsNullOrEmpty(skinName))
             {
                 element +=
-                    RenderStyleAttribute("href", GetStylesheetHrefPath(skinPath, style)) +
-                    //TODO: Look at this line again.
-                    " />" + Environment.NewLine;
+                    string.Format("{0} />{1}", RenderStyleAttribute("href", GetStylesheetHrefPath(skinPath, style)), Environment.NewLine);
             }
             else
             {
                 element +=
-                    RenderStyleAttribute("href", GetStylesheetHrefPath(skinPath, style, skinName, cssRequestParam)) +
-                    //TODO: Look at this line again.
-                    " />" + Environment.NewLine;
+                    string.Format("{0} />{1}", RenderStyleAttribute("href", GetStylesheetHrefPath(skinPath, style, skinName, cssRequestParam)), Environment.NewLine);
             }
 
             if(!String.IsNullOrEmpty(style.Conditional))
             {
-                element += "<![endif]-->" + Environment.NewLine;
+                element += string.Format("<![endif]-->{0}", Environment.NewLine);
             }
 
             return element;
@@ -136,14 +129,13 @@ namespace Subtext.Framework.UI.Skinning
             {
                 return style.Href;
             }
-            return skinPath + "css.axd?name=" + skinName + "&" + cssRequestParam;
+            return string.Format("{0}css.axd?name={1}&{2}", skinPath, skinName, cssRequestParam);
         }
 
         private static string CreateStylePath(string skinTemplateFolder)
         {
             string applicationPath = HttpContext.Current.Request.ApplicationPath;
-            string path = (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinTemplateFolder +
-                          "/";
+            string path = string.Format("{0}/Skins/{1}/", (applicationPath == "/" ? String.Empty : applicationPath), skinTemplateFolder);
             return path;
         }
 
@@ -197,7 +189,7 @@ namespace Subtext.Framework.UI.Skinning
                         }
                     }
 
-                    string mergedStyleLink = RenderStyleElement(skinPath, "css.axd?name=" + skinName);
+                    string mergedStyleLink = RenderStyleElement(skinPath, string.Format("css.axd?name={0}", skinName));
                     if(skinTemplate.StyleMergeMode == StyleMergeMode.MergedAfter)
                     {
                         finalStyleDefinition = templateDefinedStyles + mergedStyleLink;
@@ -217,15 +209,15 @@ namespace Subtext.Framework.UI.Skinning
             var keyBuilder = new StringBuilder();
             if(!String.IsNullOrEmpty(style.Media) && !style.Media.Equals("all", StringComparison.OrdinalIgnoreCase))
             {
-                keyBuilder.Append("media=" + style.Media + "&");
+                keyBuilder.AppendFormat("media={0}&", style.Media);
             }
             if(!String.IsNullOrEmpty(style.Title))
             {
-                keyBuilder.Append("title=" + style.Title + "&");
+                keyBuilder.AppendFormat("title={0}&", style.Title);
             }
             if(!String.IsNullOrEmpty(style.Conditional))
             {
-                keyBuilder.Append("conditional=" + HttpUtility.UrlEncode(style.Conditional) + "&");
+                keyBuilder.AppendFormat("conditional={0}&", HttpUtility.UrlEncode(style.Conditional));
             }
 
             string key = keyBuilder.ToString();

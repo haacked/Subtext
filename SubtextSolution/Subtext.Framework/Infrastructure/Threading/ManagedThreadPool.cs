@@ -95,7 +95,7 @@ namespace Subtext.Framework.Threading
                 _workerThreads.Add(newThread);
 
                 // Configure the new thread and start it
-                newThread.Name = "ManagedPoolThread #" + i.ToString(CultureInfo.InvariantCulture);
+                newThread.Name = string.Format("ManagedPoolThread #{0}", i.ToString(CultureInfo.InvariantCulture));
                 newThread.IsBackground = true;
                 newThread.Start();
             }

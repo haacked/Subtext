@@ -67,7 +67,7 @@ namespace Subtext.Framework.Services
             _reader.WhitespaceHandling = WhitespaceHandling.All;
             // Hack to fix SF bug #1678030
             html = RemoveNewLineBeforeCdata(html);
-            _reader.InputStream = new StringReader("<html>" + html + "</html>");
+            _reader.InputStream = new StringReader(string.Format("<html>{0}</html>", html));
             _reader.CaseFolding = CaseFolding.ToLower;
             var writer = new StringWriter();
             XmlWriter xmlWriter = null;

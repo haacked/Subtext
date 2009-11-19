@@ -140,14 +140,13 @@ namespace Subtext.Web.Controls
         /// <returns></returns>
         public static string GetPageFormClientId(Control parent)
         {
-            string id;
             foreach(Control child in parent.Controls)
             {
                 if(child is HtmlForm)
                 {
                     return child.ClientID;
                 }
-                id = GetPageFormClientId(child);
+                string id = GetPageFormClientId(child);
                 if(id != null)
                 {
                     return id;

@@ -210,9 +210,7 @@ namespace Subtext.Web.UI.Pages
                                                    Blog.Author);
             }
             versionMetaTag.Text =
-                String.Format(
-                    Environment.NewLine + "<meta name=\"Generator\" content=\"{0}\" />" + Environment.NewLine,
-                    VersionInfo.VersionDisplayText);
+                String.Format("{0}<meta name=\"Generator\" content=\"{0}\" />{1}", VersionInfo.VersionDisplayText, Environment.NewLine);
 
             if(!String.IsNullOrEmpty(Blog.TrackingCode))
             {

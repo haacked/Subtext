@@ -122,7 +122,7 @@ namespace Subtext.Framework.Data
                 {
                     IsActive = true,
                     NewWindow = false,
-                    Title = ac.Title + " (" + ac.Count.ToString(CultureInfo.InvariantCulture) + ")",
+                    Title = string.Format("{0} ({1})", ac.Title, ac.Count.ToString(CultureInfo.InvariantCulture)),
                     Url = urlHelper.CategoryUrl(new Category {Id = ac.Id, Title = ac.Title})
                 };
                 //Ugh, I hate how categories work in Subtext. So intertwined with links.

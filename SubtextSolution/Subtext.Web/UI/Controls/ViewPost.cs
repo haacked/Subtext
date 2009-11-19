@@ -167,7 +167,7 @@ namespace Subtext.Web.UI.Controls
                     string sizeStr = "";
                     if(displaySize)
                     {
-                        sizeStr = " (" + entry.Enclosure.FormattedSize + ")";
+                        sizeStr = string.Format(" ({0})", entry.Enclosure.FormattedSize);
                     }
                     Enclosure.Text = string.Format(LinkToEnclosure, entry.Enclosure.Url, entry.Enclosure.Title,
                                                    entry.Enclosure.Title, sizeStr);

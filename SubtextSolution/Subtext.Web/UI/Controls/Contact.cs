@@ -171,7 +171,7 @@ namespace Subtext.Web.UI.Controls
                 Author = tbName.Text,
                 Email = tbEmail.Text,
                 Body = tbMessage.Text,
-                Title = "CONTACT: " + tbSubject.Text,
+                Title = string.Format("CONTACT: {0}", tbSubject.Text),
                 IpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext)
             };
 

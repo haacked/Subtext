@@ -35,9 +35,7 @@ namespace Subtext.Framework.Web
     {
         private const int DefaultTimeout = 60000;
 
-        private static readonly string UserAgent = VersionInfo.UserAgent
-                                                   + " (" + Environment.OSVersion + "; .NET CLR " + Environment.Version +
-                                                   ")";
+        private static readonly string UserAgent = string.Format("{0} ({1}; .NET CLR {2})", VersionInfo.UserAgent, Environment.OSVersion, Environment.Version);
 
         private const string Referer = @"http://SubtextProject.com/Services/default.htm";
 
@@ -366,7 +364,7 @@ namespace Subtext.Framework.Web
             {
                 if(text.Contains(badChar))
                 {
-                    text = text.Replace("" + badChar, string.Empty);
+                    text = text.Replace(string.Format("{0}", badChar), string.Empty);
                 }
             }
             return text;
