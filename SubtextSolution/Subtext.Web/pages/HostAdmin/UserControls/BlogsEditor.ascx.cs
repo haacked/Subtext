@@ -214,7 +214,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             Blog blog;
             if(!CreatingBlog)
             {
-                blog = Blog.GetBlogById(BlogId);
+                blog = Repository.GetBlogById(BlogId);
                 txtApplication.Text = blog.Subfolder;
                 txtHost.Text = blog.Host;
                 txtUsername.Text = blog.UserName;
@@ -352,7 +352,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         // Saves changes to a blog.  Any exceptions are propagated up to the caller.
         void SaveBlogEdits()
         {
-            Blog blog = Blog.GetBlogById(BlogId);
+            Blog blog = Repository.GetBlogById(BlogId);
 
             if(blog == null)
             {
@@ -420,7 +420,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         void ToggleActive()
         {
-            Blog blog = Blog.GetBlogById(BlogId);
+            Blog blog = Repository.GetBlogById(BlogId);
             blog.IsActive = !blog.IsActive;
             try
             {

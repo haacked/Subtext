@@ -82,20 +82,6 @@ namespace Subtext.Framework.Data
                                           entryView.PageViewType == PageViewType.WebView);
         }
 
-        public override bool TrackEntry(IEnumerable<EntryView> entryViews)
-        {
-            if(entryViews != null)
-            {
-                foreach(EntryView ev in entryViews)
-                {
-                    TrackEntry(ev);
-                }
-                return true;
-            }
-
-            return false;
-        }
-
         public override ICollection<LinkCategory> GetActiveCategories()
         {
             using(IDataReader reader = _procedures.GetActiveCategoriesWithLinkCollection(BlogId.NullIfMinValue()))

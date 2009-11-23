@@ -311,7 +311,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Blog info = Config.GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
             info.MobileSkin = new SkinConfig {TemplateFolder = "Mobile", SkinStyleSheet = "Mobile.css"};
             ObjectProvider.Instance().UpdateConfigData(info);
-            Blog blog = Blog.GetBlogById(info.Id);
+            Blog blog = ObjectProvider.Instance().GetBlogById(info.Id);
             Assert.AreEqual("Mobile", blog.MobileSkin.TemplateFolder);
             Assert.AreEqual("Mobile.css", blog.MobileSkin.SkinStyleSheet);
         }
