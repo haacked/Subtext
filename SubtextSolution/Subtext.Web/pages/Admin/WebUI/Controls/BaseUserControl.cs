@@ -18,6 +18,7 @@
 using System.Web.UI;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.Handlers;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.WebUI.Controls
 {
@@ -43,5 +44,19 @@ namespace Subtext.Web.Admin.WebUI.Controls
         {
             get { return Page as SubtextPage; }
         }
+
+        public ObjectProvider Repository
+        {
+            get
+            {
+                if(_repository == null)
+                {
+                    _repository = SubtextPage.SubtextContext.Repository;
+                }
+                return _repository;
+            }
+        }
+
+        ObjectProvider _repository;
     }
 }

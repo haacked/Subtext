@@ -50,7 +50,7 @@ namespace Subtext.Framework.Routing
         public static void MapControls(this SubtextRouteMapper routes, string url, object constraints,
                                        IEnumerable<string> controls)
         {
-            routes.MapControls(url, new RouteValueDictionary(constraints), controls);
+            routes.MapControls(null, url, ToRouteValueDictionary(constraints), controls, null);
         }
 
         public static void MapControls(this SubtextRouteMapper routes, string url, RouteValueDictionary constraints,
@@ -62,7 +62,7 @@ namespace Subtext.Framework.Routing
         public static void MapControls(this SubtextRouteMapper routes, string name, string url, object constraints,
                                        IEnumerable<string> controls)
         {
-            routes.MapControls(name, url, new RouteValueDictionary(constraints), controls);
+            routes.MapControls(name, url, ToRouteValueDictionary(constraints), controls, null);
         }
 
         public static void MapControls(this SubtextRouteMapper routes, string name, string url,
@@ -72,16 +72,20 @@ namespace Subtext.Framework.Routing
         }
 
         public static void MapControls(this SubtextRouteMapper routes, string name, string url,
-                                       RouteValueDictionary constraints, IEnumerable<string> controls, object defaults)
+                                       RouteValueDictionary constraints, IEnumerable<string> controls, RouteValueDictionary defaults)
         {
-            routes.Add(name,
-                       new PageRoute(url, "~/pages/Dtp.aspx", controls, routes.Kernel)
-                       {Constraints = constraints, Defaults = new RouteValueDictionary(defaults)});
+            var pageRoute = 
+            new PageRoute(url, "~/pages/Dtp.aspx", controls, routes.Kernel)
+            {
+                Constraints = constraints,
+                Defaults = defaults
+            };
+            routes.Add(name, pageRoute);
         }
 
         public static void MapControls(this SubtextRouteMapper routes, string url, IEnumerable<string> controls)
         {
-            routes.MapControls(url, new {}, controls);
+            routes.MapControls(url, null, controls);
         }
 
         public static void MapPageToControl(this SubtextRouteMapper routes, string controlName)
@@ -148,7 +152,10 @@ namespace Subtext.Framework.Routing
         public static void MapHttpHandler<THttpHandler>(this SubtextRouteMapper routes, string name, string url,
                                                         object constraints) where THttpHandler : IHttpHandler
         {
-            var route = new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.Kernel)) {Constraints = new RouteValueDictionary(constraints)};
+            var route = new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.Kernel))
+            {
+                Constraints = ToRouteValueDictionary(constraints)
+            };
             routes.Add(name, route);
         }
 
@@ -173,8 +180,8 @@ namespace Subtext.Framework.Routing
         {
             routes.Add(routeName, new SubtextRoute(url, new MvcRouteHandler())
             {
-                Defaults = new RouteValueDictionary(defaults),
-                Constraints = new RouteValueDictionary(constraints)
+                Defaults = ToRouteValueDictionary(defaults),
+                Constraints = ToRouteValueDictionary(constraints)
             });
         }
 
@@ -186,6 +193,19 @@ namespace Subtext.Framework.Routing
         public static string GetSubfolder(this RouteData routeData)
         {
             return routeData.Values["subfolder"] as string;
+        }
+
+        private static RouteValueDictionary ToRouteValueDictionary(object anonymousDictionary)
+        {
+            if(anonymousDictionary == null)
+            {
+                return null;
+            }
+            if(anonymousDictionary is RouteValueDictionary)
+            {
+                return (RouteValueDictionary)anonymousDictionary;
+            }
+            return new RouteValueDictionary(anonymousDictionary);
         }
     }
 }

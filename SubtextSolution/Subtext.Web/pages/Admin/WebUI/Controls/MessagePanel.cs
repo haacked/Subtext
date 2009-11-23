@@ -148,7 +148,7 @@ namespace Subtext.Web.Admin.WebUI
                 result.CssClass = cssClass;
             }
 
-            if(null != imageUrl && imageUrl.Length > 0)
+            if(!string.IsNullOrEmpty(imageUrl))
             {
                 var image = new Image();
                 image.Attributes.Add("src", imageUrl);

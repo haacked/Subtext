@@ -199,23 +199,15 @@ namespace Subtext.Framework.Data
         public static Entry GetEntry(string entryName, ISubtextContext context)
         {
             Blog blog = context.Blog;
-            ICache cache = context.Cache;
             string key = string.Format(CultureInfo.InvariantCulture, EntryKeyName, entryName, blog.Id);
 
-            Func<Entry> retrieval = () =>
-                {
-                    var entry = context.Repository.GetEntry(entryName, true /* activeOnly */, true /* includeCategories */);
-                    if(entry == null)
-                    {
-                        return null;
-                    }
-                    var cacheDependency = new CacheDependency(null, new[] {key});
-                    string entryIdKey = string.Format(CultureInfo.InvariantCulture, EntryKeyId, entry.Id, blog.Id);
-                    cache.Insert(entryIdKey, entry, cacheDependency);
-                    return entry;
-                };
-
+            Func<Entry> retrieval = () => context.Repository.GetEntry(entryName, true /* activeOnly */, true /* includeCategories */);
             var cachedEntry = context.Cache.GetOrInsert(key, retrieval, MediumDuration);
+            if(cachedEntry == null)
+            {
+                return null;
+            }
+            cachedEntry.Blog = blog;
             return cachedEntry.DateSyndicated > blog.TimeZone.Now ? null : cachedEntry;
         }
 
@@ -227,7 +219,13 @@ namespace Subtext.Framework.Data
         public static Entry GetEntry(int entryId, ISubtextContext context)
         {
             string key = string.Format(CultureInfo.InvariantCulture, EntryKeyId, entryId, context.Blog.Id);
-            return context.Cache.GetOrInsert(key, () => context.Repository.GetEntry(entryId, true /* activeOnly */, true /* includeCategories */));
+            var entry = context.Cache.GetOrInsert(key, () => context.Repository.GetEntry(entryId, true /* activeOnly */, true /* includeCategories */));
+            if(entry == null)
+            {
+                return null;
+            }
+            entry.Blog = context.Blog;
+            return entry;
         }
 
         /// <summary>

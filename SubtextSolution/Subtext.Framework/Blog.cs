@@ -717,16 +717,6 @@ namespace Subtext.Framework
         }
 
         /// <summary>
-        /// Gets the blog by id.
-        /// </summary>
-        /// <param name="blogId">Blog id.</param>
-        /// <returns></returns>
-        public static Blog GetBlogById(int blogId)
-        {
-            return ObjectProvider.Instance().GetBlogById(blogId);
-        }
-
-        /// <summary>
         /// Adds or removes a <see cref="ConfigurationFlags"/> to the 
         /// flags set for this blog via bitmask operations.
         /// </summary>

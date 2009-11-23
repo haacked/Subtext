@@ -325,7 +325,6 @@ namespace Subtext.Framework.Providers
 
         public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId);
         public abstract bool TrackEntry(EntryView ev);
-        public abstract bool TrackEntry(IEnumerable<EntryView> evc);
 
         /// <summary>
         /// Adds the initial blog configuration.  This is a convenience method for 

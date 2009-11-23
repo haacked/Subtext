@@ -275,7 +275,7 @@ namespace Subtext.Framework.Data
 
         public static Entry ReadEntry(this IDataReader reader, bool buildLinks)
         {
-            var entry = new Entry((PostType)reader.ReadValue<int>("PostType"));
+            var entry = new Entry((PostType)reader.ReadValue<int>("PostType"), null);
             reader.ReadEntry(entry, buildLinks);
             return entry;
         }
