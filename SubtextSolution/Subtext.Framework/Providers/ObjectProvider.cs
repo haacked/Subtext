@@ -214,15 +214,6 @@ namespace Subtext.Framework.Providers
         public abstract Entry GetEntry(int id, bool activeOnly, bool includeCategories);
 
         /// <summary>
-        /// Returns an active <see cref="Entry" /> by the id regardless of which blog it is 
-        /// located in.
-        /// </summary>
-        /// <param name="id">Id of the entry</param>
-        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
-        /// <returns></returns>
-        public abstract Entry GetEntry(int id, bool includeCategories);
-
-        /// <summary>
         /// Returns an <see cref="Entry" /> with the specified entry name as long as it is 
         /// within the current blog (Config.CurrentBlog).
         /// </summary>

@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
             Assert.IsTrue(Enclosures.Update(enc), "Should have updated the Enclosure");
 
-            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
+            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, true, false);
 
             UnitTestHelper.AssertEnclosures(enc, newEntry.Enclosure);
         }

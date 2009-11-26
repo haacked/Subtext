@@ -99,7 +99,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            var entry = Repository.GetEntry(Int32.Parse(postid, CultureInfo.InvariantCulture), false /*activeOnly*/, true /*includeCategories*/);
+            Entry entry = GetBlogPost(postid);
             if(entry != null)
             {
                 entry.Author = Blog.Author;
@@ -151,7 +151,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            Entry entry = Repository.GetEntry(Int32.Parse(postid, CultureInfo.InvariantCulture), false /* activeOnly */, true /*include Categories*/);
+            Entry entry = GetBlogPost(postid);
             if(entry == null)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_CouldNotFindEntry);
@@ -328,7 +328,8 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            Entry entry = Repository.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), false /* activeOnly */, true /* includeCategories */);
+            Entry entry = GetBlogPost(page_id);
+            entry.Blog = Blog;
             if(entry != null)
             {
                 entry.Author = Blog.Author;
@@ -388,12 +389,19 @@ namespace Subtext.Framework.XmlRpc
             return posts.ToArray();
         }
 
+        private Entry GetBlogPost(string pageId)
+        {
+            Entry entry = Repository.GetEntry(Int32.Parse(pageId, CultureInfo.InvariantCulture), false /*activeOnly*/, true /*includeCategories*/);
+            entry.Blog = Blog;
+            return entry;
+        }
+
         public Post getPage(string blog_id, string page_id, string username, string password)
         {
             Blog info = Blog;
             ValidateUser(username, password, info.AllowServiceAccess);
 
-            Entry entry = Repository.GetEntry(Int32.Parse(page_id, CultureInfo.InvariantCulture), false /*activeOnly*/, true /*includeCategories*/);
+            Entry entry = GetBlogPost(page_id);
             var post = new Post
             {
                 link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),

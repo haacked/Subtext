@@ -58,8 +58,9 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string ReplaceHost(string originalUrl, string newHost)
         {
-            return Regex.Replace(originalUrl, @"(https?://).*?((:\d+)?/.*)?$", "$1" + newHost + "$2",
-                                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            const string pattern = @"(https?://).*?((:\d+)?/.*)?$";
+            string replacement = string.Format("$1{0}$2", newHost);
+            return Regex.Replace(originalUrl, pattern, replacement, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         /// <summary>
@@ -499,7 +500,7 @@ namespace Subtext.Framework.Text
         public static string StripRtb(string text, string host)
         {
             string s = Regex.Replace(text, "/localhost/S*Admin/", "", RegexOptions.IgnoreCase);
-            return Regex.Replace(s, "<a href=\"/", "<a href=\"" + "http://" + host + "/", RegexOptions.IgnoreCase);
+            return Regex.Replace(s, "<a href=\"/", string.Format("<a href=\"http://{0}/", host), RegexOptions.IgnoreCase);
         }
 
         /// <summary>
@@ -672,7 +673,7 @@ namespace Subtext.Framework.Text
             {
                 DocType = "html",
                 WhitespaceHandling = WhitespaceHandling.All,
-                InputStream = new StringReader("<html>" + html + "</html>")
+                InputStream = new StringReader(string.Format("<html>{0}</html>", html))
             };
 
             while(reader.Read() && !reader.EOF)

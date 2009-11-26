@@ -396,7 +396,7 @@ namespace Subtext.Framework.Text
             }
             string[] formattedStrings = (from expression in format.SplitFormat()
                                          select expression.Eval(source)).ToArray();
-            return String.Join("", formattedStrings);
+            return String.Join(string.Empty, formattedStrings);
         }
 
         private static IEnumerable<ITextExpression> SplitFormat(this string format)

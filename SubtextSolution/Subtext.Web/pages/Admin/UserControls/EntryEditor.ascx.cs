@@ -158,7 +158,7 @@ namespace Subtext.Web.Admin.UserControls
 
             SetConfirmation();
 
-            Entry entry = Repository.GetEntry(PostId.Value, false /*activeOnly*/, false /*includeCategories*/);
+            Entry entry = GetEntryForEditing(PostId.Value);
             if(entry == null)
             {
                 ReturnToOrigin(null);
@@ -274,7 +274,7 @@ namespace Subtext.Web.Admin.UserControls
 
         private void SetCommentControls()
         {
-            if(!Config.CurrentBlog.CommentsEnabled)
+            if(!Blog.CommentsEnabled)
             {
                 chkComments.Enabled = false;
                 chkCommentsClosed.Enabled = false;
@@ -312,14 +312,7 @@ namespace Subtext.Web.Admin.UserControls
         {
             DateTime postDate = NullValue.NullDateTime;
 
-            if(string.IsNullOrEmpty(txtPostDate.Text))
-            {
-                vCustomPostDate.IsValid = true;
-            }
-            else
-            {
-                vCustomPostDate.IsValid = DateTime.TryParse(txtPostDate.Text, out postDate);
-            }
+            vCustomPostDate.IsValid = string.IsNullOrEmpty(txtPostDate.Text) || DateTime.TryParse(txtPostDate.Text, out postDate);
 
             EnableEnclosureValidation(EnclosureEnabled());
 
@@ -337,7 +330,7 @@ namespace Subtext.Web.Admin.UserControls
                     }
                     else
                     {
-                        entry = Repository.GetEntry(PostId.Value, false /*activeOnly*/, false /*includeCategories*/);
+                        entry = GetEntryForEditing(PostId.Value);
                         if(entry.PostType != EntryType)
                         {
                             EntryType = entry.PostType;
@@ -367,15 +360,8 @@ namespace Subtext.Web.Admin.UserControls
 
                         enc.Title = txbEnclosureTitle.Text;
                         enc.Url = txbEnclosureUrl.Text;
-                        if(ddlMimeType.SelectedValue.Equals("other"))
-                        {
-                            enc.MimeType = txbEnclosureOtherMimetype.Text;
-                        }
-                        else
-                        {
-                            enc.MimeType = ddlMimeType.SelectedValue;
-                        }
-                        long size = 0;
+                        enc.MimeType = ddlMimeType.SelectedValue.Equals("other") ? txbEnclosureOtherMimetype.Text : ddlMimeType.SelectedValue;
+                        long size;
                         Int64.TryParse(txbEnclosureSize.Text, out size);
                         enc.Size = size;
                         enc.AddToFeed = Boolean.Parse(ddlAddToFeed.SelectedValue);
@@ -480,12 +466,7 @@ namespace Subtext.Web.Admin.UserControls
             {
                 return true;
             }
-            if(ddlMimeType.SelectedIndex > 0)
-            {
-                return true;
-            }
-
-            return false;
+            return ddlMimeType.SelectedIndex > 0;
         }
 
         private void EnableEnclosureValidation(bool enabled)
@@ -494,21 +475,7 @@ namespace Subtext.Web.Admin.UserControls
             valEncUrlRequired.Enabled = enabled;
             valEncMimeTypeRequired.Enabled = enabled;
 
-            if(!enabled)
-            {
-                valEncOtherMimetypeRequired.Enabled = false;
-            }
-            else
-            {
-                if(ddlMimeType.SelectedValue.Equals("other"))
-                {
-                    valEncOtherMimetypeRequired.Enabled = true;
-                }
-                else
-                {
-                    valEncOtherMimetypeRequired.Enabled = false;
-                }
-            }
+            valEncOtherMimetypeRequired.Enabled = enabled && ddlMimeType.SelectedValue.Equals("other");
         }
 
         private void ReplaceSelectedCategoryNames(ICollection<string> sc)
@@ -624,8 +591,6 @@ namespace Subtext.Web.Admin.UserControls
 
         private void AddCommunityCredits(Entry entry)
         {
-            string result = string.Empty;
-
             try
             {
                 CommunityCreditNotification.AddCommunityCredits(entry, Url, Blog);
@@ -640,6 +605,13 @@ namespace Subtext.Web.Admin.UserControls
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
                                                  Resources.EntryEditor_ErrorSendingToCommunityCredits, ex.Message));
             }
+        }
+
+        private Entry GetEntryForEditing(int id)
+        {
+            var entry = Repository.GetEntry(id, false /*activeOnly*/, false /*includeCategories*/);
+            entry.Blog = Blog;
+            return entry;
         }
     }
 }

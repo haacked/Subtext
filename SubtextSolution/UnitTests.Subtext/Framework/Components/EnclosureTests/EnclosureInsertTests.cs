@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
             Enclosures.Create(enc);
 
-            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
+            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, true, false);
 
             Assert.IsNotNull(newEntry.Enclosure, errMsg);
 
@@ -69,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
                                                                        "Listen to my great podcast");
             int entryId = UnitTestHelper.Create(e);
 
-            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
+            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, true, false);
 
             Assert.IsNull(newEntry.Enclosure, "Enclusure must be null");
         }

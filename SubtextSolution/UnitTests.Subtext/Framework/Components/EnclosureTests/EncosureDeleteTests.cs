@@ -25,13 +25,11 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
     [TestFixture]
     public class EnclosureDeleteTests
     {
-        private Blog blog;
-
         [Test]
         [RollBack2]
         public void CanDeleteEnclosure()
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            Blog blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
                                                                        "Listen to my great podcast");
@@ -41,13 +39,13 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
                                                           entryId, 12345678, true, true);
             Enclosures.Create(enc);
 
-            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, false);
+            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, true, false);
 
             Assert.IsNotNull(newEntry.Enclosure, "Did not create enclosure.");
 
             Enclosures.Delete(enc.Id);
 
-            Entry newEntry1 = ObjectProvider.Instance().GetEntry(entryId, false);
+            Entry newEntry1 = ObjectProvider.Instance().GetEntry(entryId, true, false);
 
             Assert.IsNull(newEntry1.Enclosure, "Did not delete enclosure.");
         }

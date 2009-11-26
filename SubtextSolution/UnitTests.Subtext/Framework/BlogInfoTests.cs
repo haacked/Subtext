@@ -4,6 +4,7 @@ using MbUnit.Framework;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using System.Diagnostics;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -13,6 +14,19 @@ namespace UnitTests.Subtext.Framework
     [TestFixture]
     public class BlogTests
     {
+        [Test]
+        public void PerfTest()
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+
+            for(int i = 0; i < 1000; i++ )
+                Assert.AreEqual("example.com", Blog.StripWwwPrefixFromHost("www.example.com"));
+
+            watch.Stop();
+            Console.WriteLine(watch.ElapsedTicks/1000.00);
+        }
+
         [RowTest]
         [Row("example.com", "example.com", "Should not have altered the host because it doesn't start with www.")]
         [Row("example.com:1234", "example.com:1234", "should not strip the port number")]

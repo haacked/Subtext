@@ -213,7 +213,10 @@ namespace Subtext.Framework.Components
         /// </summary>
         public bool CommentingClosed
         {
-            get { return (CommentingClosedByAge || EntryPropertyCheck(PostConfig.CommentsClosed)); }
+            get
+            {
+                return (CommentingClosedByAge || EntryPropertyCheck(PostConfig.CommentsClosed));
+            }
             set
             {
                 // Closing By Age overrides explicit closing
@@ -237,7 +240,7 @@ namespace Subtext.Framework.Components
                     return false;
                 }
 
-                return Blog.TimeZone.Now > DateSyndicated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
+                return Blog.TimeZone.Now > DateSyndicated.AddDays(Blog.DaysTillCommentsClose);
             }
         }
 
@@ -254,8 +257,6 @@ namespace Subtext.Framework.Components
         /// Gets and sets the enclosure for the entry.
         /// </summary>
         public Enclosure Enclosure { get; set; }
-
-        #region IEntryIdentity Members
 
         /// <summary>
         /// Gets or sets the entry ID.
@@ -281,8 +282,6 @@ namespace Subtext.Framework.Components
         /// </summary>
         /// <value></value>
         public DateTime DateCreated { get; set; }
-
-        #endregion
 
         protected bool EntryPropertyCheck(PostConfig ep)
         {

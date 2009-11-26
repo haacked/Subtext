@@ -189,25 +189,6 @@ namespace Subtext.Framework.Data
         }
 
         /// <summary>
-        /// Returns an active <see cref="Entry" /> by the id regardless of which blog it is 
-        /// located in.
-        /// </summary>
-        /// <param name="id">Id of the entry</param>
-        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
-        /// <returns></returns>
-        public override Entry GetEntry(int id, bool includeCategories)
-        {
-            using(IDataReader reader = _procedures.GetEntryReader(id, includeCategories))
-            {
-                if(reader.Read())
-                {
-                    return reader.ReadEntry();
-                }
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Returns an <see cref="Entry" /> with the specified id.
         /// </summary>
         /// <param name="id">Id of the entry</param>
