@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -78,8 +79,8 @@ namespace Subtext.Framework.Data
 
         public override bool TrackEntry(EntryView entryView)
         {
-            return _procedures.TrackEntry(entryView.EntryId, entryView.BlogId, entryView.ReferralUrl,
-                                          entryView.PageViewType == PageViewType.WebView);
+            return ThreadPool.QueueUserWorkItem(o => _procedures.TrackEntry(entryView.EntryId, entryView.BlogId, entryView.ReferralUrl,
+                                          entryView.PageViewType == PageViewType.WebView));
         }
 
         public override ICollection<LinkCategory> GetActiveCategories()

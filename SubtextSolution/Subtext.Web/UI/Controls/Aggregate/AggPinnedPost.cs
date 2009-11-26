@@ -48,7 +48,7 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
 
             //Get the entry
-            Entry entry = Repository.GetEntry(ContentID, false /* includeCategories */);
+            Entry entry = Repository.GetEntry(ContentID, true /*activeOnly*/, false /*includeCategories*/);
             if(entry != null)
             {
                 PinnedPost.Text = entry.Body;

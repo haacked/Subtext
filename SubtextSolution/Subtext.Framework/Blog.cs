@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
@@ -661,7 +660,7 @@ namespace Subtext.Framework
                 throw new ArgumentNullException("host");
             }
 
-            return Regex.Replace(host, @":.*$", string.Empty);
+            return host.LeftBefore(":", StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -676,7 +675,7 @@ namespace Subtext.Framework
                 throw new ArgumentNullException("host");
             }
 
-            return Regex.Replace(host, @"^www.", string.Empty, RegexOptions.IgnoreCase);
+            return host.RightAfter("www.", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
