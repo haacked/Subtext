@@ -453,9 +453,6 @@
     <Compile Include="Infrastructure\Routing\UrlHelper.cs" />
     <Compile Include="Infrastructure\Routing\VirtualPath.cs" />
     <Compile Include="Infrastructure\Routing\XmlRpcRouteHandler.cs" />
-    <Compile Include="Infrastructure\Threading\ManagedThreadPool.cs" />
-    <Compile Include="Infrastructure\Threading\Semaphore.cs" />
-    <Compile Include="Infrastructure\Threading\TimedLock.cs" />
     <Compile Include="Infrastructure\TimeZoneWrapper.cs" />
     <Compile Include="PostConfig.cs" />
     <Compile Include="PostType.cs" />

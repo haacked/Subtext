@@ -22,7 +22,6 @@ using System.Text;
 using log4net;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Threading;
 
 namespace Subtext.Framework.Email
 {
@@ -39,7 +38,7 @@ namespace Subtext.Framework.Email
         /// </summary>
         public override void Send(string to, string from, string subject, string message)
         {
-            ManagedThreadPool.QueueUserWorkItem(callback => SendAsync(to, from, subject, message));
+            SendAsync(to, from, subject, message);
         }
 
         private void SendAsync(string toStr, string fromStr, string subject, string message)
