@@ -42,7 +42,7 @@ namespace Subtext.Framework.XmlRpc
     /// </summary>
     public class MetaWeblog : SubtextXmlRpcService, IMetaWeblog, IWordPressApi
     {
-        static Log Log = new Log();
+        static readonly Log Log = new Log();
 
         public MetaWeblog(ISubtextContext context) : this(context, context.GetService<IEntryPublisher>())
         {
@@ -60,17 +60,30 @@ namespace Subtext.Framework.XmlRpc
             private set;
         }
 
+        private Entry GetBlogPost(string pageId)
+        {
+            Entry entry = Repository.GetEntry(Int32.Parse(pageId, CultureInfo.InvariantCulture), false /*activeOnly*/, true /*includeCategories*/);
+            if(entry == null)
+            {
+                return null;
+            }
+            entry.Blog = Blog;
+            return entry;
+        }
+
         public BlogInfo[] getUsersBlogs(string appKey, string username, string password)
         {
             Blog info = Blog;
             ValidateUser(username, password, info.AllowServiceAccess);
 
-            var bi = new BlogInfo[1];
-            var b = new BlogInfo();
-            b.blogid = info.Id.ToString(CultureInfo.InvariantCulture);
-            b.blogName = info.Title;
-            b.url = Url.BlogUrl().ToFullyQualifiedUrl(info).ToString();
-            bi[0] = b;
+            var bi = new[] {
+                new BlogInfo
+                {
+                    blogid = info.Id.ToString(CultureInfo.InvariantCulture),
+                    blogName = info.Title,
+                    url = Url.BlogUrl().ToFullyQualifiedUrl(info).ToString()
+                }
+            };
             return bi;
         }
 
@@ -329,7 +342,6 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             Entry entry = GetBlogPost(page_id);
-            entry.Blog = Blog;
             if(entry != null)
             {
                 entry.Author = Blog.Author;
@@ -387,13 +399,6 @@ namespace Subtext.Framework.XmlRpc
                                       };
 
             return posts.ToArray();
-        }
-
-        private Entry GetBlogPost(string pageId)
-        {
-            Entry entry = Repository.GetEntry(Int32.Parse(pageId, CultureInfo.InvariantCulture), false /*activeOnly*/, true /*includeCategories*/);
-            entry.Blog = Blog;
-            return entry;
         }
 
         public Post getPage(string blog_id, string page_id, string username, string password)
@@ -468,11 +473,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            var entry = new Entry(postType);
-            entry.PostType = postType;
-            entry.IsActive = publish;
-            entry.Author = Blog.Author;
-            entry.Email = Blog.Email;
+            var entry = new Entry(postType) {PostType = postType, IsActive = publish, Author = Blog.Author, Email = Blog.Email};
             post.CopyValuesTo(entry);
             entry.AllowComments = true;
             entry.DisplayOnHomePage = true;

@@ -35,10 +35,10 @@
 
 #endregion
 
+using System.Threading;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
-using Subtext.Framework.Threading;
 
 namespace Subtext.Framework.Tracking
 {
@@ -75,7 +75,7 @@ namespace Subtext.Framework.Tracking
                 };
 
                 //This could take a while, do it on another thread
-                ManagedThreadPool.QueueUserWorkItem(notify.Notify);
+                ThreadPool.QueueUserWorkItem(notify.Notify);
             }
         }
     }

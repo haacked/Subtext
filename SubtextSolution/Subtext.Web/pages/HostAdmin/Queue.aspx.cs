@@ -16,8 +16,6 @@
 #endregion
 
 using System;
-using System.Globalization;
-using Subtext.Framework.Threading;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -28,29 +26,8 @@ namespace Subtext.Web.HostAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ltlActiveThreads.Text = ManagedThreadPool.ActiveThreads.ToString(CultureInfo.InvariantCulture);
-            ltlWaitingCallbacks.Text = ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);
+            //ltlActiveThreads.Text = ThreadPool.GetAvailableThreads().ToString(CultureInfo.InvariantCulture);
+            //ltlWaitingCallbacks.Text = ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);
         }
-
-        #region Web Form Designer generated code
-
-        override protected void OnInit(EventArgs e)
-        {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-        }
-
-        #endregion
     }
 }
