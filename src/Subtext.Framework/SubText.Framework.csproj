@@ -122,7 +122,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\blowery.Web.HttpCompress.dll</HintPath>
     </Reference>
-    <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>

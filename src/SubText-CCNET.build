@@ -41,14 +41,10 @@
 		<property name="log.dir" value="${CCNetWorkingDirectory}\logs" />
 
 		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
-    <property name="publish.dir.latest.web" value="${publish.dir.latest}\Subtext.Web" />
+		<property name="publish.dir.latest.web" value="${publish.dir.latest}\Subtext.Web" />
 		<property name="publish.dir.archive" value="${CCNetArtifactDirectory}\builds\archive" />
 		<property name="publish.dir.latestsource" value="${CCNetArtifactDirectory}\builds\latestsource" />
-		
 		<property name="fileLabel" value="SubText-${CCNetLabel}" />
-		
-
-		
 		<loadtasks path="${tools.dir}\NAnt\tasks" failonerror="false" />
 	</target>
 

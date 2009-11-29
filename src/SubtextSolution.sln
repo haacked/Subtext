@@ -2,10 +2,10 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D145684-0EDA-4147-BF81-3B0BED7DA439}"
 	ProjectSection(SolutionItems) = preProject
-		..\BuildTools\WebPI\installSQL.sql = ..\BuildTools\WebPI\installSQL.sql
+		..\tools\WebPI\installSQL.sql = ..\tools\WebPI\installSQL.sql
 		License.txt = License.txt
-		..\BuildTools\WebPI\manifest.xml = ..\BuildTools\WebPI\manifest.xml
-		..\BuildTools\WebPI\parameters.xml = ..\BuildTools\WebPI\parameters.xml
+		..\tools\WebPI\manifest.xml = ..\tools\WebPI\manifest.xml
+		..\tools\WebPI\parameters.xml = ..\tools\WebPI\parameters.xml
 		recreateDB.build = recreateDB.build
 		ReleaseChecklist.txt = ReleaseChecklist.txt
 		SolutionInfo.cs = SolutionInfo.cs
@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739
 	ProjectSection(SolutionItems) = preProject
 		ccrunner.bat = ccrunner.bat
 		SubText-CCNET.build = SubText-CCNET.build
-		..\BuildTools\CCNET_Config\Update-CCNET.build = ..\BuildTools\CCNET_Config\Update-CCNET.build
+		..\tools\CCNET_Config\Update-CCNET.build = ..\tools\CCNET_Config\Update-CCNET.build
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Framework", "Subtext.Framework\Subtext.Framework.csproj", "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
@@ -36,8 +36,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.BlogEntryEditor.FCKeditor", "Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj", "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Akismet", "Subtext.Akismet\Subtext.Akismet.csproj", "{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTools", "..\BuildTools\BuildTools.csproj", "{8A910A5B-E14B-4963-99FD-99704BB35097}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextUpgrader", "SubtextUpgrader\SubtextUpgrader.csproj", "{C49C4F5E-C147-40CF-96BB-EE12A7168CCF}"
 EndProject
@@ -238,26 +236,6 @@ Global
 		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.AutomatedRelease|.NET.ActiveCfg = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.AutomatedRelease|Any CPU.ActiveCfg = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.AutomatedRelease|Any CPU.Build.0 = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.AutomatedRelease|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.AutomatedRelease|Mixed Platforms.Build.0 = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Build|.NET.ActiveCfg = Build|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Build|Any CPU.ActiveCfg = Build|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Build|Mixed Platforms.ActiveCfg = Build|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|.NET.ActiveCfg = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|.NET.ActiveCfg = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A910A5B-E14B-4963-99FD-99704BB35097}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C49C4F5E-C147-40CF-96BB-EE12A7168CCF}.AutomatedRelease|.NET.ActiveCfg = Release|Any CPU
 		{C49C4F5E-C147-40CF-96BB-EE12A7168CCF}.AutomatedRelease|Any CPU.ActiveCfg = Release|Any CPU
 		{C49C4F5E-C147-40CF-96BB-EE12A7168CCF}.AutomatedRelease|Any CPU.Build.0 = Release|Any CPU
@@ -313,7 +291,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8A910A5B-E14B-4963-99FD-99704BB35097} = {DD225739-6817-4A4F-9386-765ABA27C754}
 		{C49C4F5E-C147-40CF-96BB-EE12A7168CCF} = {ED6D2474-6402-4392-AFF0-6115A3F13C28}
 		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D} = {ED6D2474-6402-4392-AFF0-6115A3F13C28}
 	EndGlobalSection
