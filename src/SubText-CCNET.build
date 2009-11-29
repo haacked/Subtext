@@ -30,8 +30,6 @@
 		<property name="ndepend.dir" value="${tools.dir}\NDepend" />
 		<property name="ndepend.exe" value="${ndepend.dir}\NDepend.Console.exe" />
 		<property name="ndepend.config" value="${ndepend.dir}\NDependProject.xml" />
-		<property name="YUICompressor.dir" value="${tools.dir}\YUICompressor" />
-		<property name="YUICompressor.jar" value="yuicompressor.jar" />
 		<property name="subtext.web.bin" value="${solution.dir}\Subtext.Web\bin" />
 		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
 
@@ -206,27 +204,14 @@
 	</target>
 
 	<target name="javascript.minify" depends="get-publishing-properties">
-		<foreach item="File" property="filename">
-			<in>
-				<items basedir="${publish.dir.latest.web}">
-					<include name="Skins/**/*.js" />
-					<include name="Scripts/**/*.js" />
-					<include name="Skins/**/*.css" />
-					<include name="Scripts/**/*.css" />
-				</items>
-			</in>
-			<do>
-				<echo message="${filename}" />
-				<exec program="java" workingdir="${YUICompressor.dir}">
-					<arg value="-jar" />
-					<arg value="${YUICompressor.jar}" />
-					<arg value="-o" />
-					<arg value="${filename}.min" />
-					<arg value="${filename}" />
-				</exec>
-				<move file="${filename}.min" tofile="${filename}" overwrite="true" />
-			</do>
-		</foreach>
+		<yuicompressor todir="${publish.dir.latest.web}"> 
+			<fileset basedir="${publish.dir.latest.web}"> 
+				<include name="Skins/**/*.js" />
+				<include name="Scripts/**/*.js" />
+				<include name="Skins/**/*.css" />
+				<include name="Scripts/**/*.css" />
+			</fileset> 
+		</yuicompressor>
 	</target>
 	
 	<target name="dist.archive" depends="dist.publish.latest">
