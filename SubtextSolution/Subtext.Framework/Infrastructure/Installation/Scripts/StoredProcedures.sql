@@ -4179,15 +4179,12 @@ WHERE ID = @ID
 
 SELECT * FROM
 (
-	SELECT Top 1 BlogId
-		, [ID]
+	SELECT Top 1 [ID]
 		, Title
-		, DateCreated = DateAdded
+		, DateCreated = ISNULL(DateSyndicated, DateAdded) /* usage optimization to fulfill interface */
 		, PostType
-		, PostConfig
 		, EntryName 
-		, DateSyndicated
-		, CardinalityDate = ISNULL(DateSyndicated, DateAdded) -- Must be here to order by
+		, ViewCount = 0 /* Not Used */
 	FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	WHERE ISNULL([DateSyndicated], [DateAdded]) >= @DateSyndicated
 		AND subtext_Content.BlogId = @BlogId 
@@ -4195,20 +4192,17 @@ SELECT * FROM
 		AND subtext_Content.DateSyndicated <= @CurrentDateTime
 		AND PostType = @PostType
 		AND [ID] != @ID
-	ORDER BY ISNULL(DateSyndicated, DateAdded) ASC
+	ORDER BY DateCreated ASC
 ) [Previous]
 UNION
 SELECT * FROM
 (
-	SELECT Top 1 BlogId
-		, [ID]
+	SELECT Top 1 [ID]
 		, Title
-		, DateCreated = DateAdded
+		, DateCreated = ISNULL(DateSyndicated, DateAdded) /* usage optimization to fulfill interface */
 		, PostType
-		, PostConfig
 		, EntryName 
-		, DateSyndicated
-		, CardinalityDate = ISNULL(DateSyndicated, DateAdded)
+		, ViewCount = 0 /* Not Used */
 	FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	WHERE ISNULL([DateSyndicated], [DateAdded]) <= @DateSyndicated
 		AND subtext_Content.BlogId = @BlogId 
@@ -4216,10 +4210,10 @@ SELECT * FROM
 		AND subtext_Content.DateSyndicated <= @CurrentDateTime
 		AND PostType = @PostType
 		AND [ID] != @ID
-	ORDER BY ISNULL(DateSyndicated, DateAdded) DESC
+	ORDER BY DateCreated DESC
 ) [Next]
 
-ORDER BY CardinalityDate DESC
+ORDER BY DateCreated DESC
 
 GO
 SET QUOTED_IDENTIFIER OFF 

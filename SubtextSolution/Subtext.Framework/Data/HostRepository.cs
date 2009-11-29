@@ -107,15 +107,10 @@ namespace Subtext.Framework.Data
 
         public override ICollection<Blog> GetBlogsByGroup(string host, int? groupId)
         {
-            var blogs = new List<Blog>();
             using (var reader = _procedures.Stats(host, groupId))
             {
-                while (reader.Read())
-                {
-                    blogs.Add(reader.ReadBlog());
-                }
+                return reader.ReadCollection(r => r.ReadBlog());
             }
-            return blogs;
         }
 
         /// <summary>
@@ -148,30 +143,18 @@ namespace Subtext.Framework.Data
 
         public override ICollection<Entry> GetRecentEntries(string host, int? groupId, int rowCount)
         {
-            var entries = new List<Entry>();
             using (IDataReader reader = _procedures.GetRecentPosts(host, groupId, CurrentDateTime, rowCount))
             {
-                while (reader.Read())
-                {
-                    entries.Add(reader.ReadEntry(new Entry(PostType.BlogPost), false /* buildLinks */, true /* includeBlog */));
-                }
+                return reader.ReadCollection(r => r.ReadEntry(new Entry(PostType.BlogPost), false /* buildLinks */, true /* includeBlog */));
             }
-            return entries;
         }
 
         public override ICollection<Image> GetImages(string host, int? groupId, int rowCount)
         {
-            var images = new List<Image>();
             using (IDataReader reader = _procedures.GetRecentImages(host, groupId, rowCount))
             {
-                while (reader.Read())
-                {
-                    images.Add(reader.ReadImage(true /* includeBlog */, true/* includeCategory */));
-                }
+                return reader.ReadCollection(r => r.ReadImage(true /* includeBlog */, true/* includeCategory */));
             }
-            return images;
         }
-
-
     }
 }

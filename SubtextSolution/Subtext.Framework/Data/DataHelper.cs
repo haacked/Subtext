@@ -188,6 +188,16 @@ namespace Subtext.Framework.Data
             return entries;
         }
 
+        internal static ICollection<TItem> ReadCollection<TItem>(this IDataReader reader, Func<IDataReader, TItem> map)
+        {
+            return reader.ReadEnumerable(map).ToList();
+        }
+
+        internal static ICollection<TItem> ReadCollection<TItem>(this IDataReader reader) where TItem : new()
+        {
+            return reader.ReadCollection(r => r.ReadObject<TItem>());
+        }
+
         //Crappy. Need to clean up all of the entry references
         public static EntryStatsView ReadEntryStatsView(this IDataReader reader)
         {
