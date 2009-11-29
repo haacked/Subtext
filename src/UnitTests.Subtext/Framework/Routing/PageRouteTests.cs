@@ -20,7 +20,6 @@ namespace UnitTests.Subtext.Framework.Routing
                                       new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/slug.aspx");
-            var blogRequest = new BlogRequest("localhost", null, new Uri("http://localhost"), true);
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
 
@@ -41,7 +40,6 @@ namespace UnitTests.Subtext.Framework.Routing
                                       new Mock<ISubtextPageBuilder>().Object, new Mock<IKernel>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/slug.aspx");
-            var blogRequest = new BlogRequest("localhost", "subfolder", new Uri("http://localhost"), true);
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "subfolder");
             var requestContext = new RequestContext(httpContext.Object, routeData);

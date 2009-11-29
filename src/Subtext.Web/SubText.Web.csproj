@@ -2449,6 +2449,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>..\..\..\BuildTools\sgen\sgen.exe "$(TargetPath)" /force /keep</PostBuildEvent>
+    <PostBuildEvent>..\..\..\tools\sgen\sgen.exe "$(TargetPath)" /force /keep</PostBuildEvent>
   </PropertyGroup>
 </Project>

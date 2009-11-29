@@ -194,17 +194,14 @@ namespace UnitTests.Subtext
 
         private static void CreateLogin(Server server, NamedSmoObject db, string loginName)
         {
-            var login = new Login(server, loginName);
-            login.DefaultDatabase = db.Name;
-            login.LoginType = LoginType.WindowsUser;
+            var login = new Login(server, loginName) {DefaultDatabase = db.Name, LoginType = LoginType.WindowsUser};
             login.AddToRole("sysadmin");
             login.Create();
         }
 
         private static void CreateUser(Database db, string login, string userName)
         {
-            var user = new User(db, userName);
-            user.Login = login;
+            var user = new User(db, userName) {Login = login};
             user.Create();
         }
 
