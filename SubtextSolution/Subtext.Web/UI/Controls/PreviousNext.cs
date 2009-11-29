@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -49,8 +50,7 @@ namespace Subtext.Web.UI.Controls
             {
                 //Sent entry properties
                 MainLink.NavigateUrl = Url.BlogUrl();
-
-                var entries = Repository.GetPreviousAndNextEntries(entry.Id, PostType.BlogPost);
+                var entries = Cacher.GetPreviousNextEntry(entry.Id, PostType.BlogPost, SubtextContext);
 
                 //Remember, the NEXT entry is the MORE RECENT entry.
                 switch(entries.Count)
