@@ -20,17 +20,17 @@
 
 		<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
 		<property name="solution.dir" value="${CCNetWorkingDirectory}\src" />
-		<property name="buildtools.dir" value="${CCNetWorkingDirectory}\BuildTools" />
-    <property name="webPI.dir" value="${buildtools.dir}\WebPI" />
-		<property name="fxcop.dir" value="${buildtools.dir}\FxCop" />
+		<property name="tools.dir" value="${CCNetWorkingDirectory}\tools" />
+		<property name="webPI.dir" value="${tools.dir}\WebPI" />
+		<property name="fxcop.dir" value="${tools.dir}\FxCop" />
 		<property name="fxcop.exe" value="${fxcop.dir}\FxCopCmd.exe" />
-		<property name="mbunit.exe" value="${buildtools.dir}\MbUnit\MbUnit.Cons.exe" />
-		<property name="ncoverexplorer.exe" value="${buildtools.dir}\NCover\NCoverExplorer.Console.exe" />
-		<property name="ncover.exe" value="${buildtools.dir}\NCover\NCover.Console.exe" />
-		<property name="ndepend.dir" value="${buildtools.dir}\NDepend" />
+		<property name="mbunit.exe" value="${tools.dir}\MbUnit\MbUnit.Cons.exe" />
+		<property name="ncoverexplorer.exe" value="${tools.dir}\NCover\NCoverExplorer.Console.exe" />
+		<property name="ncover.exe" value="${tools.dir}\NCover\NCover.Console.exe" />
+		<property name="ndepend.dir" value="${tools.dir}\NDepend" />
 		<property name="ndepend.exe" value="${ndepend.dir}\NDepend.Console.exe" />
 		<property name="ndepend.config" value="${ndepend.dir}\NDependProject.xml" />
-		<property name="YUICompressor.dir" value="${buildtools.dir}\YUICompressor" />
+		<property name="YUICompressor.dir" value="${tools.dir}\YUICompressor" />
 		<property name="YUICompressor.jar" value="yuicompressor.jar" />
 		<property name="subtext.web.bin" value="${solution.dir}\Subtext.Web\bin" />
 		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
@@ -49,7 +49,7 @@
 		
 
 		
-		<loadtasks path="${buildtools.dir}\NAnt\tasks" failonerror="false" />
+		<loadtasks path="${tools.dir}\NAnt\tasks" failonerror="false" />
 	</target>
 
 	
@@ -136,7 +136,7 @@
 		<setenv name="PATH" path="${fxcop.dir}\;%PATH%" verbose="true" />
 
 		<fxcop 
-			projectFile="${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
+			projectFile="${tools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
 			analysisReportFilename="${log.dir}\ccnet-fxcop.xml"
 			failonerror="false"
 		/>
