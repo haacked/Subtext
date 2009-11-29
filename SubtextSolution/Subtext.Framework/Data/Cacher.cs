@@ -27,6 +27,7 @@ using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Infrastructure;
 using Subtext.Framework.Web;
+using Subtext.Extensibility;
 
 namespace Subtext.Framework.Data
 {
@@ -158,6 +159,12 @@ namespace Subtext.Framework.Data
         {
             string key = string.Format(CultureInfo.InvariantCulture, CategoryKey, categoryKey, context.Blog.Id);
             return context.Cache.GetOrInsert(key, retrievalDelegate);
+        }
+
+        public static ICollection<EntrySummary> GetPreviousNextEntry(int entryId, PostType postType, ISubtextContext context)
+        {
+            string cacheKey = string.Format("PrevNext:{0}:{1}", entryId, postType);
+            return context.Cache.GetOrInsertSliding(cacheKey, () => context.Repository.GetPreviousAndNextEntries(entryId, postType), null, LongDuration);
         }
 
         //TODO: This should only be called in one place total. And it needs to be tested.
