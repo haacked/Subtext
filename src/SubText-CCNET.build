@@ -19,7 +19,7 @@
 		</if>
 
 		<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
-		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
+		<property name="solution.dir" value="${CCNetWorkingDirectory}\src" />
 		<property name="buildtools.dir" value="${CCNetWorkingDirectory}\BuildTools" />
     <property name="webPI.dir" value="${buildtools.dir}\WebPI" />
 		<property name="fxcop.dir" value="${buildtools.dir}\FxCop" />
