@@ -140,7 +140,7 @@ namespace Subtext.Framework.Providers
         /// <param name="entryId"></param>
         /// <param name="postType"></param>
         /// <returns></returns>
-        public abstract ICollection<Entry> GetPreviousAndNextEntries(int entryId, PostType postType);
+        public abstract ICollection<EntrySummary> GetPreviousAndNextEntries(int entryId, PostType postType);
 
         /// <summary>
         /// Returns a pageable collection of entries ordered by the id descending.

@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using MbUnit.Framework;
@@ -58,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             int previousId = UnitTestHelper.Create(previousEntry);
             int currentId = UnitTestHelper.Create(currentEntry);
 
-            ICollection<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
+            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
                                                                                              PostType.BlogPost);
             Assert.AreEqual(1, entries.Count, "Since there is no next entry, should return only 1");
             Assert.AreEqual(previousId, entries.First().Id, "The previous entry does not match expectations.");
@@ -86,7 +85,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             int currentId = UnitTestHelper.Create(currentEntry);
             int nextId = UnitTestHelper.Create(nextEntry);
 
-            ICollection<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
+            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
                                                                                              PostType.BlogPost);
             Assert.AreEqual(1, entries.Count, "Since there is no previous entry, should return only next");
             Assert.AreEqual(nextId, entries.First().Id, "The next entry does not match expectations.");
@@ -120,7 +119,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             Thread.Sleep(100);
             int nextId = UnitTestHelper.Create(nextEntry);
 
-            ICollection<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
+            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
                                                                                              PostType.BlogPost);
             Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
 
@@ -165,8 +164,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             int nextId = UnitTestHelper.Create(nextEntry);
             Thread.Sleep(100);
 
-            ICollection<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
-                                                                                             PostType.BlogPost);
+            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
             Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
 
             //The more recent one is next because of desceding sort.

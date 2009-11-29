@@ -16,9 +16,9 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override Blog GetBlogById(int blogId)
         {
-            using (IDataReader reader = _procedures.GetBlogById(blogId))
+            using(IDataReader reader = _procedures.GetBlogById(blogId))
             {
-                if (reader.Read())
+                if(reader.Read())
                 {
                     Blog info = reader.ReadBlog();
                     return info;
@@ -44,7 +44,7 @@ namespace Subtext.Framework.Data
             using(IDataReader reader = _procedures.GetConfig(hostname, subfolder ?? string.Empty))
             {
                 Blog info = null;
-                while (reader.Read())
+                while(reader.Read())
                 {
                     info = reader.ReadBlog();
                     break;
@@ -56,9 +56,9 @@ namespace Subtext.Framework.Data
         public override BlogAlias GetBlogAliasById(int aliasId)
         {
             BlogAlias alias = null;
-            using (IDataReader reader = _procedures.GetDomainAliasById(aliasId))
+            using(IDataReader reader = _procedures.GetDomainAliasById(aliasId))
             {
-                if (reader.Read())
+                if(reader.Read())
                 {
                     alias = reader.ReadObject<BlogAlias>();
                 }
@@ -69,9 +69,10 @@ namespace Subtext.Framework.Data
 
         public override Blog GetBlogByDomainAlias(string host, string subfolder, bool strict)
         {
-            using (IDataReader reader = _procedures.GetBlogByDomainAlias(host, subfolder, strict))
+            using(IDataReader reader = _procedures.GetBlogByDomainAlias(host, subfolder, strict))
             {
-                if (reader.Read()) {
+                if(reader.Read())
+                {
                     return reader.ReadBlog();
                 }
             }
@@ -81,8 +82,10 @@ namespace Subtext.Framework.Data
         public override BlogStatistics GetBlogStatistics(int blogId)
         {
             BlogStatistics stats = null;
-            using (IDataReader reader = _procedures.GetBlogStats(blogId)) {
-                if (reader.Read()) {
+            using(IDataReader reader = _procedures.GetBlogStats(blogId))
+            {
+                if(reader.Read())
+                {
                     stats = reader.ReadObject<BlogStatistics>();
                 }
             }
@@ -99,7 +102,7 @@ namespace Subtext.Framework.Data
         /// <param name="flags"></param>
         public override IPagedCollection<Blog> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
         {
-            using (IDataReader reader = _procedures.GetPagedBlogs(host, pageIndex, pageSize, flags))
+            using(IDataReader reader = _procedures.GetPagedBlogs(host, pageIndex, pageSize, flags))
             {
                 return reader.ReadPagedCollection(r => r.ReadBlog());
             }
@@ -107,7 +110,7 @@ namespace Subtext.Framework.Data
 
         public override IPagedCollection<BlogAlias> GetPagedBlogDomainAlias(Blog blog, int pageIndex, int pageSize)
         {
-            using (IDataReader reader = _procedures.GetPageableDomainAliases(pageIndex, pageSize, blog.Id))
+            using(IDataReader reader = _procedures.GetPageableDomainAliases(pageIndex, pageSize, blog.Id))
             {
                 return reader.ReadPagedCollection(r => r.ReadObject<BlogAlias>());
             }
@@ -159,25 +162,25 @@ namespace Subtext.Framework.Data
         public override bool UpdateBlog(Blog info)
         {
             int? daysTillCommentsClose = null;
-            if (info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
+            if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
             {
                 daysTillCommentsClose = info.DaysTillCommentsClose;
             }
 
             int? commentDelayInMinutes = null;
-            if (info.CommentDelayInMinutes > 0 && info.CommentDelayInMinutes < int.MaxValue)
+            if(info.CommentDelayInMinutes > 0 && info.CommentDelayInMinutes < int.MaxValue)
             {
                 commentDelayInMinutes = info.CommentDelayInMinutes;
             }
 
             int? numberOfRecentComments = null;
-            if (info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
+            if(info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
             {
                 numberOfRecentComments = info.NumberOfRecentComments;
             }
 
             int? recentCommentsLength = null;
-            if (info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
+            if(info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
             {
                 recentCommentsLength = info.RecentCommentsLength;
             }
@@ -226,14 +229,14 @@ namespace Subtext.Framework.Data
         }
 
         public override bool UpdateBlogAlias(BlogAlias alias)
-		{
+        {
             return _procedures.UpdateDomainAlias(alias.Id, alias.BlogId, alias.Host, alias.Subfolder, alias.IsActive);
-		}
+        }
 
-		public override bool DeleteBlogAlias(BlogAlias alias)
-		{
+        public override bool DeleteBlogAlias(BlogAlias alias)
+        {
             return _procedures.DeleteDomainAlias(alias.Id);
-		}
+        }
 
         /// <summary>
         /// Gets the blog group.
@@ -244,23 +247,23 @@ namespace Subtext.Framework.Data
         public override BlogGroup GetBlogGroup(int id, bool activeOnly)
         {
             BlogGroup group;
-            using (IDataReader reader = _procedures.GetBlogGroup(id, activeOnly))
+            using(IDataReader reader = _procedures.GetBlogGroup(id, activeOnly))
             {
-                if (!reader.Read())
+                if(!reader.Read())
                     return null;
 
                 group = reader.ReadObject<BlogGroup>();
             }
 
-            if (group != null)
+            if(group != null)
             {
                 //TODO: Make this more efficient.
                 IPagedCollection<Blog> blogs =
                     Blog.GetBlogs(0, int.MaxValue, activeOnly ? ConfigurationFlags.IsActive : ConfigurationFlags.None);
                 group.Blogs = new List<Blog>();
-                foreach (Blog blog in blogs)
+                foreach(Blog blog in blogs)
                 {
-                    if (blog.BlogGroupId == group.Id)
+                    if(blog.BlogGroupId == group.Id)
                         group.Blogs.Add(blog);
                 }
             }
@@ -274,39 +277,26 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override ICollection<BlogGroup> ListBlogGroups(bool activeOnly)
         {
-            using (IDataReader reader = _procedures.ListBlogGroups(activeOnly))
+            using(IDataReader reader = _procedures.ListBlogGroups(activeOnly))
             {
-                var groups = new List<BlogGroup>();
-                while (reader.Read())
-                {
-                    groups.Add(reader.ReadObject<BlogGroup>());
-                }
-                return groups;
+                return reader.ReadCollection<BlogGroup>();
             }
         }
 
-        public override ICollection<EntrySummary> GetTopEntrySummaries(int blogId, int rowCount) {
-            var entries = new List<EntrySummary>();
-            using (IDataReader reader = _procedures.GetTopEntries(blogId, rowCount)) {
-                    
-                while (reader.Read()) {
-                    entries.Add(reader.ReadObject<EntrySummary>());
-                }
+        public override ICollection<EntrySummary> GetTopEntrySummaries(int blogId, int rowCount)
+        {
+            using(IDataReader reader = _procedures.GetTopEntries(blogId, rowCount))
+            {
+                return reader.ReadCollection<EntrySummary>();
             }
-            return entries;
         }
 
-        public override ICollection<EntrySummary> GetRelatedEntries(int blogId, int entryId, int rowCount) {
-            var entries = new List<EntrySummary>();
-            using (IDataReader reader = _procedures.GetRelatedEntries(blogId, entryId, rowCount))
+        public override ICollection<EntrySummary> GetRelatedEntries(int blogId, int entryId, int rowCount)
+        {
+            using(IDataReader reader = _procedures.GetRelatedEntries(blogId, entryId, rowCount))
             {
-
-                while (reader.Read())
-                {
-                    entries.Add(reader.ReadObject<EntrySummary>());
-                }
+                return reader.ReadCollection<EntrySummary>();
             }
-            return entries;
         }
     }
 }

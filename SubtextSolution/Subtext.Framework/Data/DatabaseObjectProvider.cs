@@ -188,12 +188,7 @@ namespace Subtext.Framework.Data
         {
             using(IDataReader reader = _procedures.GetBlogKeyWords(BlogId))
             {
-                var kwc = new List<KeyWord>();
-                while(reader.Read())
-                {
-                    kwc.Add(reader.ReadObject<KeyWord>());
-                }
-                return kwc;
+                return reader.ReadCollection<KeyWord>();
             }
         }
 

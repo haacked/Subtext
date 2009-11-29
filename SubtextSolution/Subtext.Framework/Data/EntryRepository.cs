@@ -95,17 +95,15 @@ namespace Subtext.Framework.Data
                 minDate = CurrentDateTime.AddDays(-7);
             }
 
-            var entries = new List<EntryStatsView>();
             using(IDataReader reader = _procedures.GetPopularPosts(BlogId, minDate))
             {
-                while(reader.Read())
-                {
-                    EntryStatsView entry = reader.ReadEntryStatsView();
-                    entry.PostType = PostType.BlogPost;
-                    entries.Add(entry);
-                }
+                return reader.ReadCollection(r =>
+                    {
+                        var entry = r.ReadEntryStatsView();
+                        entry.PostType = PostType.BlogPost;
+                        return entry;
+                    });
             }
-            return entries;
         }
 
         public override IPagedCollection<EntryStatsView> GetEntriesForExport(int pageIndex, int pageSize)
@@ -149,11 +147,11 @@ namespace Subtext.Framework.Data
         /// <param name="entryId"></param>
         /// <returns></returns>
         /// <param name="postType"></param>
-        public override ICollection<Entry> GetPreviousAndNextEntries(int entryId, PostType postType)
+        public override ICollection<EntrySummary> GetPreviousAndNextEntries(int entryId, PostType postType)
         {
             using(IDataReader reader = _procedures.GetEntryPreviousNext(entryId, (int)postType, BlogId, CurrentDateTime))
             {
-                return reader.ReadEntryCollection();
+                return reader.ReadCollection<EntrySummary>();
             }
         }
 

@@ -67,14 +67,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetFeedbackCollection(parentEntry.Id))
             {
-                var ec = new List<FeedbackItem>();
-                while (reader.Read())
-                {
-                    //Don't build links.
-                    FeedbackItem feedbackItem = reader.ReadFeedbackItem(parentEntry);
-                    ec.Add(feedbackItem);
-                }
-                return ec;
+                return reader.ReadCollection(r => r.ReadFeedbackItem(parentEntry));
             }
         }
 

@@ -35,12 +35,7 @@ namespace Subtext.Framework.Data
         {
             using (IDataReader reader = _procedures.GetLinkCollectionByPostID(postId, BlogId))
             {
-                ICollection<Link> lc = new List<Link>();
-                while (reader.Read())
-                {
-                    lc.Add(reader.ReadObject<Link>());
-                }
-                return lc;
+                return reader.ReadCollection<Link>();
             }
         }
 
@@ -66,14 +61,9 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly)
         {
-            ICollection<LinkCategory> lcc = new List<LinkCategory>();
             using (IDataReader reader = _procedures.GetCategory(null, null, activeOnly, BlogId, (int)catType))
             {
-                while (reader.Read())
-                {
-                    lcc.Add(reader.ReadLinkCategory());
-                }
-                return lcc;
+                return reader.ReadCollection(r => r.ReadLinkCategory());
             }
         }
 

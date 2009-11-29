@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -24,7 +23,6 @@ using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -52,8 +50,7 @@ namespace Subtext.Web.UI.Controls
                 //Sent entry properties
                 MainLink.NavigateUrl = Url.BlogUrl();
 
-                ICollection<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(entry.Id,
-                                                                                                 PostType.BlogPost);
+                var entries = Repository.GetPreviousAndNextEntries(entry.Id, PostType.BlogPost);
 
                 //Remember, the NEXT entry is the MORE RECENT entry.
                 switch(entries.Count)
@@ -70,7 +67,7 @@ namespace Subtext.Web.UI.Controls
                         //since there is only one record, you are at an end
                         //Check EntryId to see if it is greater or less than
                         //the current ID
-                        if(entries.First().DateSyndicated > entry.DateSyndicated)
+                        if(entries.First().DateCreated > entry.DateSyndicated)
                         {
                             //this is the oldest blog
                             PrevLink.Visible = false;
@@ -107,7 +104,7 @@ namespace Subtext.Web.UI.Controls
         }
 
 
-        private void SetNav(HyperLink navLink, Entry entry)
+        private void SetNav(HyperLink navLink, EntrySummary entry)
         {
             string format = navLink.Attributes["Format"];
             if(String.IsNullOrEmpty(format))

@@ -39,7 +39,7 @@ namespace Subtext.Web.UI.Controls
             int blogId = Blog.Id >= 1 ? Blog.Id : 0;
             var urlRelatedLinks = FindControl("Links") as Repeater;
             Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-            ICollection<EntrySummary> relatedEntries = ObjectProvider.Instance().GetRelatedEntries(blogId, entry.Id,
+            ICollection<EntrySummary> relatedEntries = Repository.GetRelatedEntries(blogId, entry.Id,
                                                                                                    RowCount);
 
             foreach(EntrySummary relatedEntry in relatedEntries)
