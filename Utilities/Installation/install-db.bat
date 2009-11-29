@@ -1,1 +1,0 @@
-subtext install /recreate-db /connect "Server=localhost;Database=SubtextData_1.9;Trusted_Connection=True"
