@@ -511,4 +511,28 @@ You may remove them later.&lt;/p&gt;</value>
   <data name="InvalidOperation_CommentNotValid" xml:space="preserve">
     <value>Sorry, but we cannot accept this comment.</value>
   </data>
+  <data name="ArgumentOutOfRange_Height" xml:space="preserve">
+    <value>height must be greater than {0}.</value>
+  </data>
+  <data name="ArgumentOutOfRange_Width" xml:space="preserve">
+    <value>width must be greater than {0}.</value>
+  </data>
+  <data name="CaptchaExpired_EncryptedTextNotValid" xml:space="preserve">
+    <value>Encrypted encoded text '{0}' was not valid.</value>
+  </data>
+  <data name="CaptchaExpired_KeyOutOfSynch" xml:space="preserve">
+    <value>Captcha image expired, probably due to recompile making the key out of synch.</value>
+  </data>
+  <data name="CaptchaExpired_WaitedTooLong" xml:space="preserve">
+    <value>User waited too long to submit captcha</value>
+  </data>
+  <data name="Message_FormExpired" xml:space="preserve">
+    <value>Sorry, but this form has expired. Please try again.</value>
+  </data>
+  <data name="Message_PleaseEnterCorrectWord" xml:space="preserve">
+    <value>Please enter the correct word</value>
+  </data>
+  <data name="Warning_CaptchaExpired" xml:space="preserve">
+    <value>CaptchaExpired Exception thrown.</value>
+  </data>
 </root>

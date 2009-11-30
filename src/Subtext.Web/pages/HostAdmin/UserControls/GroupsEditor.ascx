@@ -1,7 +1,6 @@
 <%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="True" Codebehind="GroupsEditor.ascx.cs" Inherits="Subtext.Web.HostAdmin.UserControls.GroupsEditor" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Import Namespace="Subtext.Framework" %>
+
 <st:MessagePanel id="messagePanel" runat="server"></st:MessagePanel>
 <st:AdvancedPanel id="pnlResults" runat="server">
 	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs Groups" Runat="server" oncheckedchanged="chkShowInactive_CheckedChanged"></asp:CheckBox>

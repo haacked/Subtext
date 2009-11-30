@@ -1,6 +1,4 @@
 <%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
-<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls.Captcha" Assembly="Subtext.Web.Controls" %>
 
 <p>
 	Please use the form below if you have any comments, questions, or 
@@ -40,7 +38,7 @@
 					TextMode="MultiLine" />
 		</p>
 		<p>
-			<sub:SubtextCaptchaControl id="captcha" runat="server" ErrorMessage="Please enter the correct word" />
+			<st:SubtextCaptchaControl id="captcha" runat="server" ErrorMessage="Please enter the correct word" />
 			<asp:Button id="btnSend" CssClass="buttonSubmit" runat="server" Text="Post" TabIndex="6" CausesValidation="true" />
 			<asp:Label id="lblMessage" runat="server" ForeColor="Red" />
 		</p>

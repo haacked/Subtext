@@ -141,6 +141,27 @@
     <Compile Include="Controllers\IdenticonController.cs" />
     <Compile Include="Controllers\ManifestController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
+    <Compile Include="Controls\Captcha\CaptchaBase.cs" />
+    <Compile Include="Controls\Captcha\CaptchaControl.cs" />
+    <Compile Include="Controls\Captcha\CaptchaExpiredException.cs" />
+    <Compile Include="Controls\Captcha\CaptchaImage.cs" />
+    <Compile Include="Controls\Captcha\CaptchaImageHandler.cs" />
+    <Compile Include="Controls\Captcha\CaptchaInfo.cs" />
+    <Compile Include="Controls\Captcha\InvisibleCaptcha.cs" />
+    <Compile Include="Controls\Captcha\SubtextCaptchaControl.cs" />
+    <Compile Include="Controls\CoComment.cs" />
+    <Compile Include="Controls\CollapsiblePanel.cs" />
+    <Compile Include="Controls\CompliantButton.cs" />
+    <Compile Include="Controls\ControlHelper.cs" />
+    <Compile Include="Controls\HelpToolTip.cs" />
+    <Compile Include="Controls\MenuItem.cs" />
+    <Compile Include="Controls\NavigationLink.cs" />
+    <Compile Include="Controls\PagingControl.cs" />
+    <Compile Include="Controls\RepeaterWithEmptyDataTemplate.cs" />
+    <Compile Include="Controls\RichTextEditor.cs" />
+    <Compile Include="Controls\ScriptHelper.cs" />
+    <Compile Include="Controls\ScrollPositionSaver.cs" />
+    <Compile Include="Controls\StyleTag.cs" />
     <Compile Include="Dependencies.cs" />
     <Compile Include="Controllers\CommentApiController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -638,6 +659,7 @@
       <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -999,6 +1021,10 @@
     <Content Include="transform.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\Resources\CoCommentScript.js" />
+    <EmbeddedResource Include="Controls\Resources\CollapsiblePanel.js" />
+    <EmbeddedResource Include="Controls\Resources\InvisibleCaptcha.js" />
+    <EmbeddedResource Include="Controls\Resources\ScrollPositionSaver.js" />
     <Content Include="Default.aspx" />
     <Content Include="Images\accept.png" />
     <Content Include="Images\admin.gif" />
@@ -2395,10 +2421,6 @@
     <ProjectReference Include="..\Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj">
       <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
       <Name>Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
-      <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
-      <Name>Subtext.Web.Controls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
