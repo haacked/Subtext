@@ -27,6 +27,9 @@ namespace SubtextUpgrader
     /// </summary>
     public class Program
     {
+        //TODO: Consider Replace Assembly="Subtext.Web.Controls" with Assembly="Subtext.Web" 
+        //      in all skin files.
+
         static void Main(string[] args)
         {
             if(args.Length == 0)
