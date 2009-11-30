@@ -19,6 +19,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
+using System.Web.UI;
 using log4net.Config;
 
 //
@@ -35,3 +36,4 @@ using log4net.Config;
 [assembly: CLSCompliant(false)]
 [assembly: XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]
+[assembly: WebResource("Subtext.Web.Controls.Resources.InvisibleCaptcha.js", "text/javascript")]

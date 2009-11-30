@@ -1,5 +1,5 @@
 <%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.PostComment" %>
-<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+
 <div id="commentform">
 	<h3>Your comment:</h3>
 	<div class="label">
@@ -42,7 +42,7 @@
 	</div>
 
 	<div class="input">
-		<sub:CompliantButton id="btnCompliantSubmit" runat="server" Text="Leave Your Mark" /> 
+		<st:CompliantButton id="btnCompliantSubmit" runat="server" Text="Leave Your Mark" /> 
 		<asp:Label id="Message" runat="server" ForeColor="Red" />
 	</div>
 </div>

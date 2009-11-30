@@ -1,5 +1,4 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext - Host Admin - Installed Blogs" MasterPageFile="~/pages/HostAdmin/HostAdminTemplate.Master" Codebehind="Default.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Upgrade.Default" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext Upgrade Wizard: Welcome</asp:Content>
 <asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>

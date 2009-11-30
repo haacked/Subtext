@@ -1,5 +1,4 @@
 <%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.MyLinks" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <ul id="menu" class="horizontal">
 	<li><st:NavigationLink Runat="server" Text="Home" ID="HomeLink" ActiveCssClass="active" /></li>

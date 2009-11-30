@@ -1,5 +1,5 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.MyLinks" %>
-<%@ Register TagPrefix="SP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+
 <div id="menu">
     <ul>
 	    <li><asp:HyperLink Runat="server" Text="Home" ID="HomeLink" /></li>
