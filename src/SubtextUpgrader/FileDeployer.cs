@@ -61,8 +61,8 @@ namespace SubtextUpgrader
                                     @"Admin\Skins.user.config", @"bin\Subtext.BlogML.dll",
                                     @"bin\Subtext.Installation.dll", @"bin\Subtext.Scripting", 
                                     @"bin\Identicon.dll", @"bin\Subtext.Akismet.dll",
-                                    @"bin\Subtext.Web.Controls.dll", @"bin\DotNetOpenId.dll"
-                                    @"bin\WebControlCaptcha.dll"};
+                                    @"bin\Subtext.Web.Controls.dll", @"bin\DotNetOpenId.dll",
+                                    @"bin\WebControlCaptcha.dll", @"bin\PostBackRitalin.dll"};
             
             foreach(var fileName in fileNames)
             {
