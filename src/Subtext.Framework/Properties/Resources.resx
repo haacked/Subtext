@@ -382,4 +382,13 @@
   <data name="SqlScriptExecutionError_ErrorOccurred" xml:space="preserve">
     <value>An error occurred while executing the script.</value>
   </data>
+  <data name="InvalidResponse_EmptyResponse" xml:space="preserve">
+    <value>Akismet returned an empty response</value>
+  </data>
+  <data name="InvalidResponse_PossiblyBadApiKey" xml:space="preserve">
+    <value>Received the response '{0}' from Akismet. Probably a bad API key.</value>
+  </data>
+  <data name="InvalidResponse_ServiceUnableToHandleRequest" xml:space="preserve">
+    <value>The service was not able to handle our request. Http Status '{0}'.</value>
+  </data>
 </root>
