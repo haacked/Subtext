@@ -6,14 +6,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		License.txt = License.txt
 		..\tools\WebPI\manifest.xml = ..\tools\WebPI\manifest.xml
 		..\tools\WebPI\parameters.xml = ..\tools\WebPI\parameters.xml
-		recreateDB.build = recreateDB.build
 		ReleaseChecklist.txt = ReleaseChecklist.txt
 		SolutionInfo.cs = SolutionInfo.cs
 		SourceGuidelines.txt = SourceGuidelines.txt
 		SubText-CCNET.build = SubText-CCNET.build
 		..\subtext2.2-upgrade-notes.txt = ..\subtext2.2-upgrade-notes.txt
 		SubtextCodeAnalysis.FxCop = SubtextCodeAnalysis.FxCop
-		VersionInfo.Designer.cs = VersionInfo.Designer.cs
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739-6817-4A4F-9386-765ABA27C754}"

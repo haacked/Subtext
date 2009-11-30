@@ -1728,7 +1728,6 @@
     <Content Include="Skins\Gradient\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Gradient\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Gradient\Controls\ViewPost.ascx" />
-    <Content Include="Skins\Gradient\IEPatches.css" />
     <Content Include="Skins\Gradient\Images\CommentAuthorGradient.gif" />
     <Content Include="Skins\Gradient\PageTemplate.ascx" />
     <Content Include="Skins\Gradient\print.css" />
