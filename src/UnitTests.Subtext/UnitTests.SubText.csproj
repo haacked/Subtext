@@ -259,10 +259,6 @@
       <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
       <Name>Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
-      <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
-      <Name>Subtext.Web.Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subtext.Web\Subtext.Web.csproj">
       <Name>Subtext.Web</Name>
       <Project>{8C11B428-9C4A-46C3-B7F0-48215276BFA5}</Project>
