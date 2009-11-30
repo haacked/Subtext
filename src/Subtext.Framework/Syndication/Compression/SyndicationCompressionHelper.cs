@@ -23,8 +23,6 @@ namespace Subtext.Framework.Syndication.Compression
 {
     public static class SyndicationCompressionHelper
     {
-        #region -- GetFilterForScheme(schemes, Stream) Method --
-
         public static SyndicationCompressionFilter GetFilterForScheme(string schemes, Stream contextFilter)
         {
             SyndicationCompressionFilter filter = null;
@@ -64,7 +62,5 @@ namespace Subtext.Framework.Syndication.Compression
 
             return filter;
         }
-
-        #endregion
     }
 }

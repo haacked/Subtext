@@ -41,6 +41,7 @@ namespace SubtextUpgrader
         {
             WebRoot.CopyTo(Destination);
             RemoveOldDirectories();
+            RemoveOldFiles();
         }
 
         public void RemoveOldDirectories()
@@ -50,11 +51,18 @@ namespace SubtextUpgrader
             {
                 Destination.Combine(folderName).Delete(true /*recursive*/);
             }
+        }
 
+        private void RemoveOldFiles()
+        {
             var fileNames = new[] { "SystemMessages", "AggDefault.aspx", "DTP.aspx",
-                "ForgotPassword.aspx", "login.aspx", "logout.aspx", "MainFeed.aspx",
-                @"Admin\Skins.config", @"Admin\Skins.user.config", @"bin\Subtext.BlogML.dll",
-                @"bin\Subtext.Installation.dll", @"bin\Subtext.Scripting", @"bin\Identicon.dll"};
+                                    "ForgotPassword.aspx", "login.aspx", "logout.aspx", 
+                                    "MainFeed.aspx", @"Admin\Skins.config", 
+                                    @"Admin\Skins.user.config", @"bin\Subtext.BlogML.dll",
+                                    @"bin\Subtext.Installation.dll", @"bin\Subtext.Scripting", 
+                                    @"bin\Identicon.dll", @"bin\Subtext.Akismet.dll",
+                                    @"bin\Subtext.Web.Controls.dll", @"bin\DotNetOpenId.dll"
+                                    @"bin\WebControlCaptcha.dll"};
             
             foreach(var fileName in fileNames)
             {
