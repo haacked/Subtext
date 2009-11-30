@@ -68,9 +68,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
-      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
-      <Name>Subtext.Akismet</Name>
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
+      <Name>Subtext.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
