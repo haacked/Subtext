@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ReleaseChecklist.txt = ReleaseChecklist.txt
 		SolutionInfo.cs = SolutionInfo.cs
 		SourceGuidelines.txt = SourceGuidelines.txt
-		SubText-CCNET.build = SubText-CCNET.build
 		..\subtext2.2-upgrade-notes.txt = ..\subtext2.2-upgrade-notes.txt
 		SubtextCodeAnalysis.FxCop = SubtextCodeAnalysis.FxCop
 	EndProjectSection
