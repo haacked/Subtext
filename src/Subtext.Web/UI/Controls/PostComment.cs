@@ -16,10 +16,10 @@
 #endregion
 
 using System;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Encosia;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
@@ -186,6 +186,7 @@ namespace Subtext.Web.UI.Controls
 
         private void OnSubmitButtonClick(object sender, EventArgs e)
         {
+            Thread.Sleep(5000);
             if(!Page.IsValid)
             {
                 return;
@@ -359,18 +360,6 @@ namespace Subtext.Web.UI.Controls
             {
                 Controls.Clear();
             }
-        }
-
-        protected override void OnPreRender(EventArgs e)
-        {
-            base.OnPreRender(e);
-
-            var commentsPanel = new MonitoredUpdatePanel {UpdatePanelID = SubtextMasterPage.CommentsPanelId};
-
-            var pbr = new PostBackRitalin {WaitText = "Submitting..."};
-            pbr.MonitoredUpdatePanels.Add(commentsPanel);
-
-            Controls.Add(pbr);
         }
 
         override protected void OnInit(EventArgs e)

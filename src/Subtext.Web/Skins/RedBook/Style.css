@@ -559,3 +559,8 @@ p.subtextlogo
 	top: -8px;
 	left: 80px;
 }
+
+.button-disabled 
+{
+	background-color: #ccc;
+}
