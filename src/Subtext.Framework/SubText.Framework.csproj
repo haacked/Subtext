@@ -188,10 +188,6 @@
       <Name>Velocit.RegularExpressions</Name>
       <HintPath>..\Dependencies\Velocit.RegularExpressions.dll</HintPath>
     </Reference>
-    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
-      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
-      <Name>Subtext.Akismet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
       <Name>Subtext.Extensibility</Name>
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
@@ -461,6 +457,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\Akismet\AkismetClient.cs" />
+    <Compile Include="Services\Akismet\Comment.cs" />
+    <Compile Include="Services\Akismet\HttpClient.cs" />
+    <Compile Include="Services\Akismet\IComment.cs" />
+    <Compile Include="Services\Akismet\InvalidResponseException.cs" />
     <Compile Include="Services\CompositeTextTransformation.cs" />
     <Compile Include="Services\Email\EmailService.cs" />
     <Compile Include="Services\Email\EmbeddedTemplateEngine.cs" />

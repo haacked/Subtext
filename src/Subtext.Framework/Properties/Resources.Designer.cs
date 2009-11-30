@@ -430,6 +430,33 @@ namespace Subtext.Framework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Akismet returned an empty response.
+        /// </summary>
+        public static string InvalidResponse_EmptyResponse {
+            get {
+                return ResourceManager.GetString("InvalidResponse_EmptyResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received the response &apos;{0}&apos; from Akismet. Probably a bad API key..
+        /// </summary>
+        public static string InvalidResponse_PossiblyBadApiKey {
+            get {
+                return ResourceManager.GetString("InvalidResponse_PossiblyBadApiKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The service was not able to handle our request. Http Status &apos;{0}&apos;..
+        /// </summary>
+        public static string InvalidResponse_ServiceUnableToHandleRequest {
+            get {
+                return ResourceManager.GetString("InvalidResponse_ServiceUnableToHandleRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to is another blog.
         /// </summary>
         public static string IsAnotherBlog {
