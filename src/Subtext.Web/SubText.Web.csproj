@@ -2406,10 +2406,6 @@
     <Content Include="UI\WebControls\MasterPage.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
-      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
-      <Name>Subtext.Akismet</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Name>Subtext.Extensibility</Name>

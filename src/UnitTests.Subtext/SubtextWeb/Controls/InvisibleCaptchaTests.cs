@@ -1,5 +1,5 @@
 using MbUnit.Framework;
-using Subtext.Web.Controls;
+using Subtext.Web.Controls.Captcha;
 
 namespace UnitTests.Subtext.SubtextWeb.Controls
 {
