@@ -1,46 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <NDepend AppName="New Project">
-  <OutputDir KeepHistoric="True" KeepXmlFiles="True">C:\Projects\SubtextSystem\trunk\Tools\NDepend</OutputDir>
+  <OutputDir KeepHistoric="True" KeepXmlFiles="True">D:\svn\subtext\trunk\tools\NDepend\output</OutputDir>
   <Dirs>
-    <Dir>C:\Projects\SubtextSystem\trunk\SubtextSolution\UnitTests.Subtext\bin\Debug</Dir>
+    <Dir>D:\svn\subtext\trunk\src\Subtext.Web\bin</Dir>
   </Dirs>
   <Assemblies>
-    <Name Warn="True">Subtext.Common</Name>
     <Name Warn="True">Subtext.Extensibility</Name>
     <Name Warn="True">Subtext.Framework</Name>
-    <Name Warn="True">Subtext.Installation</Name>
     <Name Warn="True">Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
-    <Name Warn="True">Subtext.Scripting</Name>
-    <Name Warn="True">Subtext.UnitTesting.Servers</Name>
     <Name Warn="True">Subtext.Web</Name>
-    <Name Warn="True">Subtext.Web.Controls</Name>
   </Assemblies>
   <FrameworkAssemblies>
     <Name>BlogML</Name>
-    <Name>blowery.Web.HttpCompress</Name>
-    <Name>CookComputing.XmlRpc</Name>
-    <Name>DotNetOpenMail</Name>
-    <Name>FredCK.FCKeditorV2</Name>
-    <Name>freetextbox</Name>
-    <Name>ICSharpCode.SharpZipLib</Name>
-    <Name>Interop.SQLDMO</Name>
-    <Name>log4net</Name>
-    <Name>LumiSoft.Net</Name>
-    <Name>MbUnit.Framework</Name>
-    <Name>MbUnit.Framework.1.1</Name>
-    <Name>Microsoft.ApplicationBlocks.Data</Name>
-    <Name>NGraphviz</Name>
-    <Name>NGraphviz.Helpers</Name>
-    <Name>NGraphviz.Layout</Name>
-    <Name>QuickGraph</Name>
-    <Name>QuickGraph.Algorithms</Name>
-    <Name>QuickGraph.Algorithms.Graphviz</Name>
-    <Name>Refly</Name>
-    <Name>Rhino.Mocks</Name>
     <Name>SgmlReaderDll</Name>
-    <Name>TestFu</Name>
-    <Name>UnitTests.Subtext</Name>
+    <Name>Ninject</Name>
+    <Name>Microsoft.ApplicationBlocks.Data</Name>
+    <Name>log4net</Name>
+    <Name>Jayrock.Json</Name>
+    <Name>Jayrock</Name>
+    <Name>ICSharpCode.SharpZipLib</Name>
+    <Name>freetextbox</Name>
+    <Name>FredCK.FCKeditorV2</Name>
+    <Name>DotNetOpenAuth</Name>
+    <Name>CookComputing.XmlRpcV2</Name>
+    <Name>blowery.Web.HttpCompress</Name>
     <Name>Velocit.RegularExpressions</Name>
+    <Name>Subtext.Web.XmlSerializers</Name>
+    <Name>Subtext.Framework.XmlSerializers</Name>
+    <Name>System.Web.Routing</Name>
+    <Name>System.Web.Mvc</Name>
+    <Name>System.Web.Abstractions</Name>
   </FrameworkAssemblies>
   <Report>
     <Section Enabled="True">Application Metrics</Section>
