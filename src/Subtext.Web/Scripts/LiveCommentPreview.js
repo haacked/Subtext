@@ -64,7 +64,7 @@ var commentLivePreview =
 
 		// Loop through all input tags.
 		var textarea;
-		for (i = 0; i < textareas.length; i++)
+		for (var i = 0; i < textareas.length; i++)
 		{
 			textarea = textareas[i];
 			if (commentLivePreview.getClassName(textarea).indexOf(commentLivePreview.livePreviewClass) >= 0)
