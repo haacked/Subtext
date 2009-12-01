@@ -28,9 +28,11 @@ namespace Subtext.Web.HostAdmin
     /// </summary>
     public partial class ChangePassword : HostAdminPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
+            txtEmail.Text = HostInfo.Instance.Email;
             lblSuccess.Visible = false;
+            emailChangedLabel.Visible = false;
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -43,7 +45,14 @@ namespace Subtext.Web.HostAdmin
             }
         }
 
-        private void vldCurrent_ServerValidate(object source, ServerValidateEventArgs args)
+        protected void OnChangeEmailButtonClick(object sender, EventArgs e)
+        {
+            emailChangedLabel.Visible = true;
+            HostInfo.Instance.Email = txtEmail.Text;
+            HostInfo.UpdateHost(HostInfo.Instance);
+        }
+
+        private void ValidatePassword(object source, ServerValidateEventArgs args)
         {
             string password = txtCurrentPassword.Text;
             if(Config.Settings.UseHashedPasswords)
@@ -54,27 +63,10 @@ namespace Subtext.Web.HostAdmin
             args.IsValid = password == HostInfo.Instance.Password;
         }
 
-        #region Web Form Designer generated code
-
         override protected void OnInit(EventArgs e)
         {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
+            vldCurrent.ServerValidate += ValidatePassword;
             base.OnInit(e);
         }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            vldCurrent.ServerValidate +=
-                new System.Web.UI.WebControls.ServerValidateEventHandler(vldCurrent_ServerValidate);
-        }
-
-        #endregion
     }
 }

@@ -3773,6 +3773,7 @@ SET @blogAggregationEnabled = 0
 
 SELECT 
 	[HostUserName]
+	, [Email]
 	, [Password]
 	, [Salt]
 	, [DateCreated]
@@ -3799,6 +3800,7 @@ Updates the Host information.
 */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateHost]
 	@HostUserName NVARCHAR(64)
+	, @Email NVARCHAR(256)
 	, @Password NVARCHAR(32)
 	, @Salt NVARCHAR(32)
 AS
@@ -3806,6 +3808,7 @@ IF EXISTS(SELECT * FROM [<dbUser,varchar,dbo>].[subtext_Host])
 BEGIN
 	UPDATE [<dbUser,varchar,dbo>].[subtext_Host] 
 		SET [HostUserName] = @HostUserName
+			, [Email] = @Email
 			, [Password] = @Password
 			, [Salt] = @Salt
 END
@@ -3814,6 +3817,7 @@ BEGIN
 	INSERT subtext_Host
 	(
 		[HostUserName]
+		,[Email]
 		,[Password]
 		,[Salt]
 		,[DateCreated]
@@ -3821,6 +3825,7 @@ BEGIN
 	VALUES
 	(
 		@HostUserName
+		,@Email
 		,@Password
 		,@Salt
 		,getdate()
