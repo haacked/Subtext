@@ -1,5 +1,4 @@
 <%@ Page Language="C#" EnableTheming="false"  Title="Subtext Installation: Welcome" MasterPageFile="~/pages/Install/InstallTemplate.Master" Codebehind="Default.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Default" %>
-<%@ Import namespace="Subtext.Framework.Configuration"%>
 
 <asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<fieldset>

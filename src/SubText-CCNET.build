@@ -17,8 +17,9 @@
 		<if test="${not property::exists('CCNetLabel')}"> 
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</if>
-
-		<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v3.5\MSBuild.exe" />
+    <property name="dotnetfx" value="C:\WINDOWS\Microsoft.NET\Framework" />
+    <property name="aspnet_compiler.exe" value="${dotnetfx}\v2.0.50727\aspnet_compiler.exe" />
+    <property name="msbuild.exe" value="${dotnetfx}\v3.5\MSBuild.exe" />
 		<property name="solution.dir" value="${CCNetWorkingDirectory}\src" />
 		<property name="tools.dir" value="${CCNetWorkingDirectory}\tools" />
 		<property name="webPI.dir" value="${tools.dir}\WebPI" />
@@ -161,38 +162,22 @@
 	</target>
 	
 	<target name="dist.publish.latest" depends="compile-release">
-    <delete dir="${publish.dir.latest.web}" failonerror="false" />
-    <delete dir="${publish.dir.latest}" failonerror="false" />
-		<mkdir dir="${publish.dir.latest}" />
-    <mkdir dir="${publish.dir.latest.web}" />
-    
-		<echo message="deploying binaries to latest" />
-		
-		<copy todir="${publish.dir.latest.web}" includeemptydirs="false">
-			<fileset basedir="Subtext.Web">
-        <include name="emoticons.txt" />
-				<include name="**/*" />
-				<exclude name="**/*.bmp" />
-				<exclude name="ExternalDependencies/*" />
-				<exclude name="**/*.cs"/>
-				<exclude name="**/*.txt"/>
-				<exclude name="**/*.resx"/>
-				<exclude name="bin/*.xml"/>
-				<exclude name="**/*.csproj"/>
-				<exclude name="**/*.csproj.user"/>
-				<exclude name="**/.cvsignore"/>
-				<exclude name="obj/**"/>
-			</fileset>
-		</copy>
+		<delete dir="${publish.dir.latest.web}" failonerror="false" />
 
-    <copy todir="${publish.dir.latest}" includeemptydirs="false">
-      <fileset basedir="${webPI.dir}">
-        <include name="installSQL.sql" />
-        <include name="manifest.xml" />
-        <include name="parameters.xml" />
-        <include name="readme.txt" />
-      </fileset>
-    </copy>
+		<delete dir="${publish.dir.latest}" failonerror="false" />
+			<mkdir dir="${publish.dir.latest}" />
+		<mkdir dir="${publish.dir.latest.web}" />
+
+		<call target="precompiled.deploy" />
+
+		<copy todir="${publish.dir.latest}" includeemptydirs="false">
+		  <fileset basedir="${webPI.dir}">
+			<include name="installSQL.sql" />
+			<include name="manifest.xml" />
+			<include name="parameters.xml" />
+			<include name="readme.txt" />
+		  </fileset>
+		</copy>
 		
 		<attrib readonly="false" >
 			<fileset basedir="${publish.dir.latest}">
@@ -202,6 +187,36 @@
 		
 		<call target="javascript.minify" />
 	</target>
+
+  <target name="precompiled.deploy">
+    <delete dir="${publish.dir.latest}\precompiled" failonerror="false" />
+    <mkdir dir="${publish.dir.latest}\precompiled" failonerror="false" />
+
+    <exec program="${aspnet_compiler.exe}"
+      commandline="-f -u -p Subtext.Web -v / ${publish.dir.latest}\precompiled"/>
+
+    <copy todir="${publish.dir.latest.web}" includeemptydirs="false">
+      <fileset basedir="${publish.dir.latest}\precompiled">
+        <include name="emoticons.txt" />
+        <include name="favicon.ico" />
+        <include name="**/*" />
+        
+        <exclude name="**/*.bmp" />
+        <exclude name="**/*.cs"/>
+        <exclude name="**/*.txt"/>
+        <exclude name="**/*.resx"/>
+        <exclude name="bin/*.xml"/>
+        <exclude name="**/*.csproj"/>
+        <exclude name="**/*.csproj.user"/>
+        <exclude name="**/.cvsignore"/>
+        <exclude name="**/.svn"/>
+        <exclude name="obj/**"/>
+        <exclude name="_Resharper.*"/>
+      </fileset>
+    </copy>
+    
+    <delete dir="${publish.dir.latest}\precompiled" failonerror="false" />
+  </target>
 
 	<target name="javascript.minify" depends="get-publishing-properties">
 		<yuicompressor todir="${publish.dir.latest.web}"> 

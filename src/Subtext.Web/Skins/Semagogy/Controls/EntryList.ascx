@@ -1,5 +1,5 @@
 <%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.EntryList" %>
-<%@ Import Namespace = "Subtext.Framework" %>
+
 	<dl class="Posts">
 		<dt>
 			<asp:literal id="EntryCollectionTitle" runat="server" />

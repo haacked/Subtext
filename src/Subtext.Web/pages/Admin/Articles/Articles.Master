@@ -1,5 +1,4 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/pages/Admin/WebUI/AdminPageTemplate.Master" CodeBehind="Articles.master.cs" Inherits="Subtext.Web.Admin.Articles.Articles" %>
-<%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/pages/Admin/UserControls/CategoryLinkList.ascx" %>
 
 <asp:Content ContentPlaceHolderID="actionsHeading" runat="server">
     <h2>Actions</h2>

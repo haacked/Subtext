@@ -1,5 +1,5 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.RecentComments" %>
-<%@ Import Namespace = "Subtext.Framework" %>
+
 <asp:Repeater ID="feedList" Runat="server" OnItemCreated="EntryCreated">
        <HeaderTemplate>
               <ul>

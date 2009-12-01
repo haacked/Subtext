@@ -1,5 +1,5 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.CategoryList" %>
-<%@ Import Namespace = "Subtext.Framework" %>
+
 <asp:Repeater ID="CatList" Runat="server" OnItemCreated="CategoryCreated">
 	<ItemTemplate>
 		<li><h2 class="sidebartitle"><asp:Literal runat="server" ID="Title" /></h2>

@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EntriesList.ascx.cs" Inherits="Subtext.Web.Admin.UserControls.EntriesList" %>
+
 <h2 id="title" runat="server">Title</h2>
 
 <asp:Repeater id="rprSelectionList" runat="server">

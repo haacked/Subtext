@@ -1,5 +1,5 @@
-<%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.CategoryList" %>
-<%@ Import Namespace="Subtext.Framework" %>
+<%@ Control Language="C#" EnableTheming="false" Inherits="Subtext.Web.UI.Controls.CategoryList" %>
+
 <asp:Repeater ID="CatList" runat="server" OnItemCreated="CategoryCreated">
     <ItemTemplate>
 		<div>

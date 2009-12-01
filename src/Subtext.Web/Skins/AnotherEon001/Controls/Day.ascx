@@ -1,6 +1,6 @@
 <%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.Day" %>
 <%@ Register TagPrefix="uc1" TagName="PostCategoryList" Src="PostCategoryList.ascx" %>
-<%@ Import Namespace = "Subtext.Framework" %>
+
 <p class="date">
 	<span>		  
 	<asp:HyperLink Runat="server" Title="Day Archive" BorderWidth="0" ID="ImageLink" ><asp:Literal ID = "DateTitle" Runat = "server" /></asp:HyperLink>
