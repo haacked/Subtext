@@ -20,15 +20,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
-using Ninject;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class PageRouteHandler : RouteHandlerBase
     {
-        public PageRouteHandler(string virtualPath, ISubtextPageBuilder pageBuilder, IKernel kernel)
-            : base(kernel)
+        public PageRouteHandler(string virtualPath, ISubtextPageBuilder pageBuilder, IServiceLocator serviceLocator)
+            : base(serviceLocator)
         {
             VirtualPath = virtualPath;
             PageBuilder = pageBuilder;
@@ -51,7 +50,6 @@ namespace Subtext.Framework.Routing
                     if(requestContext.RouteData.DataTokens != null)
                     {
                         IEnumerable<string> controls = requestContext.RouteData.GetControlNames();
-                        //TODO: Temporary hack to append .ascx
                         pageWithControls.SetControls(controls.Select(s => s + ".ascx"));
                     }
                 }

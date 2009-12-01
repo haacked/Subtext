@@ -15,22 +15,22 @@
 
 #endregion
 
-using Ninject;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class DirectoryRoute : SubtextRoute, IDirectoryRoute
     {
-        public DirectoryRoute(string directoryName, IKernel kernel) :
-            base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(kernel.Get<ISubtextPageBuilder>(), kernel))
+        public DirectoryRoute(string directoryName, IServiceLocator serviceLocator) :
+            base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator))
         {
             DirectoryName = directoryName;
         }
-
-        #region IDirectoryRoute Members
-
-        public string DirectoryName { get; private set; }
-
-        #endregion
+        
+        public string DirectoryName
+        {
+            get; 
+            private set;
+        }
     }
 }

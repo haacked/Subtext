@@ -17,7 +17,6 @@
 
 using System;
 using System.Web;
-using Ninject;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Infrastructure;
 
@@ -37,7 +36,7 @@ namespace Subtext.Framework.Web.HttpModules
         /// </summary>
         public InstallationCheckModule(IInstallationManager installationManager)
         {
-            InstallationManager = installationManager ?? Bootstrapper.Kernel.Get<IInstallationManager>();
+            InstallationManager = installationManager ?? Bootstrapper.ServiceLocator.GetService<IInstallationManager>();
         }
 
         public IInstallationManager InstallationManager { get; private set; }

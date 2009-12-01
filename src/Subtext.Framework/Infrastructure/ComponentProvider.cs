@@ -19,12 +19,13 @@ using System.Web;
 using System.Web.Routing;
 using Ninject;
 using Ninject.Modules;
+using Subtext.Framework.Infrastructure;
 
 namespace Subtext.Infrastructure
 {
     public static class Bootstrapper
     {
-        public static IKernel Kernel { get; set; }
+        public static IServiceLocator ServiceLocator { get; set; }
 
         public static RequestContext RequestContext
         {
@@ -47,7 +48,8 @@ namespace Subtext.Infrastructure
 
         public static void InitializeKernel(params INinjectModule[] modules)
         {
-            Kernel = new StandardKernel(modules);
+            var kernel = new StandardKernel(modules);
+            ServiceLocator = kernel.Get<IServiceLocator>();
         }
     }
 }

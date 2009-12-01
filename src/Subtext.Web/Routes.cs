@@ -15,7 +15,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Subtext.Framework.Routing;
@@ -132,7 +131,7 @@ public static class Routes
         routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new {id = @"\d+"});
         routes.MapXmlRpcHandler<MetaWeblog>("metaweblogapi", "services/metablogapi.aspx", null);
         routes.Add("identicon", new Route("images/IdenticonHandler.ashx", new MvcRouteHandler()) {Defaults = new RouteValueDictionary(new {controller = "identicon", action = "image"})});
-        routes.Add("captcha", new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(routes.Kernel)));
+        routes.Add("captcha", new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(routes.ServiceLocator)));
         
         routes.MapRoot();
     }

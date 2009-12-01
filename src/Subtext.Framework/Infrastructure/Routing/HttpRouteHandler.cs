@@ -17,21 +17,21 @@
 
 using System.Web;
 using System.Web.Routing;
-using Ninject;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class HttpRouteHandler<THandler> : RouteHandlerBase where THandler : IHttpHandler
     {
-        public HttpRouteHandler(IKernel kernel) : base(kernel)
+        public HttpRouteHandler(IServiceLocator serviceLocator)
+            : base(serviceLocator)
         {
         }
 
         protected override IHttpHandler GetHandler(RequestContext requestContext)
         {
             Bootstrapper.RequestContext = requestContext;
-            return Kernel.Get<THandler>();
+            return ServiceLocator.GetService<THandler>();
         }
     }
 }

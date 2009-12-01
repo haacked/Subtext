@@ -1,17 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <NDepend AppName="New Project">
-  <OutputDir KeepHistoric="True" KeepXmlFiles="True">D:\svn\subtext\trunk\tools\NDepend\output</OutputDir>
+  <OutputDir KeepHistoric="True" KeepXmlFiles="True">D:\svn\subtext\trunk\tools\NDepend</OutputDir>
   <Dirs>
     <Dir>D:\svn\subtext\trunk\src\Subtext.Web\bin</Dir>
   </Dirs>
   <Assemblies>
-    <Name Warn="True">Subtext.Extensibility</Name>
-    <Name Warn="True">Subtext.Framework</Name>
     <Name Warn="True">Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
     <Name Warn="True">Subtext.Web</Name>
+    <Name Warn="True">Subtext.Framework</Name>
+    <Name Warn="True">Subtext.Extensibility</Name>
   </Assemblies>
   <FrameworkAssemblies>
-    <Name>BlogML</Name>
+    <Name>Velocit.RegularExpressions</Name>
+    <Name>System.Web.Routing</Name>
+    <Name>System.Web.Mvc</Name>
+    <Name>System.Web.Abstractions</Name>
+    <Name>Subtext.Web.XmlSerializers</Name>
+    <Name>Subtext.Framework.XmlSerializers</Name>
     <Name>SgmlReaderDll</Name>
     <Name>Ninject</Name>
     <Name>Microsoft.ApplicationBlocks.Data</Name>
@@ -24,12 +29,7 @@
     <Name>DotNetOpenAuth</Name>
     <Name>CookComputing.XmlRpcV2</Name>
     <Name>blowery.Web.HttpCompress</Name>
-    <Name>Velocit.RegularExpressions</Name>
-    <Name>Subtext.Web.XmlSerializers</Name>
-    <Name>Subtext.Framework.XmlSerializers</Name>
-    <Name>System.Web.Routing</Name>
-    <Name>System.Web.Mvc</Name>
-    <Name>System.Web.Abstractions</Name>
+    <Name>BlogML</Name>
   </FrameworkAssemblies>
   <Report>
     <Section Enabled="True">Application Metrics</Section>

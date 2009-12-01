@@ -3,6 +3,7 @@ using MbUnit.Framework;
 using Moq;
 using Ninject;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -14,7 +15,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
 
             //act
             subtextRoutes.Ignore("url");
@@ -28,7 +29,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
 
             //act
             subtextRoutes.MapControls("url", new {constraint = "constraintvalue"}, new[] {"controls"});
@@ -42,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
 
             //act
             subtextRoutes.MapControls("url", new[] {"controls"});
@@ -56,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
 
             //act
             subtextRoutes.MapSystemDirectory("install");

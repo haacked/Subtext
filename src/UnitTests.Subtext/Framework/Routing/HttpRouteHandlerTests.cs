@@ -3,8 +3,8 @@ using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Ninject;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -15,9 +15,10 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RouteHandler_ConstructedWithType_InstantiatesNewHandlerEveryTime()
         {
             // arrange
-            IKernel kernel = UnitTestHelper.MockKernel(() => new[] {new FakeHttpHandler()});
+            var serviceLocator = new Mock<IServiceLocator>();
+            serviceLocator.Setup(l => l.GetService<FakeHttpHandler>()).Returns(() => new FakeHttpHandler());
             var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, new RouteData());
-            IRouteHandler routeHandler = new HttpRouteHandler<FakeHttpHandler>(kernel);
+            IRouteHandler routeHandler = new HttpRouteHandler<FakeHttpHandler>(serviceLocator.Object);
 
             // act
             IHttpHandler returnedHandler = routeHandler.GetHttpHandler(requestContext);
@@ -39,8 +40,6 @@ namespace UnitTests.Subtext.Framework.Routing
 
         public int InstanceId { get; private set; }
 
-        #region IHttpHandler Members
-
         public bool IsReusable
         {
             get { throw new NotImplementedException(); }
@@ -50,7 +49,5 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             throw new NotImplementedException();
         }
-
-        #endregion
     }
 }

@@ -29,6 +29,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Emoticons;
+using Subtext.Framework.Infrastructure;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
@@ -92,7 +93,7 @@ namespace Subtext
             Bind<HttpContext>().ToMethod(c => HttpContext.Current).InRequestScope();
             Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
             Bind<RequestContext>().ToMethod(c => Bootstrapper.RequestContext).InRequestScope();
-            
+            Bind<IServiceLocator>().To<NinjectServiceLocator>().InSingletonScope();
         }
 
         private void LoadGenericDependencies()

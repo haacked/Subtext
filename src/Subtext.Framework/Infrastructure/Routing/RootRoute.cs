@@ -19,8 +19,8 @@ using System;
 using System.Linq;
 using System.Web;
 using System.Web.Routing;
-using Ninject;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
@@ -31,20 +31,19 @@ namespace Subtext.Framework.Routing
         Route _subfolderAppRootRoute;
         Route _subfolderDefaultRoute;
 
-        public RootRoute(bool blogAggregationEnabled, IKernel kernel)
-            : this(blogAggregationEnabled, null, null, kernel)
+        public RootRoute(bool blogAggregationEnabled, IServiceLocator serviceLocator)
+            : this(blogAggregationEnabled, null, null, serviceLocator)
         {
         }
 
         public RootRoute(bool blogAggregationEnabled, IRouteHandler normalRouteHandler, IRouteHandler aggRouteHandler,
-                         IKernel kernel)
+                         IServiceLocator serviceLocator)
         {
             BlogAggregationEnabled = blogAggregationEnabled;
             NormalRouteHandler = normalRouteHandler ??
-                                 new PageRouteHandler("~/pages/Dtp.aspx", kernel.Get<ISubtextPageBuilder>(), kernel);
+                                 new PageRouteHandler("~/pages/Dtp.aspx", serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator);
             AggregateRouteHandler = aggRouteHandler ??
-                                    new PageRouteHandler("~/pages/AggDefault.aspx", kernel.Get<ISubtextPageBuilder>(),
-                                                         kernel);
+                                    new PageRouteHandler("~/pages/AggDefault.aspx", serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator);
         }
 
         protected bool BlogAggregationEnabled { get; private set; }

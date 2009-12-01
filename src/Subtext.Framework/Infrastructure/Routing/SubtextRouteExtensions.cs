@@ -21,7 +21,6 @@ using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Ninject;
 using Subtext.Framework.XmlRpc;
 
 namespace Subtext.Framework.Routing
@@ -39,12 +38,12 @@ namespace Subtext.Framework.Routing
 
         public static void MapDirectory(this SubtextRouteMapper routes, string directoryName)
         {
-            routes.Add(directoryName, new DirectoryRoute(directoryName, routes.Kernel));
+            routes.Add(directoryName, new DirectoryRoute(directoryName, routes.ServiceLocator));
         }
 
         public static void MapSystemDirectory(this SubtextRouteMapper routes, string directoryName)
         {
-            routes.Add(directoryName, new SystemDirectoryRoute(directoryName, routes.Kernel));
+            routes.Add(directoryName, new SystemDirectoryRoute(directoryName, routes.ServiceLocator));
         }
 
         public static void MapControls(this SubtextRouteMapper routes, string url, object constraints,
@@ -75,7 +74,7 @@ namespace Subtext.Framework.Routing
                                        RouteValueDictionary constraints, IEnumerable<string> controls, RouteValueDictionary defaults)
         {
             var pageRoute = 
-            new PageRoute(url, "~/pages/Dtp.aspx", controls, routes.Kernel)
+            new PageRoute(url, "~/pages/Dtp.aspx", controls, routes.ServiceLocator)
             {
                 Constraints = constraints,
                 Defaults = defaults
@@ -102,16 +101,13 @@ namespace Subtext.Framework.Routing
             routes.Add("root",
                        new RootRoute(
                            String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true",
-                                         StringComparison.OrdinalIgnoreCase), routes.Kernel));
+                                         StringComparison.OrdinalIgnoreCase), routes.ServiceLocator));
         }
 
         public static void MapPage(this SubtextRouteMapper routes, string name)
         {
             string url = string.Format("{0}.aspx", name);
-            routes.Add(name,
-                       new SubtextRoute(url,
-                                        new PageRouteHandler(string.Format("~/pages/{0}", url), routes.Kernel.Get<ISubtextPageBuilder>(),
-                                                             routes.Kernel)));
+            routes.Add(name, new SubtextRoute(url, new PageRouteHandler(string.Format("~/pages/{0}", url), routes.ServiceLocator.GetService<ISubtextPageBuilder>(), routes.ServiceLocator)));
         }
 
         public static void MapSystemPage(this SubtextRouteMapper routes, string name)
@@ -119,14 +115,14 @@ namespace Subtext.Framework.Routing
             string url = string.Format("{0}.aspx", name);
             routes.Add(name,
                        new Route(url,
-                                 new PageRouteHandler(string.Format("~/pages/{0}", url), routes.Kernel.Get<ISubtextPageBuilder>(),
-                                                      routes.Kernel)));
+                                 new PageRouteHandler(string.Format("~/pages/{0}", url), routes.ServiceLocator.GetService<ISubtextPageBuilder>(),
+                                                      routes.ServiceLocator)));
         }
 
         public static void MapHttpHandler<THttpHandler>(this SubtextRouteMapper routes, string name, string url)
             where THttpHandler : IHttpHandler
         {
-            routes.Add(name, new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.Kernel)));
+            routes.Add(name, new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.ServiceLocator)));
         }
 
         public static void MapHttpHandler<THttpHandler>(this SubtextRouteMapper routes, string url)
@@ -139,20 +135,20 @@ namespace Subtext.Framework.Routing
                                                             object constraints)
             where TXmlRpcHandler : SubtextXmlRpcService
         {
-            routes.Add(new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>(routes.Kernel)));
+            routes.Add(new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>(routes.ServiceLocator)));
         }
 
         public static void MapXmlRpcHandler<TXmlRpcHandler>(this SubtextRouteMapper routes, string name, string url,
                                                             object constraints)
             where TXmlRpcHandler : SubtextXmlRpcService
         {
-            routes.Add(name, new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>(routes.Kernel)));
+            routes.Add(name, new SubtextRoute(url, new XmlRpcRouteHandler<TXmlRpcHandler>(routes.ServiceLocator)));
         }
 
         public static void MapHttpHandler<THttpHandler>(this SubtextRouteMapper routes, string name, string url,
                                                         object constraints) where THttpHandler : IHttpHandler
         {
-            var route = new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.Kernel))
+            var route = new SubtextRoute(url, new HttpRouteHandler<THttpHandler>(routes.ServiceLocator))
             {
                 Constraints = ToRouteValueDictionary(constraints)
             };

@@ -5,6 +5,7 @@ using Moq;
 using Ninject;
 using Subtext.Framework.Components;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -272,7 +273,7 @@ namespace UnitTests.Subtext.Framework.Routing
         private static AdminUrlHelper SetupUrlHelper(string appPath, RouteData routeData)
         {
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
             Routes.RegisterRoutes(subtextRoutes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);

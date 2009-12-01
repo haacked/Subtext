@@ -16,19 +16,23 @@
 #endregion
 
 using System.Web.Routing;
-using Ninject;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class SubtextRouteMapper
     {
-        public SubtextRouteMapper(RouteCollection routes, IKernel kernel)
+        public SubtextRouteMapper(RouteCollection routes, IServiceLocator serviceLocator)
         {
             Routes = routes;
-            Kernel = kernel;
+            ServiceLocator = serviceLocator;
         }
 
-        public IKernel Kernel { get; private set; }
+        public IServiceLocator ServiceLocator
+        {
+            get; 
+            private set;
+        }
 
         protected RouteCollection Routes { get; private set; }
 

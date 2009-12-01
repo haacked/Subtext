@@ -1,4 +1,4 @@
-#region Disclaimer/Info
+﻿#region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
@@ -15,31 +15,33 @@
 
 #endregion
 
-using System.Web;
-using System.Web.Routing;
+using System;
+using Ninject;
 using Subtext.Infrastructure;
 
-namespace Subtext.Framework.Routing
+namespace Subtext.Framework.Infrastructure
 {
-    public abstract class RouteHandlerBase : IRouteHandler
+    public class NinjectServiceLocator : IServiceLocator
     {
-        protected RouteHandlerBase(IServiceLocator serviceLocator)
+        public NinjectServiceLocator(IKernel kernel)
         {
-            ServiceLocator = serviceLocator;
+            Kernel = kernel;
         }
 
-        public IServiceLocator ServiceLocator
+        protected IKernel Kernel
         {
             get; 
             private set;
         }
 
-        IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext)
+        public TService GetService<TService>()
         {
-            Bootstrapper.RequestContext = requestContext;
-            return GetHandler(requestContext);
+            return Kernel.Get<TService>();
         }
 
-        protected abstract IHttpHandler GetHandler(RequestContext requestContext);
+        public object GetService(Type type)
+        {
+            return Kernel.Get(type);
+        }
     }
 }
