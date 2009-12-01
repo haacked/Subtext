@@ -1307,12 +1307,13 @@ namespace Subtext.Framework.Data
             return NonQueryBool("subtext_UpdateFeedbackStats", p);
         }
 
-        public bool UpdateHost(string hostUserName, string password, string salt)
+        public bool UpdateHost(string hostUserName, string password, string salt, string email)
         {
             SqlParameter[] p = {
                                    DataHelper.MakeInParam("@HostUserName", hostUserName),
                                    DataHelper.MakeInParam("@Password", password),
                                    DataHelper.MakeInParam("@Salt", salt),
+                                   DataHelper.MakeInParam("@Email", email),
                                };
 
 

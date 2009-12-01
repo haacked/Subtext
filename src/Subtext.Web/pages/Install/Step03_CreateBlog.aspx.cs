@@ -51,22 +51,25 @@ namespace Subtext.Web.Install
 
         protected void btnQuickCreate_Click(object sender, EventArgs e)
         {
+            var hostInfo = HostInfo.Instance;
+
             // Create the blog_config record using default values 
             // and the specified user info
 
             //Since the password is stored as a hash, let's not hash it again.
             const bool passwordAlreadyHashed = true;
-            int blogId = Config.CreateBlog("TEMPORARY BLOG NAME", HostInfo.Instance.HostUserName, HostInfo.Instance.Password,
+            int blogId = Config.CreateBlog("TEMPORARY BLOG NAME", hostInfo.HostUserName, hostInfo.Password,
                                            Request.Url.Host, string.Empty, passwordAlreadyHashed);
             if(blogId > -1)
             {
                 var blog = Repository.GetBlogById(blogId);
+                
                 BlogRequest.Current.Blog = blog;
                 // Need to refresh the context now that we have a blog.
                 SubtextContext = Bootstrapper.ServiceLocator.GetService<ISubtextContext>();
-                if(!String.IsNullOrEmpty(Request.QueryString["email"]))
+                if(!String.IsNullOrEmpty(hostInfo.Email))
                 {
-                    blog.Email = Request.QueryString["email"];
+                    blog.Email = hostInfo.Email;
                     Repository.UpdateConfigData(blog);
                 }
                 InstallationManager.CreateWelcomeContent(SubtextContext, EntryPublisher, Blog);

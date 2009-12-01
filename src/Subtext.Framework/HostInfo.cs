@@ -85,6 +85,8 @@ namespace Subtext.Framework
         /// <value></value>
         public string HostUserName { get; set; }
 
+        public string Email { get; set; }
+
         /// <summary>
         /// Gets or sets the host password.
         /// </summary>
@@ -168,14 +170,14 @@ namespace Subtext.Framework
         /// Creates the host in the persistent store.
         /// </summary>
         /// <returns></returns>
-        public static bool CreateHost(string hostUserName, string hostPassword)
+        public static bool CreateHost(string hostUserName, string hostPassword, string email)
         {
             if(Instance != null)
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_HostRecordAlreadyExists);
             }
 
-            var host = new HostInfo {HostUserName = hostUserName};
+            var host = new HostInfo {HostUserName = hostUserName, Email = email};
 
             SetHostPassword(host, hostPassword);
             _instance = host;

@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework
 
             Assert.IsNull(HostInfo.Instance, "HostInfo should be Null");
 
-            HostInfo.CreateHost("test", "test");
+            HostInfo.CreateHost("test", "test", "email@example.com");
 
             Assert.IsNotNull(HostInfo.Instance, "Host should not be null.");
         }
@@ -60,14 +60,14 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual("test2", host.HostUserName, "Username wasn't changed.");
         }
 
-        void EnsureHost()
+        static void EnsureHost()
         {
             try
             {
                 HostInfo host = HostInfo.LoadHost(true);
                 if(host == null)
                 {
-                    HostInfo.CreateHost("test", "test");
+                    HostInfo.CreateHost("test", "test", "test@example.com");
                 }
             }
             catch(InvalidOperationException)

@@ -13,6 +13,18 @@ BEGIN
 END
 GO
 
+IF NOT EXISTS 
+(
+    SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
+    WHERE   TABLE_NAME = 'subtext_Host' 
+    AND TABLE_SCHEMA = '<dbUser,varchar,dbo>'
+    AND COLUMN_NAME = 'Email'
+)
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Host]
+		ADD [Email] [nvarchar] (256) NULL
+END
+GO
 
 IF NOT EXISTS 
 (

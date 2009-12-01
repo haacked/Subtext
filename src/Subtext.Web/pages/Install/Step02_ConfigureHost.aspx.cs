@@ -65,11 +65,10 @@ namespace Subtext.Web.Install
             {
                 string userName = txtUserName.Text;
                 string password = txtPassword.Text;
-
-                //TODO: Set Email...
+                string email = txtEmail.Text;
 
                 // Create the HostInfo record.
-                if(HostInfo.CreateHost(userName, password))
+                if(HostInfo.CreateHost(userName, password, email))
                 {
                     if(Config.BlogCount == 0)
                     {
@@ -93,8 +92,7 @@ namespace Subtext.Web.Install
                                                 "configuration. Please <a href=\"http://code.google.com/p/subtext/issues/\" title=\"Subtext at Google Code\">report "
                                                 + "this issue</a> to the Subtext team.";
 
-                    //TODO: Pick a non-generic exception.
-                    throw new Exception(errorMessage);
+                    throw new InvalidOperationException(errorMessage);
                 }
             }
         }
