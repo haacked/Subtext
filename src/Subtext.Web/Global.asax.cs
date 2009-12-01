@@ -25,7 +25,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using log4net;
-using Ninject;
 using Ninject.Modules;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -73,7 +72,7 @@ namespace Subtext.Web
         /// <param name="e"></param>
         protected void Application_Start(object sender, EventArgs e)
         {
-            var routes = new SubtextRouteMapper(RouteTable.Routes, Bootstrapper.Kernel);
+            var routes = new SubtextRouteMapper(RouteTable.Routes, Bootstrapper.ServiceLocator);
             StartApplication(routes, new HttpServerUtilityWrapper(Server));
             Application["DeprecatedPhysicalPaths"] = DeprecatedPhysicalPaths;
         }
@@ -81,7 +80,7 @@ namespace Subtext.Web
         public virtual void StartApplication(SubtextRouteMapper routes, HttpServerUtilityBase server)
         {
             Routes.RegisterRoutes(routes);
-            var factory = new SubtextControllerFactory(routes.Kernel);
+            var factory = new SubtextControllerFactory(routes.ServiceLocator);
             ControllerBuilder.Current.SetControllerFactory(factory);
 
             var deprecatedPaths = new[]
@@ -169,7 +168,7 @@ namespace Subtext.Web
             Exception exception = Server.GetLastError();
             if(BlogRequest.Current == null || BlogRequest.Current.RequestLocation != RequestLocation.StaticFile)
             {
-                var installationManager = Bootstrapper.Kernel.Get<IInstallationManager>();
+                var installationManager = Bootstrapper.ServiceLocator.GetService<IInstallationManager>();
                 OnApplicationError(exception, new HttpServerUtilityWrapper(Server), Log, installationManager);
             }
         }

@@ -19,15 +19,15 @@ using System;
 using System.IO;
 using System.Web;
 using System.Web.Routing;
-using Ninject;
 using Subtext.Framework.Properties;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class DirectoryRouteHandler : PageRouteHandler
     {
-        public DirectoryRouteHandler(ISubtextPageBuilder pageBuilder, IKernel kernel)
-            : base(null, pageBuilder, kernel)
+        public DirectoryRouteHandler(ISubtextPageBuilder pageBuilder, IServiceLocator serviceLocator)
+            : base(null, pageBuilder, serviceLocator)
         {
         }
 

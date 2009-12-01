@@ -396,7 +396,7 @@ namespace Subtext.Web.Admin.UserControls
                         entry.DateModified = Config.CurrentBlog.TimeZone.Now;
                         entry.Id = PostId.Value;
 
-                        var entryPublisher = SubtextContext.GetService<IEntryPublisher>();
+                        var entryPublisher = SubtextContext.ServiceLocator.GetService<IEntryPublisher>();
                         entryPublisher.Publish(entry);
 
                         if(entry.Enclosure == null && enclosureId != 0)
@@ -417,7 +417,7 @@ namespace Subtext.Web.Admin.UserControls
                     }
                     else
                     {
-                        var entryPublisher = SubtextContext.GetService<IEntryPublisher>();
+                        var entryPublisher = SubtextContext.ServiceLocator.GetService<IEntryPublisher>();
                         _postId = entryPublisher.Publish(entry);
                         NotificationServices.Run(entry, Blog, Url);
 

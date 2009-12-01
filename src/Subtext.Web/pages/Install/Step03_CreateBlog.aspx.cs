@@ -63,7 +63,7 @@ namespace Subtext.Web.Install
                 var blog = Repository.GetBlogById(blogId);
                 BlogRequest.Current.Blog = blog;
                 // Need to refresh the context now that we have a blog.
-                SubtextContext = Bootstrapper.Kernel.Get<ISubtextContext>();
+                SubtextContext = Bootstrapper.ServiceLocator.GetService<ISubtextContext>();
                 if(!String.IsNullOrEmpty(Request.QueryString["email"]))
                 {
                     blog.Email = Request.QueryString["email"];
@@ -84,7 +84,6 @@ namespace Subtext.Web.Install
                                             "configuration. Please <a href=\"http://code.google.com/p/subtext/issues/\" title=\"Subtext at Google Code\">report "
                                             + "this issue</a> to the Subtext team.";
 
-                //TODO: Pick a non-generic exception.
                 throw new InvalidOperationException(errorMessage);
             }
         }

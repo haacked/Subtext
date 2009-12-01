@@ -350,6 +350,7 @@
     </Compile>
     <Compile Include="Framework\HostInfoTests.cs" />
     <Compile Include="Framework\ImageTests.cs" />
+    <Compile Include="Framework\Infrastructure\NinjectServiceLocatorTests.cs" />
     <Compile Include="Framework\Infrastructure\TimeZoneWrapperTests.cs" />
     <Compile Include="Framework\LinksTests.cs">
       <SubType>Code</SubType>
@@ -493,6 +494,7 @@
     <Compile Include="SubtextWeb\Controls\ControlHelperTests.cs" />
     <Compile Include="SubtextWeb\Controls\InvisibleCaptchaTests.cs" />
     <Compile Include="SubtextWeb\HostAdmin\HostAdminPageTests.cs" />
+    <Compile Include="SubtextWeb\Infrastructure\SubtextControllerFactoryTests.cs" />
     <Compile Include="SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs">
       <SubType>Code</SubType>
     </Compile>

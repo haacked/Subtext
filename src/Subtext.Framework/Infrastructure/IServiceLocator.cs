@@ -15,10 +15,13 @@
 
 #endregion
 
+using System;
+
 namespace Subtext.Infrastructure
 {
     public interface IServiceLocator
     {
         TService GetService<TService>();
+        object GetService(Type type);
     }
 }

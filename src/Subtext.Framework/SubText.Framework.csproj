@@ -425,6 +425,7 @@
     <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />
     <Compile Include="Infrastructure\ModelBinders\XmlModelBinder.cs" />
+    <Compile Include="Infrastructure\NinjectServiceLocator.cs" />
     <Compile Include="Infrastructure\Routing\AdminUrlHelper.cs" />
     <Compile Include="Infrastructure\Routing\AggregateEnabledConstraint.cs" />
     <Compile Include="Infrastructure\Routing\DirectoryRoute.cs" />

@@ -5,8 +5,8 @@ using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Ninject;
 using Subtext.Framework.Routing;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -29,7 +29,7 @@ namespace UnitTests.Subtext.Framework.Routing
             pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(
                 pageWithControls.Object);
             IRouteHandler subtextRouteHandler = new PageRouteHandler("~/pages/Dtp.aspx", pageBuilder.Object,
-                                                                     new Mock<IKernel>().Object);
+                                                                     new Mock<IServiceLocator>().Object);
 
             //act
             var handler = subtextRouteHandler.GetHttpHandler(requestContext) as ISubtextHandler;

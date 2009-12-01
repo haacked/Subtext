@@ -69,7 +69,7 @@ namespace Subtext.Web.Admin.Pages
         private void LoadBlogML()
         {
             ISubtextContext context = SubtextContext;
-            var importService = context.GetService<IBlogImportService>();
+            var importService = context.ServiceLocator.GetService<IBlogImportService>();
             
             try
             {

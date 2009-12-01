@@ -17,7 +17,6 @@
 
 using System.Web;
 using System.Web.Routing;
-using Ninject;
 using Subtext.Framework.XmlRpc;
 using Subtext.Infrastructure;
 
@@ -25,21 +24,17 @@ namespace Subtext.Framework.Routing
 {
     public class XmlRpcRouteHandler<THandler> : IRouteHandler where THandler : SubtextXmlRpcService
     {
-        public XmlRpcRouteHandler(IKernel kernel)
+        public XmlRpcRouteHandler(IServiceLocator serviceLocator)
         {
-            Kernel = kernel;
+            ServiceLocator = serviceLocator;
         }
 
-        protected IKernel Kernel { get; private set; }
-
-        #region IRouteHandler Members
+        protected IServiceLocator ServiceLocator { get; private set; }
 
         public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
             Bootstrapper.RequestContext = requestContext;
-            return Kernel.Get<THandler>();
+            return ServiceLocator.GetService<THandler>();
         }
-
-        #endregion
     }
 }

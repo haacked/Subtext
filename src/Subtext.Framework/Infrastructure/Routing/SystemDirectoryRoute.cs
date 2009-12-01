@@ -16,14 +16,14 @@
 #endregion
 
 using System.Web.Routing;
-using Ninject;
+using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class SystemDirectoryRoute : Route, IDirectoryRoute
     {
-        public SystemDirectoryRoute(string directoryName, IKernel kernel)
-            : base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(kernel.Get<ISubtextPageBuilder>(), kernel))
+        public SystemDirectoryRoute(string directoryName, IServiceLocator serviceLocator)
+            : base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator))
         {
             DirectoryName = directoryName;
         }

@@ -5,13 +5,12 @@ using System.Web.Routing;
 using log4net;
 using MbUnit.Framework;
 using Moq;
-using Ninject;
-using Subtext.Framework;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Infrastructure;
 using Subtext.Web;
 
 namespace UnitTests.Subtext.SubtextWeb
@@ -27,7 +26,7 @@ namespace UnitTests.Subtext.SubtextWeb
             var server = new Mock<HttpServerUtilityBase>();
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
                                  server.Object);
 
             // assert
@@ -43,7 +42,7 @@ namespace UnitTests.Subtext.SubtextWeb
             server.Setup(s => s.MapPath("~/Admin")).Returns(Directory.CreateDirectory("Admin").FullName);
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
                                  server.Object);
 
             // assert
@@ -63,7 +62,7 @@ namespace UnitTests.Subtext.SubtextWeb
             server.Setup(s => s.MapPath("~/login.aspx")).Returns(Path.GetFullPath("login.aspx"));
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
                                  server.Object);
 
             // assert
@@ -79,7 +78,7 @@ namespace UnitTests.Subtext.SubtextWeb
             server.Setup(s => s.MapPath("~/HostAdmin")).Returns(Directory.CreateDirectory("HostAdmin").FullName);
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
                                  server.Object);
 
             // assert
@@ -111,7 +110,7 @@ namespace UnitTests.Subtext.SubtextWeb
             var app = new SubtextApplication(null);
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.MapPath("~/Admin")).Returns(Directory.CreateDirectory("Admin").FullName);
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IKernel>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
                                  server.Object);
 
             // act, assert

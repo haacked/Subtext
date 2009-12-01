@@ -1,7 +1,23 @@
+#region Disclaimer/Info
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext@googlegroups.com 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+#endregion
+
 using System.Security.Principal;
 using System.Web;
 using System.Web.Routing;
-using Ninject;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Infrastructure;
@@ -11,7 +27,7 @@ namespace Subtext.Framework
     public class SubtextContext : ISubtextContext
     {
         public SubtextContext(Blog blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository,
-                              IPrincipal user, ICache cache, IKernel kernel)
+                              IPrincipal user, ICache cache, IServiceLocator serviceLocator)
         {
             Blog = blog;
             RequestContext = requestContext;
@@ -19,10 +35,8 @@ namespace Subtext.Framework
             Repository = repository;
             User = user ?? requestContext.HttpContext.User;
             Cache = cache ?? new SubtextCache(requestContext.HttpContext.Cache);
-            Kernel = kernel;
+            ServiceLocator = serviceLocator;
         }
-
-        protected IKernel Kernel { get; private set; }
 
         public Blog Blog { get; private set; }
 
@@ -41,9 +55,10 @@ namespace Subtext.Framework
 
         public ICache Cache { get; private set; }
 
-        public TService GetService<TService>()
+        public IServiceLocator ServiceLocator
         {
-            return Kernel.Get<TService>();
+            get; 
+            private set;
         }
     }
 }

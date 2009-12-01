@@ -6,6 +6,7 @@ using Moq;
 using Ninject;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -16,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void GetVirtualPath_WithoutSubolder_ReturnsUrlWithoutSubfolder()
         {
             //arrange
-            var route = new DirectoryRoute("admin", new Mock<IKernel>().Object);
+            var route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/admin/posts/foo.aspx");
             var blogRequest = new BlogRequest("localhost", null, new Uri("http://localhost"), true);
@@ -38,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void GetVirtualPath_WithSubolder_ReturnsUrlWithSubfolder()
         {
             //arrange
-            var route = new DirectoryRoute("admin", new Mock<IKernel>().Object);
+            var route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/admin/");
             var blogRequest = new BlogRequest("localhost", "subfolder", new Uri("http://localhost"), false);
@@ -61,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void Ctor_WithDirectoryNameArg_AppendsPathInfoCatchAll()
         {
             //arrange, act
-            var route = new DirectoryRoute("dir", new Mock<IKernel>().Object);
+            var route = new DirectoryRoute("dir", new Mock<IServiceLocator>().Object);
             ;
 
             //assert
@@ -72,7 +73,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void Ctor_WithDirectoryNameArg_SetsDirectoryName()
         {
             //arrange, act
-            var route = new DirectoryRoute("dir", new Mock<IKernel>().Object);
+            var route = new DirectoryRoute("dir", new Mock<IServiceLocator>().Object);
             ;
 
             //assert
@@ -83,7 +84,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void GetRouteData_MatchingTheImplicitSubfolderRoute_ReturnsParentDirectoryRoute()
         {
             //arrange
-            var route = new DirectoryRoute("dir", new Mock<IKernel>().Object);
+            var route = new DirectoryRoute("dir", new Mock<IServiceLocator>().Object);
             ;
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/dir/foo.aspx");

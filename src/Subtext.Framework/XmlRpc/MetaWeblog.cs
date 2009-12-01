@@ -44,7 +44,7 @@ namespace Subtext.Framework.XmlRpc
     {
         static readonly Log Log = new Log();
 
-        public MetaWeblog(ISubtextContext context) : this(context, context.GetService<IEntryPublisher>())
+        public MetaWeblog(ISubtextContext context) : this(context, context.ServiceLocator.GetService<IEntryPublisher>())
         {
         }
 

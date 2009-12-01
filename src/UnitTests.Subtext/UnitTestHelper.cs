@@ -46,7 +46,6 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Emoticons;
-using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
@@ -55,7 +54,6 @@ using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
-using System.Xml;
 
 namespace UnitTests.Subtext
 {
@@ -149,15 +147,7 @@ namespace UnitTests.Subtext
             {
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
-                string filePath;
-                if(!Path.IsPathRooted(fileName))
-                {
-                    filePath = GetPathInExecutingAssemblyLocation(fileName);
-                }
-                else
-                {
-                    filePath = Path.GetFullPath(fileName);
-                }
+                string filePath = !Path.IsPathRooted(fileName) ? GetPathInExecutingAssemblyLocation(fileName) : Path.GetFullPath(fileName);
                 using(FileStream outStream = File.Create(filePath))
                 {
                     outStream.Write(buffer, 0, buffer.Length);
@@ -417,12 +407,6 @@ namespace UnitTests.Subtext
             return CreateEntryInstanceForSyndication(Config.CurrentBlog, author, title, body);
         }
 
-        /// <summary>
-        /// Creates an entry instance with the proper syndication settings.
-        /// </summary>
-        /// <param name="author">The author.</param>
-        /// <param name="body">The body.</param>
-        /// <param name="title">The title.</param>
         public static Entry CreateEntryInstanceForSyndication(Blog blog, string author, string title, string body)
         {
             return CreateEntryInstanceForSyndication(blog, author, title, body, null, DateTime.Now);
@@ -434,15 +418,6 @@ namespace UnitTests.Subtext
             return CreateEntryInstanceForSyndication(Config.CurrentBlog, author, title, body, entryName, dateCreated);
         }
 
-        /// <summary>
-        /// Creates an entry instance with the proper syndication settings.
-        /// </summary>
-        /// <param name="author">The author.</param>
-        /// <param name="title">The title.</param>
-        /// <param name="body">The body.</param>
-        /// <param name="entryName">Name of the entry.</param>
-        /// <param name="dateCreated">The date created.</param>
-        /// <returns></returns>
         public static Entry CreateEntryInstanceForSyndication(Blog blog, string author, string title, string body,
                                                               string entryName, DateTime dateCreated)
         {
@@ -472,13 +447,15 @@ namespace UnitTests.Subtext
 
         public static Link CreateLinkInDb(int categoryId, string title, int? entryId, string rel)
         {
-            var link = new Link();
-            link.BlogId = Config.CurrentBlog.Id;
-            link.IsActive = true;
-            link.CategoryId = categoryId;
-            link.Title = title;
-            link.Url = "http://noneofyourbusiness.com/";
-            link.Relation = rel;
+            var link = new Link
+            {
+                BlogId = Config.CurrentBlog.Id,
+                IsActive = true,
+                CategoryId = categoryId,
+                Title = title,
+                Url = "http://noneofyourbusiness.com/",
+                Relation = rel
+            };
             if(entryId != null)
             {
                 link.PostId = (int)entryId;
@@ -487,15 +464,6 @@ namespace UnitTests.Subtext
             return link;
         }
 
-        /// <summary>
-        /// Creates an entry instance with the proper syndication settings.
-        /// </summary>
-        /// <param name="parentEntryId">The parent entry.</param>
-        /// <param name="author">The author.</param>
-        /// <param name="title">The title.</param>
-        /// <param name="body">The body.</param>
-        /// <param name="dateCreated">The date created.</param>
-        /// <returns></returns>
         public static FeedbackItem CreateCommentInstance(int parentEntryId, string author, string title, string body,
                                                          DateTime dateCreated)
         {
@@ -505,17 +473,19 @@ namespace UnitTests.Subtext
         public static FeedbackItem CreateCommentInstance(Blog blog, int parentEntryId, string author, string title,
                                                          string body, DateTime dateCreated)
         {
-            var entry = new FeedbackItem(FeedbackType.Comment);
-            entry.SourceUrl = new Uri("http://subtextproject.com/blah/");
-            entry.BlogId = blog.Id;
-            entry.EntryId = parentEntryId;
-            entry.DateCreated = dateCreated;
+            var entry = new FeedbackItem(FeedbackType.Comment)
+            {
+                SourceUrl = new Uri("http://subtextproject.com/blah/"),
+                BlogId = blog.Id,
+                EntryId = parentEntryId,
+                Title = title,
+                Author = author,
+                Body = body,
+                Approved = true,
+                DateCreated = dateCreated
+            };
             entry.DateModified = entry.DateCreated;
-            entry.Title = title;
-            entry.Author = author;
-            entry.Body = body;
-            entry.Approved = true;
-
+            
             return entry;
         }
 
@@ -527,11 +497,13 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static int CreateCategory(int blogId, string title)
         {
-            var category = new LinkCategory();
-            category.BlogId = Config.CurrentBlog.Id;
-            category.Title = title;
-            category.CategoryType = CategoryType.PostCollection;
-            category.IsActive = true;
+            var category = new LinkCategory
+            {
+                BlogId = Config.CurrentBlog.Id,
+                Title = title,
+                CategoryType = CategoryType.PostCollection,
+                IsActive = true
+            };
             return Links.CreateLinkCategory(category);
         }
 
@@ -544,11 +516,13 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static int CreateCategory(int blogId, string title, CategoryType categoryType)
         {
-            var category = new LinkCategory();
-            category.BlogId = Config.CurrentBlog.Id;
-            category.Title = title;
-            category.CategoryType = categoryType;
-            category.IsActive = true;
+            var category = new LinkCategory
+            {
+                BlogId = Config.CurrentBlog.Id, 
+                Title = title, 
+                CategoryType = categoryType, 
+                IsActive = true
+            };
             return Links.CreateLinkCategory(category);
         }
 
@@ -619,7 +593,7 @@ namespace UnitTests.Subtext
             }
         }
 
-        private static void ExtractFile(string targetDirectory, ZipEntry nextEntry, ZipInputStream inputStream)
+        private static void ExtractFile(string targetDirectory, ZipEntry nextEntry, Stream inputStream)
         {
             using(
                 var fileStream = new FileStream(Path.Combine(targetDirectory, nextEntry.Name), FileMode.OpenOrCreate,
@@ -678,8 +652,7 @@ namespace UnitTests.Subtext
             formatter.Serialize(stream, serializableObject);
             byte[] serialized = stream.ToArray();
 
-            stream = new MemoryStream(serialized);
-            stream.Position = 0;
+            stream = new MemoryStream(serialized) {Position = 0};
             formatter = new BinaryFormatter();
             object o = formatter.Deserialize(stream);
             return (T)o;
@@ -695,7 +668,7 @@ namespace UnitTests.Subtext
         public static Stream GetDeflatedResponse(string encoding, Stream inputStream)
         {
             //BORROWED FROM RSS BANDIT.
-            const int BUFFER_SIZE = 4096; // 4K read buffer
+            const int bufferSize = 4096; // 4K read buffer
 
             Stream compressed = null, input = inputStream;
             bool tryAgainDeflate = true;
@@ -723,8 +696,8 @@ namespace UnitTests.Subtext
 
                 try
                 {
-                    int size = BUFFER_SIZE;
-                    var writeData = new byte[BUFFER_SIZE];
+                    int size = bufferSize;
+                    var writeData = new byte[bufferSize];
                     while(true)
                     {
                         size = compressed.Read(writeData, 0, size);
@@ -747,27 +720,21 @@ namespace UnitTests.Subtext
                         tryAgainDeflate = false;
                         goto retry_decompress;
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
 
                 //reposition to beginning of decompressed stream then return
                 decompressed.Seek(0, SeekOrigin.Begin);
                 return decompressed;
             }
-            else
-            {
-                // allready seeked, just return
-                return input;
-            }
+            // allready seeked, just return
+            return input;
         }
 
         public static Blog CreateBlogAndSetupContext()
         {
             string hostName = GenerateUniqueString();
-            int blogId = Config.CreateBlog("Just A Test Blog", "test", "test", hostName, string.Empty /* subfolder */);
+            Config.CreateBlog("Just A Test Blog", "test", "test", hostName, string.Empty /* subfolder */);
             Blog blog = Config.GetBlog(hostName, string.Empty);
             SetHttpContextWithBlogRequest(hostName, string.Empty);
             BlogRequest.Current.Blog = blog;
@@ -784,11 +751,7 @@ namespace UnitTests.Subtext
 
         public static BlogAlias CreateBlogAlias(Blog info, string host, string subfolder, bool active)
         {
-            var alias = new BlogAlias();
-            alias.BlogId = info.Id;
-            alias.Host = host;
-            alias.Subfolder = subfolder;
-            alias.IsActive = active;
+            var alias = new BlogAlias {BlogId = info.Id, Host = host, Subfolder = subfolder, IsActive = active};
 
             Config.AddBlogAlias(alias);
             return alias;
@@ -797,11 +760,7 @@ namespace UnitTests.Subtext
         public static MetaTag BuildMetaTag(string content, string name, string httpEquiv, int blogId, int? entryId,
                                            DateTime created)
         {
-            var mt = new MetaTag();
-            mt.Name = name;
-            mt.HttpEquiv = httpEquiv;
-            mt.Content = content;
-            mt.BlogId = blogId;
+            var mt = new MetaTag {Name = name, HttpEquiv = httpEquiv, Content = content, BlogId = blogId};
 
             if(entryId.HasValue)
             {
@@ -874,7 +833,7 @@ namespace UnitTests.Subtext
 
                 if(property.CanRead && property.CanWrite)
                 {
-                    object valueToSet = null;
+                    object valueToSet;
                     if(property.PropertyType == typeof(int)
                        || property.PropertyType == typeof(short)
                        || property.PropertyType == typeof(decimal)
@@ -1098,15 +1057,15 @@ namespace UnitTests.Subtext
         {
             var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
             Bootstrapper.RequestContext = requestContext;
-            IKernel kernel = new Mock<IKernel>().Object;
-            Bootstrapper.Kernel = kernel;
+            var serviceLocator = new Mock<IServiceLocator>().Object;
+            Bootstrapper.ServiceLocator = serviceLocator;
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, serviceLocator);
             Routes.RegisterRoutes(subtextRoutes);
             var urlHelper = new UrlHelper(requestContext, routes);
             var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper,
                                                     ObjectProvider.Instance(), requestContext.HttpContext.User,
-                                                    new SubtextCache(requestContext.HttpContext.Cache), kernel);
+                                                    new SubtextCache(requestContext.HttpContext.Cache), serviceLocator);
             IEntryPublisher entryPublisher = CreateEntryPublisher(subtextContext);
             int id = entryPublisher.Publish(entry);
             entry.Id = id;
@@ -1116,9 +1075,11 @@ namespace UnitTests.Subtext
         public static IEntryPublisher CreateEntryPublisher(ISubtextContext subtextContext)
         {
             var slugGenerator = new SlugGenerator(FriendlyUrlSettings.Settings, subtextContext.Repository);
-            var transformations = new CompositeTextTransformation();
-            transformations.Add(new XhtmlConverter());
-            transformations.Add(new EmoticonsTransformation(subtextContext));
+            var transformations = new CompositeTextTransformation
+            {
+                new XhtmlConverter(), 
+                new EmoticonsTransformation(subtextContext)
+            };
             return new EntryPublisher(subtextContext, transformations, slugGenerator);
         }
 
@@ -1152,7 +1113,7 @@ namespace UnitTests.Subtext
         public static UrlHelper SetupUrlHelper(string appPath, RouteData routeData)
         {
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IKernel>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
             Routes.RegisterRoutes(subtextRoutes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
