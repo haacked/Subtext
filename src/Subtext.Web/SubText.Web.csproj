@@ -106,6 +106,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\System.Web.Abstractions.dll</HintPath>
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -116,11 +117,13 @@
     <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\System.Web.Routing.dll</HintPath>
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Web.Services" />
@@ -2462,6 +2465,6 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>..\..\..\tools\sgen\sgen.exe "$(TargetPath)" /force /keep</PostBuildEvent>
+    <PostBuildEvent>..\..\..\tools\sgen\sgen.exe "$(TargetPath)" /force</PostBuildEvent>
   </PropertyGroup>
 </Project>

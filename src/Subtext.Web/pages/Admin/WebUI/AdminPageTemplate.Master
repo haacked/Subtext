@@ -1,6 +1,4 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPageTemplate.master.cs" Inherits="Subtext.Web.Admin.WebUI.AdminPageTemplate" %>
-<%@ Import Namespace="Subtext.Framework.Configuration"%>
-<%@ Import Namespace="Subtext.Web.Admin" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >

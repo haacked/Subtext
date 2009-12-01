@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.TagCloud" %>
-<%@ Import Namespace = "Subtext.Framework" %>
+
 
 <div>
 	<h3>Tag Cloud</h3>

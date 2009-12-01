@@ -1,5 +1,5 @@
 <%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.EntryList" %>
-<%@ Import Namespace = "Subtext.Framework" %>
+
 <h2><asp:Literal ID = "EntryCollectionTitle" Runat = "server" /></h2>
 <asp:Literal ID = "EntryCollectionDescription" Runat = "server" />
 <asp:Repeater runat="Server" Runat="server" ID="Entries" OnItemCreated="PostCreated">

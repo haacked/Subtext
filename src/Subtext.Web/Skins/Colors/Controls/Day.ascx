@@ -1,5 +1,5 @@
 <%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.Day" %>
-<%@ Import Namespace = "Subtext.Framework" %>
+
 <asp:HyperLink Runat="server" Title="Day link" ImageUrl="~/images/link.gif" height="15" Width="12" BorderWidth="0" ID="ImageLink" Visible="false" />
 <asp:Literal ID="DateTitle" Runat="server" Visible="false" />		  
 

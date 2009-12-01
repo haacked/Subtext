@@ -1,5 +1,5 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.Header" %>
-<%@ Import namespace="Subtext.Framework.Configuration"%>
+
 <div id="header">
     <div id="headerimg">
         <h1><asp:HyperLink id="HeaderTitle" runat="server" /></h1>

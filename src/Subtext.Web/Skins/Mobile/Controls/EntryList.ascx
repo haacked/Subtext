@@ -1,7 +1,7 @@
 <%@ Control Language="C#" EnableTheming="false"  Inherits="Subtext.Web.UI.Controls.EntryList" %>
 <%@ Register TagPrefix="uc1" TagName="PostCategoryList" Src="PostCategoryList.ascx" %>
 
-<%@ Import Namespace = "Subtext.Framework" %>
+
 <div class="posts">
 	<div class="title">
 		<asp:literal id="EntryCollectionTitle" runat="server" />

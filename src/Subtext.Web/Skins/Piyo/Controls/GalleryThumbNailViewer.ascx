@@ -1,5 +1,6 @@
 <%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.GalleryThumbNailViewer" TargetSchema="http://schemas.microsoft.com/intellisense/ie5" %>
 <%@ Import Namespace="Image=Subtext.Framework.Components.Image" %>
+
 <h1><asp:Literal id="GalleryTitle" runat="server" /></h1>
 <asp:Literal ID = "Description" Runat = "server" />
 <div class="Thumbnail">

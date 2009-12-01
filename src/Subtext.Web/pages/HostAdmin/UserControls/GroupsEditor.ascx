@@ -1,5 +1,4 @@
 <%@ Control Language="C#" EnableTheming="false"  AutoEventWireup="True" Codebehind="GroupsEditor.ascx.cs" Inherits="Subtext.Web.HostAdmin.UserControls.GroupsEditor" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
-<%@ Import Namespace="Subtext.Framework" %>
 
 <st:MessagePanel id="messagePanel" runat="server"></st:MessagePanel>
 <st:AdvancedPanel id="pnlResults" runat="server">

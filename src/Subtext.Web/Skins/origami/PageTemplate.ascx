@@ -8,7 +8,7 @@
 <%@ Register TagPrefix="uc1" TagName="SyndicatonLinks" Src="Controls/SyndicationLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Search" Src="Controls/SubtextSearch.ascx" %>
-<%@ Import Namespace="Subtext.Framework.Configuration" %>
+
 <script type="text/javascript">setUserStyles();</script>
 <div class="clearfix" id="container">
     <div id="sizer">
