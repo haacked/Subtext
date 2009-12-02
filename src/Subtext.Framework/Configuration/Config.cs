@@ -48,7 +48,7 @@ namespace Subtext.Framework.Configuration
                                                                   "Services", "Category", "Archive", "Archives",
                                                                   "Comments",
                                                                   "Articles", "Posts", "Story", "Stories", "Gallery",
-                                                                  "aggbug", "Sitemap"
+                                                                  "aggbug", "Sitemap", "Account"
                                                               };
 
         static ConnectionString _connectionString;

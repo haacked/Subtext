@@ -140,6 +140,7 @@
     <Compile Include="..\VersionInfo.Designer.cs">
       <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\IdenticonController.cs" />
     <Compile Include="Controllers\ManifestController.cs" />
@@ -591,10 +592,6 @@
     <Compile Include="pages\login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="pages\logout.aspx.cs">
-      <DependentUpon>logout.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="pages\MainFeed.aspx.cs">
       <DependentUpon>MainFeed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -989,9 +986,6 @@
     <EmbeddedResource Include="pages\login.aspx.resx">
       <DependentUpon>login.aspx.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pages\logout.aspx.resx">
-      <DependentUpon>logout.aspx.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="pages\MainFeed.aspx.resx">
       <DependentUpon>MainFeed.aspx.cs</DependentUpon>
     </EmbeddedResource>
@@ -1218,7 +1212,6 @@
     <Content Include="pages\Install\Step03_CreateBlog.aspx" />
     <Content Include="pages\Install\Style\InstallationStyle.css" />
     <Content Include="pages\login.aspx" />
-    <Content Include="pages\logout.aspx" />
     <Content Include="pages\MainFeed.aspx" />
     <Content Include="pages\Providers\BlogEntryEditor\FCKeditor\customConfiguration\subtextconfig.js" />
     <Content Include="pages\Providers\BlogEntryEditor\FCKeditor\editor\css\behaviors\disablehandles.htc" />

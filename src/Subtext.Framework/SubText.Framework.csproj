@@ -458,6 +458,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\Account\AccountService.cs" />
+    <Compile Include="Services\Account\IAccountService.cs" />
     <Compile Include="Services\Akismet\AkismetClient.cs" />
     <Compile Include="Services\Akismet\Comment.cs" />
     <Compile Include="Services\Akismet\HttpClient.cs" />

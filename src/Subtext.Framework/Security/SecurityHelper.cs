@@ -307,35 +307,6 @@ namespace Subtext.Framework.Security
             httpContext.Response.Cookies.Add(authCookie);
         }
 
-
-        /// <summary>
-        /// Logs the user off the system.
-        /// </summary>
-        public static void LogOut()
-        {
-            var request = new HttpRequestWrapper(HttpContext.Current.Request);
-            var authCookie = new HttpCookie(request.GetFullCookieName(Config.CurrentBlog)) {Expires = DateTime.Now.AddYears(-30)};
-            HttpContext.Current.Response.Cookies.Add(authCookie);
-
-            #region Logging
-
-            if(Log.IsDebugEnabled)
-            {
-                string username = HttpContext.Current.User.Identity.Name;
-                if(Log.IsDebugEnabled)
-                {
-                    Log.Debug("Logging out " + username);
-                    Log.Debug("the code MUST call a redirect after this");
-                }
-            }
-
-            #endregion
-
-            FormsAuthentication.SignOut();
-        }
-
-        //From Forums Source Code
-
         /// <summary>
         /// Get MD5 hashed/encrypted representation of the password and 
         /// returns a Base64 encoded string of the hash.

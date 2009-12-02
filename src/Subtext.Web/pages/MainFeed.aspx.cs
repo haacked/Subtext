@@ -27,6 +27,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Tracking;
+using Subtext.Framework.Web;
 using Subtext.Web.UI.Controls;
 
 namespace Subtext.Web
@@ -50,34 +51,20 @@ namespace Subtext.Web
             get { return Request.Headers["Accept-Encoding"]; }
         }
 
-        #region Web Form Designer generated code
-
-        override protected void OnInit(EventArgs e)
-        {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
-            base.OnInit(e);
-        }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.Load += new System.EventHandler(this.Page_Load);
-        }
-
-        #endregion
-
-        private void Page_Load(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             int? groupId = GetGroupIdFromQueryString();
 
-            ICollection<Entry> entries = ObjectProvider.Instance().GetRecentEntries(
-                HostInfo.Instance.AggregateBlog.Host, groupId, 25);
+            var hostInfo = HostInfo.Instance;
+
+            if(hostInfo.AggregateBlog == null)
+            {
+                HttpHelper.SetFileNotFoundResponse();
+                return;
+            }
+
+            ICollection<Entry> entries = Repository.GetRecentEntries(
+                hostInfo.AggregateBlog.Host, groupId, 25);
 
             //TODO: Use our other feed generation code.
             if(entries != null && entries.Count > 0)
@@ -87,6 +74,7 @@ namespace Subtext.Web
                 Response.ContentType = "text/xml";
                 Response.Write(rssXml);
             }
+            base.OnLoad(e);
         }
 
         private string GetRSS(IEnumerable<Entry> entries, string appPath)

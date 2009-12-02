@@ -1037,7 +1037,21 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.LogoutUrl();
 
             //assert
-            Assert.AreEqual("/Subtext.Web/sub/logout.aspx", url);
+            Assert.AreEqual("/Subtext.Web/sub/account/logout.ashx", url);
+        }
+
+        [Test]
+        public void LogoutUrl_WithoutSubfolderAndApp_ReturnsLoginUrlInSubfolder()
+        {
+            //arrange
+            var routeData = new RouteData();
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string url = helper.LogoutUrl();
+
+            //assert
+            Assert.AreEqual("/Subtext.Web/account/logout.ashx", url);
         }
 
         [Test]

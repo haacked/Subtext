@@ -43,7 +43,6 @@ public static class Routes
         //TODO: Consider making this a single route with a constraint of the allowed pages.
         routes.MapPage("forgotpassword");
         routes.MapPage("login");
-        routes.MapPage("logout");
 
         routes.MapHttpHandler<AjaxServices>("ajax-services", "admin/Services/Ajax/AjaxServices.ashx");
         routes.MapHttpHandler<RssAdminHandler>("admin-rss", "admin/{feedName}Rss.axd");
@@ -132,7 +131,7 @@ public static class Routes
         routes.MapXmlRpcHandler<MetaWeblog>("metaweblogapi", "services/metablogapi.aspx", null);
         routes.Add("identicon", new Route("images/IdenticonHandler.ashx", new MvcRouteHandler()) {Defaults = new RouteValueDictionary(new {controller = "identicon", action = "image"})});
         routes.Add("captcha", new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(routes.ServiceLocator)));
-        
+        routes.Add("logout", new SubtextRoute("account/logout.ashx", new MvcRouteHandler()) { Defaults = new RouteValueDictionary(new { controller = "account", action = "logout" }) });
         routes.MapRoot();
     }
 }
