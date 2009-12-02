@@ -43,7 +43,7 @@
 		    Logged in as 
 		    <strong>
 			    <asp:Literal Runat="server" ID="LoggedInUser" Text="<%# Config.CurrentBlog.Author %>" />
-	        </strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>)
+	        </strong> (<a title="Logout" href="<%= Url.Logout() %>">logout</a>)
 	     </div>
 
         <div id="header">

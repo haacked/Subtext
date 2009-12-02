@@ -34,6 +34,7 @@ using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
+using Subtext.Framework.Services.Account;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.ImportExport;
@@ -73,7 +74,7 @@ namespace Subtext
         private void LoadCoreDependencies()
         {
             BindBlogMLDependencies();
-
+            Bind<IAccountService>().To<AccountService>().InSingletonScope();
             Bind<IEntryPublisher>().To<EntryPublisher>().InRequestScope();
             Bind<FriendlyUrlSettings>().ToMethod(context => FriendlyUrlSettings.Settings).InRequestScope();
             Bind<ISubtextPageBuilder>().To<SubtextPageBuilder>().InSingletonScope();

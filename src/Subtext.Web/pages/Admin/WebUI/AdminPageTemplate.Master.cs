@@ -94,22 +94,6 @@ namespace Subtext.Web.Admin.WebUI
             LinksActions.Items.Clear();
         }
 
-        /// <summary>
-        /// Attaches the logout button event.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnInit(EventArgs e)
-        {
-            LogoutLink.Click += OnLogoutClick;
-            base.OnInit(e);
-        }
-
-        void OnLogoutClick(object sender, EventArgs e)
-        {
-            SecurityHelper.LogOut();
-            HttpContext.Current.Response.Redirect(Url.BlogUrl());
-        }
-
         public string AjaxServicesUrl()
         {
             return AdminUrl.AjaxServices() + "?proxy";

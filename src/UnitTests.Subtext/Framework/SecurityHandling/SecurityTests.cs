@@ -60,8 +60,8 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         public void IsValidPassword_WithBlogHavingHashedPasswordMatchingGivenClearTextPassword_ReturnsTrue()
         {
             // arrange
-            string password = "myPassword";
-            string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
+            const string password = "myPassword";
+            const string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
             Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
             var blog = new Blog {UserName = "username", Password = hashedPassword, IsPasswordHashed = true};
 
@@ -76,8 +76,8 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         public void IsValidPassword_WithPasswordHashingEnabledAndGivenTheHashedPassword_ReturnsFalse()
         {
             // arrange
-            string password = "myPassword";
-            string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
+            const string password = "myPassword";
+            const string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
             Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
             var blog = new Blog {UserName = "username", Password = hashedPassword, IsPasswordHashed = true};
 
@@ -92,7 +92,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         public void IsValidPassword_WithClearTextPasswordMatchingBlogPassword_ReturnsTrue()
         {
             // arrange
-            string password = "myPassword";
+            const string password = "myPassword";
             var blog = new Blog {UserName = "username", Password = password, IsPasswordHashed = false};
 
             // act
@@ -108,8 +108,8 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         [Test]
         public void HashPasswordIsCaseSensitive()
         {
-            string lowercase = "password";
-            string uppercase = "Password";
+            const string lowercase = "password";
+            const string uppercase = "Password";
             UnitTestHelper.AssertAreNotEqual(SecurityHelper.HashPassword(lowercase),
                                              SecurityHelper.HashPassword(uppercase),
                                              "A lower cased and upper cased password should not be equivalent.");
@@ -126,7 +126,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         public void IsValidPassword_GivenValidPasswordHashedUsingOldBitConverterStyleHash_ReturnsTrue()
         {
             // arrange
-            string password = "myPassword";
+            const string password = "myPassword";
             Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
             Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
             string bitConvertedPassword = BitConverter.ToString(hashedBytes);
@@ -143,10 +143,12 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         public void SelectAuthenticationCookie_WithCookieNameMatchingBlog_ReturnsThatCookie()
         {
             // arrange
-            var cookies = new HttpCookieCollection();
-            cookies.Add(new HttpCookie("This Is Not The Cookie You're Looking For"));
-            cookies.Add(new HttpCookie(".ASPXAUTH.42") {Path = "/Subtext.Web"});
-            cookies.Add(new HttpCookie("Awful Cookie"));
+            var cookies = new HttpCookieCollection
+            {
+                new HttpCookie("This Is Not The Cookie You're Looking For"),
+                new HttpCookie(".ASPXAUTH.42") {Path = "/Subtext.Web"},
+                new HttpCookie("Awful Cookie")
+            };
             var request = new Mock<HttpRequestBase>();
             request.Setup(r => r.QueryString).Returns(new NameValueCollection());
             request.Setup(r => r.Cookies).Returns(cookies);
@@ -180,8 +182,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         {
             // arrange
             var request = new Mock<HttpRequestBase>();
-            var queryStringParams = new NameValueCollection();
-            queryStringParams.Add("ReturnUrl", "/HostAdmin");
+            var queryStringParams = new NameValueCollection {{"ReturnUrl", "/HostAdmin"}};
             request.Setup(r => r.QueryString).Returns(queryStringParams);
             var blog = new Blog {Id = 42};
 
@@ -239,7 +240,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         [Test]
         public void CanSymmetricallyEncryptAndDecryptText()
         {
-            string clearText = "Hello world!";
+            const string clearText = "Hello world!";
             byte[] key = SecurityHelper.GenerateSymmetricKey();
             byte[] iv = SecurityHelper.GenerateInitializationVector();
 

@@ -547,5 +547,10 @@ namespace Subtext.Framework.Routing
             }
             return new RouteValueDictionary {{"subfolder", subfolder}};
         }
+
+        public virtual VirtualPath Logout()
+        {
+            return GetVirtualPath("logout", new RouteValueDictionary {{"action", "logout"}, {"controller", "account"}});
+        }
     }
 }
