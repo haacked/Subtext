@@ -468,7 +468,29 @@ namespace Subtext.Framework
         /// Gets or sets the OpenIdUrl.
         /// </summary>
         /// <value></value>
-        public string OpenIdUrl { get; set; }
+        public string OpenIdUrl
+        {
+            get
+            {
+                return _openIdUrl;
+            } 
+            set
+            {
+                if(value != null)
+                {
+                    if(!value.StartsWith("http://") && !value.StartsWith("https://"))
+                    {
+                        _openIdUrl = "http://" + value;
+                    }
+                }
+                else
+                {
+                    _openIdUrl = null;
+                }
+            }
+        }
+
+        string _openIdUrl;
 
         /// <summary>
         /// Gets or sets the OpenIdServer.

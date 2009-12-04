@@ -234,5 +234,31 @@ namespace UnitTests.Subtext.Framework
         {
             new Blog().RssProxyUrl = "\\";
         }
+
+        [Test]
+        public void OpenIdUrl_WhenSetToValueWithoutHttp_PrependsHttp()
+        {
+            // arrange
+            var blog = new Blog();
+
+            // act
+            blog.OpenIdUrl = "openid.example.com";
+
+            // assert
+            Assert.AreEqual("http://example.openid.com", blog.OpenIdUrl);
+        }
+
+        [Test]
+        public void OpenIdUrl_WhenSetToNull_IsNull()
+        {
+            // arrange
+            var blog = new Blog();
+
+            // act
+            blog.OpenIdUrl = null;
+
+            // assert
+            Assert.IsNull(blog.OpenIdUrl);
+        }
     }
 }
