@@ -307,8 +307,10 @@ namespace Subtext.Framework.Routing
             {
                 virtualPath += "/";
             }
-            //TODO: Make this an option.
-            virtualPath += "default.aspx";
+            if(!HttpRuntime.UsingIntegratedPipeline)
+            {
+                virtualPath += "default.aspx";
+            }
             return virtualPath;
         }
 
@@ -471,22 +473,37 @@ namespace Subtext.Framework.Routing
         private VirtualPath GetUrl(string directory, string path, RouteValueDictionary routeValues)
         {
             routeValues = routeValues ?? new RouteValueDictionary();
-            // TODO: Provide a flag to turn this off.
-            //       This is to support IIS 6 / IIS 7 Classic Mode
-            path = EnsureDefaultAspx(path);
+            if(!HttpRuntime.UsingIntegratedPipeline)
+            {
+                path = EnsureDefaultAspx(path);
+            }
+            else
+            {
+                path = EnsureTrailingSlash(path);
+            }
             routeValues.Add("pathinfo", path);
             return GetVirtualPath(directory, routeValues);
         }
 
         private static string EnsureDefaultAspx(string path)
         {
-            if(!path.EndsWith(".aspx"))
+            if(!path.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
             {
-                if(path.Length > 0 && !path.EndsWith("/"))
+                if(path.Length > 0 && !path.EndsWith("/", StringComparison.Ordinal))
                 {
                     path += "/";
                 }
                 path += "default.aspx";
+            }
+            return path;
+        }
+
+        private static string EnsureTrailingSlash(string path)
+        {
+            if(!path.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase) && 
+                !path.EndsWith("/", StringComparison.Ordinal))
+            {
+                return path + "/";
             }
             return path;
         }
