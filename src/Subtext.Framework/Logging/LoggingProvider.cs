@@ -31,7 +31,7 @@ namespace Subtext.Framework.Logging
         /// <returns></returns>
         public static LoggingProvider Instance()
         {
-            //TODO: Make this a real provider.
+            //TODO: Make this a service.
             return new DatabaseLoggingProvider();
         }
 

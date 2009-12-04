@@ -164,8 +164,6 @@
     <Compile Include="Controls\RepeaterWithEmptyDataTemplate.cs" />
     <Compile Include="Controls\RichTextEditor.cs" />
     <Compile Include="Controls\ScriptHelper.cs" />
-    <Compile Include="Controls\ScrollPositionSaver.cs" />
-    <Compile Include="Controls\StyleTag.cs" />
     <Compile Include="Dependencies.cs" />
     <Compile Include="Controllers\CommentApiController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -2398,6 +2396,7 @@
     <Content Include="Skins\Semagogy\skin.config" />
     <Content Include="Skins\RedBook\skin.config" />
     <Content Include="Skins\_System\ForgotPassword.Master" />
+    <Content Include="test.htm" />
     <Content Include="UI\WebControls\ContentRegion.bmp" />
     <Content Include="UI\WebControls\MasterPage.bmp" />
   </ItemGroup>

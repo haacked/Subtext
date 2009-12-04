@@ -96,7 +96,6 @@ namespace Subtext.Framework.Web.HttpModules
                 return null;
             }
 
-            //TODO: Check to see if bog is inactive.
             if(result.Blog != null && !result.Blog.IsActive && blogRequest.RequestLocation == RequestLocation.Blog)
             {
                 httpContext.Response.Redirect("~/SystemMessages/BlogNotActive.aspx", true);

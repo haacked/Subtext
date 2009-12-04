@@ -19,8 +19,6 @@ using System;
 using System.Collections;
 using System.Web.Caching;
 
-//todo: Move to Infrastructure
-
 namespace Subtext.Infrastructure
 {
     public interface ICache : IEnumerable

@@ -113,7 +113,6 @@ namespace Subtext.Framework.Services
                             // peek a head the next target length chunk + 1 boundary char
                             string matchTarget = source.Substring(i, oldValue.Length);
 
-                            //TODO: Do we want a case insensitive comparison in all cases?
                             if(String.Equals(matchTarget, oldValue,
                                              caseSensitive
                                                  ? StringComparison.Ordinal
