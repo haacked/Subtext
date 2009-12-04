@@ -517,7 +517,6 @@
     </Compile>
     <Compile Include="Providers\SearchEngine.cs" />
     <Compile Include="Providers\SearchResult.cs" />
-    <Compile Include="Resource\ResourceHelper.cs" />
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\EntryPublisher.cs" />
     <Compile Include="Services\GravatarEmailFormat.cs" />
@@ -545,6 +544,7 @@
     <Compile Include="Util\GraphicsHelper.cs" />
     <Compile Include="Util\MathHelper.cs" />
     <Compile Include="Util\RequestExtensions.cs" />
+    <Compile Include="Util\ResourceHelper.cs" />
     <Compile Include="Web\Handlers\BaseHttpHandler.cs" />
     <Compile Include="Web\Handlers\SubtextHttpHandler.cs" />
     <Compile Include="Web\SubtextPage.cs">
