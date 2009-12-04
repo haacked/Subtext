@@ -16,7 +16,7 @@
 #endregion
 
 using System.Text;
-using Subtext.Framework.Resource;
+using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Email
 {

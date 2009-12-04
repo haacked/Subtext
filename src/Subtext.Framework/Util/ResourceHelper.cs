@@ -19,7 +19,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Subtext.Framework.Resource
+namespace Subtext.Framework.Util
 {
     public static class ResourceHelper
     {
