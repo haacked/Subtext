@@ -136,7 +136,7 @@ namespace UnitTests.Subtext.Framework
             blog.StoryCount = 1975;
             Assert.AreEqual(1975, blog.StoryCount);
 
-            UnitTestHelper.AssertSimpleProperties(blog);
+            UnitTestHelper.AssertSimpleProperties(blog, "OpenIdUrl");
         }
 
         [Test]
@@ -245,7 +245,7 @@ namespace UnitTests.Subtext.Framework
             blog.OpenIdUrl = "openid.example.com";
 
             // assert
-            Assert.AreEqual("http://example.openid.com", blog.OpenIdUrl);
+            Assert.AreEqual("http://openid.example.com", blog.OpenIdUrl);
         }
 
         [Test]
