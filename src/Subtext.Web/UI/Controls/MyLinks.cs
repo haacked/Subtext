@@ -36,8 +36,6 @@ namespace Subtext.Web.UI.Controls
 
         protected override void OnLoad(EventArgs e)
         {
-            //TODO: Make sure these urls use the UrlFormats class.
-
             base.OnLoad(e);
             if(Context != null)
             {

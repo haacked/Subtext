@@ -68,7 +68,6 @@ namespace Subtext.Framework.Services
 
             entryView.ReferralUrl = GetReferral(SubtextContext);
 
-            //todo in the future do this async if we can do true IO async?
             entryView.PageViewType = PageViewType.WebView;
             try
             {

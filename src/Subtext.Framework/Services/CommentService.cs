@@ -45,7 +45,6 @@ namespace Subtext.Framework.Services
 
         public int Create(FeedbackItem comment)
         {
-            //TODO: Make this a comment filter.
             Entry entry = Cacher.GetEntry(comment.EntryId, SubtextContext);
             if(entry == null || entry.CommentingClosed)
             {

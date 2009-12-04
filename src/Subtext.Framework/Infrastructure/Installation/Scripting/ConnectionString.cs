@@ -20,8 +20,6 @@ using System.Text.RegularExpressions;
 
 namespace Subtext.Scripting
 {
-    //TODO: We screw up SQL EXpress connection strings. We need to fix that up.
-
     /// <summary>
     /// Class for parsing connection strings.  Will add the ability to 
     /// change connection string properties and have the full string work properly.

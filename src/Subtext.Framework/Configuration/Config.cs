@@ -364,8 +364,6 @@ namespace Subtext.Framework.Configuration
             repository.UpdateBlog(info);
         }
 
-        //TODO: Is this the right place to put this list?
-
         /// <summary>
         /// Returns true if the specified subfolder name has a 
         /// valid format. It may not start, nor end with ".".  It 

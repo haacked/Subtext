@@ -46,8 +46,6 @@ namespace Subtext.Framework.Emoticons
 
         protected IEnumerable<Emoticon> EmoticonsTable { get; private set; }
 
-        #region ITextTransformation Members
-
         public string Transform(string original)
         {
             if(_appRootUrl == null && _subtextContext != null && _subtextContext.UrlHelper != null)
@@ -57,7 +55,5 @@ namespace Subtext.Framework.Emoticons
             }
             return EmoticonsTable.Aggregate(original, (input, transform) => transform.Replace(input, _appRootUrl));
         }
-
-        #endregion
     }
 }

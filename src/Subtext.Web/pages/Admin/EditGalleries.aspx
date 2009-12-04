@@ -1,4 +1,4 @@
-<%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Edit Galleries" Codebehind="EditGalleries.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditGalleries" %>
+<%@ Page Language="C#" EnableTheming="false" Title="Subtext Admin - Edit Galleries" Codebehind="EditGalleries.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditGalleries" MaintainScrollPositionOnPostback="true" %>
 
 <asp:Content ContentPlaceHolderID="actionsHeading" runat="server" />
 
@@ -121,5 +121,4 @@
 			    </FooterTemplate>
 		    </asp:Repeater>
 		</asp:Placeholder>
-		<st:ScrollPositionSaver id="scrollsaver" runat="server" />
 </asp:Content>

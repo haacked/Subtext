@@ -62,7 +62,6 @@ namespace Subtext.Web.UI.Controls
 
                 DisplayEditLink(entry);
 
-                //todo: consider whether we should use an agg bug for web views too.
                 Bootstrapper.RequestContext = SubtextContext.RequestContext;
                 var statistics = Bootstrapper.ServiceLocator.GetService<IStatisticsService>();
                 statistics.RecordWebView(new EntryView {EntryId = entry.Id, BlogId = Blog.Id});

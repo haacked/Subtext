@@ -65,8 +65,7 @@ namespace Subtext.Framework.Data
         /// Gets or sets the connection string.
         /// </summary>
         /// <value></value>
-        public string ConnectionString { 
-            //TODO: Make this protected.
+        protected string ConnectionString {
             get; 
             set;
         }
