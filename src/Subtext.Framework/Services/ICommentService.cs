@@ -21,6 +21,6 @@ namespace Subtext.Framework.Services
 {
     public interface ICommentService
     {
-        int Create(FeedbackItem feedback);
+        int Create(FeedbackItem feedback, bool runFilters);
     }
 }

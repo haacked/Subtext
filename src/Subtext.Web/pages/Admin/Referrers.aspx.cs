@@ -196,7 +196,7 @@ namespace Subtext.Web.Admin.Pages
                                           Config.CurrentBlog.TimeZone.Now);
                 var commentService = new CommentService(SubtextContext, null);
 
-                if(commentService.Create(entry) > 0)
+                if(commentService.Create(entry, true/*runFilters*/) > 0)
                 {
                     ICommentSpamService feedbackService = null;
                     if(Config.CurrentBlog.FeedbackSpamServiceEnabled)

@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.BlogMl
             // arrange
             var commentService = new Mock<ICommentService>();
             bool commentCreated = false;
-            commentService.Setup(s => s.Create(It.IsAny<FeedbackItem>())).Callback(() => commentCreated = true);
+            commentService.Setup(s => s.Create(It.IsAny<FeedbackItem>(), false/*runFilters*/)).Callback(() => commentCreated = true);
             
             var repository = new BlogImportRepository(null, commentService.Object, null, new BlogMLImportMapper());
 
@@ -112,7 +112,7 @@ namespace UnitTests.Subtext.BlogMl
             // arrange
             var commentService = new Mock<ICommentService>();
             bool trackbackCreated = false;
-            commentService.Setup(s => s.Create(It.IsAny<FeedbackItem>())).Callback(() => trackbackCreated = true);
+            commentService.Setup(s => s.Create(It.IsAny<FeedbackItem>(), It.IsAny<bool>())).Callback(() => trackbackCreated = true);
 
             var repository = new BlogImportRepository(null, commentService.Object, null, new BlogMLImportMapper());
 
@@ -129,7 +129,7 @@ namespace UnitTests.Subtext.BlogMl
             // arrange
             var commentService = new Mock<ICommentService>();
             bool trackbackCreated = false;
-            commentService.Setup(s => s.Create(It.IsAny<FeedbackItem>())).Callback(() => trackbackCreated = true);
+            commentService.Setup(s => s.Create(It.IsAny<FeedbackItem>(), It.IsAny<bool>())).Callback(() => trackbackCreated = true);
             var repository = new BlogImportRepository(null, commentService.Object, null, new BlogMLImportMapper());
 
             // act

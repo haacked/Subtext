@@ -41,9 +41,7 @@ namespace Subtext.Framework.Services
 
         protected ICommentFilter Filter { get; private set; }
 
-        #region ICommentService Members
-
-        public int Create(FeedbackItem comment)
+        public int Create(FeedbackItem comment, bool runFilters)
         {
             Entry entry = Cacher.GetEntry(comment.EntryId, SubtextContext);
             if(entry == null || entry.CommentingClosed)
@@ -60,7 +58,10 @@ namespace Subtext.Framework.Services
                 comment.IpAddress = HttpHelper.GetUserIpAddress(httpContext);
             }
 
-            comment.FlaggedAsSpam = true; //We're going to start with this assumption.
+            if(runFilters)
+            {
+                comment.FlaggedAsSpam = true; //We're going to start with this assumption.
+            }
             comment.Author = HtmlHelper.SafeFormat(comment.Author, context.HttpContext.Server);
             comment.Body = HtmlHelper.ConvertUrlsToHyperLinks(HtmlHelper.ConvertToAllowedHtml(comment.Body));
             comment.Title = HtmlHelper.SafeFormat(comment.Title, context.HttpContext.Server);
@@ -77,16 +78,20 @@ namespace Subtext.Framework.Services
                 comment.DateModified = comment.DateCreated;
             }
 
-            OnBeforeCreate(comment);
-
+            if(runFilters)
+            {
+                OnBeforeCreate(comment);
+            }
+            
             comment.Id = Repository.Create(comment);
 
-            OnAfterCreate(comment);
+            if(runFilters)
+            {
+                OnAfterCreate(comment);
+            }
 
             return comment.Id;
         }
-
-        #endregion
 
         protected virtual void OnBeforeCreate(FeedbackItem feedback)
         {

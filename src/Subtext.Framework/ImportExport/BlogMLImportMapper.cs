@@ -161,7 +161,7 @@ namespace Subtext.ImportExport
 
         public FeedbackItem ConvertComment(BlogMLComment comment, string parentPostId)
         {
-            return new FeedbackItem(FeedbackType.Comment)
+            var feedback = new FeedbackItem(FeedbackType.Comment)
             {
                 EntryId = int.Parse(parentPostId, CultureInfo.InvariantCulture),
                 Title = comment.Title ?? string.Empty,
@@ -173,6 +173,12 @@ namespace Subtext.ImportExport
                 Email = comment.UserEMail,
                 SourceUrl = !String.IsNullOrEmpty(comment.UserUrl) ? ConvertUri(comment.UserUrl) : null
             };
+            if(!feedback.Approved)
+            {
+                // Have to assume it needs moderation since that's what it most likely means in other blog systems;
+                feedback.Status = FeedbackStatusFlag.NeedsModeration;
+            }
+            return feedback;
         }
 
         public FeedbackItem ConvertTrackback(BlogMLTrackback trackback, string parentPostId)

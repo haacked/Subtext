@@ -272,6 +272,21 @@ namespace UnitTests.Subtext.BlogMl
         }
 
         [Test]
+        public void ConvertComment_WithUnapprovedComment_SetsFeedbackToTrash()
+        {
+            // arrange
+            var comment = new BlogMLComment { UserUrl = "not-valid-url", Approved = false};
+            var mapper = new BlogMLImportMapper();
+
+            // act
+            var convertComment = mapper.ConvertComment(comment, "123");
+
+            // assert
+            Assert.IsFalse(convertComment.Approved);
+            Assert.AreEqual(FeedbackStatusFlag.NeedsModeration, convertComment.Status);
+        }
+
+        [Test]
         public void ConvertComment_WithInvalidUserUrl_IgnoresUrl()
         {
             // arrange

@@ -286,7 +286,7 @@ namespace UnitTests.Subtext.Framework.Data
             subtextContext.SetupRepository(ObjectProvider.Instance());
             subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
             var commentService = new CommentService(subtextContext.Object, null);
-            commentService.Create(feedbackItem);
+            commentService.Create(feedbackItem, true /*runFilters*/);
             FeedbackItem.Approve(feedbackItem, null);
         }
 

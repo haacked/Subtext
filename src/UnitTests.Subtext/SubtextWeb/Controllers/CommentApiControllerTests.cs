@@ -46,7 +46,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var subtextContext = new Mock<ISubtextContext>();
 
             FeedbackItem comment = null;
-            service.Setup(s => s.Create(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(f => comment = f);
+            service.Setup(s => s.Create(It.IsAny<FeedbackItem>(), It.IsAny<bool>())).Callback<FeedbackItem, bool>((f, b) => comment = f);
             var controller = new CommentApiController(subtextContext.Object, service.Object);
             string xmlText =
                 @"<?xml version=""1.0""?>
@@ -78,10 +78,9 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var subtextContext = new Mock<ISubtextContext>();
 
             FeedbackItem comment = null;
-            service.Setup(s => s.Create(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(f => comment = f);
+            service.Setup(s => s.Create(It.IsAny<FeedbackItem>(), It.IsAny<bool>())).Callback<FeedbackItem, bool>((f, b) => comment = f);
             var controller = new CommentApiController(subtextContext.Object, service.Object);
-            string xmlText =
-                @"<?xml version=""1.0""?>
+            const string xmlText = @"<?xml version=""1.0""?>
                             <item>
                                 <title>Haack's Wild Ride</title>
                                 <description>This tests the CommentAPI</description>
