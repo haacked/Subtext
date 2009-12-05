@@ -33,6 +33,23 @@ public static class Routes
 {
     public static void RegisterRoutes(SubtextRouteMapper routes)
     {
+        routes.MapControls("entry-by-id",
+                   "archive/{year}/{month}/{day}/{id}.aspx"
+                   ,
+                   new
+                   {
+                       year = @"[1-9]\d{3}",
+                       month = @"(0\d)|(1[0-2])",
+                       day = @"([0-2]\d)|(3[0-1])",
+                       id = @"\d+"
+                   }
+                   , new[] { "viewpost", "comments", "postcomment" });
+
+        routes.MapControls("entry-by-slug",
+                           "archive/{year}/{month}/{day}/{slug}.aspx"
+                           , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])" }
+                           , new[] { "viewpost", "comments", "postcomment" });
+
         routes.Ignore("{resource}.axd/{*pathInfo}");
         routes.Ignore("skins/{*pathInfo}");
         routes.MapSystemPage("MainFeed");
@@ -75,23 +92,6 @@ public static class Routes
         routes.MapPageToControl("ArchivePostPage");
         routes.MapPageToControl("ArticleCategories");
         routes.MapControls("archives", "archives.aspx", null, new[] {"SingleColumn"});
-
-        routes.MapControls("entry-by-id",
-                           "archive/{year}/{month}/{day}/{id}.aspx"
-                           ,
-                           new
-                           {
-                               year = @"[1-9]\d{3}",
-                               month = @"(0\d)|(1[0-2])",
-                               day = @"([0-2]\d)|(3[0-1])",
-                               id = @"\d+"
-                           }
-                           , new[] {"viewpost", "comments", "postcomment"});
-
-        routes.MapControls("entry-by-slug",
-                           "archive/{year}/{month}/{day}/{slug}.aspx"
-                           , new {year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])"}
-                           , new[] {"viewpost", "comments", "postcomment"});
 
         routes.MapControls("entries-by-day", "archive/{year}/{month}/{day}.aspx"
                            , new {year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])"}

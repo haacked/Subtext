@@ -125,7 +125,7 @@ namespace Subtext.ImportExport
             WriteStartElement("post");
             WriteNodeAttributes(post.ID, post.DateCreated, post.DateModified, post.Approved);
             WriteAttributeString("post-url", post.PostUrl);
-            WriteAttributeStringRequired("type", "text");
+            WriteAttributeStringRequired("type", "normal");
             WriteAttributeStringRequired("hasexcerpt", post.HasExcerpt.ToString().ToLowerInvariant());
             WriteAttributeStringRequired("views", post.Views.ToString());
             WriteElementContent("title", post.Title, "text");

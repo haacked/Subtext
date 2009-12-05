@@ -64,6 +64,10 @@ namespace Subtext.Infrastructure
 
         public DateTime FromUtc(DateTime dateTime)
         {
+            if(dateTime.Kind != DateTimeKind.Utc)
+            {
+                dateTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, DateTimeKind.Unspecified);
+            }
             return FromTimeZone(dateTime, TimeZoneInfo.Utc);
         }
 

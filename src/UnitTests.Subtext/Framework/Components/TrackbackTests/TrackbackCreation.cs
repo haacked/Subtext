@@ -46,7 +46,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
             subtextContext.Setup(c => c.Cache).Returns(new TestCache());
             subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
             var commentService = new CommentService(subtextContext.Object, null);
-            int id = commentService.Create(trackback);
+            int id = commentService.Create(trackback, true/*runFilters*/);
 
             FeedbackItem loadedTrackback = FeedbackItem.Get(id);
             Assert.IsNotNull(loadedTrackback, "Was not able to load trackback from storage.");
@@ -82,7 +82,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
             subtextContext.SetupRepository(ObjectProvider.Instance());
             subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
             var commentService = new CommentService(subtextContext.Object, null);
-            int trackbackId = commentService.Create(trackback);
+            int trackbackId = commentService.Create(trackback, true/*runFilters*/);
             FeedbackItem.Approve(trackback, null);
 
             entries = ObjectProvider.Instance().GetFeedbackForEntry(parentEntry);

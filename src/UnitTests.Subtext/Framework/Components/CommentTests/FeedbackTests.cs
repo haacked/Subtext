@@ -395,7 +395,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             subtextContext.Setup(c => c.HttpContext).Returns(new HttpContextWrapper(HttpContext.Current));
 
             var service = new CommentService(subtextContext.Object, null);
-            int id = service.Create(feedback);
+            int id = service.Create(feedback, true/*runFilters*/);
 
             feedback = FeedbackItem.Get(id);
             feedback.Status = status;

@@ -90,13 +90,13 @@ namespace Subtext.ImportExport
         public void CreateComment(BlogMLComment comment, string newPostId)
         {
             var newComment = Mapper.ConvertComment(comment, newPostId);
-            CommentService.Create(newComment);
+            CommentService.Create(newComment, false /*runfilters*/);
         }
 
         public void CreateTrackback(BlogMLTrackback trackback, string newPostId)
         {
             var pingTrack = Mapper.ConvertTrackback(trackback, newPostId);
-            CommentService.Create(pingTrack);
+            CommentService.Create(pingTrack, false /*runfilters*/);
         }
 
         public void SetExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties)

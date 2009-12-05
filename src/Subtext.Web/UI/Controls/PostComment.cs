@@ -206,7 +206,7 @@ namespace Subtext.Web.UI.Controls
                     }
                     var commentService = new CommentService(SubtextContext,
                                                             new CommentFilter(SubtextContext, feedbackService));
-                    commentService.Create(feedbackItem);
+                    commentService.Create(feedbackItem, true/*runFilters*/);
                     var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(),
                                                         SubtextContext);
                     emailService.EmailCommentToBlogAuthor(feedbackItem);

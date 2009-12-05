@@ -60,7 +60,7 @@ namespace Subtext.Web.Controllers
             comment.Title = (xml.SelectSingleNode("//item/title") ?? Empty).InnerText;
             comment.SourceUrl = HtmlHelper.EnsureUrl((xml.SelectSingleNode("//item/link") ?? Empty).InnerText);
             comment.EntryId = id;
-            CommentService.Create(comment);
+            CommentService.Create(comment, true/*runFilters*/);
         }
     }
 }

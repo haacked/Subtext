@@ -104,13 +104,29 @@ namespace UnitTests.Subtext.Framework.Infrastructure
         {
             // arrange
             TimeZoneInfo blogTimeZone = TimeZones.GetTimeZones().GetById("Fiji Standard Time");
-            TimeZoneInfo utcTimeZone = TimeZoneInfo.Utc;
             var timeZoneWrapper = new TimeZoneWrapper(blogTimeZone, TimeZoneInfo.Local, () => DateTime.UtcNow);
             DateTime utcDateTime = DateTime.ParseExact("2009/08/15 06:18 PM", "yyyy/MM/dd hh:mm tt",
                                                        CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
 
             // act
             DateTime fijiDateTime = timeZoneWrapper.FromUtc(utcDateTime); // To Fiji Time Zone
+
+            // assert
+            DateTime expected = DateTime.ParseExact("2009/08/16 06:18 AM", "yyyy/MM/dd hh:mm tt",
+                                                    CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+            Assert.AreEqual(expected, fijiDateTime);
+        }
+
+        [Test]
+        public void FromUtc_ConvertsSpecifiedLocalTime_ToBlogTimeZoneFromUtc()
+        {
+            // arrange
+            var time = new DateTime(2009, 08, 15, 18, 18, 0, DateTimeKind.Local);
+            TimeZoneInfo blogTimeZone = TimeZones.GetTimeZones().GetById("Fiji Standard Time");
+            var timeZoneWrapper = new TimeZoneWrapper(blogTimeZone, TimeZoneInfo.Local, () => DateTime.UtcNow);
+            
+            // act
+            var fijiDateTime = timeZoneWrapper.FromUtc(time); // To Fiji Time Zone
 
             // assert
             DateTime expected = DateTime.ParseExact("2009/08/16 06:18 AM", "yyyy/MM/dd hh:mm tt",

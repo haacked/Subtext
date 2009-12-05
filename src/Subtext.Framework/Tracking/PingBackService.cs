@@ -105,7 +105,7 @@ namespace Subtext.Framework.Tracking
                 feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
             }
             var commentService = new CommentService(SubtextContext, new CommentFilter(SubtextContext, feedbackService));
-            commentService.Create(trackback);
+            commentService.Create(trackback, true/*runFilters*/);
 
             //TODO: Create this using IoC container
             var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(), SubtextContext);
