@@ -136,9 +136,16 @@
         {
             itemsWrapDiv.show();
             noItemsMessage.hide();
-            
+
             var theRow = $("#dynamic-add-row");
-            theRow.fadeIn("slow", function() { $(":input", theRow)[0].focus(); });
+            if (!$.browser.msie) {
+                // Workaround a bug in jQuery 1.3.2 with IE8
+                theRow.fadeIn("slow", function() { $(":input", theRow)[0].focus(); });
+            }
+            else {
+                theRow.attr('style', 'display:block');
+                $(":input", theRow)[0].focus();
+            }
         }       
         
         // first let's hook up some events

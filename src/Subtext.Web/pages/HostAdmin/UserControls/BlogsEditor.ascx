@@ -209,7 +209,7 @@
 					</HeaderTemplate>
 					<ItemTemplate>
 						<tr>
-							<td><asp:ImageButton ID="editAliasButton" runat="server" ImageUrl="~\Images\edit.gif" CommandName="EditAlias" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' /> </td>
+							<td><asp:ImageButton ID="editAliasButton" runat="server" ImageUrl="~/Images/icons/edit.gif" CommandName="EditAlias" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' /> </td>
 							<td>
 								<%# DataBinder.Eval(Container.DataItem, "Host") %>
 							</td>
@@ -224,7 +224,7 @@
 					</ItemTemplate>
 					<AlternatingItemTemplate>
 						<tr class="alt">
-							<td><asp:ImageButton ID="editAliasButton" runat="server" ImageUrl="~\Images\edit.gif" CommandName="EditAlias" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' /> </td>
+							<td><asp:ImageButton ID="editAliasButton" runat="server" ImageUrl="~/Images/icons/edit.gif" CommandName="EditAlias" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' /> </td>
 							<td>
 								<%# DataBinder.Eval(Container.DataItem, "Host") %>
 							</td>

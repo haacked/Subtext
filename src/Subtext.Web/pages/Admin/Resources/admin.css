@@ -867,27 +867,27 @@ fieldset select.timezonelist
 
 #dynamic-content .dynamic-add
 {
-	background: transparent url(../../Images/tag_blue_add.png) no-repeat scroll right center;
+	background: transparent url(../../../Images/icons/tag_blue_add.png) no-repeat scroll right center;
 }
 
 #dynamic-content .dynamic-edit
 {
-	background: transparent url(../../Images/tag_blue_edit.png) no-repeat scroll right center;
+	background: transparent url(../../../Images/icons/tag_blue_edit.png) no-repeat scroll right center;
 }
 
 #dynamic-content .dynamic-delete
 {
-	background: transparent url(../../Images/tag_blue_delete.png) no-repeat scroll right center;
+	background: transparent url(../../../Images/icons/tag_blue_delete.png) no-repeat scroll right center;
 }
 
 #dynamic-content .dynamic-save
 {
-    background: transparent url(../../Images/accept.png) no-repeat scroll right center;
+    background: transparent url(../../../Images/icons/accept.png) no-repeat scroll right center;
 }
 
 #dynamic-content .dynamic-cancel
 {
-	background: transparent url(../../Images/cross.png) no-repeat scroll right center;
+	background: transparent url(../../../Images/icons/cross.png) no-repeat scroll right center;
 }
 
 #messagePanelWrapper
@@ -911,7 +911,7 @@ fieldset select.timezonelist
 }
 #messagePanelWrapper.error #messagePanel
 {
-	background: transparent url(../../Images/exclamation.png) no-repeat scroll left center;
+	background: transparent url(../../Images/icons/exclamation.png) no-repeat scroll left center;
 }
 
 #messagePanelWrapper.warn,
@@ -933,7 +933,7 @@ fieldset select.timezonelist
 }
 #messagePanelWrapper.success #messagePanel
 {
-	background: transparent url(../../Images/accept.png) no-repeat scroll left center;
+	background: transparent url(../../Images/icons/accept.png) no-repeat scroll left center;
 }
 
 div.button-row
