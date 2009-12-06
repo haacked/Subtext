@@ -45,7 +45,7 @@
 			<ItemTemplate>
 				<tr>
 					<td>
-					    <a href="Edit.aspx?FeedBackID=<%# Eval("Id") %>&<%= Master.CurrentQuery %>" title="Edit this item"><asp:Image runat="server" ImageUrl="~/Images/edit.gif" /></a>
+					    <a href="Edit.aspx?FeedBackID=<%# Eval("Id") %>&<%= Master.CurrentQuery %>" title="Edit this item"><asp:Image runat="server" ImageUrl="~/Images/icons/edit.gif" /></a>
 					</td>
 					<td>
 						<strong><%# GetTitle(Container.DataItem) %></strong>
@@ -72,7 +72,7 @@
 			<AlternatingItemTemplate>
 				<tr class="alt">
 					<td>	
-						<a href="Edit.aspx?FeedBackID=<%# Eval("Id") %>&<%= Master.CurrentQuery %>" title="Edit this item"><asp:Image runat="server" ImageUrl="~/Images/edit.gif" /></a>
+						<a href="Edit.aspx?FeedBackID=<%# Eval("Id") %>&<%= Master.CurrentQuery %>" title="Edit this item"><asp:Image runat="server" ImageUrl="~/Images/icons/edit.gif" /></a>
 					</td>
 					<td>
 						<strong><%# GetTitle(Container.DataItem) %></strong>

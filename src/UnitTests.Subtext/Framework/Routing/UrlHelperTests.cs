@@ -1259,7 +1259,7 @@ namespace UnitTests.Subtext.Framework.Routing
             VirtualPath url = helper.EditIconUrl();
 
             //assert
-            Assert.AreEqual("/Subtext.Web/images/edit.gif", url.ToString());
+            Assert.AreEqual("/Subtext.Web/images/icons/edit.gif", url.ToString());
         }
 
         [Test]

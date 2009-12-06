@@ -538,7 +538,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath EditIconUrl()
         {
-            return AppRoot() + "images/edit.gif";
+            return AppRoot() + "images/icons/edit.gif";
         }
 
         public virtual VirtualPath TagUrl(string tagName)
