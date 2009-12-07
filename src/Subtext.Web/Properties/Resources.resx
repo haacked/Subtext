@@ -438,7 +438,7 @@ For more information on configuring blogs, see the &lt;a href='http://www.subtex
     <value>Edit Categories</value>
   </data>
   <data name="Label_Entries" xml:space="preserve">
-    <value>Entries</value>
+    <value>Blog Posts</value>
   </data>
   <data name="Label_Errors" xml:space="preserve">
     <value>Errors</value>

@@ -1169,6 +1169,7 @@
     <Content Include="pages\Admin\Resources\Scripts\labelFocus.js" />
     <Content Include="pages\Admin\Resources\toggle_gray_down.gif" />
     <Content Include="pages\Admin\Resources\toggle_gray_up.gif" />
+    <Content Include="pages\Admin\Resources\ui-bg_glass_75_e6e6f0_1x400.png" />
     <Content Include="pages\Admin\RssFeeds.aspx" />
     <Content Include="pages\Admin\Security.aspx" />
     <Content Include="pages\Admin\Skins.aspx" />
@@ -2420,6 +2421,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="pages\Admin\css\" />
+    <Folder Include="pages\Admin\images\" />
     <Folder Include="Skins\Mobile\Images\" />
     <Folder Include="Skins\Mobile\Scripts\" />
     <Folder Include="Skins\Naked\Images\" />
