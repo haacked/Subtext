@@ -99,18 +99,15 @@ h1
 
 h2 
 {
-	font-size: 1.2em;
+	font-size: 1.7em;
 }
 
 h1, h2 
 {
-    margin: 2px 0 8px 0;
-	color: #555;
-	background: #ecedef;
-	border-bottom: 1px dashed #ccc;
-	border-top: 1px solid #ccc;
-	font-weight: bold;
-	text-transform: uppercase;
+    font-family: Georgia ,"Times New Roman","Bitstream Charter",Times,serif;
+    font-weight: normal;
+    font-style: italic;
+    margin: 2px 0 8px 8px;
 }
 
 #credits p, #credits ul, #credits ol 

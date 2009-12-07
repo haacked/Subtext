@@ -23,6 +23,11 @@
 				<asp:CheckBox id="chkEnableTrackbacks" runat="server" Text="Enable TrackBacks" />
 				<st:HelpToolTip id="Helptooltip5" runat="server" HelpText="If checked, enables trackbacks and pingbacks." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
 			</span>
+
+			<span class="checkbox">
+				<asp:CheckBox id="chkEnableCommentModeration" runat="server" Text="Enable Moderation" />
+				<st:HelpToolTip id="helpCommentModeration" runat="server" HelpText="If checked, enables comment moderation.  Does nothing if comments are not enabled." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
+			</span>
 			
 			<span class="checkbox">
 				<asp:CheckBox id="chkCoCommentEnabled" runat="server" Text="Enable CoComment" />
@@ -32,19 +37,6 @@
 	    
 	    <fieldset title="spamcontrols">
 			<legend>Spam Controls</legend>
-
-			<p class="Valuelabel block">
-				<label for="txtAkismetAPIKey">
-					Akismet API Key
-					<st:HelpToolTip id="hlpAkismet" runat="server" HelpText="Specify your Akismet API Key to use <a href='http://akismet.com/' title='Akismet Comment Spam Filter Service'>Akismet</a> for spam filtering. Leave blank otherwise." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
-				</label>
-				<asp:TextBox id="txtAkismetAPIKey" runat="server" Columns="2" /> 
-			</p>
-
-			<span class="checkbox">
-				<asp:CheckBox id="chkEnableCommentModeration" runat="server" Text="Moderate Comments" />
-				<st:HelpToolTip id="helpCommentModeration" runat="server" HelpText="If checked, enables comment moderation.  Does nothing if comments are not enabled." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
-			</span>
 			
 			<span class="checkbox">
 				<asp:CheckBox id="chkEnableCaptcha" runat="server" Text="Enable Captcha" />
@@ -56,6 +48,14 @@
 				<st:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, duplicate comments are allowed.  If unchecked, duplicate comments are not allowed.  Not checking this can help prevent some comment spam, but at the cost that short “me too” style comments may be blocked." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
 			</span>
 			
+			<p class="Valuelabel block">
+				<label for="txtAkismetAPIKey">
+					Akismet API Key
+					<st:HelpToolTip id="hlpAkismet" runat="server" HelpText="Specify your Akismet API Key to use <a href='http://akismet.com/' title='Akismet Comment Spam Filter Service'>Akismet</a> for spam filtering. Leave blank otherwise." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
+				</label>
+				<asp:TextBox id="txtAkismetAPIKey" runat="server" Columns="2" /> 
+			</p>
+
 			<label for="txtCommentDelayIntervalMinutes">
 				Comment Delay In Minutes
 				<st:HelpToolTip id="HelpToolTip2" runat="server" HelpText="Enter the number of minutes the delay between comments originating from the same source should be.  This helps prevent spam bombing attacks via automated scripts." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />

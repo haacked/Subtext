@@ -22,15 +22,66 @@ body.dashboard #content .column {
 
 .section 
 {
-    border: solid 1px #aaa;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
-    margin-bottom: 10px;
+	line-height: 1.3;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 1.0em;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
+
+.section a 
+{
+	text-decoration: none;
+	font-weight: normal;
+	color: #06c;
+}
+
+.section a:hover 
+{
+	color: #f8a245;
+}
+
+.section .sub-header, .section .section-footer
+{
+	padding: 6px 0 6px 8px;
+	font-size: .9em;
+}
+
+.section-footer .info 
+{
+	float: left;
+	width: 50%;
+}
+
+.section-footer .action 
+{
+	float: right;
+	width: 200px;
+}
+
+.section .sub-header 
+{
+	font-style: italic;
+	color: #555;
+}
+
+.section .section-footer 
+{
+	font-size: 0.85em;
 }
 
 #content .section h3 {
-    padding: 5px 0 0 10px;
+    padding: 5px 0 5px 8px;
+	border: 1px solid #d3d3d3;
+	border-bottom: none;
+	background: #e6e6f0 url(ui-bg_glass_75_e6e6f0_1x400.png) 50% 50% repeat-x;
+	color: #555555;
+	outline: none;
+	-moz-border-radius-topleft: 4px;
+	-webkit-border-top-left-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	-webkit-border-top-right-radius: 4px;
+	font-size: 1.0em;
 }
 
 .section ul 
@@ -43,15 +94,20 @@ body.dashboard #content .column {
 }
 
 .section .body {
-    margin: 10px;
-    position: relative;
+    border: 1px solid #d3d3d3;
+    border-top: none;
+    	-moz-border-radius-bottomleft: 4px;
+	-webkit-border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomright: 4px;
+	-webkit-border-bottom-right-radius: 4px;
 }
 
 .section .body .table {
-    margin: 0 -9px 8px -9px;
-    padding: 0 10px;
     background-color: #f9f9f9;
-    border: solid 1px #ececec;
+	margin: 0 -9px 10 -9px;
+	padding: 0 10px 0 10px;
+	border-top: solid 1px #ececec;
+	border-bottom: solid 1px #ececec;
 }
 
 .section .body table {  
@@ -70,7 +126,7 @@ body.dashboard #content .column {
 
 .section .body table tr {
     background-color: #f9f9f9;
-    border-bottom: solid 1px #ececec;
+    border-top: solid 1px #ececec;
 }
 
 #recent-comments img.gravatar {
@@ -154,8 +210,10 @@ ul.inline li:first-child:before {
     padding: 4px;
 }
 
-.stat {
+.stat, .stat a
+{
     font-weight: bold;
+    text-align: right;
 }
 
 tr.highlight td {
@@ -169,7 +227,22 @@ tr.highlight td {
 
 div.filter 
 {
-	position: relative;
-	top: -30px;
-	left: 100px;
+	position: absolute;
+	top: 5px;
+	right: 10px;
+}
+
+.approved, .approved a
+{
+	color: #090;
+}
+
+.pending, .pending a
+{
+	color: #f60;
+}
+
+.spam, .spam a
+{
+	color: #f00;
 }

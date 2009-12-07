@@ -830,7 +830,7 @@ namespace Subtext.Web.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Entries.
+        ///   Looks up a localized string similar to Blog Posts.
         /// </summary>
         internal static string Label_Entries {
             get {
