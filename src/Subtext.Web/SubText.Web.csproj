@@ -1123,6 +1123,7 @@
     <Content Include="pages\Admin\Credits.aspx" />
     <Content Include="pages\Admin\css\admin.css" />
     <Content Include="pages\Admin\css\dashboard.css" />
+    <Content Include="pages\Admin\css\helptip.css" />
     <Content Include="pages\Admin\css\ie6admin.css" />
     <Content Include="pages\Admin\css\ie7admin.css" />
     <Content Include="pages\Admin\css\mobile.css" />
@@ -1150,7 +1151,6 @@
     <Content Include="pages\Admin\js\Admin.js" />
     <Content Include="pages\Admin\js\autoTab.js" />
     <Content Include="pages\Admin\js\comboBox.js" />
-    <Content Include="pages\Admin\js\helptip.css" />
     <Content Include="pages\Admin\js\helptip.js" />
     <Content Include="pages\Admin\js\labelFocus.js" />
     <Content Include="pages\Admin\license.txt" />
