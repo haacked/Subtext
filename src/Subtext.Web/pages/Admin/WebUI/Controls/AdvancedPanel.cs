@@ -32,10 +32,10 @@ namespace Subtext.Web.Admin.WebUI
         /// Creates a new <see cref="AdvancedPanel"/> instance and 
         /// sets some initial properties specific to the admin tool.
         /// </summary>
-        public AdvancedPanel() : base()
+        public AdvancedPanel()
         {
-            LinkImage = "~/admin/resources/toggle_gray_up.gif";
-            LinkImageCollapsed = "~/admin/resources/toggle_gray_down.gif";
+            LinkImage = "~/pages/admin/images/toggle_gray_up.gif";
+            LinkImageCollapsed = "~/pages/admin/images/toggle_gray_down.gif";
             CssClass = "section";
         }
     }

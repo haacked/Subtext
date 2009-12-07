@@ -61,7 +61,7 @@ body
 
 #logo
 {
-	background: url(../../images/SubtextLogo.png);
+	background: url(../images/SubtextLogo.png);
 	width: 261px;
 	height: 85px;
 	display: block;
@@ -908,7 +908,7 @@ fieldset select.timezonelist
 }
 #messagePanelWrapper.error #messagePanel
 {
-	background: transparent url(../../Images/icons/exclamation.png) no-repeat scroll left center;
+	background: transparent url(../images/icons/exclamation.png) no-repeat scroll left center;
 }
 
 #messagePanelWrapper.warn,
@@ -920,7 +920,7 @@ fieldset select.timezonelist
 #messagePanelWrapper.warn #messagePanel,
 #messagePanelWrapper.info #messagePanel
 {
-	background: transparent url(../../Images/error.png) no-repeat scroll left center;
+	background: transparent url(../images/error.png) no-repeat scroll left center;
 }
 
 #messagePanelWrapper.success
@@ -930,7 +930,7 @@ fieldset select.timezonelist
 }
 #messagePanelWrapper.success #messagePanel
 {
-	background: transparent url(../../Images/icons/accept.png) no-repeat scroll left center;
+	background: transparent url(../images/icons/accept.png) no-repeat scroll left center;
 }
 
 div.button-row
