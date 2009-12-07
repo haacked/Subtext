@@ -3,8 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head runat="server">
 		<title>Subtext Installation</title>
-		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/resources/Scripts/helptip.js") %>"></script>
-		<link id="helpTipCss" type="text/css" rel="stylesheet" runat="Server" href="~/pages/Admin/Resources/scripts/helptip.css" />
+		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/js/helptip.js") %>"></script>
+		<link id="helpTipCss" type="text/css" rel="stylesheet" runat="Server" href="~/pages/Admin/css/helptip.css" />
 		<link rel="stylesheet" id="formsStyle" href="~/Skins/_System/forms.css" runat="server" />
 		<link rel="stylesheet" id="installStyle" type="text/css" href="~/pages/Install/Style/InstallationStyle.css" runat="server" />
 		<link rel="shortcut icon" id="installFavicon"  href="~/favicon.ico" type="image/x-icon" runat="server" />

@@ -74,7 +74,7 @@ body.dashboard #content .column {
     padding: 5px 0 5px 8px;
 	border: 1px solid #d3d3d3;
 	border-bottom: none;
-	background: #e6e6f0 url(ui-bg_glass_75_e6e6f0_1x400.png) 50% 50% repeat-x;
+	background: #e6e6f0 url(../images/ui-bg_glass_75_e6e6f0_1x400.png) 50% 50% repeat-x;
 	color: #555555;
 	outline: none;
 	-moz-border-radius-topleft: 4px;

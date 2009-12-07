@@ -16,21 +16,21 @@
         var ajaxServices = new AjaxServices();
     </script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/tableEffects.js") %>" ></script>
-	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/Resources/Scripts/helptip.js") %>" ></script>
-	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/Resources/Scripts/admin.js") %>" ></script>
+	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/js/helptip.js") %>" ></script>
+	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/js/admin.js") %>" ></script>
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonlayout.css" />
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonstyle.css" />
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/forms.css" />
-	<link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/Resources/Scripts/helptip.css" />
-	<link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/Resources/admin.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/css/helptip.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/css/admin.css" />
 	<!--[if lt IE 7]>
-    <link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/Resources/ie6admin.css" />
+    <link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/css/ie6admin.css" />
     <![endif]-->
     <!--[if IE 7]>
-    <link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/Resources/ie7admin.css" />
+    <link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/css/ie7admin.css" />
     <![endif]-->
-    <link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/Resources/mobile.css" media="handheld" />
-    <link rel="apple-touch-icon" runat="server" href="~/pages/Admin/Resources/iPhoneIcon.png"/>
+    <link type="text/css" rel="stylesheet" runat="server" href="~/pages/Admin/css/mobile.css" media="handheld" />
+    <link rel="apple-touch-icon" runat="server" href="~/pages/Admin/images/iPhoneIcon.png"/>
     <asp:ContentPlaceHolder runat="server" ID="head" />
 </head>
 <body id="AdminSection" runat="server" class="admin">

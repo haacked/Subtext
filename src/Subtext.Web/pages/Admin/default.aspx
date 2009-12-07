@@ -1,7 +1,7 @@
 <%@ Page Language="C#" EnableTheming="false" CodeBehind="default.aspx.cs" AutoEventWireup="true" Inherits="Subtext.Web.Admin.Pages.HomePageDefault" %>
 
 <asp:Content ContentPlaceHolderID="head" runat="server">
-    <link id="Link1" type="text/css" rel="stylesheet" href="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/Resources/dashboard.css") %>" />
+    <link id="Link1" type="text/css" rel="stylesheet" href="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/css/dashboard.css") %>" />
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">
