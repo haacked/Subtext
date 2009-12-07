@@ -1149,10 +1149,7 @@
     <Content Include="pages\Admin\images\ui-bg_glass_75_e6e6f0_1x400.png" />
     <Content Include="pages\Admin\ImportExport.aspx" />
     <Content Include="pages\Admin\js\Admin.js" />
-    <Content Include="pages\Admin\js\autoTab.js" />
-    <Content Include="pages\Admin\js\comboBox.js" />
     <Content Include="pages\Admin\js\helptip.js" />
-    <Content Include="pages\Admin\js\labelFocus.js" />
     <Content Include="pages\Admin\license.txt" />
     <Content Include="pages\Admin\Options.aspx" />
     <Content Include="pages\Admin\Posts\Default.aspx" />
@@ -2372,6 +2369,7 @@
     <Content Include="Skins\_System\forgotpassword.css" />
     <Content Include="Skins\_System\forms.css" />
     <Content Include="Skins\_System\login.css" />
+    <Content Include="Skins\_System\reset.css" />
     <Content Include="Skins\_System\SkinIcon.png" />
     <Content Include="Skins\_System\SystemStyle.css" />
     <None Include="Properties\Settings.settings">
