@@ -23,22 +23,24 @@
                     ControlToValidate="tbTitle" Display="Dynamic" EnableClientScript="true" />
             </div>
             <div>
-                <small>You may also like to <a href="/pages/javascript-error" onclick="toggleCommentForm(); return false;">
+                <small>You may also like to <a href="#" id="comment-form-toggle">
                     leave your email or website.</a></small>
-                <div id="guest_url" class="clearfix" style="display: none;">
-                    <label for="PostComment_ascx_tbUrl">Your blog:</label>
-                    <asp:TextBox ID="tbUrl" runat="server" CssClass="fixed" />
-                    <asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl"
-                        ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$" Display="dynamic"
-                        ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
-                </div>
-                <div id="guest_email" class="clearfix" style="display: none;">
-                    <label for="PostComment_ascx_tbEmail">Your email:</label>
-                    <asp:TextBox ID="tbEmail" runat="server" CssClass="fixed" />&nbsp;(will not be displayed)
-                    <asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail"
-                        ValidationExpression="^.*?@.+\..+$"
-                        Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified."
-                        EnableClientScript="true" />
+                <div id="optional-fields" style="display: none;">
+                    <div id="guest_url" class="clearfix">
+                        <label for="PostComment_ascx_tbUrl">Your blog:</label>
+                        <asp:TextBox ID="tbUrl" runat="server" CssClass="fixed" />
+                        <asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl"
+                            ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$" Display="dynamic"
+                            ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
+                    </div>
+                    <div id="guest_email" class="clearfix">
+                        <label for="PostComment_ascx_tbEmail">Your email:</label>
+                        <asp:TextBox ID="tbEmail" runat="server" CssClass="fixed" />&nbsp;(will not be displayed)
+                        <asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail"
+                            ValidationExpression="^.*?@.+\..+$"
+                            Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified."
+                            EnableClientScript="true" />
+                    </div>
                 </div>
             </div>
             <div class="required clearfix">

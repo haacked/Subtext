@@ -15,7 +15,7 @@ Author URI: http://www.ndesign-studio.com/
 body {
 	font: 75%/150% "Trebuchet MS", Tahoma, Arial;
 	color: #333333;
-	background: #FFFFFF url(../images/main-bg.gif);
+	background: #FFFFFF url(images/main-bg.gif);
 	margin: 0px;
 	padding: 0px 0px 30px;
 }
@@ -40,7 +40,7 @@ p {
 }
 h1 {
 	margin:0px;
-	background: url(../images/header-icon.gif) no-repeat;
+	background: url(images/header-icon.gif) no-repeat;
 	padding-left: 70px;
 	height: 60px;
 	font: bold 36px/100% "Trebuchet MS", Tahoma, Arial;
@@ -90,11 +90,11 @@ form {
 	border-bottom: 5px solid #d5e6eb;
 	border-left: 5px solid #d5e6eb;
 	border-right: 5px solid #d5e6eb;
-	background: #FFFFFF url(../images/content-bg.gif) repeat-y;
+	background: #FFFFFF url(images/content-bg.gif) repeat-y;
 }
 /* header area */
 #header {
-	background: #0FACEA url(../images/header-bg.jpg) no-repeat;
+	background: #0FACEA url(images/header-bg.jpg) no-repeat;
 	height: 170px;
 	border-bottom: 3px solid #59780a;
 	position: relative;
@@ -129,7 +129,7 @@ form {
 #nav .page_item a{
 	color: #ffffff;
 	text-decoration: none;
-	background: #5c8d0c url(../images/nav-button-bg.gif) repeat-x;
+	background: #5c8d0c url(images/nav-button-bg.gif) repeat-x;
 	padding: 5px 15px;
 	font: bold 14px/100% Arial, Helvetica, sans-serif;
 	border-top: 1px solid #E6EED0;
@@ -156,7 +156,7 @@ form {
 	width: 45px;
 	height: 49px;
 	float:left;
-	background: url(../images/date-bg.gif) no-repeat;
+	background: url(images/date-bg.gif) no-repeat;
 }
 .post-month {
 	font-size: 11px;
@@ -183,20 +183,20 @@ form {
 	width: 438px;
 }
 .post-cat {
-	background: url(../images/mini-category.gif) no-repeat left center;
+	background: url(images/mini-category.gif) no-repeat left center;
 	padding-left: 20px;
 	float:left;
 	font-size: 95%;
 	color: #999999;
 }
 .post-comments {
-	background: url(../images/mini-comments.gif) no-repeat left center;
+	background: url(images/mini-comments.gif) no-repeat left center;
 	padding-left: 20px;
 	float: right;
 	font-size: 95%;
 }
 .post-calendar {
-	background: url(../images/mini-calendar.gif) no-repeat left center;
+	background: url(images/mini-calendar.gif) no-repeat left center;
 	padding-left: 20px;
 	float: right;
 	font-size: 95%;
@@ -216,12 +216,12 @@ form {
 .previous-entries a {
 	float: left;
 	padding-left: 18px;
-	background: url(../images/mini-nav-left.gif) no-repeat left center;
+	background: url(images/mini-nav-left.gif) no-repeat left center;
 }
 .next-entries a {
 	float: right;
 	padding-right: 18px;
-	background: url(../images/mini-nav-right.gif) no-repeat right center;
+	background: url(images/mini-nav-right.gif) no-repeat right center;
 }
 
 /* comments area */
@@ -283,7 +283,7 @@ form {
 	background: #ffffff;
 }
 #commentform #submit{
-	background: url(../images/btn-bg.gif) no-repeat;
+	background: url(images/btn-bg.gif) no-repeat;
 	font: bold 12px Arial, Helvetica, sans-serif;
 	color: #FFFFFF;
 	border: none;
@@ -344,32 +344,32 @@ form {
 }
 /*blogroll */
 ul.list-blogroll li{
-	background: url(../images/mini-blogroll.gif) no-repeat !important;
+	background: url(images/mini-blogroll.gif) no-repeat !important;
 	padding-left: 16px !important;
 }
 /*category widget */
 ul.list-cat li, li.widget_categories li{
-	background: url(../images/mini-category.gif) no-repeat !important;
+	background: url(images/mini-category.gif) no-repeat !important;
 	padding-left: 20px !important;
 }
 /*archives widget */
 ul.list-archives li, li.widget_archives li{
-	background: url(../images/mini-monthly-archive.gif) no-repeat !important;
+	background: url(images/mini-monthly-archive.gif) no-repeat !important;
 	padding-left: 20px !important;
 }
 /*pages widget */
 ul.list-page li, li.widget_pages li, li.widget_recent_entries li{
-	background: url(../images/mini-page.gif) no-repeat !important;
+	background: url(images/mini-page.gif) no-repeat !important;
 	padding-left: 20px !important;
 }
 /*sub-pages */
 ul.list-page li ul li, li.widget_pages li ul li{
-	background: url(../images/mini-page-arrow.gif) no-repeat !important;
+	background: url(images/mini-page-arrow.gif) no-repeat !important;
 	padding-left: 10px !important;
 }
 /*recent comments widget */
 li.widget_recent_comments li{
-	background: url(../images/mini-recent-comments.gif) no-repeat !important;
+	background: url(images/mini-recent-comments.gif) no-repeat !important;
 	padding-left: 20px !important;
 }
 /*calendar widget */
@@ -401,7 +401,7 @@ li.widget_calendar td {
 }
 /* search form button - to specify button only use input[type="submit"] */
 #searchform input {
-	background: url(../images/search-btn-bg.gif) no-repeat;
+	background: url(images/search-btn-bg.gif) no-repeat;
 	border: none;
 	width: 67px;
 	height: 26px;
@@ -413,7 +413,7 @@ li.widget_calendar td {
 /* footer area */
 #footer {
 	clear: both;
-	background: #048DB4 url(../images/footer-bg.gif) no-repeat;
+	background: #048DB4 url(images/footer-bg.gif) no-repeat;
 	color: #ACD7EE;
 	font-size: 95%;
 	line-height: 130%;
@@ -438,7 +438,7 @@ li.widget_calendar td {
 	padding: 0px;
 }
 .footer-recent-comments ul li {
-	background: url(../images/mini-footer-comments.gif) no-repeat;
+	background: url(images/mini-footer-comments.gif) no-repeat;
 	padding: 0px 0px 10px 20px;
 }
 .footer-recent-posts {
@@ -459,7 +459,7 @@ li.widget_calendar td {
 	line-height: 110%;
 }
 .footer-recent-posts ul li {
-	background: url(../images/mini-footer-post.gif) no-repeat;
+	background: url(images/mini-footer-post.gif) no-repeat;
 	padding: 0px 0px 10px 20px;
 }
 .footer-about {
@@ -467,7 +467,7 @@ li.widget_calendar td {
 	float: right;
 	padding-right: 10px;
 	padding-left: 10px;
-	background: url(../images/footer-right-bg.gif) no-repeat;
+	background: url(images/footer-right-bg.gif) no-repeat;
 }
 /* credits */
 #credits {
@@ -481,13 +481,13 @@ li.widget_calendar td {
 	color: #048db4;
 }
 .rss {
-	background: url(../images/mini-rss.gif) no-repeat left center;
+	background: url(images/mini-rss.gif) no-repeat left center;
 	padding-left: 18px;
 	padding-bottom: 2px;
 	margin-left: 8px;
 }
 .loginout {
-	background: url(../images/mini-loginout.gif) no-repeat left center;
+	background: url(images/mini-loginout.gif) no-repeat left center;
 	padding-left: 18px;
 	padding-bottom: 2px;
 	margin-left: 8px;

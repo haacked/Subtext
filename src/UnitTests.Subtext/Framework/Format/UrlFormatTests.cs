@@ -15,7 +15,6 @@
 
 #endregion
 
-using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework.Format;
 

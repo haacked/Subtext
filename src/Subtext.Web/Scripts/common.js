@@ -204,56 +204,9 @@ function hideElement(element)
 	}
 }
 
-/*
-	Prototype for a javascript BlogInfo object 
-	that provides information to client scripts 
-	much as a server version does.
-*/
-function blogInfo(virtualRoot, virtualBlogRoot)
-{
-
-	/*
-	Returns the virtual root for the entire website.
-	*/
-	function getVirtualRoot()
-	{
-		return this.virtualRoot;
-	}
-	
-	/*
-	Gets the virtual root for the specific blog.
-	*/
-	function getVirtualBlogRoot()
-	{
-		return this.virtualBlogRoot;
-	}
-	
-	/*
-	Returns the virtual root to the default "scripts" directory 
-	*/
-	function getScriptsVirtualRoot()
-	{
-		return this.virtualRoot + "Scripts/";
-	}
-	
-	/*
-	Returns the virtual root to the default "scripts" directory 
-	*/
-	function getImagesVirtualRoot()
-	{
-		return this.virtualRoot + "Images/";
-	}
-
-	this.virtualRoot = virtualRoot;
-	this.virtualBlogRoot = virtualBlogRoot;
-	
-	this.getVirtualRoot = getVirtualRoot;
-	this.getVirtualBlogRoot = getVirtualBlogRoot;
-	this.getScriptsVirtualRoot = getScriptsVirtualRoot;
-	this.getImagesVirtualRoot = getImagesVirtualRoot;
-
-}
-
+/*-------------------------------------------------*/
+/* Disables submit button during update panel post
+/*-------------------------------------------------*/
 function pageLoad(sender, args) 
 {
     var requestManager = Sys.WebForms.PageRequestManager.getInstance();
@@ -268,7 +221,9 @@ function initializeRequest(sender, args) {
     {
         button.disabled = true;
         button.oldValue = button.value;
-        button.value = 'Posting...';
+        if (button.oldValue && button.oldValue !== '') {
+            button.value = 'Posting...';
+        }
         if (button.className == 'buttonSubmit') 
         {
             button.className = 'button-disabled';

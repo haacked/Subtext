@@ -13,10 +13,11 @@
         <link id="CustomCss" runat="server" type="text/css" rel="stylesheet" />
 		<link id="Rsd" rel="EditURI" type="application/rsd+xml" title="RSD" runat="server" />
 		<link id="wlwmanifest" rel="wlwmanifest" type="application/wlwmanifest+xml" runat="server" />
+		
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>
-			var subtextBlogInfo = new blogInfo('<%= Url.AppRoot() %>', '<%= Url.BlogUrl() %>');
 		</script>
 		<asp:Literal ID="scripts" runat="server" />
 		<asp:PlaceHolder ID="coCommentPlaceholder" runat="server" />

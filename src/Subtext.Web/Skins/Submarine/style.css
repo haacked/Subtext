@@ -250,9 +250,14 @@ a.removeCommentLink
 #myLinks .links
 {
 	/* the links contained in the MyLinks section */
-	color:white
-	
+	color:white;
 }
+
+#myLinks .links a 
+{
+	padding-right: 15px;
+}
+
 /*#myLinks .links .contact, */
 #myLinks .links .home, 
 #myLinks .links .home:link,
@@ -290,6 +295,14 @@ a.removeCommentLink
 	text-decoration:none;
 	height : 15px !important;
 	height : 15px;
+}
+
+#homeIcon 
+{
+	width: 20px;
+	height: 14px;
+	display: inline-block;
+	background: url(images/home.gif) no-repeat;
 }
 
 /*

@@ -5,9 +5,9 @@
 		
 	</div>
 	<div class="links">
-		<asp:hyperlink cssclass="home" runat="server" navigateurl="~/Default.aspx" ImageUrl="../images/home.gif" id="HomeLink" />&nbsp;&nbsp;&nbsp;
-		<asp:hyperlink cssclass="contact" runat="server" navigateurl="~/Contact.aspx" text="Contact" id="ContactLink" />&nbsp;&nbsp;&nbsp;
-		<asp:hyperlink cssclass="archives" runat="server" navigateurl="~/Archives.aspx" text="Archives"	id="Archives" />&nbsp;&nbsp;&nbsp;
+		<asp:hyperlink cssclass="home" runat="server" navigateurl="~/Default.aspx" id="HomeLink"><div id="homeIcon"></div></asp:hyperlink>
+		<asp:hyperlink cssclass="contact" runat="server" navigateurl="~/Contact.aspx" text="Contact" id="ContactLink" />
+		<asp:hyperlink cssclass="archives" runat="server" navigateurl="~/Archives.aspx" text="Archives"	id="Archives" />
 		<asp:hyperlink cssclass="syndication" runat="server" text="Syndication" id="Syndication" />
 	</div>
 </div>

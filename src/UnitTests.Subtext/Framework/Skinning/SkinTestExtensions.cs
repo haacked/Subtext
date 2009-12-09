@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Skinning
 		    <Style href=""~/skins/_System/csharp.css"" />
 		    <Style href=""~/skins/_System/commonstyle.css"" />
 		    <Style href=""~/skins/_System/commonlayout.css"" />
-            <Style href=""~/scripts/lightbox.css"" media=""screen"" />
+            <Style href=""~/css/lightbox.css"" media=""screen"" />
 		    <Style title=""fixed"" href=""piyo-fixed.css"" media=""screen""/>
             <Style title=""elastic"" href=""piyo-elastic.css"" media=""screen""/>
 		    <Style href=""print.css"" media=""print"" />
@@ -111,7 +111,7 @@ namespace UnitTests.Subtext.Framework.Skinning
                 @"<SkinTemplates>
     <SkinTemplate Name=""Leafy"" TemplateFolder=""Nature"" StyleSheet=""leafy.css"" StyleMergeMode=""MergedAfter"">
         <Styles>
-            <Style href=""~/scripts/lightbox.css"" media=""screen"" />
+            <Style href=""~/css/lightbox.css"" media=""screen"" />
             <Style href=""~/scripts/XFNHighlighter.css"" />
             <Style href=""~/skins/_System/csharp.css"" />
             <Style href=""~/skins/_System/commonstyle.css"" />
@@ -166,7 +166,7 @@ namespace UnitTests.Subtext.Framework.Skinning
 			<Style href=""~/skins/_System/commonstyle.css"" />
 			<Style href=""~/skins/_System/commonlayout.css"" />
 			<Style href=""~/scripts/XFNHighlighter.css"" />
-			<Style href=""~/scripts/lightbox.css"" />
+			<Style href=""~/css/lightbox.css"" />
 			<Style href=""niceforms-default.css"" media=""all"" conditional=""if IE""/>
             <Style href=""IEHacks.css"" conditional=""if IE"" />
 			<Style href=""print.css"" media=""print"" />
