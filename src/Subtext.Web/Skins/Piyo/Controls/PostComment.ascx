@@ -42,8 +42,8 @@
 <div class="label">
 	<label for="PostComment_ascx_tbComment">Comment:</label>
 </div>
-<div class="input">
-	<asp:TextBox id="tbComment" runat="server" rows="7" cols="55" CssClass="fixed" TextMode="MultiLine" onkeyup="reloadPreviewDiv();" />
+<div class="input comment">
+	<asp:TextBox id="tbComment" runat="server" rows="7" cols="55" CssClass="fixed" TextMode="MultiLine" />
 	<br/>
 	<asp:RequiredFieldValidator id="vldContentBody" runat="server" ErrorMessage="Please enter a comment" ControlToValidate="tbComment" />
 </div>

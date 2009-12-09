@@ -10,15 +10,12 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-	<head>
+	<head runat="server">
 		<title><asp:Literal id="title" runat="server" Text="<%$ AppSettings:AggregateTitle %>" /></title>
 		<asp:Literal id="Style" runat="Server" />
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>"></script>
-        <script type="text/javascript">
-            var subtextBlogInfo = new blogInfo('<%= Url.AppRoot() %>', '<%= Url.BlogUrl() %>');
-		</script>
-
-        <link href="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.lightbox-0.5.css") %>" rel="stylesheet" type="text/css" />
+        <link href="../css/lightbox.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/lightbox.js") %>"></script>
 	</head>
 	<body>
 		<form id="Form1" method="post" runat="server">

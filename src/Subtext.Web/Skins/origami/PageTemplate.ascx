@@ -9,7 +9,6 @@
 <%@ Register TagPrefix="uc1" TagName="TagCloud" Src="Controls/TagCloud.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Search" Src="Controls/SubtextSearch.ascx" %>
 
-<script type="text/javascript">setUserStyles();</script>
 <div class="clearfix" id="container">
     <div id="sizer">
         <div id="expander">

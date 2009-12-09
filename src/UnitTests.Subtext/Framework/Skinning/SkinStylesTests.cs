@@ -267,7 +267,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         [Row("", "print", "fixed", "print.css", false)]
         [Row("", "", "", "~/skins/_System/csharp.css", true)]
         [Row("if gte IE 7", "", "", "IE7Patches.css", false)]
-        [Row("", "screen", "", "~/scripts/lightbox.css", true)]
+        [Row("", "screen", "", "~/css/lightbox.css", true)]
         [Row("", "all", "", "Styles/user-styles.css", true)]
         [Row("", "", "fixed", "print.css", false)]
         [Row("", "all", "fixed", "Styles/user-styles.css", false)]

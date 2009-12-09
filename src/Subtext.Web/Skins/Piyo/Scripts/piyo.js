@@ -4,32 +4,16 @@
 //
 
 function setActiveStyleSheet(title) {
-	var i, a, main;
-	for(i=0; (a = document.getElementsByTagName("link")[i]); i++) {
-		if(a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
-			a.disabled = true;
-			if(a.getAttribute("title") == title) a.disabled = false;
-		}
-	}
+    $("link[rel*='stylesheet'][title]").attr("disabled", "disabled");
+    $("link[rel*='stylesheet'][title='" + title + "']").removeAttr("disabled");
 }
 
 function getActiveStyleSheet() {
-	var i, a;
-	for(i=0; (a = document.getElementsByTagName("link")[i]); i++) {
-		if(a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title") && !a.disabled) return a.getAttribute("title");
-	}
-	return null;
+    return $("link:enabled[rel*='stylesheet'][title][disabled!='disabled']").attr('title');
 }
 
 function getPreferredStyleSheet() {
-	var i, a;
-	for(i=0; (a = document.getElementsByTagName("link")[i]); i++) {
-		if(a.getAttribute("rel").indexOf("style") != -1
-		&& a.getAttribute("rel").indexOf("alt") == -1
-		&& a.getAttribute("title")
-		) return a.getAttribute("title");
-	}
-	return null;
+    return $("link[rel*='stylesheet'][rel^='alt'][title]").attr('title');
 }
 
 function createCookie(name,value,days) {
@@ -53,11 +37,6 @@ function readCookie(name) {
 	return null;
 }
 
-function writeSwitcher() {
-	var switcher = (getActiveStyleSheet() == "elastic") ? "Switch to Fixed Layout" : "Switch to Elastic Layout";
-	document.write('<a id="switchlink" href="#" onclick="switchLayout(); return false;" title="Click here to change the content width"><span>' + switcher + '</span></a>');
-}
-
 var cookie = readCookie("style");
 var title = cookie ? cookie : getPreferredStyleSheet();
 setActiveStyleSheet(title);
@@ -65,22 +44,40 @@ setActiveStyleSheet(title);
 function switchLayout() {
 	var title = (getActiveStyleSheet() == "elastic") ? "fixed" : "elastic";
 	setActiveStyleSheet(title);
-	document.getElementById("switchlink").firstChild.firstChild.nodeValue = (getActiveStyleSheet() == "elastic") ? "Switch to Fixed Layout" : "Switch to Elastic Layout";
+	switchText();
 	createCookie("style", title, 365);
 }
 
-function reloadPreviewDiv() {
-	var previewString = document.getElementById("PostComment_ascx_tbComment").value;
+function reloadPreviewDiv(element) {
+    var previewString = element.val();
 	if (previewString.length > 0)
 	{
 		previewString = htmlUnencode(previewString);
 		previewString = previewString.replace(new RegExp("(.*)\n\n([^#\*\n\n].*)","g"), "<p>$1</p><p>$2</p>");
 		previewString = previewString.replace(new RegExp("(.*)\n([^#\*\n].*)","g"), "$1<br />$2");
 	}
-	document.getElementById("commentPreview").innerHTML = previewString;
+	$("#commentPreview").html(previewString);
 }
 
 function htmlUnencode(s)
 {
 	return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
+
+function switchText() {
+    var switcherText = (getActiveStyleSheet() == "elastic") ? "Switch to Fixed Layout" : "Switch to Elastic Layout";
+    $('#switchlink span').text(switcherText);
+}
+
+$(function() {
+    switchText();
+    $('#switchlink').show();
+    $('#switchlink').click(function() {
+        switchLayout();
+        return false;
+    });
+
+    $('div.comment textarea').keyup(function(event) {
+        reloadPreviewDiv($(this));
+    });
+});

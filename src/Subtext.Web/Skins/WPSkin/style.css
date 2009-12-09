@@ -305,7 +305,7 @@ div.comment .commentInfo
 	padding-left: 26px;
 	height: 22px;
 	display: block;
-	background: url(images/CommentIcon.gif) no-repeat 0 .1em;
+	background: url(../../images/icons/CommentIcon.gif) no-repeat 0 .1em;
 	font-size: .8em;
 }
 

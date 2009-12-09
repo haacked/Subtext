@@ -760,7 +760,7 @@ body > #top-link {position:fixed;}
 				
 				#main #commentList li.comment a.edit-comment
 				{
-					background: transparent url(../../images/icons/edit.png) no-repeat scroll left center;
+					background: transparent url(../../images/icons/edit.gif) no-repeat scroll left center;
 					margin-right:.5em;
 					padding-left:20px;
 				}

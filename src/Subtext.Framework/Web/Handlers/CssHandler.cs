@@ -74,7 +74,9 @@ namespace Subtext.Framework.Web.Handlers
                 if(File.Exists(path))
                 {
                     string cssFile = File.ReadAllText(path);
-
+                    // Normalize path.
+                    cssFile = cssFile.Replace("url(../images", "url(../../images");
+                    cssFile = cssFile.Replace("url(../Images", "url(../../Images");
                     if(!String.IsNullOrEmpty(style.Media) && styles.Count > 1)
                     {
                         context.Response.Write("@media " + style.Media + "{\r\n");

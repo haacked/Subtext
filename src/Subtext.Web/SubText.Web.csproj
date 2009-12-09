@@ -1021,6 +1021,7 @@
     <EmbeddedResource Include="Controls\Resources\CollapsiblePanel.js" />
     <EmbeddedResource Include="Controls\Resources\InvisibleCaptcha.js" />
     <EmbeddedResource Include="Controls\Resources\ScrollPositionSaver.js" />
+    <Content Include="css\lightbox.css" />
     <Content Include="Default.aspx" />
     <Content Include="Images\admin.gif" />
     <Content Include="Images\administration_icon.gif" />
@@ -1498,10 +1499,7 @@
     <Content Include="Scripts\InPlaceEdit.js" />
     <Content Include="Scripts\jquery.color.min.js" />
     <Content Include="Scripts\jquery.hotkeys.min.js" />
-    <Content Include="Scripts\jquery.lightbox-0.5.css" />
-    <Content Include="Scripts\jquery.lightbox-0.5.min.js" />
     <Content Include="Scripts\json.js" />
-    <Content Include="Scripts\lightbox.css" />
     <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\LiveCommentPreview.js" />
     <Content Include="Scripts\flash.js" />
@@ -1562,8 +1560,8 @@
     <Content Include="Skins\Colors\Orange-SkinIcon.png" />
     <Content Include="Skins\Colors\ScarletAndGrey-SkinIcon.png" />
     <Content Include="Skins\GlossyBlue\SkinIcon.png" />
+    <Content Include="Skins\GlossyBlue\style.css" />
     <Content Include="Skins\Gradient\Images\bg-stripe.gif" />
-    <Content Include="Skins\Gradient\Images\CommentIcon.gif" />
     <Content Include="Skins\Gradient\SkinIcon.png" />
     <Content Include="Skins\KeyWest\Images\CommentAuthorGradient.gif" />
     <Content Include="Skins\KeyWest\SkinIcon.png" />
@@ -1657,7 +1655,6 @@
     <Content Include="Skins\GlossyBlue\images\nav-button-bg.gif" />
     <Content Include="Skins\GlossyBlue\images\search-btn-bg.gif" />
     <Content Include="Skins\GlossyBlue\PageTemplate.ascx" />
-    <Content Include="Skins\GlossyBlue\Styles\glossyblue-main.css" />
     <Content Include="Skins\GlossyBlue\Styles\glossyblue-print.css" />
     <Content Include="Skins\Colors\Blue.css" />
     <Content Include="Skins\Colors\Controls\ArchiveCategory.ascx" />
@@ -1908,7 +1905,6 @@
     <Content Include="Skins\Nature\Controls\ViewPost.ascx" />
     <Content Include="Skins\Nature\images\article.jpg" />
     <Content Include="Skins\Nature\images\CommentAuthorGradient.gif" />
-    <Content Include="Skins\Nature\images\CommentIcon.gif" />
     <Content Include="Skins\Nature\images\leafy\articlenormal.jpg" />
     <Content Include="Skins\Nature\images\leafy\headers.jpg" />
     <Content Include="Skins\Nature\images\leafy\link.jpg" />
@@ -2047,14 +2043,7 @@
     <Content Include="Skins\origami\images\tradegothic.swf" />
     <Content Include="Skins\origami\PageTemplate.ascx" />
     <Content Include="Skins\origami\README.txt" />
-    <Content Include="Skins\origami\Scripts\behaviour.js" />
-    <Content Include="Skins\origami\Scripts\cookies.js" />
-    <Content Include="Skins\origami\Scripts\coreFunctions.js" />
-    <Content Include="Skins\origami\Scripts\effects.js" />
-    <Content Include="Skins\origami\Scripts\init.js" />
-    <Content Include="Skins\origami\Scripts\searchResults.js" />
     <Content Include="Skins\origami\Scripts\styleSwitcher.js" />
-    <Content Include="Skins\origami\Scripts\typo.js" />
     <Content Include="Skins\origami\SkinIcon.png" />
     <Content Include="Skins\origami\style.css" />
     <Content Include="Skins\origami\alternateStyles.css" />
@@ -2098,6 +2087,7 @@
     <Content Include="Skins\Piyo\Controls\TagEntryList.ascx" />
     <Content Include="Skins\Piyo\Controls\ViewPicture.ascx" />
     <Content Include="Skins\Piyo\Controls\ViewPost.ascx" />
+    <Content Include="Skins\Piyo\ie.css" />
     <Content Include="Skins\Piyo\Images\asual-bg.jpg" />
     <Content Include="Skins\Piyo\Images\asual-blockquote.jpg" />
     <Content Include="Skins\Piyo\Images\asual-bodycenter.jpg" />
@@ -2352,6 +2342,7 @@
     <Content Include="Skins\WPSkin\Controls\ViewPost.ascx" />
     <Content Include="Skins\WPSkin\IEPatches.css" />
     <Content Include="Skins\WPSkin\images\audio.jpg" />
+    <Content Include="Skins\WPSkin\images\CommentAuthorGradient.gif" />
     <Content Include="Skins\WPSkin\images\kubrickbg.jpg" />
     <Content Include="Skins\WPSkin\images\kubrickbgcolor.jpg" />
     <Content Include="Skins\WPSkin\images\kubrickbgwide.jpg" />

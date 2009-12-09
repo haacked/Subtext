@@ -18,7 +18,7 @@
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/tableEffects.js") %>" ></script>
 	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/js/helptip.js") %>" ></script>
 	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/js/admin.js") %>" ></script>
-	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/reset.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/css/reset.css" />
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonlayout.css" />
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonstyle.css" />
 	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/forms.css" />

@@ -23,7 +23,6 @@ using System.Web;
 using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
@@ -88,6 +87,8 @@ namespace Subtext.Web.UI.Pages
         private void InitializeBlogPage()
         {
             MaintainScrollPositionOnPostBack = true;
+
+            
 
             string skinFolder = CurrentSkin.TemplateFolder;
             IEnumerable<string> controls = _controls;
