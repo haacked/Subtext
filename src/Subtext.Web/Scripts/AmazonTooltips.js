@@ -224,5 +224,6 @@ function initAmazonLinks()
 	RewriteAmazonLinksWithTooltips();
 }
 
-// addLoadEvent is defined in Subtext.Web/Scripts/common.js
-addLoadEvent(initAmazonLinks);
+$(function() {
+   initAmazonLinks();
+});
