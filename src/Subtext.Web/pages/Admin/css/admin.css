@@ -1240,3 +1240,7 @@ div.actions ul li a, ul.categoriesList li a, ul.folders li a
 	font-weight: normal;
 	font-family: Calibri;
 }
+
+:focus {
+	 outline: thin dotted invert;
+}
