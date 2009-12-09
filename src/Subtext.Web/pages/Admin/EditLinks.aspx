@@ -16,52 +16,43 @@
 
     /* ---- { Look at the xfnclient textbox, if empty do nothing, if not empty create array, iterate through array 
     and select/check appropriate input elements.} ---- */
-    function SelectElements() {
+    function checkElementsBasedOnLinkText() {
         var itemArray = new Array();
-        var initialReturn = document.getElementById('<%= txtXfn.ClientID %>');
-        var title = document.getElementById('<%= txbTitle.ClientID %>');
-        if (initialReturn != null && title != null && title.value.length > 0) {
-            if (initialReturn.value != 'me') {
-                itemArray = $.map([initialReturn.value], function(value) { return value.split(' '); });
-
-                for (i = 0; i < itemArray.length; i++)
-                { CheckSelect(itemArray[i]); }
+        var title = $('input.title').val();
+        var relationships = $('input.relationship').val();
+        
+        if (relationships != null && title != null && title.length > 0) {
+            if (relationships != 'me') {
+                itemArray = $.map([relationships], function(value) { return value.split(' '); });
+                resetCheckedState();
+                jQuery.each(itemArray, function() {
+                    var element = $('#' + this);
+                    if (element.length > 0) {
+                        CheckSelect(element);
+                    }
+                });
             }
             else {
-                var eMe = document.getElementById('meRel');
-                eMe.checked = true;
-                upit();
+                var eMe = $('#meRel');
+                eMe.attr('checked', true);
+                setRelationship();
             }
-
         }
 
-        if (title != null && title.value.length == 0) {
-            initialReturn.value = '';
+        if (title != null && title.length == 0) {
+            $('input.relationship').val('');
         }
     }
-    window.onload = function() {
-        SelectElements();
+
+    function resetCheckedState() {
+        $("#xfnRelations input[id!='meRel']").attr('checked', false);
+        $("#xfnRelations input.none").attr('checked', true);
     }
+    
     /* ---- { Select or check an element } ---- */
-    function CheckSelect(object) {
-        var undefined;
-        var inputObject = document.getElementById(object);
-        if (inputObject != undefined) {
-            inputObject.select = true;
-            inputObject.checked = true;
-        }
-    }
-
-    /* ---- { Get elements on page that have a common tag i.e input and class name i.e. xfnclass and populate array. } ---- */
-    function GetElementsWithClassName(elementName, className) {
-        var allElements = document.getElementsByTagName(elementName);
-        var elemColl = new Array();
-        for (i = 0; i < allElements.length; i++) {
-            if (allElements[i].className == className) {
-                elemColl[elemColl.length] = allElements[i];
-            }
-        }
-        return elemColl;
+    function CheckSelect(element) {
+        element.attr('checked', true);
+        element.attr('select', true);
     }
 
     /* ---- { returns boolean if "me" is checked } ---- */
@@ -72,37 +63,40 @@
         else return eMe.checked;
     }
 
-    /* ---- { On each onclick or keyup iterate through the input controls to see what is and is not checked displaying 
-    each value in the xfn textbox. } ---- */
-    function upit() {
-        var isMe = meChecked();
-        var inputColl = GetElementsWithClassName('input', 'xfnclass');
-        var results = document.getElementById('<%= txtXfn.ClientID %>');
-        var linkText, linkUrl, inputs = '';
-        for (i = 0; i < inputColl.length; i++) {
-            inputColl[i].disabled = isMe;
-            if (!isMe && inputColl[i].checked && inputColl[i].value != '') {
-                inputs += inputColl[i].value + ' ';
-            }
-        }
-        inputs = inputs.substr(0, inputs.length - 1);
-
-        if (isMe) inputs = 'me';
-        results.value = inputs;
+    function setRelationshipTextInputValue() {
+        var inputs = '';
+        $("#xfnRelations input:checked[id!='meRel'][value]").each(function() {
+            inputs += ' ' + $(this).val();
+        });
+        $('input.relationship').val(jQuery.trim(inputs));
     }
 
-    /* ---- { Add onclick and onkeyup events to the input objects } ---- */
-    function blurry() {
-        if (!document.getElementById) return;
-
-        var aInputs = document.getElementsByTagName('input');
-
-        for (var i = 0; i < aInputs.length; i++) {
-            aInputs[i].onclick = aInputs[i].onkeyup = upit;
+    function toggleMeChecked(e) {
+        var meRel = $('#meRel');
+        if (meRel.attr('checked')) {
+            $('input.relationship').val(meRel.val());
+            resetCheckedState();
         }
+        else {
+            $('input.relationship').val('');
+        }
+        $("#xfnRelations input[id!='meRel']").attr('disabled', meRel.attr('checked'));
     }
 
-    addLoadEvent(blurry);
+    $(function() {
+        $("#xfnRelations input[id!='meRel']").click(function() {
+            setRelationshipTextInputValue();
+        });
+        $("#xfnRelations input[id='meRel']").click(function(e) {
+            toggleMeChecked(e);
+        });
+        $('input.relationship').change(function() {
+            checkElementsBasedOnLinkText();
+            setRelationshipTextInputValue();
+        });
+
+        checkElementsBasedOnLinkText();
+    });
 </script>
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
 	<h2 id="headerLiteral" runat="server">Links</h2>
@@ -184,25 +178,25 @@
 			<label>Link ID</label>
 			<asp:Label id="lblEntryID" runat="server" />
 			
-			<label for="Edit_txbTitle" AccessKey="t">Link <u>T</u>itle
+			<asp:Label AssociatedControlID="txbTitle" AccessKey="t" runat="server">Link <u>T</u>itle
 			    <asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbTitle" ForeColor="#990066"
 				ErrorMessage="Your link must have a title"></asp:RequiredFieldValidator>
-			</label>
-			<asp:TextBox id="txbTitle" runat="server" CssClass="textbox" />
-			<label for="Edit_txbUrl" AccessKey="w"><u>W</u>eb Url
-			    <asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbUrl" ForeColor="#990066"
-				ErrorMessage="Your link must have a url" />
-			</label>
+			</asp:Label>
+			<asp:TextBox id="txbTitle" runat="server" CssClass="textbox title" />
+			<asp:Label AssociatedControlID="txbUrl" AccessKey="w" runat="server"><u>W</u>eb Url
+			    <asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbUrl" ForeColor="#990066" ErrorMessage="Your link must have a url" />
+			</asp:Label>
 			<asp:TextBox id="txbUrl" runat="server" CssClass="textbox" />
-		    <label for="Edit_txbRss" AccessKey="r"><u>R</u>ss Url</label>
+		    <asp:Label AssociatedControlID="txbRss" AccessKey="r" runat="server"><u>R</u>ss Url</asp:Label>
 			<asp:TextBox id="txbRss" runat="server" CssClass="textbox" />
-			<label for="txtXfn" accesskey="L"><u>L</u>ink relationship</label></strong><asp:TextBox ID="txtXfn" runat="server" CssClass="textbox" />
+			<asp:Label AssociatedControlID="txtXfn" AccessKey="l" runat="server"><u>L</u>ink relationship</asp:Label>
+			<asp:TextBox ID="txtXfn" runat="server" CssClass="textbox relationship" />
 			<div id="xfnRelations">			
 			    <div>						
 			        <h4>Link relationship helper</h4>
 			        <span class="xfnTitleCol">identity</span>
 			        <label for="meRel" class="xfnListOption">
-			        <input type=checkbox id="meRel" />another web address of mine</label> 
+			        <input type=checkbox id="meRel" value="me" />another web address of mine</label> 
 			    </div>
     			
 			    <div>
@@ -214,7 +208,7 @@
 				    <label for="friend"  class="xfnListOption">
 				    <input class="xfnclass" type="radio" name="friendship" value="friend" id="friend"  /> friend</label>
 				    <label for="friendship"  class="xfnListOption">
-				    <input name="friendship" type="radio" class="xfnclass" value="" id="friendship"  checked="checked" /> none</label>
+				    <input name="friendship" type="radio" class="xfnclass none" value="" id="friendship"  checked="checked" /> none</label>
 			    </div>
     			
 		        <div>
@@ -242,8 +236,7 @@
 			        <input class="xfnclass" type="radio" name="geographical" value="neighbor" id="neighbor"  />
 			        neighbor</label>
 			        <label for="geographical"  class="xfnListOption">
-			        <input class="xfnclass" type="radio" name="geographical" value="" id="Radio3"  checked="checked" />
-			        none</label>
+			        <input class="xfnclass none" type="radio" name="geographical" value="" id="Radio3" checked="checked" />none</label>
 		        </div>
     			
 			    <div>
@@ -264,8 +257,7 @@
 				    <input class="xfnclass" type="radio" name="family" value="spouse" id="spouse" />
 				    spouse</label>
 				    <label for="family"  class="xfnListOption">
-				    <input class="xfnclass" type="radio" name="family" value="" checked="checked" />
-				    none</label>
+				    <input class="xfnclass none" type="radio" name="family" value="" checked="checked" />none</label>
 			    </div>		
 			    <div>
 			        <span class="xfnTitleCol">romantic</span>
