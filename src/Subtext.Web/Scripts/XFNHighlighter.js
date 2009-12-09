@@ -126,49 +126,30 @@ var xfnFriendInfo =
 
 function highlightXFNLinks() 
 {
-    if (!document.getElementsByTagName) {return;}
-    
-    var anchors = document.getElementsByTagName("a");
-    
-    for (var i = 0; i < anchors.length; i++) 
-    {
-        var anchor = anchors[i];
-        if (anchor.getAttribute("href") && anchor.getAttribute("rel")) 
-        {
-			//Let's look at all the various potential relationships.
-			var relationships = '';
-			var rel = anchor.getAttribute("rel");
-			
-			for(var j = 0; j < xfnRelationships.length; j++)
-			{
-				var regex = new RegExp('\\b' + xfnRelationships[j] + '\\b', "i");
-				if(rel.match(regex))
-				{
-					if(relationships.length === 0)
-					{
-						relationships = "<h3>XFN Relationships</h3><ul>";
-					}
-					relationships += "<li>" + xfnRelationships[j] + "</li>";
-				}
-			}
-			
-			if(relationships.length > 0)
-			{
-				relationships += "</ul>";
-				xfnFriendInfo.createFriendInfoBox(anchor, relationships);
-				if(anchor.className.length > 0)
-				{
-					anchor.className += ' xfnRelationship';
-				}
-				else
-				{
-					anchor.className = 'xfnRelationship';
+    $('a[href][rel]').each(function() {
+        var rel = $(this).attr('rel');
+        //Let's look at all the various potential relationships.
+        var relationships = '';
+
+        for (var j = 0; j < xfnRelationships.length; j++) {
+            var regex = new RegExp('\\b' + xfnRelationships[j] + '\\b', "i");
+            if (rel.match(regex)) {
+                if (relationships.length === 0) {
+                    relationships = "<h3>XFN Relationships</h3><ul>";
+                }
+                relationships += "<li>" + xfnRelationships[j] + "</li>";
+            }
         }
-			}
+        if (relationships.length > 0) {
+            relationships += "</ul>";
+            xfnFriendInfo.createFriendInfoBox($(this)[0], relationships);
+            $(this).addClass('xfnRelationship');
         }
-    }
+    });
 }
 
 
 // addLoadEvent is defined in Subtext.Web/Scripts/common.js
-addLoadEvent(highlightXFNLinks);
+$(function() {
+    highlightXFNLinks();
+});
