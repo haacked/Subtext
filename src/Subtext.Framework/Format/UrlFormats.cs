@@ -79,7 +79,9 @@ namespace Subtext.Framework.Format
             int endIndex = rawUrl.IndexOf('/', startIndex);
             if(endIndex < 0)
             {
-                return string.Empty;
+                string path = rawUrl.Substring(startIndex);
+                // Don't want to return default.aspx etc.
+                return path.Contains(".") ? string.Empty : path;
             }
             return rawUrl.Substring(startIndex, endIndex - startIndex);
         }
