@@ -157,6 +157,7 @@
     <Compile Include="Controls\CollapsiblePanel.cs" />
     <Compile Include="Controls\CompliantButton.cs" />
     <Compile Include="Controls\ControlHelper.cs" />
+    <Compile Include="Controls\Form.cs" />
     <Compile Include="Controls\HelpToolTip.cs" />
     <Compile Include="Controls\MenuItem.cs" />
     <Compile Include="Controls\NavigationLink.cs" />
