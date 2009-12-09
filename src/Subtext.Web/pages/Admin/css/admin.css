@@ -604,12 +604,12 @@ tr {
 }
 
 /*--------- {Used to highlight table listings} ------------*/
-table.highlightTable tr.highlight td
+table.highlightTable tr.highlight.even td
 {
 	background: #fefeee;
 }
 
-table.highlightTable tr.highlightAlt td
+table.highlightTable tr.highlight.odd td
 {
 	background: #f6f6d5;
 }

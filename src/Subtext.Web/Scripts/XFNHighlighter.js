@@ -148,8 +148,6 @@ function highlightXFNLinks()
     });
 }
 
-
-// addLoadEvent is defined in Subtext.Web/Scripts/common.js
 $(function() {
     highlightXFNLinks();
 });

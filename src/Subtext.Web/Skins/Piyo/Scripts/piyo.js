@@ -13,7 +13,7 @@ function getActiveStyleSheet() {
 }
 
 function getPreferredStyleSheet() {
-    return $("link[rel*='stylesheet'][rel^='alt'][title]").attr('title');
+    return $("link[rel*='stylesheet'][rel!='alt'][title]").attr('title');
 }
 
 function createCookie(name,value,days) {
