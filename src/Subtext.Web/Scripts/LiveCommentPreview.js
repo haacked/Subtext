@@ -29,7 +29,7 @@ Original Source for this JS taken from the Subtext Project:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-var commentLivePreview =
+Subtext.CommentLivePreview =
 {
 	livePreviewClass: "livepreview",
 	allowedTags: subtextAllowedHtmlTags,
@@ -41,18 +41,16 @@ var commentLivePreview =
 
 	init: function()
 	{
-		if (!document.getElementsByTagName) { return; }
+		this.previewElement = $("div." + this.livePreviewClass);
+		if(this.previewElement.length == 0) { 
+		    return; 
+		}
 
-		var divs = document.getElementsByTagName("div");
-		commentLivePreview.previewElement = commentLivePreview.getPreviewDisplayElement(divs);
-		if(!commentLivePreview.previewElement) { return; }
-
-		var textareas = document.getElementsByTagName("textarea");
 		var tagNamesRegex = "";
 
-		for(var i = 0; i < commentLivePreview.allowedTags.length; i++)
+		for(var i = 0; i < this.allowedTags.length; i++)
 		{
-			tagNamesRegex += commentLivePreview.allowedTags[i] + "|";
+			tagNamesRegex += this.allowedTags[i] + "|";
 		}
 
 		if(tagNamesRegex.length > 0)
@@ -60,114 +58,65 @@ var commentLivePreview =
 			tagNamesRegex = tagNamesRegex.substring(0, tagNamesRegex.length - 2);
 		}
 
-		commentLivePreview.allowedTagsRegExp = new RegExp("&lt;(/?(" + tagNamesRegex + ")(\\s+.*?)?)&gt;", "g");
+		this.allowedTagsRegExp = new RegExp("&lt;(/?(" + tagNamesRegex + ")(\\s+.*?)?)&gt;", "g");
 
-		// Loop through all input tags.
-		var textarea;
-		for (var i = 0; i < textareas.length; i++)
-		{
-			textarea = textareas[i];
-			if (commentLivePreview.getClassName(textarea).indexOf(commentLivePreview.livePreviewClass) >= 0)
-			{
-				textarea.onkeyup = function()
-				{
-					// Subject to race condition. But it's not a big deal. The next keypress
-					// will solve it. Worst case is the preview is off by the last char in rare
-					// situations.
-					if(!commentLivePreview.updatingPreview)
-					{
-						commentLivePreview.updatingPreview = true;
-						window.setTimeout("commentLivePreview.reloadPreview('" + this.id + "')", 20);
-					}
-					return false;
-				};
+		var textarea = $('textarea.' + this.livePreviewClass);
+		textarea.bind('keyup', this.handleKeyUp);
 
-				commentLivePreview.reloadPreview(textarea.id);
+		this.reloadPreview(textarea.attr('id'));
+	},
+
+    handleKeyUp: function() {
+            // Subject to race condition. But it's not a big deal. The next keypress
+			// will solve it. Worst case is the preview is off by the last char in rare
+			// situations.
+			var preview = Subtext.CommentLivePreview;
+			var textarea = $(this);
+			if(!preview.updatingPreview) {
+				preview.updatingPreview = true;
+				textarea.unbind('keyup', preview.handleKeyUp);
+				window.setTimeout("Subtext.CommentLivePreview.reloadPreview('" + textarea.attr('id') + "')", 20);
 			}
-		}
-	},
-
-	// Returns the html element responsible for previewing
-	// comments.
-	getPreviewDisplayElement: function(elements)
-	{
-		var element;
-
-		for (var i = 0; i < elements.length; i++)
-		{
-			element = elements[i];
-
-			if (commentLivePreview.getClassName(element).indexOf(commentLivePreview.livePreviewClass) >= 0)
-			{
-				return element;
-			}
-		}
-	},
-
-	getClassName: function(element)
-	{
-		if(element.getAttribute && element.getAttribute("class"))
-		{
-			return element.getAttribute("class");
-		}
-		else if(element.className)
-		{
-			return element.className;
-		}
-		return "";
-	},
+			return false;
+    },
 
 	reloadPreview: function(textareaId)
 	{
-		var textarea = document.getElementById(textareaId);
-		var previewString = textarea.value;
+	    var textarea = $('#' + textareaId);
+	    
+	    if(textarea.length == 0) {
+	        return;
+	    }
+	    
+		var previewString = textarea.val();
 
 		if (previewString.length > 0)
 		{
-			previewString = commentLivePreview.htmlUnencode(previewString);
-			previewString = previewString.replace(commentLivePreview.paraRegExp, "<p>$1</p><p>$2</p>");
-			previewString = previewString.replace(commentLivePreview.lineBreakRegExp, "$1<br />$2");
-			previewString = previewString.replace(commentLivePreview.allowedTagsRegExp, "<$1>");
+			previewString = this.htmlUnencode(previewString);
+			previewString = previewString.replace(this.paraRegExp, "<p>$1</p><p>$2</p>");
+			previewString = previewString.replace(this.lineBreakRegExp, "$1<br />$2");
+			previewString = previewString.replace(this.allowedTagsRegExp, "<$1>");
 		}
+		
 		try
 		{
-			commentLivePreview.previewElement.innerHTML = previewString;
+			this.previewElement.html(previewString);
 		}
 		catch(e)
 		{
 			alert("Sorry, but inserting a block element within is not allowed here.");
 		}
-		commentLivePreview.updatingPreview = false;
+		
+		this.updatingPreview = false;
+		textarea.bind('keyup', this.handleKeyUp);
 	},
 
 	htmlUnencode: function(s)
 	{
 		return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 	},
-
-	addEvent: function(obj, eventTypes, callback)
-	{
-		var eventType;
-		for(var i = 0; i < eventTypes.length; i++)
-		{
-			eventType = eventTypes[i];
-
-			if (obj.attachEvent)
-			{
-				obj["e" + eventType + callback] = callback;
-				obj[eventType + callback] = function()
-				{
-					obj["e" + eventType + callback](window.event);
-				};
-				obj.attachEvent("on" + eventType, obj[eventType + callback]);
-			}
-			else
-			{
-				obj.addEventListener(eventType, callback, false);
-			}
-		}
-	}
 };
 
-
-commentLivePreview.addEvent(window, ["load"], commentLivePreview.init);
+$(function(){
+    Subtext.CommentLivePreview.init();
+});

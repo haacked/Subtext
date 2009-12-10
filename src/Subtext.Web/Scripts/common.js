@@ -1,3 +1,8 @@
+var Subtext;
+if (!Subtext) {
+    Subtext = {};
+}
+
 /*-------------------------------------------------*/
 /* Disables submit button during update panel post
 /*-------------------------------------------------*/
