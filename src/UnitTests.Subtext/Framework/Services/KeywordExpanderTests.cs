@@ -213,6 +213,30 @@ namespace UnitTests.Subtext.Framework.Services
 
         // Issue #132: http://code.google.com/p/subtext/issues/detail?id=132
         [Test]
+        public void Transform_WithStringContainingBracketsAndReplacingFirstOccurrenceOnly_ReturnsConvertedKeywordAndBrackets()
+        {
+            //arrange
+            var keywords = new List<KeyWord>
+            {
+                new KeyWord
+                {
+                    Word = "OLD",
+                    Text = "NEW",
+                    Url = "http://example.com/",
+                    Title = "NEW",
+                    ReplaceFirstTimeOnly = true
+                }
+            };
+            var keywordExpander = new KeywordExpander(keywords);
+
+            //act
+            string result = keywordExpander.Transform("OLD {} OLD");
+
+            //assert
+            Assert.AreEqual(@"<a href=""http://example.com/"" title=""NEW"">NEW</a> {} OLD", result);
+        }
+
+        [Test]
         public void Transform_WithStringContainingBrackets_ReturnsConvertedKeywordAndBrackets()
         {
             //arrange
@@ -223,16 +247,17 @@ namespace UnitTests.Subtext.Framework.Services
                     Word = "OLD",
                     Text = "NEW",
                     Url = "http://example.com/",
-                    Title = "NEW"
+                    Title = "NEW",
+                    ReplaceFirstTimeOnly = false
                 }
             };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
-            string result = keywordExpander.Transform("OLD {}");
+            string result = keywordExpander.Transform("OLD {} OLD {}");
 
             //assert
-            Assert.AreEqual(@"<a href=""http://example.com/"" title=""NEW"">NEW</a> {}", result);
+            Assert.AreEqual(@"<a href=""http://example.com/"" title=""NEW"">NEW</a> {} <a href=""http://example.com/"" title=""NEW"">NEW</a> {}", result);
         }
 
         [Test]
