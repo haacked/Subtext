@@ -14,13 +14,15 @@ namespace UnitTests.Subtext.Framework.Services
         public void Replace_WithStringContainingKeyword_ExpandsKeyword()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "sucky example",
-                Text = "cool example",
-                Url = "http://example.com/",
-            });
+                new KeyWord
+                {
+                    Word = "sucky example",
+                    Text = "cool example",
+                    Url = "http://example.com/",
+                }
+            };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
@@ -34,14 +36,16 @@ namespace UnitTests.Subtext.Framework.Services
         public void Replace_WithStringContainingKeyword_ExpandsKeywordWithFirstMatchOnly()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "sucky example",
-                Text = "cool example",
-                Url = "http://example.com/",
-                ReplaceFirstTimeOnly = true,
-            });
+                new KeyWord
+                {
+                    Word = "sucky example",
+                    Text = "cool example",
+                    Url = "http://example.com/",
+                    ReplaceFirstTimeOnly = true,
+                }
+            };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
@@ -55,14 +59,16 @@ namespace UnitTests.Subtext.Framework.Services
         public void Replace_WithStringContainingKeyword_ExpandsKeywordWithTitle()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "sucky example",
-                Text = "cool example",
-                Url = "http://example.com/",
-                Title = "the title"
-            });
+                new KeyWord
+                {
+                    Word = "sucky example",
+                    Text = "cool example",
+                    Url = "http://example.com/",
+                    Title = "the title"
+                }
+            };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
@@ -76,13 +82,15 @@ namespace UnitTests.Subtext.Framework.Services
         public void Replace_WithKeywordSurroundedByUnderscores_IsNotExpanded()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "is",
-                Text = "is",
-                Url = "http://example.com/{0}",
-            });
+                new KeyWord
+                {
+                    Word = "is",
+                    Text = "is",
+                    Url = "http://example.com/{0}",
+                }
+            };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
@@ -96,13 +104,15 @@ namespace UnitTests.Subtext.Framework.Services
         public void Replace_WithStringContainingKeyword_IsNotCaseSensitive()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "is",
-                Text = "is",
-                Url = "http://example.com/",
-            });
+                new KeyWord
+                {
+                    Word = "is",
+                    Text = "is",
+                    Url = "http://example.com/",
+                }
+            };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
@@ -116,14 +126,16 @@ namespace UnitTests.Subtext.Framework.Services
         public void Replace_WithStringContainingKeywordSpecifiedAsCaseSensitive_IsCaseSensitive()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "is",
-                Text = "is",
-                Url = "http://example.com/",
-                CaseSensitive = true
-            });
+                new KeyWord
+                {
+                    Word = "is",
+                    Text = "is",
+                    Url = "http://example.com/",
+                    CaseSensitive = true
+                }
+            };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
@@ -137,13 +149,15 @@ namespace UnitTests.Subtext.Framework.Services
         public void Replace_WithStringContainingKeywordInsideAnchorTagAttribute_DoesNotExpandKeyword()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "keyword",
-                Text = "keyword",
-                Url = "http://example.com/",
-            });
+                new KeyWord
+                {
+                    Word = "keyword",
+                    Text = "keyword",
+                    Url = "http://example.com/",
+                }
+            };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
@@ -157,13 +171,15 @@ namespace UnitTests.Subtext.Framework.Services
         public void Replace_WithStringContainingKeywordInsideAnchorTagInnerText_DoesNotExpandKeyword()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "keyword",
-                Text = "keyword",
-                Url = "http://example.com/",
-            });
+                new KeyWord
+                {
+                    Word = "keyword",
+                    Text = "keyword",
+                    Url = "http://example.com/",
+                }
+            };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
@@ -177,13 +193,15 @@ namespace UnitTests.Subtext.Framework.Services
         public void Replace_WithStringContainingKeywordInAnotherWord_DoesNotExpandKeyword()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "is",
-                Text = "is",
-                Url = "http://example.com/",
-            });
+                new KeyWord
+                {
+                    Word = "is",
+                    Text = "is",
+                    Url = "http://example.com/",
+                }
+            };
             var keywordExpander = new KeywordExpander(keywords);
 
             //act
@@ -193,17 +211,43 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("This should not expand", result);
         }
 
+        // Issue #132: http://code.google.com/p/subtext/issues/detail?id=132
+        [Test]
+        public void Transform_WithStringContainingBrackets_ReturnsConvertedKeywordAndBrackets()
+        {
+            //arrange
+            var keywords = new List<KeyWord>
+            {
+                new KeyWord
+                {
+                    Word = "OLD",
+                    Text = "NEW",
+                    Url = "http://example.com/",
+                    Title = "NEW"
+                }
+            };
+            var keywordExpander = new KeywordExpander(keywords);
+
+            //act
+            string result = keywordExpander.Transform("OLD {}");
+
+            //assert
+            Assert.AreEqual(@"<a href=""http://example.com/"" title=""NEW"">NEW</a> {}", result);
+        }
+
         [Test]
         public void Ctor_WithRepository_GetsKeywordsFromRepository()
         {
             //arrange
-            var keywords = new List<KeyWord>();
-            keywords.Add(new KeyWord
+            var keywords = new List<KeyWord>
             {
-                Word = "is",
-                Text = "is",
-                Url = "http://example.com/",
-            });
+                new KeyWord
+                {
+                    Word = "is",
+                    Text = "is",
+                    Url = "http://example.com/",
+                }
+            };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetKeyWords()).Returns(keywords);
 
