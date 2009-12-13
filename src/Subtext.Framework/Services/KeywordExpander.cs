@@ -149,7 +149,7 @@ namespace Subtext.Framework.Services
                                 // if we're onlyFirstMatch, tack on remainder of source and return
                                 if(onlyFirstMatch)
                                 {
-                                    outputBuffer.AppendFormat(source.Substring(i + oldValue.Length,
+                                    outputBuffer.Append(source.Substring(i + oldValue.Length,
                                                                                source.Length -
                                                                                (i + oldValue.Length + 1)));
                                     return outputBuffer.ToString();
