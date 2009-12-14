@@ -367,7 +367,7 @@
   <data name="Import_ErrorWhileImportingComment" xml:space="preserve">
     <value>An exception occurred while importing a comment</value>
   </data>
-    <data name="InvalidOperation_TemplateParametersNull" xml:space="preserve">
+  <data name="InvalidOperation_TemplateParametersNull" xml:space="preserve">
     <value>The Template parameters are null. This should is impossible.</value>
   </data>
   <data name="ScriptHasNoTokens" xml:space="preserve">
@@ -390,5 +390,14 @@
   </data>
   <data name="InvalidResponse_ServiceUnableToHandleRequest" xml:space="preserve">
     <value>The service was not able to handle our request. Http Status '{0}'.</value>
+  </data>
+  <data name="CommentFrequencyException_Message" xml:space="preserve">
+    <value>Sorry, but there is a delay between allowing comments originating from the same source. Please wait for {0} and try again.</value>
+  </data>
+  <data name="Minutes_Plural" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="Minutes_Singular" xml:space="preserve">
+    <value>minute</value>
   </data>
 </root>

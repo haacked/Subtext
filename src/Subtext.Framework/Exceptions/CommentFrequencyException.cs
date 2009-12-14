@@ -15,17 +15,26 @@
 
 #endregion
 
-using System;
-using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Exceptions
 {
     /// <summary>
     /// Exception thrown when comments are posted too frequently.
     /// </summary>
-    [Serializable]
     public class CommentFrequencyException : BaseCommentException
     {
+        public CommentFrequencyException(int commentDelayInMinutes)
+        {
+            CommentDelayInMinutes = commentDelayInMinutes;
+        }
+
+        public int CommentDelayInMinutes
+        {
+            get; 
+            private set;
+        }
+
         /// <summary>
         /// Gets the message.
         /// </summary>
@@ -34,9 +43,9 @@ namespace Subtext.Framework.Exceptions
         {
             get
             {
-                return
-                    "Sorry, but there is a delay between allowing comments originating from the same source. Please wait for " +
-                    Config.CurrentBlog.CommentDelayInMinutes + " minutes and try again.";
+                string minutesText = CommentDelayInMinutes > 1 ? Resources.Minutes_Plural : Resources.Minutes_Singular;
+                string message = string.Format(Resources.CommentFrequencyException_Message, CommentDelayInMinutes + " " + minutesText);
+                return message;
             }
         }
     }

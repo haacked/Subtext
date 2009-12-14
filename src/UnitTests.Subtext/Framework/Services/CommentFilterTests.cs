@@ -128,7 +128,7 @@ namespace UnitTests.Subtext.Framework.Services
 
             var commentSpamFilter = new Mock<ICommentSpamService>();
             var commentFilter = new CommentFilter(subtextContext.Object, commentSpamFilter.Object);
-            var feedback = new FeedbackItem(FeedbackType.Comment) {};
+            var feedback = new FeedbackItem(FeedbackType.Comment);
             Assert.IsFalse(feedback.NeedsModeratorApproval);
 
             //act
@@ -136,6 +136,32 @@ namespace UnitTests.Subtext.Framework.Services
 
             //assert
             Assert.IsTrue(savedFeedback.NeedsModeratorApproval);
+        }
+
+        [Test]
+        public void CommentFilterExceptionMessage_WithOneMinute_ProvidesSingularMessage()
+        {
+            // arrange
+            var exception = new CommentFrequencyException(1);
+
+            // act
+            string message = exception.Message;
+
+            // assert
+            Assert.AreEqual("Sorry, but there is a delay between allowing comments originating from the same source. Please wait for 1 minute and try again.", message);
+        }
+
+        [Test]
+        public void CommentFilterExceptionMessage_WithTwoMinutes_ProvidesPluralMessage()
+        {
+            // arrange
+            var exception = new CommentFrequencyException(2);
+
+            // act
+            string message = exception.Message;
+
+            // assert
+            Assert.AreEqual("Sorry, but there is a delay between allowing comments originating from the same source. Please wait for 2 minutes and try again.", message);
         }
     }
 }
