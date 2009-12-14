@@ -23,6 +23,8 @@ using System.Web.Security;
 
 namespace Subtext.Framework.Services
 {
+    //TODO: This service is a bit hard to use. We should refactor it so it has 
+    //      a bit more smarts about Subtext. Such as it can figure out the default image FQDN URL
     public class GravatarService
     {
         public GravatarService(NameValueCollection settings)
@@ -44,6 +46,11 @@ namespace Subtext.Framework.Services
         public string UrlFormatString { get; private set; }
 
         public GravatarEmailFormat EmailFormat { get; private set; }
+
+        public string GenerateUrl(string email, Uri defaultImage)
+        {
+            return GenerateUrl(email, defaultImage != null ? defaultImage.ToString(): string.Empty);
+        }
 
         public string GenerateUrl(string email, string defaultImage)
         {
