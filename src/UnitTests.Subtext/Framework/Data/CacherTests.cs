@@ -6,7 +6,6 @@ using System.Web.Caching;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Moq.Stub;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -32,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Data
             var cachedItem = new { Title = "Test" };
             var cache = new Mock<ICache>();
             cache.SetupGet(c => c["key"]).Returns(null);
-            
+
             // act
             var cached = cache.Object.GetOrInsert("key", () => cachedItem);
 
@@ -47,6 +46,38 @@ namespace UnitTests.Subtext.Framework.Data
                                       CacheItemPriority.Normal,
                                       null));
         }
+
+        [Test]
+        public void GetOrInsert_WithItemNotInCache_ReturnsNullIfDelegateNullAndDoesNotTryToCache()
+        {
+            // arrange
+            var cache = new Mock<ICache>();
+            cache.SetupGet(c => c["key"]).Returns(null);
+            cache.Setup(c => c.Insert("key", null, It.IsAny<CacheDependency>(), It.IsAny<DateTime>(), TimeSpan.Zero, CacheItemPriority.Normal, null)).Throws(new ArgumentNullException());
+
+            // act
+            var cached = cache.Object.GetOrInsert<Entry>("key", () => null);
+
+            // assert
+            Assert.IsNull(cached);
+        }
+
+        [Test]
+        public void GetOrInsertSliding_WithItemNotInCache_ReturnsNullIfDelegateNullAndDoesNotTryToCache()
+        {
+            // arrange
+            var cache = new Mock<ICache>();
+            cache.SetupGet(c => c["key"]).Returns(null);
+            cache.Setup(c => c.Insert("key", null, It.IsAny<CacheDependency>(), DateTime.MaxValue, It.IsAny<TimeSpan>(), CacheItemPriority.Normal, null)).Throws(new ArgumentNullException());
+
+            // act
+            var cached = cache.Object.GetOrInsertSliding<Entry>("key", () => null, null, 10);
+
+            // assert
+            Assert.IsNull(cached);
+        }
+
+
 
         [Test]
         public void GetEntriesForMonth_WithEntriesInCache_RetrievesFromCache()
