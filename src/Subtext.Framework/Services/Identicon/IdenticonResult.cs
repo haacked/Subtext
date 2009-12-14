@@ -17,6 +17,7 @@
 
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using Docuverse.Identicon;
@@ -53,10 +54,20 @@ namespace Subtext.Framework.Services.Identicon
 
         protected override void WriteFile(HttpResponseBase response)
         {
-            response.AppendHeader("ETag", Etag);
+            response.Clear();
+            if(!string.IsNullOrEmpty(Etag))
+            {
+                response.AppendHeader("ETag", Etag);
+            }
+            response.ContentType = "image/png";
+            
             using(Bitmap b = Renderer.Render(Code, Size))
             {
-                b.Save(response.OutputStream, ImageFormat.Png);
+                using(var stream = new MemoryStream())
+                {
+                    b.Save(stream, ImageFormat.Png);
+                    stream.WriteTo(response.OutputStream);
+                }
             }
         }
     }
