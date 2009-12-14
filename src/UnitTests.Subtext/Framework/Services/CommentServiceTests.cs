@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void CreateCallsIntoCommentService()
+        public void Create_WithFilters_CallsIntoCommentFilters()
         {
             //arrange
             var blog = new Mock<Blog>();
@@ -122,6 +122,45 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsTrue(wasAfterCalled);
             Assert.IsTrue(comment.FlaggedAsSpam);
         }
+
+        [Test]
+        public void Create_ForEntry_SetsEntryPropertyBeforeCallingFilters()
+        {
+            //arrange
+            var blog = new Mock<Blog>();
+            DateTime dateCreated = DateTime.Now;
+            blog.Object.Id = 1;
+            blog.Setup(b => b.TimeZone.Now).Returns(dateCreated);
+            var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
+            var repository = new Mock<ObjectProvider>();
+            repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
+            var context = new Mock<ISubtextContext>();
+            context.SetupGet(c => c.Repository).Returns(repository.Object);
+            context.SetupGet(c => c.Blog).Returns(blog.Object);
+            context.SetupGet(c => c.HttpContext.Items).Returns(new Hashtable());
+            context.SetupGet(c => c.Cache).Returns(new TestCache());
+
+            var commentFilter = new Mock<ICommentFilter>();
+            FeedbackItem feedback = null;
+            commentFilter.Setup(f => f.FilterBeforePersist(It.IsAny<FeedbackItem>())).Callback<FeedbackItem>(fb => feedback = fb);
+            var service = new CommentService(context.Object, commentFilter.Object);
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {
+                EntryId = 123,
+                BlogId = 1,
+                Body = "test",
+                Title = "title",
+                DateCreated = dateCreated.AddDays(-2),
+                DateModified = dateCreated.AddDays(-1)
+            };
+
+            //act
+            service.Create(comment, true /*runFilters*/);
+
+            //assert
+            Assert.AreEqual(entry, feedback.Entry);
+        }
+
 
         [Test]
         public void Create_WithRunFiltersFalse_DoesNotSetFlaggedSpamToTrue()

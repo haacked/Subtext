@@ -372,8 +372,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         [Test]
         public void ChecksumHashReturnsChecksumOfCommentBody()
         {
-            var comment = new FeedbackItem(FeedbackType.Comment);
-            comment.Body = "Some Body";
+            var comment = new FeedbackItem(FeedbackType.Comment) {Body = "Some Body"};
             Console.WriteLine(comment.ChecksumHash);
             Assert.AreEqual("834.5baPHSvKBNtABZePE+OpeQ==", comment.ChecksumHash);
         }
