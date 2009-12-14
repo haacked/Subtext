@@ -78,6 +78,8 @@ namespace Subtext.Framework.Services
                 comment.DateModified = comment.DateCreated;
             }
 
+            comment.Entry = entry;
+
             if(runFilters)
             {
                 OnBeforeCreate(comment);
