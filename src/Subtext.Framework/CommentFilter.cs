@@ -67,7 +67,7 @@ namespace Subtext.Framework
             {
                 if(!SourceFrequencyIsValid(feedback))
                 {
-                    throw new CommentFrequencyException();
+                    throw new CommentFrequencyException(Blog.CommentDelayInMinutes);
                 }
 
                 if(!Blog.DuplicateCommentsEnabled && IsDuplicateComment(feedback))

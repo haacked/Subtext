@@ -178,6 +178,15 @@ namespace Subtext.Framework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, but there is a delay between allowing comments originating from the same source. Please wait for {0} and try again..
+        /// </summary>
+        public static string CommentFrequencyException_Message {
+            get {
+                return ResourceManager.GetString("CommentFrequencyException_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No connection string matches the key &apos;{0}&apos;..
         /// </summary>
         public static string Configuration_KeyNotFound {
@@ -597,6 +606,24 @@ namespace Subtext.Framework.Properties {
         public static string Message_ReferrersForm {
             get {
                 return ResourceManager.GetString("Message_ReferrersForm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to minutes.
+        /// </summary>
+        public static string Minutes_Plural {
+            get {
+                return ResourceManager.GetString("Minutes_Plural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to minute.
+        /// </summary>
+        public static string Minutes_Singular {
+            get {
+                return ResourceManager.GetString("Minutes_Singular", resourceCulture);
             }
         }
         
