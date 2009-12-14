@@ -56,7 +56,10 @@ namespace Subtext.Framework.Data
             if(item == null)
             {
                 item = retrievalFunction();
-                cache.InsertDuration(key, item, duration, cacheDependency);
+                if(item != null)
+                {
+                    cache.InsertDuration(key, item, duration, cacheDependency);
+                }
             }
             return (T)item;
         }
@@ -67,7 +70,10 @@ namespace Subtext.Framework.Data
             if(item == null)
             {
                 item = retrievalFunction();
-                cache.InsertDurationSliding(key, item, cacheDependency, slidingDuration);
+                if(item != null)
+                {
+                    cache.InsertDurationSliding(key, item, cacheDependency, slidingDuration);
+                }
             }
             return (T)item;
         }
