@@ -6,7 +6,7 @@
     </HeaderTemplate>
     <ItemTemplate>
         <li class="recent-comment<%# AlternatingCssClass %>">
-            <img src="<%# H(Gravatar.GenerateUrl(Comment.Email, Url.IdenticonUrl(IdenticonUtil.Code(Comment.IpAddress.ToString())))) %>" alt="commenter gravatar icon" class="gravatar" />
+            <img src="<%# H(Gravatar.GenerateUrl(Comment.Email, Url.IdenticonUrl(IdenticonUtil.Code(Comment.IpAddress.ToString())).ToFullyQualifiedUrl(Blog))) %>" alt="commenter gravatar icon" class="gravatar" />
             <div class="info">
                 <span class="meta">
                     From <span class="author"><asp:Literal runat="server" Text="<%# H(Comment.Author) %>" /></span>

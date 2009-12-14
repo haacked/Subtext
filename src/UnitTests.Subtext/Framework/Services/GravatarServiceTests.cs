@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Specialized;
 using MbUnit.Framework;
 using Subtext.Framework.Services;
@@ -14,7 +15,7 @@ namespace UnitTests.Subtext.Framework.Services
             var service = new GravatarService("{0}", GravatarEmailFormat.Md5, true);
 
             //act
-            string url = service.GenerateUrl("test@example.com", null);
+            string url = service.GenerateUrl("test@example.com", (string)null);
 
             //assert
             Assert.Contains(url, "55502f40dc8b7c769880b10874abc9d0");
@@ -27,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Services
             var service = new GravatarService("http://example.com/{0}/sike", GravatarEmailFormat.Plain, true);
 
             //act
-            string url = service.GenerateUrl("test@example.com", null);
+            string url = service.GenerateUrl("test@example.com", (string)null);
 
             //assert
             Assert.Contains(url, "http://example.com/test%40example.com/sike");
@@ -40,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Services
             var service = new GravatarService("{0}", GravatarEmailFormat.Plain, true);
 
             //act
-            string url = service.GenerateUrl("te st@example.com", null);
+            string url = service.GenerateUrl("te st@example.com", (string)null);
 
             //assert
             Assert.Contains(url, "te+st%40example.com");
@@ -53,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Services
             var service = new GravatarService("{0}/{1}", GravatarEmailFormat.Plain, true);
 
             //act
-            string url = service.GenerateUrl("test@example.com", null);
+            string url = service.GenerateUrl("test@example.com", (string)null);
 
             //assert
             Assert.AreEqual("test%40example.com/identicon", url);
@@ -72,6 +73,18 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("test%40example.com/http://localhost/test.gif", url);
         }
 
+        [Test]
+        public void GenerateUrlWithDefaultUriIncludesDefaultUri()
+        {
+            //arrange
+            var service = new GravatarService("{0}/{1}", GravatarEmailFormat.Plain, true);
+
+            //act
+            string url = service.GenerateUrl("test@example.com", new Uri("http://localhost/test.gif"));
+
+            //assert
+            Assert.AreEqual("test%40example.com/http://localhost/test.gif", url);
+        }
 
         [Test]
         public void GenerateUrlWithEmptyEmailReturnsEmptyString()
@@ -80,7 +93,7 @@ namespace UnitTests.Subtext.Framework.Services
             var service = new GravatarService("{0}/{1}", GravatarEmailFormat.Plain, true);
 
             //act
-            string url = service.GenerateUrl(string.Empty, null);
+            string url = service.GenerateUrl(string.Empty, (string)null);
 
             //assert
             Assert.AreEqual(string.Empty, url);
@@ -90,10 +103,12 @@ namespace UnitTests.Subtext.Framework.Services
         public void CanCreateGravatarServiceWithNameValueCollection()
         {
             //arrange
-            var settings = new NameValueCollection();
-            settings.Add("GravatarEnabled", "true");
-            settings.Add("GravatarUrlFormatString", "{0}/{1}");
-            settings.Add("GravatarEmailFormat", "md5");
+            var settings = new NameValueCollection
+            {
+                {"GravatarEnabled", "true"},
+                {"GravatarUrlFormatString", "{0}/{1}"},
+                {"GravatarEmailFormat", "md5"}
+            };
 
             //act
             var service = new GravatarService(settings);
@@ -108,10 +123,12 @@ namespace UnitTests.Subtext.Framework.Services
         public void WhenCreatingGravatarServiceWithNullBoolean_NoExceptionIsThrown()
         {
             //arrange
-            var settings = new NameValueCollection();
-            settings.Add("GravatarEnabled", null);
-            settings.Add("GravatarUrlFormatString", "{0}/{1}");
-            settings.Add("GravatarEmailFormat", "md5");
+            var settings = new NameValueCollection
+            {
+                {"GravatarEnabled", null},
+                {"GravatarUrlFormatString", "{0}/{1}"},
+                {"GravatarEmailFormat", "md5"}
+            };
 
             //act
             var service = new GravatarService(settings);
@@ -126,10 +143,12 @@ namespace UnitTests.Subtext.Framework.Services
         public void WhenCreatingGravatarServiceWithNonsensicalBoolean_NoExceptionIsThrown()
         {
             //arrange
-            var settings = new NameValueCollection();
-            settings.Add("GravatarEnabled", "Blablabla");
-            settings.Add("GravatarUrlFormatString", "{0}/{1}");
-            settings.Add("GravatarEmailFormat", "PLAIN");
+            var settings = new NameValueCollection
+            {
+                {"GravatarEnabled", "Blablabla"},
+                {"GravatarUrlFormatString", "{0}/{1}"},
+                {"GravatarEmailFormat", "PLAIN"}
+            };
 
             //act
             var service = new GravatarService(settings);
