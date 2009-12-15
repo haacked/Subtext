@@ -32,6 +32,7 @@ using Subtext.Framework.Web;
 using Subtext.Identicon;
 using Subtext.Web.Controls;
 using Image=System.Web.UI.WebControls.Image;
+using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -44,7 +45,7 @@ namespace Subtext.Web.UI.Controls
         const string Linktag = "<a title=\"permalink: {0}\" href=\"{1}\">#</a>";
         static readonly ILog Log = new Log();
 
-        private FeedbackItem _comment;
+        private CommentViewModel _comment;
         protected Repeater CommentList;
         private GravatarService _gravatarService;
         protected Literal NoCommentMessage;
@@ -64,7 +65,7 @@ namespace Subtext.Web.UI.Controls
             get { return Comment.IsBlogAuthor ? " author" : ""; }
         }
 
-        public FeedbackItem Comment
+        public CommentViewModel Comment
         {
             get { return _comment; }
         }
@@ -144,7 +145,7 @@ namespace Subtext.Web.UI.Controls
             if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var feedbackItem = (FeedbackItem)e.Item.DataItem;
-                _comment = feedbackItem;
+                _comment = new CommentViewModel(feedbackItem, SubtextContext);
                 if(feedbackItem != null)
                 {
                     var title = (Literal)(e.Item.FindControl("Title"));

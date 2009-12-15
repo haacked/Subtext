@@ -30,7 +30,7 @@ namespace Subtext.Framework.Services
     [Serializable]
     public class AkismetSpamService : ICommentSpamService
     {
-        private readonly static ILog log = new Log();
+        private readonly static ILog Log = new Log();
         readonly AkismetClient _akismet;
         readonly Blog _blog;
         readonly UrlHelper _urlHelper;
@@ -56,8 +56,6 @@ namespace Subtext.Framework.Services
             _urlHelper = urlHelper ?? new UrlHelper(null, null);
         }
 
-        #region ICommentSpamService Members
-
         /// <summary>
         /// Examines the item and determines whether or not it is spam.
         /// </summary>
@@ -77,7 +75,7 @@ namespace Subtext.Framework.Services
             }
             catch(InvalidResponseException e)
             {
-                log.Error(e.Message, e);
+                Log.Error(e.Message, e);
             }
             return false;
         }
@@ -104,8 +102,6 @@ namespace Subtext.Framework.Services
             _akismet.SubmitSpam(comment);
         }
 
-        #endregion
-
         /// <summary>
         /// Verifies the api key.
         /// </summary>
@@ -118,12 +114,12 @@ namespace Subtext.Framework.Services
             }
             catch(WebException e)
             {
-                log.Error("Error occured while verifying Akismet.", e);
+                Log.Error("Error occured while verifying Akismet.", e);
                 return false;
             }
         }
 
-        private Comment ConvertToAkismetItem(FeedbackItem feedback)
+        public Comment ConvertToAkismetItem(FeedbackItem feedback)
         {
             var comment = new Comment(feedback.IpAddress, feedback.UserAgent) {Author = feedback.Author ?? string.Empty, AuthorEmail = feedback.Email};
             if(feedback.SourceUrl != null)
@@ -133,10 +129,14 @@ namespace Subtext.Framework.Services
             comment.Content = feedback.Body;
             comment.Referrer = feedback.Referrer;
 
-            Uri permalink = _urlHelper.FeedbackUrl(feedback).ToFullyQualifiedUrl(_blog);
-            if(permalink != null)
+            var feedbackUrl = _urlHelper.FeedbackUrl(feedback);
+            if(feedbackUrl != null)
             {
-                comment.Permalink = permalink;
+                Uri permalink = feedbackUrl.ToFullyQualifiedUrl(_blog);
+                if(permalink != null)
+                {
+                    comment.Permalink = permalink;
+                }
             }
 
             comment.CommentType = feedback.FeedbackType.ToString().ToLower(CultureInfo.InvariantCulture);

@@ -34,7 +34,6 @@ using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Web.Properties;
-using Subtext.Web.UI.Pages;
 using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
