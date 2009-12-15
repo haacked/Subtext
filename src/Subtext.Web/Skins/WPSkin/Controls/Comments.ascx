@@ -8,7 +8,7 @@
 			<a name="<%# Comment.Id %>"></a>
 			<div class="comment<%# AuthorCssClass %>">
 				<h3>
-					<asp:HyperLink Runat="server" ID="EditCommentImgLink" /><a href="<%# Url.FeedbackUrl(Comment) %>" title="permalink">#</a> <asp:Literal Runat="server" ID="title" Text="<%# Comment.Title %>" />
+					<asp:HyperLink Runat="server" ID="EditCommentImgLink" /><a href="<%# Comment.DisplayUrl %>" title="permalink">#</a> <asp:Literal Runat="server" ID="title" Text="<%# Comment.Title %>" />
 				</h3>
 				<div class="commentText">
 					<div class="gravatar">

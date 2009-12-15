@@ -15,12 +15,12 @@
 
 #endregion
 
-using Subtext.Framework.Components;
+using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
     public interface ICommentControl
     {
-        FeedbackItem Comment { get; }
+        CommentViewModel Comment { get; }
     }
 }
