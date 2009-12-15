@@ -4,7 +4,7 @@
 	<div class = "relatedlinkstitle">
 		Related Posts
 	</div>
-<asp:Repeater id="urlRelatedLinks" runat="server">
+<asp:Repeater id="urlRelatedLinks" runat="server" OnItemCreated="MoreReadingCreated">
 	<ItemTemplate>
 		<div class="relateditem">
 			<a href="<%# DataBinder.Eval(Container.DataItem, "url") %>"> 
