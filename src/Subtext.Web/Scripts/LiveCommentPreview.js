@@ -1,122 +1,74 @@
 /*
-Adds Live Comment Preview for comment forms.
-
-USAGE: Simply add the css class "livepreview" to the textarea that
-is the source of the comment and to the <div> element that
-will display the live preview.
-
-Note that livepreview does not have to be the only css class.
-
-ex... Make this edit in PostComment.ascx
-
-<asp:TextBox id="tbComment" runat="server" Rows="10" Columns="40" width="100%" Height="193px"
-					TextMode="MultiLine" class="livepreview"></asp:TextBox>
-
-<div class="comment livepreview"></div>
-
-Original Source for this JS taken from the Subtext Project:
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Subtext WebLog
-//
-// Subtext is an open source weblog system that is a fork of the .TEXT
-// weblog system.
-//
-// For updated news and information please visit http://subtextproject.com/
-// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
-// The development mailing list is at subtext@googlegroups.com
-//
-// This project is licensed under the BSD license.  See the License.txt file for more information.
-///////////////////////////////////////////////////////////////////////////////////////////////////
+* LivePreview jQuery Plugin v1.0
+*
+* Copyright (c) 2009 Phil Haack, http://haacked.com/
+* Licensed under the MIT license.
 */
 
-Subtext.CommentLivePreview =
-{
-	livePreviewClass: "livepreview",
-	allowedTags: subtextAllowedHtmlTags,
-	allowedTagsRegExp: null,
-	previewElement: null,
-	paraRegExp: new RegExp("(.*)\n\n([^#*\n\n].*)", "g"),
-	lineBreakRegExp: new RegExp("(.*)\n([^#*\n].*)", "g"),
-	updatingPreview: false,
+(function($) {
+    $.fn.livePreview = function(options) {
+        var opts = $.extend({}, $.fn.livePreview.defaults, options);
+        var previewMaxIndex = opts.previewElement.length - 1;
 
-	init: function()
-	{
-		this.previewElement = $("div." + this.livePreviewClass);
-		if(this.previewElement.length == 0) { 
-		    return; 
-		}
+        var allowedTagsRegExp = new RegExp("&lt;(/?(" + opts.allowedTags.join("|") + ")(\\s+.*?)?)&gt;", "g");
 
-		var tagNamesRegex = "";
+        return this.each(function(i) {
+            var textarea = $(this);
+            var preview = $(opts.previewElement[Math.min(i, previewMaxIndex)]);
 
-		for(var i = 0; i < this.allowedTags.length; i++)
-		{
-			tagNamesRegex += this.allowedTags[i] + "|";
-		}
+            textarea.handleKeyUp = function() {
+                textarea.unbind('keyup', textarea.handleKeyUp);
+                if (!preview.updatingPreview) {
+                    preview.updatingPreview = true;
+                    window.setTimeout(function() { textarea.reloadPreview() }, opts.interval);
+                }
+                return false;
+            };
 
-		if(tagNamesRegex.length > 0)
-		{
-			tagNamesRegex = tagNamesRegex.substring(0, tagNamesRegex.length - 2);
-		}
+            textarea.htmlUnencode = function(s) {
+                return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            };
 
-		this.allowedTagsRegExp = new RegExp("&lt;(/?(" + tagNamesRegex + ")(\\s+.*?)?)&gt;", "g");
+            textarea.reloadPreview = function() {
+                var previewString = this.val();
+                if (previewString.length > 0 && previewString.indexOf('<') > -1) {
+                    previewString = this.htmlUnencode(previewString);
+                    previewString = previewString.replace(opts.paraRegExp, "<p>$1</p><p>$2</p>");
+                    previewString = previewString.replace(opts.lineBreakRegExp, "$1<br />$2");
+                    previewString = previewString.replace(allowedTagsRegExp, "<$1>");
+                }
 
-		var textarea = $('textarea.' + this.livePreviewClass);
-		textarea.bind('keyup', this.handleKeyUp);
+                try {
+                    // Workaround for a bug in jquery 1.3.2 which is fixed in 1.4
+                    preview[0].innerHTML = previewString;
+                }
+                catch (e) {
+                    alert("Sorry, but inserting a block element within is not allowed here.");
+                }
 
-		this.reloadPreview(textarea.attr('id'));
-	},
+                preview.updatingPreview = false;
+                this.bind('keyup', this.handleKeyUp);
+            };
 
-    handleKeyUp: function() {
-            // Subject to race condition. But it's not a big deal. The next keypress
-			// will solve it. Worst case is the preview is off by the last char in rare
-			// situations.
-			var preview = Subtext.CommentLivePreview;
-			var textarea = $(this);
-			if(!preview.updatingPreview) {
-				preview.updatingPreview = true;
-				textarea.unbind('keyup', preview.handleKeyUp);
-				window.setTimeout("Subtext.CommentLivePreview.reloadPreview('" + textarea.attr('id') + "')", 20);
-			}
-			return false;
-    },
+            textarea.reloadPreview();
+        });
 
-	reloadPreview: function(textareaId)
-	{
-	    var textarea = $('#' + textareaId);
-	    
-	    if(textarea.length == 0) {
-	        return;
-	    }
-	    
-		var previewString = textarea.val();
+    };
 
-		if (previewString.length > 0)
-		{
-			previewString = this.htmlUnencode(previewString);
-			previewString = previewString.replace(this.paraRegExp, "<p>$1</p><p>$2</p>");
-			previewString = previewString.replace(this.lineBreakRegExp, "$1<br />$2");
-			previewString = previewString.replace(this.allowedTagsRegExp, "<$1>");
-		}
-		
-		try
-		{
-			this.previewElement.html(previewString);
-		}
-		catch(e)
-		{
-			alert("Sorry, but inserting a block element within is not allowed here.");
-		}
-		
-		this.updatingPreview = false;
-		textarea.bind('keyup', this.handleKeyUp);
-	},
+    $.fn.livePreview.defaults = {
+        paraRegExp: new RegExp("(.*)\n\n([^#*\n\n].*)", "g"),
+        lineBreakRegExp: new RegExp("(.*)\n([^#*\n].*)", "g"),
+        allowedTags: ['a', 'b', 'strong', 'blockquote', 'p', 'i', 'em', 'u', 'strike', 'super', 'sub', 'code'],
+        interval: 80
+    };
 
-	htmlUnencode: function(s)
-	{
-		return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-	},
-};
+})(jQuery);
 
+// This extra bit is specific to Subtext. Makes it so it works automatically.
 $(function(){
-    Subtext.CommentLivePreview.init();
+    $('textarea.livepreview').livePreview({
+        previewElement: $('div.livepreview'),
+        allowedTags: subtextAllowedHtmlTags, 
+        interval: 20
+    });
 });
