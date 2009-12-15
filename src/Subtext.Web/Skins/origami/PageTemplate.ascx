@@ -43,6 +43,3 @@
     </div>
 </div>
 <origami:Footer id="Footer" runat="server" />
-<script type="text/javascript">
-	init();
-</script>

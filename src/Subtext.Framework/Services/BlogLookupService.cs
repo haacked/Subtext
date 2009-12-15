@@ -106,7 +106,7 @@ namespace Subtext.Framework.Services
                     return new BlogLookupResult(onlyBlog, null);
                 }
 
-                //return new BlogLookupResult(blog, null);
+                //TODO: What about case where you've pulled the prod blog down to localhost?
             }
 
             return null;

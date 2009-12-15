@@ -227,6 +227,7 @@ namespace Subtext.Web.UI.Pages
         /// <param name="e">E.</param>
         override protected void OnInit(EventArgs e)
         {
+            MaintainScrollPositionOnPostBack = true;
             InitializeBlogPage();
             base.OnInit(e);
         }
@@ -249,9 +250,5 @@ namespace Subtext.Web.UI.Pages
         protected override void SavePageStateToPersistenceMedium(object viewState)
         {
         }
-
-        #region private class ScriptElementCollectionRenderer
-
-        #endregion
     }
 }
