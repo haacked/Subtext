@@ -372,7 +372,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             try
             {
-                SubtextPage.Repository.UpdateConfigData(blog);
+                Repository.UpdateConfigData(blog);
                 messagePanel.ShowMessage(Resources.BlogsEditor_BlogSaved);
             }
             catch(Exception)
@@ -424,7 +424,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             blog.IsActive = !blog.IsActive;
             try
             {
-                SubtextPage.Repository.UpdateConfigData(blog);
+                Repository.UpdateConfigData(blog);
                 if(blog.IsActive)
                 {
                     messagePanel.ShowMessage(Resources.BlogsEditor_BlogActivated);

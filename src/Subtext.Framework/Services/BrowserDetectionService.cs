@@ -67,12 +67,12 @@ namespace Subtext.Framework.Services
             context.Response.Redirect(returnUrl);
         }
 
-        public BrowserInfo DetectBrowserCapabilities()
+        public BrowserInfo DetectBrowserCapabilities(HttpRequestBase request)
         {
             bool? isMobile = UserSpecifiedMobile();
             if(isMobile == null)
             {
-                var mobileCaps = HttpContext.Current.Request.Browser as MobileCapabilities;
+                var mobileCaps = request.Browser;
                 isMobile = mobileCaps != null && mobileCaps.IsMobileDevice;
             }
             return new BrowserInfo(isMobile.Value);

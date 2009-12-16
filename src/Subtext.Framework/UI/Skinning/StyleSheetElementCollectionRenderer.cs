@@ -29,12 +29,28 @@ namespace Subtext.Framework.UI.Skinning
     /// </summary>
     public class StyleSheetElementCollectionRenderer
     {
-        readonly IDictionary<string, SkinTemplate> _templates;
+        private readonly SkinEngine _skinEngine;
 
         public StyleSheetElementCollectionRenderer(SkinEngine skinEngine)
         {
-            _templates = skinEngine.GetSkinTemplates(false /* mobile */);
+            _skinEngine = skinEngine;
         }
+
+        private IDictionary<string, SkinTemplate> Templates
+        {
+            get
+            {
+                var templates = _templates;
+                if(templates == null)
+                {
+                    templates = _skinEngine.GetSkinTemplates(false /* mobile */);
+                    _templates = templates;
+                }
+                return templates;
+            }
+        }
+        IDictionary<string, SkinTemplate> _templates;
+
 
         private static string RenderStyleAttribute(string attributeName, string attributeValue)
         {
@@ -145,7 +161,7 @@ namespace Subtext.Framework.UI.Skinning
             var templateDefinedStyles = new StringBuilder();
             string finalStyleDefinition = string.Empty;
 
-            SkinTemplate skinTemplate = _templates.ItemOrNull(skinName);
+            SkinTemplate skinTemplate = Templates.ItemOrNull(skinName);
 
             var addedStyle = new List<string>();
 
@@ -240,7 +256,7 @@ namespace Subtext.Framework.UI.Skinning
             bool normalCss = false;
             var styles = new List<StyleDefinition>();
 
-            SkinTemplate skinTemplate = _templates.ItemOrNull(skinName);
+            SkinTemplate skinTemplate = Templates.ItemOrNull(skinName);
 
             if((string.IsNullOrEmpty(media)) && string.IsNullOrEmpty(title) && string.IsNullOrEmpty(conditional))
             {

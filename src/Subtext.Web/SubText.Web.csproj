@@ -674,6 +674,13 @@
     <Compile Include="SiteMap\SiteMapHttpHandler.ashx.cs" />
     <Compile Include="SiteMap\UrlElement.cs" />
     <Compile Include="SiteMap\UrlElementCollection.cs" />
+    <Compile Include="Skins\_System\Controls\Error.ascx.cs">
+      <DependentUpon>Error.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Skins\_System\Controls\Error.ascx.designer.cs">
+      <DependentUpon>Error.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Skins\_System\ForgotPassword.Master.cs">
       <DependentUpon>ForgotPassword.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2345,6 +2352,7 @@
     <Content Include="Skins\WPSkin\style.css" />
     <Content Include="Skins\_System\commonlayout.css" />
     <Content Include="Skins\_System\commonstyle.css" />
+    <Content Include="Skins\_System\Controls\Error.ascx" />
     <Content Include="Skins\_System\Controls\FullTagCloud.ascx" />
     <Content Include="Skins\_System\Controls\ShareThisPost.ascx" />
     <Content Include="Skins\_System\Controls\TagCloud.ascx" />

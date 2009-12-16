@@ -539,6 +539,12 @@
     <Compile Include="Services\KeywordExpander.cs" />
     <Compile Include="Syndication\OpmlHandler.cs" />
     <Compile Include="Syndication\OpmlWriter.cs" />
+    <Compile Include="UI\Skinning\IContainerControl.cs" />
+    <Compile Include="UI\Skinning\IErrorControl.cs" />
+    <Compile Include="UI\Skinning\ISkinControlLoader.cs" />
+    <Compile Include="UI\Skinning\SkinControlLoader.cs" />
+    <Compile Include="UI\Skinning\SkinControlLoadException.cs" />
+    <Compile Include="UI\Skinning\SkinControlLoadResult.cs" />
     <Compile Include="UI\Skinning\SkinEngine.cs" />
     <Compile Include="Util\FileHelper.cs" />
     <Compile Include="Util\GraphicsHelper.cs" />

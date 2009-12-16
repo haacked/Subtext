@@ -51,7 +51,7 @@ namespace Subtext.Framework.Email
         {
             if(String.IsNullOrEmpty(Blog.Email)
                || comment.FeedbackType == FeedbackType.PingTrack
-               || Context.User.IsInAdminRole())
+               || Context.User.IsAdministrator())
             {
                 return;
             }

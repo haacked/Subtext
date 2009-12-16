@@ -17,7 +17,9 @@
 
 using System.Text;
 using System.Web;
+using Subtext.Framework.Configuration;
 
+//todo: make this a controller with unit tests.
 namespace Subtext.Web.UI.Handlers
 {
     /// <summary>
@@ -35,7 +37,13 @@ namespace Subtext.Web.UI.Handlers
         {
             context.Response.ContentEncoding = Encoding.UTF8;
             context.Response.ContentType = "text/css";
-            context.Response.Write(Globals.CurrentSkin.CustomCssText);
+
+            var httpContext = new HttpContextWrapper(context);
+            var skin = SkinConfig.GetCurrentSkin(Config.CurrentBlog, httpContext);
+            if(skin != null)
+            {
+                context.Response.Write(skin.CustomCssText);
+            }
         }
 
         /// <summary>

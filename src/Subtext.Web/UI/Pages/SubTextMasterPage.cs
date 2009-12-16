@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using System.Web;
 using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -37,7 +36,7 @@ namespace Subtext.Web.UI.Pages
     /// a PlaceHolder in which the PageTemplate.ascx control within 
     /// each skin is loaded.
     /// </summary>
-    public partial class SubtextMasterPage : SubtextPage, IPageWithControls
+    public partial class SubtextMasterPage : SubtextPage, IPageWithControls, IContainerControl
     {
         protected const string ControlLocation = "~/Skins/{0}/Controls/{1}";
         protected const string OpenIdDelegateLocation = "<link rel=\"openid.delegate\" href=\"{0}\" />";
@@ -46,14 +45,12 @@ namespace Subtext.Web.UI.Pages
 
         public static readonly string CommentsPanelId = "commentsUpdatePanelWrapper";
 
-        private static readonly ScriptElementCollectionRenderer ScriptRenderer =
-            new ScriptElementCollectionRenderer(new SkinEngine());
+        private static readonly ScriptElementCollectionRenderer ScriptRenderer = new ScriptElementCollectionRenderer(new SkinEngine());
 
         private static readonly StyleSheetElementCollectionRenderer StyleRenderer =
             new StyleSheetElementCollectionRenderer(new SkinEngine());
 
         IEnumerable<string> _controls;
-        protected SkinConfig CurrentSkin = Globals.CurrentSkin;
 
         /// <summary>
         /// Returns the text for a javascript array of allowed elements. 
@@ -84,57 +81,51 @@ namespace Subtext.Web.UI.Pages
             _controls = controls;
         }
 
-        private void InitializeBlogPage()
+        public void InitializeControls(ISkinControlLoader controlLoader)
         {
-            MaintainScrollPositionOnPostBack = true;
-
-            
-
-            string skinFolder = CurrentSkin.TemplateFolder;
-            IEnumerable<string> controls = _controls;
-            if(controls != null)
+            IEnumerable<string> controlNames = _controls;
+            if(controlNames != null)
             {
-                var apnlCommentsWrapper = new UpdatePanel {Visible = true, ID = CommentsPanelId};
+                var apnlCommentsWrapper = new UpdatePanel { Visible = true, ID = CommentsPanelId };
 
-                foreach(string controlId in controls)
+                foreach(string controlName in controlNames)
                 {
-                    Control control;
-                    try
-                    {
-                        control = LoadControl(string.Format(ControlLocation, skinFolder, controlId));
-                    }
-                    catch(HttpException)
-                    {
-                        // fallback behavior
-                        // todo: cache that we found it here.
-                        control = LoadControl(string.Format(ControlLocation, "_System", controlId));
-                    }
-                    control.ID = controlId.Replace(".", "_");
-
-                    if(controlId.Equals("Comments.ascx", StringComparison.OrdinalIgnoreCase))
-                    {
-                        control.Visible = true;
-                        commentsControl = control as Comments;
-                        apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
-                    }
-                    else if(controlId.Equals("PostComment.ascx", StringComparison.OrdinalIgnoreCase))
-                    {
-                        postCommentControl = control as PostComment;
-                        if(postCommentControl != null)
-                        {
-                            postCommentControl.CommentApproved += OnCommentPosted;
-                        }
-                        apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
-                        CenterBodyControl.Controls.Add(apnlCommentsWrapper);
-                    }
-                    else
-                    {
-                        CenterBodyControl.Controls.Add(control);
-                    }
+                    Control control = controlLoader.LoadControl(controlName);
+                    AddControlToBody(controlName, control, apnlCommentsWrapper, CenterBodyControl);
                 }
             }
+        }
 
-            if(CurrentSkin.HasCustomCssText)
+        public void AddControlToBody(string controlName, Control control, UpdatePanel apnlCommentsWrapper, Control centerBodyControl)
+        {
+            if(controlName.Equals("Comments", StringComparison.OrdinalIgnoreCase))
+            {
+                control.Visible = true;
+                apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
+            }
+            else if(controlName.Equals("PostComment", StringComparison.OrdinalIgnoreCase))
+            {
+                postCommentControl = control as PostComment;
+                if(postCommentControl != null)
+                {
+                    postCommentControl.CommentApproved += OnCommentPosted;
+                }
+                apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
+                centerBodyControl.Controls.Add(apnlCommentsWrapper);
+            }
+            else
+            {
+                centerBodyControl.Controls.Add(control);
+            }
+        }
+
+        public void InitializeBlogPage()
+        {
+            var skin = SkinConfig.GetCurrentSkin(Blog, SubtextContext.HttpContext);
+            var skinControlLoader = new SkinControlLoader(this, skin);
+            InitializeControls(skinControlLoader);
+
+            if(skin.HasCustomCssText)
             {
                 CustomCss.Attributes.Add("href", Url.CustomCssUrl());
             }
@@ -162,12 +153,12 @@ namespace Subtext.Web.UI.Pages
             // if specified, add script elements
             if(scripts != null)
             {
-                scripts.Text = ScriptRenderer.RenderScriptElementCollection(CurrentSkin.SkinKey);
+                scripts.Text = ScriptRenderer.RenderScriptElementCollection(skin.SkinKey);
             }
 
             if(styles != null)
             {
-                styles.Text = StyleRenderer.RenderStyleElementCollection(CurrentSkin.SkinKey);
+                styles.Text = StyleRenderer.RenderStyleElementCollection(skin.SkinKey);
             }
 
             if(openIDServer != null && !string.IsNullOrEmpty(Blog.OpenIdServer))

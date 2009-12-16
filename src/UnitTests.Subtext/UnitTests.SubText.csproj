@@ -390,6 +390,8 @@
     <Compile Include="Framework\Services\SlugGeneratorTests.cs" />
     <Compile Include="Framework\Services\StatisticsServiceTests.cs" />
     <Compile Include="Framework\Services\XhtmlConverterTests.cs" />
+    <Compile Include="Framework\Skinning\ErrorUserControlTests.cs" />
+    <Compile Include="Framework\Skinning\SkinControlLoaderTests.cs" />
     <Compile Include="Framework\Skinning\SkinEngineTests.cs" />
     <Compile Include="Framework\Skinning\SkinScriptsTests.cs" />
     <Compile Include="Framework\Skinning\SkinStylesTests.cs" />
@@ -509,9 +511,7 @@
     <Compile Include="SubtextWeb\Sitemap.cs" />
     <Compile Include="SubtextWeb\SitemapHandlerTests.cs" />
     <Compile Include="SubtextWeb\SubtextApplicationTests.cs" />
-    <Compile Include="SubtextWeb\SubtextMasterPageTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="SubtextWeb\UI\Pages\SubtextMasterPageTests.cs" />
     <Compile Include="SubtextWeb\UI\ViewModels\EntryViewModelTests.cs" />
     <Compile Include="TestCache.cs" />
     <Compile Include="UnitTestEmailProvider.cs" />

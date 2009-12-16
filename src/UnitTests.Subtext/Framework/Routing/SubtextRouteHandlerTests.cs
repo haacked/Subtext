@@ -32,10 +32,10 @@ namespace UnitTests.Subtext.Framework.Routing
                                                                      new Mock<IServiceLocator>().Object);
 
             //act
-            var handler = subtextRouteHandler.GetHttpHandler(requestContext) as ISubtextHandler;
+            subtextRouteHandler.GetHttpHandler(requestContext);
 
             //assert.
-            Assert.AreEqual("SomeControl.ascx", controlNames.First());
+            Assert.AreEqual("SomeControl", controlNames.First());
         }
     }
 }

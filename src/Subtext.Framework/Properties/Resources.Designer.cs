@@ -673,6 +673,15 @@ namespace Subtext.Framework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not load this Skin control.
+        /// </summary>
+        public static string SkinControlLoadException_Message {
+            get {
+                return ResourceManager.GetString("SkinControlLoadException_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect syntax was encountered while parsing GO. Cannot have a slash star /* comment */ after a GO statement..
         /// </summary>
         public static string SqlParseException_IncorrectSyntaxNearGo {

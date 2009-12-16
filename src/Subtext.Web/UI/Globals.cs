@@ -30,40 +30,6 @@ namespace Subtext.Web.UI
         private const string BlogPageTitle = "BlogPageTitle";
 
         /// <summary>
-        /// Returns the current skin for the current context.
-        /// </summary>
-        /// <returns></returns>
-        public static SkinConfig CurrentSkin
-        {
-            get
-            {
-                Blog blog = Config.CurrentBlog;
-                var service = new BrowserDetectionService();
-                BrowserInfo capabilities = service.DetectBrowserCapabilities();
-
-                bool isMobile = capabilities.Mobile;
-
-                SkinConfig skin;
-                if(isMobile)
-                {
-                    skin = blog.MobileSkin;
-                    if(skin.TemplateFolder != null)
-                    {
-                        return skin;
-                    }
-                }
-
-                skin = blog.Skin;
-
-                if(skin.TemplateFolder == null)
-                {
-                    skin = SkinConfig.DefaultSkin;
-                }
-                return skin;
-            }
-        }
-
-        /// <summary>
         /// This method will be called during PreRender. If no title was set via
         /// SetTitle(title, context), then we will default to the blog title
         /// </summary>

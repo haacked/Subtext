@@ -50,7 +50,7 @@ namespace Subtext.Framework.Routing
                     if(requestContext.RouteData.DataTokens != null)
                     {
                         IEnumerable<string> controls = requestContext.RouteData.GetControlNames();
-                        pageWithControls.SetControls(controls.Select(s => s + ".ascx"));
+                        pageWithControls.SetControls(controls);
                     }
                 }
             }

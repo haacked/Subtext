@@ -18,9 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.Design;
 using System.Web.UI.HtmlControls;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
 
 namespace Subtext.Web.UI.WebControls
@@ -57,7 +59,8 @@ namespace Subtext.Web.UI.WebControls
             {
                 if(_templateFile == null)
                 {
-                    _templateFile = string.Format(SkinPath, Globals.CurrentSkin.TemplateFolder);
+                    var skin = SkinConfig.GetCurrentSkin(Config.CurrentBlog, new HttpContextWrapper(HttpContext.Current));
+                    _templateFile = string.Format(SkinPath, skin.TemplateFolder);
                 }
                 return _templateFile;
             }

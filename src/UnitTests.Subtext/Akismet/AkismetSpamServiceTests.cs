@@ -43,6 +43,7 @@ namespace UnitTests.Subtext.Akismet
             var feedback = new FeedbackItem(FeedbackType.ContactPage);
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(helper => helper.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns((VirtualPath)null);
+            urlHelper.Setup(helper => helper.BlogUrl()).Returns("/");
             var service = new AkismetSpamService("abracadabra", new Blog {Host = "localhost"}, null, urlHelper.Object);
             
             // act
@@ -62,14 +63,15 @@ namespace UnitTests.Subtext.Akismet
             };
             var urlHelper = new Mock<UrlHelper>();
             urlHelper.Setup(helper => helper.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/foo");
+            urlHelper.Setup(helper => helper.BlogUrl()).Returns("/");
             var service = new AkismetSpamService("abracadabra", new Blog { Host = "localhost" }, null, urlHelper.Object);
 
             // act
             var comment = service.ConvertToAkismetItem(feedback);
 
             // assert
-            Assert.AreEqual("http://example.com/author-source", comment.AuthorUrl);
-            Assert.AreEqual("http://localhost/foo", comment.Permalink);
+            Assert.AreEqual("http://example.com/author-source", comment.AuthorUrl.ToString());
+            Assert.AreEqual("http://localhost/foo", comment.Permalink.ToString());
         }
     }
 }
