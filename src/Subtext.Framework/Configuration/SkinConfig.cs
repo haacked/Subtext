@@ -16,6 +16,8 @@
 #endregion
 
 using System;
+using System.Web;
+using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Configuration
 {
@@ -89,6 +91,36 @@ namespace Subtext.Framework.Configuration
         {
             var defaultSkin = new SkinConfig {TemplateFolder = "RedBook", SkinStyleSheet = "Blue.css"};
             return defaultSkin;
+        }
+
+        /// <summary>
+        /// Returns the current skin for the current context.
+        /// </summary>
+        /// <returns></returns>
+        public static SkinConfig GetCurrentSkin(Blog blog, HttpContextBase context)
+        {
+            var service = new BrowserDetectionService();
+            BrowserInfo capabilities = service.DetectBrowserCapabilities(context.Request);
+
+            bool isMobile = capabilities.Mobile;
+
+            SkinConfig skin;
+            if(isMobile)
+            {
+                skin = blog.MobileSkin;
+                if(skin.TemplateFolder != null)
+                {
+                    return skin;
+                }
+            }
+
+            skin = blog.Skin;
+
+            if(skin.TemplateFolder == null)
+            {
+                skin = DefaultSkin;
+            }
+            return skin;
         }
     }
 }

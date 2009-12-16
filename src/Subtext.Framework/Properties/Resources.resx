@@ -400,4 +400,7 @@
   <data name="Minutes_Singular" xml:space="preserve">
     <value>minute</value>
   </data>
+  <data name="SkinControlLoadException_Message" xml:space="preserve">
+    <value>Could not load this Skin control</value>
+  </data>
 </root>

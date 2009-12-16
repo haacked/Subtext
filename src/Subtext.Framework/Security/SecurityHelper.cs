@@ -460,7 +460,7 @@ namespace Subtext.Framework.Security
             return Guid.NewGuid().ToString().Substring(0, 8);
         }
 
-        public static bool IsInAdminRole(this IPrincipal user)
+        public static bool IsAdministrator(this IPrincipal user)
         {
             if(user == null)
             {

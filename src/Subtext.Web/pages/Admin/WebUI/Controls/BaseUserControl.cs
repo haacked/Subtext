@@ -16,6 +16,7 @@
 #endregion
 
 using System.Web.UI;
+using Subtext.Framework;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.Handlers;
 using Subtext.Framework.Providers;
@@ -43,6 +44,14 @@ namespace Subtext.Web.Admin.WebUI.Controls
         public SubtextPage SubtextPage
         {
             get { return Page as SubtextPage; }
+        }
+
+        public ISubtextContext SubtextContext
+        {
+            get
+            {
+                return SubtextPage.SubtextContext;
+            }
         }
 
         public ObjectProvider Repository

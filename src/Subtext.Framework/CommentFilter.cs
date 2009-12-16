@@ -63,7 +63,7 @@ namespace Subtext.Framework
         /// <exception type="CommentDuplicateException">Thrown if the blog does not allow duplicate comments and too many are received in a short period of time.</exception>
         public void FilterBeforePersist(FeedbackItem feedback)
         {
-            if(!SubtextContext.User.IsInAdminRole())
+            if(!SubtextContext.User.IsAdministrator())
             {
                 if(!SourceFrequencyIsValid(feedback))
                 {
@@ -94,7 +94,7 @@ namespace Subtext.Framework
         /// <param name="feedbackItem">Entry.</param>
         public void FilterAfterPersist(FeedbackItem feedbackItem)
         {
-            if(!SubtextContext.User.IsInAdminRole())
+            if(!SubtextContext.User.IsAdministrator())
             {
                 if(!Blog.ModerationEnabled)
                 {

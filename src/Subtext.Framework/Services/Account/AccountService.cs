@@ -30,8 +30,6 @@ namespace Subtext.Framework.Services.Account
 
         public void Logout(ISubtextContext context)
         {
-            
-
             var request = context.HttpContext.Request;
             var response = context.HttpContext.Response;
             var authCookie = new HttpCookie(request.GetFullCookieName(context.Blog)) { Expires = DateTime.Now.AddYears(-30) };
