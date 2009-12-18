@@ -2362,6 +2362,7 @@
     <Content Include="Skins\_System\login.css" />
     <Content Include="Skins\_System\SkinIcon.png" />
     <Content Include="Skins\_System\SystemStyle.css" />
+    <Content Include="pages\SystemMessages\Web.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

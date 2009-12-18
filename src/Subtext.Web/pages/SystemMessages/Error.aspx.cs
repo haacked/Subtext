@@ -40,6 +40,7 @@ namespace Subtext.Web.Pages
             Response.Clear();
             if(!IsPostBack)
             {
+                Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = 500;
                 Response.StatusDescription = "500 Internal Server Error";
 

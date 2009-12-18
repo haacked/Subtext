@@ -256,9 +256,8 @@
       <Name>Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Web\Subtext.Web.csproj">
-      <Name>Subtext.Web</Name>
       <Project>{8C11B428-9C4A-46C3-B7F0-48215276BFA5}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>Subtext.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

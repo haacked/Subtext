@@ -439,6 +439,7 @@
     <Compile Include="Infrastructure\Routing\ISubtextPageBuilder.cs" />
     <Compile Include="Infrastructure\Routing\PageRoute.cs" />
     <Compile Include="Infrastructure\Routing\PageRouteHandler.cs" />
+    <Compile Include="Infrastructure\Pipeline\PipelineService.cs" />
     <Compile Include="Infrastructure\Routing\RootRoute.cs" />
     <Compile Include="Infrastructure\Routing\RouteHandlerBase.cs" />
     <Compile Include="Infrastructure\Routing\SubfolderRoute.cs" />

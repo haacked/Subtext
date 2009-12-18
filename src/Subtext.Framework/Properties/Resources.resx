@@ -403,4 +403,7 @@
   <data name="SkinControlLoadException_Message" xml:space="preserve">
     <value>Could not load this Skin control</value>
   </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>File Not Found</value>
+  </data>
 </root>

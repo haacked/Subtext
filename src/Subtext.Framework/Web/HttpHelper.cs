@@ -23,8 +23,10 @@ using System.Net;
 using System.Text;
 using System.Web;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Web
 {
@@ -395,6 +397,60 @@ namespace Subtext.Framework.Web
             {
                 return null;
             }
+        }
+
+        public static void HandleFileNotFound(this HttpContextBase httpContext, bool usingIntegratedPipeline)
+        {
+            var response = httpContext.Response;
+            var request = httpContext.Request;
+
+            string url = GetFileNotFoundRedirectUrl(usingIntegratedPipeline, request, response);
+            if(!String.IsNullOrEmpty(url))
+            {
+                response.Redirect(url, true);
+            }
+            else
+            {
+                response.StatusCode = 404;
+                response.Status = Resources.FileNotFound;
+            }
+        }
+
+        private static string GetFileNotFoundRedirectUrl(bool usingIntegratedPipeline, HttpRequestBase request, HttpResponseBase response)
+        {
+            if(usingIntegratedPipeline || request.QueryString.Count == 0)
+            {
+                return null;   
+            }
+
+            string queryString = request.QueryString[0];
+            if(string.IsNullOrEmpty(queryString))
+            {
+                return null;
+            }
+
+            string urlText = queryString.RightAfter(";");
+            if(String.IsNullOrEmpty(urlText))
+            {
+                return null;
+            }
+
+            Uri uri = urlText.ParseUri();
+            if(uri == null)
+            {
+                return null;
+            }
+            string extension = Path.GetExtension(uri.AbsolutePath);
+            if(string.IsNullOrEmpty(extension))
+            {
+                string uriAbsolutePath = uri.AbsolutePath;
+                if(!uriAbsolutePath.EndsWith("/"))
+                {
+                    uriAbsolutePath += "/";
+                }
+                return uriAbsolutePath + "default.aspx";
+            }
+            return null;
         }
 
         /// <summary>

@@ -8,6 +8,7 @@ using Subtext.Framework;
 using Subtext.Framework.Util;
 using Subtext.Framework.Web;
 using UnitTests.Subtext.Framework.Util;
+using Subtext.Framework.Properties;
 
 namespace UnitTests.Subtext.Framework.Web
 {
@@ -40,8 +41,7 @@ namespace UnitTests.Subtext.Framework.Web
         [Row("Wed, 12 Apr 2006 06:59:33 GMT", "04-11-2006 23:59:33")]
         public void TestIfModifiedSinceExtraction(string received, string expected)
         {
-            var headers = new NameValueCollection();
-            headers.Add("If-Modified-Since", received);
+            var headers = new NameValueCollection {{"If-Modified-Since", received}};
             var httpRequest = new Mock<HttpRequestBase>();
             httpRequest.Setup(r => r.Headers).Returns(headers);
 
@@ -136,7 +136,7 @@ namespace UnitTests.Subtext.Framework.Web
         public void GetSafeFileName_WithTextContainingInvalidText_RemovesInvalidChars()
         {
             // arrange
-            var text = @"This \|/ : contains bad chars";
+            const string text = @"This \|/ : contains bad chars";
 
             // act
             var fileName = text.GetSafeFileName();
@@ -149,9 +149,9 @@ namespace UnitTests.Subtext.Framework.Web
         public void GetSafeFileName_WithNullText_ThrowsArgumentNullException()
         {
             // arrange
-            string text = null;
+            const string text = null;
 
-            // act
+            // act, assert
             UnitTestHelper.AssertThrowsArgumentNullException(() => text.GetSafeFileName());
         }
 
@@ -161,8 +161,106 @@ namespace UnitTests.Subtext.Framework.Web
             // arrange
             string text = string.Empty;
 
-            // act
+            // act, assert
             UnitTestHelper.AssertThrowsArgumentNullException(() => text.GetSafeFileName());
+        }
+
+        [Test]
+        public void HandleFileNotFound_InIntegratedMode_Returns404StatusCodeWithNoRedirect()
+        {
+            // arrange
+            var httpContext = new Mock<HttpContextBase>();
+            var queryString = new NameValueCollection { { "", "404;http://example.com:80/admin/" } };
+            httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
+            httpContext.SetupSet(c => c.Response.StatusCode, 404);
+            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException("Should not redirect"));
+            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>())).Throws(new InvalidOperationException("Should not redirect"));
+
+            // act
+            httpContext.Object.HandleFileNotFound(true /*integratedMode*/);
+
+            // assert
+            httpContext.VerifySet(c => c.Response.StatusCode, 404);
+            httpContext.VerifySet(c => c.Response.Status, Resources.FileNotFound);
+        }
+
+        [Test]
+        public void HandleFileNotFound_InNonIntegratedModeWithNoQueryString_Returns404StatusCodeWithNoRedirect()
+        {
+            // arrange
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.Setup(c => c.Request.QueryString).Returns(new NameValueCollection());
+            httpContext.SetupSet(c => c.Response.StatusCode, 404);
+            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException("Should not redirect"));
+            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>())).Throws(new InvalidOperationException("Should not redirect"));
+
+            // act
+            httpContext.Object.HandleFileNotFound(false /*integratedMode*/);
+
+            // assert
+            httpContext.VerifySet(c => c.Response.StatusCode, 404);
+            httpContext.VerifySet(c => c.Response.Status, Resources.FileNotFound);
+        }
+
+        [Test]
+        public void HandleFileNotFound_InNonIntegratedModeWithUrlHavingExtension_Returns404StatusCodeWithNoRedirect()
+        {
+            // arrange
+            var httpContext = new Mock<HttpContextBase>();
+            var queryString = new NameValueCollection { { "", "404;http://example.com:80/admin/foo.html" } };
+            httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
+            httpContext.SetupSet(c => c.Response.StatusCode, 404);
+            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException("Should not redirect"));
+            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>())).Throws(new InvalidOperationException("Should not redirect"));
+
+            // act
+            httpContext.Object.HandleFileNotFound(false /*integratedMode*/);
+
+            // assert
+            httpContext.VerifySet(c => c.Response.StatusCode, 404);
+            httpContext.VerifySet(c => c.Response.Status, Resources.FileNotFound);
+        }
+
+
+        [Test]
+        public void HandleFileNotFound_NonIntegratedModeWithRequestForExtensionlessUrl_RedirectsToUrlWithDefaultAspxAppended()
+        {
+            // arrange
+            var httpContext = new Mock<HttpContextBase>();
+            var queryString = new NameValueCollection {{"", "404;http://example.com:80/admin/"}};
+            httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
+            httpContext.Setup(c => c.Request.ApplicationPath).Returns("/");
+            httpContext.SetupSet(c => c.Response.StatusCode, 404).Throws(new InvalidOperationException("404 status should not be set"));
+            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound).Throws(new InvalidOperationException("Should not set file not found"));
+            httpContext.Setup(c => c.Response.Redirect("/admin/default.aspx", true));
+
+            // act
+            httpContext.Object.HandleFileNotFound(false /*integratedMode*/);
+
+            // assert
+            httpContext.Verify(c => c.Response.Redirect("/admin/default.aspx", true));
+        }
+
+        [Test]
+        public void HandleFileNotFound_NonIntegratedModeWithApplicatioPathAndRequestForExtensionlessUrl_RedirectsToUrlWithDefaultAspxAppended()
+        {
+            // arrange
+            var httpContext = new Mock<HttpContextBase>();
+            var queryString = new NameValueCollection { { "", "404;http://example.com:80/Subtext.Web/admin/" } };
+            httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
+            httpContext.Setup(c => c.Request.ApplicationPath).Returns("/Subtext.Web");
+            httpContext.SetupSet(c => c.Response.StatusCode, 404).Throws(new InvalidOperationException("404 status should not be set"));
+            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound).Throws(new InvalidOperationException("Should not set file not found"));
+            httpContext.Setup(c => c.Response.Redirect("/Subtext.Web/admin/default.aspx", true));
+
+            // act
+            httpContext.Object.HandleFileNotFound(false /*integratedMode*/);
+
+            // assert
+            httpContext.Verify(c => c.Response.Redirect("/Subtext.Web/admin/default.aspx", true));
         }
     }
 }
