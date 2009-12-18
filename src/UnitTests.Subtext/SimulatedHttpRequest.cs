@@ -189,7 +189,7 @@ namespace UnitTests.Subtext
 
         public override string GetFilePath()
         {
-            return CurrentExecutionPath;
+            return CurrentExecutionPath ?? base.GetFilePath();
         }
 
         public override string GetPathInfo()
