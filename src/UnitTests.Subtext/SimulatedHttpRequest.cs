@@ -29,13 +29,13 @@ namespace UnitTests.Subtext
     /// </summary>
     public class SimulatedHttpRequest : SimpleWorkerRequest
     {
-        string _host;
-        string _physicalFilePath;
-        int _port;
+        readonly string _host;
+        readonly string _physicalFilePath;
+        readonly int _port;
         Uri _referer;
-        string _verb;
-        private NameValueCollection formVariables = new NameValueCollection();
-        private NameValueCollection headers = new NameValueCollection();
+        readonly string _verb;
+        private readonly NameValueCollection _formVariables = new NameValueCollection();
+        private readonly NameValueCollection _headers = new NameValueCollection();
 
         /// <summary>
         /// Creates a new <see cref="SimulatedHttpRequest"/> instance.
@@ -69,13 +69,17 @@ namespace UnitTests.Subtext
             _physicalFilePath = physicalFilePath;
         }
 
+        public SimulatedHttpRequest(string applicationPath, string physicalAppPath, string page, string query) : this(applicationPath, physicalAppPath, @"c:\inetpub\" + page, page, query, new StringWriter(), "localhost", 80, "GET")
+        {
+        }
+
         /// <summary>
         /// Gets the headers.
         /// </summary>
         /// <value>The headers.</value>
         public NameValueCollection Headers
         {
-            get { return headers; }
+            get { return _headers; }
         }
 
         /// <summary>
@@ -84,7 +88,7 @@ namespace UnitTests.Subtext
         /// <value>The format exception.</value>
         public NameValueCollection Form
         {
-            get { return formVariables; }
+            get { return _formVariables; }
         }
 
         internal void SetReferer(Uri referer)
@@ -124,16 +128,16 @@ namespace UnitTests.Subtext
         /// <returns>An array of header name-value pairs.</returns>
         public override string[][] GetUnknownRequestHeaders()
         {
-            if(headers == null || headers.Count == 0)
+            if(_headers == null || _headers.Count == 0)
             {
                 return null;
             }
-            var headersArray = new string[headers.Count][];
-            for(int i = 0; i < headers.Count; i++)
+            var headersArray = new string[_headers.Count][];
+            for(int i = 0; i < _headers.Count; i++)
             {
                 headersArray[i] = new string[2];
-                headersArray[i][0] = headers.Keys[i];
-                headersArray[i][1] = headers[i];
+                headersArray[i][0] = _headers.Keys[i];
+                headersArray[i][1] = _headers[i];
             }
             return headersArray;
         }
@@ -183,6 +187,22 @@ namespace UnitTests.Subtext
             return _physicalFilePath;
         }
 
+        public override string GetFilePath()
+        {
+            return CurrentExecutionPath;
+        }
+
+        public override string GetPathInfo()
+        {
+            return "/";
+        }
+
+        public string CurrentExecutionPath
+        {
+            get; 
+            set;
+        }
+
         /// <summary>
         /// Reads request data from the client (when not preloaded).
         /// </summary>
@@ -191,9 +211,9 @@ namespace UnitTests.Subtext
         {
             string formText = string.Empty;
 
-            foreach(string key in formVariables.Keys)
+            foreach(string key in _formVariables.Keys)
             {
-                formText += string.Format(CultureInfo.InvariantCulture, "{0}={1}&", key, formVariables[key]);
+                formText += string.Format(CultureInfo.InvariantCulture, "{0}={1}&", key, _formVariables[key]);
             }
 
             return Encoding.UTF8.GetBytes(formText);

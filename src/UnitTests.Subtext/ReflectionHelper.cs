@@ -45,6 +45,20 @@ namespace UnitTests.Subtext
             }
             return default(T);
         }
+        /// <summary>
+        /// Returns the value of the private member specified.
+        /// </summary>
+        /// <param name="propertyName">Name of the member.</param>
+        /// /// <param name="type">Type of the member.</param>
+        public static T GetStaticPropertyValue<T>(string propertyName, Type type)
+        {
+            PropertyInfo property = type.GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Static);
+            if(property != null)
+            {
+                return (T)property.GetValue(type, null);
+            }
+            return default(T);
+        }
 
         /// <summary>
         /// Returns the value of the private member specified.

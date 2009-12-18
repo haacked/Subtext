@@ -43,10 +43,9 @@ namespace Subtext.Framework.Configuration
         private static readonly string[] InvalidSubfolders = {
                                                                   "Tags", "Admin", "bin", "ExternalDependencies",
                                                                   "HostAdmin", "Images", "Install", "Properties",
-                                                                  "Providers",
-                                                                  "Scripts", "Skins", "SystemMessages", "UI", "Modules",
-                                                                  "Services", "Category", "Archive", "Archives",
-                                                                  "Comments",
+                                                                  "Providers", "Pages", "Scripts", "Skins", 
+                                                                  "SystemMessages", "UI", "Modules", "Services", 
+                                                                  "Category", "Archive", "Archives", "Comments",
                                                                   "Articles", "Posts", "Story", "Stories", "Gallery",
                                                                   "aggbug", "Sitemap", "Account"
                                                               };

@@ -232,6 +232,15 @@ namespace Subtext.Framework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File Not Found.
+        /// </summary>
+        public static string FileNotFound {
+            get {
+                return ResourceManager.GetString("FileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to String was not recognized as a valid DateTime..
         /// </summary>
         public static string Format_BadDateTime {

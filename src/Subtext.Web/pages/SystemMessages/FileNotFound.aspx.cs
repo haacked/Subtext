@@ -16,12 +16,9 @@
 #endregion
 
 using System;
-using System.IO;
+using System.Web;
 using System.Web.UI;
-using Subtext.Framework;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
-using Subtext.Framework.Text;
+using Subtext.Framework.Web;
 
 namespace Subtext.Web.SystemMessages
 {
@@ -32,51 +29,8 @@ namespace Subtext.Web.SystemMessages
     {
         protected override void OnLoad(EventArgs e)
         {
-            //TODO: Refactor this into a method and unit test it.
-            //Multiple blog handling.
-
-            //Since we were redirected here, 
-            // we want to make sure we send back a 404 and not a 200   -DF
-            Response.StatusCode = 404;
-            Response.Status = "404 Not Found";
-
-            if(Request.QueryString.Count == 0)
-            {
-                return;
-            }
-
-            string queryString = Request.QueryString[0];
-
-            if(!string.IsNullOrEmpty(queryString))
-            {
-                string urlText = queryString.RightAfter(";");
-                if(!string.IsNullOrEmpty(urlText))
-                {
-                    Uri uri = urlText.ParseUri();
-                    if(uri == null)
-                    {
-                        return;
-                    }
-
-                    string extension = Path.GetExtension(uri.AbsolutePath);
-                    if(string.IsNullOrEmpty(extension))
-                    {
-                        string uriAbsolutePath = uri.AbsolutePath;
-                        if(!uriAbsolutePath.EndsWith("/"))
-                        {
-                            uriAbsolutePath += "/";
-                        }
-                        string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath,
-                                                                                  Request.ApplicationPath);
-                        Blog info = Config.GetBlog(uri.Host, subfolder);
-                        if(info != null)
-                        {
-                            Response.Redirect(uriAbsolutePath + "Default.aspx");
-                            return;
-                        }
-                    }
-                }
-            }
+            var httpContext = new HttpContextWrapper(HttpContext.Current);
+            httpContext.HandleFileNotFound(HttpRuntime.UsingIntegratedPipeline);
 
             base.OnLoad(e);
         }

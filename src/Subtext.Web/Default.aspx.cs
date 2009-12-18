@@ -20,6 +20,7 @@ using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
 using Subtext.Framework;
+using Subtext.Framework.Pipeline;
 using Subtext.Framework.Routing;
 using Subtext.Infrastructure;
 
@@ -29,22 +30,19 @@ namespace Subtext.Web
     {
         public void Page_Load(object sender, EventArgs e)
         {
-            //Workaround for Cassini issue with request to /
-            //In IIS7, Default.aspx can be deleted.
+            // Workaround for Cassini issue with request to /, IIS 6 and IIS 7 Classic mode.
+            // In IIS7 Integrated mode, Default.aspx can be deleted.
+            
             var serviceLocator = Bootstrapper.ServiceLocator;
+            var pipelineService = new PipelineService(new HttpContextWrapper(HttpContext.Current), serviceLocator);
+            
             var route = new RootRoute(HostInfo.Instance.BlogAggregationEnabled, serviceLocator);
-            var httpContext = new HttpContextWrapper(HttpContext.Current);
-            RouteData routeData = route.GetRouteData(httpContext);
-            var requestContext = new RequestContext(httpContext, routeData);
-            string originalPath = Request.Path;
-            HttpContext.Current.RewritePath(Request.ApplicationPath, false);
             IRouteHandler routeHandler =
                 new PageRouteHandler(
                     HostInfo.Instance.BlogAggregationEnabled ? "~/pages/AggDefault.aspx" : "~/pages/Dtp.aspx",
                     serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator);
-            IHttpHandler httpHandler = routeHandler.GetHttpHandler(requestContext);
-            httpHandler.ProcessRequest(HttpContext.Current);
-            HttpContext.Current.RewritePath(originalPath);
+
+            pipelineService.ProcessRootRequest(route, routeHandler);
         }
     }
 }
