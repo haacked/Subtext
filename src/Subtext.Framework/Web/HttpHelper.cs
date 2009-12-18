@@ -404,7 +404,7 @@ namespace Subtext.Framework.Web
             var response = httpContext.Response;
             var request = httpContext.Request;
 
-            string url = GetFileNotFoundRedirectUrl(usingIntegratedPipeline, request, response);
+            string url = request.GetFileNotFoundRedirectUrl(usingIntegratedPipeline);
             if(!String.IsNullOrEmpty(url))
             {
                 response.Redirect(url, true);
@@ -416,9 +416,9 @@ namespace Subtext.Framework.Web
             }
         }
 
-        private static string GetFileNotFoundRedirectUrl(bool usingIntegratedPipeline, HttpRequestBase request, HttpResponseBase response)
+        public static string GetFileNotFoundRedirectUrl(this HttpRequestBase request, bool usingIntegratedPipeline)
         {
-            if(usingIntegratedPipeline || request.QueryString.Count == 0)
+            if(usingIntegratedPipeline || (request.QueryString == null || request.QueryString.Count == 0))
             {
                 return null;   
             }

@@ -72,6 +72,12 @@ namespace Subtext.Framework.Web.HttpModules
 
         public BlogRequest ConvertRequestToBlogRequest(HttpContextBase httpContext)
         {
+            string redirectUrl = httpContext.Request.GetFileNotFoundRedirectUrl(HttpRuntime.UsingIntegratedPipeline);
+            if(!String.IsNullOrEmpty(redirectUrl))
+            {
+                httpContext.Response.Redirect(redirectUrl);
+            }
+
             // REVIEW: Maybe the BlogLookup.Lookup should take in an HttpContextBase 
             // and return the BlogRequest as part of the result.
             var blogRequest = new BlogRequest(httpContext.Request);
