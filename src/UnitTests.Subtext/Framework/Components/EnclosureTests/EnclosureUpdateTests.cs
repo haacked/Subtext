@@ -95,10 +95,9 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void CanNotUpdateNullEnclosure()
         {
-            Enclosures.Update(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Enclosures.Update(null));
         }
     }
 }

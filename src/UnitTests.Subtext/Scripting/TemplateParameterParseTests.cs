@@ -31,26 +31,24 @@ namespace UnitTests.Subtext.Scripting
     public class TemplateParameterParseTests
     {
         [Test]
-        [ExpectedArgumentNullException]
         public void AddWithNullTemplateParameterThrowsArgumentNullException()
         {
             var collection = new TemplateParameterCollection();
-            collection.Add((TemplateParameter)null);
+
+            UnitTestHelper.AssertThrowsArgumentNullException(() => collection.Add((TemplateParameter)null));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void AddWithNullRegexMatchThrowsArgumentNullException()
         {
             var collection = new TemplateParameterCollection();
-            collection.Add((Match)null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => collection.Add((Match)null));
         }
 
         [Test]
         public void CanClearCollection()
         {
-            var collection = new TemplateParameterCollection();
-            collection.Add(new TemplateParameter("name", "string", "0"));
+            var collection = new TemplateParameterCollection {new TemplateParameter("name", "string", "0")};
             Assert.AreEqual(1, collection.Count);
             collection.Clear();
             Assert.AreEqual(0, collection.Count);
@@ -59,8 +57,7 @@ namespace UnitTests.Subtext.Scripting
         [Test]
         public void CopyToEmptyArrayLeavesNotEmptyArray()
         {
-            var collection = new TemplateParameterCollection();
-            collection.Add(new TemplateParameter("test", "string", ""));
+            var collection = new TemplateParameterCollection {new TemplateParameter("test", "string", "")};
 
             var parameters = new TemplateParameter[1];
             collection.CopyTo(parameters, 0);
@@ -97,8 +94,7 @@ namespace UnitTests.Subtext.Scripting
         [Test]
         public void TemplateParameterCollectionDoesNotStoreDuplicateParameters()
         {
-            var collection = new TemplateParameterCollection();
-            collection.Add(new TemplateParameter("MyTest", "int", 0.ToString()));
+            var collection = new TemplateParameterCollection {new TemplateParameter("MyTest", "int", 0.ToString())};
             Assert.AreEqual(1, collection.Count, "Our one parameter is in there.");
 
             collection.Add(new TemplateParameter("MyTest", "nvarchar(32)", "Blah"));

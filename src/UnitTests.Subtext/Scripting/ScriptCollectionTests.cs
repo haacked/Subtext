@@ -7,11 +7,10 @@ namespace UnitTests.Subtext.Scripting
     public class ScriptCollectionTests
     {
         [Test]
-        [ExpectedArgumentNullException]
         public void AddRangeWithNullArgumentThrowsArgumentNullException()
         {
             ScriptCollection scripts = Script.ParseScripts("/* Test */");
-            scripts.AddRange(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => scripts.AddRange(null));
         }
 
         [Test]

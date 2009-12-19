@@ -76,10 +76,9 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
 
         [Test]
-        [ExpectedArgumentNullException]
         public void CanNotInsertNullEnclosure()
         {
-            Enclosures.Create(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Enclosures.Create(null));
         }
     }
 }

@@ -1171,13 +1171,6 @@ namespace UnitTests.Subtext
             {
                 return exception;
             }
-            catch(Exception exc)
-            {
-                Assert.Fail("Exception " + typeof(TException).Name + " not thrown. Instead " + exc.GetType().Name +
-                            " was thrown");
-                return null;
-            }
-            Assert.Fail("Exception " + typeof(TException).Name + " not thrown");
             return null;
         }
 

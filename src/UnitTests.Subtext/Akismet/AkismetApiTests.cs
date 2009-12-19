@@ -12,8 +12,6 @@ namespace UnitTests.Subtext.Akismet
     [TestFixture]
     public class AkismetApiTests
     {
-        #region Exception Tests
-
         [RowTest]
         [Row(null, true, "http://haacked.com/shameless/self/promotion",
             ExpectedException = typeof(ArgumentNullException))]
@@ -34,14 +32,14 @@ namespace UnitTests.Subtext.Akismet
         }
 
         [Test]
-        [ExpectedArgumentNullException]
-        public void CheckCommentThrowsArgumentNullException()
+        public void CheckCommentForSpam_WithNullComment_ThrowsArgumentNullException()
         {
-            var client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), null);
-            client.CheckCommentForSpam(null);
+            // arrange
+            var client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), new HttpClient());
+            
+            // act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => client.CheckCommentForSpam(null));
         }
-
-        #endregion
 
         [Test]
         public void CanSetAndGetCommentProperties()
