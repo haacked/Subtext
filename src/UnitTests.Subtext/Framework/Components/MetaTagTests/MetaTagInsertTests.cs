@@ -106,10 +106,9 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void CanNotInsertNullMetaTag()
         {
-            MetaTags.Create(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => MetaTags.Create(null));
         }
     }
 }

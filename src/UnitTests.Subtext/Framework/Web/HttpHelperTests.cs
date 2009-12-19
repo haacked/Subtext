@@ -262,5 +262,24 @@ namespace UnitTests.Subtext.Framework.Web
             // assert
             httpContext.Verify(c => c.Response.Redirect("/Subtext.Web/admin/default.aspx", true));
         }
+
+        [Test]
+        public void HandleFileNotFound_NonIntegratedModeWithApplicatioPathBlogWithSubfolderHavingDotAndRequestForExtensionlessUrl_RedirectsToUrlWithDefaultAspxAppended()
+        {
+            // arrange
+            var httpContext = new Mock<HttpContextBase>();
+            var queryString = new NameValueCollection { { "", "404;http://example.com:80/Subtext.Web/blog.net/" } };
+            httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
+            httpContext.Setup(c => c.Request.ApplicationPath).Returns("/Subtext.Web");
+            httpContext.SetupSet(c => c.Response.StatusCode, 404).Throws(new InvalidOperationException("404 status should not be set"));
+            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound).Throws(new InvalidOperationException("Should not set file not found"));
+            httpContext.Setup(c => c.Response.Redirect("/Subtext.Web/blog.net/default.aspx", true));
+
+            // act
+            httpContext.Object.HandleFileNotFound(false /*integratedMode*/);
+
+            // assert
+            httpContext.Verify(c => c.Response.Redirect("/Subtext.Web/blog.net/default.aspx", true));
+        }
     }
 }

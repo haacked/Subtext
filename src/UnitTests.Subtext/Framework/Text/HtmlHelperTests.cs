@@ -110,31 +110,27 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void AppendNullClassThrowsArgumentNullException()
         {
-            HtmlHelper.AppendCssClass(new TextBox(), null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => HtmlHelper.AppendCssClass(new TextBox(), null));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void AppendClassToNullControlThrowsArgumentNullException()
         {
-            HtmlHelper.AppendCssClass(null, "blah");
+            UnitTestHelper.AssertThrowsArgumentNullException(() => HtmlHelper.AppendCssClass(null, "blah"));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void RemoveNullClassThrowsArgumentNullException()
         {
-            HtmlHelper.RemoveCssClass(new TextBox(), null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => HtmlHelper.RemoveCssClass(new TextBox(), null));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void RemoveClassFromNullControlThrowsArgumentNullException()
         {
-            HtmlHelper.RemoveCssClass(null, "blah");
+            UnitTestHelper.AssertThrowsArgumentNullException(() => HtmlHelper.RemoveCssClass(null, "blah"));
         }
 
         [Test]

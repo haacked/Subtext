@@ -184,6 +184,10 @@ namespace Subtext.Akismet
         /// <returns></returns>
         public bool CheckCommentForSpam(IComment comment)
         {
+            if(comment == null)
+            {
+                throw new ArgumentNullException("comment");
+            }
             string result = SubmitComment(comment, _checkUrl);
 
             if(String.IsNullOrEmpty(result))

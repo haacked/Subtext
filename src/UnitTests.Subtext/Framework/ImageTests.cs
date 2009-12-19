@@ -187,66 +187,57 @@ namespace UnitTests.Subtext.Framework
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void DeleteImageThrowsArgumentNullException()
         {
-            Images.DeleteImage(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Images.DeleteImage(null));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void InsertImageThrowsArgumentNullException()
         {
-            Images.InsertImage(null, new byte[0]);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Images.InsertImage(null, new byte[0]));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void MakeAlbumImagesThrowsArgumentNullException()
         {
-            Images.MakeAlbumImages(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Images.MakeAlbumImages(null));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void SaveImageThrowsArgumentNullExceptionForNullBuffer()
         {
-            Images.SaveImage(null, "x");
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Images.SaveImage(null, "x"));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void SaveImageThrowsArgumentNullExceptionForNullFileName()
         {
-            Images.SaveImage(new byte[0], null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Images.SaveImage(new byte[0], null));
         }
 
         [Test]
-        [ExpectedArgumentException]
         public void SaveImageThrowsArgumentExceptionForNullFileName()
         {
-            Images.SaveImage(new byte[0], "");
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Images.SaveImage(new byte[0], ""));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void UpdateThrowsArgumentNullExceptionForNullImage()
         {
-            Images.Update(null, new byte[0]);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Images.Update(null, new byte[0]));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void UpdateThrowsArgumentNullExceptionForNullBuffer()
         {
-            Images.Update(new Image(), null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Images.Update(new Image(), null));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void UpdateImageThrowsArgumentNullException()
         {
-            Images.UpdateImage(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Images.UpdateImage(null));
         }
 
         [SetUp]

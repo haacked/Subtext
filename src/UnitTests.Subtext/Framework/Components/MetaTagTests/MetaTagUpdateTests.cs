@@ -129,16 +129,9 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         }
 
         [Test]
-        [ExpectedArgumentNullException]
-        [RollBack2]
         public void CantUpateWithNullMetaTag()
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
-
-            MetaTag tag = UnitTestHelper.BuildMetaTag("Yet again...", null, "description", blog.Id, null, DateTime.Now);
-            MetaTags.Create(tag);
-
-            MetaTags.Update(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => MetaTags.Update(null));
         }
 
         private static void ValidateMetaTags(MetaTag expected, MetaTag result)

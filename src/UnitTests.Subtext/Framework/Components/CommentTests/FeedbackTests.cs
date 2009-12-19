@@ -432,43 +432,50 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         {
         }
 
-        #region ArgumentNullChecks
-
         [Test]
-        [ExpectedArgumentNullException]
         public void UpdateThrowsArgumentNull()
         {
-            FeedbackItem.Update(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Update(null));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void ApproveThrowsArgumentNull()
         {
-            FeedbackItem.Approve(null, null);
+            // arrange
+            var service = new Mock<ICommentSpamService>().Object;
+
+            // act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Approve(null, service));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void ConfirmSpamThrowsArgumentNull()
         {
-            FeedbackItem.ConfirmSpam(null, null);
+            // arrange
+            var service = new Mock<ICommentSpamService>().Object;
+
+            // act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.ConfirmSpam(null, service));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void DeleteNullCommentThrowsArgumentNull()
         {
-            FeedbackItem.Delete(null, null);
+            // arrange
+            var service = new Mock<ICommentSpamService>().Object;
+
+            // act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Delete(null, service));
         }
 
         [Test]
-        [ExpectedArgumentNullException]
         public void DestroyNullCommentThrowsArgumentNull()
         {
-            FeedbackItem.Destroy(null, null);
-        }
+            // arrange
+            var service = new Mock<ICommentSpamService>().Object;
 
-        #endregion
+            // act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Destroy(null, service));
+        }
     }
 }
