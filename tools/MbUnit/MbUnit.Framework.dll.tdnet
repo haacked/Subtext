@@ -1,0 +1,5 @@
+<TestRunner>
+    <FriendlyName>MbUnit {0}.{1}.{2}</FriendlyName>
+    <AssemblyPath>MbUnit.AddIn.dll</AssemblyPath>
+    <TypeName>MbUnit.AddIn.MbUnitTestRunner</TypeName>
+</TestRunner>

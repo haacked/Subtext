@@ -406,4 +406,16 @@
   <data name="FileNotFound" xml:space="preserve">
     <value>File Not Found</value>
   </data>
+  <data name="Enclosure_MimeTypeRequired" xml:space="preserve">
+    <value>Enclosure must have a mime type.</value>
+  </data>
+  <data name="Enclosure_NeedsAnEntry" xml:space="preserve">
+    <value>Enclosure requires to be bound to a Entry.</value>
+  </data>
+  <data name="Enclosure_SizeGreaterThanZero" xml:space="preserve">
+    <value>Enclosure size must be greater than zero.</value>
+  </data>
+  <data name="Enclosure_UrlRequired" xml:space="preserve">
+    <value>Enclosure must have an URL.</value>
+  </data>
 </root>

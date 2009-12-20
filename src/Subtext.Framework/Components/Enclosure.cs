@@ -17,6 +17,7 @@
 
 using System;
 using System.Xml.Serialization;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Components
 {
@@ -66,25 +67,25 @@ namespace Subtext.Framework.Components
             {
                 if(EntryId == 0)
                 {
-                    ValidationMessage = "Enclosure requires to be bound to a Entry.";
+                    ValidationMessage = Resources.Enclosure_NeedsAnEntry;
                     return false;
                 }
 
                 if(string.IsNullOrEmpty(Url))
                 {
-                    ValidationMessage = "Enclosure requires a Url.";
+                    ValidationMessage = Resources.Enclosure_UrlRequired;
                     return false;
                 }
 
                 if(string.IsNullOrEmpty(MimeType))
                 {
-                    ValidationMessage = "Enclosure requires a MimeType.";
+                    ValidationMessage = Resources.Enclosure_MimeTypeRequired;
                     return false;
                 }
 
                 if(Size == 0)
                 {
-                    ValidationMessage = "Enclosure size must be greater than zero.";
+                    ValidationMessage = Resources.Enclosure_SizeGreaterThanZero;
                     return false;
                 }
 

@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="MbUnit.Framework, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
+      <HintPath>..\..\tools\MbUnit\MbUnit.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Moq, Version=3.0.108.5, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

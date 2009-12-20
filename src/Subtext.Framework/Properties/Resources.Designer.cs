@@ -223,6 +223,42 @@ namespace Subtext.Framework.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enclosure must have a mime type..
+        /// </summary>
+        public static string Enclosure_MimeTypeRequired {
+            get {
+                return ResourceManager.GetString("Enclosure_MimeTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enclosure requires to be bound to a Entry..
+        /// </summary>
+        public static string Enclosure_NeedsAnEntry {
+            get {
+                return ResourceManager.GetString("Enclosure_NeedsAnEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enclosure size must be greater than zero..
+        /// </summary>
+        public static string Enclosure_SizeGreaterThanZero {
+            get {
+                return ResourceManager.GetString("Enclosure_SizeGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enclosure must have an URL..
+        /// </summary>
+        public static string Enclosure_UrlRequired {
+            get {
+                return ResourceManager.GetString("Enclosure_UrlRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ExtendedProperties bytes overflow. The ExtendedProperties is limited to 7800 bytes.
         /// </summary>
         public static string ExtendedPropertiesOverflow_Generic {

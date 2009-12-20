@@ -151,13 +151,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework, Version=2.4.2.130, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+    <Reference Include="MbUnit.Framework, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\MbUnit.Framework.dll</HintPath>
+      <HintPath>..\..\tools\MbUnit\MbUnit.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework.2.0, Version=2.4.2.130, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
+    <Reference Include="MbUnit.Framework.2.0, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\MbUnit.Framework.2.0.dll</HintPath>
+      <HintPath>..\..\tools\MbUnit\MbUnit.Framework.2.0.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -179,18 +179,6 @@
     <Reference Include="Moq, Version=2.6.1014.1, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="NGraphviz">
-      <Name>NGraphviz</Name>
-      <HintPath>..\Dependencies\NGraphviz.dll</HintPath>
-    </Reference>
-    <Reference Include="NGraphviz.Helpers">
-      <Name>NGraphviz.Helpers</Name>
-      <HintPath>..\Dependencies\NGraphviz.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="NGraphviz.Layout">
-      <Name>NGraphviz.Layout</Name>
-      <HintPath>..\Dependencies\NGraphviz.Layout.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=2.0.0.152, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
