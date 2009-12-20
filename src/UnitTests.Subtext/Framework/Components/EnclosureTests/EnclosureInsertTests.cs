@@ -26,26 +26,20 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
     [TestFixture]
     public class EnclosureInsertTests
     {
-        private Blog blog;
-
         [RowTest]
         [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true,
-            true, "Did not create enclusure")]
+            true, "Did not create enclosure")]
         [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true, false,
-            "Did not create enclusure")]
+            "Did not create enclosure")]
         [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, false, true,
-            "Did not create enclusure")]
+            "Did not create enclosure")]
         [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 0, true, true,
             "Enclosure Invalid - Requires Size", ExpectedException = typeof(ArgumentException))]
-        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "", 123456789, true, true,
-            "Enclosure Invalid - Requires MimeType", ExpectedException = typeof(ArgumentException))]
-        [Row("My wonderful podcast", "", "audio/mpeg", 123456789, true, true, "Enclosure Invalid - Requires Url",
-            ExpectedException = typeof(ArgumentException))]
         [RollBack2]
         public void CanInsertEnclosure(string title, string url, string mimetype, long size, bool addToFeed,
                                        bool showWithPost, string errMsg)
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            UnitTestHelper.SetupBlog();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
                                                                        "Listen to my great podcast");
             int entryId = UnitTestHelper.Create(e);
@@ -61,24 +55,34 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         }
 
         [Test]
-        [RollBack2]
-        public void EntryWithNoEnclusureHasNullAsEnclosure()
+        public void Create_WithNullEnclosure_ThrowsArgumentNullException()
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Enclosures.Create(null));
+        }
+
+        [Test]
+        public void Create_WithInvalidEntry_ThrowsArgumentException()
+        {
+            // arrange
+            var enclosure = new Enclosure{ EntryId = 0};
+
+            // act, assert
+            Assert.IsFalse(enclosure.IsValid);
+            UnitTestHelper.AssertThrows<ArgumentException>(() => Enclosures.Create(enclosure));
+        }
+
+        [Test]
+        [RollBack2]
+        public void EntryWithNoenclosureHasNullAsEnclosure()
+        {
+            UnitTestHelper.SetupBlog();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
                                                                        "Listen to my great podcast");
             int entryId = UnitTestHelper.Create(e);
 
             Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, true, false);
 
-            Assert.IsNull(newEntry.Enclosure, "Enclusure must be null");
+            Assert.IsNull(newEntry.Enclosure, "enclosure must be null");
         }
-
-
-        [Test]
-        public void CanNotInsertNullEnclosure()
-        {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => Enclosures.Create(null));
-        }
-    }
+   }
 }

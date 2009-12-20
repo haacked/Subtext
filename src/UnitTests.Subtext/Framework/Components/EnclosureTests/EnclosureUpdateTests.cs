@@ -27,8 +27,6 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
     [TestFixture]
     public class EnclosureUpdateTests
     {
-        private Blog blog;
-
         [RowTest]
         [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true,
             false)]
@@ -37,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         public void CanUpdateEnclosure(string title, string url, string mimetype, long size, bool addToFeed,
                                        bool showWithPost)
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            UnitTestHelper.SetupBlog(string.Empty);
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
                                                                        "Listen to my great podcast");
             int entryId = UnitTestHelper.Create(e);
@@ -65,37 +63,20 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             UnitTestHelper.AssertEnclosures(enc, newEntry.Enclosure);
         }
 
-        [RowTest]
-        [Row(null, null, null, "All attributs are null, should not be valid.",
-            ExpectedException = typeof(ArgumentException))]
-        [Row("http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mp3", 0,
-            "Enclosures must have size greater then ZERO.", ExpectedException = typeof(ArgumentException))]
-        [Row("http://codeclimber.net.nz/podcast/mypodcast.mp3", "", 123456, "Enclosures must have a mimetype.",
-            ExpectedException = typeof(ArgumentException))]
-        [Row("", "audio/mp3", 123456, "Enclosures must have a Url.", ExpectedException = typeof(ArgumentException))]
-        [Row(null, "audio/mp3", 123456, "Enclosures must have a Url.", ExpectedException = typeof(ArgumentException))]
-        [RollBack2]
-        public void CantUpdateWithInvalidEnclosure(string url, string mimetype, long size, string errMsg)
+        [Test]
+        public void Update_WithInvalidEnclosure_ThrowsArgumentException()
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            // arrange
+            var enclosure = new Enclosure {EntryId = 0};
 
-            Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
-                                                                       "Listen to my great podcast");
-            int entryId = UnitTestHelper.Create(e);
-
-            Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
-                                                          entryId, 12345678, true, true);
-            Enclosures.Create(enc);
-
-            enc.Url = url;
-            enc.MimeType = mimetype;
-            enc.Size = size;
-
-            Enclosures.Update(enc);
+            // act, assert
+            Assert.IsFalse(enclosure.IsValid);
+            var exception = UnitTestHelper.AssertThrows<ArgumentException>(() => Enclosures.Update(enclosure));
+            Assert.AreEqual(enclosure.ValidationMessage, exception.Message);
         }
 
         [Test]
-        public void CanNotUpdateNullEnclosure()
+        public void Update_WithNullEnclosure_ThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() => Enclosures.Update(null));
         }
