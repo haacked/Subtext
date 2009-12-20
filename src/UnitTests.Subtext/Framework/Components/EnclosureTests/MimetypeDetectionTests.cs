@@ -43,10 +43,15 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         [Row(".pdf", "application/octetstream")]
         [Row(".mp4", "video/mp4")]
         [Row(".avi", null)]
-        [Row(null, null, ExpectedException = typeof(ArgumentNullException))]
         public void MimetypeAreMappedCorrectly(string ext, string expectedType)
         {
             Assert.AreEqual(expectedType, MimeTypesMapper.Mappings.GetMimeType(ext));
+        }
+
+        [Test]
+        public void GetMimeType_WithNullExtension_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrowsArgumentNullException(() => MimeTypesMapper.Mappings.GetMimeType(null));
         }
 
         [RowTest]
@@ -57,11 +62,21 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         [Row("http://wekarod.com/mvcscreencasts/screencast3.mp4", "video/mp4")]
         [Row("http://wekarod.com/mvcscreencasts/screencast3", null)]
         [Row("http://wekarod.com/mvcscreencasts/screencast3.qt", null)]
-        [Row(null, null, ExpectedException = typeof(ArgumentNullException))]
-        [Row("not/a valid\\url", null, ExpectedException = typeof(ArgumentException))]
         public void CanDetectCorrectMimeType(string url, string expectedType)
         {
             Assert.AreEqual(expectedType, MimeTypesMapper.Mappings.ParseUrl(url));
+        }
+
+        [Test]
+        public void ParseUrl_WithNullUrl_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrowsArgumentNullException(() => MimeTypesMapper.Mappings.ParseUrl(null));
+        }
+
+        [Test]
+        public void ParseUrl_WithInvalidUrl_ThrowsArgumentException()
+        {
+            UnitTestHelper.AssertThrows<ArgumentException>(() => MimeTypesMapper.Mappings.ParseUrl("not/a valid\\url"));
         }
     }
 }

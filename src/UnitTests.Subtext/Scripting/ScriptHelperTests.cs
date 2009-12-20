@@ -33,8 +33,7 @@ namespace UnitTests.Subtext.Scripting
         [Test]
         public void CanParseGoWithDashDashCommentAfter()
         {
-            string script =
-                @"SELECT * FROM foo;
+            const string script = @"SELECT * FROM foo;
  GO --  Hello Phil
 CREATE PROCEDURE dbo.Test AS SELECT * FROM foo";
             ScriptCollection scripts = Script.ParseScripts(script);
@@ -44,8 +43,7 @@ CREATE PROCEDURE dbo.Test AS SELECT * FROM foo";
         [Test]
         public void CanParseNestedComments()
         {
-            string script =
-                @"/*
+            const string script = @"/*
 select 1
 /* nested comment */
 go
@@ -56,18 +54,18 @@ delete from users
         }
 
         [Test]
-        [ExpectedException(typeof(SqlParseException))]
         public void SlashStarCommentAfterGoThrowsException()
         {
-            string script = @"PRINT 'blah'
+            const string script = @"PRINT 'blah'
 GO /* blah */";
-            Script.ParseScripts(script);
+
+            UnitTestHelper.AssertThrows<SqlParseException>(() => Script.ParseScripts(script));
         }
 
         [Test]
-        public void CanParseSuccessiveGO()
+        public void CanParseSuccessiveGoStatements()
         {
-            string script = @"GO
+            const string script = @"GO
 GO";
             ScriptCollection scripts = Script.ParseScripts(script);
             Assert.AreEqual(0, scripts.Count, "Expected no scripts since they would be empty.");
@@ -76,7 +74,7 @@ GO";
         [Test]
         public void SemiColonDoesNotSplitScript()
         {
-            string script = "CREATE PROC Blah AS SELECT FOO; SELECT Bar;";
+            const string script = "CREATE PROC Blah AS SELECT FOO; SELECT Bar;";
             ScriptCollection scripts = Script.ParseScripts(script);
             Assert.AreEqual(1, scripts.Count, "Expected no scripts since they would be empty.");
         }
@@ -84,7 +82,7 @@ GO";
         [Test]
         public void CanParseQuotedCorrectly()
         {
-            string script = @"INSERT INTO #Indexes
+            const string script = @"INSERT INTO #Indexes
 	EXEC sp_helpindex 'dbo.subtext_URLs'";
 
             ScriptCollection scripts = Script.ParseScripts(script);
@@ -101,9 +99,9 @@ GO";
         }
 
         [Test]
-        public void CanParseCommentBeforeGO()
+        public void CanParseCommentBeforeGoStatement()
         {
-            string script = @"SELECT FOO
+            const string script = @"SELECT FOO
 /*TEST*/ GO
 BAR";
             ScriptCollection scripts = Script.ParseScripts(script);
@@ -113,8 +111,7 @@ BAR";
         [Test]
         public void CanParseCommentWithQuoteChar()
         {
-            string script =
-                @"/* Add the Url column to the subtext_Log table if it doesn't exist */
+            const string script = @"/* Add the Url column to the subtext_Log table if it doesn't exist */
 	ADD [Url] VARCHAR(255) NULL
 GO
 		AND		COLUMN_NAME = 'BlogGroup') IS NULL";
@@ -125,8 +122,7 @@ GO
         [Test]
         public void CanParseDashDashCommentWithQuoteChar()
         {
-            string script =
-                @"-- Add the Url column to the subtext_Log table if it doesn't exist
+            const string script = @"-- Add the Url column to the subtext_Log table if it doesn't exist
 SELECT * FROM BLAH
 GO
 PRINT 'FOO'";
@@ -137,8 +133,7 @@ PRINT 'FOO'";
         [Test]
         public void CanParseLineEndingInDashDashComment()
         {
-            string script =
-                @"SELECT * FROM BLAH -- Comment
+            const string script = @"SELECT * FROM BLAH -- Comment
 GO
 FOOBAR
 GO";
@@ -166,6 +161,7 @@ GO";
                             + "'";
 
             ScriptCollection scripts = Script.ParseScripts(script);
+            
             Assert.AreEqual(1, scripts.Count);
             UnitTestHelper.AssertStringsEqualCharacterByCharacter(script, scripts[0].ScriptText);
         }
@@ -192,8 +188,7 @@ GO";
         [RollBack]
         public void ParseScriptParsesCorrectly()
         {
-            string script =
-                @"SET QUOTED_IDENTIFIER OFF 
+            const string script = @"SET QUOTED_IDENTIFIER OFF 
 -- Comment
 Go
 		

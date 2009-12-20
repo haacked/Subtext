@@ -517,7 +517,6 @@
     <Compile Include="UnitTestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="XmlHelper.cs" />
     <EmbeddedResource Include="Resources\Web\emoticons.txt" />
     <None Include="App.config" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />

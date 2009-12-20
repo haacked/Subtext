@@ -100,24 +100,21 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestInitializationWithNullName()
         {
-            frtep.Initialize(null, null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => frtep.Initialize(null, new NameValueCollection()));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestInitializationWithNullConfigValue()
         {
-            frtep.Initialize("FCKProvider", null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => frtep.Initialize("FCKProvider", null));
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void TestInitializationWithEmptyWebFolder()
         {
-            frtep.Initialize("FCKProvider", new NameValueCollection());
+            UnitTestHelper.AssertThrows<InvalidOperationException>(() => frtep.Initialize("FCKProvider", new NameValueCollection()));
         }
     }
 }

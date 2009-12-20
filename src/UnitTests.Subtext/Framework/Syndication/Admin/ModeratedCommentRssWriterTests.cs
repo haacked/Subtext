@@ -197,23 +197,22 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             Assert.AreEqual(expected, writer.Xml);
         }
 
-        #region ---- [Exception Cases] ------
-
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void CommentRssWriterRequiresNonNullEntryCollection()
+        public void Ctor_WithNullEntryCollection_ThrowsArgumentNullException()
         {
-            new CommentRssWriter(new StringWriter(), null, new Entry(PostType.BlogPost),
-                                 new Mock<ISubtextContext>().Object);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => 
+                new CommentRssWriter(new StringWriter(), null, new Entry(PostType.BlogPost),
+                                 new Mock<ISubtextContext>().Object)
+                );
+            
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void CommentRssWriterRequiresNonNullEntry()
+        public void Ctor_WithNullEntry_ThrowsArgumentNullException()
         {
-            new CommentRssWriter(new StringWriter(), new List<FeedbackItem>(), null, new Mock<ISubtextContext>().Object);
+            UnitTestHelper.AssertThrowsArgumentNullException(() => 
+                new CommentRssWriter(new StringWriter(), new List<FeedbackItem>(), null, new Mock<ISubtextContext>().Object)
+            );
         }
-
-        #endregion
     }
 }

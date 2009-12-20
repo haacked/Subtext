@@ -1,4 +1,3 @@
-using System;
 using MbUnit.Framework;
 using Subtext.Identicon;
 
@@ -18,11 +17,16 @@ namespace UnitTests.Subtext.Framework.Services.Identicon
         [Row("127.0.0.1", "RandomSalt", 2038335937)]
         [Row("127.0.0.1", "AnotherSalt", -516553779)]
         [Row("210.120.68.16", "AnotherSalt", 1592465917)]
-        [Row(null, null, 0, ExpectedException = typeof(ArgumentNullException))]
         public void CodeReturnsProperHash(string ip, string salt, long expectedCode)
         {
             IdenticonUtil.Salt = salt;
             Assert.AreEqual(expectedCode, IdenticonUtil.Code(ip));
+        }
+
+        [Test]
+        public void Code_WithNullIp_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrowsArgumentNullException(() => IdenticonUtil.Code(null));
         }
     }
 }

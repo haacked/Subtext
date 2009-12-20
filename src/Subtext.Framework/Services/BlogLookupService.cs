@@ -112,6 +112,12 @@ namespace Subtext.Framework.Services
             return null;
         }
 
+        //private bool CurrentRequestIsForBlogAlias(BlogRequest blogRequest)
+        //{
+        //    !String.Equals(blogRequest.Host, blog.Host, StringComparison.OrdinalIgnoreCase)
+        //           || !String.Equals(blogRequest.Subfolder, blog.Subfolder, StringComparison.OrdinalIgnoreCase)
+        //}
+
         private static bool OnlyBlogIsLocalHostNotCurrentHost(string host, Blog onlyBlog)
         {
             return (
