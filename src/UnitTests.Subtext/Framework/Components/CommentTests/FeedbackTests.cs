@@ -227,17 +227,13 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void DestroyCommentCannotDestroyActiveComment()
         {
-            Entry entry = SetupBlogForCommentsAndCreateEntry();
-
-            FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
-                                                                          FeedbackStatusFlag.Approved);
-            Assert.IsTrue(comment.Approved, "should be approved");
-
-            FeedbackItem.Destroy(comment, null);
+            // arrange
+            var comment = new FeedbackItem(FeedbackType.Comment) {Approved = true};
+            
+            // act, assert
+            UnitTestHelper.AssertThrows<InvalidOperationException>(() => FeedbackItem.Destroy(comment, null));
         }
 
         [Test]

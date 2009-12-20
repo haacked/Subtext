@@ -26,12 +26,12 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void UrlElement_CtorSetsPriority_ToLessThanZero()
         {
             // using property
             var url = new UrlElement();
-            url.Priority = -0.5M;
+
+            UnitTestHelper.AssertThrows<ArgumentOutOfRangeException>(() => url.Priority = -0.5M);
         }
     }
 }

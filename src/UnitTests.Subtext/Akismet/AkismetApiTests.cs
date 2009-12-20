@@ -12,23 +12,25 @@ namespace UnitTests.Subtext.Akismet
     [TestFixture]
     public class AkismetApiTests
     {
-        [RowTest]
-        [Row(null, true, "http://haacked.com/shameless/self/promotion",
-            ExpectedException = typeof(ArgumentNullException))]
-        [Row("fake-key", true, null, ExpectedException = typeof(ArgumentNullException))]
-        [Row("fake-key", false, "http://haacked.com/shameless/really/",
-            ExpectedException = typeof(ArgumentNullException))]
-        public void AkismetClientConstructorThrowsAppropriateExceptions(string apikey, bool createHttpClient,
-                                                                        string blogUrl)
+        [Test]
+        public void Ctor_WithNullApiKey_ThrowsArgumentNullException()
         {
-            HttpClient httpClient = createHttpClient ? new HttpClient() : null;
-            Uri blogUri = null;
-            if(!String.IsNullOrEmpty(blogUrl))
-            {
-                blogUri = new Uri(blogUrl);
-            }
+            // act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => new AkismetClient(null, new Uri("http://example.com/"), new HttpClient()));
+        }
 
-            new AkismetClient(apikey, blogUri, httpClient);
+        [Test]
+        public void Ctor_WithNullBlogUrl_ThrowsArgumentNullException()
+        {
+            // act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => new AkismetClient("api-key", null, new HttpClient()));
+        }
+
+        [Test]
+        public void Ctor_WithNullHttpClient_ThrowsArgumentNullException()
+        {
+            // act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => new AkismetClient("api-key", new Uri("http://example.com/"), null));
         }
 
         [Test]
@@ -263,9 +265,9 @@ namespace UnitTests.Subtext.Akismet
         /// on the URL. The apikey must be the first part of the url.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(InvalidResponseException))]
         public void ThrowsInvalidResponseWhenApiKeyInvalid()
         {
+            // arrange
             string userAgent = GetExpectedUserAgent();
             var checkUrl = new Uri("http://myapikey.rest.akismet.com/1.1/comment-check");
             string parameters = "blog=" + HttpUtility.UrlEncode("http://haacked.com/")
@@ -290,11 +292,10 @@ namespace UnitTests.Subtext.Akismet
                                 , null);
 
             httpClient.Setup(hc => hc.PostRequest(checkUrl, userAgent, 5000, parameters)).Returns("invalid");
-
-
             var client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient.Object);
-            Assert.IsTrue(client.CheckCommentForSpam(comment.Object),
-                          "If the request returns 'false' then we should return false!");
+            
+            // act, assert
+            UnitTestHelper.AssertThrows<InvalidResponseException>(() => client.CheckCommentForSpam(comment.Object));
         }
 
         private static void SetupCallsAnComment(Mock<IComment> comment, string author, string email, IPAddress ip,

@@ -99,24 +99,26 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestInitializationWithNullName()
         {
-            frtep.Initialize(null, null);
+            UnitTestHelper.AssertThrowsArgumentNullException(
+                () => frtep.Initialize(null, new NameValueCollection()));
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestInitializationWithNullConfigValue()
         {
-            frtep.Initialize("FTBProvider", null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
+                frtep.Initialize("FTBProvider", null)
+            );
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void TestInitializationWithEmptyWebFolder()
         {
-            frtep.Initialize("FTBProvider", new NameValueCollection());
+            UnitTestHelper.AssertThrows<InvalidOperationException>(() => 
+                frtep.Initialize("FTBProvider", new NameValueCollection())
+            );
         }
 
         [Test]
@@ -140,11 +142,13 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 
         private NameValueCollection GetNameValueCollection()
         {
-            var ret = new NameValueCollection(3);
-            ret.Add("WebFormFolder", "~/Providers/RichTextEditor/FTB/");
-            ret.Add("toolbarlayout", _testToolbarLayout);
-            ret.Add("FormatHtmlTagsToXhtml", "true");
-            ret.Add("RemoveServerNamefromUrls", "false");
+            var ret = new NameValueCollection(3)
+            {
+                {"WebFormFolder", "~/Providers/RichTextEditor/FTB/"},
+                {"toolbarlayout", _testToolbarLayout},
+                {"FormatHtmlTagsToXhtml", "true"},
+                {"RemoveServerNamefromUrls", "false"}
+            };
             return ret;
         }
     }

@@ -35,7 +35,6 @@ namespace UnitTests.Subtext.Framework.Text
     public class HtmlHelperTests
     {
         [RowTest]
-        [Row(null, 10, null, ExpectedException = typeof(ArgumentNullException))]
         [Row("", 10, "")]
         [Row("http://example.com/", 50, "http://example.com/")]
         [Row("http://example.com/testxtest.aspx", 25, "example.com")]
@@ -49,9 +48,15 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
         [Test]
+        public void ShortenUrl_WithNullUrl_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrowsArgumentNullException(() => ((string)null).ShortenUrl(10) );
+        }
+
+        [Test]
         public void ShortenUrl_WithTwoSegmentsEndingWithFileName_OnlyCompressesMiddleSegment()
         {
-            string url = "http://example.com/test/test.aspx";
+            const string url = "http://example.com/test/test.aspx";
 
             string shorty = url.ShortenUrl(25);
 
@@ -61,7 +66,7 @@ namespace UnitTests.Subtext.Framework.Text
         [Test]
         public void ShortenUrl_WithTwoSegmentsAndTrailingSlash_OnlyCompressesMiddleSegment()
         {
-            string url = "http://example.com/test/testagain/";
+            const string url = "http://example.com/test/testagain/";
 
             string shorty = url.ShortenUrl(26);
 
@@ -72,7 +77,7 @@ namespace UnitTests.Subtext.Framework.Text
         public void ShortenUrl_WithMaxLessThanFive_ThrowsArgumentOutOfRangeException()
         {
             // arrange
-            string url = "http://subtextproject.com/";
+            const string url = "http://subtextproject.com/";
 
             // act, assert
             UnitTestHelper.AssertThrows<ArgumentOutOfRangeException>(() => url.ShortenUrl(4));
@@ -82,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Text
         public void ShortenUrl_WithQueryParamsMakingUrlTooLong_RemovesQueryParams()
         {
             // arrange
-            string url = "http://do.com/?foo=bar";
+            const string url = "http://do.com/?foo=bar";
 
             // act
             string shorty = url.ShortenUrl(6);
@@ -180,7 +185,6 @@ namespace UnitTests.Subtext.Framework.Text
         /// </summary>
         [RowTest]
         [Row("", "")]
-        [Row(null, null, ExpectedException = typeof(ArgumentNullException))]
         [Row("http://haacked.com/one/two/three/four/five/six/seven/eight/nine/ten.aspx",
             "<a rel=\"nofollow external\" href=\"http://haacked.com/one/two/three/four/five/six/seven/eight/nine/ten.aspx\" title=\"http://haacked.com/one/two/three/four/five/six/seven/eight/nine/ten.aspx\">haacked.com/.../ten.aspx</a>"
             )]
@@ -217,6 +221,12 @@ namespace UnitTests.Subtext.Framework.Text
         public void ConvertUrlsToHyperLinksConvertsUrlsToAnchorTags(string html, string expected)
         {
             Assert.AreEqual(expected, HtmlHelper.ConvertUrlsToHyperLinks(html));
+        }
+
+        [Test]
+        public void ConvertUrlsToHyperLinks_WithNullHtml_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrowsArgumentNullException(() => HtmlHelper.ConvertUrlsToHyperLinks(null));
         }
 
         [Test]

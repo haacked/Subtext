@@ -4,7 +4,6 @@ using MbUnit.Framework;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using System.Diagnostics;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -14,37 +13,35 @@ namespace UnitTests.Subtext.Framework
     [TestFixture]
     public class BlogTests
     {
-        [Test]
-        public void PerfTest()
-        {
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-
-            for(int i = 0; i < 1000; i++ )
-                Assert.AreEqual("example.com", Blog.StripWwwPrefixFromHost("www.example.com"));
-
-            watch.Stop();
-            Console.WriteLine(watch.ElapsedTicks/1000.00);
-        }
-
         [RowTest]
         [Row("example.com", "example.com", "Should not have altered the host because it doesn't start with www.")]
         [Row("example.com:1234", "example.com:1234", "should not strip the port number")]
         [Row("www.example.com:1234", "example.com:1234", "should not strip the port number, but should strip www.")]
-        [Row(null, null, "Expect an exception", ExpectedException = typeof(ArgumentException))]
+        [Row("www.example.com", "example.com", "Should strip www.")]
         public void StripWwwPrefixFromHostFunctionsProperly(string host, string expected, string message)
         {
             Assert.AreEqual(expected, Blog.StripWwwPrefixFromHost(host), message);
+        }
+
+        [Test]
+        public void StripWwwPrefixFromHost_WithNullHost_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Blog.StripWwwPrefixFromHost(null));
         }
 
         [RowTest]
         [Row("example.com", "example.com", "Should not have altered the host because it doesn't have the port.")]
         [Row("example.com:1234", "example.com", "should strip the port number")]
         [Row("www.example.com:12345678910", "www.example.com", "should strip the port number.")]
-        [Row(null, null, "Expect an exception", ExpectedException = typeof(ArgumentException))]
         public void StripPortFromHostFunctionsProperly(string host, string expected, string message)
         {
             Assert.AreEqual(expected, Blog.StripPortFromHost(host), message);
+        }
+
+        [Test]
+        public void StripPortFromHost_WithNullHost_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrowsArgumentNullException(() => Blog.StripPortFromHost(null));
         }
 
         /// <summary>
@@ -229,10 +226,9 @@ namespace UnitTests.Subtext.Framework
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void FeedBurnerNameThrowsInvalidOperationException()
+        public void RssProxyUrl_WithInvalidCharacters_ThrowsInvalidOperationException()
         {
-            new Blog().RssProxyUrl = "\\";
+            UnitTestHelper.AssertThrows<InvalidOperationException>(() => new Blog().RssProxyUrl = "\\");
         }
 
         [Test]

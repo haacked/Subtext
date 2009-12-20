@@ -33,7 +33,7 @@ namespace Subtext.Framework.Services
         public Blog Blog { get; private set; }
 
         /// <summary>
-        /// A blog was found using an alternate host. Try this one instead.
+        /// No blog was found, redirect to this alternate URL instead.
         /// </summary>
         public Uri AlternateUrl { get; private set; }
     }

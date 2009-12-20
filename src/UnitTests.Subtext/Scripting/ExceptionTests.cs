@@ -1,4 +1,3 @@
-using System;
 using System.Data.SqlClient;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
@@ -11,47 +10,40 @@ namespace UnitTests.Subtext.Scripting
     /// Some tests of various exception conditions.
     /// </summary>
     [TestFixture]
-    class ExceptionTests
+    public class ExceptionTests
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ExecuteThrowsArgumentExceptionForNullTransaction()
         {
             var script = new Script("");
-            script.Execute(null);
+            
+            UnitTestHelper.AssertThrowsArgumentNullException(() => script.Execute(null));
         }
 
         [Test]
-        [ExpectedException(typeof(SqlScriptExecutionException))]
         public void ExecuteThrowsScriptExceptionForBadSql()
         {
             var script = new Script("SELECT * FROM BLAHBLAH");
             using(var connection = new SqlConnection(Config.ConnectionString))
             {
                 connection.Open();
-                script.Execute(connection.BeginTransaction());
+                UnitTestHelper.AssertThrows<SqlScriptExecutionException>(() => script.Execute(connection.BeginTransaction()));
             }
         }
 
         [Test]
-        [ExpectedException(typeof(SqlScriptExecutionException))]
         public void ExecuteThrowsProperScriptExceptionForBadSql()
         {
             var script = new Script("SELECT * FROM BLAHBLAH");
             using(var connection = new SqlConnection(Config.ConnectionString))
             {
                 connection.Open();
-                try
-                {
-                    script.Execute(connection.BeginTransaction());
-                }
-                catch(SqlScriptExecutionException e)
-                {
-                    Assert.IsTrue(e.Message.Length > 0);
-                    Assert.AreEqual(0, e.ReturnValue);
-                    Assert.AreEqual("SELECT * FROM BLAHBLAH", e.Script.ScriptText);
-                    throw;
-                }
+
+                var e = UnitTestHelper.AssertThrows<SqlScriptExecutionException>(() => script.Execute(connection.BeginTransaction()));
+                
+                Assert.IsTrue(e.Message.Length > 0);
+                Assert.AreEqual(0, e.ReturnValue);
+                Assert.AreEqual("SELECT * FROM BLAHBLAH", e.Script.ScriptText);
             }
         }
     }

@@ -43,7 +43,6 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
         [RowTest]
-        [Row(null, char.MinValue, null, ExpectedException = typeof(ArgumentNullException))]
         [Row("Blah..Blah", '.', "Blah.Blah")]
         [Row("Blah...Blah", '.', "Blah.Blah")]
         [Row("Blah....Blah", '.', "Blah.Blah")]
@@ -53,6 +52,15 @@ namespace UnitTests.Subtext.Framework.Text
         {
             Assert.AreEqual(expected, text.RemoveDoubleCharacter(character));
         }
+
+        [Test]
+        public void RemoveDoubleCharacter_WithNullCharacter_ThrowsArgumentNullException()
+        {
+            UnitTestHelper.AssertThrowsArgumentNullException(
+                () => "6 bdy.RemoveDoubleCharacter(e)".RemoveDoubleCharacter(Char.MinValue)
+            );
+        }
+
 
         /// <summary>
         /// Tests that we can properly pascal case text.
@@ -74,10 +82,11 @@ namespace UnitTests.Subtext.Framework.Text
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void PascalCaseThrowsArgumentNullException()
         {
-            StringHelper.ToPascalCase(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
+                StringHelper.ToPascalCase(null)
+            );
         }
 
         [RowTest]

@@ -13,10 +13,10 @@ namespace UnitTests.Subtext.Framework.Text
     public class ConvertToAllowedHtmlTests
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void ThrowsArgumentNullExceptionWhenNullTextIsPassed()
+        public void Ctor_WithNullText_ThrowsArgumentNullException()
         {
-            HtmlHelper.ConvertToAllowedHtml(null);
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
+                                                             HtmlHelper.ConvertToAllowedHtml(null));
         }
 
         [RowTest]
