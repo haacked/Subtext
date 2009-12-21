@@ -33,8 +33,6 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             "Did not create enclosure")]
         [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, false, true,
             "Did not create enclosure")]
-        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 0, true, true,
-            "Enclosure Invalid - Requires Size", ExpectedException = typeof(ArgumentException))]
         [RollBack2]
         public void CanInsertEnclosure(string title, string url, string mimetype, long size, bool addToFeed,
                                        bool showWithPost, string errMsg)

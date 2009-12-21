@@ -16,26 +16,18 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var httpContext = new Mock<HttpContextBase>();
-            var routeData = new RouteData();
-            routeData.Route = new Route("url",
-                                        new DirectoryRouteHandler(new Mock<ISubtextPageBuilder>().Object,
-                                                                  new Mock<IServiceLocator>().Object));
+            var routeData = new RouteData
+                                {
+                                    Route = new Route("url",
+                                                      new DirectoryRouteHandler(new Mock<ISubtextPageBuilder>().Object,
+                                                                                new Mock<IServiceLocator>().Object))
+                                };
             var requestContext = new RequestContext(httpContext.Object, routeData);
             IRouteHandler routeHandler = new DirectoryRouteHandler(new Mock<ISubtextPageBuilder>().Object,
                                                                    new Mock<IServiceLocator>().Object);
 
-            //act
-            try
-            {
-                routeHandler.GetHttpHandler(requestContext);
-            }
-            catch(InvalidOperationException)
-            {
-                return;
-            }
-
-            //assert
-            Assert.Fail();
+            //act, assert
+            UnitTestHelper.AssertThrows<InvalidOperationException>(() => routeHandler.GetHttpHandler(requestContext));
         }
 
         [Test]
@@ -43,8 +35,10 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             string virtualPath = string.Empty;
-            var routeData = new RouteData();
-            routeData.Route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object);
+            var routeData = new RouteData
+                                {
+                                    Route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object)
+                                };
             ;
             routeData.Values.Add("pathinfo", "foo.aspx");
             var pageBuilder = new Mock<ISubtextPageBuilder>();
@@ -74,8 +68,10 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             string virtualPath = string.Empty;
-            var routeData = new RouteData();
-            routeData.Route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object);
+            var routeData = new RouteData
+                                {
+                                    Route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object)
+                                };
             ;
             routeData.Values.Add("pathinfo", "foo.ashx");
             var pageBuilder = new Mock<ISubtextPageBuilder>();
@@ -102,7 +98,6 @@ namespace UnitTests.Subtext.Framework.Routing
             string virtualPath = string.Empty;
             var routeData = new RouteData();
             routeData.Route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object);
-            ;
             routeData.Values.Add("pathinfo", "posts");
             var pageBuilder = new Mock<ISubtextPageBuilder>();
             var httpHandler = new Mock<IHttpHandler>();
@@ -114,7 +109,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var requestContext = new RequestContext(httpContext.Object, routeData);
 
             //act
-            IHttpHandler handler = routeHandler.GetHttpHandler(requestContext);
+            routeHandler.GetHttpHandler(requestContext);
 
             //assert
             Assert.AreEqual("~/pages/admin/posts/Default.aspx", virtualPath);
@@ -125,8 +120,10 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             string virtualPath = string.Empty;
-            var routeData = new RouteData();
-            routeData.Route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object);
+            var routeData = new RouteData
+                                {
+                                    Route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object)
+                                };
             ;
             routeData.Values.Add("pathinfo", "posts");
             var pageBuilder = new Mock<ISubtextPageBuilder>();
@@ -139,7 +136,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var requestContext = new RequestContext(httpContext.Object, routeData);
 
             //act
-            IHttpHandler handler = routeHandler.GetHttpHandler(requestContext);
+            routeHandler.GetHttpHandler(requestContext);
 
             //assert
             Assert.AreEqual("~/pages/admin/posts/Default.aspx", virtualPath);
@@ -150,9 +147,10 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             string virtualPath = string.Empty;
-            var routeData = new RouteData();
-            routeData.Route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object);
-            ;
+            var routeData = new RouteData
+                                {
+                                    Route = new DirectoryRoute("admin", new Mock<IServiceLocator>().Object)
+                                };
             routeData.Values.Add("subfolder", "blogsubfolder");
             routeData.Values.Add("pathinfo", "foo.aspx");
             var pageBuilder = new Mock<ISubtextPageBuilder>();

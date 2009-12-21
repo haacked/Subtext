@@ -88,6 +88,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual(RequestLocation.HostAdmin, blogRequest.RequestLocation);
         }
 
+        [Test]
         public void Ctor_WithRequestForInstallDirectoryRoot_SetsRequestLocationToInstallDirectory()
         {
             //arrange

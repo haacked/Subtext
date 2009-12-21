@@ -489,24 +489,17 @@ namespace UnitTests.Subtext.Framework.Syndication
             };
         }
 
-        Entry CreateEntry(int id, string title, string body, DateTime dateCreated)
+        static Entry CreateEntry(int id, string title, string body, DateTime dateCreated)
         {
-            return CreateEntry(id, title, body, null, dateCreated);
-        }
-
-        Entry CreateEntry(int id, string title, string body, string entryName, DateTime dateCreated)
-        {
-            var entry = new Entry(PostType.BlogPost);
-            if(entryName != null)
-            {
-                entry.EntryName = entryName;
-            }
-            entry.DateCreated = dateCreated;
+            var entry = new Entry(PostType.BlogPost)
+                            {
+                                DateCreated = dateCreated,
+                                Title = title,
+                                Author = "Phil Haack",
+                                Body = body,
+                                Id = id
+                            };
             entry.DateModified = entry.DateCreated;
-            entry.Title = title;
-            entry.Author = "Phil Haack";
-            entry.Body = body;
-            entry.Id = id;
             entry.DateSyndicated = entry.DateCreated.AddMonths(1);
 
             return entry;

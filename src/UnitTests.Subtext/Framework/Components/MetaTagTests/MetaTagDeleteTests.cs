@@ -23,15 +23,13 @@ using Subtext.Framework.Components;
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
     [TestFixture]
-    class MetaTagDeleteTests
+    public class MetaTagDeleteTests
     {
-        private Blog blog;
-
         [Test]
         [RollBack2]
         public void CanDeleteBlogMetaTag()
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            var blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             MetaTag tag =
                 UnitTestHelper.BuildMetaTag("Steve Harman likes to delete stuff!", "description", null, blog.Id, null,
@@ -51,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void CanDeleteEntryMetaTag()
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            var blog = UnitTestHelper.CreateBlogAndSetupContext();
             Entry entry =
                 UnitTestHelper.CreateEntryInstanceForSyndication("Steven Harman", "Sweet arse entry!",
                                                                  "Giddy, giddy, goo!");
