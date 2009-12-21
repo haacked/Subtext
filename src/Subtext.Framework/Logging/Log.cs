@@ -22,6 +22,7 @@ using System.Runtime.CompilerServices;
 using System.Web;
 using log4net;
 using log4net.Core;
+using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.Logging
 {
@@ -241,7 +242,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void ErrorFormat(IFormatProvider provider, string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.ErrorFormat(provider, format, args);
         }
 
@@ -264,7 +265,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void ErrorFormat(string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.ErrorFormat(CultureInfo.InvariantCulture, format, args);
         }
 
@@ -284,7 +285,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Info(object message, Exception exception)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Info(message, exception);
         }
 
@@ -309,7 +310,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Info(object message)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Info(message);
         }
 
@@ -332,7 +333,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Debug(object message, Exception exception)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Debug(message, exception);
         }
 
@@ -360,7 +361,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Debug(object message)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Debug(message);
         }
 
@@ -380,7 +381,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Warn(object message, Exception exception)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Warn(message, exception);
         }
 
@@ -405,7 +406,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Warn(object message)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Warn(message);
         }
 
@@ -429,7 +430,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void WarnFormat(IFormatProvider provider, string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.WarnFormat(provider, format, args);
         }
 
@@ -452,7 +453,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void WarnFormat(string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.WarnFormat(CultureInfo.InvariantCulture, format, args);
         }
 
@@ -472,7 +473,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Fatal(object message, Exception exception)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Fatal(message, exception);
         }
 
@@ -497,7 +498,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Fatal(object message)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Fatal(message);
         }
 
@@ -517,7 +518,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Error(object message, Exception exception)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Error(message, exception);
         }
 
@@ -542,7 +543,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void Error(object message)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.Error(message);
         }
 
@@ -566,7 +567,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void InfoFormat(IFormatProvider provider, string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.InfoFormat(provider, format, args);
         }
 
@@ -588,7 +589,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void InfoFormat(string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.InfoFormat(CultureInfo.InvariantCulture, format, args);
         }
 
@@ -612,7 +613,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void FatalFormat(IFormatProvider provider, string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.FatalFormat(provider, format, args);
         }
 
@@ -634,7 +635,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void FatalFormat(string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.FatalFormat(CultureInfo.InvariantCulture, format, args);
         }
 
@@ -661,7 +662,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void DebugFormat(IFormatProvider provider, string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.DebugFormat(provider, format, args);
         }
 
@@ -684,7 +685,7 @@ namespace Subtext.Framework.Logging
         /// </remarks>
         public void DebugFormat(string format, params object[] args)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.DebugFormat(CultureInfo.InvariantCulture, format, args);
         }
 
@@ -695,91 +696,91 @@ namespace Subtext.Framework.Logging
 
         public void DebugFormat(string format, object arg0, object arg1, object arg2)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.DebugFormat(format, arg0, arg1, arg2);
         }
 
         public void DebugFormat(string format, object arg0, object arg1)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.DebugFormat(format, arg0, arg1);
         }
 
         public void DebugFormat(string format, object arg0)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.DebugFormat(format, arg0);
         }
 
         public void ErrorFormat(string format, object arg0, object arg1, object arg2)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.ErrorFormat(format, arg0, arg1, arg2);
         }
 
         public void ErrorFormat(string format, object arg0, object arg1)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.ErrorFormat(format, arg0, arg1);
         }
 
         public void ErrorFormat(string format, object arg0)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.ErrorFormat(format, arg0);
         }
 
         public void FatalFormat(string format, object arg0, object arg1, object arg2)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.FatalFormat(format, arg0, arg1, arg2);
         }
 
         public void FatalFormat(string format, object arg0, object arg1)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.FatalFormat(format, arg0, arg1);
         }
 
         public void FatalFormat(string format, object arg0)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.FatalFormat(format, arg0);
         }
 
         public void InfoFormat(string format, object arg0, object arg1, object arg2)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.InfoFormat(format, arg0, arg1, arg2);
         }
 
         public void InfoFormat(string format, object arg0, object arg1)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.InfoFormat(format, arg0, arg1);
         }
 
         public void InfoFormat(string format, object arg0)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.InfoFormat(format, arg0);
         }
 
         public void WarnFormat(string format, object arg0, object arg1, object arg2)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.WarnFormat(format, arg0, arg1, arg2);
         }
 
         public void WarnFormat(string format, object arg0, object arg1)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.WarnFormat(format, arg0, arg1);
         }
 
         public void WarnFormat(string format, object arg0)
         {
-            SetUrlContext();
+            SetBlogRequestContext();
             _log.WarnFormat(format, arg0);
         }
 
@@ -982,7 +983,7 @@ namespace Subtext.Framework.Logging
         /// Sets the blog id context in the Log4net ThreadContext.
         /// </summary>
         /// <param name="blogId">Blog id.</param>
-        public static void SetBlogIdContext(int blogId)
+        static void SetBlogIdContext(int blogId)
         {
             if(blogId == NullValue.NullInt32 && ThreadContext.Properties["BlogId"] != null)
             {
@@ -992,7 +993,7 @@ namespace Subtext.Framework.Logging
             ThreadContext.Properties["BlogId"] = blogId;
         }
 
-        static void SetUrlContext()
+        static void SetBlogRequestContext()
         {
             if(HttpContext.Current != null)
             {
@@ -1000,6 +1001,15 @@ namespace Subtext.Framework.Logging
                 if(url != null && ThreadContext.Properties != null)
                 {
                     ThreadContext.Properties["Url"] = url.ToString();
+                }
+
+                if(HttpContext.Current.Items != null && BlogRequest.Current != null)
+                {
+                    var blog = BlogRequest.Current.Blog;
+                    if(blog != null)
+                    {
+                        SetBlogIdContext(blog.Id);
+                    }
                 }
             }
         }

@@ -500,6 +500,7 @@
     <Compile Include="SubtextWeb\SubtextApplicationTests.cs" />
     <Compile Include="SubtextWeb\UI\Pages\SubtextMasterPageTests.cs" />
     <Compile Include="SubtextWeb\UI\ViewModels\EntryViewModelTests.cs" />
+    <Compile Include="IntegrityTests.cs" />
     <Compile Include="TestCache.cs" />
     <Compile Include="UnitTestEmailProvider.cs" />
     <Compile Include="UnitTestHelper.cs">
