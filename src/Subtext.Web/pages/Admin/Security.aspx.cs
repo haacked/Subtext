@@ -33,7 +33,11 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void BindLocalUI()
         {
-            tbOpenIDURL.Text = Blog.OpenIdUrl;
+            if(!String.IsNullOrEmpty(Blog.OpenIdUrl))
+            {
+                tbOpenIDURL.Text = Blog.OpenIdUrl;
+            }
+            
             tbOpenIDServer.Text = Blog.OpenIdServer;
             tbOpenIDDelegate.Text = Blog.OpenIdDelegate;
 
@@ -42,9 +46,8 @@ namespace Subtext.Web.Admin.Pages
 
         protected void btnSaveOptions_Click(object sender, EventArgs e)
         {
-            Blog.OpenIdUrl = tbOpenIDURL.Text;
-            Blog.OpenIdServer = tbOpenIDServer.Text;
-            Blog.OpenIdDelegate = tbOpenIDDelegate.Text;
+            string openIdUrl = tbOpenIDURL.Text == "http://" ? string.Empty : tbOpenIDURL.Text;
+            Blog.OpenIdUrl = openIdUrl;
                 
             Repository.UpdateConfigData(Blog);
         }
@@ -76,6 +79,14 @@ namespace Subtext.Web.Admin.Pages
             {
                 Messages.ShowError(failureMessage);
             }
+        }
+
+        protected void OnSavePassthroughClick(object sender, EventArgs e)
+        {
+            Blog.OpenIdServer = tbOpenIDServer.Text;
+            Blog.OpenIdDelegate = tbOpenIDDelegate.Text;
+
+            Repository.UpdateConfigData(Blog);
         }
     }
 }

@@ -245,6 +245,19 @@ namespace UnitTests.Subtext.Framework
         }
 
         [Test]
+        public void OpenIdUrl_WhenSetToValueWithHttp_SetsUrl()
+        {
+            // arrange
+            var blog = new Blog();
+
+            // act
+            blog.OpenIdUrl = "http://openid.example.com";
+
+            // assert
+            Assert.AreEqual("http://openid.example.com", blog.OpenIdUrl);
+        }
+
+        [Test]
         public void OpenIdUrl_WhenSetToNull_IsNull()
         {
             // arrange

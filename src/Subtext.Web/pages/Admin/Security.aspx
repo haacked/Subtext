@@ -33,13 +33,13 @@
 			</div>
 		</fieldset>
 		<fieldset>
-		    <legend>Security Options</legend>
+		    <legend>OpenID Credentials</legend>
 				<p class="explanation">
 				    This is the OpenID Url used to login to Subtext. It would be the one issued by your OpenID provider.
 				</p>
 				
 				<label>OpenID URL</label>
-				<asp:TextBox id="tbOpenIDURL" runat="server" CssClass="textbox" />
+				<asp:TextBox id="tbOpenIDURL" runat="server" CssClass="textbox" Text="http://" />
 				<div class="example">Example: 
 				    http://your-user-name.myopenid.com/
 				</div>
@@ -60,10 +60,13 @@
                 <st:HelpToolTip ID="hlpOpenID" runat="server" HelpText="The OpenID Server and Delegate offload OpenID queries to a third party while still using your blog URL as the OpenID username. For the Server, enter the URL for your provider's server (ex: http://www.myopenid.com/server). For the Delegate, enter your username from your provider (ex: http://username.myopenid.com)."
                     ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
             </label>
-            <asp:TextBox ID="tbOpenIDServer" runat="server" class="textbox"></asp:TextBox>
+            <asp:TextBox ID="tbOpenIDServer" runat="server" class="textbox" />
             <label accesskey="d" for="Edit_tbOpenIDDelegate">
                 OpenID <u>D</u>elegate</label>
-            <asp:TextBox ID="tbOpenIDDelegate" runat="server" class="textbox"></asp:TextBox>
+            <asp:TextBox ID="tbOpenIDDelegate" runat="server" class="textbox" />
+            <div>
+                <asp:Button id="saveOpenIdPassthroughButton" runat="server" CssClass="buttonSubmit" Text="Save" onclick="OnSavePassthroughClick" TabIndex="6" />
+            </div>
         </fieldset>
 
     </div>
