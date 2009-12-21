@@ -127,18 +127,8 @@ namespace UnitTests.Subtext.Framework.Routing
             var requestContext = new RequestContext(httpContext.Object, new RouteData());
             var helper = new UrlHelper(requestContext, new RouteCollection());
 
-            //act
-            try
-            {
-                helper.EntryUrl(null);
-            }
-            catch(ArgumentNullException)
-            {
-                return;
-            }
-
-            //assert
-            Assert.Fail();
+            //act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => helper.EntryUrl(null));
         }
 
         [Test]
@@ -150,17 +140,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var helper = new UrlHelper(requestContext, new RouteCollection());
 
             //act
-            try
-            {
-                helper.EntryUrl(new Entry(PostType.None));
-            }
-            catch(ArgumentException)
-            {
-                return;
-            }
-
-            //assert
-            Assert.Fail();
+            UnitTestHelper.AssertThrows<ArgumentException>(() => helper.EntryUrl(new Entry(PostType.None)));
         }
 
 
@@ -249,23 +229,13 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void FeedbackUrl_WithNulFeedback_ThrowsArgumentNullException()
+        public void FeedbackUrl_WithNullFeedback_ThrowsArgumentNullException()
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/App");
 
-            //act
-            try
-            {
-                helper.FeedbackUrl(null);
-            }
-            catch(ArgumentNullException)
-            {
-                return;
-            }
-
-            //assert
-            Assert.Fail();
+            //act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => helper.FeedbackUrl(null));
         }
 
         [Test]

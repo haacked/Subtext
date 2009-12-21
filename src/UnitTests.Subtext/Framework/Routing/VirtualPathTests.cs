@@ -11,18 +11,8 @@ namespace UnitTests.Subtext.Framework.Routing
         [Test]
         public void Ctor_WithNull_ThrowsArgumentNullException()
         {
-            //arrange, act
-            try
-            {
-                new VirtualPath(null);
-            }
-            catch(ArgumentNullException)
-            {
-                return;
-            }
-
-            //assert
-            Assert.Fail();
+            //arrange, act, assert
+            UnitTestHelper.AssertThrowsArgumentNullException(() => new VirtualPath(null));
         }
 
         [Test]

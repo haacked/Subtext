@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -29,9 +28,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Web;
 using System.Web.Routing;
-using System.Web.Security;
 using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
@@ -48,7 +45,6 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Emoticons;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
-using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
@@ -62,39 +58,6 @@ namespace UnitTests.Subtext
     /// </summary>
     public static class UnitTestHelper
     {
-        public static void ClearAllBlogData()
-        {
-            var tables = new[]
-            {
-                "subtext_KeyWords"
-                , "subtext_Images"
-                , "subtext_Links"
-                , "subtext_EntryViewCount"
-                , "subtext_Log"
-                , "subtext_Feedback"
-                , "subtext_EntryTag"
-                , "subtext_Tag"
-                , "subtext_Content"
-                , "subtext_LinkCategories"
-                , "subtext_Config"
-                , "subtext_Referrals"
-                , "subtext_URLs"
-            };
-
-            using(var conn = new SqlConnection(Config.ConnectionString))
-            {
-                conn.Open();
-                foreach(string tableName in tables)
-                {
-                    using(SqlCommand command = conn.CreateCommand())
-                    {
-                        command.CommandText = string.Format(CultureInfo.InvariantCulture, "DELETE [{0}]", tableName);
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Unpacks an embedded resource into the specified directory. The resource name should 
         /// be everything after 'UnitTests.Subtext.Resources.'.
@@ -464,31 +427,6 @@ namespace UnitTests.Subtext
             return link;
         }
 
-        public static FeedbackItem CreateCommentInstance(int parentEntryId, string author, string title, string body,
-                                                         DateTime dateCreated)
-        {
-            return CreateCommentInstance(Config.CurrentBlog, parentEntryId, author, title, body, dateCreated);
-        }
-
-        public static FeedbackItem CreateCommentInstance(Blog blog, int parentEntryId, string author, string title,
-                                                         string body, DateTime dateCreated)
-        {
-            var entry = new FeedbackItem(FeedbackType.Comment)
-            {
-                SourceUrl = new Uri("http://subtextproject.com/blah/"),
-                BlogId = blog.Id,
-                EntryId = parentEntryId,
-                Title = title,
-                Author = author,
-                Body = body,
-                Approved = true,
-                DateCreated = dateCreated
-            };
-            entry.DateModified = entry.DateCreated;
-            
-            return entry;
-        }
-
         /// <summary>
         /// Creates a blog post link category.
         /// </summary>
@@ -524,118 +462,6 @@ namespace UnitTests.Subtext
                 IsActive = true
             };
             return Links.CreateLinkCategory(category);
-        }
-
-        /// <summary>
-        /// Extracts a compressed stream to a string
-        /// </summary>
-        /// <param name="compressedArchive">The archive to extract</param>
-        /// <returns></returns>
-        public static string ExtractArchiveToString(Stream compressedArchive)
-        {
-            var target = new StringBuilder();
-            using(var inputStream = new ZipInputStream(compressedArchive))
-            {
-                ZipEntry nextEntry = inputStream.GetNextEntry();
-
-                while(nextEntry != null)
-                {
-                    target.Append(Extract(inputStream));
-                    nextEntry = inputStream.GetNextEntry();
-                }
-            }
-            return target.ToString();
-        }
-
-        public static string Extract(ZipInputStream inputStream)
-        {
-            var output = new MemoryStream();
-
-            var buffer = new byte[4096];
-            int count = inputStream.Read(buffer, 0, 4096);
-            while(count > 0)
-            {
-                output.Write(buffer, 0, count);
-                count = inputStream.Read(buffer, 0, 4096);
-            }
-
-            byte[] bytes = output.ToArray();
-            return Encoding.UTF8.GetString(bytes);
-        }
-
-        public static void ExtractArchive(Stream compressedArchive, string targetDirectory)
-        {
-            using(var inputStream = new ZipInputStream(compressedArchive))
-            {
-                ZipEntry nextEntry = inputStream.GetNextEntry();
-                if(!Directory.Exists(targetDirectory))
-                {
-                    Directory.CreateDirectory(targetDirectory);
-                }
-                while(nextEntry != null)
-                {
-                    if(nextEntry.IsDirectory)
-                    {
-                        Directory.CreateDirectory(Path.Combine(targetDirectory, nextEntry.Name));
-                    }
-                    else
-                    {
-                        if(!Directory.Exists(Path.Combine(targetDirectory, Path.GetDirectoryName(nextEntry.Name))))
-                        {
-                            Directory.CreateDirectory(Path.Combine(targetDirectory,
-                                                                   Path.GetDirectoryName(nextEntry.Name)));
-                        }
-
-                        ExtractFile(targetDirectory, nextEntry, inputStream);
-                    }
-                    nextEntry = inputStream.GetNextEntry();
-                }
-            }
-        }
-
-        private static void ExtractFile(string targetDirectory, ZipEntry nextEntry, Stream inputStream)
-        {
-            using(
-                var fileStream = new FileStream(Path.Combine(targetDirectory, nextEntry.Name), FileMode.OpenOrCreate,
-                                                FileAccess.Write))
-            {
-                var buffer = new byte[4096];
-                int count = inputStream.Read(buffer, 0, 4096);
-                while(count > 0)
-                {
-                    fileStream.Write(buffer, 0, count);
-                    count = inputStream.Read(buffer, 0, 4096);
-                }
-                fileStream.Flush();
-            }
-        }
-
-        /// <summary>
-        /// This method will read the FormsAuthentication cookie from HttpContext 
-        /// and then set the HttpContext User with the roles determined by the cookie.
-        /// 
-        /// TODO: This code is heavily based on the AuthenticationModule code... would 
-        /// be nice if we could figure out a way to share that same code, rather than 
-        /// having duplicate code.
-        /// </summary>
-        public static void AuthenticateFormsAuthenticationCookie()
-        {
-            var request = new HttpRequestWrapper(HttpContext.Current.Request);
-            string cookieName = request.GetFullCookieName(Config.CurrentBlog);
-            HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
-
-            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
-
-            // When the ticket was created, the UserData property was assigned a
-            // pipe delimited string of role names.
-            string[] roles = authTicket.UserData.Split(new[] {'|'});
-            // Create an Identity object
-            var id = new FormsIdentity(authTicket);
-
-            // This principal will flow throughout the request.
-            var principal = new GenericPrincipal(id, roles);
-            // Attach the new principal object to the current HttpContext object
-            HttpContext.Current.User = principal;
         }
 
         /// <summary>
@@ -920,13 +746,6 @@ namespace UnitTests.Subtext
         internal static SimulatedRequestContext SetupBlog()
         {
             return SetupBlog(string.Empty);
-        }
-
-        internal static MembershipUser CreateUserInstanceForTest()
-        {
-            return new MembershipUser("SubtextMembershipProvider", "Phil Haack", Guid.Empty, "test@example.com",
-                                      "comment", "comment", true, false, DateTime.Now, DateTime.MinValue,
-                                      DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
         }
 
         /// <summary>

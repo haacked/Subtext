@@ -26,15 +26,13 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
     [TestFixture]
     public class MetatTagUpdateTests
     {
-        private Blog blog;
-
         [RowTest]
         [Row("Steven Harman", "author", null)]
         [Row("no-cache", null, "cache-control")]
         [RollBack2]
         public void CanUpdateMetaTag(string content, string name, string httpequiv)
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            var blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             MetaTag tag = UnitTestHelper.BuildMetaTag(content, name, httpequiv, blog.Id, null, DateTime.Now);
             MetaTags.Create(tag);
@@ -42,12 +40,12 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             string randomStr = UnitTestHelper.GenerateUniqueString().Left(20);
             tag.Content = content + randomStr;
 
-            if(!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 tag.Name = name + randomStr;
             }
 
-            if(!string.IsNullOrEmpty(httpequiv))
+            if (!string.IsNullOrEmpty(httpequiv))
             {
                 tag.HttpEquiv = httpequiv + randomStr;
             }
@@ -63,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void CanRemoveNameAndAddHttpEquiv()
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            var blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             MetaTag tag = UnitTestHelper.BuildMetaTag("Nothing to see here.", "description", null, blog.Id, null,
                                                       DateTime.Now);
@@ -82,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void CanRemoveHttpEquivAndAddName()
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            var blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             MetaTag tag = UnitTestHelper.BuildMetaTag("Still nothing to see here.", null, "expires", blog.Id, null,
                                                       DateTime.Now);
@@ -97,39 +95,19 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             ValidateMetaTags(tag, MetaTags.GetMetaTagsForBlog(blog, 0, 100)[0]);
         }
 
-        [RowTest]
-        [Row(null, null, null, "All attributs are null, should not be valid.",
-            ExpectedException = typeof(ArgumentException))]
-        [Row("This is content", null, null, "MetaTag requires either name or http-equiv.",
-            ExpectedException = typeof(ArgumentException))]
-        [Row(null, "description", "expires", "Can't have both name and http-equiv.",
-            ExpectedException = typeof(ArgumentException))]
-        [Row("Steven Harman's content", "description", "expires", "Can't have both name and http-equiv.",
-            ExpectedException = typeof(ArgumentException))]
-        [Row("", "", "", "All attributs are EmptyString, should not be valid.",
-            ExpectedException = typeof(ArgumentException))]
-        [Row("This is content", "", "", "MetaTag requires either name or http-equiv.",
-            ExpectedException = typeof(ArgumentException))]
-        [Row("", "description", "expires", "Can't have both name and http-equiv.",
-            ExpectedException = typeof(ArgumentException))]
-        [RollBack2]
-        public void CantUpdateWithInvalidMetaTags(string updContent, string updName, string updHttpEquiv, string errMsg)
+        [Test]
+        public void Update_WithInvalidMetaTag_ThrowsArgumentException()
         {
-            blog = UnitTestHelper.CreateBlogAndSetupContext();
+            // arrange
+            var metaTag = new MetaTag(null);
 
-            MetaTag tag = UnitTestHelper.BuildMetaTag("Nothing to see here.", "description", null, blog.Id, null,
-                                                      DateTime.Now);
-            MetaTags.Create(tag);
-
-            tag.Content = updContent;
-            tag.Name = updName;
-            tag.HttpEquiv = updHttpEquiv;
-
-            MetaTags.Update(tag);
+            // act, assert
+            Assert.IsFalse(metaTag.IsValid);
+            UnitTestHelper.AssertThrows<ArgumentException>(() => MetaTags.Update(metaTag));
         }
 
         [Test]
-        public void CantUpateWithNullMetaTag()
+        public void Update_WithNullMetaTag_ThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() => MetaTags.Update(null));
         }

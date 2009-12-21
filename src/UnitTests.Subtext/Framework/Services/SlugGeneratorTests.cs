@@ -187,6 +187,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("anchor-cue-hello-world", slug);
         }
 
+        [Test]
         public void ConvertTitleToSlug_WithNonEuropeanInternationalizedTitles_ConvertsToUrlEncodedTitle()
         {
             //arrange

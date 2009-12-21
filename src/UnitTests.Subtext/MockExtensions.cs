@@ -102,11 +102,6 @@ namespace UnitTests.Subtext
             return httpContext;
         }
 
-        public static Mock<ISubtextContext> SetupRequestContext(this Mock<ISubtextContext> context)
-        {
-            return context.SetupRequestContext(null, null, null);
-        }
-
         public static Mock<ISubtextContext> SetupRequestContext(this Mock<ISubtextContext> context,
                                                                 Mock<HttpContextBase> httpContext, RouteData routeData)
         {
@@ -161,12 +156,6 @@ namespace UnitTests.Subtext
         }
 
         public static Mock<ISubtextContext> SetupRequestContext(this Mock<ISubtextContext> context,
-                                                                Mock<HttpContextBase> httpContext)
-        {
-            return context.SetupRequestContext(httpContext, null, null);
-        }
-
-        public static Mock<ISubtextContext> SetupRequestContext(this Mock<ISubtextContext> context,
                                                                 RequestContext requestContext)
         {
             context.Setup(c => c.RequestContext).Returns(requestContext);
@@ -216,8 +205,7 @@ namespace UnitTests.Subtext
         public static void FakeSyndicationRequest(this Mock<HttpContextBase> httpContextMock, string virtualPath,
                                                   string applicationPath, Action<string> callback)
         {
-            var headers = new NameValueCollection();
-            headers.Add("If-Modified-Since", null);
+            var headers = new NameValueCollection {{"If-Modified-Since", null}};
             httpContextMock.Setup(c => c.Request.AppRelativeCurrentExecutionFilePath).Returns(virtualPath);
             httpContextMock.Setup(c => c.Request.Path).Returns(virtualPath);
             httpContextMock.Setup(c => c.Request.FilePath).Returns(virtualPath);
