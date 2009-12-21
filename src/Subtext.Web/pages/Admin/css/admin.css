@@ -1244,3 +1244,14 @@ div.actions ul li a, ul.categoriesList li a, ul.folders li a
 :focus {
 	 outline: thin dotted invert;
 }
+
+.example 
+{
+	font-style: italic;
+}
+
+.explanation
+{
+	margin: 0 0 10px 0;
+	width: 600px;
+}

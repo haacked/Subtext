@@ -17,7 +17,6 @@
 
 using System;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
 using Subtext.Web.Properties;
@@ -34,15 +33,20 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void BindLocalUI()
         {
-            tbOpenIDURL.Text = Config.CurrentBlog.OpenIdUrl;
+            tbOpenIDURL.Text = Blog.OpenIdUrl;
+            tbOpenIDServer.Text = Blog.OpenIdServer;
+            tbOpenIDDelegate.Text = Blog.OpenIdDelegate;
+
             base.BindLocalUI();
         }
 
         protected void btnSaveOptions_Click(object sender, EventArgs e)
         {
-            Blog info = Config.CurrentBlog;
-            info.OpenIdUrl = tbOpenIDURL.Text;
-            Repository.UpdateConfigData(info);
+            Blog.OpenIdUrl = tbOpenIDURL.Text;
+            Blog.OpenIdServer = tbOpenIDServer.Text;
+            Blog.OpenIdDelegate = tbOpenIDDelegate.Text;
+                
+            Repository.UpdateConfigData(Blog);
         }
 
         protected void btnChangePassword_Click(object sender, EventArgs e)

@@ -92,36 +92,35 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void BindLocalUI()
         {
-            Blog info = Config.CurrentBlog;
-            txbTitle.Text = info.Title;
-            txbSubtitle.Text = info.SubTitle;
-            txbAuthor.Text = info.Author;
-            txbAuthorEmail.Text = info.Email;
-            txbUser.Text = info.UserName;
-            txbNews.Text = info.News;
-            ckbShowEmailonRssFeed.Checked = info.ShowEmailAddressInRss;
-            txbGenericTrackingCode.Text = info.TrackingCode;
-            ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
-            chkAutoGenerate.Checked = info.AutoFriendlyUrlEnabled;
+            txbTitle.Text = Blog.Title;
+            txbSubtitle.Text = Blog.SubTitle;
+            txbAuthor.Text = Blog.Author;
+            txbAuthorEmail.Text = Blog.Email;
+            txbUser.Text = Blog.UserName;
+            txbNews.Text = Blog.News;
+            ckbShowEmailonRssFeed.Checked = Blog.ShowEmailAddressInRss;
+            txbGenericTrackingCode.Text = Blog.TrackingCode;
+            ckbAllowServiceAccess.Checked = Blog.AllowServiceAccess;
+            chkAutoGenerate.Checked = Blog.AutoFriendlyUrlEnabled;
             ddlTimezone.DataSource = TimeZones.GetTimeZones();
             ddlTimezone.DataTextField = "DisplayName";
             ddlTimezone.DataValueField = "Id";
             ddlTimezone.DataBind();
-            ListItem selectedItem = ddlTimezone.Items.FindByValue(info.TimeZoneId.ToString(CultureInfo.InvariantCulture));
+            ListItem selectedItem = ddlTimezone.Items.FindByValue(Blog.TimeZoneId.ToString(CultureInfo.InvariantCulture));
             if(selectedItem != null)
             {
                 selectedItem.Selected = true;
             }
 
-            ListItem languageItem = ddlLangLocale.Items.FindByValue(info.Language);
+            ListItem languageItem = ddlLangLocale.Items.FindByValue(Blog.Language);
             if(languageItem != null)
             {
                 languageItem.Selected = true;
             }
 
-            if(info.Skin.HasCustomCssText)
+            if(Blog.Skin.HasCustomCssText)
             {
-                txbSecondaryCss.Text = info.Skin.CustomCssText;
+                txbSecondaryCss.Text = Blog.Skin.CustomCssText;
             }
 
             //TODO: Move to a general DataBind() call.
@@ -138,9 +137,9 @@ namespace Subtext.Web.Admin.Pages
                 }
             }
 
-            if(info.ItemCount <= count)
+            if(Blog.ItemCount <= count)
             {
-                ddlItemCount.Items.FindByValue(info.ItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
+                ddlItemCount.Items.FindByValue(Blog.ItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
             }
 
             //int 0 = "All" items
@@ -164,16 +163,14 @@ namespace Subtext.Web.Admin.Pages
                 }
             }
 
-            if(info.CategoryListPostCount <= maxDropDownItems)
+            if(Blog.CategoryListPostCount <= maxDropDownItems)
             {
                 ddlCategoryListPostCount.Items.FindByValue(
-                    info.CategoryListPostCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
+                    Blog.CategoryListPostCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
             }
 
             UpdateTime();
-            tbOpenIDServer.Text = info.OpenIdServer;
-            tbOpenIDDelegate.Text = info.OpenIdDelegate;
-
+            
             base.BindLocalUI();
         }
 
@@ -181,33 +178,30 @@ namespace Subtext.Web.Admin.Pages
         {
             try
             {
-                Blog info = Config.CurrentBlog;
-                info.Title = txbTitle.Text;
-                info.SubTitle = txbSubtitle.Text;
-                info.Author = txbAuthor.Text;
-                info.Email = txbAuthorEmail.Text;
-                info.UserName = txbUser.Text;
-                info.ShowEmailAddressInRss = ckbShowEmailonRssFeed.Checked;
-                info.TimeZoneId = ddlTimezone.SelectedItem.Value;
-                info.Subfolder = Config.CurrentBlog.Subfolder;
-                info.Host = Config.CurrentBlog.Host;
-                info.Id = Config.CurrentBlog.Id;
+                Blog.Title = txbTitle.Text;
+                Blog.SubTitle = txbSubtitle.Text;
+                Blog.Author = txbAuthor.Text;
+                Blog.Email = txbAuthorEmail.Text;
+                Blog.UserName = txbUser.Text;
+                Blog.ShowEmailAddressInRss = ckbShowEmailonRssFeed.Checked;
+                Blog.TimeZoneId = ddlTimezone.SelectedItem.Value;
+                Blog.Subfolder = Blog.Subfolder;
+                Blog.Host = Blog.Host;
+                Blog.Id = Blog.Id;
 
-                info.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
-                info.CategoryListPostCount = Int32.Parse(ddlCategoryListPostCount.SelectedItem.Value);
-                info.Language = ddlLangLocale.SelectedItem.Value;
+                Blog.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
+                Blog.CategoryListPostCount = Int32.Parse(ddlCategoryListPostCount.SelectedItem.Value);
+                Blog.Language = ddlLangLocale.SelectedItem.Value;
 
-                info.AllowServiceAccess = ckbAllowServiceAccess.Checked;
+                Blog.AllowServiceAccess = ckbAllowServiceAccess.Checked;
 
-                info.Skin.CustomCssText = txbSecondaryCss.Text.Trim();
+                Blog.Skin.CustomCssText = txbSecondaryCss.Text.Trim();
 
-                info.News = NormalizeString(txbNews.Text);
-                info.TrackingCode = NormalizeString(txbGenericTrackingCode.Text);
+                Blog.News = NormalizeString(txbNews.Text);
+                Blog.TrackingCode = NormalizeString(txbGenericTrackingCode.Text);
 
-                info.OpenIdServer = tbOpenIDServer.Text;
-                info.OpenIdDelegate = tbOpenIDDelegate.Text;
-                info.AutoFriendlyUrlEnabled = chkAutoGenerate.Checked;
-                Repository.UpdateConfigData(info);
+                Blog.AutoFriendlyUrlEnabled = chkAutoGenerate.Checked;
+                Repository.UpdateConfigData(Blog);
 
                 Messages.ShowMessage(SuccessMessage);
             }

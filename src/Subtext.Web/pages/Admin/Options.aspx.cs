@@ -53,12 +53,12 @@ namespace Subtext.Web.Admin.Pages
             AdminMasterPage.ClearActions();
             AdminMasterPage.AddToActions(lnkConfigure);
             AdminMasterPage.AddToActions(lnkSkins);
+            AdminMasterPage.AddToActions(lnkComments);
+            AdminMasterPage.AddToActions(lnkSyndication);
+            AdminMasterPage.AddToActions(lnkSecurity);
+            AdminMasterPage.AddToActions(linkKeyWords);
             AdminMasterPage.AddToActions(lnkCustomize);
             AdminMasterPage.AddToActions(lnkPreferences);
-            AdminMasterPage.AddToActions(lnkSyndication);
-            AdminMasterPage.AddToActions(lnkComments);
-            AdminMasterPage.AddToActions(linkKeyWords);
-            AdminMasterPage.AddToActions(lnkSecurity);
             AdminMasterPage.AddToActions(lnkImportExport);
         }
 

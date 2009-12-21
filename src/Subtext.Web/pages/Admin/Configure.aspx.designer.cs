@@ -167,42 +167,6 @@ namespace Subtext.Web.Admin.Pages {
         protected global::System.Web.UI.WebControls.DropDownList ddlLangLocale;
         
         /// <summary>
-        /// Panel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
-        
-        /// <summary>
-        /// hlpOpenID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Controls.HelpToolTip hlpOpenID;
-        
-        /// <summary>
-        /// tbOpenIDServer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbOpenIDServer;
-        
-        /// <summary>
-        /// tbOpenIDDelegate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbOpenIDDelegate;
-        
-        /// <summary>
         /// ddlItemCount control.
         /// </summary>
         /// <remarks>
