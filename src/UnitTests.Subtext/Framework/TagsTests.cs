@@ -4,6 +4,7 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
+using System;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -24,10 +25,9 @@ namespace UnitTests.Subtext.Framework
         }
 
         [Test]
-        [ExpectedArgumentException]
         public void GetTopTagsThrowsArgumentExceptionForNegativeValues()
         {
-            ObjectProvider.Instance().GetMostUsedTags(-1);
+            UnitTestHelper.AssertThrows<ArgumentException>(() =>ObjectProvider.Instance().GetMostUsedTags(-1));
         }
 
         [Test]

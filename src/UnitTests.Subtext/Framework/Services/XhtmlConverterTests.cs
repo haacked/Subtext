@@ -42,7 +42,8 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(expected, result);
         }
 
-        [Test, Ignore("Need to follow up with the SgmlReader on this")]
+        [Test]
+        [Ignore("Need to follow up with the SgmlReader on this")]
         public void Transform_WithStyleTag_DoesNotWrapStyleInCdata()
         {
             const string html = "<style>.test {color: blue;}</style>";
