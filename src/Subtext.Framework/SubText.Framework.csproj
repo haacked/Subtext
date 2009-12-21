@@ -459,8 +459,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\Account\AccountService.cs" />
-    <Compile Include="Services\Account\IAccountService.cs" />
     <Compile Include="Services\Akismet\AkismetClient.cs" />
     <Compile Include="Services\Akismet\Comment.cs" />
     <Compile Include="Services\Akismet\HttpClient.cs" />
@@ -533,6 +531,8 @@
     <Compile Include="Services\Emoticons\Emoticon.cs" />
     <Compile Include="Services\Emoticons\EmoticonsFileSource.cs" />
     <Compile Include="Services\Emoticons\EmoticonsTransformation.cs" />
+    <Compile Include="Services\Security\AccountService.cs" />
+    <Compile Include="Services\Security\IAccountService.cs" />
     <Compile Include="Services\Security\SecurityHelper.cs" />
     <Compile Include="Services\SlugGenerator.cs" />
     <Compile Include="Services\StatisticsService.cs" />
