@@ -482,6 +482,10 @@ namespace Subtext.Framework
                     {
                         _openIdUrl = "http://" + value;
                     }
+                    else
+                    {
+                        _openIdUrl = value;
+                    }
                 }
                 else
                 {
