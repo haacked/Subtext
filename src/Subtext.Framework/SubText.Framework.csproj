@@ -533,6 +533,7 @@
     <Compile Include="Services\Emoticons\Emoticon.cs" />
     <Compile Include="Services\Emoticons\EmoticonsFileSource.cs" />
     <Compile Include="Services\Emoticons\EmoticonsTransformation.cs" />
+    <Compile Include="Services\Security\SecurityHelper.cs" />
     <Compile Include="Services\SlugGenerator.cs" />
     <Compile Include="Services\StatisticsService.cs" />
     <Compile Include="Services\XhtmlConverter.cs" />
@@ -556,9 +557,6 @@
     <Compile Include="Web\Handlers\SubtextHttpHandler.cs" />
     <Compile Include="Web\SubtextPage.cs">
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Security\SecurityHelper.cs">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\AkismetSpamService.cs" />
     <Compile Include="Services\BlogLookupResult.cs" />
