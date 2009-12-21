@@ -42,21 +42,22 @@ namespace UnitTests.Subtext.Framework.Util
             Console.Write(sql);
         }
 
-        [Test] //, Ignore("Only run this when we need to regen this file. Better to make this a build step.")]
-        public void WriteTimeZonesToFile()
-        {
-            ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
-            foreach(TimeZoneInfo timeZone in timeZones)
-            {
-                Console.WriteLine(timeZone.ToSerializedString());
-            }
+        //[Test]
+        //[Ignore("Only run this when we need to regen this file. Better to make this a build step.")]
+        //public void WriteTimeZonesToFile()
+        //{
+        //    ReadOnlyCollection<TimeZoneInfo> timeZones = TimeZoneInfo.GetSystemTimeZones();
+        //    foreach(TimeZoneInfo timeZone in timeZones)
+        //    {
+        //        Console.WriteLine(timeZone.ToSerializedString());
+        //    }
 
-            //Type tzcType = timeZones.GetType();
-            //XmlSerializer ser = new XmlSerializer(tzcType);
-            //using (StreamWriter writer = new StreamWriter("c:\\WindowsTimeZoneCollection.xml", false, Encoding.UTF8))
-            //{
-            //    ser.Serialize(writer, timeZones);
-            //}
-        }
+        //    Type tzcType = timeZones.GetType();
+        //    XmlSerializer ser = new XmlSerializer(tzcType);
+        //    using(StreamWriter writer = new StreamWriter("c:\\WindowsTimeZoneCollection.xml", false, Encoding.UTF8))
+        //    {
+        //        ser.Serialize(writer, timeZones);
+        //    }
+        //}
     }
 }

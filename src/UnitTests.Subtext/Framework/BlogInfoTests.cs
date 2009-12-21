@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Extensibility.Interfaces;
@@ -140,17 +141,16 @@ namespace UnitTests.Subtext.Framework
         [RollBack2]
         public void CanGetBlogs()
         {
+            // arrange
             UnitTestHelper.SetupBlog();
+            
+            // act
             IPagedCollection<Blog> blogs = Blog.GetBlogs(0, int.MaxValue, ConfigurationFlags.None);
+            
+            // assert
             Assert.GreaterEqualThan(blogs.Count, 1);
-            foreach(Blog blog in blogs)
-            {
-                if(blog.Id == Config.CurrentBlog.Id)
-                {
-                    return;
-                }
-            }
-            Assert.Fail("Did not find the blog we created");
+            var blog = blogs.First(b => b.Id == Config.CurrentBlog.Id);
+            Assert.IsNotNull(blog);
         }
 
         [Test]
