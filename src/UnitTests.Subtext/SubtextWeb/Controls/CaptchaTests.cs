@@ -12,23 +12,6 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
     public class CaptchaTests
     {
         [Test]
-        [Ignore("Need to do more to allow this to work.")]
-        public void CanRenderCaptchaControl()
-        {
-            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "");
-            var builder = new StringBuilder();
-            var stringWriter = new StringWriter(builder);
-            var writer = new HtmlTextWriter(stringWriter);
-            var control = new CaptchaControlTester();
-
-            Assert.AreEqual(CaptchaControl.Layout.CssBased, control.LayoutStyle,
-                            "Expected default of CSS based layout style.");
-
-            control.RenderOverride(writer);
-            Assert.IsTrue(builder.ToString().StartsWith("<div>"), "Expected the output to start with <div>");
-        }
-
-        [Test]
         public void CanRoundTripCaptchaInfo()
         {
             DateTime date =
