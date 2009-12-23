@@ -63,7 +63,7 @@ namespace Subtext.Framework.Components
         /// </value>
         public bool HasDescription
         {
-            get { return ((Description != null) && (Description.Trim().Length > 0)); }
+            get { return !String.IsNullOrEmpty(Description); }
         }
 
         /// <summary>
