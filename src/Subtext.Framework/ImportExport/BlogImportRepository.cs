@@ -79,7 +79,7 @@ namespace Subtext.ImportExport
                 var transform = publisher.Transformation as CompositeTextTransformation;
                 if(transform != null)
                 {
-                    transform.Remove<KeywordExpander>();
+                    transform.Clear();
                 }
             }
 

@@ -127,11 +127,11 @@ namespace Subtext.ImportExport
             WriteAttributeStringRequired("type", "normal");
             WriteAttributeStringRequired("hasexcerpt", post.HasExcerpt.ToString().ToLowerInvariant());
             WriteAttributeStringRequired("views", post.Views.ToString());
-            WriteElementContent("title", post.Title, "text");
+            WriteElementContent("title", post.Title, "text", false /*base64*/);
             WriteBlogMLContent("content", post.Content);
             if(!String.IsNullOrEmpty(post.PostName))
             {
-                WriteElementContent("post-name", post.PostName, "text");
+                WriteElementContent("post-name", post.PostName, "text", false /*base64*/);
             }
             if(post.HasExcerpt)
             {
@@ -141,13 +141,17 @@ namespace Subtext.ImportExport
 
         protected void WriteBlogMLContent(string elementName, BlogMLContent content)
         {
-            WriteElementContent(elementName, content.Text, content.Base64 ? "base64" : "text");
+            WriteElementContent(elementName, content.Text, content.Base64 ? "base64" : "text", content.Base64);
         }
 
-        protected void WriteElementContent(string elementName, string content, string contentType)
+        protected void WriteElementContent(string elementName, string content, string contentType, bool base64)
         {
             WriteStartElement(elementName);
             WriteAttributeString("type", contentType);
+            if(base64)
+            {
+                WriteAttributeString("base64", "true");
+            }
             Writer.WriteCData(content);
             WriteEndElement();
         }
