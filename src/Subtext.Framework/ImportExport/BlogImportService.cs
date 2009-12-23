@@ -69,7 +69,7 @@ namespace Subtext.ImportExport
             if(bmlPost.Attachments.Count > 0)
             {
                 //Updates the post content with new attachment urls.
-                bmlPost.Content = BlogMLContent.Create(CreateFilesFromAttachments(bmlPost), true /*base64*/);
+                bmlPost.Content = BlogMLContent.Create(CreateFilesFromAttachments(bmlPost), ContentTypes.Base64);
             }
 
             string newEntryId = Repository.CreateBlogPost(blog, bmlPost);

@@ -159,7 +159,7 @@ namespace UnitTests.Subtext.BlogMl
             var dateTime = DateTime.ParseExact("20090123", "yyyyMMdd", CultureInfo.InvariantCulture);
             var blog = new BlogMLBlog { Title = "Subtext Blog", RootUrl = "http://subtextproject.com/", SubTitle = "A test blog", DateCreated = dateTime };
             source.Setup(s => s.GetBlog()).Returns(blog);
-            var post = new BlogMLPost { Content = BlogMLContent.Create("<p>This is a Test</p>", true /*base64*/) };
+            var post = new BlogMLPost { Content = BlogMLContent.Create("<p>This is a Test</p>", ContentTypes.Base64) };
             var posts = new List<BlogMLPost> { post };
             blog.Posts.Add(post);
             source.Setup(s => s.GetBlogPosts(false /*embedAttachments*/)).Returns(posts);
@@ -171,7 +171,7 @@ namespace UnitTests.Subtext.BlogMl
             // assert
             string output = stringWriter.ToString();
             Console.WriteLine(Convert.ToBase64String(Encoding.UTF8.GetBytes("<p>This is a Test</p>")));
-            Assert.Contains(output, @"<content type=""base64"" base64=""true""><![CDATA[PHA+VGhpcyBpcyBhIFRlc3Q8L3A+]]></content>");
+            Assert.Contains(output, @"<content type=""base64""><![CDATA[PHA+VGhpcyBpcyBhIFRlc3Q8L3A+]]></content>");
         }
 
         [Test]
@@ -213,8 +213,7 @@ namespace UnitTests.Subtext.BlogMl
             source.Setup(s => s.GetBlog()).Returns(blog);
             var post = new BlogMLPost { Title = "This is a blog post" };
             var posts = new List<BlogMLPost> { post };
-            var comment = new BlogMLComment { Title = "Test Comment Title" };
-            comment.Content.Text = "<p>Comment Body</p>";
+            var comment = new BlogMLComment {Title = "Test Comment Title", Content = {Text = "<p>Comment Body</p>"}};
             post.Comments.Add(comment);
             source.Setup(s => s.GetBlogPosts(false /*embedAttachments*/)).Returns(posts);
             var writer = new BlogMLWriter(source.Object, false /*embedAttachments*/);
