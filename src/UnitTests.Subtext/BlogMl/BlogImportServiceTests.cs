@@ -172,8 +172,8 @@ namespace UnitTests.Subtext.BlogMl
                                         approved=""true"" 
                                         post-url=""http://example.com/whatever"">
                                       <title type=""text""><![CDATA[Post Title]]></title>
-                                      <content type=""text"">
-                                        <![CDATA[Content of the post]]>
+                                      <content base64=""true"">
+                                        <![CDATA[Q29udGVudCBvZiB0aGUgcG9zdA==]]>
                                       </content>
                                       <authors>
                                         <author ref=""2100"" />
@@ -192,6 +192,8 @@ namespace UnitTests.Subtext.BlogMl
             // assert
             Assert.IsNotNull(deserializedPost);
             Assert.AreEqual("Post Title", deserializedPost.Title);
+            Assert.IsTrue(deserializedPost.Content.Base64);
+            Assert.AreEqual("Content of the post", deserializedPost.Content.UncodedText);
             Assert.AreEqual(1, deserializedPost.Authors.Count);
         }
 

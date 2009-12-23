@@ -171,7 +171,7 @@ namespace UnitTests.Subtext.BlogMl
             // assert
             string output = stringWriter.ToString();
             Console.WriteLine(Convert.ToBase64String(Encoding.UTF8.GetBytes("<p>This is a Test</p>")));
-            Assert.Contains(output, @"<content type=""base64""><![CDATA[PHA+VGhpcyBpcyBhIFRlc3Q8L3A+]]></content>");
+            Assert.Contains(output, @"<content type=""base64"" base64=""true""><![CDATA[PHA+VGhpcyBpcyBhIFRlc3Q8L3A+]]></content>");
         }
 
         [Test]
