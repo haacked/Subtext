@@ -197,7 +197,7 @@ namespace Subtext.Web.Admin.Feedback
             string authorInfo = string.Empty;
             string safeEmail = HttpUtility.HtmlAttributeEncode(feedback.Email);
 
-            if(feedback.Email != null && feedback.Email.Length > 0 && feedback.Email.IndexOf("@") > 0)
+            if(!string.IsNullOrEmpty(feedback.Email) && feedback.Email.IndexOf("@") > 0)
             {
                 string safeAuthor = StringHelper.MailToEncode(feedback.Author);
                 string safeTitle = StringHelper.MailToEncode(feedback.Title);
@@ -206,9 +206,9 @@ namespace Subtext.Web.Admin.Feedback
                 string mailToUrl = safeEmail
                                    + "&subject=re:" + safeTitle
                                    + "&body=----------%0A"
-                                   + "From: " + StringHelper.MailToEncode(feedback.Author) + " (" + safeEmail + ")%0A"
+                                   + "From: " + safeAuthor + " (" + safeEmail + ")%0A"
                                    + "Sent: " + StringHelper.MailToEncode(feedback.DateCreated.ToString()) + "%0A"
-                                   + "Subject: " + StringHelper.MailToEncode(safeTitle).Replace("+", " ") + "%0A%0A"
+                                   + "Subject: " + safeTitle.Replace("+", " ") + "%0A%0A"
                                    + safeBody;
                 authorInfo +=
                     string.Format(
@@ -220,7 +220,7 @@ namespace Subtext.Web.Admin.Feedback
             {
                 authorInfo +=
                     string.Format(@"<a href=""{0}"" title=""{1}""><img src=""{2}"" alt=""{1}"" border=""0"" /></a>",
-                                  feedback.SourceUrl, safeEmail, HttpHelper.ExpandTildePath("~/images/permalink.gif"));
+                                  feedback.SourceUrl, feedback.SourceUrl, HttpHelper.ExpandTildePath("~/images/permalink.gif"));
             }
 
             return authorInfo;
