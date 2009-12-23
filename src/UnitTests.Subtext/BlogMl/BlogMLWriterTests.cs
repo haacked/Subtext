@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Xml;
 using BlogML;
 using BlogML.Xml;
 using MbUnit.Framework;
 using Moq;
 using Subtext.ImportExport;
-using System.Text;
 
 namespace UnitTests.Subtext.BlogMl
 {

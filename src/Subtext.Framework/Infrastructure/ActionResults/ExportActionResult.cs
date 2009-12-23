@@ -15,10 +15,12 @@
 
 #endregion
 
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
 using Subtext.ImportExport;
+using System.IO;
 
 namespace Subtext.Infrastructure.ActionResults
 {
