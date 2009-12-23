@@ -8,6 +8,7 @@ using Subtext.Framework.Components;
 using Subtext.ImportExport;
 using Subtext.Extensibility;
 using Subtext.Framework;
+using BlogML;
 
 namespace UnitTests.Subtext.BlogMl
 {
@@ -176,7 +177,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertBlogPost_WithPostHavingBase64EncodedContent_DecodesContent()
         {
             // arrange
-            var post = new BlogMLPost { Content = BlogMLContent.Create("This is a story about a 3 hour voyage", true) };
+            var post = new BlogMLPost { Content = BlogMLContent.Create("This is a story about a 3 hour voyage", ContentTypes.Base64) };
             var mapper = new BlogMLImportMapper();
 
             // act
@@ -190,7 +191,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertBlogPost_WithPostHavingBase64EncodedExcerpt_DecodesContent()
         {
             // arrange
-            var post = new BlogMLPost { HasExcerpt = true, Excerpt = BlogMLContent.Create("This is a story about a 3 hour voyage", true) };
+            var post = new BlogMLPost { HasExcerpt = true, Excerpt = BlogMLContent.Create("This is a story about a 3 hour voyage", ContentTypes.Base64) };
             var mapper = new BlogMLImportMapper();
 
             // act

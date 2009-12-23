@@ -83,9 +83,9 @@ namespace Subtext.ImportExport
                 PostUrl = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
                 PostType = (entry.PostType == PostType.Story) ? BlogPostTypes.Article : BlogPostTypes.Normal,
                 Approved = entry.IsActive,
-                Content = BlogMLContent.Create(entry.Body ?? string.Empty, true /*base64*/),
+                Content = BlogMLContent.Create(entry.Body ?? string.Empty, ContentTypes.Base64),
                 HasExcerpt = entry.HasDescription,
-                Excerpt = BlogMLContent.Create(entry.Description ?? string.Empty, true /*base64*/),
+                Excerpt = BlogMLContent.Create(entry.Description ?? string.Empty, ContentTypes.Base64),
                 DateCreated = Blog.TimeZone.ToUtc(entry.DateCreated),
                 DateModified = Blog.TimeZone.ToUtc(entry.IsActive ? entry.DateSyndicated : entry.DateModified),
                 Views = (uint)entry.WebCount
@@ -219,7 +219,7 @@ namespace Subtext.ImportExport
                 UserEMail = feedbackItem.Email,
                 UserName = feedbackItem.Author,
                 Approved = feedbackItem.Approved,
-                Content =BlogMLContent.Create(feedbackItem.Body ?? string.Empty, true /*base64*/),
+                Content = BlogMLContent.Create(feedbackItem.Body ?? string.Empty, ContentTypes.Base64),
                 DateCreated = Blog.TimeZone.ToUtc(feedbackItem.DateCreated),
                 DateModified = Blog.TimeZone.ToUtc(feedbackItem.DateModified)
             };

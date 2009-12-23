@@ -127,11 +127,11 @@ namespace Subtext.ImportExport
             WriteAttributeStringRequired("type", "normal");
             WriteAttributeStringRequired("hasexcerpt", post.HasExcerpt.ToString().ToLowerInvariant());
             WriteAttributeStringRequired("views", post.Views.ToString());
-            WriteElementContent("title", post.Title, "text", false /*base64*/);
+            WriteContent("title", BlogMLContent.Create(post.Title, ContentTypes.Text));
             WriteBlogMLContent("content", post.Content);
             if(!String.IsNullOrEmpty(post.PostName))
             {
-                WriteElementContent("post-name", post.PostName, "text", false /*base64*/);
+                WriteContent("post-name", BlogMLContent.Create(post.PostName, ContentTypes.Text));
             }
             if(post.HasExcerpt)
             {
@@ -141,19 +141,7 @@ namespace Subtext.ImportExport
 
         protected void WriteBlogMLContent(string elementName, BlogMLContent content)
         {
-            WriteElementContent(elementName, content.Text, content.Base64 ? "base64" : "text", content.Base64);
-        }
-
-        protected void WriteElementContent(string elementName, string content, string contentType, bool base64)
-        {
-            WriteStartElement(elementName);
-            WriteAttributeString("type", contentType);
-            if(base64)
-            {
-                WriteAttributeString("base64", "true");
-            }
-            Writer.WriteCData(content);
-            WriteEndElement();
+            WriteContent(elementName, content);
         }
 
         protected void WritePostCategories(BlogMLPost.CategoryReferenceCollection categoryRefs)
@@ -177,9 +165,9 @@ namespace Subtext.ImportExport
                 foreach(BlogMLComment comment in comments)
                 {
                     string userName = string.IsNullOrEmpty(comment.UserName) ? "Anonymous" : comment.UserName;
-                    WriteComment(comment.ID, comment.Title, ContentTypes.Text, comment.DateCreated, comment.DateModified,
+                    WriteComment(comment.ID, BlogMLContent.Create(comment.Title, ContentTypes.Text), comment.DateCreated, comment.DateModified,
                                  comment.Approved, userName, comment.UserEMail, comment.UserUrl,
-                                 comment.Content.Text, ContentTypes.Text);
+                                 comment.Content);
                 }
                 WriteEndElement();
             }

@@ -92,9 +92,9 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             Assert.AreEqual("<style><![CDATA[Test]]></style>", post.Content.UncodedText);
-            Assert.AreEqual(true, post.Content.Base64);
+            Assert.AreEqual(ContentTypes.Base64, post.Content.ContentType);
             Assert.AreEqual("<style><![CDATA[excerpt]]></style>", post.Excerpt.UncodedText);
-            Assert.AreEqual(true, post.Excerpt.Base64);
+            Assert.AreEqual(ContentTypes.Base64, post.Excerpt.ContentType);
         }
 
         [Test]
@@ -325,7 +325,7 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             Assert.AreEqual("<p><![CDATA[First!]]></p>", comment.Content.UncodedText);
-            Assert.AreEqual(true, comment.Content.Base64);
+            Assert.AreEqual(ContentTypes.Base64, comment.Content.ContentType);
 
         }
 

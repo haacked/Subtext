@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using BlogML;
 using BlogML.Xml;
 using MbUnit.Framework;
 using Moq;
@@ -72,7 +73,7 @@ namespace UnitTests.Subtext.BlogMl
             // arrange
             var blog = new BlogMLBlog();
             const string originalPostContent = @"<img src=""http://old.example.com/images/my-mug.jpg"" />";
-            var post = new BlogMLPost { Content = BlogMLContent.Create(originalPostContent, true /*base64*/) };
+            var post = new BlogMLPost { Content = BlogMLContent.Create(originalPostContent, ContentTypes.Base64) };
             var attachment = new BlogMLAttachment { Url = "http://old.example.com/images/my-mug.jpg", Embedded = false};
             post.Attachments.Add(attachment);
             blog.Posts.Add(post);
@@ -87,7 +88,7 @@ namespace UnitTests.Subtext.BlogMl
             service.Import(blog);
 
             // assert
-            Assert.IsTrue(publishedPost.Content.Base64);
+            Assert.AreEqual(ContentTypes.Base64, publishedPost.Content.ContentType);
             Assert.AreEqual(@"<img src=""http://new.example.com/images/my-mug.jpg"" />", publishedPost.Content.UncodedText);
         }
 
@@ -172,7 +173,7 @@ namespace UnitTests.Subtext.BlogMl
                                         approved=""true"" 
                                         post-url=""http://example.com/whatever"">
                                       <title type=""text""><![CDATA[Post Title]]></title>
-                                      <content base64=""true"">
+                                      <content type=""base64"">
                                         <![CDATA[Q29udGVudCBvZiB0aGUgcG9zdA==]]>
                                       </content>
                                       <authors>
@@ -192,7 +193,7 @@ namespace UnitTests.Subtext.BlogMl
             // assert
             Assert.IsNotNull(deserializedPost);
             Assert.AreEqual("Post Title", deserializedPost.Title);
-            Assert.IsTrue(deserializedPost.Content.Base64);
+            Assert.AreEqual(ContentTypes.Base64, deserializedPost.Content.ContentType);
             Assert.AreEqual("Content of the post", deserializedPost.Content.UncodedText);
             Assert.AreEqual(1, deserializedPost.Authors.Count);
         }
