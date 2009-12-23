@@ -77,10 +77,10 @@ namespace UnitTests.Subtext.BlogMl
         }
 
         [Test]
-        public void ConvertEntry_WithEntry_ContvertsBodyToBase64Encoding()
+        public void ConvertEntry_WithEntry_ContvertsBodyAndExcerptToBase64Encoding()
         {
             // arrange
-            var entry = new EntryStatsView { Body = "<style><![CDATA[Test]]></style>" };
+            var entry = new EntryStatsView { Body = "<style><![CDATA[Test]]></style>", Description = "<style><![CDATA[excerpt]]></style>" };
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "example.com" });
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
@@ -93,6 +93,8 @@ namespace UnitTests.Subtext.BlogMl
             // assert
             Assert.AreEqual("<style><![CDATA[Test]]></style>", post.Content.UncodedText);
             Assert.AreEqual(true, post.Content.Base64);
+            Assert.AreEqual("<style><![CDATA[excerpt]]></style>", post.Excerpt.UncodedText);
+            Assert.AreEqual(true, post.Excerpt.Base64);
         }
 
         [Test]
@@ -312,8 +314,29 @@ namespace UnitTests.Subtext.BlogMl
             // arrange
             var feedback = new FeedbackItem(FeedbackType.Comment) {
                 Id = 213,
-                Title = "Comment Title", 
-                Approved = true, 
+                Body = "<p><![CDATA[First!]]></p>",
+            };
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.Blog).Returns(new Blog());
+            var converter = new BlogMLExportMapper(subtextContext.Object);
+
+            // act
+            var comment = converter.ConvertComment(feedback);
+
+            // assert
+            Assert.AreEqual("<p><![CDATA[First!]]></p>", comment.Content.UncodedText);
+            Assert.AreEqual(true, comment.Content.Base64);
+
+        }
+
+        public void ConvertComment_WithFeedBackItem_ConvertsBodyToBase64EncodedText()
+        {
+            // arrange
+            var feedback = new FeedbackItem(FeedbackType.Comment)
+            {
+                Id = 213,
+                Title = "Comment Title",
+                Approved = true,
                 Author = "Anonymous Troll",
                 Email = "test@example.com",
                 SourceUrl = new Uri("http://subtextproject.com/"),

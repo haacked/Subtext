@@ -85,7 +85,7 @@ namespace Subtext.ImportExport
                 Approved = entry.IsActive,
                 Content = BlogMLContent.Create(entry.Body ?? string.Empty, true /*base64*/),
                 HasExcerpt = entry.HasDescription,
-                Excerpt = new BlogMLContent {Text = entry.Description},
+                Excerpt = BlogMLContent.Create(entry.Description ?? string.Empty, true /*base64*/),
                 DateCreated = Blog.TimeZone.ToUtc(entry.DateCreated),
                 DateModified = Blog.TimeZone.ToUtc(entry.IsActive ? entry.DateSyndicated : entry.DateModified),
                 Views = (uint)entry.WebCount
@@ -219,7 +219,7 @@ namespace Subtext.ImportExport
                 UserEMail = feedbackItem.Email,
                 UserName = feedbackItem.Author,
                 Approved = feedbackItem.Approved,
-                Content = new BlogMLContent { Text = feedbackItem.Body },
+                Content =BlogMLContent.Create(feedbackItem.Body ?? string.Empty, true /*base64*/),
                 DateCreated = Blog.TimeZone.ToUtc(feedbackItem.DateCreated),
                 DateModified = Blog.TimeZone.ToUtc(feedbackItem.DateModified)
             };
