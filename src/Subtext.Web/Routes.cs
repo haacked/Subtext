@@ -65,6 +65,7 @@ public static class Routes
         routes.MapHttpHandler<RssAdminHandler>("admin-rss", "admin/{feedName}Rss.axd");
         routes.MapRoute("export", "admin/export.ashx", new { controller = "export", action = "blogml" });
         routes.MapRoute("wlwmanifest", "wlwmanifest.xml.ashx", new { controller = "manifest", action = "index" });
+        routes.MapRoute("opensearchdesc", "opensearchdesc.xml.ashx", new { controller = "opensearch", action = "index" });
         routes.MapDirectory("admin");
         routes.MapDirectory("providers");
 
@@ -91,6 +92,7 @@ public static class Routes
         routes.MapPageToControl("contact");
         routes.MapPageToControl("ArchivePostPage");
         routes.MapPageToControl("ArticleCategories");
+        routes.MapPageToControl("search");
         routes.MapControls("archives", "archives.aspx", null, new[] {"SingleColumn"});
 
         routes.MapControls("entries-by-day", "archive/{year}/{month}/{day}.aspx"
@@ -121,6 +123,7 @@ public static class Routes
         routes.MapControls("category", "{categoryType}/{slug}.aspx"
                            , new {categoryType = @"category|stories"}
                            , new[] {"CategoryEntryList"});
+
 
         routes.MapControls("tag", "tags/{tag}/default.aspx", null, new[] {"TagEntryList"});
         routes.MapControls("tag-cloud", "tags/default.aspx", null, new[] {"FullTagCloud"});

@@ -22,6 +22,9 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Routing;
+using Lucene.Net.Analysis;
+using Lucene.Net.Analysis.Snowball;
+using Lucene.Net.Store;
 using Ninject;
 using Ninject.Modules;
 using Subtext.Configuration;
@@ -35,6 +38,7 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Services.Account;
+using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.ImportExport;
@@ -65,6 +69,12 @@ namespace Subtext
                 .InRequestScope()
                 .WithConstructorArgument("apiKey", c => c.Kernel.Get<Blog>().FeedbackSpamServiceKey)
                 .WithConstructorArgument("akismetClient", c => null);
+            Bind<Directory>()
+                .ToMethod(c => FSDirectory.GetDirectory(c.Kernel.Get<HttpContext>().Server.MapPath("~/App_Data")))
+                .InSingletonScope();
+            Bind<Analyzer>().To<SnowballAnalyzer>().InSingletonScope()
+                .WithConstructorArgument("name", c => c.Kernel.Get<FullTextSearchEngineSettings>().Language)
+                .WithConstructorArgument("stopWords", c => c.Kernel.Get<FullTextSearchEngineSettings>().StopWords);
 
             // Dependencies you're less likely to change.
             LoadCoreDependencies();
@@ -77,6 +87,7 @@ namespace Subtext
             Bind<IAccountService>().To<AccountService>().InSingletonScope();
             Bind<IEntryPublisher>().To<EntryPublisher>().InRequestScope();
             Bind<FriendlyUrlSettings>().ToMethod(context => FriendlyUrlSettings.Settings).InRequestScope();
+            Bind<FullTextSearchEngineSettings>().ToMethod(context => FullTextSearchEngineSettings.Settings).InRequestScope();
             Bind<ISubtextPageBuilder>().To<SubtextPageBuilder>().InSingletonScope();
             Bind<ISlugGenerator>().To<SlugGenerator>().InRequestScope();
             Bind<FriendlyUrlSettings>().To<FriendlyUrlSettings>().InRequestScope();
@@ -95,6 +106,9 @@ namespace Subtext
             Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
             Bind<RequestContext>().ToMethod(c => Bootstrapper.RequestContext).InRequestScope();
             Bind<IServiceLocator>().To<NinjectServiceLocator>().InSingletonScope();
+            Bind<IIndexingService>().To<IndexingService>().InSingletonScope();
+            Bind<ISearchEngineService>().To<SearchEngineService>().InSingletonScope();
+
         }
 
         private void LoadGenericDependencies()

@@ -82,6 +82,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Lucene.Net, Version=2.3.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Lucene.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
@@ -89,6 +93,10 @@
     <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Snowball.Net, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Snowball.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -144,6 +152,7 @@
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\IdenticonController.cs" />
     <Compile Include="Controllers\ManifestController.cs" />
+    <Compile Include="Controllers\OpenSearchController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controls\Captcha\CaptchaBase.cs" />
     <Compile Include="Controls\Captcha\CaptchaControl.cs" />
@@ -305,6 +314,13 @@
       <DependentUpon>Feedback.Master</DependentUpon>
     </Compile>
     <Compile Include="pages\Admin\Feedback\FeedbackState.cs" />
+    <Compile Include="pages\Admin\FullTextSearch.aspx.cs">
+      <DependentUpon>FullTextSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\Admin\FullTextSearch.aspx.designer.cs">
+      <DependentUpon>FullTextSearch.aspx</DependentUpon>
+    </Compile>
     <Compile Include="pages\Admin\ImportExport.aspx.cs">
       <DependentUpon>ImportExport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -792,6 +808,9 @@
     <Compile Include="UI\Controls\MonthList.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\MoreResultsLikeThis.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UI\Controls\MyLinks.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -823,6 +842,9 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\Controls\RelatedLinks.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\Search.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\Controls\SingleColumn.cs">
@@ -1145,6 +1167,10 @@
     <Content Include="pages\Admin\Export.aspx" />
     <Content Include="pages\Admin\Feedback\Default.aspx" />
     <Content Include="pages\Admin\Feedback\Edit.aspx" />
+    <Content Include="pages\Admin\FullTextSearch.aspx" />
+    <Content Include="pages\Admin\images\bg.gif" />
+    <Content Include="pages\Admin\images\bg_body.gif" />
+    <Content Include="pages\Admin\images\bg_tabs.gif" />
     <Content Include="pages\Admin\images\iPhoneIcon.png" />
     <Content Include="pages\Admin\images\poweredbydotnet.gif" />
     <Content Include="pages\Admin\images\toggle_gray_down.gif" />
@@ -1552,14 +1578,19 @@
     <Content Include="Skins\AnotherEon001\SkinIcon.png" />
     <Content Include="Skins\AnotherEon001\style.css" />
     <Content Include="Skins\Colors\Blue-SkinIcon.png" />
+    <Content Include="Skins\Colors\Controls\MoreResults.ascx" />
     <Content Include="Skins\Colors\Orange-SkinIcon.png" />
     <Content Include="Skins\Colors\ScarletAndGrey-SkinIcon.png" />
+    <Content Include="Skins\GlossyBlue\Controls\MoreResults.ascx" />
     <Content Include="Skins\GlossyBlue\SkinIcon.png" />
     <Content Include="Skins\GlossyBlue\style.css" />
+    <Content Include="Skins\Gradient\Controls\MoreResults.ascx" />
     <Content Include="Skins\Gradient\Images\bg-stripe.gif" />
     <Content Include="Skins\Gradient\SkinIcon.png" />
+    <Content Include="Skins\KeyWest\Controls\MoreResults.ascx" />
     <Content Include="Skins\KeyWest\Images\CommentAuthorGradient.gif" />
     <Content Include="Skins\KeyWest\SkinIcon.png" />
+    <Content Include="Skins\Lightz\Controls\MoreResults.ascx" />
     <Content Include="Skins\Lightz\SkinIcon.png" />
     <Content Include="Skins\Mobile\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Mobile\Controls\ArchiveDay.ascx" />
@@ -1851,6 +1882,7 @@
     <Content Include="Skins\Naked\Controls\HomePage.ascx" />
     <Content Include="Skins\Naked\Controls\Login.ascx" />
     <Content Include="Skins\Naked\Controls\MonthListings.ascx" />
+    <Content Include="Skins\Naked\Controls\MoreResults.ascx" />
     <Content Include="Skins\Naked\Controls\MyLinks.ascx" />
     <Content Include="Skins\Naked\Controls\News.ascx" />
     <Content Include="Skins\Naked\Controls\PostCategoryList.ascx" />
@@ -1886,6 +1918,7 @@
     <Content Include="Skins\Nature\Controls\HomePage.ascx" />
     <Content Include="Skins\Nature\Controls\Login.ascx" />
     <Content Include="Skins\Nature\Controls\MonthListings.ascx" />
+    <Content Include="Skins\Nature\Controls\MoreResults.ascx" />
     <Content Include="Skins\Nature\Controls\MyLinks.ascx" />
     <Content Include="Skins\Nature\Controls\News.ascx" />
     <Content Include="Skins\Nature\Controls\PostComment.ascx" />
@@ -1933,6 +1966,7 @@
     <Content Include="Skins\origami\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\origami\Controls\Header.ascx" />
     <Content Include="Skins\origami\Controls\HomePage.ascx" />
+    <Content Include="Skins\origami\Controls\MoreResults.ascx" />
     <Content Include="Skins\origami\Controls\MyLinks.ascx" />
     <Content Include="Skins\origami\Controls\News.ascx" />
     <Content Include="Skins\origami\Controls\PostComment.ascx" />
@@ -2069,6 +2103,7 @@
     <Content Include="Skins\Piyo\Controls\HomePage.ascx" />
     <Content Include="Skins\Piyo\Controls\Login.ascx" />
     <Content Include="Skins\Piyo\Controls\MonthListings.ascx" />
+    <Content Include="Skins\Piyo\Controls\MoreResults.ascx" />
     <Content Include="Skins\Piyo\Controls\MyLinks.ascx" />
     <Content Include="Skins\Piyo\Controls\News.ascx" />
     <Content Include="Skins\Piyo\Controls\PostComment.ascx" />
@@ -2161,6 +2196,7 @@
     <Content Include="Skins\RedBook\Controls\HomePage.ascx" />
     <Content Include="Skins\RedBook\Controls\Login.ascx" />
     <Content Include="Skins\RedBook\Controls\MonthListings.ascx" />
+    <Content Include="Skins\RedBook\Controls\MoreResults.ascx" />
     <Content Include="Skins\RedBook\Controls\MyLinks.ascx" />
     <Content Include="Skins\RedBook\Controls\News.ascx" />
     <Content Include="Skins\RedBook\Controls\PostComment.ascx" />
@@ -2228,6 +2264,7 @@
     <Content Include="Skins\Semagogy\Controls\HomePage.ascx" />
     <Content Include="Skins\Semagogy\Controls\Login.ascx" />
     <Content Include="Skins\Semagogy\Controls\MonthListings.ascx" />
+    <Content Include="Skins\Semagogy\Controls\MoreResults.ascx" />
     <Content Include="Skins\Semagogy\Controls\MyLinks.ascx" />
     <Content Include="Skins\Semagogy\Controls\News.ascx" />
     <Content Include="Skins\Semagogy\Controls\PostComment.ascx" />
@@ -2279,6 +2316,7 @@
     <Content Include="Skins\Submarine\Controls\HomePage.ascx" />
     <Content Include="Skins\Submarine\Controls\Login.ascx" />
     <Content Include="Skins\Submarine\Controls\MonthListings.ascx" />
+    <Content Include="Skins\Submarine\Controls\MoreResults.ascx" />
     <Content Include="Skins\Submarine\Controls\MyLinks.ascx" />
     <Content Include="Skins\Submarine\Controls\mylinksAdmin.ascx" />
     <Content Include="Skins\Submarine\Controls\News.ascx" />
@@ -2323,6 +2361,7 @@
     <Content Include="Skins\WPSkin\Controls\HomePage.ascx" />
     <Content Include="Skins\WPSkin\Controls\Login.ascx" />
     <Content Include="Skins\WPSkin\Controls\MonthListings.ascx" />
+    <Content Include="Skins\WPSkin\Controls\MoreResults.ascx" />
     <Content Include="Skins\WPSkin\Controls\MyLinks.ascx" />
     <Content Include="Skins\WPSkin\Controls\News.ascx" />
     <Content Include="Skins\WPSkin\Controls\PostComment.ascx" />
@@ -2351,6 +2390,8 @@
     <Content Include="Skins\_System\commonstyle.css" />
     <Content Include="Skins\_System\Controls\Error.ascx" />
     <Content Include="Skins\_System\Controls\FullTagCloud.ascx" />
+    <Content Include="Skins\AnotherEon001\Controls\MoreResults.ascx" />
+    <Content Include="Skins\_System\Controls\Search.ascx" />
     <Content Include="Skins\_System\Controls\ShareThisPost.ascx" />
     <Content Include="Skins\_System\Controls\TagCloud.ascx" />
     <Content Include="Skins\_System\csharp.css" />

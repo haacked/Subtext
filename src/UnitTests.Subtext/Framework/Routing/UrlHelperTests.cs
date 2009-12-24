@@ -26,6 +26,7 @@ namespace UnitTests.Subtext.Framework.Routing
             {
                 Id = 123,
                 DateCreated = dateCreated,
+                DateSyndicated = dateCreated,
                 EntryName = "post-slug"
             };
 
@@ -45,6 +46,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var entry = new Entry(PostType.BlogPost)
             {
                 Id = 123,
+                DateSyndicated = dateCreated,
                 DateCreated = dateCreated,
                 EntryName = "post-slug"
             };
@@ -54,6 +56,28 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //assert
             Assert.AreEqual("/archive/2008/01/23/post-slug.aspx", url);
+        }
+
+        [Test]
+        public void EntryUrl_WithEntryHavingEntryNameAndPublishedInTheFuture_RendersVirtualPathToEntryWithDateAndSlugInUrl()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            DateTime dateSyndicated = DateTime.ParseExact("2008/02/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var entry = new Entry(PostType.BlogPost)
+            {
+                Id = 123,
+                DateCreated = dateCreated,
+                DateSyndicated = dateSyndicated,
+                EntryName = "post-slug"
+            };
+
+            //act
+            string url = helper.EntryUrl(entry);
+
+            //assert
+            Assert.AreEqual("/archive/2008/02/23/post-slug.aspx", url);
         }
 
 
@@ -67,6 +91,7 @@ namespace UnitTests.Subtext.Framework.Routing
             {
                 Id = 123,
                 DateCreated = dateCreated,
+                DateSyndicated = dateCreated,
                 EntryName = "post-slug",
                 PostType = PostType.Story
             };
@@ -88,6 +113,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var entry = new Entry(PostType.BlogPost)
             {
                 DateCreated = dateCreated,
+                DateSyndicated = dateCreated,
                 EntryName = string.Empty,
                 Id = 123
             };
@@ -109,6 +135,7 @@ namespace UnitTests.Subtext.Framework.Routing
             {
                 Id = 123,
                 DateCreated = dateCreated,
+                DateSyndicated = dateCreated,
                 EntryName = "post-slug"
             };
 
@@ -157,6 +184,7 @@ namespace UnitTests.Subtext.Framework.Routing
                 {
                     Id = 123,
                     DateCreated = dateCreated,
+                    DateSyndicated = dateCreated,
                     EntryName = "post-slug"
                 }
             };
@@ -1270,6 +1298,21 @@ namespace UnitTests.Subtext.Framework.Routing
         private static UrlHelper SetupUrlHelper(string appPath, RouteData routeData)
         {
             return UnitTestHelper.SetupUrlHelper(appPath, routeData);
+        }
+
+        [RowTest]
+        [Row("http://www.google.com/search?q=asp.net+mvc&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a", "asp.net mvc")]
+        [Row("http://it.search.yahoo.com/search;_ylt=A03uv8bsRjNLZ0ABugAbDQx.?p=asp.net+mvc&fr2=sb-top&fr=yfp-t-709&rd=r1&sao=1", "asp.net mvc")]
+        [Row("http://www.google.com/#hl=en&source=hp&q=asp.net+mvc&btnG=Google+Search&aq=0p&aqi=g-p3g7&oq=as&fp=cbc2f75bf9d43a8f", "asp.net mvc")]
+        [Row("http://www.bing.com/search?q=asp.net+mvc&go=&form=QBLH&filt=all", "asp.net mvc")]
+        [Row("http://www.google.com/search?hl=en&safe=off&client=firefox-a&rls=org.mozilla%3Aen-US%3Aofficial&hs=MUl&q=%22asp.net+mvc%22&aq=f&oq=&aqi=g-p3g7", "\"asp.net mvc\"")]
+        [Row("http://codeclimber.net.nz/search.aspx?q=%22asp.net%20mvc%22", "")]
+        public void UrlHelper_ExtractKeywordsFromReferrer_ParsesCorrectly(string referralUrl, string expectedResult)
+        {
+            Uri referrer = new Uri(referralUrl);
+            Uri currentPath = new Uri("http://codeclimber.net.nz/archive/2009/05/20/book-review-asp.net-mvc-1.0-quickly.aspx");
+            string query = UrlHelper.ExtractKeywordsFromReferrer(referrer, currentPath);
+            Assert.AreEqual(expectedResult, query);
         }
     }
 }

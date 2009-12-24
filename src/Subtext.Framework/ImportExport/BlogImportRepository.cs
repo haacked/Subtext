@@ -73,6 +73,7 @@ namespace Subtext.ImportExport
         {
             Entry newEntry = Mapper.ConvertBlogPost(post, blog, Blog);
             newEntry.BlogId = Blog.Id;
+            newEntry.Blog = Blog;
             var publisher = EntryPublisher as EntryPublisher;
             if(publisher != null)
             {

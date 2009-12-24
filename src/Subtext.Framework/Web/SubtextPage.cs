@@ -19,6 +19,7 @@ using System.Web.UI;
 using Ninject;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Services.SearchEngine;
 
 namespace Subtext.Framework.Web.Handlers
 {
@@ -33,6 +34,9 @@ namespace Subtext.Framework.Web.Handlers
 
         [Inject]
         public ISubtextContext SubtextContext { get; set; }
+
+        [Inject]
+        public ISearchEngineService SearchEngineService { get; set; }
 
         public UrlHelper Url
         {

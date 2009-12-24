@@ -16,16 +16,25 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Services.SearchEngine;
 
 namespace Subtext.Web.UI.Controls
 {
     public class RelatedLinks : BaseControl
     {
+        public ISearchEngineService SearchEngineService { 
+            get
+            {
+                return SubtextPage.SearchEngineService;
+            }
+        }
+
         public RelatedLinks()
         {
             RowCount = 5;
@@ -35,20 +44,11 @@ namespace Subtext.Web.UI.Controls
 
         protected override void OnLoad(EventArgs e)
         {
-            var myRelLinks = new List<PositionItems>();
             int blogId = Blog.Id >= 1 ? Blog.Id : 0;
             var urlRelatedLinks = FindControl("Links") as Repeater;
             Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-            ICollection<EntrySummary> relatedEntries = Repository.GetRelatedEntries(blogId, entry.Id,
-                                                                                                   RowCount);
 
-            foreach(EntrySummary relatedEntry in relatedEntries)
-            {
-                string myUrl = Url.EntryUrl(relatedEntry);
-                myRelLinks.Add(new PositionItems(relatedEntry.Title, myUrl));
-            }
-
-            urlRelatedLinks.DataSource = myRelLinks;
+            urlRelatedLinks.DataSource = SearchEngineService.RelatedContents(entry.Id, RowCount, blogId); ;
             urlRelatedLinks.DataBind();
             base.OnLoad(e);
         }
@@ -58,33 +58,24 @@ namespace Subtext.Web.UI.Controls
         {
             if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                var pi = (PositionItems)e.Item.DataItem;
+                var pi = (SearchEngineResult)e.Item.DataItem;
                 BindLink(e, pi);
             }
         }
 
-        private static void BindLink(RepeaterItemEventArgs e, PositionItems pi)
+        private void BindLink(RepeaterItemEventArgs e, SearchEngineResult searchResult)
         {
             var relatedLink = (HyperLink)e.Item.FindControl("Link");
+            var datePublished = (Literal)e.Item.FindControl("DatePublished");
+            var score = (Literal)e.Item.FindControl("Score");
             if(relatedLink != null)
             {
-                relatedLink.Text = pi.Title;
-                relatedLink.NavigateUrl = pi.Url;
+                relatedLink.Text = searchResult.Title;
+                relatedLink.NavigateUrl = Url.EntryUrl(searchResult);
                 relatedLink.Attributes.Add("rel", "me");
+                if (datePublished!=null) datePublished.Text = searchResult.DateSyndicated.ToShortDateString();
+                if (score!=null) score.Text = searchResult.Score.ToString();
             }
         }
-    }
-
-    public class PositionItems
-    {
-        public PositionItems(string title, string url)
-        {
-            Title = title;
-            Url = url;
-        }
-
-        public string Title { get; private set; }
-
-        public string Url { get; private set; }
     }
 }

@@ -35,7 +35,7 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
 
             int blogId = Blog.Id >= 1 ? Blog.Id : 0;
-            var myLastItems = new List<PositionItems>();
+            var myLastItems = new List<PositionTopItems>();
 
             ICollection<EntrySummary> entrySummaries = ObjectProvider.Instance().GetTopEntrySummaries(blogId, 10);
 
@@ -44,7 +44,7 @@ namespace Subtext.Web.UI.Controls
                 string title = entrySummary.Title;
                 string myUrl = Url.EntryUrl(entrySummary);
 
-                myLastItems.Add(new PositionItems(title, myUrl));
+                myLastItems.Add(new PositionTopItems(title, myUrl));
             }
 
             Top10Entries.DataSource = myLastItems;

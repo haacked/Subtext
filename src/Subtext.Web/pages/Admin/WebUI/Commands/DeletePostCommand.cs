@@ -17,26 +17,30 @@
 
 using System;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Services.SearchEngine;
 
 namespace Subtext.Web.Admin.Commands
 {
     [Serializable]
     public class DeletePostCommand : DeleteTargetCommand
     {
-        public DeletePostCommand(ObjectProvider repository, int postID)
+        public DeletePostCommand(ObjectProvider repository, int postID, ISearchEngineService searchEngineService)
         {
             _targetName = "Post";
             _targetID = postID;
             Repository = repository;
+            SearchEngine = searchEngineService;
         }
 
         public ObjectProvider Repository { get; private set; }
+        public ISearchEngineService SearchEngine { get; private set; }
 
         public override string Execute()
         {
             try
             {
                 Repository.DeleteEntry(_targetID);
+                SearchEngine.RemovePost(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
             }
             catch(Exception ex)

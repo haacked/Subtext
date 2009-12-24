@@ -134,6 +134,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Lucene.Net, Version=2.3.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Lucene.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
@@ -145,6 +149,14 @@
     <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SgmlReaderDll.dll</HintPath>
+    </Reference>
+    <Reference Include="SimilarityNet, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\SimilarityNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Snowball.Net, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Snowball.Net.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -284,6 +296,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Configuration\FriendlyUrlSettings.cs" />
+    <Compile Include="Configuration\FullTextSearchEngineSettings.cs" />
     <Compile Include="Configuration\MimeTypesMapper.cs" />
     <Compile Include="Configuration\SkinConfig.cs">
       <SubType>Code</SubType>
@@ -531,6 +544,13 @@
     <Compile Include="Services\Emoticons\Emoticon.cs" />
     <Compile Include="Services\Emoticons\EmoticonsFileSource.cs" />
     <Compile Include="Services\Emoticons\EmoticonsTransformation.cs" />
+    <Compile Include="Services\SearchEngine\EntryExtensionMethods.cs" />
+    <Compile Include="Services\SearchEngine\IIndexingService.cs" />
+    <Compile Include="Services\SearchEngine\IndexingService.cs" />
+    <Compile Include="Services\SearchEngine\ISearchEngineService.cs" />
+    <Compile Include="Services\SearchEngine\SearchEngineEntry.cs" />
+    <Compile Include="Services\SearchEngine\SearchEngineResult.cs" />
+    <Compile Include="Services\SearchEngine\SearchEngineService.cs" />
     <Compile Include="Services\Security\AccountService.cs" />
     <Compile Include="Services\Security\IAccountService.cs" />
     <Compile Include="Services\Security\SecurityHelper.cs" />

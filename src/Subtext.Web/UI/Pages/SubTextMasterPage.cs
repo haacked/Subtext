@@ -145,6 +145,12 @@ namespace Subtext.Web.UI.Pages
                 wlwmanifest.Attributes.Add("href", Url.WlwManifestUrl());
             }
 
+            if (opensearch != null)
+            {
+                opensearch.Attributes.Add("href", Url.OpenSearchDescriptorUrl());
+                opensearch.Attributes.Add("Title", Blog.Title);
+            }
+
             if(RSSLink != null)
             {
                 RSSLink.Attributes.Add("href", Url.RssUrl(Blog).ToString());

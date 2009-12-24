@@ -109,9 +109,9 @@ namespace Subtext.Framework.Routing
 
             if(entry.PostType == PostType.BlogPost)
             {
-                routeValues.Add("year", entry.DateCreated.ToString("yyyy", CultureInfo.InvariantCulture));
-                routeValues.Add("month", entry.DateCreated.ToString("MM", CultureInfo.InvariantCulture));
-                routeValues.Add("day", entry.DateCreated.ToString("dd", CultureInfo.InvariantCulture));
+                routeValues.Add("year", entry.DateSyndicated.ToString("yyyy", CultureInfo.InvariantCulture));
+                routeValues.Add("month", entry.DateSyndicated.ToString("MM", CultureInfo.InvariantCulture));
+                routeValues.Add("day", entry.DateSyndicated.ToString("dd", CultureInfo.InvariantCulture));
                 routeName = "entry-";
             }
             else
@@ -317,6 +317,16 @@ namespace Subtext.Framework.Routing
         public virtual VirtualPath ContactFormUrl()
         {
             return GetVirtualPath("contact", null);
+        }
+
+        public virtual VirtualPath SearchPageUrl()
+        {
+            return GetVirtualPath("search", null);
+        }
+
+        public virtual VirtualPath SearchPageUrl(string keywords)
+        {
+            return GetVirtualPath("search", new { q = keywords });
         }
 
         public virtual VirtualPath MonthUrl(DateTime dateTime)
@@ -531,6 +541,12 @@ namespace Subtext.Framework.Routing
             return vp;
         }
 
+        public virtual VirtualPath OpenSearchDescriptorUrl()
+        {
+            VirtualPath vp = GetVirtualPath("opensearchdesc", null);
+            return vp;
+        }
+
         public virtual VirtualPath CustomCssUrl()
         {
             return GetVirtualPath("customcss", null);
@@ -568,6 +584,55 @@ namespace Subtext.Framework.Routing
         public virtual VirtualPath Logout()
         {
             return GetVirtualPath("logout", new RouteValueDictionary {{"action", "logout"}, {"controller", "account"}});
+        }
+
+        
+        // Code inspidered from this article: http://dotnetperls.com/google-query
+        public static string ExtractKeywordsFromReferrer(Uri referrer, Uri currentPath)
+        {
+            if(referrer.Host == currentPath.Host)
+                return string.Empty;
+            string u = referrer.OriginalString.ToLower();
+
+            //This looks for parameters named q (Google, Bing, possibly others)
+            int start = u.IndexOf("&q=", StringComparison.Ordinal);
+            int length = 3;
+
+            if (start == -1)
+            {
+                start = u.IndexOf("q=", StringComparison.Ordinal);
+                length = 2;
+            }
+
+            //This looks for parameters named p (Yahoo)
+            if (start == -1)
+            {
+                start = u.IndexOf("p=", StringComparison.Ordinal);
+                length = 2;
+            }
+
+            //Nothing found
+            if (start == -1)
+            {
+                return string.Empty;
+            }
+
+
+            //Get Keywords
+            start += length;
+
+            int end = u.IndexOf('&', start);
+
+            if (end == -1)
+            {
+                end = u.Length;
+            }
+
+            string sub = u.Substring(start, end - start);
+
+            string result = HttpUtility.UrlDecode(sub);
+
+            return result;
         }
     }
 }

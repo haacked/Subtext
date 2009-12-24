@@ -1662,9 +1662,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntries]
 )
 AS
 
+IF(@CategoryID IS NULL)
+BEGIN
 WITH OrderedEntries AS
 (
-	SELECT	content.BlogId 
+	SELECT 	content.BlogId 
 			, content.[ID] 
 			, content.Title 
 			, DateCreated = content.DateAdded 
@@ -1691,19 +1693,62 @@ WITH OrderedEntries AS
 			, e.EnclosureEnabled as EnclosureEnabled
 			, e.AddToFeed
 			, e.ShowWithPost
-	FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-		LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = l.PostID
-		LEFT JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
-		LEFT JOIN [<dbUser,varchar,dbo>].subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
-		LEFT JOIN [<dbUser,varchar,dbo>].[subtext_Enclosure] e ON content.[ID] = e.EntryId
+	FROM [dbo].[subtext_Content] content
+		LEFT JOIN [dbo].subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+		LEFT JOIN [dbo].[subtext_Enclosure] e ON content.[ID] = e.EntryId
 	WHERE 	content.BlogId = @BlogId
 		AND content.PostType = @PostType
-		AND (cats.CategoryID = @CategoryID OR @CategoryID IS NULL)
 )
 
 SELECT * 
 FROM OrderedEntries 
 WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+END
+ELSE
+BEGIN
+WITH OrderedEntries AS
+(
+	SELECT 	content.BlogId 
+			, content.[ID] 
+			, content.Title 
+			, DateCreated = content.DateAdded 
+			, content.[Text] 
+			, content.[Description]
+			, content.PostType 
+			, content.Author 
+			, content.Email 
+			, content.DateUpdated 
+			, FeedbackCount = ISNULL(content.FeedbackCount, 0)
+			, content.PostConfig
+			, content.EntryName
+			, content.DateSyndicated
+			, WebCount = ISNULL(vc.WebCount, 0)
+			, AggCount = ISNULL(vc.AggCount, 0)
+			, vc.WebLastUpdated
+			, vc.AggLastUpdated
+			, row_number() over(order by content.DateAdded DESC, content.ID DESC) RowNumber
+			, e.Id as EnclosureId
+			, e.Title as EnclosureTitle
+			, e.Url as EnclosureUrl
+			, e.MimeType as EnclosureMimeType
+			, e.Size as EnclosureSize
+			, e.EnclosureEnabled as EnclosureEnabled
+			, e.AddToFeed
+			, e.ShowWithPost
+	FROM [dbo].[subtext_Content] content
+		LEFT JOIN [dbo].[subtext_Links] l ON content.[ID] = l.PostID
+		LEFT JOIN [dbo].subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+		LEFT JOIN [dbo].[subtext_Enclosure] e ON content.[ID] = e.EntryId
+	WHERE 	content.BlogId = @BlogId
+		AND content.PostType = @PostType
+		AND (l.CategoryID = @CategoryID)
+)
+
+SELECT * 
+FROM OrderedEntries 
+WHERE RowNumber between @PageIndex * @PageSize + 1 and @PageIndex * @PageSize + @PageSize
+
+END
 
 IF(@CategoryID IS NULL)
 	SELECT COUNT([ID]) AS TotalRecords
@@ -4186,7 +4231,7 @@ SELECT * FROM
 (
 	SELECT Top 1 [ID]
 		, Title
-		, DateCreated = ISNULL(DateSyndicated, DateAdded) /* usage optimization to fulfill interface */
+		, DateSyndicated = ISNULL(DateSyndicated, DateAdded) /* usage optimization to fulfill interface */
 		, PostType
 		, EntryName 
 		, ViewCount = 0 /* Not Used */
@@ -4197,14 +4242,14 @@ SELECT * FROM
 		AND subtext_Content.DateSyndicated <= @CurrentDateTime
 		AND PostType = @PostType
 		AND [ID] != @ID
-	ORDER BY DateCreated ASC
+	ORDER BY DateSyndicated ASC
 ) [Previous]
 UNION
 SELECT * FROM
 (
 	SELECT Top 1 [ID]
 		, Title
-		, DateCreated = ISNULL(DateSyndicated, DateAdded) /* usage optimization to fulfill interface */
+		, DateSyndicated = ISNULL(DateSyndicated, DateAdded) /* usage optimization to fulfill interface */
 		, PostType
 		, EntryName 
 		, ViewCount = 0 /* Not Used */
@@ -4215,10 +4260,10 @@ SELECT * FROM
 		AND subtext_Content.DateSyndicated <= @CurrentDateTime
 		AND PostType = @PostType
 		AND [ID] != @ID
-	ORDER BY DateCreated DESC
+	ORDER BY DateSyndicated DESC
 ) [Next]
 
-ORDER BY DateCreated DESC
+ORDER BY DateSyndicated DESC
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4246,7 +4291,7 @@ SELECT DISTINCT c.ID
 	, c.Title
 	, c.EntryName
 	, ViewCount = 0 /* not needed here */
-	, DateCreated = c.DateAdded
+	, DateSyndicated = c.DateAdded
 FROM [<dbUser,varchar,dbo>].subtext_LinkCategories lc
 	INNER JOIN [<dbUser,varchar,dbo>].subtext_Links l ON l.CategoryID = lc.CategoryID
 	INNER JOIN [<dbUser,varchar,dbo>].subtext_Content c ON l.PostID = c.ID  
@@ -4283,7 +4328,7 @@ SELECT DISTINCT
 	, c.EntryName
 	, ViewCount = (evc.WebCount + evc.AggCount)
 	, c.Title
-	, DateCreated = c.DateAdded
+	, DateSyndicated = c.DateAdded
 FROM [<dbUser,varchar,dbo>].subtext_EntryViewCount evc
 	INNER JOIN [<dbUser,varchar,dbo>].subtext_Content c  
 		ON evc.EntryId = c.Id

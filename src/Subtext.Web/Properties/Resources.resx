@@ -535,4 +535,10 @@ You may remove them later.&lt;/p&gt;</value>
   <data name="Warning_CaptchaExpired" xml:space="preserve">
     <value>CaptchaExpired Exception thrown.</value>
   </data>
+  <data name="FullTextSearch_ReindexingCompleted" xml:space="preserve">
+    <value>Rebuild of full text index completed</value>
+  </data>
+  <data name="FullTextSearch_ReindexingFailed" xml:space="preserve">
+    <value>Rebuild of full text index failed</value>
+  </data>
 </root>

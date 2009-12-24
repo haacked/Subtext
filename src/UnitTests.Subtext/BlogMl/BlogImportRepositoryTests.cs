@@ -8,6 +8,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
+using Subtext.Framework.Services.SearchEngine;
 using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
@@ -75,10 +76,11 @@ namespace UnitTests.Subtext.BlogMl
             context.Setup(c => c.Blog.TimeZone.FromUtc(It.IsAny<DateTime>())).Returns(DateTime.Now);
             context.Setup(c => c.Repository.Create(It.IsAny<Entry>(), It.IsAny<IEnumerable<int>>()));
             var transformation = new CompositeTextTransformation();
-            var entryPublisher = new EntryPublisher(context.Object, transformation, null);
+            var searchengine = new Mock<ISearchEngineService>();
+            var entryPublisher = new EntryPublisher(context.Object, transformation, null, searchengine.Object);
             var keywordExpander = new KeywordExpander((IEnumerable<KeyWord>)null);
             transformation.Add(keywordExpander);
-            var blog = new BlogMLBlog();
+            var blog = new BlogMLBlog() {Title = "MyBlog"};
             var post = new BlogMLPost();
             var repository = new BlogImportRepository(context.Object, null, entryPublisher, new BlogMLImportMapper());
 

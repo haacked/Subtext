@@ -20,6 +20,7 @@ using System.Web;
 using System.Web.Routing;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Services.SearchEngine;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework

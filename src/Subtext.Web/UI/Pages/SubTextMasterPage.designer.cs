@@ -30,6 +30,7 @@ namespace Subtext.Web.UI.Pages
         protected HtmlLink RSSLink;
         protected HtmlLink Rsd;
         protected HtmlLink wlwmanifest;
+        protected HtmlLink opensearch;
         protected HtmlLink AtomLink;
         protected PlaceHolder CenterBodyControl;
         protected Literal versionMetaTag;

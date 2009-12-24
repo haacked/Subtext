@@ -25,21 +25,28 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Services
 {
     public class EntryPublisher : IEntryPublisher
     {
-        public EntryPublisher(ISubtextContext context, ITextTransformation transformation, ISlugGenerator slugGenerator)
+        public EntryPublisher(ISubtextContext context, ITextTransformation transformation, ISlugGenerator slugGenerator,
+            ISearchEngineService searchEngine)
         {
             if(context == null)
             {
                 throw new ArgumentNullException("context");
             }
+            if (searchEngine == null)
+            {
+                throw new ArgumentNullException("searchEngine");
+            }
             SubtextContext = context;
             Transformation = transformation ?? EmptyTextTransformation.Instance;
             SlugGenerator = slugGenerator ?? new SlugGenerator(FriendlyUrlSettings.Settings, context.Repository);
+            SearchEngine = searchEngine;
         }
 
         public ITextTransformation Transformation { get; private set; }
@@ -47,6 +54,8 @@ namespace Subtext.Framework.Services
         public ISubtextContext SubtextContext { get; private set; }
 
         public ISlugGenerator SlugGenerator { get; private set; }
+
+        public ISearchEngineService SearchEngine { get; private set; }
 
         #region IEntryPublisher Members
 
@@ -119,7 +128,9 @@ namespace Subtext.Framework.Services
             }
 
             ValidateEntry(entry);
-            SubtextContext.Repository.SetEntryTagList(entry.Id, entry.Body.ParseTags());
+            IList<string> tags = entry.Body.ParseTags();
+            SubtextContext.Repository.SetEntryTagList(entry.Id, tags);
+            SearchEngine.AddPost(entry.ConvertToSearchEngineEntry(tags));
             return entry.Id;
         }
 
