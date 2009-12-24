@@ -12,7 +12,7 @@
                 if (response.error)
                     handleError(response.error);
                 else {
-                    flash("#timeZoneInfo");
+                    ("#timeZoneInfo").flash();
                     $("#serverTimeZone").html(response.result.serverTimeZone);
                     $("#serverTime").html(response.result.serverTime);
                     $("#serverUtcTime").html(response.result.serverUtcTime);
