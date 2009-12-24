@@ -94,6 +94,10 @@ namespace Subtext.Framework.Data
             {
                 minDate = CurrentDateTime.AddDays(-7);
             }
+            else if (filter == DateFilter.LastYear)
+            {
+                minDate = CurrentDateTime.AddYears(-1);
+            }
 
             using(IDataReader reader = _procedures.GetPopularPosts(BlogId, minDate))
             {
