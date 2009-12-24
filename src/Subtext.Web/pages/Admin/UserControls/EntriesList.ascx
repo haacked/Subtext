@@ -8,8 +8,9 @@
 			<tr>
 				<th>Description</th>
 				<th width="50">Active</th>
-				<th width="75">Web Views</th>
-				<th width="75">Agg Views</th>
+				<th width="50">Comments</th>
+				<th width="50">Web Views</th>
+				<th width="50">Agg Views</th>
 				<th width="50">Referrals</th>
 				<th width="50">&nbsp;</th>
 				<th width="50">&nbsp;</th>
@@ -25,6 +26,9 @@
 			<td>
 				<%# IsActiveText(Container.DataItem)%>
 			</td>												
+			<td>
+				<%# GetEntry(Container.DataItem).FeedBackCount %>
+			</td>
 			<td>
 				<%# GetEntry(Container.DataItem).WebCount %>
 			</td>
@@ -42,33 +46,6 @@
 			</td>
 		</tr>
 	</ItemTemplate>
-	<AlternatingItemTemplate>
-		<tr class="alt">
-			<td>
-				<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# Url.EntryUrl((IEntryIdentity)Container.DataItem) %>' ToolTip="View Entry" >
-			        <%# GetEntry(Container.DataItem).Title %>
-			    </asp:HyperLink>
-			</td>
-			<td>
-				<%# IsActiveText(Container.DataItem)%>
-			</td>
-			<td>
-				<%# GetEntry(Container.DataItem).WebCount %>
-			</td>
-			<td>
-				<%# GetEntry(Container.DataItem).AggCount %>
-			</td>					
-			<td>
-				<a href="../Referrers.aspx?EntryID=<%# GetEntry(Container.DataItem).Id %>" title="View Referrals">View</a>
-			</td>				
-			<td>
-				<a href="Edit.aspx?PostId=<%# Eval("Id") %>" title="Edit Post">Edit</a>
-			</td>
-			<td>
-				<asp:LinkButton id="lnkDeleteAlt" CausesValidation="False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" CssClass="confirm-delete" />
-			</td>
-		</tr>
-	</AlternatingItemTemplate>
 	<FooterTemplate>
 		</table>
 	</FooterTemplate>

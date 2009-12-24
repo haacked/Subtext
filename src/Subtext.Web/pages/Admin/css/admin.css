@@ -581,7 +581,7 @@ table.listing tr.Header td {
 	background: #FFFFFF;
 }
 
-table.listing tr.alt 
+table.listing tr.alt, table.listing tr.even
 {
 	color: inherit;
 	background: #FFFFFF;
