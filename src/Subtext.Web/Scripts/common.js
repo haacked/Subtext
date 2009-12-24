@@ -3,6 +3,12 @@ if (!Subtext) {
     Subtext = {};
 }
 
+$(function() {
+    String.prototype.trim = function() {
+        return jQuery.trim(this);
+    } 
+});
+
 /*-------------------------------------------------*/
 /* Disables submit button during update panel post
 /*-------------------------------------------------*/
