@@ -22,5 +22,6 @@ namespace Subtext.Framework
         None = 0,
         LastWeek = 1,
         LastMonth = 2,
+        LastYear = 3,
     }
 }
