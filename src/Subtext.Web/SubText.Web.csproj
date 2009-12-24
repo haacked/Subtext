@@ -1017,7 +1017,7 @@
       <DependentUpon>UpgradeInProgress.aspx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
@@ -1038,7 +1038,6 @@
     <Content Include="Images\atomsmall.gif" />
     <Content Include="Images\blank.gif" />
     <Content Include="Images\close.gif" />
-    <Content Include="Images\closelabel.gif" />
     <Content Include="Images\contact.gif" />
     <Content Include="Images\default_gravatar.png" />
     <Content Include="Images\email.gif" />
@@ -1069,6 +1068,7 @@
     <Content Include="Images\icons\cc_icon_noderivs_small.gif" />
     <Content Include="Images\icons\cc_icon_noncomm_small.gif" />
     <Content Include="Images\icons\cc_icon_sharealike_small.gif" />
+    <Content Include="Images\icons\CommentIcon.gif" />
     <Content Include="Images\icons\cross.png" />
     <Content Include="Images\icons\edit.gif" />
     <Content Include="Images\icons\exclamation.png" />
@@ -1077,6 +1077,7 @@
     <Content Include="Images\icons\ico_critical.gif" />
     <Content Include="Images\icons\ico_info.gif" />
     <Content Include="Images\icons\ico_warning.gif" />
+    <Content Include="Images\icons\ms_information_small.gif" />
     <Content Include="Images\icons\tag_blue.png" />
     <Content Include="Images\icons\tag_blue_add.png" />
     <Content Include="Images\icons\tag_blue_delete.png" />
@@ -1103,15 +1104,10 @@
     <Content Include="Images\loaders\subtext-bar-loader.gif" />
     <Content Include="Images\loaders\subtext-loader.gif" />
     <Content Include="Images\loaders\subtext-round-tracer.gif" />
-    <Content Include="Images\loading.gif" />
     <Content Include="Images\ms_help.gif" />
-    <Content Include="Images\next.gif" />
-    <Content Include="Images\nextlabel.gif" />
     <Content Include="Images\permalink.gif" />
     <Content Include="Images\PoweredByAsp.Net.gif" />
     <Content Include="Images\PoweredBySubtext85x33.png" />
-    <Content Include="Images\prev.gif" />
-    <Content Include="Images\prevlabel.gif" />
     <Content Include="Images\printer.png" />
     <Content Include="Images\rss20icon.gif" />
     <Content Include="Images\Rss2Image.gif" />
@@ -1499,6 +1495,7 @@
     <Content Include="Scripts\ExternalLinks.js" />
     <Content Include="Scripts\InPlaceEdit.js" />
     <Content Include="Scripts\jquery.color.min.js" />
+    <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.hotkeys.min.js" />
     <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\LiveCommentPreview.js" />

@@ -1184,6 +1184,8 @@ body #entry-editor table.checkbox label
 
 #skin-selector div.skinOption {
     float: left;
+    cursor: pointer;
+    overflow: hidden;
 }
 
 #skin-selector div.skinOption label img {
@@ -1192,21 +1194,21 @@ body #entry-editor table.checkbox label
 
 div.skinOption {
     width: 350px;
-    height: 300px;
+    height: 280px;
     margin: 8px;
-    border: solid 1px;
+    padding: 8px;
+    border: solid 1px #000;
     position: relative;
 }
 
 div.skinOption.selected {
-    border: solid 4px khaki;
-    background-color: #ffe
-    ;
-    margin: 4px;
+    border: solid 1px #cc0;
+    outline: solid 4px #ff0;
+    background-color: #ffe;
 }
 
 div.skin-selection {
-    display:block;
+    display: block;
     position: absolute;
     bottom: 0;
     padding: 4px;
@@ -1254,4 +1256,31 @@ div.actions ul li a, ul.categoriesList li a, ul.folders li a
 {
 	margin: 0 0 10px 0;
 	width: 600px;
+}
+
+div.success
+{
+	background: #f8fff0 url(../../../images/icons/accept.png) no-repeat scroll 5px center;
+	text-indent: 15px;
+	margin: 0;
+	border: 1px solid #a0dc11;
+	padding: 10px;
+	font-weight: bold;
+	color: #040;
+	font-size: 1.5em;
+}
+
+.skinOption div.message 
+{
+	display: none; 
+	position: absolute; 
+	top: 0; 
+	left: 0;
+	height: 20px;
+	width: 345px;
+}
+
+.skinOption input 
+{
+	margin-left: -26px;	
 }

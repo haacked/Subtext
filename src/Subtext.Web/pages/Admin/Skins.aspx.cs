@@ -15,23 +15,39 @@ namespace Subtext.Web.Admin
     public partial class Skins : AdminOptionsPage
     {
         private ICollection<SkinTemplate> _mobileSkins;
-        private ICollection<SkinTemplate> _skins;
+        private IEnumerable<SkinTemplate> _skins;
 
-        protected ICollection<SkinTemplate> SkinTemplates
+        protected override void OnLoad(EventArgs e)
+        {
+            if(String.IsNullOrEmpty(Request.Form["SkinKey"]))
+            {
+                BindLocalUI();
+            }
+            else
+            {
+                OnSaveSkinClicked();
+            }
+            base.OnLoad(e);
+        }
+
+        protected IEnumerable<SkinTemplate> SkinTemplates
         {
             get
             {
                 if(_skins == null)
                 {
                     var skinEngine = new SkinEngine();
-                    _skins = skinEngine.GetSkinTemplates(false /* mobile */).Values;
-                    foreach(SkinTemplate template in _skins)
+                    var skins = from skin in skinEngine.GetSkinTemplates(false /* mobile */).Values
+                             where skin.SkinKey != "AGGREGATE"
+                             select skin;
+                    foreach(SkinTemplate template in skins)
                     {
                         if(template.MobileSupport == MobileSupport.Supported)
                         {
                             template.Name += Resources.Skins_MobileReady;
                         }
                     }
+                    _skins = skins;
                 }
                 return _skins;
             }
@@ -50,15 +66,6 @@ namespace Subtext.Web.Admin
                 }
                 return _mobileSkins;
             }
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            if(!IsPostBack)
-            {
-                BindLocalUI();
-            }
-            base.OnLoad(e);
         }
 
         protected override void BindLocalUI()
@@ -84,7 +91,7 @@ namespace Subtext.Web.Admin
             {
                 return "checked=\"checked\"";
             }
-            return "";
+            return string.Empty;
         }
 
         protected string EvalSelected(object o)
@@ -93,7 +100,7 @@ namespace Subtext.Web.Admin
             {
                 return " selected";
             }
-            return "";
+            return string.Empty;
         }
 
         private bool IsSelectedSkin(object o)
@@ -119,7 +126,7 @@ namespace Subtext.Web.Admin
             return HttpHelper.ExpandTildePath(imageUrl);
         }
 
-        protected void OnSaveSkinClicked(object o, EventArgs args)
+        protected void OnSaveSkinClicked()
         {
             Blog blog = SubtextContext.Blog;
             var skinEngine = new SkinEngine();
@@ -129,7 +136,6 @@ namespace Subtext.Web.Admin
             blog.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
             Repository.UpdateConfigData(blog);
 
-            Messages.ShowMessage(Resources.Skins_SkinSaved);
             BindLocalUI();
         }
     }

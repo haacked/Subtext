@@ -7,12 +7,42 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageContent" runat="server">
-    <st:MessagePanel ID="Messages" runat="server" />
+    <div id="success-message" class="MessagePanel" style="display: none;">
+        <img src="<%= VirtualPathUtility.ToAbsolute("~/images/icons/ico_info.gif") %>" />
+        <div><%= Resources.Skins_SkinSaved %></div>
+    </div>
+    
+    <script type="text/javascript">
+        $(function() {
+            $('form').ajaxForm(function() {
+            $('.success').css('color', '#eecc00').fadeIn()
+                .animate({ opacity: 1.0, color: '#006600' }, 400);
+            });
+
+            $('.skinOption').click(function() {
+                $('.success').removeClass('success').hide();
+                $('.selected').removeClass('selected');
+                $(this).addClass('selected').find('input[type=radio]').attr('checked', 'checked');
+                $('.current-skin').text($(this).find('label').text());
+                $('form').submit();
+                $(this).find('div.message').addClass('success');
+            });
+        });
+    </script>
+    
     <div id="skin-selector">
-        <h2>Select a Skin <asp:Button ID="saveButton" runat="server" OnClick="OnSaveSkinClicked" Text="Save Skin" /></h2>
+        <h2>
+            Current Skin: <span class="current-skin"><%= Blog.Skin.SkinKey %></span>
+        </h2>
+        <div>
+            Choose a skin by clicking on it.
+        </div>
         <asp:Repeater ID="skinRepeater" runat="server">
             <ItemTemplate>
-                <div class="skinOption<%#EvalSelected(Container.DataItem) %>" onclick="$('#<%# GetSkinClientId(Container.DataItem) %>').attr('checked', 'checked');">
+                <div class="skinOption<%# EvalSelected(Container.DataItem) %>" style="position: relative;">
+                    <div class="message">
+                        Skin Saved
+                    </div>
                     <img src="<%# GetSkinIconImage(Container.DataItem) %>" />
                     <div class="skin-selection">
                         <input type="radio" 

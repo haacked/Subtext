@@ -22,7 +22,7 @@ namespace Subtext.Web.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Subtext.Web.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Subtext.Web.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Subtext.Web.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to height must be greater than {0}..
         /// </summary>
-        internal static string ArgumentOutOfRange_Height {
+        public static string ArgumentOutOfRange_Height {
             get {
                 return ResourceManager.GetString("ArgumentOutOfRange_Height", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Priority must be in range from 0.0 to 1.0!.
         /// </summary>
-        internal static string ArgumentOutOfRange_Priority {
+        public static string ArgumentOutOfRange_Priority {
             get {
                 return ResourceManager.GetString("ArgumentOutOfRange_Priority", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to width must be greater than {0}..
         /// </summary>
-        internal static string ArgumentOutOfRange_Width {
+        public static string ArgumentOutOfRange_Width {
             get {
                 return ResourceManager.GetString("ArgumentOutOfRange_Width", resourceCulture);
             }
@@ -101,7 +101,7 @@ namespace Subtext.Web.Properties {
         ///&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you specify a sub-folder, you do not need to set up a virtual directory 
         ///corr [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string BlogsEditor_ApplicationHelpTip {
+        public static string BlogsEditor_ApplicationHelpTip {
             get {
                 return ResourceManager.GetString("BlogsEditor_ApplicationHelpTip", resourceCulture);
             }
@@ -110,7 +110,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Blog Activated and ready to go..
         /// </summary>
-        internal static string BlogsEditor_BlogActivated {
+        public static string BlogsEditor_BlogActivated {
             get {
                 return ResourceManager.GetString("BlogsEditor_BlogActivated", resourceCulture);
             }
@@ -119,7 +119,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Blog Created..
         /// </summary>
-        internal static string BlogsEditor_BlogCreated {
+        public static string BlogsEditor_BlogCreated {
             get {
                 return ResourceManager.GetString("BlogsEditor_BlogCreated", resourceCulture);
             }
@@ -128,7 +128,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Blog Inactivated and sent to a retirement community..
         /// </summary>
-        internal static string BlogsEditor_BlogDeactivated {
+        public static string BlogsEditor_BlogDeactivated {
             get {
                 return ResourceManager.GetString("BlogsEditor_BlogDeactivated", resourceCulture);
             }
@@ -137,7 +137,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Blog Saved.
         /// </summary>
-        internal static string BlogsEditor_BlogSaved {
+        public static string BlogsEditor_BlogSaved {
             get {
                 return ResourceManager.GetString("BlogsEditor_BlogSaved", resourceCulture);
             }
@@ -146,7 +146,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Emptiness is quite Zen. Still, please enter a value for &quot;{0}&quot;..
         /// </summary>
-        internal static string BlogsEditor_FieldRequired {
+        public static string BlogsEditor_FieldRequired {
             get {
                 return ResourceManager.GetString("BlogsEditor_FieldRequired", resourceCulture);
             }
@@ -157,7 +157,7 @@ namespace Subtext.Web.Properties {
         ///For more information on configuring blogs, see the &lt;a href=&apos;http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx&apos; target=&apos;_blank&apos;&gt;configuration docs&lt;/a&gt; (opens a new window).
         ///&lt;/p&gt;.
         /// </summary>
-        internal static string BlogsEditor_HelpText {
+        public static string BlogsEditor_HelpText {
             get {
                 return ResourceManager.GetString("BlogsEditor_HelpText", resourceCulture);
             }
@@ -172,7 +172,7 @@ namespace Subtext.Web.Properties {
         ///would be &amp;#8220;www.example.com&amp;#8221;.&lt;/p&gt;&lt;p&gt;If you are trying to set this up on your 
         ///own machine for  [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string BlogsEditor_HostDomainHelpText {
+        public static string BlogsEditor_HostDomainHelpText {
             get {
                 return ResourceManager.GetString("BlogsEditor_HostDomainHelpText", resourceCulture);
             }
@@ -181,7 +181,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to New Blog.
         /// </summary>
-        internal static string BlogsEditor_NewBlogLabel {
+        public static string BlogsEditor_NewBlogLabel {
             get {
                 return ResourceManager.GetString("BlogsEditor_NewBlogLabel", resourceCulture);
             }
@@ -190,7 +190,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to A password is required when creating a blog. Pick a good one..
         /// </summary>
-        internal static string BlogsEditor_PasswordRequired {
+        public static string BlogsEditor_PasswordRequired {
             get {
                 return ResourceManager.GetString("BlogsEditor_PasswordRequired", resourceCulture);
             }
@@ -199,7 +199,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The Password and Confirmation do not match. Try retyping your password in both fields..
         /// </summary>
-        internal static string BlogsEditor_PasswordsDoNotMatch {
+        public static string BlogsEditor_PasswordsDoNotMatch {
             get {
                 return ResourceManager.GetString("BlogsEditor_PasswordsDoNotMatch", resourceCulture);
             }
@@ -208,7 +208,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Blog Update Cancelled. Nothing to see here..
         /// </summary>
-        internal static string BlogsEditor_UpdateCancelled {
+        public static string BlogsEditor_UpdateCancelled {
             get {
                 return ResourceManager.GetString("BlogsEditor_UpdateCancelled", resourceCulture);
             }
@@ -217,7 +217,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Brevity is rewarded. &quot;{0}&quot; may only have &quot;{1}&quot; characters..
         /// </summary>
-        internal static string BlogsEditor_ValueTooLong {
+        public static string BlogsEditor_ValueTooLong {
             get {
                 return ResourceManager.GetString("BlogsEditor_ValueTooLong", resourceCulture);
             }
@@ -226,7 +226,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Next Month.
         /// </summary>
-        internal static string Calendar_NextMonth {
+        public static string Calendar_NextMonth {
             get {
                 return ResourceManager.GetString("Calendar_NextMonth", resourceCulture);
             }
@@ -235,7 +235,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Previous Month.
         /// </summary>
-        internal static string Calendar_PreviousMonth {
+        public static string Calendar_PreviousMonth {
             get {
                 return ResourceManager.GetString("Calendar_PreviousMonth", resourceCulture);
             }
@@ -244,7 +244,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Encrypted encoded text &apos;{0}&apos; was not valid..
         /// </summary>
-        internal static string CaptchaExpired_EncryptedTextNotValid {
+        public static string CaptchaExpired_EncryptedTextNotValid {
             get {
                 return ResourceManager.GetString("CaptchaExpired_EncryptedTextNotValid", resourceCulture);
             }
@@ -253,7 +253,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Captcha image expired, probably due to recompile making the key out of synch..
         /// </summary>
-        internal static string CaptchaExpired_KeyOutOfSynch {
+        public static string CaptchaExpired_KeyOutOfSynch {
             get {
                 return ResourceManager.GetString("CaptchaExpired_KeyOutOfSynch", resourceCulture);
             }
@@ -262,7 +262,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to User waited too long to submit captcha.
         /// </summary>
-        internal static string CaptchaExpired_WaitedTooLong {
+        public static string CaptchaExpired_WaitedTooLong {
             get {
                 return ResourceManager.GetString("CaptchaExpired_WaitedTooLong", resourceCulture);
             }
@@ -271,7 +271,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Akismet requires &lt;code&gt;{0}&lt;/code&gt; in order to make web requests. Please ask your hosting provider to &lt;a href=&quot;http://weblogs.asp.net/hosterposter/archive/2006/03/22/440886.aspx&quot; title=&quot;Enabling WebPermission in Medium Trust&quot;&gt;enable this permission&lt;/a&gt;..
         /// </summary>
-        internal static string Comments_AkismetRequiresPermissionType {
+        public static string Comments_AkismetRequiresPermissionType {
             get {
                 return ResourceManager.GetString("Comments_AkismetRequiresPermissionType", resourceCulture);
             }
@@ -280,7 +280,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Sorry, could not verify that Akismet API key..
         /// </summary>
-        internal static string Comments_CouldNotVerifyAkismetKey {
+        public static string Comments_CouldNotVerifyAkismetKey {
             get {
                 return ResourceManager.GetString("Comments_CouldNotVerifyAkismetKey", resourceCulture);
             }
@@ -289,7 +289,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Comment settings update failed..
         /// </summary>
-        internal static string Comments_SettingsFailed {
+        public static string Comments_SettingsFailed {
             get {
                 return ResourceManager.GetString("Comments_SettingsFailed", resourceCulture);
             }
@@ -298,7 +298,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Your comment settings were successfully updated..
         /// </summary>
-        internal static string Comments_SettingsUpdated {
+        public static string Comments_SettingsUpdated {
             get {
                 return ResourceManager.GetString("Comments_SettingsUpdated", resourceCulture);
             }
@@ -307,7 +307,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Comment Delay.
         /// </summary>
-        internal static string CommentValidation_CommentDelay {
+        public static string CommentValidation_CommentDelay {
             get {
                 return ResourceManager.GetString("CommentValidation_CommentDelay", resourceCulture);
             }
@@ -316,7 +316,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; of {1} would block an IP for a really long time. Let&apos;s be reasonable..
         /// </summary>
-        internal static string CommentValidation_CommentDelayTooBig {
+        public static string CommentValidation_CommentDelayTooBig {
             get {
                 return ResourceManager.GetString("CommentValidation_CommentDelayTooBig", resourceCulture);
             }
@@ -325,7 +325,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; should larger than {1}. You can&apos;t go back in time..
         /// </summary>
-        internal static string CommentValidation_CommentDelayTooSmall {
+        public static string CommentValidation_CommentDelayTooSmall {
             get {
                 return ResourceManager.GetString("CommentValidation_CommentDelayTooSmall", resourceCulture);
             }
@@ -334,7 +334,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Days Till Comments Close.
         /// </summary>
-        internal static string CommentValidation_DaysTillClose {
+        public static string CommentValidation_DaysTillClose {
             get {
                 return ResourceManager.GetString("CommentValidation_DaysTillClose", resourceCulture);
             }
@@ -343,7 +343,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Length of Recent Comments to Display (Number of characters).
         /// </summary>
-        internal static string CommentValidation_LengthOfRecentComment {
+        public static string CommentValidation_LengthOfRecentComment {
             get {
                 return ResourceManager.GetString("CommentValidation_LengthOfRecentComment", resourceCulture);
             }
@@ -352,7 +352,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Number of Recent Comments to Display.
         /// </summary>
-        internal static string CommentValidation_RecentCommentsCount {
+        public static string CommentValidation_RecentCommentsCount {
             get {
                 return ResourceManager.GetString("CommentValidation_RecentCommentsCount", resourceCulture);
             }
@@ -361,7 +361,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ConfirmCommand was not set upon transfer..
         /// </summary>
-        internal static string Confirm_CommandNotSet {
+        public static string Confirm_CommandNotSet {
             get {
                 return ResourceManager.GetString("Confirm_CommandNotSet", resourceCulture);
             }
@@ -370,7 +370,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The archive has been processed..
         /// </summary>
-        internal static string EditGalleries_ArchiveProcessed {
+        public static string EditGalleries_ArchiveProcessed {
             get {
                 return ResourceManager.GetString("EditGalleries_ArchiveProcessed", resourceCulture);
             }
@@ -379,7 +379,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Editing Image &quot;{0}&quot;.
         /// </summary>
-        internal static string EditGalleries_EditImage {
+        public static string EditGalleries_EditImage {
             get {
                 return ResourceManager.GetString("EditGalleries_EditImage", resourceCulture);
             }
@@ -388,7 +388,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to This file already exists on the server. Please provide a name for the file..
         /// </summary>
-        internal static string EditGalleries_FileAlreadyExists {
+        public static string EditGalleries_FileAlreadyExists {
             get {
                 return ResourceManager.GetString("EditGalleries_FileAlreadyExists", resourceCulture);
             }
@@ -397,7 +397,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The image was successfully added to the gallery..
         /// </summary>
-        internal static string EditGalleries_ImageAdded {
+        public static string EditGalleries_ImageAdded {
             get {
                 return ResourceManager.GetString("EditGalleries_ImageAdded", resourceCulture);
             }
@@ -406,7 +406,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to An image identifier was not available, could not load your image..
         /// </summary>
-        internal static string EditGalleries_ImageIdentifierMissing {
+        public static string EditGalleries_ImageIdentifierMissing {
             get {
                 return ResourceManager.GetString("EditGalleries_ImageIdentifierMissing", resourceCulture);
             }
@@ -415,7 +415,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The image was successfully updated..
         /// </summary>
-        internal static string EditGalleries_ImageUpdated {
+        public static string EditGalleries_ImageUpdated {
             get {
                 return ResourceManager.GetString("EditGalleries_ImageUpdated", resourceCulture);
             }
@@ -424,7 +424,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You must have at least one valid Gallery before working with individual images..
         /// </summary>
-        internal static string EditGalleries_MustHaveOneGallery {
+        public static string EditGalleries_MustHaveOneGallery {
             get {
                 return ResourceManager.GetString("EditGalleries_MustHaveOneGallery", resourceCulture);
             }
@@ -433,7 +433,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to There was a baseline problem posting your entry..
         /// </summary>
-        internal static string EditGalleries_ProblemPosting {
+        public static string EditGalleries_ProblemPosting {
             get {
                 return ResourceManager.GetString("EditGalleries_ProblemPosting", resourceCulture);
             }
@@ -442,7 +442,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Valid file name for server image is required..
         /// </summary>
-        internal static string EditGalleries_ValidFilenameRequired {
+        public static string EditGalleries_ValidFilenameRequired {
             get {
                 return ResourceManager.GetString("EditGalleries_ValidFilenameRequired", resourceCulture);
             }
@@ -451,7 +451,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Viewing Gallery &quot;{0}&quot;.
         /// </summary>
-        internal static string EditGalleries_ViewingGallery {
+        public static string EditGalleries_ViewingGallery {
             get {
                 return ResourceManager.GetString("EditGalleries_ViewingGallery", resourceCulture);
             }
@@ -460,7 +460,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You need to add a category before you can add links! Click &quot;Edit Categories&quot;.
         /// </summary>
-        internal static string EditLinks_NeedToAddCategoryFirst {
+        public static string EditLinks_NeedToAddCategoryFirst {
             get {
                 return ResourceManager.GetString("EditLinks_NeedToAddCategoryFirst", resourceCulture);
             }
@@ -469,7 +469,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Could not find category id {0} in the Checkbox list which has {1} items..
         /// </summary>
-        internal static string EntryEditor_CouldNotFindCategoryInList {
+        public static string EntryEditor_CouldNotFindCategoryInList {
             get {
                 return ResourceManager.GetString("EntryEditor_CouldNotFindCategoryInList", resourceCulture);
             }
@@ -478,7 +478,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Editing {0} &quot;{1}&quot;.
         /// </summary>
-        internal static string EntryEditor_EditingTitle {
+        public static string EntryEditor_EditingTitle {
             get {
                 return ResourceManager.GetString("EntryEditor_EditingTitle", resourceCulture);
             }
@@ -487,7 +487,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Error during Community Credits submission (your post has been saved).
         /// </summary>
-        internal static string EntryEditor_ErrorSendingToCommunityCredits {
+        public static string EntryEditor_ErrorSendingToCommunityCredits {
             get {
                 return ResourceManager.GetString("EntryEditor_ErrorSendingToCommunityCredits", resourceCulture);
             }
@@ -496,7 +496,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to There was a baseline problem updating the post categories..
         /// </summary>
-        internal static string EntryEditor_ProblemEditingPostCategories {
+        public static string EntryEditor_ProblemEditingPostCategories {
             get {
                 return ResourceManager.GetString("EntryEditor_ProblemEditingPostCategories", resourceCulture);
             }
@@ -505,7 +505,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Add Comment.
         /// </summary>
-        internal static string EntryList_AddComment {
+        public static string EntryList_AddComment {
             get {
                 return ResourceManager.GetString("EntryList_AddComment", resourceCulture);
             }
@@ -514,7 +514,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Click To View Entry..
         /// </summary>
-        internal static string EntryList_ClickToView {
+        public static string EntryList_ClickToView {
             get {
                 return ResourceManager.GetString("EntryList_ClickToView", resourceCulture);
             }
@@ -523,7 +523,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to  Comments.
         /// </summary>
-        internal static string EntryList_CommentsPlural {
+        public static string EntryList_CommentsPlural {
             get {
                 return ResourceManager.GetString("EntryList_CommentsPlural", resourceCulture);
             }
@@ -532,7 +532,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to One Comment.
         /// </summary>
-        internal static string EntryList_OneComment {
+        public static string EntryList_OneComment {
             get {
                 return ResourceManager.GetString("EntryList_OneComment", resourceCulture);
             }
@@ -541,7 +541,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Permanent link to this post.
         /// </summary>
-        internal static string EntryList_PermanentLink {
+        public static string EntryList_PermanentLink {
             get {
                 return ResourceManager.GetString("EntryList_PermanentLink", resourceCulture);
             }
@@ -550,7 +550,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to View and Add Comments.
         /// </summary>
-        internal static string EntryList_ViewAndAddComments {
+        public static string EntryList_ViewAndAddComments {
             get {
                 return ResourceManager.GetString("EntryList_ViewAndAddComments", resourceCulture);
             }
@@ -559,7 +559,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to No error message available..
         /// </summary>
-        internal static string ErrorPage_NoErrorMessage {
+        public static string ErrorPage_NoErrorMessage {
             get {
                 return ResourceManager.GetString("ErrorPage_NoErrorMessage", resourceCulture);
             }
@@ -568,7 +568,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Nothing was selected as spam..
         /// </summary>
-        internal static string Feedback_NothingFlaggedAsSpam {
+        public static string Feedback_NothingFlaggedAsSpam {
             get {
                 return ResourceManager.GetString("Feedback_NothingFlaggedAsSpam", resourceCulture);
             }
@@ -577,7 +577,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Nothing was selected to be approved..
         /// </summary>
-        internal static string Feedback_NothingToApprove {
+        public static string Feedback_NothingToApprove {
             get {
                 return ResourceManager.GetString("Feedback_NothingToApprove", resourceCulture);
             }
@@ -586,7 +586,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Nothing was selected to be deleted..
         /// </summary>
-        internal static string Feedback_NothingToDelete {
+        public static string Feedback_NothingToDelete {
             get {
                 return ResourceManager.GetString("Feedback_NothingToDelete", resourceCulture);
             }
@@ -595,7 +595,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Nothing was selected to be destroyed..
         /// </summary>
-        internal static string Feedback_NothingToDestroy {
+        public static string Feedback_NothingToDestroy {
             get {
                 return ResourceManager.GetString("Feedback_NothingToDestroy", resourceCulture);
             }
@@ -604,7 +604,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Your new password.
         /// </summary>
-        internal static string ForgotPassword_NewPassword {
+        public static string ForgotPassword_NewPassword {
             get {
                 return ResourceManager.GetString("ForgotPassword_NewPassword", resourceCulture);
             }
@@ -613,7 +613,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Password was reset and sent to your email address..
         /// </summary>
-        internal static string ForgotPassword_NewPasswordSent {
+        public static string ForgotPassword_NewPasswordSent {
             get {
                 return ResourceManager.GetString("ForgotPassword_NewPasswordSent", resourceCulture);
             }
@@ -622,7 +622,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Sorry, but the username and email provided did not match our records.
         /// </summary>
-        internal static string ForgotPassword_UsernameAndPasswordDoNotMatch {
+        public static string ForgotPassword_UsernameAndPasswordDoNotMatch {
             get {
                 return ResourceManager.GetString("ForgotPassword_UsernameAndPasswordDoNotMatch", resourceCulture);
             }
@@ -631,7 +631,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Sorry, but forgot password does not work for Host admins. Please read &lt;a href=&quot;http://subtextproject.com/Home/FAQ/tabid/113/Default.aspx&quot; title=&quot;Subtext FAQ&quot;&gt;the FAQ&lt;/a&gt; to reset your password..
         /// </summary>
-        internal static string ForgotPasswordMaster_DoesNotWorkForHostAdmins {
+        public static string ForgotPasswordMaster_DoesNotWorkForHostAdmins {
             get {
                 return ResourceManager.GetString("ForgotPasswordMaster_DoesNotWorkForHostAdmins", resourceCulture);
             }
@@ -641,7 +641,7 @@ namespace Subtext.Web.Properties {
         ///   Looks up a localized string similar to I&apos;ve been told that you forgot your password. Here it is
         ///  {0}.
         /// </summary>
-        internal static string ForgotPaswword_HereIsNewPassword {
+        public static string ForgotPaswword_HereIsNewPassword {
             get {
                 return ResourceManager.GetString("ForgotPaswword_HereIsNewPassword", resourceCulture);
             }
@@ -650,7 +650,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Blog Group Created..
         /// </summary>
-        internal static string GroupsEditor_BlogGroupCreated {
+        public static string GroupsEditor_BlogGroupCreated {
             get {
                 return ResourceManager.GetString("GroupsEditor_BlogGroupCreated", resourceCulture);
             }
@@ -659,7 +659,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Blog Group Saved..
         /// </summary>
-        internal static string GroupsEditor_BlogGroupSaved {
+        public static string GroupsEditor_BlogGroupSaved {
             get {
                 return ResourceManager.GetString("GroupsEditor_BlogGroupSaved", resourceCulture);
             }
@@ -670,7 +670,7 @@ namespace Subtext.Web.Properties {
         ///For more information on configuring blogs, see the &lt;a href=&apos;http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx&apos; target=&apos;_blank&apos;&gt;configuration docs&lt;/a&gt; (opens a new window).
         ///&lt;/p&gt;.
         /// </summary>
-        internal static string GroupsEditor_HelpTip {
+        public static string GroupsEditor_HelpTip {
             get {
                 return ResourceManager.GetString("GroupsEditor_HelpTip", resourceCulture);
             }
@@ -679,7 +679,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Blog Group Update Cancelled. Nothing to see here..
         /// </summary>
-        internal static string GroupsEditor_UpdateCancelled {
+        public static string GroupsEditor_UpdateCancelled {
             get {
                 return ResourceManager.GetString("GroupsEditor_UpdateCancelled", resourceCulture);
             }
@@ -688,7 +688,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You need to check the &quot;Clear Content&quot; checkbox to continue..
         /// </summary>
-        internal static string ImportExport_CheckContinueToClearContent {
+        public static string ImportExport_CheckContinueToClearContent {
             get {
                 return ResourceManager.GetString("ImportExport_CheckContinueToClearContent", resourceCulture);
             }
@@ -697,7 +697,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Success! The content has been obliterated!.
         /// </summary>
-        internal static string ImportExport_ContentObliterated {
+        public static string ImportExport_ContentObliterated {
             get {
                 return ResourceManager.GetString("ImportExport_ContentObliterated", resourceCulture);
             }
@@ -706,7 +706,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Import of BlogML file failed..
         /// </summary>
-        internal static string ImportExport_ImportFailed {
+        public static string ImportExport_ImportFailed {
             get {
                 return ResourceManager.GetString("ImportExport_ImportFailed", resourceCulture);
             }
@@ -715,7 +715,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The BlogML file was successfully imported!.
         /// </summary>
-        internal static string ImportExport_ImportSuccess {
+        public static string ImportExport_ImportSuccess {
             get {
                 return ResourceManager.GetString("ImportExport_ImportSuccess", resourceCulture);
             }
@@ -724,7 +724,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to The file you specified does not appear to be a valid BlogML file..
         /// </summary>
-        internal static string ImportExport_InvalidBlogMLFile {
+        public static string ImportExport_InvalidBlogMLFile {
             get {
                 return ResourceManager.GetString("ImportExport_InvalidBlogMLFile", resourceCulture);
             }
@@ -733,7 +733,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CategoryType was not set.
         /// </summary>
-        internal static string InvalidOperation_CategoryTypeNotSet {
+        public static string InvalidOperation_CategoryTypeNotSet {
             get {
                 return ResourceManager.GetString("InvalidOperation_CategoryTypeNotSet", resourceCulture);
             }
@@ -742,7 +742,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Sorry, but we cannot accept this comment..
         /// </summary>
-        internal static string InvalidOperation_CommentNotValid {
+        public static string InvalidOperation_CommentNotValid {
             get {
                 return ResourceManager.GetString("InvalidOperation_CommentNotValid", resourceCulture);
             }
@@ -751,7 +751,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Update failed, could not located either the item Title or IsActive.
         /// </summary>
-        internal static string InvalidOperation_EditCategoriesControlsNotFound {
+        public static string InvalidOperation_EditCategoriesControlsNotFound {
             get {
                 return ResourceManager.GetString("InvalidOperation_EditCategoriesControlsNotFound", resourceCulture);
             }
@@ -760,7 +760,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Image not defined..
         /// </summary>
-        internal static string InvalidOperation_ImageUndefined {
+        public static string InvalidOperation_ImageUndefined {
             get {
                 return ResourceManager.GetString("InvalidOperation_ImageUndefined", resourceCulture);
             }
@@ -769,7 +769,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Activate.
         /// </summary>
-        internal static string Label_Activate {
+        public static string Label_Activate {
             get {
                 return ResourceManager.GetString("Label_Activate", resourceCulture);
             }
@@ -778,7 +778,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Adds.
         /// </summary>
-        internal static string Label_Adds {
+        public static string Label_Adds {
             get {
                 return ResourceManager.GetString("Label_Adds", resourceCulture);
             }
@@ -787,7 +787,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Article.
         /// </summary>
-        internal static string Label_Article {
+        public static string Label_Article {
             get {
                 return ResourceManager.GetString("Label_Article", resourceCulture);
             }
@@ -796,7 +796,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Articles.
         /// </summary>
-        internal static string Label_Articles {
+        public static string Label_Articles {
             get {
                 return ResourceManager.GetString("Label_Articles", resourceCulture);
             }
@@ -805,7 +805,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Choose....
         /// </summary>
-        internal static string Label_Choose {
+        public static string Label_Choose {
             get {
                 return ResourceManager.GetString("Label_Choose", resourceCulture);
             }
@@ -814,7 +814,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Deactivate.
         /// </summary>
-        internal static string Label_Deactivate {
+        public static string Label_Deactivate {
             get {
                 return ResourceManager.GetString("Label_Deactivate", resourceCulture);
             }
@@ -823,7 +823,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Edit Categories.
         /// </summary>
-        internal static string Label_EditCategories {
+        public static string Label_EditCategories {
             get {
                 return ResourceManager.GetString("Label_EditCategories", resourceCulture);
             }
@@ -832,7 +832,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Blog Posts.
         /// </summary>
-        internal static string Label_Entries {
+        public static string Label_Entries {
             get {
                 return ResourceManager.GetString("Label_Entries", resourceCulture);
             }
@@ -841,7 +841,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Errors.
         /// </summary>
-        internal static string Label_Errors {
+        public static string Label_Errors {
             get {
                 return ResourceManager.GetString("Label_Errors", resourceCulture);
             }
@@ -850,7 +850,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to images.
         /// </summary>
-        internal static string Label_Images {
+        public static string Label_Images {
             get {
                 return ResourceManager.GetString("Label_Images", resourceCulture);
             }
@@ -859,7 +859,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to New Article.
         /// </summary>
-        internal static string Label_NewArticle {
+        public static string Label_NewArticle {
             get {
                 return ResourceManager.GetString("Label_NewArticle", resourceCulture);
             }
@@ -868,7 +868,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to New Blog Group.
         /// </summary>
-        internal static string Label_NewBlogGroup {
+        public static string Label_NewBlogGroup {
             get {
                 return ResourceManager.GetString("Label_NewBlogGroup", resourceCulture);
             }
@@ -877,7 +877,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to New Post.
         /// </summary>
-        internal static string Label_NewPost {
+        public static string Label_NewPost {
             get {
                 return ResourceManager.GetString("Label_NewPost", resourceCulture);
             }
@@ -886,7 +886,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Other.
         /// </summary>
-        internal static string Label_Other {
+        public static string Label_Other {
             get {
                 return ResourceManager.GetString("Label_Other", resourceCulture);
             }
@@ -895,7 +895,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Post.
         /// </summary>
-        internal static string Label_Post {
+        public static string Label_Post {
             get {
                 return ResourceManager.GetString("Label_Post", resourceCulture);
             }
@@ -904,7 +904,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Posts.
         /// </summary>
-        internal static string Label_Posts {
+        public static string Label_Posts {
             get {
                 return ResourceManager.GetString("Label_Posts", resourceCulture);
             }
@@ -913,7 +913,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Rebuild All Tags.
         /// </summary>
-        internal static string Label_RebuildAllTags {
+        public static string Label_RebuildAllTags {
             get {
                 return ResourceManager.GetString("Label_RebuildAllTags", resourceCulture);
             }
@@ -922,7 +922,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Updates.
         /// </summary>
-        internal static string Label_Updates {
+        public static string Label_Updates {
             get {
                 return ResourceManager.GetString("Label_Updates", resourceCulture);
             }
@@ -931,7 +931,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to View.
         /// </summary>
-        internal static string Label_View {
+        public static string Label_View {
             get {
                 return ResourceManager.GetString("Label_View", resourceCulture);
             }
@@ -940,7 +940,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Viewing.
         /// </summary>
-        internal static string Label_Viewing {
+        public static string Label_Viewing {
             get {
                 return ResourceManager.GetString("Label_Viewing", resourceCulture);
             }
@@ -949,7 +949,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Subscribe to {0}.
         /// </summary>
-        internal static string LinkPage_Subscribe {
+        public static string LinkPage_Subscribe {
             get {
                 return ResourceManager.GetString("LinkPage_Subscribe", resourceCulture);
             }
@@ -958,7 +958,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Authentication failed.
         /// </summary>
-        internal static string Login_AuthenticationFailed {
+        public static string Login_AuthenticationFailed {
             get {
                 return ResourceManager.GetString("Login_AuthenticationFailed", resourceCulture);
             }
@@ -967,7 +967,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to That&amp;#8217;s not it.
         /// </summary>
-        internal static string Login_Failed {
+        public static string Login_Failed {
             get {
                 return ResourceManager.GetString("Login_Failed", resourceCulture);
             }
@@ -976,7 +976,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Categories updated successfully..
         /// </summary>
-        internal static string Message_CategoriesUpdatedSuccessful {
+        public static string Message_CategoriesUpdatedSuccessful {
             get {
                 return ResourceManager.GetString("Message_CategoriesUpdatedSuccessful", resourceCulture);
             }
@@ -985,7 +985,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Category &quot;{0}&quot; was added..
         /// </summary>
-        internal static string Message_CategoryAdded {
+        public static string Message_CategoryAdded {
             get {
                 return ResourceManager.GetString("Message_CategoryAdded", resourceCulture);
             }
@@ -994,7 +994,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to A category must have a title.
         /// </summary>
-        internal static string Message_CategoryMustHaveTitle {
+        public static string Message_CategoryMustHaveTitle {
             get {
                 return ResourceManager.GetString("Message_CategoryMustHaveTitle", resourceCulture);
             }
@@ -1003,7 +1003,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Category &quot;{0}&quot; was updated..
         /// </summary>
-        internal static string Message_CategoryUpdated {
+        public static string Message_CategoryUpdated {
             get {
                 return ResourceManager.GetString("Message_CategoryUpdated", resourceCulture);
             }
@@ -1012,7 +1012,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Category Update failed..
         /// </summary>
-        internal static string Message_CategoryUpdateFailed {
+        public static string Message_CategoryUpdateFailed {
             get {
                 return ResourceManager.GetString("Message_CategoryUpdateFailed", resourceCulture);
             }
@@ -1021,7 +1021,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Sorry, but this form has expired. Please try again..
         /// </summary>
-        internal static string Message_FormExpired {
+        public static string Message_FormExpired {
             get {
                 return ResourceManager.GetString("Message_FormExpired", resourceCulture);
             }
@@ -1030,7 +1030,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} The error message related to this problem was as follows: {1}.
         /// </summary>
-        internal static string Message_GenericError {
+        public static string Message_GenericError {
             get {
                 return ResourceManager.GetString("Message_GenericError", resourceCulture);
             }
@@ -1039,7 +1039,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Please enter the correct word.
         /// </summary>
-        internal static string Message_PleaseEnterCorrectWord {
+        public static string Message_PleaseEnterCorrectWord {
             get {
                 return ResourceManager.GetString("Message_PleaseEnterCorrectWord", resourceCulture);
             }
@@ -1048,7 +1048,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Posted successfully..
         /// </summary>
-        internal static string Message_PostedSuccessful {
+        public static string Message_PostedSuccessful {
             get {
                 return ResourceManager.GetString("Message_PostedSuccessful", resourceCulture);
             }
@@ -1057,7 +1057,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Post operation failed..
         /// </summary>
-        internal static string Message_PostOperationFailed {
+        public static string Message_PostOperationFailed {
             get {
                 return ResourceManager.GetString("Message_PostOperationFailed", resourceCulture);
             }
@@ -1066,7 +1066,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Darn! An unexpected error occurred.  Not sure what happened. Sorry..
         /// </summary>
-        internal static string Message_UnexpectedError {
+        public static string Message_UnexpectedError {
             get {
                 return ResourceManager.GetString("Message_UnexpectedError", resourceCulture);
             }
@@ -1075,7 +1075,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Updated successfully..
         /// </summary>
-        internal static string Message_UpdateSuccessful {
+        public static string Message_UpdateSuccessful {
             get {
                 return ResourceManager.GetString("Message_UpdateSuccessful", resourceCulture);
             }
@@ -1084,7 +1084,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Please enter a valid positive number for the field &quot;{0}&quot;.
         /// </summary>
-        internal static string Message_ValueMustBePositive {
+        public static string Message_ValueMustBePositive {
             get {
                 return ResourceManager.GetString("Message_ValueMustBePositive", resourceCulture);
             }
@@ -1093,7 +1093,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; should be less than or equal to {1}.
         /// </summary>
-        internal static string Message_ValueTooBig {
+        public static string Message_ValueTooBig {
             get {
                 return ResourceManager.GetString("Message_ValueTooBig", resourceCulture);
             }
@@ -1102,7 +1102,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; should be larger than or equal to {1}.
         /// </summary>
-        internal static string Message_ValueTooSmall {
+        public static string Message_ValueTooSmall {
             get {
                 return ResourceManager.GetString("Message_ValueTooSmall", resourceCulture);
             }
@@ -1111,7 +1111,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You will lose any unsaved content.
         /// </summary>
-        internal static string Message_YouWillLoseUnsavedContent {
+        public static string Message_YouWillLoseUnsavedContent {
             get {
                 return ResourceManager.GetString("Message_YouWillLoseUnsavedContent", resourceCulture);
             }
@@ -1120,7 +1120,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Thanks for your comment!.
         /// </summary>
-        internal static string PostComment_ThanksForComment {
+        public static string PostComment_ThanksForComment {
             get {
                 return ResourceManager.GetString("PostComment_ThanksForComment", resourceCulture);
             }
@@ -1129,7 +1129,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to That page is forbidden..
         /// </summary>
-        internal static string Security_PageForbidden {
+        public static string Security_PageForbidden {
             get {
                 return ResourceManager.GetString("Security_PageForbidden", resourceCulture);
             }
@@ -1138,7 +1138,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Your password can not be updated.
         /// </summary>
-        internal static string Security_PasswordNotUpdated {
+        public static string Security_PasswordNotUpdated {
             get {
                 return ResourceManager.GetString("Security_PasswordNotUpdated", resourceCulture);
             }
@@ -1147,7 +1147,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Your password has been updated.
         /// </summary>
-        internal static string Security_PasswordUpdated {
+        public static string Security_PasswordUpdated {
             get {
                 return ResourceManager.GetString("Security_PasswordUpdated", resourceCulture);
             }
@@ -1156,7 +1156,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to  (mobile ready).
         /// </summary>
-        internal static string Skins_MobileReady {
+        public static string Skins_MobileReady {
             get {
                 return ResourceManager.GetString("Skins_MobileReady", resourceCulture);
             }
@@ -1165,7 +1165,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Skin Saved!.
         /// </summary>
-        internal static string Skins_SkinSaved {
+        public static string Skins_SkinSaved {
             get {
                 return ResourceManager.GetString("Skins_SkinSaved", resourceCulture);
             }
@@ -1174,7 +1174,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to There are {0} entries for the tag &lt;em&gt;{1}&lt;/em&gt;.
         /// </summary>
-        internal static string TagEntryList_NoEntriesForTag {
+        public static string TagEntryList_NoEntriesForTag {
             get {
                 return ResourceManager.GetString("TagEntryList_NoEntriesForTag", resourceCulture);
             }
@@ -1183,7 +1183,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;Uh oh. Something went wrong with the installation.&lt;/p&gt;.
         /// </summary>
-        internal static string Upgrade_SomethingWentWrongWithInstall {
+        public static string Upgrade_SomethingWentWrongWithInstall {
             get {
                 return ResourceManager.GetString("Upgrade_SomethingWentWrongWithInstall", resourceCulture);
             }
@@ -1194,7 +1194,7 @@ namespace Subtext.Web.Properties {
         ///permission to perform the installation.  Please give the user database owner (dbo) rights and try again. 
         ///You may remove them later.&lt;/p&gt;.
         /// </summary>
-        internal static string Upgrade_UserDoesNotHavePermission {
+        public static string Upgrade_UserDoesNotHavePermission {
             get {
                 return ResourceManager.GetString("Upgrade_UserDoesNotHavePermission", resourceCulture);
             }
@@ -1203,7 +1203,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Edit this entry..
         /// </summary>
-        internal static string ViewPost_EditThisEntry {
+        public static string ViewPost_EditThisEntry {
             get {
                 return ResourceManager.GetString("ViewPost_EditThisEntry", resourceCulture);
             }
@@ -1212,7 +1212,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;p&gt;&lt;strong&gt;The entry could not be found or has been removed&lt;/strong&gt;&lt;/p&gt;.
         /// </summary>
-        internal static string ViewPost_EntryNotFound {
+        public static string ViewPost_EntryNotFound {
             get {
                 return ResourceManager.GetString("ViewPost_EntryNotFound", resourceCulture);
             }
@@ -1221,7 +1221,7 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CaptchaExpired Exception thrown..
         /// </summary>
-        internal static string Warning_CaptchaExpired {
+        public static string Warning_CaptchaExpired {
             get {
                 return ResourceManager.GetString("Warning_CaptchaExpired", resourceCulture);
             }
