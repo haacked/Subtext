@@ -31,7 +31,7 @@ namespace Subtext.Framework.Components
 
         public string EntryName { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        public DateTime DateSyndicated { get; set; }
 
         public PostType PostType
         {

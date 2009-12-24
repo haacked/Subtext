@@ -37,5 +37,8 @@
 	        
 	    <dt><a href="ImportExport.aspx" title="Import/Export">Import/Export</a></dt>
 	    <dd>It&#8217;s your data. Import from BlogML or Export to BlogML</dd>
+	    
+	    <dt><a href="FullTextSearch.aspx" title="FullTextSearch">FullText Search</a></dt>
+	    <dd>Manage the FullText search of your blog</dd>
     </dl>
 </asp:Content>

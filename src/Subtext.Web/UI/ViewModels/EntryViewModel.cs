@@ -99,9 +99,9 @@ namespace Subtext.Web.UI.ViewModels
             get { return Entry.EntryName; }
         }
 
-        public DateTime DateCreated
+        public DateTime DateSyndicated
         {
-            get { return Entry.DateCreated; }
+            get { return Entry.DateSyndicated; }
         }
 
         public PostType PostType

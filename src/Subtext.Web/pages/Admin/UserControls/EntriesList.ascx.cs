@@ -23,6 +23,7 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Properties;
@@ -113,7 +114,7 @@ namespace Subtext.Web.Admin.UserControls
             var page = (AdminPage)Page;
             if(page != null)
             {
-                var command = new DeletePostCommand(Repository, postID);
+                var command = new DeletePostCommand(Repository, postID, page.SearchEngine);
                 command.Execute();
                 BindList();
             }

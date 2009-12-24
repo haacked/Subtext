@@ -67,7 +67,7 @@ namespace Subtext.Web.UI.Controls
                         //since there is only one record, you are at an end
                         //Check EntryId to see if it is greater or less than
                         //the current ID
-                        if(entries.First().DateCreated > entry.DateSyndicated)
+                        if (entries.First().DateSyndicated > entry.DateSyndicated)
                         {
                             //this is the oldest blog
                             PrevLink.Visible = false;

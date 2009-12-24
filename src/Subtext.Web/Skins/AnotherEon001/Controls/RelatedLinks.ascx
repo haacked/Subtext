@@ -8,10 +8,8 @@
 			</HeaderTemplate>
 			<ItemTemplate>
 				<li>
-					<asp:HyperLink Target="_blank" Runat="server" ID="Link" />
-					<asp:Literal Runat="server" ID="DisplayType" />
-					<asp:LinkButton Runat="server" ID="EditReadingLink" CausesValidation="False" />								
-			</li>	
+					<asp:HyperLink Runat="server" ID="Link" /> (<asp:Literal runat="server" ID="DatePublished" />)
+			    </li>	
 		</ItemTemplate>
 		<FooterTemplate>
 			</ul>

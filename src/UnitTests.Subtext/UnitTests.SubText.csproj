@@ -151,6 +151,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Lucene.Net, Version=2.3.2.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Lucene.Net.dll</HintPath>
+    </Reference>
     <Reference Include="MbUnit.Framework, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\tools\MbUnit\MbUnit.Framework.dll</HintPath>
@@ -187,6 +191,10 @@
     <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SgmlReaderDll.dll</HintPath>
+    </Reference>
+    <Reference Include="Snowball.Net, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Snowball.Net.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -321,6 +329,7 @@
     </Compile>
     <Compile Include="Framework\Configuration\BlogGroupTests.cs" />
     <Compile Include="Framework\Configuration\ConfigTests.cs" />
+    <Compile Include="Framework\Configuration\FullTextSearchEngineSettingsTests.cs" />
     <Compile Include="Framework\Data\CacherTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -374,6 +383,9 @@
     <Compile Include="Framework\Services\Identicon\IdenticonResultTests.cs" />
     <Compile Include="Framework\Services\Identicon\IdenticonUtilTests.cs" />
     <Compile Include="Framework\Services\Security\AccountServiceTests.cs" />
+    <Compile Include="Framework\Services\SearchEngine\EntryExtensionMethodsTest.cs" />
+    <Compile Include="Framework\Services\SearchEngine\IndexingServiceTests.cs" />
+    <Compile Include="Framework\Services\SearchEngine\SearchEngineServiceTest.cs" />
     <Compile Include="Framework\Services\SlugGeneratorTests.cs" />
     <Compile Include="Framework\Services\StatisticsServiceTests.cs" />
     <Compile Include="Framework\Services\XhtmlConverterTests.cs" />

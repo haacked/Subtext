@@ -21,6 +21,8 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using Ninject;
+using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.Web.Handlers;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
@@ -33,6 +35,9 @@ namespace Subtext.Web.Admin.Pages
     public class AdminPage : SubtextPage
     {
         private HtmlGenericControl body;
+
+        [Inject]
+        public ISearchEngineService SearchEngine { get; set; }
 
         protected AdminPageTemplate AdminMasterPage
         {

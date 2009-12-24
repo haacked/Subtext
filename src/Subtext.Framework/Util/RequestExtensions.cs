@@ -52,5 +52,10 @@ namespace Subtext.Framework.Util
             }
             return id;
         }
+
+        public static string GetQueryFromRequest(this RequestContext requestContext)
+        {
+            return requestContext.HttpContext.Request.QueryString["q"];
+        }
     }
 }

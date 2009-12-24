@@ -46,6 +46,7 @@ using Subtext.Framework.Emoticons;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
+using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Framework.Web.HttpModules;
@@ -877,6 +878,7 @@ namespace UnitTests.Subtext
             var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
             Bootstrapper.RequestContext = requestContext;
             var serviceLocator = new Mock<IServiceLocator>().Object;
+            var searchEngineService = new Mock<ISearchEngineService>().Object;
             Bootstrapper.ServiceLocator = serviceLocator;
             var routes = new RouteCollection();
             var subtextRoutes = new SubtextRouteMapper(routes, serviceLocator);
@@ -885,13 +887,13 @@ namespace UnitTests.Subtext
             var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper,
                                                     ObjectProvider.Instance(), requestContext.HttpContext.User,
                                                     new SubtextCache(requestContext.HttpContext.Cache), serviceLocator);
-            IEntryPublisher entryPublisher = CreateEntryPublisher(subtextContext);
+            IEntryPublisher entryPublisher = CreateEntryPublisher(subtextContext, searchEngineService);
             int id = entryPublisher.Publish(entry);
             entry.Id = id;
             return id;
         }
 
-        public static IEntryPublisher CreateEntryPublisher(ISubtextContext subtextContext)
+        public static IEntryPublisher CreateEntryPublisher(ISubtextContext subtextContext,ISearchEngineService searchEngineService)
         {
             var slugGenerator = new SlugGenerator(FriendlyUrlSettings.Settings, subtextContext.Repository);
             var transformations = new CompositeTextTransformation
@@ -899,7 +901,7 @@ namespace UnitTests.Subtext
                 new XhtmlConverter(), 
                 new EmoticonsTransformation(subtextContext)
             };
-            return new EntryPublisher(subtextContext, transformations, slugGenerator);
+            return new EntryPublisher(subtextContext, transformations, slugGenerator, searchEngineService);
         }
 
         public static Stream ToStream(this string text)
@@ -962,8 +964,10 @@ namespace UnitTests.Subtext
                 new EmoticonsTransformation(context),
                 new KeywordExpander(repository)
             };
+            
             //TODO: Maybe use a INinjectParameter to control this.
-            var publisher = new EntryPublisher(context, transform, new SlugGenerator(FriendlyUrlSettings.Settings));
+            var searchEngineService = new Mock<ISearchEngineService>().Object;
+            var publisher = new EntryPublisher(context, transform, new SlugGenerator(FriendlyUrlSettings.Settings), searchEngineService);
             publisher.Publish(entry);
         }
 

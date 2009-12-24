@@ -195,6 +195,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             Entry entry = UnitTestHelper.GetEntry(id, PostConfig.None, false);
             DateTime date = entry.DateSyndicated;
             entry.IncludeInMainSyndication = false;
+            entry.Blog = new Blog() { Title = "MyTestBlog" };
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
@@ -274,6 +275,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             //Remove first entry from syndication.
             Entry firstEntry = UnitTestHelper.GetEntry(firstId, PostConfig.None, false);
             firstEntry.IncludeInMainSyndication = false;
+            firstEntry.Blog = new Blog() { Title = "MyTestBlog" };
             UnitTestHelper.Update(firstEntry, subtextContext.Object);
 
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, string.Empty);

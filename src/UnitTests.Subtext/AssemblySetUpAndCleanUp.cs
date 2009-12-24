@@ -6,7 +6,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Infrastructure.Installation;
 using UnitTests.Subtext;
 
-[assembly: AssemblyCleanup(typeof(AssemblySetUpAndCleanUp))]
+//[assembly: AssemblyCleanup(typeof(AssemblySetUpAndCleanUp))]
 
 namespace UnitTests.Subtext
 {

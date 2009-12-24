@@ -47,6 +47,7 @@ namespace Subtext.Web.Admin.Pages
             HyperLink linkKeyWords = Utilities.CreateHyperLink("Key Words", "EditKeyWords.aspx");
             HyperLink lnkSecurity = Utilities.CreateHyperLink("Security", "Security.aspx");
             HyperLink lnkImportExport = Utilities.CreateHyperLink("Import/Export", "ImportExport.aspx");
+            HyperLink lnkFullTextSearch = Utilities.CreateHyperLink("FullText Search", "FullTextSearch.aspx");
 
 
             // Add the buttons to the PageContainer.
@@ -60,6 +61,7 @@ namespace Subtext.Web.Admin.Pages
             AdminMasterPage.AddToActions(lnkCustomize);
             AdminMasterPage.AddToActions(lnkPreferences);
             AdminMasterPage.AddToActions(lnkImportExport);
+            AdminMasterPage.AddToActions(lnkFullTextSearch);
         }
 
         protected virtual void BindLocalUI()
