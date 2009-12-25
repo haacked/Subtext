@@ -586,12 +586,12 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath("logout", new RouteValueDictionary {{"action", "logout"}, {"controller", "account"}});
         }
 
-        
         // Code inspidered from this article: http://dotnetperls.com/google-query
         public static string ExtractKeywordsFromReferrer(Uri referrer, Uri currentPath)
         {
             if(referrer.Host == currentPath.Host)
                 return string.Empty;
+
             string u = referrer.OriginalString.ToLower();
 
             //This looks for parameters named q (Google, Bing, possibly others)

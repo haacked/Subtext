@@ -80,13 +80,17 @@ namespace Subtext.Web.UI.Pages
         {
             _controls = controls;
         }
-
+            
         public void InitializeControls(ISkinControlLoader controlLoader)
         {
             IEnumerable<string> controlNames = _controls;
             if(controlNames != null)
             {
                 var apnlCommentsWrapper = new UpdatePanel { Visible = true, ID = CommentsPanelId };
+                if(!String.IsNullOrEmpty(Query))
+                {
+                    AddControlToBody("MoreResults", controlLoader.LoadControl("MoreResults"), apnlCommentsWrapper, CenterBodyControl);
+                }
 
                 foreach(string controlName in controlNames)
                 {
@@ -115,14 +119,49 @@ namespace Subtext.Web.UI.Pages
             }
             else
             {
-                centerBodyControl.Controls.Add(control);
+                if(centerBodyControl != null)
+                {
+                    centerBodyControl.Controls.Add(control);
+                }
             }
         }
+
+        public string Query
+        {
+            get
+            {
+                if(_query == null)
+                {
+                    var request = SubtextContext.HttpContext.Request;
+                    var referrer = request.UrlReferrer;
+                    if(referrer == null)
+                    {
+                        if(request.IsLocal)
+                        {
+                            string referrerInQuery = request.QueryString["referrer"];
+                            if(!String.IsNullOrEmpty(referrerInQuery))
+                            {
+                                Uri.TryCreate(referrerInQuery, UriKind.Absolute, out referrer);
+                            }
+                        }
+                    }
+                    if(referrer == null)
+                    {
+                        return null;
+                    }
+                    _query = UrlHelper.ExtractKeywordsFromReferrer(referrer, request.Url);
+                }
+                return _query;
+            }
+        }
+        private string _query;
+
 
         public void InitializeBlogPage()
         {
             var skin = SkinConfig.GetCurrentSkin(Blog, SubtextContext.HttpContext);
             var skinControlLoader = new SkinControlLoader(this, skin);
+            
             InitializeControls(skinControlLoader);
 
             if(skin.HasCustomCssText)

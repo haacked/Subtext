@@ -41,8 +41,7 @@ namespace UnitTests.Subtext.Framework.Providers
         [Test]
         public void GetConnectionStringSettingValueFindsConnectionString()
         {
-            var configValue = new NameValueCollection();
-            configValue.Add("connectionStringName", "subtextData");
+            var configValue = new NameValueCollection {{"connectionStringName", "subtextData"}};
             Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True;",
                             ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName",
                                                                                         configValue));

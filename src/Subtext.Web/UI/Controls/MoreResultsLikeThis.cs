@@ -16,14 +16,11 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Components;
-using Subtext.Framework.Data;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services.SearchEngine;
+using Subtext.Web.UI.Pages;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -44,25 +41,26 @@ namespace Subtext.Web.UI.Controls
 
         public int RowCount { get; set; }
 
-        private string query;
+        public string Query
+        {
+            get
+            {
+                var page = Page as SubtextMasterPage;
+                return page != null ? page.Query : null;
+            }
+        }
 
         protected override void OnLoad(EventArgs e)
         {
-            query = UrlHelper.ExtractKeywordsFromReferrer(Request.UrlReferrer, Request.Url);
-            if(String.IsNullOrEmpty(query))
-            {
-                Visible=false;
-                return;
-            }
             int blogId = Blog.Id >= 1 ? Blog.Id : 0;
             var urlRelatedLinks = FindControl("Links") as Repeater;
             var keywords = FindControl("keywords") as Literal;
             
 
-            urlRelatedLinks.DataSource = SearchEngineService.Search(query, RowCount, blogId);
+            urlRelatedLinks.DataSource = SearchEngineService.Search(Query, RowCount, blogId);
             urlRelatedLinks.DataBind();
 
-            keywords.Text = HttpUtility.HtmlEncode(query);
+            keywords.Text = HttpUtility.HtmlEncode(Query);
             
 
             base.OnLoad(e);
@@ -78,8 +76,8 @@ namespace Subtext.Web.UI.Controls
             if(e.Item.ItemType == ListItemType.Footer)
             {
                 var searchMoreLink = e.Item.FindControl("searchMore") as System.Web.UI.HtmlControls.HtmlAnchor;
-                searchMoreLink.InnerText = searchMoreLink.InnerText + query;
-                searchMoreLink.HRef = Url.SearchPageUrl(query);
+                searchMoreLink.InnerText = searchMoreLink.InnerText + Query;
+                searchMoreLink.HRef = Url.SearchPageUrl(Query);
             }
         }
 
