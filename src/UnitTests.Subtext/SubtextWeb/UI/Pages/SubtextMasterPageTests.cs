@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Web.UI;
 using MbUnit.Framework;
+using Moq;
+using Subtext.Framework;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Web.UI.Controls;
 using Subtext.Web.UI.Pages;
@@ -100,6 +103,87 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
             string stylePath = StyleSheetElementCollectionRenderer.GetStylesheetHrefPath(skinPath, style);
             Assert.AreEqual(stylePath, expected, "The rendered style path was not what we expected.");
         }
+        
+        [Test]
+        public void InitializeControls_WithControlNames_AddsControlsToBody()
+        {
+            // arrange
+            var page = new SubtextMasterPage();
+            var context = new Mock<ISubtextContext>();
+            page.SubtextContext = context.Object;
+            context.Setup(c => c.HttpContext.Request.UrlReferrer).Returns((Uri)null);
+            context.Setup(c => c.HttpContext.Request.IsLocal).Returns(false);
+            page.SetControls(new[]{"Test"});
+            var loader = new Mock<ISkinControlLoader>();
+            loader.Setup(l => l.LoadControl("Test")).Returns(new UserControl());
 
+            // act
+            page.InitializeControls(loader.Object);
+
+            // assert
+            loader.Verify(l => l.LoadControl("Test"));
+        }
+
+        [Test]
+        public void InitializeControls_WithReferrer_LoadsMoreResultsControl()
+        {
+            // arrange
+            var page = new SubtextMasterPage();
+            var context = new Mock<ISubtextContext>();
+            page.SubtextContext = context.Object;
+            context.Setup(c => c.HttpContext.Request.UrlReferrer).Returns(new Uri("http://bing.com/?q=test"));
+            context.Setup(c => c.HttpContext.Request.IsLocal).Returns(false);
+            context.Setup(c => c.HttpContext.Request.Url).Returns(new Uri("http://example.com/"));
+            page.SetControls(new[] { "Test" });
+            var loader = new Mock<ISkinControlLoader>();
+            loader.Setup(l => l.LoadControl("MoreResults")).Returns(new UserControl());
+
+            // act
+            page.InitializeControls(loader.Object);
+
+            // assert
+            loader.Verify(l => l.LoadControl("Test"));
+        }
+
+        [Test]
+        public void InitializeControls_WithReferrerButNoControls_LoadsMoreResultsControl()
+        {
+            // arrange
+            var page = new SubtextMasterPage();
+            var context = new Mock<ISubtextContext>();
+            page.SubtextContext = context.Object;
+            context.Setup(c => c.HttpContext.Request.UrlReferrer).Returns(new Uri("http://bing.com/?q=test"));
+            context.Setup(c => c.HttpContext.Request.IsLocal).Returns(false);
+            page.SetControls(null);
+            var loader = new Mock<ISkinControlLoader>();
+            loader.Setup(l => l.LoadControl("MoreResults")).Throws(new InvalidOperationException());
+
+            // act, assert
+            page.InitializeControls(loader.Object);
+        }
+
+
+        [Test]
+        public void InitializeControls_WithLocalRequsetAndReferrerInQueryString_LoadsMoreResultsControl()
+        {
+            // arrange
+            var page = new SubtextMasterPage();
+            var context = new Mock<ISubtextContext>();
+            page.SubtextContext = context.Object;
+            context.Setup(c => c.HttpContext.Request.UrlReferrer).Returns((Uri)null);
+            context.Setup(c => c.HttpContext.Request.IsLocal).Returns(true);
+            context.Setup(c => c.HttpContext.Request.Url).Returns(new Uri("http://example.com/"));
+            var queryString = new NameValueCollection { { "referrer", "http://bing.com/?q=test" } };
+            context.Setup(c => c.HttpContext.Request.QueryString).Returns(queryString);
+            page.SetControls(new[] { "Test" });
+            var loader = new Mock<ISkinControlLoader>();
+            loader.Setup(l => l.LoadControl("MoreResults")).Returns(new UserControl());
+
+            // act
+            page.InitializeControls(loader.Object);
+
+            // assert
+            loader.Verify(l => l.LoadControl("Test"));
+        }
     }
 }

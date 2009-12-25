@@ -266,6 +266,30 @@ ul.horizontal li
 	font-weight: bold;
 }
 
+/*---------{related search results}--------------*/
+div.related-results h2
+{
+	margin-bottom: 2px;	
+}
+
+div.related-results p 
+{
+	margin-top: 0;	
+}
+
+div.related-results h2 
+{
+	background-color: yellow;
+	padding: 4px;	
+}
+
+div.related-results span.search-term 
+{
+	font-style: italic;	
+	color: #009;
+	font-size: 1.1em;
+}
+
 /*---------{search}--------------*/
 #search-progress
 {

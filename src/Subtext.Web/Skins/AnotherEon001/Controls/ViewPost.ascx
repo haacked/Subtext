@@ -2,14 +2,10 @@
 <%@ Register TagPrefix="uc1" TagName="PreviousNext" Src="PreviousNext.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="PostCategoryList" Src="PostCategoryList.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="RelatedLinks" Src="RelatedLinks.ascx" %>
-<%@ Register TagPrefix="st" TagName="MoreResults" Src="~/Skins/_System/Controls/MoreResults.ascx" %>
 
 <uc1:PreviousNext id="PreviousNext" runat="server" />
 
-
-
 	<div class="post">
-	    <st:MoreResults id="MoreResults" runat="server" />
 		<h2>
 			<asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" />
 		</h2>
