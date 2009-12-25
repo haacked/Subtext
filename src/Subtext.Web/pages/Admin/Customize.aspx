@@ -11,9 +11,7 @@
 
 <asp:Content ContentPlaceHolderID="pageContent" runat="server">
     <h2>Meta Tags</h2>
-    <div id="messagePanelWrapper">
-        <div id="messagePanel" style="display: none;"></div>
-    </div>
+    <div id="messagePanel" class="success message"></div>
     <div id="dynamic-content">
         <fieldset>
             <legend>Meta Tags</legend>
@@ -122,7 +120,6 @@
         
         /* ---- { a few global variables } ---- */
         var msgPanel = $('#messagePanel');
-        var msgPanelWrap = msgPanel.parent();
         var noItemsMessage = $('#no-items-message');
         var itemsWrapDiv = $('#items-wrapper');
         var DELETE_BUTTONS_TEMPLATE = "<button type='button' class='dynamic-edit' title='Edit Meta Tag'>Edit</button> <button type='button' class='dynamic-delete' title='Delete Meta Tag'>Delete</button>"
@@ -239,7 +236,7 @@
             noItemsMessage.hide();
             itemsWrapDiv.fadeIn("normal");
             
-            msgPanelWrap.addClass("success");
+            msgPanel.addClass("success");
             showMessagePanel("Meta Tag successfully added. Tag id = " + metaTag.id + ".");
             
             // add the new metatag to the table
@@ -304,7 +301,7 @@
                             editRow.addClass("updated");
                             
                             hideMessagePanel();
-                            msgPanelWrap.addClass("success");
+                            msgPanel.addClass("success");
                             showMessagePanel("Meta Tag successfully udpated.");
                             
                             editRow.animate( { backgroundColor: 'transparent' }, 5000);
@@ -373,7 +370,7 @@
             
             if (!isDeleted)
             {
-                msgPanelWrap.addClass("warn");
+                msgPanel.addClass("warn");
                 showMessagePanel("Could not delete the meta tag... perhaps it's already gone!");
                 return;
             }
@@ -390,7 +387,7 @@
                 }
             });
             
-            msgPanelWrap.addClass("success");
+            msgPanel.addClass("success");
             showMessagePanel("The meta tag was successfully deleted. <button type='button' title='Bring back your tag!'>Undo</button>");
             
             var undoBtn = msgPanel.find("button");
@@ -407,7 +404,7 @@
         function handleError(error)
         {
             hideMessagePanel();
-            msgPanelWrap.addClass("error");
+            msgPanel.addClass("error");
             showMessagePanel(error.message);
         
             // available properties on error
@@ -461,7 +458,7 @@
         function hideMessagePanel()
         {
             msgPanel.fadeOut();
-            msgPanelWrap.removeClass("error").removeClass("warn").removeClass("info").removeClass("success");
+            msgPanel.removeClass("error").removeClass("warn").removeClass("info").removeClass("success");
         }
         
         function getActiveitemRows()

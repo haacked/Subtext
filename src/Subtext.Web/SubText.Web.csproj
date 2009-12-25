@@ -1523,6 +1523,7 @@
     <Content Include="Scripts\jquery.color.min.js" />
     <Content Include="Scripts\jquery.form.js" />
     <Content Include="Scripts\jquery.hotkeys.min.js" />
+    <Content Include="Scripts\json.js" />
     <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\LiveCommentPreview.js" />
     <Content Include="Scripts\flash.js" />

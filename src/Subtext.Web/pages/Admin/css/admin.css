@@ -884,52 +884,6 @@ fieldset select.timezonelist
 	background: transparent url(../../../Images/icons/cross.png) no-repeat scroll right center;
 }
 
-#messagePanelWrapper
-{
-	padding: .25em 1em;
-	border:1px solid #FFF;
-}
-#messagePanelWrapper p
-{
-	font-size:.9em;
-	margin:0;
-	padding:0;
-}
-
-#messagePanel { padding-left: 20px; }
-
-#messagePanelWrapper.error
-{
-	background-color:#FFADAD;
-	border:1px solid #FF5757;
-}
-#messagePanelWrapper.error #messagePanel
-{
-	background: transparent url(../images/icons/exclamation.png) no-repeat scroll left center;
-}
-
-#messagePanelWrapper.warn,
-#messagePanelWrapper.info
-{
-	background-color:#FFFF66;
-	border:1px solid #B2B347;
-}
-#messagePanelWrapper.warn #messagePanel,
-#messagePanelWrapper.info #messagePanel
-{
-	background: transparent url(../images/error.png) no-repeat scroll left center;
-}
-
-#messagePanelWrapper.success
-{
-	background-color:#F8FFF0;
-	border:1px solid #A0DC11;
-}
-#messagePanelWrapper.success #messagePanel
-{
-	background: transparent url(../images/icons/accept.png) no-repeat scroll left center;
-}
-
 div.button-row
 {
 	clear: both;
@@ -1258,21 +1212,38 @@ div.actions ul li a, ul.categoriesList li a, ul.folders li a
 	width: 600px;
 }
 
+div.message 
+{
+	display: none;
+	text-indent: 15px;
+	font-weight: bold;
+	font-size: 1.5em;
+	color: #040;
+	padding: 10px;
+}
+
 div.success
 {
-	background: #f8fff0 url(../../../images/icons/accept.png) no-repeat scroll 5px center;
-	text-indent: 15px;
-	margin: 0;
+	background: #e8ffe0 url(../../../images/icons/accept.png) no-repeat scroll 5px center;
 	border: 1px solid #a0dc11;
-	padding: 10px;
-	font-weight: bold;
-	color: #040;
-	font-size: 1.5em;
 }
+
+div.error
+{
+	border:1px solid #ff5757;
+	background: #feefee url(../../../images/icons/exclamation.png) no-repeat scroll 5px center;
+}
+
+div.warn,
+div.info
+{
+	border:1px solid #b2b347;
+	background: #ffff66 url(../../../images/error.png) no-repeat scroll left center;
+}
+
 
 .skinOption div.message 
 {
-	display: none; 
 	position: absolute; 
 	top: 0; 
 	left: 0;
