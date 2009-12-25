@@ -11,7 +11,7 @@
 
 <asp:Content ContentPlaceHolderID="pageContent" runat="server">
     <h2>Meta Tags</h2>
-    <div id="messagePanel" class="success message"></div>
+    <div id="messagePanel" class="notice"></div>
     <div id="dynamic-content">
         <fieldset>
             <legend>Meta Tags</legend>
