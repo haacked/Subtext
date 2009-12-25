@@ -158,23 +158,30 @@ namespace Subtext.Framework.UI.Skinning
 
         public string RenderStyleElementCollection(string skinName)
         {
+            SkinTemplate skinTemplate = Templates.ItemOrNull(skinName);
+            return RenderStyleElementCollection(skinName, skinTemplate);
+        }
+
+        public string RenderStyleElementCollection(string skinName, SkinTemplate skinTemplate)
+        {
             var templateDefinedStyles = new StringBuilder();
             string finalStyleDefinition = string.Empty;
 
-            SkinTemplate skinTemplate = Templates.ItemOrNull(skinName);
-
             var addedStyle = new List<string>();
 
-            if(skinTemplate != null && skinTemplate.Styles != null)
+            if(skinTemplate != null)
             {
                 string skinPath = CreateStylePath(skinTemplate.TemplateFolder);
 
                 // If skin doesn't want to be merged, just write plain css
                 if(skinTemplate.StyleMergeMode == StyleMergeMode.None)
                 {
-                    foreach(Style style in skinTemplate.Styles)
+                    if(skinTemplate.Styles != null)
                     {
-                        templateDefinedStyles.Append(RenderStyleElement(skinPath, style));
+                        foreach(Style style in skinTemplate.Styles)
+                        {
+                            templateDefinedStyles.Append(RenderStyleElement(skinPath, style));
+                        }
                     }
 
                     if(!skinTemplate.ExcludeDefaultStyle)

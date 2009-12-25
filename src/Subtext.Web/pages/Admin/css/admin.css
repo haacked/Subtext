@@ -1195,6 +1195,7 @@ div.actions ul li a, ul.categoriesList li a, ul.folders li a
 	font-size: 1.4em;
 	font-weight: normal;
 	font-family: Calibri;
+	line-height: 1.2em;
 }
 
 :focus {

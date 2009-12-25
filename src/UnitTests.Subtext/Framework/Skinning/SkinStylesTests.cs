@@ -103,6 +103,23 @@ namespace UnitTests.Subtext.Framework.Skinning
                           "Expected the default css to be there.");
         }
 
+        [Test]
+        public void RenderStyleElementCollection_WithNoStyles_RendersDefaultStyle()
+        {
+            // arrange
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", string.Empty, "/");
+            var pathProvider = new Mock<VirtualPathProvider>();
+            var skinEngine = new SkinEngine(pathProvider.Object);
+            var renderer = new StyleSheetElementCollectionRenderer(skinEngine);
+            var skinTemplate = new SkinTemplate {ExcludeDefaultStyle = false, Styles = null, TemplateFolder = "TestSkin"};
+
+            // act
+            string styleElements = renderer.RenderStyleElementCollection("TestSkin", skinTemplate);
+
+            // assert
+            const string defaultStyle = @"<link type=""text/css"" rel=""stylesheet"" href=""/Skins/TestSkin/style.css"" />";
+            Assert.AreEqual(defaultStyle, styleElements.Trim());
+        }
 
         [RowTest]
         [Row("", "", "/Skins/WPSkin/print.css", "/Skins/WPSkin/style.css")]
