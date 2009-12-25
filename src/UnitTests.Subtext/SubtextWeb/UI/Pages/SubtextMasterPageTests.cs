@@ -146,7 +146,24 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
         }
 
         [Test]
-        public void InitializeControls_WithReferrerButNoControls_LoadsMoreResultsControl()
+        public void InitializeControls_WithReferrerButOnlyHomepageControl_DoesNotLoadsMoreResultsControl()
+        {
+            // arrange
+            var page = new SubtextMasterPage();
+            var context = new Mock<ISubtextContext>();
+            page.SubtextContext = context.Object;
+            context.Setup(c => c.HttpContext.Request.UrlReferrer).Returns(new Uri("http://bing.com/?q=test"));
+            context.Setup(c => c.HttpContext.Request.IsLocal).Returns(false);
+            page.SetControls(new[] { "HomePage" });
+            var loader = new Mock<ISkinControlLoader>();
+            loader.Setup(l => l.LoadControl("MoreResults")).Throws(new InvalidOperationException());
+
+            // act, assert
+            page.InitializeControls(loader.Object);
+        }
+
+        [Test]
+        public void InitializeControls_WithReferrerButNoControls_DoesNotLoadsMoreResultsControl()
         {
             // arrange
             var page = new SubtextMasterPage();
@@ -161,7 +178,6 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
             // act, assert
             page.InitializeControls(loader.Object);
         }
-
 
         [Test]
         public void InitializeControls_WithLocalRequsetAndReferrerInQueryString_LoadsMoreResultsControl()

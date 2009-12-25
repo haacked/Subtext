@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Web.UI;
 using Subtext.Framework;
@@ -87,7 +88,7 @@ namespace Subtext.Web.UI.Pages
             if(controlNames != null)
             {
                 var apnlCommentsWrapper = new UpdatePanel { Visible = true, ID = CommentsPanelId };
-                if(!String.IsNullOrEmpty(Query))
+                if(!controlNames.Contains("HomePage", StringComparer.OrdinalIgnoreCase) && !String.IsNullOrEmpty(Query))
                 {
                     AddControlToBody("MoreResults", controlLoader.LoadControl("MoreResults"), apnlCommentsWrapper, CenterBodyControl);
                 }
