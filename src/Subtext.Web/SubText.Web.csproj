@@ -2391,7 +2391,7 @@
     <Content Include="Skins\_System\commonstyle.css" />
     <Content Include="Skins\_System\Controls\Error.ascx" />
     <Content Include="Skins\_System\Controls\FullTagCloud.ascx" />
-    <Content Include="Skins\AnotherEon001\Controls\MoreResults.ascx" />
+    <Content Include="Skins\_System\Controls\MoreResults.ascx" />
     <Content Include="Skins\_System\Controls\Search.ascx" />
     <Content Include="Skins\_System\Controls\ShareThisPost.ascx" />
     <Content Include="Skins\_System\Controls\TagCloud.ascx" />
