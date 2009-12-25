@@ -1213,7 +1213,7 @@ div.actions ul li a, ul.categoriesList li a, ul.folders li a
 	width: 600px;
 }
 
-div.message 
+div.notice 
 {
 	display: none;
 	text-indent: 15px;
@@ -1223,28 +1223,28 @@ div.message
 	padding: 10px;
 }
 
-div.success
+div.notice.success
 {
 	background: #e8ffe0 url(../../../images/icons/accept.png) no-repeat scroll 5px center;
 	border: 1px solid #a0dc11;
 }
 
-div.error
+div.notice.error
 {
 	border:1px solid #ff5757;
 	color: #600;
 	background: #feefee url(../../../images/icons/exclamation.png) no-repeat scroll 5px center;
 }
 
-div.warn,
-div.info
+div.notice.warn,
+div.notice.info
 {
 	border:1px solid #b2b347;
 	background: #ffff66 url(../../../images/error.png) no-repeat scroll left center;
 }
 
 
-.skinOption div.message 
+.skinOption div.notice 
 {
 	position: absolute; 
 	top: 0; 

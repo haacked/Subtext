@@ -7,11 +7,6 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageContent" runat="server">
-    <div id="success-message" class="MessagePanel" style="display: none;">
-        <img src="<%= VirtualPathUtility.ToAbsolute("~/images/icons/ico_info.gif") %>" />
-        <div><%= Resources.Skins_SkinSaved %></div>
-    </div>
-    
     <script type="text/javascript">
         $(function() {
             $('form').ajaxForm(function() {
@@ -25,7 +20,7 @@
                 $(this).addClass('selected').find('input[type=radio]').attr('checked', 'checked');
                 $('.current-skin').text($(this).find('label').text());
                 $('form').submit();
-                $(this).find('div.message').addClass('success');
+                $(this).find('div.notice').addClass('success');
             });
         });
     </script>
@@ -40,7 +35,7 @@
         <asp:Repeater ID="skinRepeater" runat="server">
             <ItemTemplate>
                 <div class="skinOption<%# EvalSelected(Container.DataItem) %>" style="position: relative;">
-                    <div class="message">
+                    <div class="notice">
                         Skin Saved
                     </div>
                     <img src="<%# GetSkinIconImage(Container.DataItem) %>" />
