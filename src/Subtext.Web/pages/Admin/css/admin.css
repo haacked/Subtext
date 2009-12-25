@@ -848,7 +848,7 @@ fieldset select.timezonelist
 {
     border: none;
 	margin-right: .5em;
-	padding-right: 15px;
+	padding-right: 20px;
 	color: #00c;
 	cursor: pointer;
 }
@@ -1231,6 +1231,7 @@ div.success
 div.error
 {
 	border:1px solid #ff5757;
+	color: #600;
 	background: #feefee url(../../../images/icons/exclamation.png) no-repeat scroll 5px center;
 }
 
