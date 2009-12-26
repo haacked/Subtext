@@ -6,8 +6,13 @@ if (!Subtext) {
 $(function() {
     String.prototype.trim = function() {
         return jQuery.trim(this);
-    } 
+    };
+
+    $('a.close').click(function() {
+        $('#' + $(this).attr('rel')).slideUp();
+    });
 });
+
 
 /*-------------------------------------------------*/
 /* Disables submit button during update panel post

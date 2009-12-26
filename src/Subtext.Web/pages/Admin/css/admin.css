@@ -1240,7 +1240,7 @@ div.notice.warn,
 div.notice.info
 {
 	border:1px solid #b2b347;
-	background: #ffff66 url(../../../images/error.png) no-repeat scroll left center;
+	background: #ffff66 url(../../../images/icons/error.png) no-repeat scroll left center;
 }
 
 

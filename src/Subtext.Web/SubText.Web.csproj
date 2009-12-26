@@ -1059,7 +1059,6 @@
     <Content Include="Images\atom.gif" />
     <Content Include="Images\atomsmall.gif" />
     <Content Include="Images\blank.gif" />
-    <Content Include="Images\close.gif" />
     <Content Include="Images\contact.gif" />
     <Content Include="Images\default_gravatar.png" />
     <Content Include="Images\email.gif" />
@@ -1081,7 +1080,6 @@
     <Content Include="Images\emotions\smiley-undecided.gif" />
     <Content Include="Images\emotions\smiley-wink.gif" />
     <Content Include="Images\emotions\smiley-yell.gif" />
-    <Content Include="Images\error.png" />
     <Content Include="Images\friends.png" />
     <Content Include="Images\home.gif" />
     <Content Include="Images\icn_delete.gif" />
@@ -1090,9 +1088,11 @@
     <Content Include="Images\icons\cc_icon_noderivs_small.gif" />
     <Content Include="Images\icons\cc_icon_noncomm_small.gif" />
     <Content Include="Images\icons\cc_icon_sharealike_small.gif" />
+    <Content Include="Images\icons\close.gif" />
     <Content Include="Images\icons\CommentIcon.gif" />
     <Content Include="Images\icons\cross.png" />
     <Content Include="Images\icons\edit.gif" />
+    <Content Include="Images\icons\error.png" />
     <Content Include="Images\icons\exclamation.png" />
     <Content Include="Images\icons\help-med.png" />
     <Content Include="Images\icons\help-small.png" />

@@ -267,27 +267,64 @@ ul.horizontal li
 }
 
 /*---------{related search results}--------------*/
-div.related-results h2
+#related-results 
 {
-	margin-bottom: 2px;	
+	border: solid 1px #777;
+	margin: 0;
+	padding: 0;
 }
 
-div.related-results p 
+#related-results h2
+{
+	margin: 0;
+	background-color: #ffa;
+	padding: 4px;
+	border-top: solid 1px #ffd;
+	border-right: solid 1px #ffd;
+	border-left: solid 1px #ffd;
+	border-bottom: solid 1px #dc0;	
+}
+
+#related-results div.content
+{
+	padding: 8px;
+}
+
+#related-results ul li 
+{
+	margin-left: 15px;
+}
+
+#related-results a.close 
+{
+	float: right;
+	display: block;
+	width: 32px;
+	height: 24px;
+	background: transparent url(../../images/icons/cross.png) no-repeat center center;
+}
+
+#related-results a.close:hover 
+{
+	background-color: #ffc;
+}
+
+#related-results p 
 {
 	margin-top: 0;	
 }
 
-div.related-results h2 
-{
-	background-color: yellow;
-	padding: 4px;	
-}
-
-div.related-results span.search-term 
+#related-results span.search-term 
 {
 	font-style: italic;	
 	color: #009;
 	font-size: 1.1em;
+}
+
+a.more-results 
+{
+	font-weight: bold;
+	font-style: italic;
 }
 
 /*---------{search}--------------*/
