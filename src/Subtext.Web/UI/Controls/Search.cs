@@ -1,4 +1,4 @@
-﻿#region Disclaimer/Info
+#region Disclaimer/Info
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
@@ -42,7 +42,7 @@ namespace Subtext.Web.UI.Controls
 
         protected TextBox txtSearch;
 
-        public int MaxResults { get; set; }
+        public int MaxResultsCount { get; set; }
 
         protected override void OnLoad(EventArgs e)
         {
@@ -58,7 +58,7 @@ namespace Subtext.Web.UI.Controls
             if (!String.IsNullOrEmpty(queryString))
             {
                 txtSearch.Text = queryString;
-                var results = SearchEngineService.Search(queryString, MaxResults, Blog.Id);
+                var results = SearchEngineService.Search(queryString, MaxResultsCount, Blog.Id);
                 if (results.Count()>0)
                 {
                     searchResults.DataSource = results;
