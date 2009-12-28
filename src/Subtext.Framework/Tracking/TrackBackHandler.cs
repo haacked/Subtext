@@ -26,6 +26,7 @@ using Subtext.Framework.Email;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;

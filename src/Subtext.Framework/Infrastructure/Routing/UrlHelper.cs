@@ -65,6 +65,18 @@ namespace Subtext.Framework.Routing
             return appRoot;
         }
 
+        public virtual VirtualPath CommentUpdateStatus()
+        {
+            return GetVirtualPath("comments-admin", 
+                new RouteValueDictionary {{"action", "updatestatus"}, {"controller", "comment"}});
+        }
+
+        public virtual VirtualPath CommentDestroy()
+        {
+            return GetVirtualPath("comments-admin",
+                new RouteValueDictionary { { "action", "destroy" }, { "controller", "comment" } });
+        }
+
         public virtual VirtualPath FeedbackUrl(FeedbackItem comment)
         {
             if(comment == null)

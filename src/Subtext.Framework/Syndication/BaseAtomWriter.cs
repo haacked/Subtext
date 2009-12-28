@@ -21,6 +21,7 @@ using System.IO;
 using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
 using Subtext.Infrastructure;

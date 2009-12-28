@@ -22,6 +22,7 @@ using System.Web;
 using log4net;
 using Subtext.Framework.Components;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Services
