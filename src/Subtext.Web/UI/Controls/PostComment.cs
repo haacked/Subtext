@@ -29,6 +29,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Email;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;

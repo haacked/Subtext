@@ -203,5 +203,21 @@ namespace Subtext.Framework.Routing
             }
             return new RouteValueDictionary(anonymousDictionary);
         }
+
+        public static Uri ToFullyQualifiedUrl(this VirtualPath virtualPath, Blog blog)
+        {
+            if(virtualPath == null)
+            {
+                return null;
+            }
+
+            if(blog == null)
+            {
+                throw new ArgumentNullException("blog");
+            }
+
+            var builder = new UriBuilder {Scheme = "http", Host = blog.Host};
+            return new Uri(builder.Uri, virtualPath);
+        }
     }
 }

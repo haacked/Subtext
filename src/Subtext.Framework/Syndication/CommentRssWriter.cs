@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using Subtext.Framework.Components;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Syndication
 {

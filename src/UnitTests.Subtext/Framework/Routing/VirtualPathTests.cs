@@ -106,5 +106,20 @@ namespace UnitTests.Subtext.Framework.Routing
             //assert
             Assert.AreEqual("?a=b", uri.Query);
         }
+
+        [Test]
+        public void ToFullyQualifiedUrl_WithNullVirtualPath_ReturnsNull()
+        {
+            VirtualPath vp = null;
+            Assert.IsNull(vp.ToFullyQualifiedUrl(new Blog()));
+            Assert.IsNull(vp.ToFullyQualifiedUrl(null));
+        }
+
+        [Test]
+        public void ToFullyQualifiedUrl_WithNullBlog_ThrowsArgumentNullException()
+        {
+            VirtualPath vp = "/";
+            UnitTestHelper.AssertThrowsArgumentNullException(() => vp.ToFullyQualifiedUrl(null));
+        }
     }
 }

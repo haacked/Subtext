@@ -27,6 +27,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 using Subtext.Framework.Tracking;

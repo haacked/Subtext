@@ -18,6 +18,7 @@
 using System;
 using System.IO;
 using Subtext.Extensibility.Interfaces;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Syndication
 {
