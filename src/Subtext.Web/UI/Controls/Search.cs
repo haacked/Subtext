@@ -29,7 +29,7 @@ namespace Subtext.Web.UI.Controls
     {
         public Search()
         {
-            MaxResults = 100;
+            MaxResultsCount = 100;
         }
 
         public ISearchEngineService SearchEngineService
