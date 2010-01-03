@@ -3,10 +3,10 @@
 <div id="comments">
 	<h2>Comments on this post</h2>
 	<asp:Literal ID="NoCommentMessage" Runat="server" />
-	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
+	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated">
 		<ItemTemplate>
 			<a name="<%# Comment.Id %>"></a>
-			<div class="comment<%# AuthorCssClass %>">
+			<div class="target comment<%# AuthorCssClass %>">
 				<h3>
 					<a href="<%# Comment.DisplayUrl %>" title="permalink">#</a> <asp:Literal Runat="server" ID="title" Text="<%# Comment.Title %>" />
 				</h3>
@@ -23,7 +23,12 @@
 					on 
 					<asp:Literal id="commentDate" Runat="server" Text='<%# Comment.DateCreated.ToString("MMM dd, yyyy h:mm tt") %>' />
 				</div>
-				<span class="admin-only"><asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" ToolTip="Remove comment" /></span>
+				<span class="admin-only">
+				    <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+					    <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
+					    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
+					<% } %>
+			    </span>
 			</div>
 		</ItemTemplate>
 	</asp:Repeater>

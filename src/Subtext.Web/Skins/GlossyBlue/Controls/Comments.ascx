@@ -4,15 +4,18 @@
 <div id="moreinfo">
 	<h2>Feedback</h2>
 	    <p><asp:Literal ID="NoCommentMessage" Runat ="server" /></p>
-	    <asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
+	    <asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated">
 		    <ItemTemplate>
-			    <div class="comment">
+			    <div class="target comment">
 				    <h4>
-					    <asp:Literal Runat = "server" ID = "Title" />
+					    <asp:Literal Runat="server" ID="Title" />
 				    </h4>
 				    <asp:Literal id="PostText" Runat="server" />
 				    <span class="commentInfo"><asp:Literal id="PostDate" Runat="server" /> | <cite><asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /></cite></span>
-				    <asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" />
+				    <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+					    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
+					    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
+					<% } %>
 			    </div>
 		    </ItemTemplate>
 		    <SeparatorTemplate><p /></SeparatorTemplate>

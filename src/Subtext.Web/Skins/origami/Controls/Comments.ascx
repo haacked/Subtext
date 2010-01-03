@@ -3,10 +3,10 @@
 	<a name="feedback"></a>
 	<h2 class="section-title">Your Comments.</h2>
 	<p><asp:Literal ID = "NoCommentMessage" Runat ="server" /></p>
-	<asp:Repeater ID="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
+	<asp:Repeater ID="CommentList" runat="server" OnItemCreated="CommentsCreated">
 	    <HeaderTemplate><ul class="comment-list" id="commentList"></HeaderTemplate>
 	    <ItemTemplate>
-	        <li id="<%# Comment.Id %>" class="comment normal-comment<%# AuthorCssClass %>">
+	        <li id="<%# Comment.Id %>" class="target comment normal-comment<%# AuthorCssClass %>">
 	            <div class="comment-body">
 		            <cite>
 			            <strong>
@@ -17,11 +17,17 @@
 		            <p><asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" /><asp:Literal ID="PostText" Runat="server" /></p>
 	            </div>
 	            <div class="comment-date">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
-	            <asp:LinkButton Runat="server" cssclass="editlink" ID="EditLink" CausesValidation="False" />
+                <span class="adminLink">
+			        <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+	                    <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
+	                    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
+	                <% } %>
+			    </span>
+
             </li>
 	    </ItemTemplate>
 	    <AlternatingItemTemplate>
-	        <li id="<%# Comment.Id %>" class="comment alternate-comment<%# AuthorCssClass %>">
+	        <li id="<%# Comment.Id %>" class="target comment alternate-comment<%# AuthorCssClass %>">
 	            <div class="comment-body">
 		            <cite>
 			            <strong>
@@ -32,7 +38,12 @@
  		            <p class="comment-text"><asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" /><asp:Literal ID="PostText" Runat="server" /></p>
 	            </div>
 	            <div class="comment-date">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
-	            <asp:LinkButton Runat="server" cssclass="editlink" ID="EditLink" CausesValidation="False" />
+                <span class="adminLink">
+			        <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+	                    <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
+	                    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
+	                <% } %>
+			    </span>
             </li>
 	    </AlternatingItemTemplate>
 	    <FooterTemplate></ul></FooterTemplate>

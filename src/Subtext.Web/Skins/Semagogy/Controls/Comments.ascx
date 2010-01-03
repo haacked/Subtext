@@ -6,10 +6,10 @@
 		</dt>
 		<dd>
 		<asp:literal id="NoCommentMessage" runat="server" />
-		<asp:repeater id="CommentList" runat="server" onitemcreated="CommentsCreated" onitemcommand="RemoveComment_ItemCommand">
+		<asp:repeater id="CommentList" runat="server" onitemcreated="CommentsCreated">
 			<itemtemplate>
 			<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
-				<dl class="Comment<%# AuthorCssClass %>">
+				<dl class="target Comment<%# AuthorCssClass %>">
 					<dt>
 						<asp:literal runat = "server" id = "Title" />
 					</dt>
@@ -20,10 +20,17 @@
 						<asp:literal id = "PostDate" runat = "server" />
 					</dd>
 					<dd class="Admin">
-						<asp:HyperLink Runat="server" ID="EditCommentTextLink" /> &nbsp;&nbsp; <asp:linkbutton runat="server" id="EditLink" causesvalidation="False" />
+						<asp:HyperLink Runat="server" ID="EditCommentTextLink" /> 
+						<span class="adminLink">
+                            <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+                                | <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
+                                | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
+                            <% } %>
+                        </span>
+
 					</dd>
 					<dd class="Content">
-						<asp:literal id = "PostText" runat = "server" />
+						<asp:literal id="PostText" runat = "server" />
 					</dd>
 				</dl>
 			</itemtemplate>

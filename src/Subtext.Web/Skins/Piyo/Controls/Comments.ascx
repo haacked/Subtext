@@ -4,10 +4,10 @@
 <div id="comments">
 	<h3>Comments on this entry:</h3>
 	<p><asp:Literal ID = "NoCommentMessage" Runat ="server" /></p>
-	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
+	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated">
 		<ItemTemplate>
 			<a name="<%# Comment.Id %>"></a>
-			<div class="comment<%# AuthorCssClass %>">
+			<div class="target comment<%# AuthorCssClass %>">
 				<h4>
 					<asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal Runat = "server" ID = "Title" />
 				</h4>
@@ -17,7 +17,13 @@
 					<div>
 						<asp:Literal id="PostText" Runat="server" />
 					</div>
-					<asp:LinkButton Runat="server" cssclass="editlink" ID="EditLink" CausesValidation="False" />
+					<span class="adminLink">
+                        <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+                            <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
+                            | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
+                        <% } %>
+                    </span>
+
 				</div>
 			</div>
 		</ItemTemplate>
