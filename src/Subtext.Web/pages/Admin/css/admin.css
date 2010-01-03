@@ -1267,9 +1267,22 @@ td.undoable ul.horizontal li:first-child
 	border-left: none;
 }
 
-td.undoable a 
+.undoable a
 {
-	padding-left: 18px;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	padding: 4px 4px 4px 18px;
+	border: solid 1px transparent;
+}
+
+.undoable a:hover 
+{
+	border-top: solid 1px #ddd;
+	border-right: solid 1px #aaa;
+	border-bottom: solid 1px #aaa;
+	border-left: solid 1px #ddd;
+	background-color: #eee;
 }
 
 a.Deleted 
