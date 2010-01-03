@@ -1,5 +1,9 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/pages/Admin/WebUI/AdminPageTemplate.Master" CodeBehind="~/pages/Admin/WebUI/AdminPageTemplate.Master" Inherits="Subtext.Web.Admin.Feedback.FeedbackMaster" %>
 
+<asp:Content ContentPlaceHolderID="head" runat="server">
+    <asp:ContentPlaceHolder ID="head" runat="server" />
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="actionsHeading" runat="server">
     <h2>Folders</h2>
     <ul class="folders">

@@ -5,7 +5,7 @@
         <ul class="comments">
     </HeaderTemplate>
     <ItemTemplate>
-        <li class="recent-comment<%# AlternatingCssClass %>">
+        <li class="target recent-comment<%# AlternatingCssClass %>">
             <img src="<%# H(Gravatar.GenerateUrl(Comment.Email, Url.IdenticonUrl(IdenticonUtil.Code(Comment.IpAddress.ToString())).ToFullyQualifiedUrl(Blog))) %>" alt="commenter gravatar icon" class="gravatar" />
             <div class="info">
                 <span class="meta">
@@ -18,10 +18,10 @@
                 <div class="actions">
                     <ul class="inline">
                         <%--<li><a href="#">Unnapprove</a></li>--%>
-                        <li><a href="<%# H(EditUrl(Comment)) %>" title="Edit Comment">Edit</a></li>
-                        <li><a href="<%# Url.EntryUrl(Comment.Entry) %>#commentform">Reply</a></li>
-                        <%--<li><a href="#">Spam</a></li>--%>
-                        <%--<li><a href="#">Delete</a></li>--%>
+                        <li><a href="<%# H(EditUrl(Comment)) %>" class="edit" title="Edit Comment">Edit</a></li>
+                        <li><a href="<%# Url.EntryUrl(Comment.Entry) %>#commentform" class="reply" title="Reply to this comment">Reply</a></li>
+                        <li class="undoable"><a href="#<%# Comment.Id %>" class="FlaggedAsSpam">Spam</a></li>
+                        <li class="undoable"><a href="#<%# Comment.Id %>" class="Deleted" title="Move to trash">Delete</a></li>
                     </ul>
                 </div>
             </div>

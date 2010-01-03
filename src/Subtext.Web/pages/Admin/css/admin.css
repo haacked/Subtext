@@ -56,7 +56,7 @@ body
 
 #logo
 {
-	background: url(../../../images/SubtextLogo.png);
+	background: transparent url(../../../images/SubtextLogo.png);
 	width: 261px;
 	height: 85px;
 	display: block;
@@ -1149,6 +1149,7 @@ div.preferences div label
 
 div.actions 
 {
+	margin-top: 8px;
 	margin-bottom: 8px;
 }
 
@@ -1235,39 +1236,40 @@ tr.undoable td, tr.undoable td:hover
 	color: #777;
 }
 
-tr.undoable td.summary 
+.undoable .summary 
 {
     text-align: center;	
 }
 
-tr.undoable td.undo, tr.undoable td.undo:hover 
+.undoable .undo, .undoable .undo:hover 
 {
+	padding: 8px;
     border-left: none;	
 }
 
-tr.undoable td strong.title 
+.undoable strong.subject
 {
 	font-weight: bold;
 }
 
-td.undoable ul.horizontal 
+.undoable ul.horizontal 
 {
 	margin-right: 5px;
 }
 
-td.undoable ul.horizontal li 
+.undoable ul.horizontal li 
 {
 	border-left: solid 1px #444;
 	padding-left: 8px;
 	padding-left: 2px;
 }
 
-td.undoable ul.horizontal li:first-child
+.undoable ul.horizontal li:first-child
 {
 	border-left: none;
 }
 
-.undoable a
+.undoable a, .actions a, .undo a
 {
 	-moz-border-radius: 4px;
 	-khtml-border-radius: 4px;
@@ -1276,7 +1278,7 @@ td.undoable ul.horizontal li:first-child
 	border: solid 1px transparent;
 }
 
-.undoable a:hover 
+.undoable a:hover, .actions a:hover, .undo a:hover
 {
 	border-top: solid 1px #ddd;
 	border-right: solid 1px #aaa;
@@ -1287,20 +1289,35 @@ td.undoable ul.horizontal li:first-child
 
 a.Deleted 
 {
-	background: url(../../../images/icons/cross.png) no-repeat center left;
+	background: transparent url(../../../images/icons/cross.png) no-repeat center left;
 }
 
 a.destroy
 {
-	background: url(../../../images/icons/exclamation-red.png) no-repeat center left;
+	background: transparent url(../../../images/icons/exclamation-red.png) no-repeat center left;
 }
 
 a.FlaggedAsSpam 
 {
-	background: url(../../../images/icons/spam_16x16.png) no-repeat center left;
+	background: transparent url(../../../images/icons/spam_16x16.png) no-repeat center left;
 }
 
 a.Approved 
 {
-	background: url(../../../images/icons/tick-circle.png) no-repeat center left;
+	background: transparent url(../../../images/icons/tick-circle.png) no-repeat center left;
+}
+
+.undo a 
+{
+	background: transparent url(../../../images/icons/eraser.png) no-repeat center left;
+}
+
+a.edit
+{
+	background: transparent url(../../../images/icons/edit.gif) no-repeat center left;
+}
+
+a.reply
+{
+	background: transparent url(../../../images/icons/mail-reply.png) no-repeat center left;
 }

@@ -2,6 +2,18 @@
 
 <asp:Content ContentPlaceHolderID="head" runat="server">
     <link id="Link1" type="text/css" rel="stylesheet" href="<%= VirtualPathUtility.ToAbsolute("~/pages/Admin/css/dashboard.css") %>" />
+    <script type="text/javascript">
+        $(function() {
+            $(".undoable a").undoable({
+                url: '<%= Url.CommentUpdateStatus() %>',
+                getPostData: function(clickSource, target) {
+                    var data = this.getPostData(clickSource, target);
+                    data.status = clickSource.attr('class');
+                    return data;
+                }
+            });
+        });
+    </script>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainContent" runat="server">

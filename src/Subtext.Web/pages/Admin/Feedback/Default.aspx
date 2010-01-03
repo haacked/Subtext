@@ -1,58 +1,59 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/pages/Admin/Feedback/Feedback.Master" Title="Subtext Admin - Feedback" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="Subtext.Web.Admin.Feedback.Default" %>
 
+<asp:Content ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript">
+        $(function() {
+            var currentStatus = '<%= Master.FeedbackStatus %>';
+            $("td.undoable a[class!='destroy']").undoable({
+                url: '<%= Url.CommentUpdateStatus() %>',
+                showingStatus: function(undoable) {
+                    var bodyRow = undoable.next('tr');
+                    bodyRow.hide().addClass('undoable').fadeIn('slow').show();
+                },
+                hidingStatus: function(undoable, target) {
+                    undoable.next('tr').removeClass('undoable');
+                },
+                getPostData: function(clickSource, target) {
+                    var data = this.getPostData(clickSource, target);
+                    data.status = clickSource.attr('class');
+                    return data;
+                }
+            });
+
+            $('td.undoable a.destroy').undoable({
+                url: '<%= Url.CommentDestroy() %>',
+                showingStatus: function(undoable) {
+                    var bodyRow = undoable.next('tr');
+                    bodyRow.hide().addClass('undoable').fadeIn('slow').show();
+                },
+                showingStatus: function(undoable) {
+                    undoable.find('td.undo a').remove();
+                    var bodyRow = undoable.next('tr');
+                    bodyRow.hide().addClass('undoable').fadeIn('slow').show();
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function changeFilter(index) {
+            if (index == 0) {
+                self.location.href = '<%= Master.ListUrl(FeedbackType.None) %>';
+            }
+            else if (index == 1) {
+                self.location.href = '<%= Master.ListUrl(FeedbackType.Comment) %>';
+            }
+            else if (index == 2) {
+                self.location.href = '<%= Master.ListUrl(FeedbackType.PingTrack) %>';
+            }
+            else if (index == 3) {
+                self.location.href = '<%= Master.ListUrl(FeedbackType.ContactPage) %>';
+            }
+        }
+    </script>
+</asp:Content>
+
 <asp:Content ID="feedbackListContent" ContentPlaceHolderID="feedbackContent" runat="server">
-    
-<script type="text/javascript">
-    $(function() {
-        var currentStatus = '<%= Master.FeedbackStatus %>';
-        $("td.undoable a[class!='destroy']").undoable({
-            url: '<%= Url.CommentUpdateStatus() %>',
-            showingStatus: function(undoable) {
-                var bodyRow = undoable.next('tr');
-                bodyRow.hide().addClass('undoable').fadeIn('slow').show();
-            },
-            hidingStatus: function(undoable, target) {
-                undoable.next('tr').removeClass('undoable');
-            },
-            getPostData: function(clickSource, target) {
-                var data = this.getPostData(clickSource, target);
-                data.status = clickSource.attr('class');
-                return data;
-            }
-        });
-
-        $('td.undoable a.destroy').undoable({
-            url: '<%= Url.CommentDestroy() %>',
-            showingStatus: function(undoable) {
-                var bodyRow = undoable.next('tr');
-                bodyRow.hide().addClass('undoable').fadeIn('slow').show();
-            },
-            showingStatus: function(undoable) {
-                undoable.find('td.undo a').remove();
-                var bodyRow = undoable.next('tr');
-                bodyRow.hide().addClass('undoable').fadeIn('slow').show();
-            }
-        });
-    });
-</script>
-
-<script type="text/javascript">
-    function changeFilter(index)
-    {
-        if(index == 0) {
-          self.location.href = '<%= Master.ListUrl(FeedbackType.None) %>';
-        }
-        else if(index == 1) {
-            self.location.href = '<%= Master.ListUrl(FeedbackType.Comment) %>';
-        }
-        else if(index == 2) {
-            self.location.href = '<%= Master.ListUrl(FeedbackType.PingTrack) %>';
-        }
-        else if (index == 3) {
-            self.location.href = '<%= Master.ListUrl(FeedbackType.ContactPage) %>';
-        }  
-    }
-</script>
     <st:MessagePanel id="Messages" runat="server" />
         <div id="feedback-filter">
             <asp:DropDownList runat="server" ID="filterTypeDropDown" onchange="changeFilter(this.selectedIndex);">
