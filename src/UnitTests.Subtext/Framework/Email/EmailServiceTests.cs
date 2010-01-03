@@ -94,6 +94,33 @@ namespace UnitTests.Subtext.Framework.Email
         }
 
         [Test]
+        public void EmailCommentToBlogAuthor_WithCommentHavingNullSource_SendsEmail()
+        {
+            //arrange
+            var comment = new FeedbackItem(FeedbackType.Comment) { Id = 121, Author = "me", Title = "the subject", FlaggedAsSpam = false, Entry = null };
+            var emailProvider = new Mock<EmailProvider>();
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Blog).Returns(new Blog {Title = "the blog", Email = "haacked@example.com"});
+            context.Setup(c => c.User.IsInRole("Admins")).Returns(false);
+            context.Setup(c => c.UrlHelper.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns((VirtualPath)null);
+            var templateEngine = new Mock<ITemplateEngine>();
+            var template = new Mock<ITextTemplate>();
+            template.Setup(t => t.Format(It.IsAny<Object>())).Returns("whatever");
+            templateEngine.Setup(t => t.GetTemplate("CommentReceived")).Returns(template.Object);
+            var emailService = new EmailService(emailProvider.Object, templateEngine.Object, context.Object);
+            string subject = null;
+            emailProvider.Setup(
+                e => e.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Callback
+                <string, string, string, string>((to, from, title, message) => subject = title);
+            
+            //act
+            emailService.EmailCommentToBlogAuthor(comment);
+
+            //assert
+            Assert.AreEqual("Comment: the subject (via the blog)", subject);
+        }
+
+        [Test]
         public void EmailCommentToBlogAuthor_WithCommentFlaggedAsSpam_PrefacesSubjectWithSpamHeader()
         {
             //arrange

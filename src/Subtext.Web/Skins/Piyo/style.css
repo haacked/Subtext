@@ -519,9 +519,9 @@ img.emoticons {
 	padding: .6em .6em 1em;
 	text-align: center;
 }
-#calendar table {
+#calendar table 
+{
 	margin: 0 auto;
-	border-collapse: collapse;
 }
 
 #calendar tbody a {
@@ -543,7 +543,6 @@ img.emoticons {
 	color: #000;
 	width: 16.5em;
 	border: none !important;
-	border-collapse: collapse;
 }
 
 #entryCal td {

@@ -263,5 +263,24 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("export", routeData.Values["controller"]);
             Assert.AreEqual("blogml", routeData.Values["action"]);
         }
+
+        [Test]
+        public void GetRouteData_ForRequestForEntryAdminController_Matches()
+        {
+            //arrange
+            var routes = new RouteCollection();
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
+            Routes.RegisterRoutes(subtextRoutes);
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/admin/comments/destroy.ashx", "");
+
+            //act
+            RouteData routeData = routes.GetRouteData(httpContext.Object);
+
+            //assert.
+            Assert.IsNotNull(routeData);
+            Assert.AreEqual("comment", routeData.Values["controller"]);
+            Assert.AreEqual("destroy", routeData.Values["action"]);
+        }
     }
 }

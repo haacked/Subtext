@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
                                                                           FeedbackStatusFlag.Approved);
             Assert.IsTrue(comment.Approved, "should be approved");
 
-            FeedbackItem.Delete(comment, null);
+            FeedbackItem.Delete(comment);
             comment = FeedbackItem.Get(comment.Id);
             Assert.IsFalse(comment.Approved, "Should not be approved now.");
             Assert.IsTrue(comment.Deleted, "Should be moved to deleted folder now.");
@@ -94,7 +94,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                 FeedbackStatusFlag.FlaggedAsSpam);
             Assert.IsFalse(newComment.Approved, "should not be approved");
-            FeedbackItem.Delete(newComment, null); //Move it to trash.
+            FeedbackItem.Delete(newComment); //Move it to trash.
 
             FeedbackCounts counts = FeedbackItem.GetFeedbackCounts();
             Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
@@ -210,30 +210,16 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
-        public void DestroyCommentReallyGetsRidOfIt()
-        {
-            Entry entry = SetupBlogForCommentsAndCreateEntry();
-
-            FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
-                                                                          FeedbackStatusFlag.Approved);
-            Assert.IsTrue(comment.Approved, "should be approved");
-            comment.Approved = false;
-            FeedbackItem.Update(comment);
-
-            FeedbackItem.Destroy(comment, null);
-            comment = FeedbackItem.Get(comment.Id);
-            Assert.IsNull(comment);
-        }
-
-        [Test]
         public void DestroyCommentCannotDestroyActiveComment()
         {
             // arrange
             var comment = new FeedbackItem(FeedbackType.Comment) {Approved = true};
-            
+            var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Repository.GetFeedback(123)).Returns(comment);
+            var service = new CommentService(context.Object, null);
+
             // act, assert
-            UnitTestHelper.AssertThrows<InvalidOperationException>(() => FeedbackItem.Destroy(comment, null));
+            UnitTestHelper.AssertThrows<InvalidOperationException>(() => service.Destroy(123));
         }
 
         [Test]
@@ -318,7 +304,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(1, entry.FeedBackCount,
                             "After un-approving the second comment, expected one approved feedback entry.");
 
-            FeedbackItem.Delete(comment, null);
+            FeedbackItem.Delete(comment);
             entry = UnitTestHelper.GetEntry(entryId, PostConfig.None, false);
             Assert.AreEqual(1, entry.FeedBackCount,
                             "After un-approving the second comment, expected one approved feedback entry.");
@@ -461,17 +447,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             var service = new Mock<ICommentSpamService>().Object;
 
             // act, assert
-            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Delete(null, service));
-        }
-
-        [Test]
-        public void DestroyNullCommentThrowsArgumentNull()
-        {
-            // arrange
-            var service = new Mock<ICommentSpamService>().Object;
-
-            // act, assert
-            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Destroy(null, service));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Delete(null));
         }
     }
 }

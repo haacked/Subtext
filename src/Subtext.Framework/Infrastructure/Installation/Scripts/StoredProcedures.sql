@@ -620,6 +620,7 @@ AS
 			    INNER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c WITH (NOLOCK) ON c.ID = f.EntryId
 			WHERE f.BlogId = @BlogId
 				AND f.StatusFlag & 1 = 1
+				AND f.StatusFlag & 8 != 8
 				AND f.FeedbackType = 1
 				AND c.PostConfig & 1 = 1
 				AND c.DateSyndicated <= @CurrentDateTime
@@ -635,6 +636,7 @@ AS
 			    INNER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c WITH (NOLOCK) ON c.ID = f.EntryId
 			WHERE f.BlogId = @BlogId
 				AND f.StatusFlag & 1 = 1
+				AND f.StatusFlag & 8 != 8
 				AND f.FeedbackType = 2
 				AND c.PostConfig & 1 = 1
 				AND c.DateSyndicated <= @CurrentDateTime
@@ -710,6 +712,7 @@ AS
 			FROM  [<dbUser,varchar,dbo>].[subtext_FeedBack] f  WITH (NOLOCK)
 			WHERE f.EntryId = @EntryId 
 				AND f.StatusFlag & 1 = 1
+				AND f.StatusFlag & 8 != 8
 		)
 	WHERE Id = @EntryId
 
@@ -897,10 +900,21 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetFeedbackCountsByStatus]
 )
 AS
 
-SELECT @ApprovedCount = COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] WHERE BlogId = @BlogId AND StatusFlag & 1 = 1
-SELECT @NeedsModerationCount = COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] WHERE BlogId = @BlogId AND StatusFlag & 2 = 2 AND StatusFlag & 8 != 8 AND StatusFlag & 1 != 1
-SELECT @FlaggedSpam = COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] WHERE BlogId = @BlogId AND StatusFlag & 4 = 4 AND StatusFlag & 8 != 8 AND StatusFlag & 1 != 1
-SELECT @Deleted = COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] WHERE BlogId = @BlogId AND StatusFlag & 8 = 8 AND StatusFlag & 1 != 1
+SELECT @ApprovedCount = COUNT(1) 
+FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] 
+WHERE BlogId = @BlogId AND StatusFlag & 1 = 1 AND StatusFlag & 8 != 8
+
+SELECT @NeedsModerationCount = COUNT(1) 
+FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] 
+WHERE BlogId = @BlogId AND StatusFlag & 2 = 2 AND StatusFlag & 8 != 8 AND StatusFlag & 1 != 1
+
+SELECT @FlaggedSpam = COUNT(1) 
+FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] 
+WHERE BlogId = @BlogId AND StatusFlag & 4 = 4 AND StatusFlag & 8 != 8 AND StatusFlag & 1 != 1
+
+SELECT @Deleted = COUNT(1) 
+FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] 
+WHERE BlogId = @BlogId AND StatusFlag & 8 = 8
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -970,7 +984,6 @@ AS
 DELETE [<dbUser,varchar,dbo>].[subtext_FeedBack] 
 WHERE [BlogId] = @BlogId 
 	AND StatusFlag & @StatusFlag = @StatusFlag
-	AND StatusFlag & 1 != 1 -- Do not delete approved.
 	AND (
 			(@StatusFlag = 4 AND StatusFlag & 8 != 8)
 			OR
@@ -1426,6 +1439,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 		ON c.Id = f.EntryId
 WHERE f.EntryId = @EntryId
 	AND f.StatusFlag & 1 = 1
+	AND f.StatusFlag & 8 != 8
 ORDER BY f.[Id]
 
 
@@ -1800,7 +1814,6 @@ AS
 IF @ExcludeFeedbackStatusMask IS NULL
 	SET @ExcludeFeedbackStatusMask = 0;
 
-
 WITH OrderedFeedbacks AS
 (
 SELECT  f.Id
@@ -1829,6 +1842,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 		ON c.Id = f.EntryId
 WHERE 	f.BlogId = @BlogId 
 	AND f.StatusFlag & @StatusFlag = @StatusFlag
+	AND (@StatusFlag = 8 OR f.StatusFlag & 8 != 8)
 	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
 	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
 )
@@ -1842,6 +1856,7 @@ SELECT COUNT(f.[Id]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
 WHERE 	f.BlogId = @BlogId 
 	AND f.StatusFlag & @StatusFlag = @StatusFlag
+	AND (@StatusFlag = 8 OR f.StatusFlag & 8 != 8)
 	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
 	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
 GO
@@ -5280,6 +5295,7 @@ SELECT ActivePostCount = (
 		WHERE BlogId = @BlogId
 			AND FeedbackType = 1 /* Comment */
 			AND StatusFlag & 1 = 1
+			AND StatusFlag & 8 != 8
 	),
 	ApprovedTrackbackCount = (
 		SELECT COUNT(1) 
@@ -5287,6 +5303,7 @@ SELECT ActivePostCount = (
 		WHERE BlogId = @BlogId
 			AND FeedbackType = 2 /* PingTrack */
 			AND StatusFlag & 1 = 1
+			AND StatusFlag & 8 != 8
 	),
 	SpamFalsePositiveFeedbackCount = (
 		SELECT COUNT(1) 
@@ -5294,6 +5311,7 @@ SELECT ActivePostCount = (
 		WHERE BlogId = @BlogId
 			AND FeedbackType = 1 /* Comment */
 			AND StatusFlag & 1 = 1
+			AND StatusFlag & 8 != 8
 			AND StatusFlag & 4 = 4
 	),
 	SpamFalsePositiveTrackbackCount = (
@@ -5303,6 +5321,7 @@ SELECT ActivePostCount = (
 			AND FeedbackType = 2 /* PingTrack */
 			AND StatusFlag & 1 = 1
 			AND StatusFlag & 4 = 4
+			AND StatusFlag & 8 != 8
 	),
 	AwaitingModerationFeedbackCount = (
 		SELECT COUNT(1) 
@@ -5310,6 +5329,7 @@ SELECT ActivePostCount = (
 		WHERE BlogId = @BlogId
 			AND FeedbackType = 1 /* Comment */
 			AND StatusFlag & 2 = 2
+			AND StatusFlag & 8 != 8
 	),
 	AwaitingModerationTrackbackCount = (
 		SELECT COUNT(1) 
@@ -5317,6 +5337,7 @@ SELECT ActivePostCount = (
 		WHERE BlogId = @BlogId
 			AND FeedbackType = 2 /* PingTrack */
 			AND StatusFlag & 2 = 2
+			AND StatusFlag & 8 != 8
 	),
 	FlaggedAsSpamFeedbackCount = (
 		SELECT COUNT(1) 
@@ -5324,6 +5345,7 @@ SELECT ActivePostCount = (
 		WHERE BlogId = @BlogId
 			AND FeedbackType = 1 /* Comment */
 			AND StatusFlag = 4
+			AND StatusFlag & 8 != 8
 	),
 	FlaggedAsSpamTrackbackCount = (
 		SELECT COUNT(1) 
@@ -5331,6 +5353,7 @@ SELECT ActivePostCount = (
 		WHERE BlogId = @BlogId
 			AND FeedbackType = 2 /* PingTrack */
 			AND StatusFlag = 4
+			AND StatusFlag & 8 != 8
 	),
 	DeletedFeedbackCount = (
 		SELECT COUNT(1) 
@@ -5338,7 +5361,6 @@ SELECT ActivePostCount = (
 		WHERE BlogId = @BlogId
 			AND FeedbackType = 1 /* Comment */
 			AND StatusFlag & 8 = 8
-			AND StatusFlag & 4 != 4
 	),
 	DeletedTrackbackCount = (
 		SELECT COUNT(1) 

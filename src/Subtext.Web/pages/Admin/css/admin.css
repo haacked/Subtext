@@ -495,8 +495,7 @@ table.listing
 {
     width: 100%;
 	border-bottom: 3px solid #6B86B3;
-	border-collapse:collapse;
-	margin: 0px 0px 8px 0px;
+	margin-bottom: 8px;
 }
 
 div.CollapsibleHeader 
@@ -525,38 +524,9 @@ div.CollapsibleTitle {
 	clear: left;
 }
 
-div.CollapsibleHeader a:link, 
-div.CollapsibleHeader a:visited,
-div.CollapsibleTitle a:link, 
-div.CollapsibleTitle a:visited {
-	display: block;
-	font-size: 75%;
-	vertical-align: middle;
-	text-transform: none;
-	float: right;
-}
-
-div.CollapsibleHeader a:link, 
-div.CollapsibleHeader a:visited {
-	margin: 2px 0px;
-}
-
-div.CollapsibleTitle a:link, 
-div.CollapsibleTitle a:visited {
-	color: #FFFFFF;
-	margin: 2px 0px;
-	background: inherit;
-}
-
-div.CollapsibleHeader a:hover,
-div.CollapsibleTitle a:hover {
-	color: inherit;
-	background: inherit;
-}
-
 table.listing td
 {
-	border-bottom: 1px solid #E6E6E6;
+	border-bottom: solid 1px #e6e6e6;
 }
 
 table.listing td, 
@@ -565,11 +535,6 @@ table.listing caption,
 h2 {
 	padding: 4px 12px 4px 12px;
 	text-align: left;
-}
-
-table.listing tr {
-	color: inherit;
-	background: #F5F5F5;
 }
 
 table.listing th,
@@ -584,19 +549,7 @@ table.listing tr.Header td {
 table.listing tr.alt, table.listing tr.even
 {
 	color: inherit;
-	background: #FFFFFF;
-}
-
-td {
-	margin: 0;
-	padding: 0;
-	vertical-align: top;
-}
-
-tr {
-	margin: 0;
-	padding: 0;
-	vertical-align: top;
+	background: #fff;
 }
 
 #breadcrumb {
@@ -718,17 +671,6 @@ div.errorPage strong
 }
 
 /* Feedback table */
-#feedback
-{
-	border-collapse: collapse;
-}
-
-#feedback, #feedback td, #feedback th
-{
-	border: 0;
-	margin: 0;
-}
-
 #feedback th
 {
 	color: #004;
@@ -764,9 +706,34 @@ div.errorPage strong
 	height: 17px;
 }
 
+#feedback tr.heading td 
+{
+	border-bottom: solid 1px #efefef;
+	white-space: nowrap;
+}
+
 #feedback tr.body td
 {
 	padding-bottom: 8px;
+	border-top: solid 1px #eee;
+	border-bottom: solid 1px #d0d0d0;
+}
+
+body #feedback tr.heading.undoable td 
+{
+	border-bottom: none;
+}
+
+body #feedback tr.body.undoable td
+{
+	border-top: none;
+	border-left: none;
+	border-bottom: solid 1px #ccc;
+}
+
+body #feedback tr.body.undoable td:first-child
+{
+	border-left: solid 2px #ccc;
 }
 
 #feedback-filter
@@ -895,11 +862,6 @@ div.button-div
 }
 
 /*-------------{table styles}--------------*/
-table
-{
-	border-collapse: collapse;
-}
-
 table tr.header
 {
 	background-color: #ffc;
@@ -1256,4 +1218,76 @@ div.notice.info
 .skinOption input 
 {
 	margin-left: -26px;	
+}
+
+/* Undo */
+tr.undoable 
+{
+	display: none;
+}
+
+tr.undoable td, tr.undoable td:hover
+{
+	border-top: solid 2px #bbb;
+	border-left: solid 2px #ccc;
+	border-bottom: solid 1px #ccc;
+	background-color: #e0e0e0;
+	color: #777;
+}
+
+tr.undoable td.summary 
+{
+    text-align: center;	
+}
+
+tr.undoable td.undo, tr.undoable td.undo:hover 
+{
+    border-left: none;	
+}
+
+tr.undoable td strong.title 
+{
+	font-weight: bold;
+}
+
+td.undoable ul.horizontal 
+{
+	margin-right: 5px;
+}
+
+td.undoable ul.horizontal li 
+{
+	border-left: solid 1px #444;
+	padding-left: 8px;
+	padding-left: 2px;
+}
+
+td.undoable ul.horizontal li:first-child
+{
+	border-left: none;
+}
+
+td.undoable a 
+{
+	padding-left: 18px;
+}
+
+a.Deleted 
+{
+	background: url(../../../images/icons/cross.png) no-repeat center left;
+}
+
+a.destroy
+{
+	background: url(../../../images/icons/exclamation-red.png) no-repeat center left;
+}
+
+a.FlaggedAsSpam 
+{
+	background: url(../../../images/icons/spam_16x16.png) no-repeat center left;
+}
+
+a.Approved 
+{
+	background: url(../../../images/icons/tick-circle.png) no-repeat center left;
 }

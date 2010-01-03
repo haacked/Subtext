@@ -428,8 +428,7 @@ namespace Subtext.Framework.Components
         /// Confirms the feedback as spam and moves it to the trash.
         /// </summary>
         /// <param name="feedback">The feedback.</param>
-        /// <param name="service"></param>
-        public static void Delete(FeedbackItem feedback, ICommentSpamService service)
+        public static void Delete(FeedbackItem feedback)
         {
             if(feedback == null)
             {
@@ -442,25 +441,6 @@ namespace Subtext.Framework.Components
             Update(feedback);
         }
 
-        /// <summary>
-        /// Confirms the feedback as spam and moves it to the trash.
-        /// </summary>
-        /// <param name="feedback">The feedback.</param>
-        /// <param name="service"></param>
-        public static void Destroy(FeedbackItem feedback, ICommentSpamService service)
-        {
-            if(feedback == null)
-            {
-                throw new ArgumentNullException("feedback");
-            }
-
-            if(feedback.Approved)
-            {
-                throw new InvalidOperationException(Resources.InvalidOperation_CannotDestroyApprovedComment);
-            }
-
-            ObjectProvider.Instance().DestroyFeedback(feedback.Id);
-        }
 
         /// <summary>
         /// Destroys all non-active emails that meet the status.

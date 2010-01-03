@@ -1,4 +1,9 @@
-﻿/********* DropCap **********
+﻿table 
+{
+	border-collapse: collapse;
+}
+
+/********* DropCap **********
 Apply to the first letter of a post. 
 Makes a nice magazine effect.
 

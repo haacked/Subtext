@@ -132,7 +132,7 @@ namespace Subtext.Web.UI.Controls
             FeedbackItem feedback = FeedbackItem.Get(feedbackId);
             if(feedback != null)
             {
-                FeedbackItem.Delete(feedback, null);
+                FeedbackItem.Delete(feedback);
                 Cacher.ClearCommentCache(feedback.EntryId, SubtextContext);
                 BindFeedback(false);
             }

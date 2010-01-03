@@ -2,7 +2,7 @@
 <div id="related-results">
     <h2>
         More Results searching for &#8220;<span class="search-term"><asp:Literal ID="keywords" runat="server" /></span>&#8221;
-        <a href="#" class="close" rel="related-results"></a>
+        <a href="#related-results" class="close"></a>
      </h2>
      <div class="content">
          <p>
