@@ -1,0 +1,19 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SystemMessageTemplate.Master.cs" Inherits="Subtext.Web.SystemMessages.Site1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head id="Head1" runat="server">
+		<title>Subtext</title>
+		<link rel="stylesheet" id="installStyle" type="text/css" href="~/aspx/SystemMessages/Style/SystemMessageStyle.css" runat="server" />
+		<link rel="shortcut icon" id="installFavicon"  href="~/favicon.ico" type="image/x-icon" runat="server" />
+	</head>
+	<body>
+		<form id="frmMain" method="post" runat="server">
+			<div id="main">
+				<div id="logo"><asp:Image id="logoImage" runat="server" ImageUrl="~/images/SubtextLogo.png" /></div>
+				<h1><asp:ContentPlaceHolder id="MPTitle" runat="server" /></h1>
+				<h2><asp:ContentPlaceHolder id="MPSubTitle" runat="server" /></h2>
+				<asp:ContentPlaceHolder id="Content" runat="server" />		
+			</div>
+		</form>
+	</body>
+</html>

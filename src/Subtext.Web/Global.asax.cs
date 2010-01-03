@@ -44,10 +44,10 @@ namespace Subtext.Web
     {
         //This call is to kickstart log4net.
         //log4net Configuration Attribute is in AssemblyInfo
-        private const string BadConnectionStringPage = "~/pages/SystemMessages/CheckYourConnectionString.aspx";
-        private const string DatabaseLoginFailedPage = "~/pages/SystemMessages/DatabaseLoginFailed.aspx";
-        private const string DeprecatedPhysicalPathsPage = "~/pages/SystemMessages/DeprecatedPhysicalPaths.aspx";
-        private const string ErrorPageLocation = "~/pages/SystemMessages/error.aspx";
+        private const string BadConnectionStringPage = "~/aspx/SystemMessages/CheckYourConnectionString.aspx";
+        private const string DatabaseLoginFailedPage = "~/aspx/SystemMessages/DatabaseLoginFailed.aspx";
+        private const string DeprecatedPhysicalPathsPage = "~/aspx/SystemMessages/DeprecatedPhysicalPaths.aspx";
+        private const string ErrorPageLocation = "~/aspx/SystemMessages/error.aspx";
         private readonly static ILog Log = new Log(LogManager.GetLogger(typeof(SubtextApplication)));
 
         public SubtextApplication() : this(new Dependencies())

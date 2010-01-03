@@ -1,0 +1,39 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/aspx/Admin/WebUI/AdminPageTemplate.Master" CodeBehind="~/aspx/Admin/WebUI/AdminPageTemplate.Master" Inherits="Subtext.Web.Admin.Feedback.FeedbackMaster" %>
+
+<asp:Content ContentPlaceHolderID="head" runat="server">
+    <asp:ContentPlaceHolder ID="head" runat="server" />
+</asp:Content>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="actionsHeading" runat="server">
+    <h2>Folders</h2>
+    <ul class="folders">
+        <li>
+            <a href="<%= GetListUrl(FeedbackStatusFlag.Approved) %>" 
+                title="Approved Comments">Approved</a> (<%= Counts.ApprovedCount%>)
+        </li>
+        <% if (Config.CurrentBlog.ModerationEnabled) { %>
+        <li>
+            <a href="<%= GetListUrl(FeedbackStatusFlag.NeedsModeration) %>" title="Comments in need of moderation">Moderate</a> 
+            (<%= Counts.NeedsModerationCount%>) (<em><a href="<%= Url.AdminRssUrl("ModeratedComment") %>" title="RSS Feed for moderated comments">rss</a></em>)
+        </li>
+        <% } %>
+        <li>
+            <a href="<%= GetListUrl(FeedbackStatusFlag.FlaggedAsSpam) %>" 
+                title="Comments Flagged As Spam By Filters">Potential Spam</a> (<%= Counts.FlaggedAsSpamCount %>)
+        </li>
+        <li>
+            <a href="<%= GetListUrl(FeedbackStatusFlag.Deleted) %>" 
+                title="Comments In The Trash Bin (Confirmed Spam or Deleted Items)">Trash / Spam</a> (<%= Counts.DeletedCount %>)
+        </li>
+    </ul>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="categoryListHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server">
+</asp:Content>
+
+<asp:Content ID="Content4" ContentPlaceHolderID="pageContent" runat="server">
+    <asp:ContentPlaceHolder ID="feedbackContent" runat="server">Default Page Content Goes Here</asp:ContentPlaceHolder>
+</asp:Content>

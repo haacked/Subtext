@@ -1,0 +1,17 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/aspx/Admin/WebUI/AdminPageTemplate.Master" CodeBehind="Articles.master.cs" Inherits="Subtext.Web.Admin.Articles.Articles" %>
+
+<asp:Content ContentPlaceHolderID="actionsHeading" runat="server">
+    <h2>Actions</h2>
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="categoryListHeading" runat="server">
+    <h2>Categories</h2>
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="categoryListLinks" runat="server">
+    <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="StoryCollection" />
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="pageContent" runat="server">
+    <asp:ContentPlaceHolder ID="postsContent" runat="server">Default Page Content Goes Here</asp:ContentPlaceHolder>
+</asp:Content>

@@ -41,9 +41,9 @@ namespace Subtext.Framework.Routing
         {
             BlogAggregationEnabled = blogAggregationEnabled;
             NormalRouteHandler = normalRouteHandler ??
-                                 new PageRouteHandler("~/pages/Dtp.aspx", serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator);
+                                 new PageRouteHandler("~/aspx/Dtp.aspx", serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator);
             AggregateRouteHandler = aggRouteHandler ??
-                                    new PageRouteHandler("~/pages/AggDefault.aspx", serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator);
+                                    new PageRouteHandler("~/aspx/AggDefault.aspx", serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator);
         }
 
         protected bool BlogAggregationEnabled { get; private set; }
