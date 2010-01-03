@@ -6,20 +6,28 @@
 		Comments
 	</div>
 	<asp:Literal ID = "NoCommentMessage" Runat ="server" />
-	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
+	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated">
 		<HeaderTemplate>
 			<div class="comments">
 		</HeaderTemplate>
 		<ItemTemplate>
-		    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
-			<a name="<%# Comment.Id %>"></a>
-			<div class="comment<%# AuthorCssClass %>">
-				<div class="comment_title">
-					<asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal Runat = "server" ID = "Title" />
-				</div>
-				<div class="comment_author"><asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /></div>
-				<div class="comment_content"><asp:Literal id = "PostText" Runat = "server" /></div>
-				<div class="itemdesc">Posted @ <asp:Literal id = "PostDate" Runat = "server" />&nbsp;&nbsp;<asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" /></div>
+		    <div class="target">
+		        <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
+			    <a name="<%# Comment.Id %>"></a>
+			    <div class="comment<%# AuthorCssClass %>">
+				    <div class="comment_title">
+					    <asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal Runat="server" ID="Title" />
+				    </div>
+				    <div class="comment_author"><asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /></div>
+				    <div class="comment_content"><asp:Literal id="PostText" Runat="server" /></div>
+				    <div class="itemdesc">Posted @ <asp:Literal id="PostDate" Runat="server" /> 
+				        <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+				            | <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
+				            | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
+				        <% } %>
+				    </div>
+    				
+			    </div>
 			</div>
 		</ItemTemplate>
 		<FooterTemplate>

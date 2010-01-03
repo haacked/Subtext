@@ -3,7 +3,7 @@
 <div class="comments">
 	<h2>Comments</h2>
 	<asp:literal id="NoCommentMessage" runat="server" />
-	<asp:repeater id="CommentList" runat="server" onitemcreated="CommentsCreated" onitemcommand="RemoveComment_ItemCommand">
+	<asp:repeater id="CommentList" runat="server" onitemcreated="CommentsCreated">
 		<itemtemplate>
 		<div class="comment">
 		    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />

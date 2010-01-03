@@ -88,7 +88,7 @@ namespace Subtext.Web.UI.Controls
 
         Entry _entry;
 
-        public string EditUrl(FeedbackItem feedback)
+        public string EditUrl(CommentViewModel feedback)
         {
             string url = AdminUrl.FeedbackEdit(feedback.Id);
 
@@ -124,19 +124,6 @@ namespace Subtext.Web.UI.Controls
             {
                 Visible = false;
             }
-        }
-
-        protected void RemoveComment_ItemCommand(Object sender, RepeaterCommandEventArgs e)
-        {
-            int feedbackId = Int32.Parse(e.CommandName);
-            FeedbackItem feedback = FeedbackItem.Get(feedbackId);
-            if(feedback != null)
-            {
-                FeedbackItem.Delete(feedback);
-                Cacher.ClearCommentCache(feedback.EntryId, SubtextContext);
-                BindFeedback(false);
-            }
-            //Response.Redirect(string.Format(CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
         }
 
         // Customizes the display row for each comment.
@@ -284,20 +271,6 @@ namespace Subtext.Web.UI.Controls
                             ControlHelper.SetTitleIfNone(editCommentImgLink,
                                                          "Click to edit comment " +
                                                          feedbackItem.Id.ToString(CultureInfo.InstalledUICulture));
-                        }
-                        var editlink = (LinkButton)(e.Item.FindControl("EditLink"));
-                        if(editlink != null)
-                        {
-                            //editlink.CommandName = "Remove";
-                            editlink.Text = string.Format("Remove Comment {0}", feedbackItem.Id.ToString(CultureInfo.InvariantCulture));
-                            editlink.CommandName = feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
-                            editlink.Attributes.Add("onclick",
-                                                    "return confirm(\"Are you sure you want to delete comment " +
-                                                    feedbackItem.Id.ToString(CultureInfo.InvariantCulture) + "?\");");
-                            editlink.Visible = true;
-                            editlink.CommandArgument = feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
-
-                            ControlHelper.SetTitleIfNone(editlink, "Click to remove this entry.");
                         }
                     }
                 }

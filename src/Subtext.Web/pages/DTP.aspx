@@ -15,7 +15,7 @@
 		<link id="wlwmanifest" rel="wlwmanifest" type="application/wlwmanifest+xml" runat="server" />
 		<link id="opensearch" rel="search" type="application/opensearchdescription+xml" runat="server" />
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
+		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>"></script>
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>
 		</script>
@@ -24,6 +24,25 @@
 		<asp:Literal ID="pinbackLinkTag" runat="server" />
 		<asp:Literal ID="openIDServer" runat="server" />
         <asp:Literal ID="openIDDelegate" runat="server" />
+        
+        <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) { %>
+            <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/pages/admin/js/jquery.undoable.js") %>"></script>
+            <script type="text/javascript">
+                $(function() {
+                    $(".undoable a").undoable({
+                        url: '<%= Url.CommentUpdateStatus() %>',
+                        getPostData: function(clickSource, target) {
+                            var data = this.getPostData(clickSource, target);
+                            data.status = clickSource.attr('class');
+                            return data;
+                        },
+                        getTarget: function(clickSource) {
+                            return clickSource.closest('.target');
+                        }
+                    });
+                });
+            </script>
+        <%} %>
     </head>
 	<body>
 		<form id="Form1" method="post" runat="server">
