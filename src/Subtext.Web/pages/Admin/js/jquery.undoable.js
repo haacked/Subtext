@@ -7,6 +7,7 @@
 
             $this.click(function() {
                 var clickSource = $(this);
+                clickSource.attr('disabled', 'disabled');
                 var target = (opts.getTarget || $.fn.undoable.getTarget).call($.fn.undoable, clickSource);
                 var url = opts.url;
                 var data = (opts.getPostData || $.fn.undoable.getPostData).call($.fn.undoable, clickSource, target);
@@ -18,9 +19,12 @@
                     var undoable = (opts.showUndo || $.fn.undoable.showUndo).call($.fn.undoable, target, undoData, opts);
 
                     undoable.find('.undo a').click(function() {
+                        $(this).attr('disabled', 'disabled');
+                        
                         var data = (opts.getUndoPostData || $.fn.undoable.getUndoPostData).call($.fn.undoable, clickSource, target, opts);
                         $.fn.undoable.postToServer(opts.undoUrl || url, data, function() {
                             (opts.hideUndo || $.fn.undoable.hideUndo).call($.fn.undoable, undoable, target, opts);
+                            clickSource.removeAttr('disabled');
                         }, clickSource);
                         return false;
                     });
@@ -58,7 +62,7 @@
         else {
             var tagName = target[0].tagName;
             var classes = target.attr('class');
-            target.after('<div class="undoable ' + classes + '"><p class="status">' + message + '</p><p class="undo"><a href="#' + data.id + '">undo</a></p></div>');
+            target.after('<' + tagName + ' class="undoable ' + classes + '"><p class="status">' + message + '</p><p class="undo"><a href="#' + data.id + '">undo</a></p></' + tagName + '>');
         }
 
         var undoable = target.next();
