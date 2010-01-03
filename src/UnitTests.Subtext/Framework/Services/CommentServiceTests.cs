@@ -196,5 +196,38 @@ namespace UnitTests.Subtext.Framework.Services
             //assert
             Assert.IsFalse(comment.FlaggedAsSpam);
         }
+
+        [Test]
+        public void UpdateStatus_WithDeletedFlag_SetsDeleted()
+        {
+            // arrange
+            var context = new Mock<ISubtextContext>();
+            var feedback = new FeedbackItem(FeedbackType.Comment) {Approved = true, Deleted = false};
+            context.Setup(c => c.Repository.GetFeedback(112)).Returns(feedback);
+            var service = new CommentService(context.Object, null);
+
+            // act
+            service.UpdateStatus(feedback, FeedbackStatusFlag.Deleted);
+
+            // assert
+            Assert.IsTrue(feedback.Deleted);
+        }
+
+        [Test]
+        public void Destroy_DestroysTheFeedback()
+        {
+            // arrange
+            var context = new Mock<ISubtextContext>();
+            var feedback = new FeedbackItem(FeedbackType.Comment) { Approved = true, Deleted = false };
+            context.Setup(c => c.Repository.GetFeedback(112)).Returns(feedback);
+            context.Setup(c => c.Repository.DestroyFeedback(123));
+            var service = new CommentService(context.Object, null);
+
+            // act
+            service.Destroy(123);
+
+            // assert
+            context.Verify(c => c.Repository.DestroyFeedback(123));
+        }
     }
 }

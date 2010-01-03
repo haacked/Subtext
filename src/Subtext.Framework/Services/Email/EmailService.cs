@@ -62,7 +62,6 @@ namespace Subtext.Framework.Email
                 fromEmail = null;
             }
 
-            ITextTemplate template = TemplateEngine.GetTemplate("CommentReceived");
             var commentForTemplate = new
             {
                 blog = Blog,
@@ -82,6 +81,8 @@ namespace Subtext.Framework.Email
                 },
                 spamFlag = comment.FlaggedAsSpam ? "Spam Flagged " : ""
             };
+
+            ITextTemplate template = TemplateEngine.GetTemplate("CommentReceived");
             string message = template.Format(commentForTemplate);
             string subject = String.Format(CultureInfo.InvariantCulture, Resources.Email_CommentVia, comment.Title,
                                            Blog.Title);

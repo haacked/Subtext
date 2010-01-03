@@ -50,6 +50,7 @@ public static class Routes
                            , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])" }
                            , new[] { "viewpost", "comments", "postcomment" });
 
+        routes.MapRoute("comments-admin", "admin/comments/{action}.ashx", new {controller = "comment"});
         routes.Ignore("{resource}.axd/{*pathInfo}");
         routes.Ignore("skins/{*pathInfo}");
         routes.MapSystemPage("MainFeed");

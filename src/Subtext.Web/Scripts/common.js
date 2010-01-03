@@ -9,7 +9,7 @@ $(function() {
     };
 
     $('a.close').click(function() {
-        $('#' + $(this).attr('rel')).slideUp();
+        $($(this).attr('href')).slideUp();
     });
 });
 

@@ -21,6 +21,9 @@ namespace Subtext.Framework.Services
 {
     public interface ICommentService
     {
+        FeedbackItem Get(int id);
         int Create(FeedbackItem feedback, bool runFilters);
+        void UpdateStatus(FeedbackItem feedback, FeedbackStatusFlag status);
+        void Destroy(int id);
     }
 }

@@ -2,23 +2,57 @@
 
 <asp:Content ID="feedbackListContent" ContentPlaceHolderID="feedbackContent" runat="server">
     
-    <script type="text/javascript">
-        function changeFilter(index)
-        {
-            if(index == 0) {
-              self.location.href = '<%= Master.ListUrl(FeedbackType.None) %>';
+<script type="text/javascript">
+    $(function() {
+        var currentStatus = '<%= Master.FeedbackStatus %>';
+        $("td.undoable a[class!='destroy']").undoable({
+            url: '<%= Url.CommentUpdateStatus() %>',
+            showingStatus: function(undoable) {
+                var bodyRow = undoable.next('tr');
+                bodyRow.hide().addClass('undoable').fadeIn('slow').show();
+            },
+            hidingStatus: function(undoable, target) {
+                undoable.next('tr').removeClass('undoable');
+            },
+            getPostData: function(clickSource, target) {
+                var data = this.getPostData(clickSource, target);
+                data.status = clickSource.attr('class');
+                return data;
             }
-            else if(index == 1) {
-                self.location.href = '<%= Master.ListUrl(FeedbackType.Comment) %>';
+        });
+
+        $('td.undoable a.destroy').undoable({
+            url: '<%= Url.CommentDestroy() %>',
+            showingStatus: function(undoable) {
+                var bodyRow = undoable.next('tr');
+                bodyRow.hide().addClass('undoable').fadeIn('slow').show();
+            },
+            showingStatus: function(undoable) {
+                undoable.find('td.undo a').remove();
+                var bodyRow = undoable.next('tr');
+                bodyRow.hide().addClass('undoable').fadeIn('slow').show();
             }
-            else if(index == 2) {
-                self.location.href = '<%= Master.ListUrl(FeedbackType.PingTrack) %>';
-            }
-            else if (index == 3) {
-                self.location.href = '<%= Master.ListUrl(FeedbackType.ContactPage) %>';
-            }  
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    function changeFilter(index)
+    {
+        if(index == 0) {
+          self.location.href = '<%= Master.ListUrl(FeedbackType.None) %>';
         }
-    </script>
+        else if(index == 1) {
+            self.location.href = '<%= Master.ListUrl(FeedbackType.Comment) %>';
+        }
+        else if(index == 2) {
+            self.location.href = '<%= Master.ListUrl(FeedbackType.PingTrack) %>';
+        }
+        else if (index == 3) {
+            self.location.href = '<%= Master.ListUrl(FeedbackType.ContactPage) %>';
+        }  
+    }
+</script>
     <st:MessagePanel id="Messages" runat="server" />
         <div id="feedback-filter">
             <asp:DropDownList runat="server" ID="filterTypeDropDown" onchange="changeFilter(this.selectedIndex);">
@@ -33,32 +67,44 @@
         <asp:Literal ID="noCommentsMessage" runat="server" />
 		<asp:Repeater id="feedbackRepeater" runat="server">
 			<HeaderTemplate>
-				<table id="feedback" class="listing highlightTable">
+				<table id="feedback" class="listing">
 					<tr>
 						<th width="16"></th>
 						<th>Title</th>						
-						<th>Posted By</th>
+						<th>Author</th>
 						<th width="100">Date</th>
-						<th width="50"><input type="checkbox" class="inline check-all" title="Check/Uncheck All" /><label for="cbCheckAll" title="Check/Uncheck All">All</label></th>
+						<th width="50"></th>
 					</tr>
 			</HeaderTemplate>
 			<ItemTemplate>
-				<tr>
+				<tr class="heading">
 					<td>
 					    <a href="Edit.aspx?FeedBackID=<%# Eval("Id") %>&<%= Master.CurrentQuery %>" title="Edit this item"><asp:Image runat="server" ImageUrl="~/Images/icons/edit.gif" /></a>
 					</td>
 					<td>
-						<strong><%# GetTitle(Container.DataItem) %></strong>
+						<%# GetTitle(Container.DataItem) %>
+					</td>
+					<td class="author">
+						<%# GetAuthor(Container.DataItem) %> <%# GetAuthorInfo(Container.DataItem) %>
 					</td>
 					<td>
-						<strong><%# GetAuthor(Container.DataItem) %></strong> <%# GetAuthorInfo(Container.DataItem) %>
-					</td>
-					<td nowrap="nowrap">
 						<%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
 					</td>
-					<td>
-						<asp:CheckBox id="chkDelete" Runat="Server" />
-						<input type="hidden" id="FeedbackId" name="FeedbackId" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
+					<td class="undoable">
+					    <ul class="horizontal">
+					        <% if(FeedbackState.Spammable) { %>
+					        <li><a href="#<%# Eval("Id") %>" class="FlaggedAsSpam">spam</a></li>
+					        <% } %>
+					        <% if(FeedbackState.Deletable) { %>
+					            <li><a href="#<%# Eval("Id") %>" class="Deleted">delete</a></li>
+					        <% } %>
+					        <% if(FeedbackState.Approvable) { %>
+					         <li><a href="#<%# Eval("Id") %>" class="Approved">approve</a></li>
+					        <% } %>
+					        <% if(FeedbackState.Destroyable) { %>
+					         <li><a href="#<%# Eval("Id") %>" class="destroy">destroy</a></li>
+					        <% } %>
+					    </ul>
 					</td>
 				</tr>
 				<tr class="body">
@@ -69,33 +115,6 @@
 					</td>
 				</tr>
 			</ItemTemplate>
-			<AlternatingItemTemplate>
-				<tr class="alt">
-					<td>	
-						<a href="Edit.aspx?FeedBackID=<%# Eval("Id") %>&<%= Master.CurrentQuery %>" title="Edit this item"><asp:Image runat="server" ImageUrl="~/Images/icons/edit.gif" /></a>
-					</td>
-					<td>
-						<strong><%# GetTitle(Container.DataItem) %></strong>
-					</td>
-					<td>
-						<strong><%# GetAuthor(Container.DataItem) %></strong> <%# GetAuthorInfo(Container.DataItem) %>
-					</td>
-					<td nowrap="nowrap">
-						<%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
-					</td>   
-					<td>
-						<asp:CheckBox id="chkDeleteAlt" Runat="Server"></asp:CheckBox>
-						<input type="hidden" id="FeedbackIdAlt" name="FeedbackIdAlt" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
-					</td>
-				</tr>
-				<tr class="body alt">
-					<td>
-					</td>
-					<td colspan="4">
-						<%# GetBody(Container.DataItem) %>
-					</td>
-				</tr>				
-			</AlternatingItemTemplate>
 			<FooterTemplate>
 	            </table>
 		    </FooterTemplate>
@@ -108,10 +127,6 @@
 			    CssClass="Pager" />
 	        </div>
 	    <div class="clear">
-		    <asp:Button id="btnDelete" runat="server" CssClass="buttonSubmit" style="float:right" Text="Delete" onclick="OnDeleteClick" ToolTip="Move To Trash" />
-		    <asp:Button id="btnDestroy" runat="server" CssClass="buttonSubmit" style="float:right" Text="Destroy" onclick="OnDestroyClick" Visible="false" OnClientClick="return confirm('This will delete these comments permanently. Continue?');" ToolTip="Delete Forever" />
-		    <asp:Button id="btnConfirmSpam" runat="server" CssClass="buttonSubmit" style="float:right" Text="Spam" onclick="OnConfirmSpam" ToolTip="Confirm Spam Moves Item To Trash" />
-		    <asp:Button id="btnApprove" runat="server" CssClass="buttonSubmit" style="float:right" Text="Approve" onclick="OnApproveClick" ToolTip="Approve" Visible="false" />
 		    <asp:Button id="btnEmpty" runat="server" CssClass="buttonSubmit" style="float:right" Text="Empty" OnClick="OnEmptyClick" OnClientClick="return confirm('This will permanently delete every comment of this type. Continue?');" ToolTip="Empty" Visible="false" />
 		</div>
 </asp:Content>

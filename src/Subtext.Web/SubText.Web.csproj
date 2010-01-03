@@ -149,6 +149,7 @@
       <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\CommentController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\IdenticonController.cs" />
     <Compile Include="Controllers\ManifestController.cs" />
@@ -1179,6 +1180,7 @@
     <Content Include="pages\Admin\ImportExport.aspx" />
     <Content Include="pages\Admin\js\Admin.js" />
     <Content Include="pages\Admin\js\helptip.js" />
+    <Content Include="pages\Admin\js\jquery.undoable.js" />
     <Content Include="pages\Admin\license.txt" />
     <Content Include="pages\Admin\Options.aspx" />
     <Content Include="pages\Admin\Posts\Default.aspx" />

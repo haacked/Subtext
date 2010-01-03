@@ -23,6 +23,7 @@ using System.Web.Caching;
 using Subtext.Configuration;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Infrastructure;

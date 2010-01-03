@@ -49,6 +49,14 @@ namespace Subtext.Web.Admin.Feedback
             get { return base.Master as FeedbackMaster; }
         }
 
+        public FeedbackState FeedbackState
+        {
+            get
+            {
+                return _uiState;
+            }
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             _feedbackStatusFilter = Master.FeedbackStatus;
@@ -71,12 +79,6 @@ namespace Subtext.Web.Admin.Feedback
         private void BindUserInterface()
         {
             headerLiteral.InnerText = _uiState.HeaderText;
-            btnApprove.Visible = _uiState.Approvable;
-            btnApprove.Text = _uiState.ApproveText;
-            btnDestroy.Visible = _uiState.Destroyable;
-            btnDelete.Visible = _uiState.Deletable;
-            btnDelete.ToolTip = _uiState.DeleteToolTip;
-            btnConfirmSpam.Visible = _uiState.Spammable;
             btnEmpty.Visible = _uiState.Emptyable;
             btnEmpty.ToolTip = _uiState.EmptyToolTip;
         }
@@ -93,21 +95,9 @@ namespace Subtext.Web.Admin.Feedback
             resultsPager.PageSize = Preferences.ListingItemCount;
             resultsPager.PageIndex = _pageIndex;
 
-            FeedbackStatusFlag excludeFilter = ~_feedbackStatusFilter;
-
-            //Approved is a special case.  If a feedback has the approved bit set, 
-            //it is approved no matter what other bits are set.
-            if(_feedbackStatusFilter == FeedbackStatusFlag.Approved)
-            {
-                excludeFilter = FeedbackStatusFlag.None;
-            }
-
-            //Likewise, deleted is a special case.  If a feedback has the deleted 
-            //bit set, it is in the trash no matter what other bits are set.
-            if(_feedbackStatusFilter == FeedbackStatusFlag.Deleted)
-            {
-                excludeFilter = FeedbackStatusFlag.Approved;
-            }
+            // Deleted is a special case.  If a feedback has the deleted 
+            // bit set, it is in the trash no matter what other bits are set.
+            FeedbackStatusFlag excludeFilter = _feedbackStatusFilter == FeedbackStatusFlag.Deleted ? FeedbackStatusFlag.None : FeedbackStatusFlag.Deleted;
 
             IPagedCollection<FeedbackItem> selectionList = Repository.GetPagedFeedback(_pageIndex
                                                                                        , resultsPager.PageSize
@@ -130,10 +120,6 @@ namespace Subtext.Web.Admin.Feedback
                 feedbackRepeater.Controls.Clear();
                 noCommentsMessage.Visible = true;
 
-                btnDelete.Visible = false;
-                btnApprove.Visible = false;
-                btnDestroy.Visible = _feedbackStatusFilter == FeedbackStatusFlag.Deleted;
-                btnConfirmSpam.Visible = false;
                 btnEmpty.Visible = false;
             }
             Master.BindCounts();
@@ -258,7 +244,7 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e"></param>
         protected void OnDeleteClick(object sender, EventArgs e)
         {
-            if(ApplyActionToCheckedFeedback(FeedbackItem.Delete) == 0)
+            if(ApplyActionToCheckedFeedback((item, service) => FeedbackItem.Delete(item)) == 0)
             {
                 Messages.ShowMessage(Resources.Feedback_NothingToDelete, true);
                 return;
@@ -281,26 +267,10 @@ namespace Subtext.Web.Admin.Feedback
             BindList();
         }
 
-        /// <summary>
-        /// Event handler for the Destroy button Click event.  Deletes 
-        /// the checked comments.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void OnDestroyClick(object sender, EventArgs e)
-        {
-            if(ApplyActionToCheckedFeedback(FeedbackItem.Destroy) == 0)
-            {
-                Messages.ShowMessage(Resources.Feedback_NothingToDestroy, true);
-                return;
-            }
-            BindList();
-        }
-
         private int ApplyActionToCheckedFeedback(Action<FeedbackItem, ICommentSpamService> action)
         {
             ICommentSpamService feedbackService = null;
-            if(Config.CurrentBlog.FeedbackSpamServiceEnabled)
+            if(Blog.FeedbackSpamServiceEnabled)
             {
                 feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, Config.CurrentBlog,
                                                          null, Url);
@@ -310,20 +280,12 @@ namespace Subtext.Web.Admin.Feedback
             foreach(RepeaterItem item in feedbackRepeater.Items)
             {
                 // Get the checkbox from the item or the alternating item.
-                var deleteCheck = item.FindControl("chkDelete") as CheckBox;
-                if(deleteCheck == null)
-                {
-                    deleteCheck = item.FindControl("chkDeleteAlt") as CheckBox;
-                }
+                var deleteCheck = item.FindControl("chkDelete") as CheckBox ?? item.FindControl("chkDeleteAlt") as CheckBox;
 
                 if(deleteCheck != null && deleteCheck.Checked)
                 {
                     // Get the FeedbackId from the item or the alternating item.
-                    var feedbackId = item.FindControl("FeedbackId") as HtmlInputHidden;
-                    if(feedbackId == null)
-                    {
-                        feedbackId = item.FindControl("FeedbackIdAlt") as HtmlInputHidden;
-                    }
+                    var feedbackId = item.FindControl("FeedbackId") as HtmlInputHidden ?? item.FindControl("FeedbackIdAlt") as HtmlInputHidden;
 
                     int id;
                     if(feedbackId != null && int.TryParse(feedbackId.Value, out id))

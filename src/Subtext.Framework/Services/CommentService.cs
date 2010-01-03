@@ -110,5 +110,21 @@ namespace Subtext.Framework.Services
                 Filter.FilterAfterPersist(feedback);
             }
         }
+
+        public FeedbackItem Get(int id)
+        {
+            return Repository.GetFeedback(id);
+        }
+
+        public void UpdateStatus(FeedbackItem comment, FeedbackStatusFlag status)
+        {
+            comment.Status = status;
+            Repository.Update(comment);
+        }
+
+        public void Destroy(int id)
+        {
+            Repository.DestroyFeedback(id);
+        }
     }
 }
