@@ -74,7 +74,7 @@ namespace Subtext.Framework.Routing
                                        RouteValueDictionary constraints, IEnumerable<string> controls, RouteValueDictionary defaults)
         {
             var pageRoute = 
-            new PageRoute(url, "~/pages/Dtp.aspx", controls, routes.ServiceLocator)
+            new PageRoute(url, "~/aspx/Dtp.aspx", controls, routes.ServiceLocator)
             {
                 Constraints = constraints,
                 Defaults = defaults
@@ -107,7 +107,7 @@ namespace Subtext.Framework.Routing
         public static void MapPage(this SubtextRouteMapper routes, string name)
         {
             string url = string.Format("{0}.aspx", name);
-            routes.Add(name, new SubtextRoute(url, new PageRouteHandler(string.Format("~/pages/{0}", url), routes.ServiceLocator.GetService<ISubtextPageBuilder>(), routes.ServiceLocator)));
+            routes.Add(name, new SubtextRoute(url, new PageRouteHandler(string.Format("~/aspx/{0}", url), routes.ServiceLocator.GetService<ISubtextPageBuilder>(), routes.ServiceLocator)));
         }
 
         public static void MapSystemPage(this SubtextRouteMapper routes, string name)
@@ -115,7 +115,7 @@ namespace Subtext.Framework.Routing
             string url = string.Format("{0}.aspx", name);
             routes.Add(name,
                        new Route(url,
-                                 new PageRouteHandler(string.Format("~/pages/{0}", url), routes.ServiceLocator.GetService<ISubtextPageBuilder>(),
+                                 new PageRouteHandler(string.Format("~/aspx/{0}", url), routes.ServiceLocator.GetService<ISubtextPageBuilder>(),
                                                       routes.ServiceLocator)));
         }
 

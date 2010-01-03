@@ -41,7 +41,7 @@ namespace Subtext.Framework.Routing
                     Resources.InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes);
             }
 
-            string virtualPath = string.Format("~/pages/{0}/{1}", route.DirectoryName, routeData.Values["pathinfo"]);
+            string virtualPath = string.Format("~/aspx/{0}/{1}", route.DirectoryName, routeData.Values["pathinfo"]);
             if(String.IsNullOrEmpty(Path.GetExtension(virtualPath)))
             {
                 if(!virtualPath.EndsWith("/"))

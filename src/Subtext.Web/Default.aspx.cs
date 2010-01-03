@@ -39,7 +39,7 @@ namespace Subtext.Web
             var route = new RootRoute(HostInfo.Instance.BlogAggregationEnabled, serviceLocator);
             IRouteHandler routeHandler =
                 new PageRouteHandler(
-                    HostInfo.Instance.BlogAggregationEnabled ? "~/pages/AggDefault.aspx" : "~/pages/Dtp.aspx",
+                    HostInfo.Instance.BlogAggregationEnabled ? "~/aspx/AggDefault.aspx" : "~/aspx/Dtp.aspx",
                     serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator);
 
             pipelineService.ProcessRootRequest(route, routeHandler);

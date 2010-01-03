@@ -159,7 +159,7 @@ namespace UnitTests.Subtext.SubtextWeb
                                                         new Mock<ILog>().Object);
 
             // assert
-            Assert.AreEqual("~/pages/SystemMessages/error.aspx", transferLocation);
+            Assert.AreEqual("~/aspx/SystemMessages/error.aspx", transferLocation);
         }
 
         [Test]
@@ -192,7 +192,7 @@ namespace UnitTests.Subtext.SubtextWeb
             app.OnApplicationError(new HttpUnhandledException(), server.Object, new Mock<ILog>().Object, null);
 
             // assert
-            Assert.AreEqual("~/pages/SystemMessages/error.aspx", transferLocation);
+            Assert.AreEqual("~/aspx/SystemMessages/error.aspx", transferLocation);
         }
 
         [Test]
@@ -256,7 +256,7 @@ namespace UnitTests.Subtext.SubtextWeb
                                                                                  application.Object);
 
             // assert
-            Assert.AreEqual("~/pages/SystemMessages/DeprecatedPhysicalPaths.aspx", transferLocation);
+            Assert.AreEqual("~/aspx/SystemMessages/DeprecatedPhysicalPaths.aspx", transferLocation);
             Assert.IsTrue(handled);
         }
 
@@ -289,7 +289,7 @@ namespace UnitTests.Subtext.SubtextWeb
                                                             server.Object);
 
             // assert
-            Assert.AreEqual("~/pages/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
+            Assert.AreEqual("~/aspx/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
             Assert.IsTrue(handled);
         }
 
@@ -309,7 +309,7 @@ namespace UnitTests.Subtext.SubtextWeb
                 (int)SqlErrorMessage.CouldNotFindStoredProcedure, "'blog_GetConfig'", server.Object);
 
             // assert
-            Assert.AreEqual("~/pages/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
+            Assert.AreEqual("~/aspx/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
             Assert.IsTrue(handled);
         }
 
@@ -428,7 +428,7 @@ namespace UnitTests.Subtext.SubtextWeb
 
             // assert
             Assert.IsTrue(handled);
-            Assert.AreEqual("~/pages/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
+            Assert.AreEqual("~/aspx/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
         }
 
         [Test]
@@ -463,7 +463,7 @@ namespace UnitTests.Subtext.SubtextWeb
 
             // assert
             Assert.IsTrue(handled);
-            Assert.AreEqual("~/pages/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
+            Assert.AreEqual("~/aspx/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
         }
 
         [Test]
@@ -482,7 +482,7 @@ namespace UnitTests.Subtext.SubtextWeb
 
             // assert
             Assert.IsTrue(handled);
-            Assert.AreEqual("~/pages/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
+            Assert.AreEqual("~/aspx/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
         }
 
         [Test]

@@ -1,0 +1,105 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPageTemplate.master.cs" Inherits="Subtext.Web.Admin.WebUI.AdminPageTemplate" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Subtext - Admin</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.color.min.js") %>"></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.form.js") %>" ></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/flash.js") %>" ></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.hotkeys.min.js") %>" ></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>" ></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/json.js") %>" ></script>
+    <script type="text/javascript" src="<%= AjaxServicesUrl() %>" ></script>
+    <script type="text/javascript">
+        var ajaxServices = new AjaxServices();
+    </script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/tableEffects.js") %>" ></script>
+	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/aspx/Admin/js/helptip.js") %>" ></script>
+	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/aspx/Admin/js/admin.js") %>" ></script>
+	<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/aspx/Admin/js/jquery.undoable.js") %>" ></script>
+	<link type="text/css" rel="stylesheet" runat="server" href="~/css/reset.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonlayout.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/commonstyle.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/forms.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/aspx/Admin/css/helptip.css" />
+	<link type="text/css" rel="stylesheet" runat="server" href="~/aspx/Admin/css/admin.css" />
+	<!--[if lt IE 7]>
+    <link type="text/css" rel="stylesheet" runat="server" href="~/aspx/Admin/css/ie6admin.css" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link type="text/css" rel="stylesheet" runat="server" href="~/aspx/Admin/css/ie7admin.css" />
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" runat="server" href="~/aspx/Admin/css/mobile.css" media="handheld" />
+    <link rel="apple-touch-icon" runat="server" href="~/aspx/Admin/images/iPhoneIcon.png"/>
+    <asp:ContentPlaceHolder runat="server" ID="head" />
+</head>
+<body id="AdminSection" runat="server" class="admin">
+    <form id="frmMain" runat="server">
+    <div id="container">
+	    <div id="login-status">
+		    <span id="blog-title">
+		        <a title="Blog Home Page" href="<%= Url.BlogUrl() %>"><%= Blog.Title %></a>
+		    </span>
+		    Logged in as 
+		    <strong>
+			    <asp:Literal Runat="server" ID="LoggedInUser" Text="<%# Config.CurrentBlog.Author %>" />
+	        </strong> (<a title="Logout" href="<%= Url.Logout() %>">logout</a>)
+	     </div>
+
+        <div id="header">
+            <div id="logo"><a href="http://www.subtextproject.com/" title="Subtext Project Website"><span>Subtext</span></a></div>
+            <div id="filler"></div>
+	    </div>
+
+	    <ul id="tabs">
+		    <li id="dashboardTab"><a href="<%= Url.AdminUrl("") %>" id="Tabdashboard" title="dashboard">Dashboard</a></li>
+		    <li id="OptionsTab">
+			    <a href="<%= AdminUrl.Options() %>" id="TabOptions" title="Options">Options</a>
+		    </li>
+		    <li id="PostsTab"><a href="<%= AdminUrl.PostsList() %>" id="TabPosts" title="Posts">Posts</a></li>
+		    <li id="ArticlesTab"><a href="<%= AdminUrl.ArticlesList() %>" id="TabArticles" title="Articles">Articles</a></li>
+		    <li id="FeedbackTab"><a href="<%= AdminUrl.FeedbackList() %>" id="TabFeedback" title="Feedback">Feedback</a></li>
+		    <li id="LinksTab"><a href="<%= AdminUrl.LinksEdit() %>" id="TabLinks" title="Links">Links</a></li>
+		    <li runat="server" id="galleryTab" class="galleryTab" visible="<%# Config.Settings.AllowImages %>">
+			    <a href="<%= AdminUrl.GalleriesEdit() %>" id="TabGalleries" title="Galleries">Galleries</a>
+		    </li>
+		    <li id="StatsTab">
+			    <a href="<%= AdminUrl.Statistics() %>" id="TabStats" title="Stats">Stats</a>
+		    </li>
+	    </ul>
+	    
+	    <div id="main">
+	        <asp:ContentPlaceHolder ID="MainContent" runat="server">
+	            <div id="sidebar">
+                    <asp:ContentPlaceHolder ID="actionsHeading" runat="server">Actions</asp:ContentPlaceHolder>
+		            <div class="actions">
+			            <st:LinkList id="LinksActions" runat="server" />
+		            </div>
+		            <asp:ContentPlaceHolder ID="categoryListHeading" runat="server" />
+		            <div>
+			            <asp:ContentPlaceHolder ID="categoryListLinks" runat="server" />
+		            </div>
+	            </div>
+
+	            <div id="content">
+	                <asp:ContentPlaceHolder ID="pageContent" runat="server">Default Page Content Goes Here</asp:ContentPlaceHolder>
+	            </div>
+            </asp:ContentPlaceHolder>
+	    </div>
+	    <div id="stylesheetTest"></div>
+    </div> <!-- #container -->
+    
+    <div id="footer">
+	    <div id="version">Running <strong><%= Subtext.Framework.VersionInfo.VersionDisplayText %></strong></div>
+	    <div id="copyright">Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-<%= DateTime.Now.Year %>. All rights 
+	    reserved. 
+	    .TEXT Copyright &copy; <a href="http://scottwater.com/blog" title="Creator of .TEXT">Scott Watermasysk</a>, 2003. 
+	    All rights reserved. (<a href="<%= AdminUrl.Credits() %>" title="Credits">CREDITS</a>)
+	    </div>
+    </div>
+    </form>
+</body>
+</html>
