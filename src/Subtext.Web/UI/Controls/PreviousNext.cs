@@ -58,8 +58,15 @@ namespace Subtext.Web.UI.Controls
                     case 0:
                     {
                         //you have no entries. You should blog more
-                        PrevLink.Visible = false;
-                        NextLink.Visible = false;
+                        if(PrevLink != null)
+                        {
+                            PrevLink.Visible = false;
+                            
+                        }
+                        if(NextLink != null)
+                        {
+                            NextLink.Visible = false;
+                        }
                         break;
                     }
                     case 1:
@@ -70,15 +77,27 @@ namespace Subtext.Web.UI.Controls
                         if (entries.First().DateSyndicated > entry.DateSyndicated)
                         {
                             //this is the oldest blog
-                            PrevLink.Visible = false;
-                            LeftPipe.Visible = false;
+                            if(PrevLink != null)
+                            {
+                                PrevLink.Visible = false;
+                            }
+                            if(LeftPipe != null)
+                            {
+                                LeftPipe.Visible = false;
+                            }
                             SetNav(NextLink, entries.First());
                         }
                         else
                         {
                             //this is the latest blog
-                            NextLink.Visible = false;
-                            RightPipe.Visible = false;
+                            if(NextLink != null)
+                            {
+                                NextLink.Visible = false;
+                            }
+                            if(RightPipe != null)
+                            {
+                                RightPipe.Visible = false;
+                            }
                             SetNav(PrevLink, entries.First());
                         }
                         break;
@@ -106,6 +125,10 @@ namespace Subtext.Web.UI.Controls
 
         private void SetNav(HyperLink navLink, EntrySummary entry)
         {
+            if(navLink == null)
+            {
+                return;
+            }
             string format = navLink.Attributes["Format"];
             if(String.IsNullOrEmpty(format))
             {
