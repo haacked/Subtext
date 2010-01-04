@@ -20,7 +20,7 @@
                 textarea.unbind('keyup', textarea.handleKeyUp);
                 if (!preview.updatingPreview) {
                     preview.updatingPreview = true;
-                    window.setTimeout(function() { textarea.reloadPreview() }, opts.interval);
+                    window.setTimeout(function() { textarea.reloadPreview(); }, opts.interval);
                 }
                 return false;
             };

@@ -8,5 +8,5 @@
                     this.style.removeAttribute('filter');
                 });
         });
-    }
+    };
 })(jQuery);
