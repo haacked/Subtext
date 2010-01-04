@@ -15,15 +15,8 @@ $(function() {
 
 
 /*-------------------------------------------------*/
-/* Disables submit button during update panel post
+/* Disables submit button during update panel post */
 /*-------------------------------------------------*/
-function pageLoad(sender, args) 
-{
-    var requestManager = Sys.WebForms.PageRequestManager.getInstance();
-    requestManager.add_initializeRequest(initializeRequest);
-    requestManager.add_endRequest(endRequest);
-}
-
 function initializeRequest(sender, args) {
     //Disable button to prevent double submit
     var button = $get(args._postBackElement.id);
@@ -54,4 +47,10 @@ function endRequest(sender, args)
             button.className = 'buttonSubmit';
         }
     }
+}
+
+function pageLoad(sender, args) {
+    var requestManager = Sys.WebForms.PageRequestManager.getInstance();
+    requestManager.add_initializeRequest(initializeRequest);
+    requestManager.add_endRequest(endRequest);
 }
