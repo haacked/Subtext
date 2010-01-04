@@ -15,12 +15,13 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Services.SearchEngine
 {
-    public interface ISearchEngineService
+    public interface ISearchEngineService: IDisposable
     {
         /// <summary>
         /// Adds an entry to the full text index
@@ -64,5 +65,6 @@ namespace Subtext.Framework.Services.SearchEngine
         /// <param name="blogId">The id of the blog being searched</param>
         /// <returns></returns>
         IEnumerable<SearchEngineResult> RelatedContents(int entryId, int max, int blogId);
+
     }
 }
