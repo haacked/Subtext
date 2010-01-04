@@ -25,6 +25,7 @@ using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Similarity.Net;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Services.SearchEngine
 {
@@ -51,6 +52,8 @@ namespace Subtext.Framework.Services.SearchEngine
         private const string PUBLISHED = "IsPublished";
         private const string ENTRYNAME = "EntryName";
 
+        private static readonly Log __log = new Log();
+
         public SearchEngineService(Directory directory, Analyzer analyzer, FullTextSearchEngineSettings settings)
         {
             _directory = directory;
@@ -58,6 +61,12 @@ namespace Subtext.Framework.Services.SearchEngine
             _settings = settings;
             if(_writer==null)
             {
+                if(IndexReader.IsLocked(_directory))
+                {
+                    __log.Error("Something left a lock in the index folder: deleting it");
+                    IndexReader.Unlock(_directory);
+                    __log.Info("Lock Deleted... can proceed");
+                }
                 _writer = new IndexWriter(_directory, _analyzer);
                 _writer.Optimize();
             }
