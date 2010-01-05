@@ -42,6 +42,15 @@ namespace Subtext.Framework.Services.SearchEngine
         /// <returns></returns>
         IEnumerable<SearchEngineResult> Search(string queryString, int max, int blogId);
         /// <summary>
+        /// Search the full text index by query string
+        /// </summary>
+        /// <param name="queryString">the query string</param>
+        /// <param name="max">Max number of results to retrieve</param>
+        /// <param name="blogId">The id of the blog being searched</param>
+        /// <param name="entryId">The id of the entry that must be filtered out of the results (-1 if none)</param>
+        /// <returns></returns>
+        IEnumerable<SearchEngineResult> Search(string queryString, int max, int blogId, int entryId);
+        /// <summary>
         /// Removes an entry from the index.
         /// </summary>
         /// <param name="postId">Id of the entry</param>

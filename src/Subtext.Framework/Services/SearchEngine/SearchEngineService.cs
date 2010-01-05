@@ -30,7 +30,7 @@ using Subtext.Framework.Logging;
 namespace Subtext.Framework.Services.SearchEngine
 {
 
-    public class SearchEngineService : ISearchEngineService, IDisposable
+    public class SearchEngineService : ISearchEngineService
     {
         private Directory _directory;
         private Analyzer _analyzer;
@@ -263,6 +263,11 @@ namespace Subtext.Framework.Services.SearchEngine
 
         public IEnumerable<SearchEngineResult> Search(string queryString, int max, int blogId)
         {
+            return Search(queryString, max, blogId, -1);
+        }
+
+        public IEnumerable<SearchEngineResult> Search(string queryString, int max, int blogId, int entryId)
+        {
             List<SearchEngineResult> list = new List<SearchEngineResult>();
             if (String.IsNullOrEmpty(queryString)) return list;
             Query bodyQuery = _parser.Parse(queryString);
@@ -276,7 +281,7 @@ namespace Subtext.Framework.Services.SearchEngine
             Query query = _parser.Parse(queryStringMerged);
             
 
-            return PerformQuery(list, query, max, blogId,-1);
+            return PerformQuery(list, query, max, blogId, entryId);
         }
 
         private IEnumerable<SearchEngineResult> PerformQuery(List<SearchEngineResult> list, Query queryOrig, int max, int blogId, int idToFilter)
