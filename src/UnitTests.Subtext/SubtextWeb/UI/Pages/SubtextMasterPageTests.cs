@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Web;
+using System.Web.Routing;
 using System.Web.UI;
 using MbUnit.Framework;
 using Moq;
+using Subtext.Extensibility;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Web.UI.Controls;
 using Subtext.Web.UI.Pages;
+using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.SubtextWeb.UI.Pages
 {
@@ -135,6 +140,19 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
             context.Setup(c => c.HttpContext.Request.UrlReferrer).Returns(new Uri("http://bing.com/?q=test"));
             context.Setup(c => c.HttpContext.Request.IsLocal).Returns(false);
             context.Setup(c => c.HttpContext.Request.Url).Returns(new Uri("http://example.com/"));
+            
+
+
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/archive/the-slug.aspx");
+
+            var routeData = new RouteData();
+            routeData.Values.Add("slug", "the-slug");
+
+            context.SetupRequestContext(httpContext, routeData)
+                .SetupBlog(new Blog { Id = 1, TimeZoneId = TimeZonesTest.PacificTimeZoneId /* pacific */})
+                .Setup(c => c.Repository.GetEntry("the-slug", true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, EntryName = "the-slug", Title = "Testing 123" });
+
             page.SubtextContext = context.Object;
             page.SetControls(new[] { "Test" });
             var searchEngine = new Mock<ISearchEngineService>();
@@ -185,7 +203,7 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
         }
 
         [Test]
-        public void InitializeControls_WithLocalRequsetAndReferrerInQueryString_LoadsMoreResultsControl()
+        public void InitializeControls_WithLocalRequestAndReferrerInQueryString_LoadsMoreResultsControl()
         {
             // arrange
             var page = new SubtextMasterPage();
@@ -197,6 +215,17 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
             context.Setup(c => c.HttpContext.Request.Url).Returns(new Uri("http://example.com/"));
             var queryString = new NameValueCollection { { "referrer", "http://bing.com/?q=test" } };
             context.Setup(c => c.HttpContext.Request.QueryString).Returns(queryString);
+
+            var httpContext = new Mock<HttpContextBase>();
+            httpContext.FakeRequest("~/archive/the-slug.aspx");
+
+            var routeData = new RouteData();
+            routeData.Values.Add("slug", "the-slug");
+
+            context.SetupRequestContext(httpContext, routeData)
+                .SetupBlog(new Blog { Id = 1, TimeZoneId = TimeZonesTest.PacificTimeZoneId /* pacific */})
+                .Setup(c => c.Repository.GetEntry("the-slug", true, true)).Returns(new Entry(PostType.BlogPost) { Id = 123, EntryName = "the-slug", Title = "Testing 123" });
+
             page.SetControls(new[] { "Test" });
             var loader = new Mock<ISkinControlLoader>();
             loader.Setup(l => l.LoadControl("MoreResults")).Returns(new UserControl());
