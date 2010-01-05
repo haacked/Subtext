@@ -4,6 +4,7 @@ using System.Web.UI;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
+using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Web.UI.Controls;
 using Subtext.Web.UI.Pages;
@@ -130,11 +131,15 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
             // arrange
             var page = new SubtextMasterPage();
             var context = new Mock<ISubtextContext>();
-            page.SubtextContext = context.Object;
+            context.Setup(c => c.Blog).Returns(new Blog {Id = 123});
             context.Setup(c => c.HttpContext.Request.UrlReferrer).Returns(new Uri("http://bing.com/?q=test"));
             context.Setup(c => c.HttpContext.Request.IsLocal).Returns(false);
             context.Setup(c => c.HttpContext.Request.Url).Returns(new Uri("http://example.com/"));
+            page.SubtextContext = context.Object;
             page.SetControls(new[] { "Test" });
+            var searchEngine = new Mock<ISearchEngineService>();
+            searchEngine.Setup(s => s.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>())).Returns(new[]{new SearchEngineResult()});
+            page.SearchEngineService = searchEngine.Object;
             var loader = new Mock<ISkinControlLoader>();
             loader.Setup(l => l.LoadControl("MoreResults")).Returns(new UserControl());
 
@@ -163,7 +168,7 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
         }
 
         [Test]
-        public void InitializeControls_WithReferrerButNoControls_DoesNotLoadsMoreResultsControl()
+        public void InitializeControls_WithReferrerButNoControls_DoesNotLoadMoreResultsControl()
         {
             // arrange
             var page = new SubtextMasterPage();
@@ -186,6 +191,7 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
             var page = new SubtextMasterPage();
             var context = new Mock<ISubtextContext>();
             page.SubtextContext = context.Object;
+            context.Setup(c => c.Blog).Returns(new Blog { Id = 123 });
             context.Setup(c => c.HttpContext.Request.UrlReferrer).Returns((Uri)null);
             context.Setup(c => c.HttpContext.Request.IsLocal).Returns(true);
             context.Setup(c => c.HttpContext.Request.Url).Returns(new Uri("http://example.com/"));
@@ -194,6 +200,9 @@ namespace UnitTests.Subtext.SubtextWeb.UI.Pages
             page.SetControls(new[] { "Test" });
             var loader = new Mock<ISkinControlLoader>();
             loader.Setup(l => l.LoadControl("MoreResults")).Returns(new UserControl());
+            var searchEngine = new Mock<ISearchEngineService>();
+            searchEngine.Setup(s => s.Search(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>())).Returns(new[] { new SearchEngineResult() });
+            page.SearchEngineService = searchEngine.Object;
 
             // act
             page.InitializeControls(loader.Object);
