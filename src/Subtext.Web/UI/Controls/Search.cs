@@ -17,6 +17,7 @@
 
 using System;
 using System.Linq;
+using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.Util;
@@ -55,7 +56,7 @@ namespace Subtext.Web.UI.Controls
             string queryString = SubtextContext.RequestContext.GetQueryFromRequest();
             if (!String.IsNullOrEmpty(queryString))
             {
-                txtSearch.Text = queryString;
+                txtSearch.Text = HttpUtility.HtmlEncode(queryString);
                 var results = SearchEngineService.Search(queryString, MaxResultsCount, Blog.Id);
                 if (results.Count()>0)
                 {
@@ -65,7 +66,7 @@ namespace Subtext.Web.UI.Controls
                 }
                 else
                 {
-                    terms.Text = queryString;
+                    terms.Text = HttpUtility.HtmlEncode(queryString);
                     noResults.Visible = true;
                 }
             }
