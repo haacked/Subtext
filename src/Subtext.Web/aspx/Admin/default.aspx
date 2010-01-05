@@ -33,7 +33,7 @@
                         <table>
                             <tr>
                                 <td class="stat"><a href="<%= AdminUrl.PostsList() %>" title="Posts"><%# Statistics.ActivePostCount %></a></td>
-                                <td><a href="<%= AdminUrl.PostsList() %>" title="Posts">Posts</a></td>
+                                <td><a href="<%= AdminUrl.PostsList() %>" title="Posts">Posts</a>  (<a href="<%= AdminUrl.FullTextSearch()%>"><%# IndexedEntryCount%> indexed</a>)</td>
                                 <td class="stat"><a href="<%= AdminUrl.FeedbackList() %>" title="Feedback"><%# Statistics.FeedbackCount %></a></td>
                                 <td title="Does not include pingbacks/trackbacks"><a href="<%= AdminUrl.FeedbackList() %>" title="Feedback">Comments</a></td>
                             </tr>
