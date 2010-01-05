@@ -38,6 +38,11 @@ namespace Subtext.Web.Admin.Pages
             get { return Repository.GetActiveCategories().Count; }
         }
 
+        public int IndexedEntryCount
+        {
+            get { return SearchEngine.GetIndexedEntryCount(Blog.Id); }
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             Statistics = Repository.GetBlogStatistics(Blog.Id);
