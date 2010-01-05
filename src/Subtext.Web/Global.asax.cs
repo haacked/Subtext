@@ -379,7 +379,8 @@ namespace Subtext.Web
         public void EndApplication()
         {
             ISearchEngineService searchEngine = Bootstrapper.ServiceLocator.GetService<ISearchEngineService>();
-            searchEngine.Dispose();
+            if(searchEngine!=null)
+                searchEngine.Dispose();
             LogInitialized = false;
         }
     }
