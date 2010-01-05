@@ -22,7 +22,9 @@ using System.Linq;
 using System.Text;
 using System.Web.UI;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
@@ -90,7 +92,10 @@ namespace Subtext.Web.UI.Pages
                 var apnlCommentsWrapper = new UpdatePanel { Visible = true, ID = CommentsPanelId };
                 if(!controlNames.Contains("HomePage", StringComparer.OrdinalIgnoreCase) && !String.IsNullOrEmpty(Query))
                 {
-                    var searchResults = SearchEngineService.Search(Query, 5, Blog.Id);
+                    int entryId = -1;
+                    Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+                    if (entry != null) entryId = entry.Id;
+                    var searchResults = SearchEngineService.Search(Query, 5, Blog.Id, entryId);
                     if(searchResults.Any())
                     {
                         var moreResults = controlLoader.LoadControl("MoreResults");

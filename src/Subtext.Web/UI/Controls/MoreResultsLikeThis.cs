@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 using Subtext.Framework.Services.SearchEngine;
 using Subtext.Web.UI.Pages;
 
@@ -61,10 +63,13 @@ namespace Subtext.Web.UI.Controls
         {
             int blogId = Blog.Id >= 1 ? Blog.Id : 0;
             var urlRelatedLinks = FindControl("Links") as Repeater;
-            
+
             if(urlRelatedLinks != null)
             {
-                urlRelatedLinks.DataSource = SearchResults ?? SearchEngineService.Search(Query, RowCount, blogId);
+                int entryId = -1;
+                Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+                if (entry != null) entryId = entry.Id;
+                urlRelatedLinks.DataSource = SearchResults ?? SearchEngineService.Search(Query, RowCount, blogId, entryId);
                 urlRelatedLinks.DataBind();
             }
             var keywords = FindControl("keywords") as Literal;
