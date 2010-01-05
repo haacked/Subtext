@@ -35,7 +35,18 @@ namespace Subtext.Web.Admin.Pages
             var indexingService = SubtextContext.ServiceLocator.GetService<IIndexingService>();
             try
             {
-                indexingService.RebuildIndex();
+                var errors = indexingService.RebuildIndex();
+                if(errors.Count()==0)
+                    Messages.ShowMessage(Resources.FullTextSearch_ReindexingCompleted);
+                else
+                {
+                    string errormessages = string.Empty;
+                    foreach (var error in errors)
+                    {
+                        errormessages += String.Format("<li>Unable to index post with id {0}: {1}</li>",error.Entry.EntryId,error.Exception.Message);
+                    }
+                    Messages.ShowError(String.Format(Resources.FullTextSearch_ReindexingCompletedWithErrorsFormat, errormessages));
+                }
             }
             catch(Exception ex)
             {
@@ -43,7 +54,6 @@ namespace Subtext.Web.Admin.Pages
                 Messages.ShowError(ex.Message, true);
             }
             UpdateIndexSize();
-            Messages.ShowMessage(Resources.FullTextSearch_ReindexingCompleted);
         }
     }
 }

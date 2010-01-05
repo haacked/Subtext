@@ -650,16 +650,25 @@ namespace Subtext.Web.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Rebuild of full text index completed.
         /// </summary>
-        internal static string FullTextSearch_ReindexingCompleted {
+        public static string FullTextSearch_ReindexingCompleted {
             get {
                 return ResourceManager.GetString("FullTextSearch_ReindexingCompleted", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rebuild of full text index completed with errors:&lt;br&gt;&lt;ul&gt;{0}&lt;/ul&gt;.
+        /// </summary>
+        public static string FullTextSearch_ReindexingCompletedWithErrorsFormat {
+            get {
+                return ResourceManager.GetString("FullTextSearch_ReindexingCompletedWithErrorsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rebuild of full text index failed.
         /// </summary>
-        internal static string FullTextSearch_ReindexingFailed {
+        public static string FullTextSearch_ReindexingFailed {
             get {
                 return ResourceManager.GetString("FullTextSearch_ReindexingFailed", resourceCulture);
             }

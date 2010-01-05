@@ -24,6 +24,8 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Similarity.Net;
+using Subtext.Extensibility.Properties;
+using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 
@@ -74,22 +76,31 @@ namespace Subtext.Framework.Services.SearchEngine
             _parser.SetDefaultOperator(QueryParser.Operator.AND);
         }
 
-        public void AddPost(SearchEngineEntry post)
+        public IEnumerable<IndexingError> AddPost(SearchEngineEntry post)
         {
-            AddPosts(new[] { post });
+            return AddPosts(new[] { post });
         }
 
 
-        public void AddPosts(IEnumerable<SearchEngineEntry> posts)
+        public IEnumerable<IndexingError> AddPosts(IEnumerable<SearchEngineEntry> posts)
         {
+            IList<IndexingError> errors = new List<IndexingError>();
             foreach (var post in posts)
             {
                 ExecuteRemovePost(post.EntryId);
-                _writer.AddDocument(CreateDocument(post));
+                try
+                {
+                    _writer.AddDocument(CreateDocument(post));
+                }
+                catch(Exception ex)
+                {
+                    errors.Add(new IndexingError(post, ex));
+                }
             }
             _indexUpdatedSinceLastOpen = true;
             _writer.Flush();
             _writer.Optimize();
+            return errors;
         }
 
         public void RemovePost(int postId)
@@ -191,7 +202,7 @@ namespace Subtext.Framework.Services.SearchEngine
                 Field.TermVector.NO);
 
             Field postName = new Field(ENTRYNAME,
-                post.EntryName,
+                post.EntryName ?? "",
                 Field.Store.YES,
                 Field.Index.NO,
                 Field.TermVector.NO);
@@ -230,7 +241,8 @@ namespace Subtext.Framework.Services.SearchEngine
             result.EntryId = (int)NumberTools.StringToLong(doc.Get(ENTRYID));
             result.PublishDate = DateTools.StringToDate(doc.Get(PUBDATE));
             result.Title = doc.Get(TITLE);
-            result.EntryName = doc.Get(ENTRYNAME);
+            string entryName = doc.Get(ENTRYNAME);
+            result.EntryName = !String.IsNullOrEmpty(entryName) ? entryName : null;
             result.Score = score;
 
             return result;
