@@ -16,9 +16,10 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Web;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Routing;
 using Subtext.Framework.Services.SearchEngine;
 using Subtext.Web.UI.Pages;
 
@@ -50,18 +51,27 @@ namespace Subtext.Web.UI.Controls
             }
         }
 
+        public IEnumerable<SearchEngineResult> SearchResults
+        {
+            get; 
+            set;
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             int blogId = Blog.Id >= 1 ? Blog.Id : 0;
             var urlRelatedLinks = FindControl("Links") as Repeater;
+            
+            if(urlRelatedLinks != null)
+            {
+                urlRelatedLinks.DataSource = SearchResults ?? SearchEngineService.Search(Query, RowCount, blogId);
+                urlRelatedLinks.DataBind();
+            }
             var keywords = FindControl("keywords") as Literal;
-            
-
-            urlRelatedLinks.DataSource = SearchEngineService.Search(Query, RowCount, blogId);
-            urlRelatedLinks.DataBind();
-
-            keywords.Text = HttpUtility.HtmlEncode(Query);
-            
+            if(keywords != null)
+            {
+                keywords.Text = HttpUtility.HtmlEncode(Query);
+            }
 
             base.OnLoad(e);
         }
@@ -75,9 +85,12 @@ namespace Subtext.Web.UI.Controls
             }
             if(e.Item.ItemType == ListItemType.Footer)
             {
-                var searchMoreLink = e.Item.FindControl("searchMore") as System.Web.UI.HtmlControls.HtmlAnchor;
-                searchMoreLink.InnerText = searchMoreLink.InnerText + Query;
-                searchMoreLink.HRef = Url.SearchPageUrl(Query);
+                var searchMoreLink = e.Item.FindControl("searchMore") as HtmlAnchor;
+                if(searchMoreLink != null)
+                {
+                    searchMoreLink.InnerText = searchMoreLink.InnerText + Query;
+                    searchMoreLink.HRef = Url.SearchPageUrl(Query);
+                }
             }
         }
 

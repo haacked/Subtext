@@ -90,7 +90,20 @@ namespace Subtext.Web.UI.Pages
                 var apnlCommentsWrapper = new UpdatePanel { Visible = true, ID = CommentsPanelId };
                 if(!controlNames.Contains("HomePage", StringComparer.OrdinalIgnoreCase) && !String.IsNullOrEmpty(Query))
                 {
-                    AddControlToBody("MoreResults", controlLoader.LoadControl("MoreResults"), apnlCommentsWrapper, CenterBodyControl);
+                    var searchResults = SearchEngineService.Search(Query, 5, Blog.Id);
+                    if(searchResults.Any())
+                    {
+                        var moreResults = controlLoader.LoadControl("MoreResults");
+                        if(moreResults != null)
+                        {
+                            var moreSearchResults = moreResults as MoreResultsLikeThis;
+                            if(moreSearchResults != null)
+                            {
+                                moreSearchResults.SearchResults = searchResults;
+                            }
+                            AddControlToBody("MoreResults", moreResults, apnlCommentsWrapper, CenterBodyControl);
+                        }
+                    }
                 }
 
                 foreach(string controlName in controlNames)
