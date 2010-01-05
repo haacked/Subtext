@@ -541,4 +541,7 @@ You may remove them later.&lt;/p&gt;</value>
   <data name="FullTextSearch_ReindexingFailed" xml:space="preserve">
     <value>Rebuild of full text index failed</value>
   </data>
+  <data name="FullTextSearch_ReindexingCompletedWithErrorsFormat" xml:space="preserve">
+    <value>Rebuild of full text index completed with errors:&lt;br&gt;&lt;ul&gt;{0}&lt;/ul&gt;</value>
+  </data>
 </root>

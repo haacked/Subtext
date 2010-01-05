@@ -15,6 +15,8 @@
 
 #endregion
 
+using System.Collections.Generic;
+
 namespace Subtext.Framework.Services.SearchEngine
 {
     public interface IIndexingService
@@ -26,6 +28,6 @@ namespace Subtext.Framework.Services.SearchEngine
         /// <summary>
         /// Rebuilds the index for the current blog.
         /// </summary>
-        void RebuildIndex();
+        IEnumerable<IndexingError> RebuildIndex();
     }
 }

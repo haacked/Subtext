@@ -64,6 +64,26 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         }
 
         [Test]
+        public void SearchEngineService_WithEntryNameNull_RetrievesEntryNameNull()
+        {
+            _service.AddPost(new SearchEngineEntry()
+                    {
+                        EntryId = 1,
+                        Body = "This is a sample post",
+                        Title = "This is the title",
+                        Tags = "Title",
+                        BlogName = "MyTestBlog",
+                        IsPublished = true,
+                        PublishDate = DateTime.Now,
+                        EntryName = null
+                    }
+                );
+
+            List<SearchEngineResult> result = _service.Search("sample", 100, 0) as List<SearchEngineResult>;
+            Assert.IsNull(result[0].EntryName);
+        }
+
+        [Test]
         public void SearchEngineService_ConvertsToSearchResult()
         {
             _service.AddPost(new SearchEngineEntry()

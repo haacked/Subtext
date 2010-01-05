@@ -27,12 +27,12 @@ namespace Subtext.Framework.Services.SearchEngine
         /// Adds an entry to the full text index
         /// </summary>
         /// <param name="post">The Entry</param>
-        void AddPost(SearchEngineEntry post);
+        IEnumerable<IndexingError> AddPost(SearchEngineEntry post);
         /// <summary>
         /// Adds many entries to the full text index
         /// </summary>
         /// <param name="posts">List of entries</param>
-        void AddPosts(IEnumerable<SearchEngineEntry> posts);
+        IEnumerable<IndexingError> AddPosts(IEnumerable<SearchEngineEntry> posts);
         /// <summary>
         /// Search the full text index by query string
         /// </summary>

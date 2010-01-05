@@ -45,9 +45,9 @@ namespace Subtext.Framework.Services.SearchEngine
             ThreadPool.QueueUserWorkItem(delegate { RebuildIndex(); });
         }
 
-        public void RebuildIndex()
+        public IEnumerable<IndexingError> RebuildIndex()
         {
-            SearchEngineService.AddPosts(GetBlogPosts());
+            return SearchEngineService.AddPosts(GetBlogPosts());
         }
 
         private IEnumerable<SearchEngineEntry> GetBlogPosts()

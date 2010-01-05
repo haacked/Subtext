@@ -546,6 +546,7 @@
     <Compile Include="Services\Emoticons\EmoticonsTransformation.cs" />
     <Compile Include="Services\SearchEngine\EntryExtensionMethods.cs" />
     <Compile Include="Services\SearchEngine\IIndexingService.cs" />
+    <Compile Include="Services\SearchEngine\IndexingError.cs" />
     <Compile Include="Services\SearchEngine\IndexingService.cs" />
     <Compile Include="Services\SearchEngine\ISearchEngineService.cs" />
     <Compile Include="Services\SearchEngine\SearchEngineEntry.cs" />
