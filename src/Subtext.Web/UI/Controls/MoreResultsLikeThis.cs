@@ -66,10 +66,14 @@ namespace Subtext.Web.UI.Controls
 
             if(urlRelatedLinks != null)
             {
-                int entryId = -1;
-                Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-                if (entry != null) entryId = entry.Id;
-                urlRelatedLinks.DataSource = SearchResults ?? SearchEngineService.Search(Query, RowCount, blogId, entryId);
+                if(SearchResults==null)
+                {
+                    int entryId = -1;
+                    Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+                    if (entry != null) entryId = entry.Id;
+                    SearchResults = SearchEngineService.Search(Query, RowCount, blogId, entryId);
+                }
+                urlRelatedLinks.DataSource = SearchResults;
                 urlRelatedLinks.DataBind();
             }
             var keywords = FindControl("keywords") as Literal;
