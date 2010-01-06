@@ -327,6 +327,11 @@ namespace Subtext.Framework.Services.SearchEngine
             return list;
         }
 
+        ~SearchEngineService()
+        {
+            this.Dispose();
+        }
+
         public void Dispose()
         {
             var searcher = _searcher;
