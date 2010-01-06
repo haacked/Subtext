@@ -78,11 +78,15 @@ namespace Subtext.Framework.Services.SearchEngine
 
         public IEnumerable<IndexingError> AddPost(SearchEngineEntry post)
         {
-            return AddPosts(new[] { post });
+            return AddPosts(new[] { post }, false);
         }
 
-
         public IEnumerable<IndexingError> AddPosts(IEnumerable<SearchEngineEntry> posts)
+        {
+            return AddPosts(posts, true);
+        }
+
+        public IEnumerable<IndexingError> AddPosts(IEnumerable<SearchEngineEntry> posts, bool optimize)
         {
             IList<IndexingError> errors = new List<IndexingError>();
             foreach (var post in posts)
@@ -99,7 +103,8 @@ namespace Subtext.Framework.Services.SearchEngine
             }
             _indexUpdatedSinceLastOpen = true;
             _writer.Flush();
-            _writer.Optimize();
+            if(optimize)
+                _writer.Optimize();
             return errors;
         }
 
@@ -108,7 +113,6 @@ namespace Subtext.Framework.Services.SearchEngine
             ExecuteRemovePost(postId);
             _indexUpdatedSinceLastOpen = true;
             _writer.Flush();
-            _writer.Optimize();
         }
 
         public int GetIndexedEntryCount(int blogId)
