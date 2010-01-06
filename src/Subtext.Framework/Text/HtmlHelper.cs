@@ -492,18 +492,6 @@ namespace Subtext.Framework.Text
         }
 
         /// <summary>
-        /// Strips the RTB, whatever that is.
-        /// </summary>
-        /// <param name="text">Text.</param>
-        /// <param name="host">Host.</param>
-        /// <returns></returns>
-        public static string StripRtb(string text, string host)
-        {
-            string s = Regex.Replace(text, "/localhost/S*Admin/", "", RegexOptions.IgnoreCase);
-            return Regex.Replace(s, "<a href=\"/", string.Format("<a href=\"http://{0}/", host), RegexOptions.IgnoreCase);
-        }
-
-        /// <summary>
         /// Checks the text and prepends "http://" if it doesn't have it already.
         /// </summary>
         /// <param name="text">Text.</param>
