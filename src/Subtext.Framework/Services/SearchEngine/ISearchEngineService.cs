@@ -29,10 +29,17 @@ namespace Subtext.Framework.Services.SearchEngine
         /// <param name="post">The Entry</param>
         IEnumerable<IndexingError> AddPost(SearchEngineEntry post);
         /// <summary>
-        /// Adds many entries to the full text index
+        /// Adds many entries to the full text index.
+        /// This optimizes the index after adding the posts.
         /// </summary>
         /// <param name="posts">List of entries</param>
         IEnumerable<IndexingError> AddPosts(IEnumerable<SearchEngineEntry> posts);
+        /// <summary>
+        /// Adds many entries to the full text index
+        /// </summary>
+        /// <param name="posts">List of entries</param>
+        /// <param name="optimize">False to not optimize the index after adding the posts</param>
+        IEnumerable<IndexingError> AddPosts(IEnumerable<SearchEngineEntry> posts, bool optimize);
         /// <summary>
         /// Search the full text index by query string
         /// </summary>
