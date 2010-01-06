@@ -338,7 +338,7 @@ namespace Subtext.Web.Admin.UserControls
                     }
 
                     entry.Title = txbTitle.Text;
-                    entry.Body = HtmlHelper.StripRtb(richTextEditor.Xhtml, Request.Url.Host);
+                    entry.Body = richTextEditor.Xhtml;
                     entry.Author = Config.CurrentBlog.Author;
                     entry.Email = Config.CurrentBlog.Email;
                     entry.BlogId = Config.CurrentBlog.Id;
