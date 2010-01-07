@@ -93,10 +93,9 @@
     </div> <!-- #container -->
     
     <div id="footer">
-	    <div id="version">Running <strong><%= Subtext.Framework.VersionInfo.VersionDisplayText %></strong></div>
-	    <div id="copyright">Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-<%= DateTime.Now.Year %>. All rights 
+	    <div id="version">Running <strong><%= VersionInfo.VersionDisplayText %></strong></div>
+	    <div id="copyright">Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2003-<%= DateTime.Now.Year %>. All rights 
 	    reserved. 
-	    .TEXT Copyright &copy; <a href="http://scottwater.com/blog" title="Creator of .TEXT">Scott Watermasysk</a>, 2003. 
 	    All rights reserved. (<a href="<%= AdminUrl.Credits() %>" title="Credits">CREDITS</a>)
 	    </div>
     </div>
