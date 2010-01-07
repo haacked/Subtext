@@ -55,7 +55,7 @@ namespace Subtext.Framework.Services.SearchEngine
         private const string ENTRYNAME = "EntryName";
 
         private static readonly Log __log = new Log();
-        private bool _disposed;
+        private bool _disposed=false;
 
         public SearchEngineService(Directory directory, Analyzer analyzer, FullTextSearchEngineSettings settings)
         {
@@ -330,35 +330,47 @@ namespace Subtext.Framework.Services.SearchEngine
 
         ~SearchEngineService()
         {
-            if(!_disposed)
-                Dispose();
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            var searcher = _searcher;
-            if (searcher != null)
-            {
-                searcher.Close();
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-            var writer = _writer;
-            if (writer != null)
-            {
-                writer.Close();
-            }
 
-            var directory = _directory;
-            if(directory != null) {
-              directory.Close();
-            }
-
-            writer = _writer;
-            if (writer != null)
+        private void Dispose(bool disposing)
+        {
+            if (!_disposed)
             {
-                _writer = null;
+                //Never checking for disposing = true because there are
+                //no managed resources to dispose
+
+                var searcher = _searcher;
+                if (searcher != null)
+                {
+                    searcher.Close();
+                }
+
+                var writer = _writer;
+                if (writer != null)
+                {
+                    writer.Close();
+                }
+
+                var directory = _directory;
+                if(directory != null) {
+                    directory.Close();
+                }
+
+                writer = _writer;
+                if (writer != null)
+                {
+                    _writer = null;
+                }
+                _disposed = true;
             }
-            _disposed = true;
         }
     }
 }
