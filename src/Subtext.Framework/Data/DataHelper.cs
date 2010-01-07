@@ -281,6 +281,7 @@ namespace Subtext.Framework.Data
             feedbackItem.DateModified = reader.ReadValue<DateTime>("DateModified");
             feedbackItem.ParentEntryName = reader.ReadValue<string>("ParentEntryName");
             feedbackItem.ParentDateCreated = reader.ReadValue<DateTime>("ParentEntryCreateDate");
+            feedbackItem.ParentDateSyndicated = reader.ReadValue<DateTime>("ParentEntryDateSyndicated");
         }
 
         public static Entry ReadEntry(this IDataReader reader, bool buildLinks)
