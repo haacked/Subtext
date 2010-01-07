@@ -2380,7 +2380,6 @@
     <Content Include="aspx\Admin\Services\Ajax\AjaxServices.ashx" />
     <Content Include="aspx\Admin\Web.config" />
     <Content Include="aspx\Admin\WebUI\AdminPageTemplate.Master" />
-    <None Include="aspx\Admin\WebUI\AdminPageTemplate.Master.bak" />
     <Content Include="aspx\HostAdmin\HostAdminTemplate.Master" />
     <Content Include="aspx\HostAdmin\Web.config" />
     <Content Include="aspx\Install\InstallTemplate.Master" />
