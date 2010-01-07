@@ -25,7 +25,7 @@ namespace SubtextUpgraderTests
         }
 
         [Test]
-        public void RemoveOldFiles_WithDestination_RemovesUnusedfiles()
+        public void RemoveOldDirectories_WithDestination_RemovesUnusedDirectories()
         {
             // arrange
             var webroot = new Mock<IDirectory>();
@@ -42,8 +42,21 @@ namespace SubtextUpgraderTests
             destination.Verify(d => d.Combine("HostAdmin"));
             destination.Verify(d => d.Combine("Install"));
             destination.Verify(d => d.Combine("SystemMessages"));
+        }
 
-            destination.Verify(d => d.CombineFile("SystemMessages"));
+        [Test]
+        public void RemoveOldFiles_WithDestination_RemovesUnusedFiles()
+        {
+            // arrange
+            var webroot = new Mock<IDirectory>();
+            var destination = new Mock<IDirectory>();
+            destination.Setup(d => d.CombineFile(It.IsAny<string>())).Returns(new Mock<IFile>().Object);
+            var fileDeployer = new FileDeployer(webroot.Object, destination.Object);
+
+            // act
+            fileDeployer.RemoveOldFiles();
+
+            // assert
             destination.Verify(d => d.CombineFile("AggDefault.aspx"));
         }
     }

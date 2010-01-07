@@ -22,6 +22,16 @@ namespace SubtextUpgrader
 {
     public class Settings
     {
+		public Settings() { }
+
+		public Settings(string sourceDirectory, string upgradeTargetDirectory, bool quietMode, string backupDirectory, bool verbose) : this() {
+			this.SourceDirectory = sourceDirectory;
+			this.UpgradeTargetDirectory = upgradeTargetDirectory;
+			this.QuietMode = quietMode;
+			this.BackupDirectory = backupDirectory;
+			this.Verbose = verbose;
+		}
+
         [OptionName("s"), DefaultValue("'Subtext.Web' folder in the current directory"), Description("Source directory with new Subtext files")]
         public string SourceDirectory { get; private set; }
 
