@@ -55,6 +55,7 @@ namespace Subtext.Framework.Services.SearchEngine
         private const string ENTRYNAME = "EntryName";
 
         private static readonly Log __log = new Log();
+        private bool _disposed;
 
         public SearchEngineService(Directory directory, Analyzer analyzer, FullTextSearchEngineSettings settings)
         {
@@ -329,7 +330,8 @@ namespace Subtext.Framework.Services.SearchEngine
 
         ~SearchEngineService()
         {
-            this.Dispose();
+            if(!_disposed)
+                Dispose();
         }
 
         public void Dispose()
@@ -356,6 +358,7 @@ namespace Subtext.Framework.Services.SearchEngine
             {
                 _writer = null;
             }
+            _disposed = true;
         }
     }
 }
