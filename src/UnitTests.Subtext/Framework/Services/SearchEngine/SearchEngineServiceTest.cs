@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Snowball;
-using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Store;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
@@ -33,8 +31,8 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         [Test]
         public void SearchEngineService_WithEntry_AddsToIndex()
         {
-            _service.AddPost(new SearchEngineEntry()
-                                {
+            _service.AddPost(new SearchEngineEntry
+            {
                                     EntryId = 1,
                                     Body = "This is a sample post",
                                     Title = "This is the title",
@@ -46,8 +44,8 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                                 }
                 );
 
-            _service.AddPost(new SearchEngineEntry()
-                    {
+            _service.AddPost(new SearchEngineEntry
+            {
                         EntryId = 2,
                         Body = "This is another sample post",
                         Title = "This is another title",
@@ -59,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                     }
             );
 
-            List<SearchEngineResult> result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
+            var result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
             Assert.AreEqual(2, result.Count);
         }
 
@@ -79,7 +77,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                     }
                 );
 
-            List<SearchEngineResult> result = _service.Search("sample", 100, 0) as List<SearchEngineResult>;
+            var result = _service.Search("sample", 100, 0) as List<SearchEngineResult>;
             Assert.IsNull(result[0].EntryName);
         }
 
@@ -99,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 }
             );
 
-            List<SearchEngineResult> result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
+            var result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
 
             Assert.AreEqual("This is the title", result[0].Title);
             Assert.AreEqual("MyTestBlog", result[0].BlogName);
@@ -135,7 +133,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             }
             );
 
-            List<SearchEngineResult> result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
+            var result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count);
 
             result = _service.Search("post", 100,0) as List<SearchEngineResult>;
@@ -161,7 +159,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
 
             _service.RemovePost(1);
 
-            List<SearchEngineResult> result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
+            var result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count);
         }
 
@@ -271,7 +269,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             }
 
 
-            List<SearchEngineResult> result = _service.RelatedContents(1, 100,0) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1, 100,0) as List<SearchEngineResult>;
             Assert.IsTrue(result.Count>0);
         }
 
@@ -294,7 +292,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 );
             }
 
-            List<SearchEngineResult> result = _service.RelatedContents(1, 100,0) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1, 100,0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count(r => r.EntryId==1));
         }
 
@@ -321,7 +319,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             }
             
 
-            List<SearchEngineResult> result = _service.RelatedContents(1, 100, 0) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1, 100, 0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count());
 
         }
@@ -358,7 +356,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             });
 
 
-            List<SearchEngineResult> result = _service.RelatedContents(1, 100,0) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1, 100,0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count(r => r.EntryId == 20));
         }
 
@@ -394,7 +392,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             });
 
 
-            List<SearchEngineResult> result = _service.RelatedContents(1,100,0) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1,100,0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count(r => r.EntryId == 20));
         }
 
@@ -432,7 +430,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             });
 
 
-            List<SearchEngineResult> result = _service.RelatedContents(1, 100, 1) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1, 100, 1) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count(r => r.EntryId == 20));
         }
 
@@ -456,7 +454,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 );
             }
 
-            List<SearchEngineResult> result = _service.RelatedContents(1, 10, 1) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1, 10, 1) as List<SearchEngineResult>;
             Assert.AreEqual(9, result.Count);
         }
 

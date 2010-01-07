@@ -53,9 +53,9 @@ namespace SubtextUpgrader
             }
         }
 
-        private void RemoveOldFiles()
+        public void RemoveOldFiles()
         {
-            var fileNames = new[] { "SystemMessages", "AggDefault.aspx", "DTP.aspx",
+            var fileNames = new[] { "AggDefault.aspx", "DTP.aspx",
                                     "ForgotPassword.aspx", "login.aspx", "logout.aspx", 
                                     "MainFeed.aspx", @"Admin\Skins.config", 
                                     @"Admin\Skins.user.config", @"bin\Subtext.BlogML.dll",

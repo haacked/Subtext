@@ -18,6 +18,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace SubtextUpgrader
 {
@@ -30,9 +31,16 @@ namespace SubtextUpgrader
         //TODO: Consider Replace Assembly="Subtext.Web.Controls" with Assembly="Subtext.Web" 
         //      in all skin files.
 
+		[STAThread]
         static void Main(string[] args)
         {
-            if(args.Length == 0)
+			if (args.Length == 0) {
+				Application.EnableVisualStyles();
+				Application.SetCompatibleTextRenderingDefault(false);
+				Application.Run(new UpgradeForm());
+				return;
+			}
+            if(args.Length == 1 && args[0] == "/h" || args[0] == "/?" || args[0] == "/help" || args[0] == "-h" || args[0] == "-help" || args[0] == "-?" || args[0] == "--help")
             {
                 Console.WriteLine("SubtextUpgrader.exe");
                 Console.WriteLine("Utility for upgrading Subtext instances");
@@ -58,6 +66,7 @@ namespace SubtextUpgrader
 
         public void Run()
         {
+			//SourceDirectory will never be null, it gets filled with the default value by the command line parser.
             var sourceDirectory = new SubtextDirectory(Settings.SourceDirectory ?? Path.Combine(Assembly.GetExecutingAssembly().Location ?? ".", "Subtext.Web"));
             if(!VerifyDirectory(sourceDirectory, "source"))
             {
@@ -133,6 +142,7 @@ namespace SubtextUpgrader
             deployer.Deploy();
             Console.WriteLine("Cleaning up old directories");
             deployer.RemoveOldDirectories();
+			Console.WriteLine("Done.");
         }
 
         static bool VerifyDirectory(IDirectory directory, string directoryLabel)
