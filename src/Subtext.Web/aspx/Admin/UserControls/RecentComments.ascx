@@ -19,7 +19,7 @@
                     <ul class="inline">
                         <%--<li><a href="#">Unnapprove</a></li>--%>
                         <li><a href="<%# H(EditUrl(Comment)) %>" class="edit" title="Edit Comment">Edit</a></li>
-                        <li><a href="<%# Url.EntryUrl(Comment.Entry) %>#commentform" class="reply" title="Reply to this comment">Reply</a></li>
+                        <li><a href="<%# Url.FeedbackUrl(Comment) %>" class="reply" title="Reply to this comment">Reply</a></li>
                         <li class="undoable"><a href="#<%# Comment.Id %>" class="FlaggedAsSpam">Spam</a></li>
                         <li class="undoable"><a href="#<%# Comment.Id %>" class="Deleted" title="Move to trash">Delete</a></li>
                     </ul>
