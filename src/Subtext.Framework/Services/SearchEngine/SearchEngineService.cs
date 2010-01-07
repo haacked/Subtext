@@ -71,7 +71,8 @@ namespace Subtext.Framework.Services.SearchEngine
                     __log.Info("Lock Deleted... can proceed");
                 }
                 _writer = new IndexWriter(_directory, _analyzer);
-                _writer.Optimize();
+                _writer.SetMergePolicy(new LogDocMergePolicy());
+                _writer.SetMergeFactor(5);
             }
             _parser = new QueryParser(BODY, _analyzer);
             _parser.SetDefaultOperator(QueryParser.Operator.AND);
