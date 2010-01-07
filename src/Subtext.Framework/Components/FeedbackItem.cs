@@ -88,7 +88,8 @@ namespace Subtext.Framework.Components
                         {
                             Id = EntryId,
                             EntryName = _parentEntryName,
-                            DateCreated = _parentDateCreated
+                            DateCreated = _parentDateCreated,
+                            DateSyndicated = _parentDateSyndicated
                         };
                     }
                 }
@@ -319,15 +320,30 @@ namespace Subtext.Framework.Components
             set { _parentDateCreated = value; }
         }
 
-        #region IIdentifiable Members
+        /// <summary>
+        /// Gets or sets the parent entry date created.
+        /// </summary>
+        /// <value>The parent date created.</value>
+        public DateTime ParentDateSyndicated
+        {
+            get
+            {
+                if(_parentDateSyndicated == NullValue.NullDateTime)
+                {
+                    _parentDateSyndicated = Entry != null ? Entry.DateSyndicated : DateTime.MinValue;
+                }
+                return _parentDateSyndicated;
+            }
+            set { _parentDateSyndicated = value; }
+        }
+
+        DateTime _parentDateSyndicated;
 
         /// <summary>
         /// Gets or sets the ID for this feedback item.
         /// </summary>
         /// <value>The feedback ID.</value>
         public int Id { get; set; }
-
-        #endregion
 
         /// <summary>
         /// Gets the specified feedback by id.

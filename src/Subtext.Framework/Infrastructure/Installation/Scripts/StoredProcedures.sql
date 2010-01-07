@@ -1432,6 +1432,7 @@ AS
 		, f.FeedbackChecksumHash
 		, f.DateCreated
 		, f.DateModified
+		, ParentEntryDateSyndicated = c.DateSyndicated
 		, ParentEntryCreateDate = c.DateAdded
 		, ParentEntryName = c.EntryName
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
@@ -1481,6 +1482,7 @@ AS
 		, f.FeedbackChecksumHash
 		, f.DateCreated
 		, f.DateModified
+		, ParentEntryDateSyndicated = c.DateSyndicated
 		, ParentEntryCreateDate = c.DateAdded
 		, ParentEntryName = c.EntryName
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
@@ -1834,6 +1836,7 @@ SELECT  f.Id
 		, f.FeedbackChecksumHash
 		, f.DateCreated
 		, f.DateModified
+		, ParentEntryDateSyndicated = c.DateSyndicated
 		, ParentEntryCreateDate = c.DateAdded
 		, ParentEntryName = c.EntryName
 		, row_number() over(order by DateCreated DESC, f.Id DESC) RowNumber
@@ -3800,6 +3803,7 @@ SELECT TOP 1 f.Title
 		, f.FeedbackChecksumHash
 		, f.DateCreated
 		, f.DateModified
+		, ParentEntryDateSyndicated = c.DateSyndicated
 		, ParentEntryCreateDate = c.DateAdded
 		, ParentEntryName = c.EntryName
 FROM [<dbUser,varchar,dbo>].[subtext_FeedBack] f
