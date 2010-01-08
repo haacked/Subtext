@@ -68,7 +68,7 @@
 	     </div>
 
         <div id="header">
-            <div id="logo"><a href="<%= Url.BlogUrl() %>" title="<%= Blog.Title %>"></a></div>
+            <div id="logo"><a href="<%= Url.BlogUrl() %>" title="<%= Blog.Title %>"><span>Subtext</span></a></div>
             <div id="filler"></div>
 	    </div>
 
