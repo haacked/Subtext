@@ -51,12 +51,12 @@ namespace Subtext.Web.UI.Controls
 
 
             if (!String.IsNullOrEmpty(txtSearch.Text))
-                Response.Redirect(Request.Url.AbsolutePath + "?q=" + Server.UrlEncode(txtSearch.Text),true);
+                Response.Redirect(Request.Url.AbsolutePath + "?q=" + Server.UrlEncode(txtSearch.Text),false);
 
             string queryString = SubtextContext.RequestContext.GetQueryFromRequest();
             if (!String.IsNullOrEmpty(queryString))
             {
-                txtSearch.Text = HttpUtility.HtmlEncode(queryString);
+                txtSearch.Text = queryString;
                 var results = SearchEngineService.Search(queryString, MaxResultsCount, Blog.Id);
                 if (results.Count()>0)
                 {
