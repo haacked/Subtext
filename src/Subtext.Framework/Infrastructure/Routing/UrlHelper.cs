@@ -18,6 +18,7 @@
 using System;
 using System.Configuration;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Routing;
 using Subtext.Extensibility;
@@ -644,7 +645,15 @@ namespace Subtext.Framework.Routing
 
             string result = HttpUtility.UrlDecode(sub);
 
+            result = StripUnwantedClauses(result);
+
             return result;
+        }
+
+        private static string StripUnwantedClauses(string result)
+        {
+            Regex regex = new Regex(@"^site:http://[\w|.|/|?]*\s");
+            return regex.Replace(result, "");
         }
     }
 }
