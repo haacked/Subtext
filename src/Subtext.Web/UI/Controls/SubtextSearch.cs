@@ -30,12 +30,6 @@ namespace Subtext.Web.UI.Controls
     {
         protected TextBox txtSearch;
 
-        protected override void OnLoad(EventArgs e)
-        {
-            //if (Request.Url.LocalPath.Contains(Url.SearchPageUrl()))
-            //    this.Visible = false;
-        }
-
         public void btnSearch_Click(object sender, EventArgs e)
         {
 

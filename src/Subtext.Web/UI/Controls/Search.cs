@@ -43,15 +43,23 @@ namespace Subtext.Web.UI.Controls
 
         public int MaxResultsCount { get; set; }
 
+        public void btnSearch_Click(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtSearch.Text))
+                Response.Redirect(Url.SearchPageUrl(txtSearch.Text), true);
+        }
+
         protected override void OnLoad(EventArgs e)
         {
+            if(IsPostBack)
+            {
+                return; 
+            }
+
             var searchResults = FindControl("results") as Repeater;
             var noResults = FindControl("noresults") as PlaceHolder;
             var terms = FindControl("terms") as Literal;
 
-
-            if (!String.IsNullOrEmpty(txtSearch.Text))
-                Response.Redirect(Request.Url.AbsolutePath + "?q=" + Server.UrlEncode(txtSearch.Text),false);
 
             string queryString = SubtextContext.RequestContext.GetQueryFromRequest();
             if (!String.IsNullOrEmpty(queryString))
