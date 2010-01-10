@@ -15,6 +15,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Subtext.Extensibility;
@@ -56,8 +57,27 @@ namespace Subtext.Framework.Services.SearchEngine
             var collectionBook = new CollectionBook<EntryStatsView>((pageIndex, sizeOfPage) => Repository.GetEntries(PostType.BlogPost,null, pageIndex, sizeOfPage), pageSize);
             foreach (Entry entry in collectionBook.AsFlattenedEnumerable())
             {
-                yield return entry.ConvertToSearchEngineEntry();
+                if(entry.IsActive)
+                    yield return entry.ConvertToSearchEngineEntry();
             }
+        }
+
+        public IEnumerable<IndexingError> AddPost(Entry entry)
+        {
+            return ExecuteAddPost(entry.ConvertToSearchEngineEntry());
+        }
+
+        public IEnumerable<IndexingError> AddPost(Entry entry, IList<string> tags)
+        {
+            return ExecuteAddPost(entry.ConvertToSearchEngineEntry(tags));
+        }
+
+        private IEnumerable<IndexingError> ExecuteAddPost(SearchEngineEntry entry)
+        {
+            if (entry.IsPublished)
+                return SearchEngineService.AddPost(entry);
+            SearchEngineService.RemovePost(entry.EntryId);
+            return new List<IndexingError>();
         }
     }
 }

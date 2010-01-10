@@ -76,7 +76,7 @@ namespace UnitTests.Subtext.BlogMl
             context.Setup(c => c.Blog.TimeZone.FromUtc(It.IsAny<DateTime>())).Returns(DateTime.Now);
             context.Setup(c => c.Repository.Create(It.IsAny<Entry>(), It.IsAny<IEnumerable<int>>()));
             var transformation = new CompositeTextTransformation();
-            var searchengine = new Mock<ISearchEngineService>();
+            var searchengine = new Mock<IIndexingService>();
             var entryPublisher = new EntryPublisher(context.Object, transformation, null, searchengine.Object);
             var keywordExpander = new KeywordExpander((IEnumerable<KeyWord>)null);
             transformation.Add(keywordExpander);
