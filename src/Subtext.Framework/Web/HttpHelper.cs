@@ -423,7 +423,12 @@ namespace Subtext.Framework.Web
                 return null;   
             }
 
-            string queryString = request.QueryString[0];
+            string key = request.QueryString.Keys[0];
+            if(key.Equals("referrer",StringComparison.InvariantCultureIgnoreCase))
+                return null;
+
+
+            string queryString = request.QueryString[0];            
             if(string.IsNullOrEmpty(queryString))
             {
                 return null;

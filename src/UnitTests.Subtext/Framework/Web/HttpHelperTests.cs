@@ -205,6 +205,25 @@ namespace UnitTests.Subtext.Framework.Web
         }
 
         [Test]
+        public void HandleFileNotFound_InNonIntegratedModeWithReferrerInQueryString_DoesNotRedirects()
+        {
+            // arrange
+            var httpContext = new Mock<HttpContextBase>();
+            var queryString = new NameValueCollection { { "referrer", "http://google.com/?q=new+year" } };
+            httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
+            httpContext.SetupSet(c => c.Response.StatusCode, 404);
+            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException("Should not redirect"));
+            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>())).Throws(new InvalidOperationException("Should not redirect"));
+
+            // act
+            var returnUrl = httpContext.Object.Request.GetFileNotFoundRedirectUrl(false /*integratedMode*/);
+
+            // assert
+            Assert.IsNull(returnUrl, returnUrl + " is not null");
+        }
+
+        [Test]
         public void HandleFileNotFound_InNonIntegratedModeWithUrlHavingExtension_Returns404StatusCodeWithNoRedirect()
         {
             // arrange
