@@ -878,7 +878,7 @@ namespace UnitTests.Subtext
             var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
             Bootstrapper.RequestContext = requestContext;
             var serviceLocator = new Mock<IServiceLocator>().Object;
-            var searchEngineService = new Mock<ISearchEngineService>().Object;
+            var searchEngineService = new Mock<IIndexingService>().Object;
             Bootstrapper.ServiceLocator = serviceLocator;
             var routes = new RouteCollection();
             var subtextRoutes = new SubtextRouteMapper(routes, serviceLocator);
@@ -893,7 +893,7 @@ namespace UnitTests.Subtext
             return id;
         }
 
-        public static IEntryPublisher CreateEntryPublisher(ISubtextContext subtextContext,ISearchEngineService searchEngineService)
+        public static IEntryPublisher CreateEntryPublisher(ISubtextContext subtextContext, IIndexingService searchEngineService)
         {
             var slugGenerator = new SlugGenerator(FriendlyUrlSettings.Settings, subtextContext.Repository);
             var transformations = new CompositeTextTransformation
@@ -966,7 +966,7 @@ namespace UnitTests.Subtext
             };
             
             //TODO: Maybe use a INinjectParameter to control this.
-            var searchEngineService = new Mock<ISearchEngineService>().Object;
+            var searchEngineService = new Mock<IIndexingService>().Object;
             var publisher = new EntryPublisher(context, transform, new SlugGenerator(FriendlyUrlSettings.Settings), searchEngineService);
             publisher.Publish(entry);
         }

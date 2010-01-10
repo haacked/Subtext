@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lucene.Net.Analysis.Standard;
+﻿using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Store;
 using MbUnit.Framework;
 using Moq;
@@ -55,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             var context = new Mock<ISubtextContext>();
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntries(PostType.BlogPost, null, It.IsAny<int>(), It.IsAny<int>())).Returns(
-                BuildPreCookedCollection());
+                BuildFakeCollection());
             context.Setup(c => c.Repository).Returns(repository.Object);
 
             var indexService = new IndexingService(context.Object, _service);
@@ -65,15 +60,107 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             Assert.AreEqual(1,_service.GetTotalIndexedEntryCount());
         }
 
-        private PagedCollection<EntryStatsView> BuildPreCookedCollection()
+        [Test]
+        public void RebuildIndex_WithEntryNotPublished_DoesntAddsDataToIndex()
+        {
+            var context = new Mock<ISubtextContext>();
+            var repository = new Mock<ObjectProvider>();
+            repository.Setup(r => r.GetEntries(PostType.BlogPost, null, It.IsAny<int>(), It.IsAny<int>())).Returns(
+                BuildFakeCollectionNotPublished());
+            context.Setup(c => c.Repository).Returns(repository.Object);
+
+            var indexService = new IndexingService(context.Object, _service);
+
+            indexService.RebuildIndex();
+
+            Assert.AreEqual(0, _service.GetTotalIndexedEntryCount());
+        }
+
+
+        [Test]
+        public void IndexService_WithPublishedPost_AddsPostToIndex()
+        {
+            var context = new Mock<ISubtextContext>();
+            var searchEngine = new Mock<ISearchEngineService>();
+            SearchEngineEntry entry = null;
+            searchEngine.Setup(s => s.AddPost(It.IsAny<SearchEngineEntry>())).Callback<SearchEngineEntry>(e => entry = e);
+
+            var indexService = new IndexingService(context.Object, searchEngine.Object);
+
+            var blogEntry = new Entry(PostType.BlogPost)
+                            {
+                                Title ="Sample Post",
+                                Blog = new Blog() { Title = "My Blog" },
+                                IsActive=true,
+                            };
+
+            indexService.AddPost(blogEntry);
+            Assert.IsNotNull(entry);
+        }
+
+        [Test]
+        public void IndexService_WithNotPublishedPost_DoesntAddsPostToIndex()
+        {
+            var context = new Mock<ISubtextContext>();
+            var searchEngine = new Mock<ISearchEngineService>();
+            searchEngine.Setup(s => s.AddPost(It.IsAny<SearchEngineEntry>())).Never();
+
+            var indexService = new IndexingService(context.Object, searchEngine.Object);
+
+            var entry = new Entry(PostType.BlogPost)
+            {
+                Title = "Sample Post",
+                Blog = new Blog() { Title = "My Blog" },
+                IsActive = false,
+            };
+
+            indexService.AddPost(entry);
+        }
+
+        [Test]
+        public void IndexService_WithNotPublishedPost_RemovesPostFromIndex()
+        {
+            var context = new Mock<ISubtextContext>();
+            var searchEngine = new Mock<ISearchEngineService>();
+            bool deleted = false;
+            searchEngine.Setup(s => s.RemovePost(It.IsAny<int>())).Callback(() => deleted = true);
+
+            var indexService = new IndexingService(context.Object, searchEngine.Object);
+
+            var entry = new Entry(PostType.BlogPost)
+            {
+                Title = "Sample Post",
+                Blog = new Blog() { Title = "My Blog" },
+                IsActive = false,
+            };
+
+            indexService.AddPost(entry);
+            Assert.IsTrue(deleted);
+        }
+
+        private PagedCollection<EntryStatsView> BuildFakeCollection()
         {
             var coll = new PagedCollection<EntryStatsView>();
             coll.Add(new EntryStatsView()
                          {
                              Title = "My Post Title",
                              EntryName = "this-is-the-title",
+                             IsActive = true,
                              Blog = new Blog(){Title = "My Blog"}
                          });
+            return coll;
+        }
+
+        private PagedCollection<EntryStatsView> BuildFakeCollectionNotPublished()
+        {
+            var coll = new PagedCollection<EntryStatsView>();
+            coll.Add(new EntryStatsView()
+            {
+                Title = "My Post Title",
+                EntryName = "this-is-the-title",
+                IsActive = false,
+                Blog = new Blog() { Title = "My Blog" }
+            });
             return coll;
         }
     }
