@@ -82,16 +82,13 @@ namespace Subtext.Framework.Components
             {
                 if(_entry == null && EntryId != NullValue.NullInt32)
                 {
-                    if(!String.IsNullOrEmpty(_parentEntryName))
+                    _entry = new Entry(PostType.BlogPost)
                     {
-                        _entry = new Entry(PostType.BlogPost)
-                        {
-                            Id = EntryId,
-                            EntryName = _parentEntryName,
-                            DateCreated = _parentDateCreated,
-                            DateSyndicated = _parentDateSyndicated
-                        };
-                    }
+                        Id = EntryId,
+                        EntryName = _parentEntryName,
+                        DateCreated = _parentDateCreated,
+                        DateSyndicated = _parentDateSyndicated
+                    };
                 }
                 return _entry;
             }

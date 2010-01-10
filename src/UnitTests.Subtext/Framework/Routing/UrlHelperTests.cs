@@ -197,6 +197,26 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void FeedbackUrl_WithEntryHavingNoEntryName_RendersVirtualPathWithFeedbackIdInFragment()
+        {
+            //arrange
+            UrlHelper helper = SetupUrlHelper("/");
+            DateTime dateSyndicated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var comment = new FeedbackItem(FeedbackType.Comment)
+            {
+                Id = 321,
+                EntryId = 1234,
+                ParentDateSyndicated = dateSyndicated
+            };
+
+            //act
+            string url = helper.FeedbackUrl(comment);
+
+            //assert
+            Assert.AreEqual("/archive/2008/01/23/1234.aspx#321", url);
+        }
+
+        [Test]
         public void FeedbackUrl_WithContactPageFeedback_ReturnsNullUrl()
         {
             //arrange
