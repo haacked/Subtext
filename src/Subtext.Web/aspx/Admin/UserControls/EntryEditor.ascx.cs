@@ -172,9 +172,14 @@ namespace Subtext.Web.Admin.UserControls
             }
 
             VirtualPath entryUrl = Url.EntryUrl(entry);
-            hlEntryLink.NavigateUrl = entryUrl;
-            hlEntryLink.Text = entryUrl.ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
-            hlEntryLink.Attributes.Add("title", "view: " + entry.Title);
+            if (entryUrl != null)
+            {
+                hlEntryLink.NavigateUrl = entryUrl;
+                hlEntryLink.Text = entryUrl.ToFullyQualifiedUrl(Config.CurrentBlog).ToString();
+                hlEntryLink.Attributes.Add("title", "view: " + entry.Title);
+            }
+            else
+                hlEntryLink.Text = "This post has not been published yet, so it doesn't have an URL";
 
             PopulateMimeTypeDropDown();
             //Enclosures
