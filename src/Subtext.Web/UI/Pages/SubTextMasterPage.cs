@@ -98,9 +98,10 @@ namespace Subtext.Web.UI.Pages
                     {
                         entryId = entry.Id;
                     }
-                    if(!String.IsNullOrEmpty(Query))
+                    var query = Query;
+                    if(!String.IsNullOrEmpty(query))
                     {
-                        var searchResults = SearchEngineService.Search(Query, 5, Blog.Id, entryId);
+                        var searchResults = SearchEngineService.Search(query, 5, Blog.Id, entryId);
                         if(searchResults.Any())
                         {
                             var moreResults = controlLoader.LoadControl("MoreResults");
