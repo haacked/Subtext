@@ -94,19 +94,25 @@ namespace Subtext.Web.UI.Pages
                 {
                     int entryId = -1;
                     Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-                    if (entry != null) entryId = entry.Id;
-                    var searchResults = SearchEngineService.Search(Query, 5, Blog.Id, entryId);
-                    if(searchResults.Any())
+                    if (entry != null)
                     {
-                        var moreResults = controlLoader.LoadControl("MoreResults");
-                        if(moreResults != null)
+                        entryId = entry.Id;
+                    }
+                    if(!String.IsNullOrEmpty(Query))
+                    {
+                        var searchResults = SearchEngineService.Search(Query, 5, Blog.Id, entryId);
+                        if(searchResults.Any())
                         {
-                            var moreSearchResults = moreResults as MoreResultsLikeThis;
-                            if(moreSearchResults != null)
+                            var moreResults = controlLoader.LoadControl("MoreResults");
+                            if(moreResults != null)
                             {
-                                moreSearchResults.SearchResults = searchResults;
+                                var moreSearchResults = moreResults as MoreResultsLikeThis;
+                                if(moreSearchResults != null)
+                                {
+                                    moreSearchResults.SearchResults = searchResults;
+                                }
+                                AddControlToBody("MoreResults", moreResults, apnlCommentsWrapper, CenterBodyControl);
                             }
-                            AddControlToBody("MoreResults", moreResults, apnlCommentsWrapper, CenterBodyControl);
                         }
                     }
                 }
