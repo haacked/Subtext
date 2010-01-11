@@ -32,7 +32,6 @@ namespace Subtext.Web.UI.Controls
 
         public void btnSearch_Click(object sender, EventArgs e)
         {
-
             if (!String.IsNullOrEmpty(txtSearch.Text))
                 Response.Redirect(Url.SearchPageUrl(txtSearch.Text), true);
         }
