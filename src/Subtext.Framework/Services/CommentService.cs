@@ -44,7 +44,7 @@ namespace Subtext.Framework.Services
         public int Create(FeedbackItem comment, bool runFilters)
         {
             Entry entry = Cacher.GetEntry(comment.EntryId, SubtextContext);
-            if(entry == null || entry.CommentingClosed)
+            if(entry != null && entry.CommentingClosed)
             {
                 return NullValue.NullInt32;
             }

@@ -17,7 +17,6 @@
 
 using System;
 using System.Configuration;
-using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
@@ -55,13 +54,9 @@ namespace Subtext.Web.UI.Controls
                 string contactSetting = ConfigurationManager.AppSettings["ContactToFeedback"];
                 if(contactSetting != null)
                 {
-                    try
-                    {
-                        return bool.Parse(contactSetting);
-                    }
-                    catch(FormatException)
-                    {
-                    }
+                    bool useFeedback;
+                    bool.TryParse(contactSetting, out useFeedback);
+                    return useFeedback;
                 }
                 return false;
             }
@@ -119,62 +114,42 @@ namespace Subtext.Web.UI.Controls
         {
             if(Page.IsValid)
             {
-                Blog info = Blog;
-
-                if(SendContactMessageToFeedback || String.IsNullOrEmpty(info.Email))
+                var contactMessage = new FeedbackItem(FeedbackType.ContactPage)
                 {
-                    CreateCommentWithContactMessage();
-                    return;
-                }
+                    Author = tbName.Text,
+                    Email = tbEmail.Text,
+                    Body = tbMessage.Text,
+                    Title = string.Format("CONTACT: {0}", tbSubject.Text),
+                    IpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext)
+                };
 
-                EmailProvider email = EmailProvider.Instance();
-                string toEmail = info.Email;
-                string fromEmail = email.UseCommentersEmailAsFromAddress
-                                       ? tbEmail.Text ?? email.AdminEmail
-                                       : email.AdminEmail;
 
-                string subject = string.Format(CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text,
-                                               info.Title);
-
-                string sendersIpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext).ToString();
-
-                // \n by itself has issues with qmail (unix via openSmtp), \r\n should work on unix + wintel
-                string body = string.Format(CultureInfo.InvariantCulture,
-                                            "Mail from {0}:\r\n\r\nSender: {1}\r\nEmail: {2}\r\nIP Address: {3}\r\n=====================================\r\n{4}",
-                                            info.Title,
-                                            tbName.Text,
-                                            tbEmail.Text,
-                                            sendersIpAddress,
-                                            tbMessage.Text);
-
-                try
+                if(SendContactMessageToFeedback || String.IsNullOrEmpty(Blog.Email))
                 {
-                    email.Send(toEmail, fromEmail, subject, body);
-                    lblMessage.Text = "Your message was sent.";
-                    tbName.Text = string.Empty;
-                    tbEmail.Text = string.Empty;
-                    tbSubject.Text = string.Empty;
-                    tbMessage.Text = string.Empty;
+                    CreateCommentWithContactMessage(contactMessage);
                 }
-                catch(Exception)
+                else
                 {
-                    lblMessage.Text =
-                        "Your message could not be sent, most likely due to a problem with the mail server.";
+                    
+                    try
+                    {
+                        var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(),
+                                                        SubtextContext);
+                        emailService.EmailCommentToBlogAuthor(contactMessage);
+                    }
+                    catch(Exception)
+                    {
+                        lblMessage.Text =
+                            "Your message could not be sent, most likely due to a problem with the mail server.";
+                        return;
+                    }
                 }
+                lblMessage.Text = "Your message was sent.";
             }
         }
 
-        private void CreateCommentWithContactMessage()
+        private void CreateCommentWithContactMessage(FeedbackItem contactMessage)
         {
-            var contactMessage = new FeedbackItem(FeedbackType.None)
-            {
-                Author = tbName.Text,
-                Email = tbEmail.Text,
-                Body = tbMessage.Text,
-                Title = string.Format("CONTACT: {0}", tbSubject.Text),
-                IpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext)
-            };
-
             try
             {
                 ICommentSpamService feedbackService = null;
@@ -185,10 +160,6 @@ namespace Subtext.Web.UI.Controls
                 var commentService = new CommentService(SubtextContext,
                                                         new CommentFilter(SubtextContext, feedbackService));
                 commentService.Create(contactMessage, true/*runFilters*/);
-                var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(),
-                                                    SubtextContext);
-                emailService.EmailCommentToBlogAuthor(contactMessage);
-                lblMessage.Text = "Your message was sent.";
             }
             catch(BaseCommentException exc)
             {
