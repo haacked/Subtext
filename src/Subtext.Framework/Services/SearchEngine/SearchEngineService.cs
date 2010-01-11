@@ -38,7 +38,6 @@ namespace Subtext.Framework.Services.SearchEngine
         private Analyzer _analyzer;
         private static IndexWriter _writer;
         private IndexSearcher _searcher;
-        private QueryParser _parser;
         private FullTextSearchEngineSettings _settings;
 
         private bool _indexUpdatedSinceLastOpen = true;
@@ -54,6 +53,8 @@ namespace Subtext.Framework.Services.SearchEngine
         private const string PUBLISHED = "IsPublished";
         private const string ENTRYNAME = "EntryName";
 
+        private Object lockObj = new Object();
+
         private static readonly Log __log = new Log();
         private bool _disposed=false;
 
@@ -62,20 +63,28 @@ namespace Subtext.Framework.Services.SearchEngine
             _directory = directory;
             _analyzer = analyzer;
             _settings = settings;
-            if(_writer==null)
+            lock (lockObj)
             {
-                if(IndexReader.IsLocked(_directory))
+                if (_writer == null)
                 {
-                    __log.Error("Something left a lock in the index folder: deleting it");
-                    IndexReader.Unlock(_directory);
-                    __log.Info("Lock Deleted... can proceed");
+                    if (IndexReader.IsLocked(_directory))
+                    {
+                        __log.Error("Something left a lock in the index folder: deleting it");
+                        IndexReader.Unlock(_directory);
+                        __log.Info("Lock Deleted... can proceed");
+                    }
+                    _writer = new IndexWriter(_directory, _analyzer);
+                    _writer.SetMergePolicy(new LogDocMergePolicy());
+                    _writer.SetMergeFactor(5);
                 }
-                _writer = new IndexWriter(_directory, _analyzer);
-                _writer.SetMergePolicy(new LogDocMergePolicy());
-                _writer.SetMergeFactor(5);
             }
-            _parser = new QueryParser(BODY, _analyzer);
-            _parser.SetDefaultOperator(QueryParser.Operator.AND);
+        }
+
+        private QueryParser BuildQueryParser()
+        {
+            QueryParser parser = new QueryParser(BODY, _analyzer);
+            parser.SetDefaultOperator(QueryParser.Operator.AND);
+            return parser;
         }
 
         public IEnumerable<IndexingError> AddPost(SearchEngineEntry post)
@@ -288,7 +297,8 @@ namespace Subtext.Framework.Services.SearchEngine
         {
             List<SearchEngineResult> list = new List<SearchEngineResult>();
             if (String.IsNullOrEmpty(queryString)) return list;
-            Query bodyQuery = _parser.Parse(queryString);
+            QueryParser parser = BuildQueryParser();
+            Query bodyQuery = parser.Parse(queryString);
 
             
             string queryStringMerged = String.Format("({0}) OR ({1}) OR ({2})",
@@ -296,7 +306,7 @@ namespace Subtext.Framework.Services.SearchEngine
                                                      bodyQuery.ToString().Replace("Body", "Title"),
                                                      bodyQuery.ToString().Replace("Body", "Tags"));
 
-            Query query = _parser.Parse(queryStringMerged);
+            Query query = parser.Parse(queryStringMerged);
             
 
             return PerformQuery(list, query, max, blogId, entryId);
@@ -343,34 +353,38 @@ namespace Subtext.Framework.Services.SearchEngine
 
         private void Dispose(bool disposing)
         {
-            if (!_disposed)
+            lock (lockObj)
             {
-                //Never checking for disposing = true because there are
-                //no managed resources to dispose
-
-                var searcher = _searcher;
-                if (searcher != null)
+                if (!_disposed)
                 {
-                    searcher.Close();
-                }
+                    //Never checking for disposing = true because there are
+                    //no managed resources to dispose
 
-                var writer = _writer;
-                if (writer != null)
-                {
-                    writer.Close();
-                }
+                    var searcher = _searcher;
+                    if (searcher != null)
+                    {
+                        searcher.Close();
+                    }
+                    
+                    var writer = _writer;
 
-                var directory = _directory;
-                if(directory != null) {
-                    directory.Close();
-                }
+                    if (writer != null)
+                    {
+                        writer.Close();
+                    }
+                    
+                    var directory = _directory;
+                    if(directory != null) {
+                        directory.Close();
+                    }
 
-                writer = _writer;
-                if (writer != null)
-                {
-                    _writer = null;
+                    writer = _writer;
+                    if (writer != null)
+                    {
+                        _writer = null;
+                    }
+                    _disposed = true;
                 }
-                _disposed = true;
             }
         }
     }
