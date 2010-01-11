@@ -1327,6 +1327,9 @@ namespace UnitTests.Subtext.Framework.Routing
         [Row("http://www.bing.com/search?q=asp.net+mvc&go=&form=QBLH&filt=all", "asp.net mvc")]
         [Row("http://www.google.com/search?hl=en&safe=off&client=firefox-a&rls=org.mozilla%3Aen-US%3Aofficial&hs=MUl&q=%22asp.net+mvc%22&aq=f&oq=&aqi=g-p3g7", "\"asp.net mvc\"")]
         [Row("http://codeclimber.net.nz/search.aspx?q=%22asp.net%20mvc%22", "")]
+        [Row("http://www.google.it/search?rlz=1C1GGLS_enIT354IT354&sourceid=chrome&ie=UTF-8&q=site:http://haacked.com/+water+birth", "water birth")]
+        [Row("http://www.google.it/search?rlz=1C1GGLS_enIT354IT354&sourceid=chrome&ie=UTF-8&q=site:https://haacked.com/+water+birth", "water birth")]
+        [Row("http://www.google.it/search?rlz=1C1GGLS_enIT354IT354&sourceid=chrome&ie=UTF-8&q=water+birth+site:https://haacked.com/", "water birth")]
         public void UrlHelper_ExtractKeywordsFromReferrer_ParsesCorrectly(string referralUrl, string expectedResult)
         {
             Uri referrer = new Uri(referralUrl);

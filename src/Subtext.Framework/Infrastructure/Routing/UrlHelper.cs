@@ -652,7 +652,7 @@ namespace Subtext.Framework.Routing
 
         private static string StripUnwantedClauses(string result)
         {
-            Regex regex = new Regex(@"^site:http://[\w|.|/|?]*\s");
+            Regex regex = new Regex(@"(^|\s)site:http(s?)://[\w|.|/|?]*(\s|$)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             return regex.Replace(result, "");
         }
     }
