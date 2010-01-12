@@ -22,10 +22,12 @@ using System.Threading;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
+using log4net;
 
 namespace Subtext.Framework.Data
 {
@@ -35,6 +37,7 @@ namespace Subtext.Framework.Data
     /// </summary>
     public partial class DatabaseObjectProvider : ObjectProvider
     {
+        private readonly static ILog Log = new Log();
         readonly StoredProcedures _procedures = new StoredProcedures(Config.ConnectionString);
 
         public int BlogId
@@ -79,8 +82,20 @@ namespace Subtext.Framework.Data
 
         public override bool TrackEntry(EntryView entryView)
         {
-            return ThreadPool.QueueUserWorkItem(o => _procedures.TrackEntry(entryView.EntryId, entryView.BlogId, entryView.ReferralUrl,
-                                          entryView.PageViewType == PageViewType.WebView));
+            return ThreadPool.QueueUserWorkItem(
+                o =>
+                    {
+                        try
+                        {
+                            _procedures.TrackEntry(entryView.EntryId, entryView.BlogId, entryView.ReferralUrl,
+                                                   entryView.PageViewType == PageViewType.WebView);
+                        }
+                        catch(Exception e)
+                        {
+                            Log.Error("Unhandled exception while tracking an entry.", e);
+                        }
+
+                    });
         }
 
         public override ICollection<LinkCategory> GetActiveCategories()
