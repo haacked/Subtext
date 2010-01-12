@@ -28,6 +28,7 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
 using log4net;
+using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Data
 {
@@ -82,20 +83,9 @@ namespace Subtext.Framework.Data
 
         public override bool TrackEntry(EntryView entryView)
         {
-            return ThreadPool.QueueUserWorkItem(
-                o =>
-                    {
-                        try
-                        {
-                            _procedures.TrackEntry(entryView.EntryId, entryView.BlogId, entryView.ReferralUrl,
-                                                   entryView.PageViewType == PageViewType.WebView);
-                        }
-                        catch(Exception e)
-                        {
-                            Log.Error("Unhandled exception while tracking an entry.", e);
-                        }
-
-                    });
+            return ThreadHelper.FireAndForget(o =>
+                                              _procedures.TrackEntry(entryView.EntryId, entryView.BlogId, entryView.ReferralUrl,
+                                                                     entryView.PageViewType == PageViewType.WebView), "Exception while tracking an entry");
         }
 
         public override ICollection<LinkCategory> GetActiveCategories()

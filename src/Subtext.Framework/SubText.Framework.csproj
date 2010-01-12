@@ -574,6 +574,7 @@
     <Compile Include="Util\MathHelper.cs" />
     <Compile Include="Util\RequestExtensions.cs" />
     <Compile Include="Util\ResourceHelper.cs" />
+    <Compile Include="Util\ThreadHelper.cs" />
     <Compile Include="Web\Handlers\BaseHttpHandler.cs" />
     <Compile Include="Web\Handlers\SubtextHttpHandler.cs" />
     <Compile Include="Web\SubtextPage.cs">
