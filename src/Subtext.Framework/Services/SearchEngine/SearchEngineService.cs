@@ -24,8 +24,6 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Similarity.Net;
-using Subtext.Extensibility.Properties;
-using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 
@@ -34,11 +32,11 @@ namespace Subtext.Framework.Services.SearchEngine
 
     public class SearchEngineService : ISearchEngineService
     {
-        private Directory _directory;
-        private Analyzer _analyzer;
+        private readonly Directory _directory;
+        private readonly Analyzer _analyzer;
         private static IndexWriter _writer;
         private IndexSearcher _searcher;
-        private FullTextSearchEngineSettings _settings;
+        private readonly FullTextSearchEngineSettings _settings;
 
         private bool _indexUpdatedSinceLastOpen = true;
 
@@ -53,36 +51,81 @@ namespace Subtext.Framework.Services.SearchEngine
         private const string PUBLISHED = "IsPublished";
         private const string ENTRYNAME = "EntryName";
 
-        private Object lockObj = new Object();
+        private static readonly Object WriterLock = new Object();
+        private static readonly Object SearcherLock = new Object();
 
-        private static readonly Log __log = new Log();
-        private bool _disposed=false;
+        private static readonly Log Log = new Log();
+        private bool _disposed;
 
         public SearchEngineService(Directory directory, Analyzer analyzer, FullTextSearchEngineSettings settings)
         {
             _directory = directory;
             _analyzer = analyzer;
             _settings = settings;
-            lock (lockObj)
+        }
+
+        private void DoWriterAction(Action<IndexWriter> action)
+        {
+            lock(WriterLock)
             {
-                if (_writer == null)
+                EnsureIndexWriter();
+                action(_writer);
+            }
+        }
+
+        private TResult SafeSearch<TResult>(Func<IndexSearcher, TResult> action)
+        {
+            lock(SearcherLock)
+            {
+                EnsureIndexSearcher();
+                return action(_searcher);
+            }
+        }
+        
+        // Method should only be called from within a lock.
+        void EnsureIndexWriter()
+        {
+            if(_writer == null)
+            {
+                if(IndexReader.IsLocked(_directory))
                 {
-                    if (IndexReader.IsLocked(_directory))
-                    {
-                        __log.Error("Something left a lock in the index folder: deleting it");
-                        IndexReader.Unlock(_directory);
-                        __log.Info("Lock Deleted... can proceed");
-                    }
-                    _writer = new IndexWriter(_directory, _analyzer);
-                    _writer.SetMergePolicy(new LogDocMergePolicy());
-                    _writer.SetMergeFactor(5);
+                    Log.Error("Something left a lock in the index folder: deleting it");
+                    IndexReader.Unlock(_directory);
+                    Log.Info("Lock Deleted... can proceed");
                 }
+                _writer = new IndexWriter(_directory, _analyzer);
+                _writer.SetMergePolicy(new LogDocMergePolicy());
+                _writer.SetMergeFactor(5);
+            }
+        }
+
+        // Method should only be called from within a lock.
+        void EnsureIndexSearcher()
+        {
+            if(_indexUpdatedSinceLastOpen)
+            {
+                ResetIndexSearcher();
+            }
+
+            if(_searcher == null)
+            {
+                _searcher = new IndexSearcher(_directory);
+                _indexUpdatedSinceLastOpen = false;
+            }
+        }
+
+        private void ResetIndexSearcher()
+        {
+            if(_searcher != null)
+            {
+                _searcher.Close();
+                _searcher = null;
             }
         }
 
         private QueryParser BuildQueryParser()
         {
-            QueryParser parser = new QueryParser(BODY, _analyzer);
+            var parser = new QueryParser(BODY, _analyzer);
             parser.SetDefaultOperator(QueryParser.Operator.AND);
             return parser;
         }
@@ -105,7 +148,8 @@ namespace Subtext.Framework.Services.SearchEngine
                 ExecuteRemovePost(post.EntryId);
                 try
                 {
-                    _writer.AddDocument(CreateDocument(post));
+                    var currentPost = post;
+                    DoWriterAction(writer => writer.AddDocument(CreateDocument(currentPost)));
                 }
                 catch(Exception ex)
                 {
@@ -113,9 +157,16 @@ namespace Subtext.Framework.Services.SearchEngine
                 }
             }
             _indexUpdatedSinceLastOpen = true;
-            _writer.Flush();
-            if(optimize)
-                _writer.Optimize();
+            DoWriterAction(writer =>
+            {
+                writer.Flush();
+                if(optimize)
+                {
+                    writer.Optimize();
+                }
+
+            });
+            
             return errors;
         }
 
@@ -123,14 +174,14 @@ namespace Subtext.Framework.Services.SearchEngine
         {
             ExecuteRemovePost(postId);
             _indexUpdatedSinceLastOpen = true;
-            _writer.Flush();
+            DoWriterAction(writer => writer.Flush());
         }
 
         public int GetIndexedEntryCount(int blogId)
         {
             Term searchTerm = GetBlogIdSearchTerm(blogId);
-            TermQuery query = new TermQuery(searchTerm);
-            Hits hits = GetSearcher().Search(query);
+            var query = new TermQuery(searchTerm);
+            Hits hits = SafeSearch(searcher => searcher.Search(query));
             return hits.Length();
         }
 
@@ -142,7 +193,7 @@ namespace Subtext.Framework.Services.SearchEngine
         private void ExecuteRemovePost(int entryId)
         {
             Term searchTerm = GetIdSearchTerm(entryId);
-            _writer.DeleteDocuments(searchTerm);
+            DoWriterAction(writer => writer.DeleteDocuments(searchTerm));
         }
 
         private Term GetIdSearchTerm(int id)
@@ -157,7 +208,7 @@ namespace Subtext.Framework.Services.SearchEngine
 
         protected virtual Document CreateDocument(SearchEngineEntry post)
         {
-            Document doc = new Document();
+            var doc = new Document();
 
             Field postId = new Field(ENTRYID,
                 NumberTools.LongToString(post.EntryId),
@@ -238,23 +289,9 @@ namespace Subtext.Framework.Services.SearchEngine
             return doc;
         }
 
-        private IndexSearcher GetSearcher()
-        {
-            if (_indexUpdatedSinceLastOpen)
-            {
-                lock (lockObj)
-                {
-                    if (_searcher != null) _searcher.Close();
-                    _searcher = new IndexSearcher(_directory);
-                    _indexUpdatedSinceLastOpen = false;
-                }
-            }
-            return _searcher;
-        }
-
         protected virtual SearchEngineResult CreateSearchResult(Document doc, float score)
         {
-            SearchEngineResult result = new SearchEngineResult();
+            var result = new SearchEngineResult();
             result.BlogName = doc.Get(BLOGNAME);
             result.EntryId = (int)NumberTools.StringToLong(doc.Get(ENTRYID));
             result.PublishDate = DateTools.StringToDate(doc.Get(PUBDATE));
@@ -268,27 +305,30 @@ namespace Subtext.Framework.Services.SearchEngine
 
         public IEnumerable<SearchEngineResult> RelatedContents(int entryId, int max, int blogId)
         {
-            List<SearchEngineResult> list = new List<SearchEngineResult>();
-            IndexSearcher searcher = GetSearcher();
+            var list = new List<SearchEngineResult>();
 
             //First look for the original doc
             Query query = new TermQuery(GetIdSearchTerm(entryId));
-            Hits hits = searcher.Search(query);
+            Hits hits = SafeSearch(searcher => searcher.Search(query));
 
-            if(hits.Length()<=0) return list;
+            if(hits.Length() <= 0) 
+            {
+                return list;
+            }
 
             int docNum = hits.Id(0);
 
             //Setup MoreLikeThis searcher
-            MoreLikeThis mlt = new MoreLikeThis(searcher.GetIndexReader());
+            var reader = SafeSearch(searcher => searcher.GetIndexReader());
+            var mlt = new MoreLikeThis(reader);
             mlt.SetAnalyzer(_analyzer);
             mlt.SetFieldNames(new[] { TITLE, BODY, TAGS });
             mlt.SetMinDocFreq(_settings.Parameters.MinimumDocumentFrequency);
             mlt.SetMinTermFreq(_settings.Parameters.MinimumTermFrequency);
             mlt.SetBoost(_settings.Parameters.MoreLikeThisBoost);
 
-            query = mlt.Like(docNum);
-            return PerformQuery(list, query, max, blogId, entryId);
+            var moreResultsQuery = mlt.Like(docNum);
+            return PerformQuery(list, moreResultsQuery, max, blogId, entryId);
         }
 
         public IEnumerable<SearchEngineResult> Search(string queryString, int max, int blogId)
@@ -315,17 +355,17 @@ namespace Subtext.Framework.Services.SearchEngine
             return PerformQuery(list, query, max, blogId, entryId);
         }
 
-        private IEnumerable<SearchEngineResult> PerformQuery(List<SearchEngineResult> list, Query queryOrig, int max, int blogId, int idToFilter)
+        private IEnumerable<SearchEngineResult> PerformQuery(ICollection<SearchEngineResult> list, Query queryOrig, int max, int blogId, int idToFilter)
         {
             Query isPublishedQuery = new TermQuery(new Term(PUBLISHED, true.ToString()));
             Query isBlogQuery = new TermQuery(GetBlogIdSearchTerm(blogId));
             
-            BooleanQuery query = new BooleanQuery();
+            var query = new BooleanQuery();
             query.Add(isPublishedQuery, BooleanClause.Occur.MUST);
             query.Add(queryOrig, BooleanClause.Occur.MUST);
             query.Add(isBlogQuery, BooleanClause.Occur.MUST);
 
-            Hits hits = GetSearcher().Search(query);
+            Hits hits = SafeSearch(searcher => searcher.Search(query));
             int length = hits.Length();
             int resultsAdded = 0;
             float minScore = _settings.MinimumScore;
@@ -356,7 +396,7 @@ namespace Subtext.Framework.Services.SearchEngine
 
         private void Dispose(bool disposing)
         {
-            lock (lockObj)
+            lock (WriterLock)
             {
                 if (!_disposed)
                 {
@@ -374,6 +414,7 @@ namespace Subtext.Framework.Services.SearchEngine
                     if (writer != null)
                     {
                         writer.Close();
+                        _writer = null;
                     }
                     
                     var directory = _directory;
@@ -381,11 +422,6 @@ namespace Subtext.Framework.Services.SearchEngine
                         directory.Close();
                     }
 
-                    writer = _writer;
-                    if (writer != null)
-                    {
-                        _writer = null;
-                    }
                     _disposed = true;
                 }
             }
