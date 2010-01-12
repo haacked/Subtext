@@ -18,17 +18,14 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Threading;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
-using Subtext.Framework.Web.HttpModules;
-using log4net;
 using Subtext.Framework.Util;
+using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.Data
 {
@@ -38,7 +35,6 @@ namespace Subtext.Framework.Data
     /// </summary>
     public partial class DatabaseObjectProvider : ObjectProvider
     {
-        private readonly static ILog Log = new Log();
         readonly StoredProcedures _procedures = new StoredProcedures(Config.ConnectionString);
 
         public int BlogId

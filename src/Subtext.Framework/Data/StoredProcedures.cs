@@ -16,15 +16,20 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using log4net;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Data
 {
     public partial class StoredProcedures
     {
+        private readonly static ILog Log = new Log();
+        
         public StoredProcedures(string connectionString)
         {
             ConnectionString = connectionString;
@@ -39,21 +44,55 @@ namespace Subtext.Framework.Data
 
         private IDataReader GetReader(string sql)
         {
-            return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql);
+            return ExecuteQueryAndLogError((sqlStatement, sqlParams) =>
+                SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sqlStatement), sql, null);
+
         }
 
-        private IDataReader GetReader(string sql, SqlParameter[] p)
+        private IDataReader GetReader(string sql, SqlParameter[] parameters)
         {
-            return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, p);
+            return ExecuteQueryAndLogError((sqlStatement, sqlParams) => 
+                SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sqlStatement, sqlParams), sql, parameters);
         }
 
-        private int NonQueryInt(string sql, SqlParameter[] p)
+        private int NonQueryInt(string sql, SqlParameter[] parameters)
         {
-            if(_transaction == null)
+            var transaction = _transaction;
+            return ExecuteQueryAndLogError((sqlStatement, sqlParams) => 
             {
-                return SqlHelper.ExecuteNonQuery(ConnectionString, CommandType.StoredProcedure, sql, p);
+                if(transaction != null)
+                {
+                    return SqlHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, sqlStatement, sqlParams);
+                }
+                return SqlHelper.ExecuteNonQuery(ConnectionString, CommandType.StoredProcedure, sqlStatement, sqlParams);
+            }, sql, parameters);
+        }
+
+        private static TResult ExecuteQueryAndLogError<TResult>(Func<string, SqlParameter[], TResult> query, string sql, SqlParameter[] parameters)
+        {
+            try
+            {
+                return query(sql, parameters);
             }
-            return SqlHelper.ExecuteNonQuery(_transaction, CommandType.StoredProcedure, sql, p);
+            catch(Exception)
+            {
+                LogSqlStatement(sql, parameters);
+                throw; // Let the caller determine how to handle the exception.
+            }
+        }
+
+        private static void LogSqlStatement(string sql, IEnumerable<SqlParameter> parameters)
+        {
+            string sqlStatement = sql;
+            if(parameters != null)
+            {
+                sqlStatement += " ";
+                foreach(var parameter in parameters)
+                {
+                    sqlStatement += parameter.ParameterName + "=" + parameter.Value;
+                }
+            }
+            Log.Error("Error executing SQL: " + sqlStatement);
         }
 
         private bool NonQueryBool(string sql, SqlParameter[] p)
