@@ -242,9 +242,12 @@ namespace Subtext.Framework.Services.SearchEngine
         {
             if (_indexUpdatedSinceLastOpen)
             {
-                if (_searcher != null) _searcher.Close();
-                _searcher = new IndexSearcher(_directory);
-                _indexUpdatedSinceLastOpen = false;
+                lock (lockObj)
+                {
+                    if (_searcher != null) _searcher.Close();
+                    _searcher = new IndexSearcher(_directory);
+                    _indexUpdatedSinceLastOpen = false;
+                }
             }
             return _searcher;
         }
