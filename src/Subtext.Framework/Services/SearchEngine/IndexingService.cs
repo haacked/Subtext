@@ -15,13 +15,13 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Collections;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Services.SearchEngine
 {
@@ -43,7 +43,7 @@ namespace Subtext.Framework.Services.SearchEngine
 
         public void RebuildIndexAsync()
         {
-            ThreadPool.QueueUserWorkItem(delegate { RebuildIndex(); });
+            ThreadHelper.FireAndForget(o => RebuildIndex(), "Error while rebuilding index");
         }
 
         public IEnumerable<IndexingError> RebuildIndex()
@@ -55,7 +55,7 @@ namespace Subtext.Framework.Services.SearchEngine
         {
             const int pageSize = 100;
             var collectionBook = new CollectionBook<EntryStatsView>((pageIndex, sizeOfPage) => Repository.GetEntries(PostType.BlogPost,null, pageIndex, sizeOfPage), pageSize);
-            foreach (Entry entry in collectionBook.AsFlattenedEnumerable())
+            foreach (var entry in collectionBook.AsFlattenedEnumerable())
             {
                 if(entry.IsActive)
                     yield return entry.ConvertToSearchEngineEntry();

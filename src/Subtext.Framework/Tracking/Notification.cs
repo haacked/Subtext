@@ -39,6 +39,7 @@ using System.Threading;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Tracking
 {
@@ -75,7 +76,7 @@ namespace Subtext.Framework.Tracking
                 };
 
                 //This could take a while, do it on another thread
-                ThreadPool.QueueUserWorkItem(notify.Notify);
+                ThreadHelper.FireAndForget(notify.Notify, "Exception occured while attempting trackback notification");
             }
         }
     }
