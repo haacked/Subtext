@@ -345,9 +345,11 @@ namespace Subtext.Framework.Services.SearchEngine
             int length = hits.scoreDocs.Length;
             int resultsAdded = 0;
             float minScore = _settings.MinimumScore;
+            float scoreNorm = 1.0f / hits.GetMaxScore(); 
             for (int i = 0; i < length && resultsAdded < max; i++)
             {
-                SearchEngineResult result = CreateSearchResult(searcher.Doc(hits.scoreDocs[i].doc), hits.scoreDocs[i].score);
+                float score = hits.scoreDocs[i].score * scoreNorm;
+                SearchEngineResult result = CreateSearchResult(searcher.Doc(hits.scoreDocs[i].doc), score);
                 if (idToFilter != result.EntryId && result.Score > minScore && result.PublishDate < DateTime.Now)
                 {
                     list.Add(result);
