@@ -52,8 +52,7 @@ namespace Subtext.Framework.Configuration
                 _stopWordsString = value;
                 String[] stopWords = _stopWordsString.Split(',');
 
-                CharArraySet stopSet = new CharArraySet(stopWords.Length, false);
-                stopSet.AddAll(new ArrayList(stopWords));
+                var stopSet = new CharArraySet(stopWords, false);
                 StopWords = CharArraySet.UnmodifiableSet(stopSet);
             }
         }

@@ -24,6 +24,11 @@ namespace Subtext.Framework
 {
     public static class CollectionExtensions
     {
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> items)
+        {
+            return items == null || !items.Any();
+        }
+
         public static void AddRange<T>(this ICollection<T> source, IEnumerable<T> elements)
         {
             elements.ForEach(source.Add);

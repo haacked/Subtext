@@ -578,7 +578,7 @@ namespace Subtext.Framework.XmlRpc
                 IEnumerable<int> categoryIds = from category in categories
                                                select int.Parse(category.categoryId, CultureInfo.InvariantCulture);
 
-                if(categoryIds.Count() > 0)
+                if(categoryIds.Any())
                 {
                     Repository.SetEntryCategoryList(postId, categoryIds);
                 }
