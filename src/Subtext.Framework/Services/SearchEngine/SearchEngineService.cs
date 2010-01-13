@@ -304,7 +304,7 @@ namespace Subtext.Framework.Services.SearchEngine
             mlt.SetBoost(_settings.Parameters.MoreLikeThisBoost);
 
             var moreResultsQuery = mlt.Like(docNum);
-            return PerformQuery(list, moreResultsQuery, max, blogId, entryId);
+            return PerformQuery(list, moreResultsQuery, max+1, blogId, entryId);
         }
 
         public IEnumerable<SearchEngineResult> Search(string queryString, int max, int blogId)
