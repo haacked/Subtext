@@ -102,7 +102,7 @@ namespace Subtext.Framework.Data
                 {
                     NewWindow = false,
                     IsActive = true,
-                    Title = archiveCount.Date.ToString("y", CultureInfo.InvariantCulture) + " (" +
+                    Title = archiveCount.Date.ToString("y") + " (" +
                             archiveCount.Count.ToString(CultureInfo.InvariantCulture) + ")",
                     Url = urlHelper.MonthUrl(archiveCount.Date)
                 };
