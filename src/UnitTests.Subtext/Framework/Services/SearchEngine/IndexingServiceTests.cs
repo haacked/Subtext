@@ -1,5 +1,6 @@
 ﻿using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Store;
+using Lucene.Net.Util;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Extensibility;
@@ -19,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         [SetUp]
         public void CreateSearchEngine()
         {
-            _service = new SearchEngineService(new RAMDirectory(), new StandardAnalyzer(), new FullTextSearchEngineSettings());
+            _service = new SearchEngineService(new RAMDirectory(), new StandardAnalyzer(Version.LUCENE_CURRENT), new FullTextSearchEngineSettings());
         }
         
         [TearDown]

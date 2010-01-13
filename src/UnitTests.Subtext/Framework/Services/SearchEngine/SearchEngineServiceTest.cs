@@ -14,12 +14,18 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
     public class SearchEngineServiceTest
     {
         private SearchEngineService _service;
-
+        private string[] stopWords;
 
         [SetUp]
         public void CreateSearchEngine()
         {
-            _service = new SearchEngineService(new RAMDirectory(), new SnowballAnalyzer("English", StopAnalyzer.ENGLISH_STOP_WORDS), new FullTextSearchEngineSettings());
+            stopWords = new string[StopAnalyzer.ENGLISH_STOP_WORDS_SET.Values.Count];
+            int i = 0;
+            foreach (string value in StopAnalyzer.ENGLISH_STOP_WORDS_SET.Values)
+            {
+                stopWords[i++] = value;
+            }
+            _service = new SearchEngineService(new RAMDirectory(), new SnowballAnalyzer("English", stopWords), new FullTextSearchEngineSettings());
         }
 
         [TearDown]
@@ -300,7 +306,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         public void SearchEngineService_MoreLikeThisSearch_WithMinDocumentSet_ReturnsEmptySet()
         {
             _service.Dispose();
-            _service = new SearchEngineService(new RAMDirectory(), new SnowballAnalyzer("English", StopAnalyzer.ENGLISH_STOP_WORDS), new FullTextSearchEngineSettings() { Parameters = new TuningParameters() { MinimumDocumentFrequency = 20 } });
+            _service = new SearchEngineService(new RAMDirectory(), new SnowballAnalyzer("English", stopWords), new FullTextSearchEngineSettings() { Parameters = new TuningParameters() { MinimumDocumentFrequency = 20 } });
 
             for (int i = 1; i <= 10; i++)
             {

@@ -23,6 +23,7 @@ using Lucene.Net.Index;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
+using Lucene.Net.Util;
 using Similarity.Net;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
@@ -35,10 +36,7 @@ namespace Subtext.Framework.Services.SearchEngine
         private readonly Directory _directory;
         private readonly Analyzer _analyzer;
         private static IndexWriter _writer;
-        private IndexSearcher _searcher;
         private readonly FullTextSearchEngineSettings _settings;
-
-        private bool _indexUpdatedSinceLastOpen = true;
 
         private const string TITLE = "Title";
         private const string BODY = "Body";
@@ -52,7 +50,6 @@ namespace Subtext.Framework.Services.SearchEngine
         private const string ENTRYNAME = "EntryName";
 
         private static readonly Object WriterLock = new Object();
-        private static readonly Object SearcherLock = new Object();
 
         private static readonly Log Log = new Log();
         private bool _disposed;
@@ -69,63 +66,44 @@ namespace Subtext.Framework.Services.SearchEngine
             lock(WriterLock)
             {
                 EnsureIndexWriter();
-                action(_writer);
             }
+            action(_writer);
         }
 
-        private TResult SafeSearch<TResult>(Func<IndexSearcher, TResult> action)
+        private T DoWriterAction<T>(Func<IndexWriter,T> action)
         {
-            lock(SearcherLock)
+            lock (WriterLock)
             {
-                EnsureIndexSearcher();
-                return action(_searcher);
+                EnsureIndexWriter();
             }
+            return action(_writer);
         }
-        
+      
         // Method should only be called from within a lock.
         void EnsureIndexWriter()
         {
             if(_writer == null)
             {
-                if(IndexReader.IsLocked(_directory))
+                if(IndexWriter.IsLocked(_directory))
                 {
                     Log.Error("Something left a lock in the index folder: deleting it");
-                    IndexReader.Unlock(_directory);
+                    IndexWriter.Unlock(_directory);
                     Log.Info("Lock Deleted... can proceed");
                 }
-                _writer = new IndexWriter(_directory, _analyzer);
-                _writer.SetMergePolicy(new LogDocMergePolicy());
+                _writer = new IndexWriter(_directory, _analyzer,IndexWriter.MaxFieldLength.UNLIMITED);
+                _writer.SetMergePolicy(new LogDocMergePolicy(_writer));
                 _writer.SetMergeFactor(5);
             }
         }
 
-        // Method should only be called from within a lock.
-        void EnsureIndexSearcher()
-        {
-            if(_indexUpdatedSinceLastOpen)
-            {
-                ResetIndexSearcher();
-            }
-
-            if(_searcher == null)
-            {
-                _searcher = new IndexSearcher(_directory);
-                _indexUpdatedSinceLastOpen = false;
-            }
+        private IndexSearcher Searcher { 
+            get {return DoWriterAction(writer => new IndexSearcher(writer.GetReader())); }
         }
 
-        private void ResetIndexSearcher()
-        {
-            if(_searcher != null)
-            {
-                _searcher.Close();
-                _searcher = null;
-            }
-        }
 
         private QueryParser BuildQueryParser()
         {
-            var parser = new QueryParser(BODY, _analyzer);
+            var parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_CURRENT,BODY, _analyzer);
             parser.SetDefaultOperator(QueryParser.Operator.AND);
             return parser;
         }
@@ -156,10 +134,9 @@ namespace Subtext.Framework.Services.SearchEngine
                     errors.Add(new IndexingError(post, ex));
                 }
             }
-            _indexUpdatedSinceLastOpen = true;
             DoWriterAction(writer =>
             {
-                writer.Flush();
+                writer.Commit();
                 if(optimize)
                 {
                     writer.Optimize();
@@ -173,37 +150,35 @@ namespace Subtext.Framework.Services.SearchEngine
         public void RemovePost(int postId)
         {
             ExecuteRemovePost(postId);
-            _indexUpdatedSinceLastOpen = true;
-            DoWriterAction(writer => writer.Flush());
+            DoWriterAction(writer => writer.Commit());
         }
 
         public int GetIndexedEntryCount(int blogId)
         {
-            Term searchTerm = GetBlogIdSearchTerm(blogId);
-            var query = new TermQuery(searchTerm);
-            Hits hits = SafeSearch(searcher => searcher.Search(query));
-            return hits.Length();
+            var query = GetBlogIdSearchQuery(blogId);
+            TopDocs hits = Searcher.Search(query,1);
+            return hits.totalHits;
         }
 
         public int GetTotalIndexedEntryCount()
         {
-            return IndexReader.Open(_directory).NumDocs();
+            return DoWriterAction(writer => writer.GetReader().NumDocs());
         }
 
         private void ExecuteRemovePost(int entryId)
         {
-            Term searchTerm = GetIdSearchTerm(entryId);
-            DoWriterAction(writer => writer.DeleteDocuments(searchTerm));
+            Query searchQuery = GetIdSearchQuery(entryId);
+            DoWriterAction(writer => writer.DeleteDocuments(searchQuery));
         }
 
-        private Term GetIdSearchTerm(int id)
+        private Query GetIdSearchQuery(int id)
         {
-            return new Term(ENTRYID, NumberTools.LongToString(id));
+            return new TermQuery(new Term(ENTRYID, NumericUtils.IntToPrefixCoded(id)));
         }
 
-        private Term GetBlogIdSearchTerm(int id)
+        private Query GetBlogIdSearchQuery(int id)
         {
-            return new Term(BLOGID, NumberTools.LongToString(id));
+            return new TermQuery(new Term(BLOGID, NumericUtils.IntToPrefixCoded(id)));
         }
 
         protected virtual Document CreateDocument(SearchEngineEntry post)
@@ -211,54 +186,55 @@ namespace Subtext.Framework.Services.SearchEngine
             var doc = new Document();
 
             Field postId = new Field(ENTRYID,
-                NumberTools.LongToString(post.EntryId),
+                NumericUtils.IntToPrefixCoded(post.EntryId),
                 Field.Store.YES,
-                Field.Index.UN_TOKENIZED,
+                Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
 
             Field title = new Field(TITLE,
                 post.Title,
                 Field.Store.YES,
-                Field.Index.TOKENIZED,
+                Field.Index.ANALYZED,
                 Field.TermVector.YES);
             title.SetBoost(_settings.Parameters.TitleBoost);
 
             Field body = new Field(BODY,
                 post.Body,
                 Field.Store.NO,
-                Field.Index.TOKENIZED,
+                Field.Index.ANALYZED,
                 Field.TermVector.YES);
             body.SetBoost(_settings.Parameters.BodyBoost);
 
             Field tags = new Field(TAGS,
                 post.Tags,
                 Field.Store.NO,
-                Field.Index.TOKENIZED,
+                Field.Index.ANALYZED,
                 Field.TermVector.YES);
             tags.SetBoost(_settings.Parameters.TagsBoost);
 
             Field blogId = new Field(BLOGID,
-                NumberTools.LongToString(post.BlogId),
+                NumericUtils.IntToPrefixCoded(post.BlogId),
                 Field.Store.NO,
-                Field.Index.UN_TOKENIZED,
+                Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
+
 
             Field published = new Field(PUBLISHED,
                 post.IsPublished.ToString(),
                 Field.Store.NO,
-                Field.Index.UN_TOKENIZED,
+                Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
 
             Field pubDate = new Field(PUBDATE,
                 DateTools.DateToString(post.PublishDate, DateTools.Resolution.MINUTE),
                 Field.Store.YES,
-                Field.Index.UN_TOKENIZED,
+                Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
 
             Field groupId = new Field(GROUPID,
-                NumberTools.LongToString(post.GroupId),
+                NumericUtils.IntToPrefixCoded(post.GroupId),
                 Field.Store.NO,
-                Field.Index.UN_TOKENIZED,
+                Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
 
             Field blogName = new Field(BLOGNAME,
@@ -293,7 +269,7 @@ namespace Subtext.Framework.Services.SearchEngine
         {
             var result = new SearchEngineResult();
             result.BlogName = doc.Get(BLOGNAME);
-            result.EntryId = (int)NumberTools.StringToLong(doc.Get(ENTRYID));
+            result.EntryId = NumericUtils.PrefixCodedToInt(doc.Get(ENTRYID));
             result.PublishDate = DateTools.StringToDate(doc.Get(PUBDATE));
             result.Title = doc.Get(TITLE);
             string entryName = doc.Get(ENTRYNAME);
@@ -308,18 +284,18 @@ namespace Subtext.Framework.Services.SearchEngine
             var list = new List<SearchEngineResult>();
 
             //First look for the original doc
-            Query query = new TermQuery(GetIdSearchTerm(entryId));
-            Hits hits = SafeSearch(searcher => searcher.Search(query));
+            Query query = GetIdSearchQuery(entryId);
+            TopDocs hits = Searcher.Search(query, max);
 
-            if(hits.Length() <= 0) 
+            if(hits.scoreDocs.Length <= 0) 
             {
                 return list;
             }
 
-            int docNum = hits.Id(0);
+            int docNum = hits.scoreDocs[0].doc;
 
             //Setup MoreLikeThis searcher
-            var reader = SafeSearch(searcher => searcher.GetIndexReader());
+            var reader = DoWriterAction(w => w.GetReader());
             var mlt = new MoreLikeThis(reader);
             mlt.SetAnalyzer(_analyzer);
             mlt.SetFieldNames(new[] { TITLE, BODY, TAGS });
@@ -358,20 +334,20 @@ namespace Subtext.Framework.Services.SearchEngine
         private IEnumerable<SearchEngineResult> PerformQuery(ICollection<SearchEngineResult> list, Query queryOrig, int max, int blogId, int idToFilter)
         {
             Query isPublishedQuery = new TermQuery(new Term(PUBLISHED, true.ToString()));
-            Query isBlogQuery = new TermQuery(GetBlogIdSearchTerm(blogId));
+            Query isBlogQuery = GetBlogIdSearchQuery(blogId);
             
             var query = new BooleanQuery();
             query.Add(isPublishedQuery, BooleanClause.Occur.MUST);
             query.Add(queryOrig, BooleanClause.Occur.MUST);
             query.Add(isBlogQuery, BooleanClause.Occur.MUST);
-
-            Hits hits = SafeSearch(searcher => searcher.Search(query));
-            int length = hits.Length();
+            IndexSearcher searcher = Searcher;
+            TopDocs hits = searcher.Search(query, max);
+            int length = hits.scoreDocs.Length;
             int resultsAdded = 0;
             float minScore = _settings.MinimumScore;
             for (int i = 0; i < length && resultsAdded < max; i++)
             {
-                SearchEngineResult result = CreateSearchResult(hits.Doc(i), hits.Score(i));
+                SearchEngineResult result = CreateSearchResult(searcher.Doc(hits.scoreDocs[i].doc), hits.scoreDocs[i].score);
                 if (idToFilter != result.EntryId && result.Score > minScore && result.PublishDate < DateTime.Now)
                 {
                     list.Add(result);
@@ -403,12 +379,6 @@ namespace Subtext.Framework.Services.SearchEngine
                     //Never checking for disposing = true because there are
                     //no managed resources to dispose
 
-                    var searcher = _searcher;
-                    if (searcher != null)
-                    {
-                        searcher.Close();
-                    }
-                    
                     var writer = _writer;
 
                     if (writer != null)

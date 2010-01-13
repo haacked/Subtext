@@ -37,7 +37,7 @@ namespace Subtext.Framework.Configuration
         public FullTextSearchEngineSettings()
         {
             Language = "English";
-            StopWords = StopAnalyzer.ENGLISH_STOP_WORDS;
+            StopWords = StopAnalyzer.ENGLISH_STOP_WORDS_SET;
             Parameters = new TuningParameters();
             MinimumScore = 0.1f;
         }
@@ -47,15 +47,32 @@ namespace Subtext.Framework.Configuration
         [XmlElement("StopWords")]
         public string StopWordsString
         {
-            //private get { return _stopWordsString; }
             set 
             { 
                 _stopWordsString = value;
-                StopWords = _stopWordsString.Split(',');
+                String[] stopWords = _stopWordsString.Split(',');
+
+                CharArraySet stopSet = new CharArraySet(stopWords.Length, false);
+                stopSet.AddAll(new ArrayList(stopWords));
+                StopWords = CharArraySet.UnmodifiableSet(stopSet);
             }
         }
         [XmlIgnore]
-        public string[] StopWords { get; private set; }
+        public Hashtable StopWords { get; private set; }
+
+        [XmlIgnore]
+        public String[] StopWordsArray { 
+            get
+                {
+                    var stopWords = new string[StopAnalyzer.ENGLISH_STOP_WORDS_SET.Values.Count];
+                    int i = 0;
+                    foreach (string value in StopAnalyzer.ENGLISH_STOP_WORDS_SET.Values)
+                    {
+                        stopWords[i++] = value;
+                    }
+                    return stopWords;
+                }
+        }
 
         public float MinimumScore { get; set; }
 
