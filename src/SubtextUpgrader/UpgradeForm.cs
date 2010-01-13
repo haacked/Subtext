@@ -43,7 +43,7 @@ namespace SubtextUpgrader {
 				return;
 			}
 
-			var backupDirectory = (string.IsNullOrEmpty(this.textBox3.Text)) ? this.textBox3.Text : string.Empty;
+		    var backupDirectory = (string.IsNullOrEmpty(this.textBox3.Text)) ? string.Empty : this.textBox3.Text;
 
 			var settings = new Settings(
 				this.textBox1.Text,
