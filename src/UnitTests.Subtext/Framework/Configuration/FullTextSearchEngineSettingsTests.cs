@@ -11,6 +11,7 @@ namespace UnitTests.Subtext.Framework.Configuration
     [TestFixture]
     public class FullTextSearchEngineSettingsTests
     {
+
         [Test]
         public void FullTextSearchEngineSettings_WithEmptyConfig_LanguageIsEnglish()
         {
@@ -22,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         public void FullTextSearchEngineSettings_WithEmptyConfig_StopWordsIsDefaultOne()
         {
             FullTextSearchEngineSettings settings = FullTextSearchEngineSettings.Settings;
-            Assert.AreEqual(StopAnalyzer.ENGLISH_STOP_WORDS, settings.StopWords);
+            Assert.AreEqual(StopAnalyzer.ENGLISH_STOP_WORDS_SET, settings.StopWords);
         }
 
         [Test]

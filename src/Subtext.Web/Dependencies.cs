@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.IO;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Caching;
@@ -43,6 +44,7 @@ using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.ImportExport;
 using Subtext.Infrastructure;
+using Directory=Lucene.Net.Store.Directory;
 
 namespace Subtext
 {
@@ -70,11 +72,11 @@ namespace Subtext
                 .WithConstructorArgument("apiKey", c => c.Kernel.Get<Blog>().FeedbackSpamServiceKey)
                 .WithConstructorArgument("akismetClient", c => null);
             Bind<Directory>()
-                .ToMethod(c => FSDirectory.GetDirectory(c.Kernel.Get<HttpContext>().Server.MapPath("~/App_Data")))
+                .ToMethod(c => FSDirectory.Open(new DirectoryInfo(c.Kernel.Get<HttpContext>().Server.MapPath("~/App_Data"))))
                 .InSingletonScope();
             Bind<Analyzer>().To<SnowballAnalyzer>().InSingletonScope()
                 .WithConstructorArgument("name", c => c.Kernel.Get<FullTextSearchEngineSettings>().Language)
-                .WithConstructorArgument("stopWords", c => c.Kernel.Get<FullTextSearchEngineSettings>().StopWords);
+                .WithConstructorArgument("stopWords", c => c.Kernel.Get<FullTextSearchEngineSettings>().StopWordsArray);
 
             // Dependencies you're less likely to change.
             LoadCoreDependencies();
