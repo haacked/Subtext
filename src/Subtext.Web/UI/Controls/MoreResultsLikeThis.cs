@@ -117,7 +117,6 @@ namespace Subtext.Web.UI.Controls
             {
                 relatedLink.Text = searchResult.Title;
                 relatedLink.NavigateUrl = Url.EntryUrl(searchResult);
-                relatedLink.Attributes.Add("rel", "me");
                 if (datePublished != null) datePublished.Text = searchResult.DateSyndicated.ToShortDateString();
                 if (score != null) score.Text = searchResult.Score.ToString();
             }
