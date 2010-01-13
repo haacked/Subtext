@@ -71,6 +71,7 @@ namespace Subtext.Framework.Data
                     link.NewWindow = false;
                     mergedLinkCategory.Links.Add(link);
                 }
+                return mergedLinkCategory;
             }
 
             return null;
