@@ -39,12 +39,12 @@ namespace Subtext.Web.UI.Controls
             }
         }
 
-        protected TextBox txtSearch;
 
         public int MaxResultsCount { get; set; }
 
         public void btnSearch_Click(object sender, EventArgs e)
         {
+            var txtSearch = FindControl("txtSearch") as TextBox;
             if (!String.IsNullOrEmpty(txtSearch.Text))
                 Response.Redirect(Url.SearchPageUrl(txtSearch.Text), true);
         }
@@ -59,12 +59,13 @@ namespace Subtext.Web.UI.Controls
             var searchResults = FindControl("results") as Repeater;
             var noResults = FindControl("noresults") as PlaceHolder;
             var terms = FindControl("terms") as Literal;
+            var txtSearch = FindControl("txtSearch") as TextBox;
 
 
             string queryString = SubtextContext.RequestContext.GetQueryFromRequest();
             if (!String.IsNullOrEmpty(queryString))
             {
-                txtSearch.Text = queryString;
+                if (txtSearch != null) txtSearch.Text = queryString;
                 var results = SearchEngineService.Search(queryString, MaxResultsCount, Blog.Id);
                 if (results.Count()>0)
                 {
