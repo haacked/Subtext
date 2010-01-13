@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Util;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -29,6 +30,15 @@ namespace Subtext.Web.UI.Controls
     public class SubtextSearch : BaseControl
     {
         protected TextBox txtSearch;
+
+        protected override void OnLoad(EventArgs e)
+        {
+            if(!IsPostBack)
+            {
+                string queryString = SubtextContext.RequestContext.GetQueryFromRequest();
+                txtSearch.Text = queryString;
+            }
+        }
 
         public void btnSearch_Click(object sender, EventArgs e)
         {
