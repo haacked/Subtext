@@ -42,7 +42,12 @@ namespace Subtext.Web.UI.Controls
             RowCount = 5;
         }
 
-        public int RowCount { get; set; }
+        private int _rowCount;
+        public int RowCount
+        {
+            get { return _rowCount+1; }
+            set { _rowCount = value; }
+        }
 
         public string Query
         {
