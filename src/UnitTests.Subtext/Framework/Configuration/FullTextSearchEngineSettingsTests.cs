@@ -31,7 +31,11 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             FullTextSearchEngineSettings settings = FullTextSearchEngineSettings.Settings;
             settings.StopWordsString = "e,a,in,che";
-            Assert.AreEqual(new []{"e","a","in","che"}, settings.StopWords);
+            Assert.IsTrue(settings.StopWords.Contains("e"));
+            Assert.IsTrue(settings.StopWords.Contains("a"));
+            Assert.IsTrue(settings.StopWords.Contains("in"));
+            Assert.IsTrue(settings.StopWords.Contains("che"));
+            Assert.IsFalse(settings.StopWords.Contains("ch"));
         }
 
         [Test]

@@ -355,7 +355,7 @@ namespace Subtext.Framework.Data
                 return false;
             }
 
-            if(categoryIds != null && categoryIds.Count() > 0)
+            if(!categoryIds.IsNullOrEmpty())
             {
                 SetEntryCategoryList(entry.Id, categoryIds);
             }

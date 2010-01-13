@@ -45,36 +45,40 @@ namespace Subtext.Framework.Data
                                                                              IEnumerable<LinkCategory> links,
                                                                              UrlHelper urlHelper, Blog blog)
         {
-            if(links != null && links.Count() > 0)
+            if(!links.IsNullOrEmpty())
             {
                 var mergedLinkCategory = new LinkCategory {Title = title};
 
-                foreach(LinkCategory linkCategory in links)
-                {
-                    var link = new Link {Title = linkCategory.Title};
-
-                    switch(catType)
-                    {
-                        case CategoryType.StoryCollection:
-                            link.Url = urlHelper.CategoryUrl(linkCategory).ToFullyQualifiedUrl(blog).ToString();
-                            break;
-
-                        case CategoryType.PostCollection:
-                            link.Url = urlHelper.CategoryUrl(linkCategory).ToFullyQualifiedUrl(blog).ToString();
-                            link.Rss = urlHelper.CategoryRssUrl(linkCategory);
-                            break;
-
-                        case CategoryType.ImageCollection:
-                            link.Url = urlHelper.GalleryUrl(linkCategory.Id).ToFullyQualifiedUrl(blog).ToString();
-                            break;
-                    }
-                    link.NewWindow = false;
-                    mergedLinkCategory.Links.Add(link);
-                }
+                var merged = from linkCategory in links
+                            select GetLinkFromLinkCategory(linkCategory, catType, urlHelper, blog);
+                mergedLinkCategory.Links.AddRange(merged);
                 return mergedLinkCategory;
             }
 
             return null;
+        }
+
+        private static Link GetLinkFromLinkCategory(LinkCategory linkCategory, CategoryType catType, UrlHelper urlHelper, Blog blog)
+        {
+            var link = new Link {Title = linkCategory.Title};
+
+            switch(catType)
+            {
+                case CategoryType.StoryCollection:
+                    link.Url = urlHelper.CategoryUrl(linkCategory).ToFullyQualifiedUrl(blog).ToString();
+                    break;
+
+                case CategoryType.PostCollection:
+                    link.Url = urlHelper.CategoryUrl(linkCategory).ToFullyQualifiedUrl(blog).ToString();
+                    link.Rss = urlHelper.CategoryRssUrl(linkCategory);
+                    break;
+
+                case CategoryType.ImageCollection:
+                    link.Url = urlHelper.GalleryUrl(linkCategory.Id).ToFullyQualifiedUrl(blog).ToString();
+                    break;
+            }
+            link.NewWindow = false;
+            return link;
         }
 
         /// <summary>
