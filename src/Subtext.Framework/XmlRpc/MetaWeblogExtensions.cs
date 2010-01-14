@@ -32,6 +32,12 @@ namespace Subtext.Framework.XmlRpc
         {
             entry.Body = post.description;
             entry.Title = post.title;
+
+            if (post.excerpt != null)
+            {
+                entry.Description = post.excerpt;
+            }
+
             if(post.categories != null)
             {
                 entry.Categories.AddRange(post.categories);
