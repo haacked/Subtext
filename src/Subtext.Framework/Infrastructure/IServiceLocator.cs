@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Web;
 
 namespace Subtext.Infrastructure
 {
@@ -23,5 +24,6 @@ namespace Subtext.Infrastructure
     {
         TService GetService<TService>();
         object GetService(Type type);
+        void DisposeRequestScoped(HttpContext httpContext);
     }
 }

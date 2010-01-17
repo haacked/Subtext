@@ -33,11 +33,11 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Security;
 using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Infrastructure;
 using Subtext.Web.Infrastructure;
-using Subtext.Framework.Security;
 
 namespace Subtext.Web
 {
@@ -142,6 +142,11 @@ namespace Subtext.Web
             {
                 BeginApplicationRequest(Log);
             }
+        }
+
+        protected void Application_EndRequest(object sender, EventArgs e)
+        {
+            Bootstrapper.ServiceLocator.DisposeRequestScoped(HttpContext.Current);
         }
 
         public void BeginApplicationRequest(ILog log)
@@ -378,7 +383,7 @@ namespace Subtext.Web
 
         public void EndApplication()
         {
-            ISearchEngineService searchEngine = Bootstrapper.ServiceLocator.GetService<ISearchEngineService>();
+            var searchEngine = Bootstrapper.ServiceLocator.GetService<ISearchEngineService>();
             if(searchEngine!=null)
                 searchEngine.Dispose();
             LogInitialized = false;

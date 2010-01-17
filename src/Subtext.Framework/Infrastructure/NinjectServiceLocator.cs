@@ -16,7 +16,9 @@
 #endregion
 
 using System;
+using System.Web;
 using Ninject;
+using Ninject.Activation.Caching;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Infrastructure
@@ -28,7 +30,7 @@ namespace Subtext.Framework.Infrastructure
             Kernel = kernel;
         }
 
-        protected IKernel Kernel
+        public IKernel Kernel
         {
             get; 
             private set;
@@ -42,6 +44,15 @@ namespace Subtext.Framework.Infrastructure
         public object GetService(Type type)
         {
             return Kernel.Get(type);
+        }
+
+        public void DisposeRequestScoped(HttpContext httpContext)
+        {
+            var cache = Kernel.Components.Get<Ninject.Activation.Caching.ICache>() as Cache;
+            if(cache != null)
+            {
+                cache.DisposeRequestScoped(httpContext);
+            }
         }
     }
 }
