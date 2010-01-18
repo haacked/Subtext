@@ -76,7 +76,8 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                return TextWriter.ToString();
+                var xml = TextWriter.ToString();
+                return xml;
             }
         }
 

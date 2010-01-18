@@ -19,6 +19,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Subtext.Extensibility;
@@ -56,7 +57,7 @@ namespace Subtext.Framework.Syndication.Admin
                     var entry = new Entry(PostType.None) {Title = _title, Body = string.Empty};
 
                     var feedback = (ICollection<FeedbackItem>)feed;
-                    return new CommentRssWriter(HttpContext.Response.Output, feedback, entry, SubtextContext);
+                    return new CommentRssWriter(new StringWriter(), feedback, entry, SubtextContext);
                 }
                 if(feed is ICollection<Referrer>)
                 {
@@ -66,13 +67,13 @@ namespace Subtext.Framework.Syndication.Admin
                     {
                         lastReferrer = referrers.First().LastReferDate;
                     }
-                    return new ReferrerRssWriter(HttpContext.Response.Output, referrers, lastReferrer, UseDeltaEncoding,
+                    return new ReferrerRssWriter(new StringWriter(), referrers, lastReferrer, UseDeltaEncoding,
                                                  SubtextContext);
                 }
                 if(feed is ICollection<LogEntry>)
                 {
                     var entries = (ICollection<LogEntry>)feed;
-                    return new LogRssWriter(HttpContext.Response.Output, entries, UseDeltaEncoding, SubtextContext);
+                    return new LogRssWriter(new StringWriter(), entries, UseDeltaEncoding, SubtextContext);
                 }
                 return null;
             }
@@ -95,6 +96,7 @@ namespace Subtext.Framework.Syndication.Admin
                 {
                     //Get the first entry.
                     object entry = default(object);
+                    
                     //TODO: Probably change GetFeedEntries to return ICollection<Entry>
                     foreach(object en in ec)
                     {
@@ -178,7 +180,6 @@ namespace Subtext.Framework.Syndication.Admin
                             flags |= (FeedbackStatusFlag)Enum.Parse(typeof(FeedbackStatusFlag), filter, true);
                         }
                     }
-
                     ICollection<FeedbackItem> moderatedFeedback = repository.GetPagedFeedback(0, _count, flags,
                                                                                               FeedbackStatusFlag.None,
                                                                                               FeedbackType.None);
@@ -188,11 +189,11 @@ namespace Subtext.Framework.Syndication.Admin
                     //TODO: Fix!
                     ICollection<Referrer> referrers = repository.GetPagedReferrers(0, _count, NullValue.NullInt32);
                     return (IList)referrers;
+
                 case "Log":
                     ICollection<LogEntry> entries = LoggingProvider.Instance().GetPagedLogEntries(0, _count);
                     return (IList)entries;
             }
-
 
             return null;
         }

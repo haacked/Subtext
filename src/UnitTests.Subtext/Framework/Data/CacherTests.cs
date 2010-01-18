@@ -462,7 +462,7 @@ namespace UnitTests.Subtext.Framework.Data
             var response = new Mock<HttpResponseBase>();
             response.Setup(r => r.End());
             response.SetupSet(r => r.StatusCode, 301);
-            response.SetupSet(r => r.Status, "301 Moved Permanently");
+            response.SetupSet(r => r.StatusDescription, "301 Moved Permanently");
             response.SetupSet(r => r.RedirectLocation, "http://localhost/archive/testing-slug.aspx");
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/archive/testing-slug.aspx");
@@ -482,7 +482,7 @@ namespace UnitTests.Subtext.Framework.Data
 
             //assert
             response.VerifySet(r => r.StatusCode, 301);
-            response.VerifySet(r => r.Status, "301 Moved Permanently");
+            response.VerifySet(r => r.StatusDescription, "301 Moved Permanently");
             response.VerifySet(r => r.RedirectLocation, "http://localhost/archive/testing-slug.aspx");
             Assert.AreEqual(123, cachedEntry.Id);
             Assert.AreEqual("Testing 123", cachedEntry.Title);
