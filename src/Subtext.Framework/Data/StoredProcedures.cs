@@ -89,7 +89,7 @@ namespace Subtext.Framework.Data
                 sqlStatement += " ";
                 foreach(var parameter in parameters)
                 {
-                    sqlStatement += parameter.ParameterName + "=" + parameter.Value;
+                    sqlStatement += parameter.ParameterName + "=" + parameter.Value + ", ";
                 }
             }
             Log.Error("Error executing SQL: " + sqlStatement);
