@@ -93,7 +93,22 @@ namespace Subtext.Framework.Data
                     object value = reader[property.Name];
                     if(value != DBNull.Value)
                     {
-                        property.SetValue(item, value);
+                        if(property.PropertyType != typeof(Uri))
+                        {
+                            property.SetValue(item, value);    
+                        }
+                        else
+                        {
+                            var url = value as string;
+                            if(!String.IsNullOrEmpty(url))
+                            {
+                                Uri uri;
+                                if(Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri))
+                                {
+                                    property.SetValue(item, uri);
+                                }
+                            }
+                        }
                     }
                 }
                 catch(IndexOutOfRangeException)
@@ -453,11 +468,12 @@ namespace Subtext.Framework.Data
 
         private static bool IsReadablePropertyType(this Type t)
         {
-            bool isLoadable = t.IsPrimitive ||
+            bool isReadable = t.IsPrimitive ||
                               t == typeof(DateTime) ||
-                              t == typeof(string);
+                              t == typeof(string) ||
+                              t == typeof(Uri);
 
-            if(!isLoadable)
+            if(!isReadable)
             {
                 //Maybe it's a nullable.
                 Type underlyingType = Nullable.GetUnderlyingType(t);
@@ -466,7 +482,7 @@ namespace Subtext.Framework.Data
                     return IsReadablePropertyType(underlyingType);
                 }
             }
-            return isLoadable;
+            return isReadable;
         }
 
         /// <summary>

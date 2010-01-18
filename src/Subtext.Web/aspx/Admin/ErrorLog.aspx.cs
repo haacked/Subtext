@@ -25,9 +25,9 @@ namespace Subtext.Web.Admin.Pages
 {
     public partial class ErrorLog : StatsPage
     {
-        private int logPageNumber;
+        private int _logPageNumber;
 
-        public ErrorLog() : base()
+        public ErrorLog()
         {
             TabSectionId = "Stats";
         }
@@ -42,11 +42,11 @@ namespace Subtext.Web.Admin.Pages
         {
             if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
             {
-                logPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+                _logPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
             }
 
             resultsPager.PageSize = Preferences.ListingItemCount;
-            resultsPager.PageIndex = logPageNumber;
+            resultsPager.PageIndex = _logPageNumber;
 
             BindList();
         }
@@ -80,27 +80,10 @@ namespace Subtext.Web.Admin.Pages
             ControlHelper.ExportToExcel(LogPage, "SubtextErrorLog.xls");
         }
 
-        #region Web Form Designer generated code
-
         override protected void OnInit(EventArgs e)
         {
-            //
-            // CODEGEN: This call is required by the ASP.NET Web Form Designer.
-            //
-            InitializeComponent();
-            base.OnInit(e);
+            btnClearLog.Click += btnClearLog_Click;
+            btnExportToExcel.Click += btnExportToExcel_Click;
         }
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.btnClearLog.Click += new EventHandler(this.btnClearLog_Click);
-            this.btnExportToExcel.Click += new EventHandler(btnExportToExcel_Click);
-        }
-
-        #endregion
     }
 }
