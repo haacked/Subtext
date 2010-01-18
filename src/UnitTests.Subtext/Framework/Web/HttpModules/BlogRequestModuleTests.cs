@@ -46,7 +46,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
                                                                                                    "http://www.example.com/")));
             var httpResponse = new Mock<HttpResponseBase>();
             httpResponse.Stub(r => r.StatusCode);
-            httpResponse.Stub(r => r.Status);
+            httpResponse.Stub(r => r.StatusDescription);
             httpResponse.Stub(r => r.RedirectLocation);
             Mock<HttpRequestBase> httpRequest = CreateRequest("example.com", "/", "/", true);
             var httpContext = new Mock<HttpContextBase>();
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(request);
             httpResponse.Verify(r => r.End());
             Assert.AreEqual(301, httpResponse.Object.StatusCode);
-            Assert.AreEqual("301 Moved Permanently", httpResponse.Object.Status);
+            Assert.AreEqual("301 Moved Permanently", httpResponse.Object.StatusDescription);
             Assert.AreEqual("http://www.example.com/", httpResponse.Object.RedirectLocation);
         }
 
