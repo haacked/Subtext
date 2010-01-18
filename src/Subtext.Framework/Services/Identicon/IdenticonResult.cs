@@ -50,8 +50,6 @@ namespace Subtext.Framework.Services.Identicon
             private set;
         }
 
-        private static readonly IdenticonRenderer Renderer = new IdenticonRenderer();
-
         protected override void WriteFile(HttpResponseBase response)
         {
             response.Clear();
@@ -60,8 +58,9 @@ namespace Subtext.Framework.Services.Identicon
                 response.AppendHeader("ETag", Etag);
             }
             response.ContentType = "image/png";
-            
-            using(Bitmap b = Renderer.Render(Code, Size))
+
+            var renderer = new IdenticonRenderer();
+            using(Bitmap b = renderer.Render(Code, Size))
             {
                 using(var stream = new MemoryStream())
                 {
