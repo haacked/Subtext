@@ -173,7 +173,7 @@ namespace UnitTests.Subtext.Framework.Web
             var queryString = new NameValueCollection { { "", "404;http://example.com:80/admin/" } };
             httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
             httpContext.SetupSet(c => c.Response.StatusCode, 404);
-            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.SetupSet(c => c.Response.StatusDescription, Resources.FileNotFound);
             httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException("Should not redirect"));
             httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>())).Throws(new InvalidOperationException("Should not redirect"));
 
@@ -182,7 +182,7 @@ namespace UnitTests.Subtext.Framework.Web
 
             // assert
             httpContext.VerifySet(c => c.Response.StatusCode, 404);
-            httpContext.VerifySet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.VerifySet(c => c.Response.StatusDescription, Resources.FileNotFound);
         }
 
         [Test]
@@ -192,7 +192,7 @@ namespace UnitTests.Subtext.Framework.Web
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request.QueryString).Returns(new NameValueCollection());
             httpContext.SetupSet(c => c.Response.StatusCode, 404);
-            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.SetupSet(c => c.Response.StatusDescription, Resources.FileNotFound);
             httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException("Should not redirect"));
             httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>())).Throws(new InvalidOperationException("Should not redirect"));
 
@@ -201,7 +201,7 @@ namespace UnitTests.Subtext.Framework.Web
 
             // assert
             httpContext.VerifySet(c => c.Response.StatusCode, 404);
-            httpContext.VerifySet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.VerifySet(c => c.Response.StatusDescription, Resources.FileNotFound);
         }
 
         [Test]
@@ -212,7 +212,7 @@ namespace UnitTests.Subtext.Framework.Web
             var queryString = new NameValueCollection { { "referrer", "http://google.com/?q=new+year" } };
             httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
             httpContext.SetupSet(c => c.Response.StatusCode, 404);
-            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.SetupSet(c => c.Response.StatusDescription, Resources.FileNotFound);
             httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException("Should not redirect"));
             httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>())).Throws(new InvalidOperationException("Should not redirect"));
 
@@ -231,7 +231,7 @@ namespace UnitTests.Subtext.Framework.Web
             var queryString = new NameValueCollection { { "", "404;http://example.com:80/admin/foo.html" } };
             httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
             httpContext.SetupSet(c => c.Response.StatusCode, 404);
-            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.SetupSet(c => c.Response.StatusDescription, Resources.FileNotFound);
             httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), It.IsAny<bool>())).Throws(new InvalidOperationException("Should not redirect"));
             httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>())).Throws(new InvalidOperationException("Should not redirect"));
 
@@ -240,7 +240,7 @@ namespace UnitTests.Subtext.Framework.Web
 
             // assert
             httpContext.VerifySet(c => c.Response.StatusCode, 404);
-            httpContext.VerifySet(c => c.Response.Status, Resources.FileNotFound);
+            httpContext.VerifySet(c => c.Response.StatusDescription, Resources.FileNotFound);
         }
 
 
@@ -253,7 +253,7 @@ namespace UnitTests.Subtext.Framework.Web
             httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
             httpContext.Setup(c => c.Request.ApplicationPath).Returns("/");
             httpContext.SetupSet(c => c.Response.StatusCode, 404).Throws(new InvalidOperationException("404 status should not be set"));
-            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound).Throws(new InvalidOperationException("Should not set file not found"));
+            httpContext.SetupSet(c => c.Response.StatusDescription, Resources.FileNotFound).Throws(new InvalidOperationException("Should not set file not found"));
             httpContext.Setup(c => c.Response.Redirect("/admin/default.aspx", true));
 
             // act
@@ -272,7 +272,7 @@ namespace UnitTests.Subtext.Framework.Web
             httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
             httpContext.Setup(c => c.Request.ApplicationPath).Returns("/Subtext.Web");
             httpContext.SetupSet(c => c.Response.StatusCode, 404).Throws(new InvalidOperationException("404 status should not be set"));
-            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound).Throws(new InvalidOperationException("Should not set file not found"));
+            httpContext.SetupSet(c => c.Response.StatusDescription, Resources.FileNotFound).Throws(new InvalidOperationException("Should not set file not found"));
             httpContext.Setup(c => c.Response.Redirect("/Subtext.Web/admin/default.aspx", true));
 
             // act
@@ -291,7 +291,7 @@ namespace UnitTests.Subtext.Framework.Web
             httpContext.Setup(c => c.Request.QueryString).Returns(queryString);
             httpContext.Setup(c => c.Request.ApplicationPath).Returns("/Subtext.Web");
             httpContext.SetupSet(c => c.Response.StatusCode, 404).Throws(new InvalidOperationException("404 status should not be set"));
-            httpContext.SetupSet(c => c.Response.Status, Resources.FileNotFound).Throws(new InvalidOperationException("Should not set file not found"));
+            httpContext.SetupSet(c => c.Response.StatusDescription, Resources.FileNotFound).Throws(new InvalidOperationException("Should not set file not found"));
             httpContext.Setup(c => c.Response.Redirect("/Subtext.Web/blog.net/default.aspx", true));
 
             // act
