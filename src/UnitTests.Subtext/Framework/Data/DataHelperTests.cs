@@ -124,7 +124,23 @@ namespace UnitTests.Subtext.Framework.Data
         }
 
         [Test]
-        public void Object_WithComplexProperty_DoesNotTryAndSetIt()
+        public void ReadObject_WithUriProperty_TriesAndParsesUrlAndSetsIt()
+        {
+            //arrange
+            var reader = new Mock<IDataReader>();
+            reader.Setup(r => r.Read()).Returns(true).AtMostOnce();
+            reader.SetupGet(r => r["Url"]).Returns("http://subtextproject.com/");
+            reader.Setup(r => r.Read()).Returns(false);
+
+            //act
+            var result = reader.Object.ReadObject<ObjectWithProperties>();
+
+            //assert
+            Assert.AreEqual("http://subtextproject.com/", result.Url.ToString());
+        }
+
+        [Test]
+        public void ReadObject_WithComplexProperty_DoesNotTryAndSetIt()
         {
             //arrange
             var reader = new Mock<IDataReader>();
@@ -140,7 +156,7 @@ namespace UnitTests.Subtext.Framework.Data
         }
 
         [Test]
-        public void Object_WithReadOnlyProperty_DoesNotTryAndSetIt()
+        public void ReadObject_WithReadOnlyProperty_DoesNotTryAndSetIt()
         {
             //arrange
             var reader = new Mock<IDataReader>();
@@ -518,6 +534,7 @@ namespace UnitTests.Subtext.Framework.Data
             public bool ReadOnlyBoolean { get; private set; }
             public Blog ComplexObject { get; set; }
             public DateTime DateProperty { get; set; }
+            public Uri Url { get; set; }
         }
 
         #endregion

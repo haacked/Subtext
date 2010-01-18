@@ -47,28 +47,6 @@
 					</td>
 				</tr>
 			</ItemTemplate>
-			<AlternatingItemTemplate>
-				<tr class="alt">
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Date") %>
-					</td>
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Logger") %>
-					</td>
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Level") %>
-					</td>				
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Message") %>
-					</td>				
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Exception") %>
-					</td>
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Url") %>
-					</td>
-				</tr>
-			</AlternatingItemTemplate>
 			<EmptyDataTemplate>
 				<tr>
 					<td colspan="6">No log entries to show.</td>
