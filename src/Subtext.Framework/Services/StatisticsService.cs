@@ -17,7 +17,6 @@
 
 using System;
 using System.Data.SqlClient;
-using System.Threading;
 using System.Web;
 using log4net;
 using Subtext.Framework.Components;
