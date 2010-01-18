@@ -2629,33 +2629,38 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount]-- 1, 0, 1
 AS
 
 BEGIN
-	--Do we have an existing entry in the subtext_InsertEntryViewCount table?
-	IF EXISTS(SELECT EntryID FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE EntryID = @EntryID AND BlogId = @BlogId)
+	--Do we have an existing entry with this ID?
+	IF EXISTS(SELECT ID FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE ID = @EntryID AND BlogId = @BlogId)
 	BEGIN
-		if(@IsWeb = 1) -- Is this a web view?
+
+		--Do we have an existing entry in the subtext_InsertEntryViewCount table?
+		IF EXISTS(SELECT EntryID FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE EntryID = @EntryID AND BlogId = @BlogId)
 		BEGIN
-			UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
-			Set [WebCount] = [WebCount] + 1, WebLastUpdated = getdate()
-			WHERE EntryID = @EntryID AND BlogId = @BlogId
+			if(@IsWeb = 1) -- Is this a web view?
+			BEGIN
+				UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
+				Set [WebCount] = [WebCount] + 1, WebLastUpdated = getdate()
+				WHERE EntryID = @EntryID AND BlogId = @BlogId
+			END
+			else
+			BEGIN
+				UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
+				SET [AggCount] = [AggCount] + 1, AggLastUpdated = getdate()
+				WHERE EntryID = @EntryID AND BlogId = @BlogId
+			END
 		END
 		else
 		BEGIN
-			UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
-			SET [AggCount] = [AggCount] + 1, AggLastUpdated = getdate()
-			WHERE EntryID = @EntryID AND BlogId = @BlogId
-		END
-	END
-	else
-	BEGIN
-		if(@IsWeb = 1) -- Is this a web view
-		BEGIN
-			INSERT subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
-		       VALUES (@EntryID, @BlogId, 1, 0, getdate(), NULL)
-		END
-		else
-		BEGIN
-			INSERT subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
-		       VALUES (@EntryID, @BlogId, 0, 1, NULL, getdate())
+			if(@IsWeb = 1) -- Is this a web view
+			BEGIN
+				INSERT subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
+				   VALUES (@EntryID, @BlogId, 1, 0, getdate(), NULL)
+			END
+			else
+			BEGIN
+				INSERT subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
+				   VALUES (@EntryID, @BlogId, 0, 1, NULL, getdate())
+			END
 		END
 	END
 END
