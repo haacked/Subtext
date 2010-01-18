@@ -38,16 +38,16 @@ namespace Subtext.Framework.Services.SearchEngine
         private static IndexWriter _writer;
         private readonly FullTextSearchEngineSettings _settings;
 
-        private const string TITLE = "Title";
-        private const string BODY = "Body";
-        private const string TAGS = "Tags";
-        private const string PUBDATE = "PubDate";
-        private const string BLOGID = "BlogId";
-        private const string GROUPID = "GroupId";
-        private const string BLOGNAME = "BlogName";
-        private const string ENTRYID = "PostId";
-        private const string PUBLISHED = "IsPublished";
-        private const string ENTRYNAME = "EntryName";
+        private const string Title = "Title";
+        private const string Body = "Body";
+        private const string Tags = "Tags";
+        private const string Pubdate = "PubDate";
+        private const string Blogid = "BlogId";
+        private const string Groupid = "GroupId";
+        private const string BlogName = "BlogName";
+        private const string Entryid = "PostId";
+        private const string Published = "IsPublished";
+        private const string EntryName = "EntryName";
 
         private static readonly Object WriterLock = new Object();
 
@@ -103,7 +103,7 @@ namespace Subtext.Framework.Services.SearchEngine
 
         private QueryParser BuildQueryParser()
         {
-            var parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_CURRENT,BODY, _analyzer);
+            var parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_CURRENT,Body, _analyzer);
             parser.SetDefaultOperator(QueryParser.Operator.AND);
             return parser;
         }
@@ -171,79 +171,79 @@ namespace Subtext.Framework.Services.SearchEngine
             DoWriterAction(writer => writer.DeleteDocuments(searchQuery));
         }
 
-        private Query GetIdSearchQuery(int id)
+        private static Query GetIdSearchQuery(int id)
         {
-            return new TermQuery(new Term(ENTRYID, NumericUtils.IntToPrefixCoded(id)));
+            return new TermQuery(new Term(Entryid, NumericUtils.IntToPrefixCoded(id)));
         }
 
-        private Query GetBlogIdSearchQuery(int id)
+        private static Query GetBlogIdSearchQuery(int id)
         {
-            return new TermQuery(new Term(BLOGID, NumericUtils.IntToPrefixCoded(id)));
+            return new TermQuery(new Term(Blogid, NumericUtils.IntToPrefixCoded(id)));
         }
 
         protected virtual Document CreateDocument(SearchEngineEntry post)
         {
             var doc = new Document();
 
-            Field postId = new Field(ENTRYID,
+            var postId = new Field(Entryid,
                 NumericUtils.IntToPrefixCoded(post.EntryId),
                 Field.Store.YES,
                 Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
 
-            Field title = new Field(TITLE,
+            var title = new Field(Title,
                 post.Title,
                 Field.Store.YES,
                 Field.Index.ANALYZED,
                 Field.TermVector.YES);
             title.SetBoost(_settings.Parameters.TitleBoost);
 
-            Field body = new Field(BODY,
+            var body = new Field(Body,
                 post.Body,
                 Field.Store.NO,
                 Field.Index.ANALYZED,
                 Field.TermVector.YES);
             body.SetBoost(_settings.Parameters.BodyBoost);
 
-            Field tags = new Field(TAGS,
+            var tags = new Field(Tags,
                 post.Tags,
                 Field.Store.NO,
                 Field.Index.ANALYZED,
                 Field.TermVector.YES);
             tags.SetBoost(_settings.Parameters.TagsBoost);
 
-            Field blogId = new Field(BLOGID,
+            var blogId = new Field(Blogid,
                 NumericUtils.IntToPrefixCoded(post.BlogId),
                 Field.Store.NO,
                 Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
 
 
-            Field published = new Field(PUBLISHED,
+            var published = new Field(Published,
                 post.IsPublished.ToString(),
                 Field.Store.NO,
                 Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
 
-            Field pubDate = new Field(PUBDATE,
+            var pubDate = new Field(Pubdate,
                 DateTools.DateToString(post.PublishDate, DateTools.Resolution.MINUTE),
                 Field.Store.YES,
                 Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
 
-            Field groupId = new Field(GROUPID,
+            var groupId = new Field(Groupid,
                 NumericUtils.IntToPrefixCoded(post.GroupId),
                 Field.Store.NO,
                 Field.Index.NOT_ANALYZED,
                 Field.TermVector.NO);
 
-            Field blogName = new Field(BLOGNAME,
+            var blogName = new Field(BlogName,
                 post.BlogName,
                 Field.Store.YES,
                 Field.Index.NO,
                 Field.TermVector.NO);
 
-            Field postName = new Field(ENTRYNAME,
+            var postName = new Field(EntryName,
                 post.EntryName ?? "",
                 Field.Store.YES,
                 Field.Index.NO,
@@ -267,15 +267,17 @@ namespace Subtext.Framework.Services.SearchEngine
 
         protected virtual SearchEngineResult CreateSearchResult(Document doc, float score)
         {
-            var result = new SearchEngineResult();
-            result.BlogName = doc.Get(BLOGNAME);
-            result.EntryId = NumericUtils.PrefixCodedToInt(doc.Get(ENTRYID));
-            result.PublishDate = DateTools.StringToDate(doc.Get(PUBDATE));
-            result.Title = doc.Get(TITLE);
-            string entryName = doc.Get(ENTRYNAME);
+            var result = new SearchEngineResult
+            {
+                BlogName = doc.Get(BlogName),
+                EntryId = NumericUtils.PrefixCodedToInt(doc.Get(Entryid)),
+                PublishDate = DateTools.StringToDate(doc.Get(Pubdate)),
+                Title = doc.Get(Title),
+                Score = score
+            };
+            string entryName = doc.Get(EntryName);
             result.EntryName = !String.IsNullOrEmpty(entryName) ? entryName : null;
-            result.Score = score;
-
+            
             return result;
         }
 
@@ -298,7 +300,7 @@ namespace Subtext.Framework.Services.SearchEngine
             var reader = DoWriterAction(w => w.GetReader());
             var mlt = new MoreLikeThis(reader);
             mlt.SetAnalyzer(_analyzer);
-            mlt.SetFieldNames(new[] { TITLE, BODY, TAGS });
+            mlt.SetFieldNames(new[] { Title, Body, Tags });
             mlt.SetMinDocFreq(_settings.Parameters.MinimumDocumentFrequency);
             mlt.SetMinTermFreq(_settings.Parameters.MinimumTermFrequency);
             mlt.SetBoost(_settings.Parameters.MoreLikeThisBoost);
@@ -314,7 +316,7 @@ namespace Subtext.Framework.Services.SearchEngine
 
         public IEnumerable<SearchEngineResult> Search(string queryString, int max, int blogId, int entryId)
         {
-            List<SearchEngineResult> list = new List<SearchEngineResult>();
+            var list = new List<SearchEngineResult>();
             if (String.IsNullOrEmpty(queryString)) return list;
             QueryParser parser = BuildQueryParser();
             Query bodyQuery = parser.Parse(queryString);
@@ -333,7 +335,7 @@ namespace Subtext.Framework.Services.SearchEngine
 
         private IEnumerable<SearchEngineResult> PerformQuery(ICollection<SearchEngineResult> list, Query queryOrig, int max, int blogId, int idToFilter)
         {
-            Query isPublishedQuery = new TermQuery(new Term(PUBLISHED, true.ToString()));
+            Query isPublishedQuery = new TermQuery(new Term(Published, true.ToString()));
             Query isBlogQuery = GetBlogIdSearchQuery(blogId);
             
             var query = new BooleanQuery();
@@ -362,41 +364,50 @@ namespace Subtext.Framework.Services.SearchEngine
 
         ~SearchEngineService()
         {
-            Dispose(false);
+            Dispose();
         }
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-
-        private void Dispose(bool disposing)
-        {
-            lock (WriterLock)
+            lock(WriterLock)
             {
-                if (!_disposed)
+                if(!_disposed)
                 {
                     //Never checking for disposing = true because there are
                     //no managed resources to dispose
 
                     var writer = _writer;
 
-                    if (writer != null)
+                    if(writer != null)
                     {
-                        writer.Close();
+                        try
+                        {
+                            writer.Close();
+                        }
+                        catch(ObjectDisposedException e)
+                        {
+                           Log.Error("Exception while disposing SearchEngineService", e); 
+                        }
                         _writer = null;
                     }
-                    
+
                     var directory = _directory;
-                    if(directory != null) {
-                        directory.Close();
+                    if(directory != null)
+                    {
+                        try
+                        {
+                            directory.Close();
+                        }
+                        catch(ObjectDisposedException e)
+                        {
+                            Log.Error("Exception while disposing SearchEngineService", e);
+                        }
                     }
 
                     _disposed = true;
                 }
             }
+            GC.SuppressFinalize(this);
         }
     }
 }
