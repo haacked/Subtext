@@ -38,7 +38,7 @@ namespace Subtext.Web.Admin
                 {
                     var skinEngine = new SkinEngine();
                     var skins = from skin in skinEngine.GetSkinTemplates(false /* mobile */).Values
-                             where skin.SkinKey != "AGGREGATE"
+                             where skin.SkinKey != "AGGREGATE" orderby skin.Name
                              select skin;
                     foreach(SkinTemplate template in skins)
                     {
