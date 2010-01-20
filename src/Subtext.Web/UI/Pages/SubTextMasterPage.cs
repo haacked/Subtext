@@ -26,6 +26,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.Web.Handlers;
@@ -104,16 +105,7 @@ namespace Subtext.Web.UI.Pages
                         var searchResults = SearchEngineService.Search(query, 5, Blog.Id, entryId);
                         if(searchResults.Any())
                         {
-                            var moreResults = controlLoader.LoadControl("MoreResults");
-                            if(moreResults != null)
-                            {
-                                var moreSearchResults = moreResults as MoreResultsLikeThis;
-                                if(moreSearchResults != null)
-                                {
-                                    moreSearchResults.SearchResults = searchResults;
-                                }
-                                AddControlToBody("MoreResults", moreResults, apnlCommentsWrapper, CenterBodyControl);
-                            }
+                            AddMoreResultsControl(searchResults, controlLoader, apnlCommentsWrapper);
                         }
                     }
                 }
@@ -126,11 +118,26 @@ namespace Subtext.Web.UI.Pages
             }
         }
 
+        private void AddMoreResultsControl(IEnumerable<SearchEngineResult> searchResults, ISkinControlLoader controlLoader, UpdatePanel apnlCommentsWrapper)
+        {
+            var moreResults = controlLoader.LoadControl("MoreResults");
+            if(moreResults != null)
+            {
+                var moreSearchResults = moreResults as MoreResultsLikeThis;
+                if(moreSearchResults != null)
+                {
+                    moreSearchResults.SearchResults = searchResults;
+                }
+                AddControlToBody("MoreResults", moreResults, apnlCommentsWrapper, CenterBodyControl);
+            }
+        }
+
         public void AddControlToBody(string controlName, Control control, UpdatePanel apnlCommentsWrapper, Control centerBodyControl)
         {
             if(controlName.Equals("Comments", StringComparison.OrdinalIgnoreCase))
             {
                 control.Visible = true;
+                commentsControl = control as Comments;
                 apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
             }
             else if(controlName.Equals("PostComment", StringComparison.OrdinalIgnoreCase))
@@ -250,8 +257,11 @@ namespace Subtext.Web.UI.Pages
 
         void OnCommentPosted(object sender, EventArgs e)
         {
-            commentsControl.InvalidateFeedbackCache();
-            commentsControl.BindFeedback(true); //don't get it from cache.
+            if(commentsControl != null)
+            {
+                commentsControl.InvalidateFeedbackCache();
+                commentsControl.BindFeedback(true); //don't get it from cache.
+            }
         }
 
         /// <summary>
