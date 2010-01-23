@@ -12,6 +12,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head runat="server">
 		<title><asp:Literal id="title" runat="server" Text="<%$ AppSettings:AggregateTitle %>" /></title>
+		<link href="../skins/_system/csharp.css" rel="stylesheet" type="text/css" />
+		<link href="../skins/_system/commonstyle.css" rel="stylesheet" type="text/css" />
+		<link href="../skins/_system/commonlayout.css" rel="stylesheet" type="text/css" />
 		<asp:Literal id="Style" runat="Server" />
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>"></script>
         <link href="../css/lightbox.css" rel="stylesheet" type="text/css" />
@@ -26,8 +29,8 @@
 				<h2>Welcome</h2>
 				<p>
 					This is the generic homepage (aka Aggregate Blog) for a Subtext community website. It aggregates 
-					posts from every blog installed in this server. To modify this page, edit the default.aspx page 
-					in your Subtext installation.
+					posts from every blog installed in this server. To modify this page, look for the Aggregate skin 
+					folder in the Skins directory.
 				</p>
 				<p>
 					To learn more about the application, check out <a href="http://subtextproject.com/" title="Subtext Project Website" rel="external">

@@ -39,7 +39,9 @@ h1 a:link, h1 a:visited, h1 a:active
 	text-decoration: none;
 }
 
-h1 a:hover
+h3 a {color: Red;}
+
+h1 a:hover, h3 a:hover
 {
 	color: #C00;
 }
@@ -108,6 +110,11 @@ h1 a:hover
 #main .post
 {
 	border-bottom: 1px solid #FA0;
+}
+
+#main div.body , #main .postfoot
+{
+	padding: 0 10px 0 10px;	
 }
 
 #main .postfoot
