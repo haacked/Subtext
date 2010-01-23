@@ -54,9 +54,7 @@ public static class Routes
         routes.Ignore("{resource}.axd/{*pathInfo}");
         routes.Ignore("skins/{*pathInfo}");
         routes.MapSystemPage("MainFeed");
-        routes.MapSystemDirectory("hostadmin");
-        routes.MapSystemDirectory("install");
-        routes.MapSystemDirectory("SystemMessages");
+        routes.MapSystemDirectories("hostadmin", "install", "SystemMessages");
 
         //TODO: Consider making this a single route with a constraint of the allowed pages.
         routes.MapPage("forgotpassword");
@@ -90,10 +88,8 @@ public static class Routes
                                                   new {category = @"[-\w\s\d]+"});
         routes.MapHttpHandler<OpmlHandler>("opml", "opml.xml.ashx");
 
-        routes.MapPageToControl("contact");
-        routes.MapPageToControl("ArchivePostPage");
-        routes.MapPageToControl("ArticleCategories");
-        routes.MapPageToControl("search");
+        routes.MapPagesToControlOfSameName("contact", "ArchivePostPage", "ArticleCategories", "search");
+
         routes.MapControls("archives", "archives.aspx", null, new[] {"SingleColumn"});
 
         routes.MapControls("entries-by-day", "archive/{year}/{month}/{day}.aspx"
@@ -110,7 +106,7 @@ public static class Routes
                            , new[] {"viewpost", "comments", "postcomment"});
 
         routes.MapControls("article-by-slug", "articles/{slug}.aspx"
-                           , new {/*slug = @"\w*([\w-_]+\.)*[\w-_]+"*/}
+                           , null
                            , new[] {"viewpost", "comments", "postcomment"});
 
         routes.MapControls("gallery", "gallery/{id}.aspx"
@@ -133,6 +129,7 @@ public static class Routes
         routes.MapHttpHandler<TrackBackHandler>("trackbacks", "services/trackbacks/{id}.aspx", new {id = @"\d+"});
         routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new {id = @"\d+"});
         routes.MapXmlRpcHandler<MetaWeblog>("metaweblogapi", "services/metablogapi.aspx", null);
+        
         routes.Add("identicon", new Route("images/IdenticonHandler.ashx", new MvcRouteHandler()) {Defaults = new RouteValueDictionary(new {controller = "identicon", action = "image"})});
         routes.Add("captcha", new Route("images/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(routes.ServiceLocator)));
         routes.Add("logout", new SubtextRoute("account/logout.ashx", new MvcRouteHandler()) { Defaults = new RouteValueDictionary(new { controller = "account", action = "logout" }) });

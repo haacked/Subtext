@@ -41,6 +41,14 @@ namespace Subtext.Framework.Routing
             routes.Add(directoryName, new DirectoryRoute(directoryName, routes.ServiceLocator));
         }
 
+        public static void MapSystemDirectories(this SubtextRouteMapper routes, params string[] directoryNames)
+        {
+            foreach(var directoryName in directoryNames)
+            {
+                routes.MapSystemDirectory(directoryName);
+            }
+        }
+
         public static void MapSystemDirectory(this SubtextRouteMapper routes, string directoryName)
         {
             routes.Add(directoryName, new SystemDirectoryRoute(directoryName, routes.ServiceLocator));
@@ -85,6 +93,14 @@ namespace Subtext.Framework.Routing
         public static void MapControls(this SubtextRouteMapper routes, string url, IEnumerable<string> controls)
         {
             routes.MapControls(url, null, controls);
+        }
+
+        public static void MapPagesToControlOfSameName(this SubtextRouteMapper routes, params string[] controlNames)
+        {
+            foreach(var controlName in controlNames)
+            {
+                routes.MapPageToControl(controlName);
+            }
         }
 
         public static void MapPageToControl(this SubtextRouteMapper routes, string controlName)
