@@ -56,13 +56,20 @@ namespace Subtext.Web.UI.Controls
             {
                 DayList.ItemDataBound += DayList_ItemDataBound;
 
-                ImageLink.NavigateUrl = Url.DayUrl(CurrentDay.BlogDay);
-                if(ImageLink.ImageUrl.StartsWith("~/"))
+                if(ImageLink != null)
                 {
-                    ImageLink.ImageUrl = Url.ResolveUrl(ImageLink.ImageUrl);
+                    ImageLink.NavigateUrl = Url.DayUrl(CurrentDay.BlogDay);
+
+                    if(ImageLink.ImageUrl.StartsWith("~/"))
+                    {
+                        ImageLink.ImageUrl = Url.ResolveUrl(ImageLink.ImageUrl);
+                    }
+
+                    ControlHelper.SetTitleIfNone(ImageLink, "Click to see entries for this day.");
                 }
-                ControlHelper.SetTitleIfNone(ImageLink, "Click to see entries for this day.");
-                DateTitle.Text = CurrentDay.BlogDay.ToLongDateString();
+
+                if(DateTitle != null)
+                    DateTitle.Text = CurrentDay.BlogDay.ToLongDateString();
                 DayList.DataSource = CurrentDay;
                 DayList.DataBind();
             }
