@@ -123,7 +123,8 @@ namespace Subtext.Framework.Routing
             if(entry.PostType == PostType.BlogPost)
             {
 #if DEBUG
-                if(entry.DateSyndicated.Year == 1)
+                var blogEntry = entry as Entry;
+                if(blogEntry != null && blogEntry.IsActive && blogEntry.DateSyndicated.Year == 1)
                 {
                     throw new InvalidOperationException("DateSyndicated was not properly set.");
                 }

@@ -4421,6 +4421,7 @@ SELECT	content.BlogId
 		, idTable.[ID] 
 		, content.Title 
 		, DateCreated = content.DateAdded 
+		, content.DateSyndicated
 		, content.[Text] 
 		, content.[Description]
 		, content.PostType 

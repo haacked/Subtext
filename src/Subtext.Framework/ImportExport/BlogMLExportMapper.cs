@@ -23,9 +23,11 @@ using System.Linq;
 using System.Web;
 using BlogML;
 using BlogML.Xml;
+using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
@@ -35,6 +37,8 @@ namespace Subtext.ImportExport
 {
     public class BlogMLExportMapper : IBlogMLExportMapper
     {
+        private readonly static ILog Log = new Log();
+
         public BlogMLExportMapper(ISubtextContext subtextContext)
         {
             SubtextContext = subtextContext;
@@ -77,10 +81,16 @@ namespace Subtext.ImportExport
 
         public BlogMLPost ConvertEntry(EntryStatsView entry, bool embedAttachments)
         {
+            string postUrl = null;
+            var entryVirtualPath = Url.EntryUrl(entry);
+            if(entryVirtualPath != null)
+            {
+                postUrl = entryVirtualPath.ToFullyQualifiedUrl(Blog).ToString();
+            }
             var post = new BlogMLPost
             {
                 Title = entry.Title,
-                PostUrl = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
+                PostUrl = postUrl,
                 PostType = (entry.PostType == PostType.Story) ? BlogPostTypes.Article : BlogPostTypes.Normal,
                 Approved = entry.IsActive,
                 Content = BlogMLContent.Create(entry.Body ?? string.Empty, ContentTypes.Base64),
@@ -143,7 +153,15 @@ namespace Subtext.ImportExport
 
             if(embed)
             {
-                SetAttachmentData(attachVirtualPath, attachment);
+                try
+                {
+                    SetAttachmentData(attachVirtualPath, attachment);
+                }
+                catch(FileNotFoundException e)
+                {
+                    Log.Error("The attachment we wish to embed was not found", e);
+                    attachment.Embedded = false;
+                }
             }
             return attachment;
         }
