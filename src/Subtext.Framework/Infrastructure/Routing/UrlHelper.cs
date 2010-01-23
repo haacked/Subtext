@@ -122,6 +122,12 @@ namespace Subtext.Framework.Routing
 
             if(entry.PostType == PostType.BlogPost)
             {
+#if DEBUG
+                if(entry.DateSyndicated.Year == 1)
+                {
+                    throw new InvalidOperationException("DateSyndicated was not properly set.");
+                }
+#endif
                 routeValues.Add("year", entry.DateSyndicated.ToString("yyyy", CultureInfo.InvariantCulture));
                 routeValues.Add("month", entry.DateSyndicated.ToString("MM", CultureInfo.InvariantCulture));
                 routeValues.Add("day", entry.DateSyndicated.ToString("dd", CultureInfo.InvariantCulture));

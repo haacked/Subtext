@@ -3929,6 +3929,7 @@ SELECT
 	, content.[ID]
 	, content.Title
 	, DateCreated = content.DateAdded
+	, content.DateSyndicated
 	, content.PostType
 	, content.Author
 	, content.Email
@@ -4025,6 +4026,7 @@ SELECT Count(*) AS [BlogCount]
 	, Sum(PingTrackCount) AS PingTrackCount 
 FROM [<dbUser,varchar,dbo>].[subtext_Config] 
 	WHERE subtext_Config.Flag & 2 = 2 
+		AND IsActive = 1
 		AND Host = @Host 
 		AND (BlogGroupId = @GroupID OR @GroupID is NULL)
 
