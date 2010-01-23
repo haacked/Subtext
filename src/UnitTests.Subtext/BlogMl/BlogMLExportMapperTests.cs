@@ -9,6 +9,7 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Routing;
 using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
@@ -164,6 +165,27 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             Assert.AreEqual(dateCreatedUtc, post.DateCreated);
+        }
+
+        [Test]
+        public void ConvertEntry_WithEntryHavingNoDateSyndicated_DoesNotThrowNullReferenceException()
+        {
+            // arrange
+            var entry = new EntryStatsView { Title = "Test Entry", DateCreated = DateTime.Now, IsActive = true };
+            var subtextContext = new Mock<ISubtextContext>();
+            subtextContext.Setup(c => c.UrlHelper.EntryUrl(It.IsAny<IEntryIdentity>(), It.IsAny<Blog>())).Returns((VirtualPath)null);
+            var blog = new Mock<Blog>();
+            blog.Setup(b => b.TimeZone.ToUtc(It.IsAny<DateTime>())).Returns(DateTime.Now);
+            blog.Object.Host = "example.com";
+            subtextContext.Setup(c => c.Blog).Returns(blog.Object);
+            subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
+            var converter = new BlogMLExportMapper(subtextContext.Object);
+
+            // act
+            var post = converter.ConvertEntry(entry, false /*embedAttachments*/);
+
+            // assert
+            Assert.IsNotNull(post);
         }
 
         [Test]
