@@ -215,7 +215,7 @@ namespace Subtext.Framework
                 aggregateHost = match.Groups["host"].Value;
             }
 
-            var blog = new Blog
+            var blog = new Blog(true /*isAggregateBlog*/)
             {
                 Title = ConfigurationManager.AppSettings["AggregateTitle"],
                 Skin = SkinConfig.DefaultSkin,

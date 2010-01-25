@@ -29,104 +29,86 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         }
 
         [Test]
-        public void AuthenticateRequest_WithRequestHavingNoCookies_ReturnsImmediately()
+        public void GetFormsAuthenticationTicket_WithRequestHavingNoCookies_ReturnsNull()
         {
             // arrange
             var module = new AuthenticationModule();
-            var httpContext = new Mock<HttpContextBase>();
-            httpContext.Setup(c => c.Request.Cookies).Returns(new HttpCookieCollection());
-            httpContext.Setup(c => c.Response.Cookies).Throws(new InvalidOperationException());
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost"), false,
-                                              RequestLocation.Blog, "/");
-
-            // act, assert
-            module.AuthenticateRequest(httpContext.Object, blogRequest);
+            
+            // act
+            var authTicket  = module.GetFormsAuthenticationTicket(null);
+            
+            // assert
+            Assert.IsNull(authTicket);
         }
 
         [Test]
-        public void AuthenticateRequest_WithRequestHavingIndecipherableAuthCookies_AddsExpiredCookie()
+        public void GetFormsAuthenticationTicket_WithRequestHavingIndecipherableAuthCookies_ReturnsNull()
         {
             // arrange
             var module = new AuthenticationModule();
-            var httpContext = new Mock<HttpContextBase>();
-            var cookies = new HttpCookieCollection();
-            var badCookie = new HttpCookie(".ASPXAUTH.42") {Value = "STEOHsuthosaeuthoes234234sThisIsGarbage"};
-            badCookie.Expires = DateTime.Now;
-            cookies.Add(badCookie);
-            httpContext.Setup(c => c.Request.Path).Returns("/");
-            httpContext.Setup(c => c.Request.QueryString).Returns(new NameValueCollection());
-            httpContext.Setup(c => c.Request.Cookies).Returns(cookies);
-            var responseCookies = new HttpCookieCollection();
-            httpContext.Setup(c => c.Response.Cookies).Returns(responseCookies);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost"), false,
-                                              RequestLocation.Blog, "/");
-            blogRequest.Blog = new Blog {Id = 42};
-
+            var badCookie = new HttpCookie(".ASPXAUTH.42") {Value = "STEOHsuthosaeuthoes234234sThisIsGarbage", Expires = DateTime.Now};
+            
             // act
-            module.AuthenticateRequest(httpContext.Object, blogRequest);
+            var ticket = module.GetFormsAuthenticationTicket(badCookie);
 
             // assert
-            Assert.AreEqual(1, responseCookies.Count);
-            HttpCookie cookie = responseCookies[".ASPXAUTH.42"];
-            Assert.IsTrue(cookie.Expires.AddYears(20) < DateTime.Now);
+            Assert.IsNull(ticket);
         }
 
         [Test]
-        public void AuthenticateRequest_WithRequestHavingNullAuthTicket_SetsUserToGenericPrincipalWithRoles()
+        public void GetFormsAuthenticationTicket_WithRequestHavingNullAuthTicket_ReturnsNull()
         {
             // arrange
             var module = new AuthenticationModule();
             var authCookie = new HttpCookie(".ASPXAUTH.42") {Value = null};
-            var cookies = new HttpCookieCollection();
-            cookies.Add(authCookie);
-            var httpContext = new Mock<HttpContextBase>();
-            httpContext.Stub(c => c.User);
-            httpContext.Setup(c => c.Request.Path).Returns("/");
-            httpContext.Setup(c => c.Request.QueryString).Returns(new NameValueCollection());
-            httpContext.Setup(c => c.Request.Cookies).Returns(cookies);
-            var responseCookies = new HttpCookieCollection();
-            httpContext.Setup(c => c.Response.Cookies).Returns(responseCookies);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost"), false,
-                                              RequestLocation.Blog, "/");
-            blogRequest.Blog = new Blog {Id = 42};
-
+            
             // act
-            module.AuthenticateRequest(httpContext.Object, blogRequest);
+            var ticket = module.GetFormsAuthenticationTicket(authCookie);
 
             // assert
-            var principal = httpContext.Object.User as GenericPrincipal;
-            Assert.IsNull(principal);
-            Assert.AreEqual(1, responseCookies.Count);
-            HttpCookie cookie = responseCookies[".ASPXAUTH.42"];
-            Assert.IsTrue(cookie.Expires.AddYears(20) < DateTime.Now);
+            Assert.IsNull(ticket);
         }
 
         [Test]
-        public void AuthenticateRequest_WithRequestHavingExpiredAuthCookies_SetsUserToGenericPrincipalWithRoles()
+        public void GetFormsAuthenticationTicket_WithRequestHavingExpiredAuthCookies_SetsUserToGenericPrincipalWithRoles()
         {
             // arrange
             var module = new AuthenticationModule();
-            string roles = "Admins|HostAdmins|Users";
+            const string roles = "Admins|HostAdmins|Users";
             var ticket = new FormsAuthenticationTicket(1, ".ASPXAUTH.42", DateTime.Now, DateTime.Now.AddDays(-10), true,
                                                        roles);
             Assert.IsTrue(ticket.Expired);
             string cookieValue = FormsAuthentication.Encrypt(ticket);
             var authCookie = new HttpCookie(".ASPXAUTH.42") {Value = cookieValue};
-            var cookies = new HttpCookieCollection();
-            cookies.Add(authCookie);
+            
+            // act
+            var authTicket = module.GetFormsAuthenticationTicket(authCookie);
+
+            // assert
+            Assert.IsNull(authTicket);
+        }
+
+        [Test]
+        public void HandleFormsAuthenticationTicket_WithRequestHavingNullAuthTicket_WritesExpiredCookie()
+        {
+            // arrange
+            Func<BlogRequest, HttpContextBase, string> loginFunc = (r, c) => "/foo/login.aspx";
+            var module = new AuthenticationModule();
+            var authCookie = new HttpCookie(".ASPXAUTH.42") { Value = null };
+            var cookies = new HttpCookieCollection { authCookie };
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Stub(c => c.User);
             httpContext.Setup(c => c.Request.Path).Returns("/");
             httpContext.Setup(c => c.Request.QueryString).Returns(new NameValueCollection());
             httpContext.Setup(c => c.Request.Cookies).Returns(cookies);
+            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), true));
             var responseCookies = new HttpCookieCollection();
             httpContext.Setup(c => c.Response.Cookies).Returns(responseCookies);
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost"), false,
-                                              RequestLocation.Blog, "/");
-            blogRequest.Blog = new Blog {Id = 42};
+                                              RequestLocation.Blog, "/") { Blog = new Blog { Id = 42 } };
 
             // act
-            module.AuthenticateRequest(httpContext.Object, blogRequest);
+            module.HandleFormsAuthenticationTicket(blogRequest, httpContext.Object, null);
 
             // assert
             var principal = httpContext.Object.User as GenericPrincipal;
@@ -141,13 +123,12 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var module = new AuthenticationModule();
-            string roles = "Admins|HostAdmins|Users";
+            const string roles = "Admins|HostAdmins|Users";
             var ticket = new FormsAuthenticationTicket(1, ".ASPXAUTH.42", DateTime.Now, DateTime.Now.AddDays(60), true,
                                                        roles);
             string cookieValue = FormsAuthentication.Encrypt(ticket);
             var authCookie = new HttpCookie(".ASPXAUTH.42") {Value = cookieValue};
-            var cookies = new HttpCookieCollection();
-            cookies.Add(authCookie);
+            var cookies = new HttpCookieCollection {authCookie};
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Stub(c => c.User);
             httpContext.Setup(c => c.Request.Path).Returns("/");
@@ -155,8 +136,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             httpContext.Setup(c => c.Request.Cookies).Returns(cookies);
             httpContext.Setup(c => c.Response.Cookies).Returns(cookies);
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost"), false,
-                                              RequestLocation.Blog, "/");
-            blogRequest.Blog = new Blog {Id = 42};
+                                              RequestLocation.Blog, "/") {Blog = new Blog {Id = 42}};
 
             // act
             module.AuthenticateRequest(httpContext.Object, blogRequest);

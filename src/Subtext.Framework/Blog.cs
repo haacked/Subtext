@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using Ninject;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Properties;
@@ -53,6 +54,7 @@ namespace Subtext.Framework
         string _timeZoneId;
         private string _username;
 
+        [Inject]
         public Blog()
         {
             Id = NullValue.NullInt32;
@@ -61,6 +63,13 @@ namespace Subtext.Framework
             Flag = ConfigurationFlags.None;
             DaysTillCommentsClose = Int32.MaxValue;
         }
+
+        public Blog(bool isAggregateBlog) : this()
+        {
+            IsAggregateBlog = isAggregateBlog;
+        }
+
+        public bool IsAggregateBlog { get; private set; }
 
         /// <summary>
         /// Gets or sets the date that the blog's configuration 

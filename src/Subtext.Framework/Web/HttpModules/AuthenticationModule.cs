@@ -51,14 +51,42 @@ namespace Subtext.Framework.Web.HttpModules
             }
 
             HttpCookie authCookie = httpContext.Request.SelectAuthenticationCookie(blogRequest.Blog);
+            FormsAuthenticationTicket authTicket = GetFormsAuthenticationTicket(authCookie);
+            HandleFormsAuthenticationTicket(blogRequest, httpContext, authTicket);
+        }
 
+        public void HandleFormsAuthenticationTicket(BlogRequest blogRequest, HttpContextBase httpContext, FormsAuthenticationTicket authTicket)
+        {
+            if(authTicket != null)
+            {
+                if(FormsAuthentication.SlidingExpiration)
+                {
+                    FormsAuthentication.RenewTicketIfOld(authTicket);
+                }
+
+                // When the ticket was created, the UserData property was assigned a
+                // pipe delimited string of role names.
+                SetHttpContextUser(httpContext, authTicket);
+            }
+            else
+            {
+                httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
+                //if(blogRequest.RequestLocation != RequestLocation.LoginPage && blogRequest.RequestLocation == RequestLocation.)
+                //{
+                //    RedirectToLogin(blogRequest, httpContext);
+                //}
+            }
+        }
+
+        public FormsAuthenticationTicket GetFormsAuthenticationTicket(HttpCookie authCookie)
+        {
             if(null == authCookie)
             {
                 if(Log.IsDebugEnabled)
                 {
                     Log.Debug("There is no authentication cookie.");
                 }
-                return;
+                return null;
             }
 
             FormsAuthenticationTicket authTicket;
@@ -69,15 +97,13 @@ namespace Subtext.Framework.Web.HttpModules
             catch(Exception ex)
             {
                 Log.Error("Could not decrypt the authentication cookie.", ex);
-                httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
-                return;
+                return null;
             }
 
             if(null == authTicket)
             {
                 Log.Warn("Could not decrypt the authentication cookie. No exception was thrown.");
-                httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
-                return;
+                return null;
             }
 
             if(authTicket.Expired)
@@ -86,17 +112,13 @@ namespace Subtext.Framework.Web.HttpModules
                 {
                     Log.Debug("Authentication ticket expired.");
                 }
-                httpContext.Response.Cookies.Add(httpContext.Request.GetExpiredCookie(blogRequest.Blog));
-                return;
+                return null;
             }
+            return authTicket;
+        }
 
-            if(FormsAuthentication.SlidingExpiration)
-            {
-                FormsAuthentication.RenewTicketIfOld(authTicket);
-            }
-
-            // When the ticket was created, the UserData property was assigned a
-            // pipe delimited string of role names.
+        private static void SetHttpContextUser(HttpContextBase httpContext, FormsAuthenticationTicket authTicket)
+        {
             string[] roles = authTicket.UserData.Split(new[] {'|'});
             // Create an Identity object
             var id = new FormsIdentity(authTicket);
