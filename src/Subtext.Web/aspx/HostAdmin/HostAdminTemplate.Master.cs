@@ -1,6 +1,7 @@
 using System;
 using System.Web.UI;
 using Subtext.Framework;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -32,6 +33,11 @@ namespace Subtext.Web.HostAdmin
             {
                 MPSidebar.Controls.Add(control);
             }
+        }
+
+        public UrlHelper Url
+        {
+            get { return (Page as HostAdminPage).Url; }
         }
     }
 }

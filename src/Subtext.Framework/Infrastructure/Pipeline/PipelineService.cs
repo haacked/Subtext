@@ -17,10 +17,9 @@
 
 using System.Web;
 using System.Web.Routing;
-using Subtext.Infrastructure;
 using Subtext.Framework.Routing;
 
-namespace Subtext.Framework.Pipeline
+namespace Subtext.Infrastructure
 {
     public class PipelineService
     {

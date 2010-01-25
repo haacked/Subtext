@@ -416,6 +416,7 @@
     <Compile Include="ImportExport\IBlogMLSource.cs" />
     <Compile Include="ImportExport\IBlogMLWriter.cs" />
     <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
+    <Compile Include="Infrastructure\Bootstrapper.cs" />
     <Compile Include="Infrastructure\Installation\IInstallationManager.cs" />
     <Compile Include="Infrastructure\Installation\IInstaller.cs" />
     <Compile Include="Infrastructure\Installation\InstallationManager.cs" />
@@ -492,7 +493,6 @@
     </Compile>
     <Compile Include="Infrastructure\ActionResults\CacheableFileContentResult.cs" />
     <Compile Include="Infrastructure\ActionResults\NotModifiedResult.cs" />
-    <Compile Include="Infrastructure\ComponentProvider.cs" />
     <Compile Include="Infrastructure\ICache.cs" />
     <Compile Include="Infrastructure\SubtextCache.cs" />
     <Compile Include="ISubtextContext.cs" />

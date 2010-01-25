@@ -196,7 +196,7 @@ namespace Subtext.Framework.Security
                 Log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
             }
             HttpContextBase httpContext = new HttpContextWrapper(HttpContext.Current);
-            httpContext.SetAuthenticationTicket(Config.CurrentBlog, username, persist, true, "HostAdmins");
+            httpContext.SetAuthenticationTicket(null, username, persist, true, "HostAdmins");
 
             return true;
         }
@@ -241,7 +241,7 @@ namespace Subtext.Framework.Security
         /// <returns></returns>
         public static string GetFullCookieName(this HttpRequestBase request, Blog blog)
         {
-            return request.GetFullCookieName(blog, false);
+            return request.GetFullCookieName(blog, (blog == null || blog.IsAggregateBlog)/*forceHostAdmin*/);
         }
 
         public static string GetFullCookieName(this HttpRequestBase request, Blog blog, bool forceHostAdmin)

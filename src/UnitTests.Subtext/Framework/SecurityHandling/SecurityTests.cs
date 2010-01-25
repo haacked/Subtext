@@ -178,6 +178,34 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         }
 
         [Test]
+        public void GetFullCookieName_WithNullBlog_ReturnsCookieNameWithHostAdminMarker()
+        {
+            // arrange
+            var request = new Mock<HttpRequestBase>();
+            request.Setup(r => r.QueryString).Returns(new NameValueCollection());
+
+            // act
+            string cookieName = request.Object.GetFullCookieName(null);
+
+            // assert
+            Assert.AreEqual(".ASPXAUTH.HA.null", cookieName);
+        }
+
+        [Test]
+        public void GetFullCookieName_WithAggregateBlog_ReturnsCookieNameWithHostAdminMarker()
+        {
+            // arrange
+            var request = new Mock<HttpRequestBase>();
+            request.Setup(r => r.QueryString).Returns(new NameValueCollection());
+
+            // act
+            string cookieName = request.Object.GetFullCookieName(new Blog(true /*isAggregateBlog*/));
+
+            // assert
+            Assert.AreEqual(".ASPXAUTH.HA.null", cookieName);
+        }
+
+        [Test]
         public void GetFullCookieName_WithReturnUrlPointingToHostAdmin_ReturnsCookieNameWithBlogIdAndHostAdminInitials()
         {
             // arrange

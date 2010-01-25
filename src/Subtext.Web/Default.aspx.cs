@@ -20,7 +20,6 @@ using System.Web;
 using System.Web.Routing;
 using System.Web.UI;
 using Subtext.Framework;
-using Subtext.Framework.Pipeline;
 using Subtext.Framework.Routing;
 using Subtext.Infrastructure;
 
