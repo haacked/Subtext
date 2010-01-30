@@ -61,7 +61,8 @@ namespace Subtext.Web.Admin.Pages
         {
             if(!User.IsInRole("Admins"))
             {
-                FormsAuthentication.RedirectToLoginPage();
+                string url = Url.LoginUrl(Request.Url.PathAndQuery);
+                Response.Redirect(url, true);
                 return;
             }
             base.OnInit(e);

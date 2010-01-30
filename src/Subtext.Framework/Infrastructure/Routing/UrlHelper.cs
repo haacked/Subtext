@@ -465,7 +465,17 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath LoginUrl()
         {
-            return GetVirtualPath("login", null);
+            return LoginUrl(null);
+        }
+
+        public virtual VirtualPath LoginUrl(string returnUrl)
+        {
+            RouteValueDictionary routeValues = null;
+            if(!String.IsNullOrEmpty(returnUrl))
+            {
+                routeValues = new RouteValueDictionary {{"ReturnUrl", returnUrl}};
+            }
+            return GetVirtualPath("login", routeValues);
         }
 
         public virtual VirtualPath LogoutUrl()
