@@ -1051,6 +1051,8 @@
     <EmbeddedResource Include="Controls\Resources\CoCommentScript.js" />
     <EmbeddedResource Include="Controls\Resources\CollapsiblePanel.js" />
     <EmbeddedResource Include="Controls\Resources\InvisibleCaptcha.js" />
+    <Content Include="App_Data\Subtext2.5.mdf">
+    </Content>
     <Content Include="aspx\Admin\Articles\Default.aspx" />
     <Content Include="aspx\Admin\Articles\Edit.aspx" />
     <Content Include="aspx\Admin\Comments.aspx" />
@@ -2428,7 +2430,6 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Skins\Mobile\Images\" />
     <Folder Include="Skins\Mobile\Scripts\" />
     <Folder Include="Skins\Naked\Images\" />
