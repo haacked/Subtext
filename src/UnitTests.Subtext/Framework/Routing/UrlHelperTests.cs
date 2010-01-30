@@ -1044,6 +1044,21 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
+        public void LoginUrl_WithSubfolderAndAppAndReturnUrl_ReturnsLoginUrlWithReturnUrlInQueryString()
+        {
+            //arrange
+            var routeData = new RouteData();
+            routeData.Values.Add("subfolder", "sub");
+            UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
+
+            //act
+            string url = helper.LoginUrl("/Subtext.Web/AdminPage.aspx").ToString().ToLowerInvariant();
+
+            //assert
+            Assert.AreEqual(("/Subtext.Web/sub/login.aspx?ReturnUrl=" + HttpUtility.UrlEncode("/Subtext.Web/AdminPage.aspx")).ToLowerInvariant(), url);
+        }
+
+        [Test]
         public void LogoutUrl_WithSubfolderAndApp_ReturnsLoginUrlInSubfolder()
         {
             //arrange
