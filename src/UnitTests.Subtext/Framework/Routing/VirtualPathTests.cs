@@ -1,4 +1,5 @@
 using System;
+using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Routing;
@@ -86,10 +87,31 @@ namespace UnitTests.Subtext.Framework.Routing
             VirtualPath vp = "/foo";
 
             //act
-            vp.ToFullyQualifiedUrl(new Blog {Host = "localhost"});
+            Uri fullyQualified = vp.ToFullyQualifiedUrl(new Blog {Host = "localhost"});
 
             //assert
-            Assert.AreEqual("/foo", (string)vp);
+            Assert.AreEqual("http://localhost/foo", fullyQualified.ToString());
+        }
+
+        [Test]
+        public void ToFullyQualifiedUrl_WithBlogAndPort_ReturnsUriWithPort()
+        {
+            //arrange
+            try
+            {
+                VirtualPath vp = "/foo";
+                UnitTestHelper.SetHttpContextWithBlogRequest("localhost", 8080, "", "");
+
+                //act
+                Uri fullyQualified = vp.ToFullyQualifiedUrl(new Blog {Host = "localhost"});
+
+                //assert
+                Assert.AreEqual("http://localhost:8080/foo", fullyQualified.ToString());
+            }
+            finally
+            {
+                HttpContext.Current = null;
+            }
         }
 
         [Test]

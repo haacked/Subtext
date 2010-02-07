@@ -233,6 +233,10 @@ namespace Subtext.Framework.Routing
             }
 
             var builder = new UriBuilder {Scheme = "http", Host = blog.Host};
+            if(HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.Url.Port != 80)
+            {
+                builder.Port = HttpContext.Current.Request.Url.Port;
+            }
             return new Uri(builder.Uri, virtualPath);
         }
     }
