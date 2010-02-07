@@ -61,7 +61,7 @@ namespace Subtext.Web.Admin.Pages
 
                 if(!String.IsNullOrEmpty(txtAkismetAPIKey.Text))
                 {
-                    var akismet = new AkismetSpamService(txtAkismetAPIKey.Text, Config.CurrentBlog);
+                    var akismet = new AkismetSpamService(txtAkismetAPIKey.Text, Blog, null, Url);
                     try
                     {
                         if(!akismet.VerifyApiKey())
@@ -194,7 +194,7 @@ namespace Subtext.Web.Admin.Pages
         {
             if(IsPageValid)
             {
-                Blog info = Config.CurrentBlog;
+                Blog info = Blog;
 
                 info.CommentsEnabled = chkEnableComments.Checked;
                 info.ModerationEnabled = chkEnableCommentModeration.Checked;
