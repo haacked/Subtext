@@ -1,6 +1,7 @@
 using System;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 using Subtext.Web.Admin.Pages;
 
 namespace Subtext.Web.Admin.Feedback
@@ -131,13 +132,14 @@ namespace Subtext.Web.Admin.Feedback
                     updatedFeedback.SourceUrl = feedbackWebsite;
                 }
                 FeedbackItem.Update(updatedFeedback);
-
+                Cacher.InvalidateFeedback(updatedFeedback.Entry, SubtextContext);
                 if(ReturnToOriginalPost)
                 {
                     Response.Redirect(Url.FeedbackUrl(updatedFeedback));
                     return;
                 }
 
+                
                 Messages.ShowMessage(Constants.RES_SUCCESSEDIT, false);
             }
         }
