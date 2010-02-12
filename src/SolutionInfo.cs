@@ -20,7 +20,7 @@ using System.Resources;
 
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
-[assembly: AssemblyCopyright("Copyright © Scott Watermasysk 2003. Copyright © Phil Haack. 2005-2008 - BSD License")]
+[assembly: AssemblyCopyright("Copyright © Phil Haack. 2005-2010 - BSD License")]
 [assembly: AssemblyInformationalVersion("2.2.0.0")]
 [assembly: AssemblyDelaySign(false)]
 [assembly: NeutralResourcesLanguage("en-US")]

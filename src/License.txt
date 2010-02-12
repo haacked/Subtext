@@ -3,7 +3,7 @@ This license is based on the new BSD template found here
 
 -----------------------------------------------------------------
 Subtext (http://subtextproject.com/)
-Copyright (c) 2005 - 2007 
+Copyright (c) 2005 - 2010 
 by Phil Haack (http://haacked.com/)
 
 XML-RPC.NET Copyright (c) 2006 Charles Cook

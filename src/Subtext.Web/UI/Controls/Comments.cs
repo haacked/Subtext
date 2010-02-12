@@ -330,5 +330,10 @@ namespace Subtext.Web.UI.Controls
         {
             Cacher.InvalidateFeedback(RealEntry, SubtextContext);
         }
+
+        [Obsolete("This will get removed in the next version")]
+        protected void RemoveComment_ItemCommand(object sender, EventArgs e)
+        {
+        }
     }
 }
