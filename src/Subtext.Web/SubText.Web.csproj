@@ -1599,7 +1599,6 @@
     <Content Include="Skins\Eco\Controls\Day.ascx" />
     <Content Include="Skins\Eco\Controls\DayCollection.ascx" />
     <Content Include="Skins\Eco\Controls\EntryList.ascx" />
-    <Content Include="Skins\Eco\Controls\Footer.ascx" />
     <Content Include="Skins\Eco\Controls\FullTagCloud.ascx" />
     <Content Include="Skins\Eco\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Eco\Controls\Header.ascx" />
@@ -2416,6 +2415,7 @@
     <Content Include="Skins\_System\Controls\MoreResults.ascx" />
     <Content Include="Skins\_System\Controls\Search.ascx" />
     <Content Include="Skins\_System\Controls\ShareThisPost.ascx" />
+    <Content Include="Skins\_System\Controls\SearchInput.ascx" />
     <Content Include="Skins\_System\Controls\TagCloud.ascx" />
     <Content Include="Skins\_System\csharp.css" />
     <Content Include="Skins\_System\forgotpassword.css" />
@@ -2478,8 +2478,6 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Skins\Eco\Controls\_notes\" />
-    <Folder Include="Skins\Eco\img\_notes\" />
     <Folder Include="Skins\Mobile\Images\" />
     <Folder Include="Skins\Mobile\Scripts\" />
     <Folder Include="Skins\Naked\Images\" />
