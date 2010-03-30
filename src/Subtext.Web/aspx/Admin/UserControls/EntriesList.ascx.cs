@@ -126,6 +126,24 @@ namespace Subtext.Web.Admin.UserControls
             return AdminUrl.PostsEdit(entry.Id);
         }
 
+        public string ArticlesEditUrl(object item)
+        {
+            var entry = (Entry)item;
+            return AdminUrl.ArticlesEdit(entry.Id);
+        }
+
+        public string ContentEditUrl(object item)
+        {
+            if (((AdminPage)this.Page).TabSectionId == "Articles")
+            {
+                return ArticlesEditUrl(item);
+            }
+            else
+            {
+                return PostsEditUrl(item);
+            }
+        }
+
         public string ReferrersUrl(object item)
         {
             var entry = (Entry)item;

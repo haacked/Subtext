@@ -75,6 +75,11 @@ namespace Subtext.Framework.Routing
             return Url.AdminUrl("articles/edit.aspx");
         }
 
+        public VirtualPath ArticlesEdit(int id)
+        {
+            return Url.AdminUrl("articles/edit.aspx", new { PostId = id });
+        }
+
         public VirtualPath FeedbackList()
         {
             return Url.AdminUrl("feedback");
