@@ -66,7 +66,8 @@ namespace SubtextUpgrader
 
         public Stream OpenWrite()
         {
-            return File.OpenWrite();
+            File.Delete();
+            return File.Create();
         }
 
         public bool Exists

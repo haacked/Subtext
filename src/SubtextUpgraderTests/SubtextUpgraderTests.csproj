@@ -58,6 +58,7 @@
     <Compile Include="NonDisposableMemoryStream.cs" />
     <Compile Include="SkinConfigTests.cs" />
     <Compile Include="SubtextDirectoryTests.cs" />
+    <Compile Include="SubtextFileTests.cs" />
     <Compile Include="WebConfigUpgraderTests.cs" />
     <Compile Include="XmlExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
