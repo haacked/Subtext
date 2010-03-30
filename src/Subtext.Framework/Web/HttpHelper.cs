@@ -23,7 +23,6 @@ using System.Net;
 using System.Text;
 using System.Web;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.Properties;
@@ -424,7 +423,7 @@ namespace Subtext.Framework.Web
             }
 
             string key = request.QueryString.Keys[0];
-            if(key!=null && key.Equals("referrer",StringComparison.InvariantCultureIgnoreCase))
+            if(key != null && key.Equals("referrer", StringComparison.InvariantCultureIgnoreCase))
                 return null;
 
 
@@ -434,6 +433,10 @@ namespace Subtext.Framework.Web
                 return null;
             }
 
+            if(!queryString.Contains(";"))
+            {
+                return null;
+            }
             string urlText = queryString.RightAfter(";");
             if(String.IsNullOrEmpty(urlText))
             {
