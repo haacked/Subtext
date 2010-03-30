@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -44,6 +45,18 @@ namespace Subtext.Web.UI.Controls
         {
             FilterType = DateFilter.None;
             string filterTypeText = Request.QueryString["popular-posts"];
+            string strCookieName = Config.CurrentBlog.BlogGroupId + "popular-posts";
+            if (filterTypeText == null)
+            {
+                if (Request.Cookies[strCookieName] != null)
+                {
+                    filterTypeText = Request.Cookies[strCookieName].Value;
+                }                
+            }
+
+            Response.Cookies[strCookieName].Value = filterTypeText;
+            Response.Cookies[strCookieName].Expires = Config.CurrentBlog.TimeZone.Now.AddYears(1);
+
             if(!string.IsNullOrEmpty(filterTypeText))
             {
                 try
