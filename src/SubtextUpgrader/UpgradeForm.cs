@@ -16,6 +16,7 @@ namespace SubtextUpgrader
 
         private void button2_Click(object sender, EventArgs e)
         {
+            folderBrowserDialog1.SelectedPath = Destination.Text;
             if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 Destination.Text = folderBrowserDialog1.SelectedPath;
@@ -141,6 +142,11 @@ namespace SubtextUpgrader
                 Message.Text += "Cancelled!";
             }
             button4.Enabled = true;
+        }
+
+        private void UpgradeForm_Load(object sender, EventArgs e)
+        {
+            Destination.Text = Environment.CurrentDirectory;
         }
     }
 }
