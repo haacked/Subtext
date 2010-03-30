@@ -16,8 +16,6 @@
 #endregion
 
 using System;
-using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace SubtextUpgrader {
@@ -26,8 +24,6 @@ namespace SubtextUpgrader {
 	/// Subtext to the latest version.
 	/// </summary>
 	public class Program {
-		//TODO: Consider Replace Assembly="Subtext.Web.Controls" with Assembly="Subtext.Web" 
-		//      in all skin files.
 		[STAThread]
 		static void Main(string[] args) {
 			if (args.Length == 0) {

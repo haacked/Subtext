@@ -22,11 +22,11 @@ namespace SubtextUpgrader
 		public Settings() { }
 
 		public Settings(string sourceDirectory, string upgradeTargetDirectory, bool quietMode, string backupDirectory, bool verbose) : this() {
-			this.SourceDirectory = sourceDirectory;
-			this.UpgradeTargetDirectory = upgradeTargetDirectory;
-			this.QuietMode = quietMode;
-			this.BackupDirectory = backupDirectory;
-			this.Verbose = verbose;
+			SourceDirectory = sourceDirectory;
+			UpgradeTargetDirectory = upgradeTargetDirectory;
+			QuietMode = quietMode;
+			BackupDirectory = backupDirectory;
+			Verbose = verbose;
 		}
 
         public string SourceDirectory { get; private set; }
