@@ -41,15 +41,6 @@ namespace Subtext.Web.Admin.Pages {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLiteral;
         
         /// <summary>
-        /// lnkThumbnail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkThumbnail;
-        
-        /// <summary>
         /// txbTitle control.
         /// </summary>
         /// <remarks>
@@ -77,6 +68,15 @@ namespace Subtext.Web.Admin.Pages {
         protected global::System.Web.UI.WebControls.CheckBox ckbPublished;
         
         /// <summary>
+        /// lnkThumbnail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkThumbnail;
+        
+        /// <summary>
         /// lkbUpdateImage control.
         /// </summary>
         /// <remarks>
@@ -102,14 +102,5 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lbkAddImage;
-        
-        /// <summary>
-        /// Advanced control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Advanced;
     }
 }

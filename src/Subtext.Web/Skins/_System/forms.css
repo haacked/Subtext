@@ -92,7 +92,7 @@ span.checkbox
 	padding-right: 6px;
 }
 
-span.checkbox label
+span.checkbox label, input[type='checkbox'] + label 
 {
 	display: inline;
 	margin: 0 4px;
@@ -101,4 +101,10 @@ span.checkbox label
 input.date
 {
     width: 250px;
+}
+
+label.inline 
+{
+    display: inline;
+    margin-left: 8px;    
 }

@@ -109,8 +109,6 @@ namespace Subtext.Web.Admin.Pages
                 // that will let us actually move the files too.
                 ddlGalleries.Enabled = false;
 
-                Advanced.Collapsed = Preferences.AlwaysExpandAdvanced;
-
                 if(AdminMasterPage != null)
                 {
                     string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_EditImage,

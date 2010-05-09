@@ -18,23 +18,24 @@
 	<h2 id="headerLiteral" runat="server">Edit Image</h2>
 	<fieldset>
 	    <legend>Update Image Details</legend>
-	    
-	    <asp:HyperLink id="lnkThumbnail" runat="server" Visible="false" CssClass="Thumbnail" />
-	    
-	    <p class="ThumbnailTitle">
-		    <%# Image.Title %>
-		    <div><%# Image.Width.ToString() %>W x <%# Image.Height.ToString() %>H</div>
-		    <div><a href='<%# GetImageGalleryUrl() %>'><%# GalleryTitle %></a></div>
-	    </p>
-		<br class="clear" />
 	    <asp:Label runat="server" AssociatedControlID="txbTitle">Title</asp:Label>
-	    <asp:TextBox id="txbTitle" runat="server" Text='<%# Image.Title %>' columns="255" width="98%" />
+	    <asp:TextBox id="txbTitle" runat="server" Text='<%# Image.Title %>' columns="255" width="70%" />
+	    <label>Dimensions</label>
+	    <span><%# Image.Width.ToString() %>W x <%# Image.Height.ToString() %>H</span>
 	    <asp:Label runat="server" AssociatedControlID="ddlGalleries">Gallery</asp:Label>
 	    <asp:DropDownList id="ddlGalleries" runat="server" />
 	    <div class="button-div">
 	        <asp:CheckBox id="ckbPublished" runat="server" Text="Visible" />
         </div>
-	    <div class="button-div">
+	    <asp:HyperLink id="lnkThumbnail" runat="server" Visible="false" CssClass="Thumbnail" />
+   	    
+		<div class="button-div clear">
+		    <div>
+                <label class="inline">Original Image:</label> <%# Image.OriginalFile %>
+		        <label class="inline">Thumbnail Image:</label> <%# Image.ThumbNailFile %> 
+		        <label class="inline">Resized Image:</label> <%# Image.ResizedFile %>
+            </div>
+
 		    <asp:Button id="lkbUpdateImage" runat="server" CssClass="buttonSubmit" Text="Update" onclick="lkbUpdateImage_Click" />
 	    </div>
 	</fieldset>
@@ -46,12 +47,4 @@
 		    <asp:Button id="lbkAddImage" runat="server" CssClass="buttonSubmit" Text="Replace" onclick="lbkReplaceImage_Click" />
 	    </div>		
 	</fieldset>
-	<st:AdvancedPanel id="Advanced" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" LinkText="[toggle]" Collapsible="True" HeaderText="Advanced Options" BodyCssClass="Edit" Collapsed="true" HeaderTextCssClass="CollapsibleTitle">	
-		<label>Original Image</label>
-		<%# Image.OriginalFile %>
-		<label>Thumbnail Image</label>
-		<%# Image.ThumbNailFile %>
-		<label>Resized Image</label>
-		<%# Image.ResizedFile %>
-	</st:AdvancedPanel>
 </asp:Content>
