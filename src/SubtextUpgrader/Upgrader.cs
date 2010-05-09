@@ -107,7 +107,7 @@ namespace SubtextUpgrader {
 					return;
 
 				var skinConfig = new LegacySkinsConfig(customSkinConfig);
-				var skinsDirectory = sourceDirectory.Combine(@"pages\skins").Ensure();
+				var skinsDirectory = sourceDirectory.Combine(@"Skins").Ensure();
 				skinConfig.UpgradeSkins(skinsDirectory);
 			} else {
 				message = string.Format("Did not find custom skins file at '{0}'", customSkinConfig.Path);
