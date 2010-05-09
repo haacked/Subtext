@@ -3,13 +3,13 @@ if (!Subtext) {
     Subtext = {};
 }
 
-$(function() {
+jQuery(function() {
     String.prototype.trim = function() {
         return jQuery.trim(this);
     };
 
-    $('a.close').click(function() {
-        $($(this).attr('href')).slideUp();
+    jQuery('a.close').click(function() {
+        jQuery(jQuery(this).attr('href')).slideUp();
     });
 });
 
