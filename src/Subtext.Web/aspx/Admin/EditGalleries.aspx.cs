@@ -83,13 +83,11 @@ namespace Subtext.Web.Admin.Pages
             // TODO: possibly, later on, add paging support a la other cat editors
             ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection,
                                                                           ActiveFilter.None);
+            dgrSelectionList.DataSource = selectionList;
+            dgrSelectionList.DataKeyField = "Id";
+            dgrSelectionList.DataBind();
 
-            if(selectionList.Count > 0)
-            {
-                dgrSelectionList.DataSource = selectionList;
-                dgrSelectionList.DataKeyField = "Id";
-                dgrSelectionList.DataBind();
-            }
+            dgrSelectionList.Visible = selectionList.Count > 0; //need not be shown when there are no galleries...
         }
 
         private void BindGallery()
@@ -105,9 +103,17 @@ namespace Subtext.Web.Admin.Pages
             ICollection<Image> imageList = Images.GetImagesByCategoryId(galleryId, false);
 
             plhImageHeader.Controls.Clear();
-            string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Images,
-                                                selectedGallery.Title, imageList.Count);
-            plhImageHeader.Controls.Add(new LiteralControl(galleryTitle));
+            if (selectedGallery != null)
+            {
+                string galleryTitle = string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Images,
+                                                    selectedGallery.Title, imageList.Count);
+                plhImageHeader.Controls.Add(new LiteralControl(galleryTitle));
+            }
+            else //invalid gallery
+            {
+                Messages.ShowError("The gallery does not exist anymore. Please update your bookmarks.");
+                return;
+            }
 
             rprImages.DataSource = imageList;
             rprImages.DataBind();
@@ -449,7 +455,7 @@ namespace Subtext.Web.Admin.Pages
                                                       categoryTitle)
             };
             Messages.ShowMessage(command.Execute());
-            BindGallery();
+            BindList();
         }
 
         private void DeleteImage(int imageId)
@@ -529,7 +535,15 @@ namespace Subtext.Web.Admin.Pages
         {
             int id = Convert.ToInt32(dgrSelectionList.DataKeys[e.Item.ItemIndex]);
             LinkCategory lc = SubtextContext.Repository.GetLinkCategory(id, false);
-            DeleteGallery(id, lc.Title);
+            if (lc != null)
+            {
+                DeleteGallery(id, lc.Title);
+            }
+            else
+            {
+                Messages.ShowError("The gallery does not exist. Possibly you refreshed the page after deleting the gallery?");
+            }
+            BindList();
         }
 
         private void dgrSelectionList_CancelCommand(object source, DataGridCommandEventArgs e)
