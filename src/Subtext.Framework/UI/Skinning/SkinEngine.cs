@@ -19,6 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
+using System.Web;
 using System.Web.Hosting;
 using System.Xml.Serialization;
 using Subtext.Framework.Util;
@@ -47,14 +49,38 @@ namespace Subtext.Framework.UI.Skinning
             IDictionary<string, SkinTemplate> allTemplates = mobile ? _mobileTemplates : _templates;
             if(allTemplates == null)
             {
-                VirtualDirectory skinsDirectory = VirtualPathProvider.GetDirectory(RootSkinsVirtualPath);
+                IEnumerable<SkinTemplate> allTemplateConfigs;
+                switch (GetTrustLevel())
+                {
+                    case AspNetHostingPermissionLevel.Unrestricted:
+                    case AspNetHostingPermissionLevel.High:
+                        VirtualDirectory skinsDirectory = VirtualPathProvider.GetDirectory(RootSkinsVirtualPath);
 
-                IEnumerable<SkinTemplate> allTemplateConfigs =
-                    from dir in skinsDirectory.Directories.OfType<VirtualDirectory>()
-                    where !dir.Name.StartsWith("_")
-                    let templates = GetSkinTemplatesFromDir(dir)
-                    from template in templates
-                    select template;
+                        allTemplateConfigs =
+                            from dir in skinsDirectory.Directories.OfType<VirtualDirectory>()
+                            where !dir.Name.StartsWith("_")
+                            let templates = GetSkinTemplatesFromDir(dir)
+                            from template in templates
+                            select template;
+
+                        break;
+
+                    default:
+                        var skinsDir = new DirectoryInfo
+                            ( AppDomain.CurrentDomain.BaseDirectory
+                            + Path.DirectorySeparatorChar
+                            + "skins"
+                            );
+
+                        allTemplateConfigs =
+                            from dir in skinsDir.GetDirectories()
+                            where !dir.Name.StartsWith("_")
+                            let templates = GetSkinTemplatesFromDir(dir)
+                            from template in templates
+                            select template;
+
+                        break;
+                }
 
                 allTemplates = (from template in allTemplateConfigs
                                 where ((template.MobileSupport > MobileSupport.None && mobile)
@@ -86,6 +112,19 @@ namespace Subtext.Framework.UI.Skinning
             return new[] {new SkinTemplate {Name = virtualDirectory.Name, TemplateFolder = virtualDirectory.Name}};
         }
 
+        private IEnumerable<SkinTemplate> GetSkinTemplatesFromDir(DirectoryInfo directory)
+        {
+            string skinConfigPath = directory.FullName + Path.DirectorySeparatorChar + "skin.config";
+
+            if (File.Exists(skinConfigPath))
+            {
+                IEnumerable<SkinTemplate> deserializedTemplates = GetSkinTemplates(skinConfigPath);
+                deserializedTemplates.ForEach(t => t.TemplateFolder = directory.Name);
+                return deserializedTemplates;
+            }
+            return new[] { new SkinTemplate { Name = directory.Name, TemplateFolder = directory.FullName } };
+        }
+
         private static IEnumerable<SkinTemplate> GetSkinTemplates(VirtualPathProvider virtualPathProvider, string path)
         {
             VirtualFile virtualConfigFile = virtualPathProvider.GetFile(path);
@@ -97,10 +136,48 @@ namespace Subtext.Framework.UI.Skinning
             }
         }
 
+        private static IEnumerable<SkinTemplate> GetSkinTemplates(string path)
+        {
+            var configFile = new FileInfo(path);
+
+            using (Stream configStream = configFile.OpenRead())
+            {
+                var templates = SerializationHelper.Load<SkinTemplates>(configStream);
+                return templates.Templates;
+            }
+        }
+
         public class SkinTemplates
         {
             [XmlElement("SkinTemplate")]
             public SkinTemplate[] Templates { get; set; }
+        }
+
+        AspNetHostingPermissionLevel GetTrustLevel()
+        {
+            var trustLevels = new AspNetHostingPermissionLevel[]
+                                  {
+                                      AspNetHostingPermissionLevel.Unrestricted,
+                                      AspNetHostingPermissionLevel.High,
+                                      AspNetHostingPermissionLevel.Medium,
+                                      AspNetHostingPermissionLevel.Low,
+                                      AspNetHostingPermissionLevel.Minimal
+                                  };
+            foreach (var trustLevel in trustLevels)
+            {
+                try
+                {
+                    new AspNetHostingPermission(trustLevel).Demand();
+                }
+                catch (SecurityException)
+                {
+                    continue;
+                }
+
+                return trustLevel;
+            }
+
+            return AspNetHostingPermissionLevel.None;
         }
     }
 }
