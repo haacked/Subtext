@@ -14,7 +14,7 @@ TaglinksCommand.prototype.AddLinks=function(tArr, caption, url, isInternal){
     {
         var a = FCK.EditorDocument.createElement('a');
         a.rel = 'tag';
-        a.href = url + tArr[i].trim().replace(' ', '+');
+
         if (isInternal == true) a.href += '/Default.aspx';
         var t = FCK.EditorDocument.createTextNode(tArr[i]);
         a.appendChild(t);
