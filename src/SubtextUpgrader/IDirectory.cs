@@ -15,6 +15,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 
 namespace SubtextUpgrader
@@ -33,6 +34,7 @@ namespace SubtextUpgrader
         IEnumerable<IDirectory> GetDirectories();
         void Delete(bool recursive);
         IDirectory CopyTo(IDirectory directory);
+        IDirectory CopyTo(IDirectory directory, Predicate<IFile> overwiteExistingFile);
         IDirectory Ensure();
     }
 }

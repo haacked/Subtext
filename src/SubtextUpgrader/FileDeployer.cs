@@ -15,6 +15,8 @@
 
 #endregion
 
+using System;
+
 namespace SubtextUpgrader
 {
     public class FileDeployer
@@ -39,7 +41,7 @@ namespace SubtextUpgrader
 
         public void Deploy()
         {
-            WebRoot.CopyTo(Destination);
+            WebRoot.CopyTo(Destination, f => f.Name.Equals("favicon.ico", StringComparison.OrdinalIgnoreCase));
             RemoveOldDirectories();
             RemoveOldFiles();
         }

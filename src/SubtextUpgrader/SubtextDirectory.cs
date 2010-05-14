@@ -15,6 +15,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -123,18 +124,29 @@ namespace SubtextUpgrader
         public IDirectory CopyTo(IDirectory destination)
         {
             //Console.WriteLine("Copying Directory '{0}' to '{1}", Path, destination.Path);
-            foreach(var file in GetFiles())
+
+            return CopyTo(destination, f => true);
+        }
+
+        public IDirectory CopyTo(IDirectory destination, Predicate<IFile> shouldOverwriteExistingFile)
+        {
+            foreach (var file in GetFiles())
             {
-                file.CopyTo(destination);
+                var destinationFile = destination.CombineFile(file.Name);
+                
+                if (!destinationFile.Exists || shouldOverwriteExistingFile(file))
+                    file.CopyTo(destination);
+
             }
 
-            foreach(var subdir in GetDirectories())
+            foreach (var subdir in GetDirectories())
             {
                 var directoryName = subdir.Name;
                 var destinationSubDir = destination.Combine(directoryName);
                 destinationSubDir.Ensure();
                 subdir.CopyTo(destinationSubDir);
             }
+
             return destination;
         }
 
