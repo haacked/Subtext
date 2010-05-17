@@ -71,6 +71,10 @@ namespace SubtextUpgrader
 
                 backgroundWorker1.ReportProgress(100, message);
             }
+            finally
+            {
+                ClearTempSourceDirectory();
+            }
         }
 
         private static string CreateQuietBackupDirectory()
@@ -113,8 +117,15 @@ namespace SubtextUpgrader
             }
 
             string extractDirectory = TempSourceDirectory();
+            if(Directory.Exists(extractDirectory))
+            {
+                backgroundWorker1.ReportProgress(3, String.Format("Deleting to '{0}'", extractDirectory));
+                ClearTempSourceDirectory();
+            }
 
             var zip = new FastZip();
+            string message = String.Format("Extracting to '{0}'", extractDirectory);
+            backgroundWorker1.ReportProgress(5, message);
             zip.ExtractZip(fileName, extractDirectory, string.Empty);
         }
 
@@ -122,6 +133,15 @@ namespace SubtextUpgrader
         {
             string extractDirectory = Path.Combine(Path.GetTempPath(), "SubText-2.5");
             return extractDirectory;
+        }
+
+        private void ClearTempSourceDirectory()
+        {
+            string extractDirectory = TempSourceDirectory();
+            if(Directory.Exists(extractDirectory))
+            {
+                Directory.Delete(extractDirectory, true);
+            }
         }
 
         void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
