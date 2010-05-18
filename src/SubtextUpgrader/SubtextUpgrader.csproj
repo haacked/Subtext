@@ -65,6 +65,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SkinConfig.cs" />
+    <Compile Include="SkinUpgrader.cs" />
     <Compile Include="SubtextDirectory.cs" />
     <Compile Include="SubtextFile.cs" />
     <Compile Include="UpgradeForm.cs">

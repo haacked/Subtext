@@ -136,7 +136,15 @@ namespace SubtextUpgrader {
 				return;
 
 			deployer.RemoveOldDirectories();
-			
+
+
+		    message = "Checking skins for references to legacy Subtext.Web.Controls assembly.";
+            Progress.ReportProgress(95, message);
+
+		    var skinUpgrader = new SkinUpgrader(targetDirectory.Combine("Skins"));
+		    skinUpgrader.Run();
+
+
 			message = "Done!";
 
 			Progress.ReportProgress(100, message);
