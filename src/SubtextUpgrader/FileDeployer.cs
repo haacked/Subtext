@@ -41,7 +41,7 @@ namespace SubtextUpgrader
 
         public void Deploy()
         {
-            WebRoot.CopyTo(Destination, f => f.Name.Equals("favicon.ico", StringComparison.OrdinalIgnoreCase));
+            WebRoot.CopyTo(Destination, f => !f.Name.Equals("favicon.ico", StringComparison.OrdinalIgnoreCase));
             RemoveOldDirectories();
             RemoveOldFiles();
         }
