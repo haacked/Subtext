@@ -85,7 +85,7 @@ namespace Subtext.Framework.Services
                 if(!String.IsNullOrEmpty(separator))
                 {
                     slug = String.Join(separator, encodedWords.ToArray());
-                    slug = slug.Trim(new[] {SlugSettings.SeparatingCharacter[0]});
+                    slug = slug.Trim(new[] { separator[0] });
                 }
                 else
                 {
