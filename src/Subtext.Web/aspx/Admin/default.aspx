@@ -33,7 +33,7 @@
                         <table>
                             <tr>
                                 <td class="stat"><a href="<%= AdminUrl.PostsList() %>" title="Posts"><%# Statistics.ActivePostCount %></a></td>
-                                <td><a href="<%= AdminUrl.PostsList() %>" title="Posts">Posts</a>  (<a href="<%= AdminUrl.FullTextSearch()%>"><%# IndexedEntryCount%> indexed</a>)</td>
+                                <td><a href="<%= AdminUrl.PostsList() %>" title="Posts">Posts</a></td>
                                 <td class="stat"><a href="<%= AdminUrl.FeedbackList() %>" title="Feedback"><%# Statistics.FeedbackCount %></a></td>
                                 <td title="Does not include pingbacks/trackbacks"><a href="<%= AdminUrl.FeedbackList() %>" title="Feedback">Comments</a></td>
                             </tr>
@@ -44,8 +44,8 @@
                                 <td class="approved"><a href="<%= AdminUrl.FeedbackList() %>" title="Feedback">Approved</a></td>
                             </tr>
                             <tr>
-                                <td class="stat"><%# CategoryCount %></td>
-                                <td>Categories</td>
+                                <td class="stat"><a href="<%= AdminUrl.FullTextSearch()%>"><%# IndexedEntryCount%></a></td>
+                                <td><a href="<%= AdminUrl.FullTextSearch()%>">Indexed</a></td>
                                 <td class="stat">
                                     <% if(Config.CurrentBlog.ModerationEnabled) { %>
                                     <a href="<%= AdminUrl.FeedbackList() %>?status=NeedsModeration" title="Feedback"><%# Statistics.AwaitingModerationFeedbackCount %></a>
@@ -64,10 +64,17 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="stat"><%# Blog.PingTrackCount %></td>
-                                <td>Pingbacks/Trackbacks</td>
+                                <td class="stat"><%# CategoryCount %></td>
+                                <td>Categories</td>
+
                                 <td class="stat"><a href="<%= AdminUrl.FeedbackList() %>?status=FlaggedAsSpam" title="Feedback"><%# Statistics.FlaggedAsSpamFeedbackCount %></a></td>
                                 <td title="Flagged as spam, but not confirmed" class="spam"><a href="<%= AdminUrl.FeedbackList() %>?status=FlaggedAsSpam" title="Feedback">Spam</a></td>
+                            </tr>
+                            <tr>
+                                <td class="stat"><%# Blog.PingTrackCount %></td>
+                                <td>Pingbacks/Trackbacks</td>   
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                             </tr>
                         </table>
                     </div>
