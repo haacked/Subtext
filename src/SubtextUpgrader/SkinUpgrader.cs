@@ -19,7 +19,7 @@ namespace SubtextUpgrader
         public SkinUpgrader(IDirectory skinsDirectory)
         {
             _skinsDirectory = skinsDirectory;
-        } 
+        }
 
         public void Run()
         {
@@ -35,11 +35,10 @@ namespace SubtextUpgrader
                 {
                     ReplaceLegacyControlTags(file);
                 }
-
-                foreach(var dir in directory.GetDirectories())
-                {
-                    Run(dir);
-                }
+            }
+            foreach (var dir in directory.GetDirectories())
+            {
+                Run(dir);
             }
         }
 
@@ -52,30 +51,28 @@ namespace SubtextUpgrader
                 , RegexOptions.IgnoreCase | RegexOptions.Multiline
                 );
 
-            var newCotent = regex.Replace(contents, delegate(Match m)
+            var newContent = regex.Replace(contents, delegate(Match m)
             {
                 if (m.Groups[2].Value.Equals("st", StringComparison.CurrentCultureIgnoreCase))
                 {
                     return string.Empty;
                 }
-                else
-                {
-                    var sb = new StringBuilder();
-                    
-                    sb.Append(m.Groups[1].Value);
-                    sb.Append(m.Groups[2].Value);
-                    sb.Append(m.Groups[3].Value);
-                    sb.Append("Subtext.Web");
-                    sb.AppendLine(m.Groups[5].Value);
+                var sb = new StringBuilder();
 
-                    return sb.ToString();
-                }
+                sb.Append(m.Groups[1].Value);
+                sb.Append(m.Groups[2].Value);
+                sb.Append(m.Groups[3].Value);
+                sb.Append("Subtext.Web");
+                sb.Append(m.Groups[5].Value);
+
+                return sb.ToString();
             });
 
-            if (contents != newCotent)
+            if (contents != newContent)
             {
                 var stream = new StreamWriter(file.OpenWrite());
-                stream.Write(newCotent);                
+                stream.Write(newContent);
+                stream.Close();
             }
         }
     }
