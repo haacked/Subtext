@@ -57,6 +57,7 @@
     <Compile Include="LegacySkinsConfigTests.cs" />
     <Compile Include="NonDisposableMemoryStream.cs" />
     <Compile Include="SkinConfigTests.cs" />
+    <Compile Include="SkinUpgraderTests.cs" />
     <Compile Include="SubtextDirectoryTests.cs" />
     <Compile Include="SubtextFileTests.cs" />
     <Compile Include="WebConfigUpgraderTests.cs" />
