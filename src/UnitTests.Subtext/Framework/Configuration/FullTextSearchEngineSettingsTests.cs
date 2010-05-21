@@ -47,11 +47,18 @@ namespace UnitTests.Subtext.Framework.Configuration
         }
 
         [Test]
-        public void FullTextSearchEngineSettings_WithConfig_MinimumDocumentFrequencyIsSet()
+        public void FullTextSearchEngineSettings_WithConfig_MinimumDocumentFrequencyIsAsSet()
         {
             FullTextSearchEngineSettings settings = FullTextSearchEngineSettings.Settings;
             Assert.IsNotNull(settings.Parameters);
             Assert.AreEqual(10, settings.Parameters.MinimumDocumentFrequency);
+        }
+
+        [Test]
+        public void FullTextSearchEngineSettings_WithEmptyConfig_IndexFolderLocationIsAdd_Data()
+        {
+            FullTextSearchEngineSettings settings = FullTextSearchEngineSettings.Settings;
+            Assert.AreEqual("~/App_Data", settings.IndexFolderLocation);
         }
         
     }

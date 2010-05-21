@@ -40,9 +40,11 @@ namespace Subtext.Framework.Configuration
             StopWords = StopAnalyzer.ENGLISH_STOP_WORDS_SET;
             Parameters = new TuningParameters();
             MinimumScore = 0.1f;
+            IndexFolderLocation = "~/App_Data";
         }
 
         public string Language { get; set; }
+        public string IndexFolderLocation { get; set; }
         public TuningParameters Parameters { get; set; }
         [XmlElement("StopWords")]
         public string StopWordsString
