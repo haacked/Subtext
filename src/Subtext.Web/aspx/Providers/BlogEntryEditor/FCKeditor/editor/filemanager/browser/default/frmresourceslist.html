@@ -108,7 +108,8 @@ function GetFoldersAndFilesCallBack(fckXml)
 	// Get the current folder path.
 	var oNode = fckXml.SelectSingleNode('Connector/CurrentFolder') ;
 	var sCurrentFolderPath	= oNode.attributes.getNamedItem('path').value ;
-	var sCurrentFolderUrl	= oNode.attributes.getNamedItem('url').value ;
+	var sCurrentFolderUrl = oNode.attributes.getNamedItem('url').value;
+	sCurrentFolderUrl = sCurrentFolderUrl.replace("//", "/");
 
 //	var dTimer = new Date() ;
 
