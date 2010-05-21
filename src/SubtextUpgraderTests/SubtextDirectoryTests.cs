@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using MbUnit.Framework;
 using Moq;
 using SubtextUpgrader;
@@ -12,19 +13,27 @@ namespace SubtextUpgraderTests
         public void CopyTo_WithDestinationDirectory_CopiesFiles()
         {
             // arrange
-            var source = new Mock<SubtextDirectory>(new DirectoryInfo("."));
-            var destination = new Mock<IDirectory>();
-            var file1 = new Mock<IFile>();
-            var file2 = new Mock<IFile>();
-            var files = new[] {file1.Object, file2.Object};
-            source.Setup(d => d.GetFiles()).Returns(files);
+            var source = new SubtextDirectory(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
+            source.Create();
+            
+            var destination = new SubtextDirectory(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
+            destination.Create();
 
+            var file1 = source.CombineFile(Guid.NewGuid().ToString());
+            using (var sw = new StreamWriter(file1.OpenWrite()))
+                sw.WriteLine(@"Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+
+            var file2 = source.CombineFile(Guid.NewGuid().ToString());
+            using (var sw = new StreamWriter(file2.OpenWrite()))
+                sw.WriteLine(@"Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+            
             // act
-            source.Object.CopyTo(destination.Object);
+            source.CopyTo(destination);
 
             // assert
-            file1.Verify(f => f.CopyTo(destination.Object));
-            file2.Verify(f => f.CopyTo(destination.Object));
+            FileAssert.Exists(destination.CombineFile(file1.Name).Path);
+            FileAssert.Exists(destination.CombineFile(file2.Name).Path);
+
         }
 
         [Test]
