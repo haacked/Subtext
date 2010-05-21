@@ -1,4 +1,6 @@
-﻿using MbUnit.Framework;
+﻿using System;
+using System.IO;
+using MbUnit.Framework;
 using Moq;
 using SubtextUpgrader;
 
@@ -11,17 +13,27 @@ namespace SubtextUpgraderTests
         public void Deploy_WithSourceAndDestinationDirectories_CopiesOneToTheOther()
         {
             // arrange
-            var webroot = new Mock<IDirectory>();
-            var destination = new Mock<IDirectory>();
-            destination.Setup(d => d.Combine(It.IsAny<string>())).Returns(new Mock<IDirectory>().Object);
-            destination.Setup(d => d.CombineFile(It.IsAny<string>())).Returns(new Mock<IFile>().Object);
-            var fileDeployer = new FileDeployer(webroot.Object, destination.Object);
+            var webroot = new SubtextDirectory(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
+            webroot.Create();
+
+            var destination = new SubtextDirectory(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
+            destination.Create();
+
+            var dir = webroot.Combine(Guid.NewGuid().ToString());
+            dir.Create();
+
+            var file = webroot.CombineFile(Guid.NewGuid().ToString());
+            using (var sw = new StreamWriter(file.OpenWrite()))
+                sw.WriteLine(@"Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+
+            var fileDeployer = new FileDeployer(webroot, destination);
 
             // act
             fileDeployer.Deploy();
 
             // assert
-            webroot.Verify(d => d.CopyTo(destination.Object));
+            Assert.IsTrue(destination.CombineFile(file.Name).Exists);
+            Assert.IsTrue(destination.Combine(dir.Name).Exists);            
         }
 
         [Test]
