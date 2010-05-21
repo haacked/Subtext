@@ -71,12 +71,14 @@ namespace Subtext
                 .InRequestScope()
                 .WithConstructorArgument("apiKey", c => c.Kernel.Get<Blog>().FeedbackSpamServiceKey)
                 .WithConstructorArgument("akismetClient", c => null);
+
             Bind<Directory>()
-                .ToMethod(c => FSDirectory.Open(new DirectoryInfo(c.Kernel.Get<HttpContext>().Server.MapPath("~/App_Data"))))
+                .ToMethod(c => FSDirectory.Open(new DirectoryInfo(c.Kernel.Get<HttpContext>().Server.MapPath(c.Kernel.Get<FullTextSearchEngineSettings>().IndexFolderLocation))))
                 .InSingletonScope();
             Bind<Analyzer>().To<SnowballAnalyzer>().InSingletonScope()
                 .WithConstructorArgument("name", c => c.Kernel.Get<FullTextSearchEngineSettings>().Language)
                 .WithConstructorArgument("stopWords", c => c.Kernel.Get<FullTextSearchEngineSettings>().StopWordsArray);
+
 
             // Dependencies you're less likely to change.
             LoadCoreDependencies();
@@ -110,7 +112,6 @@ namespace Subtext
             Bind<IServiceLocator>().To<NinjectServiceLocator>().InSingletonScope();
             Bind<IIndexingService>().To<IndexingService>().InSingletonScope();
             Bind<ISearchEngineService>().To<SearchEngineService>().InSingletonScope();
-
         }
 
         private void LoadGenericDependencies()
