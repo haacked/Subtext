@@ -72,13 +72,17 @@ namespace Subtext
                 .WithConstructorArgument("apiKey", c => c.Kernel.Get<Blog>().FeedbackSpamServiceKey)
                 .WithConstructorArgument("akismetClient", c => null);
 
-            Bind<Directory>()
-                .ToMethod(c => FSDirectory.Open(new DirectoryInfo(c.Kernel.Get<HttpContext>().Server.MapPath(c.Kernel.Get<FullTextSearchEngineSettings>().IndexFolderLocation))))
-                .InSingletonScope();
-            Bind<Analyzer>().To<SnowballAnalyzer>().InSingletonScope()
-                .WithConstructorArgument("name", c => c.Kernel.Get<FullTextSearchEngineSettings>().Language)
-                .WithConstructorArgument("stopWords", c => c.Kernel.Get<FullTextSearchEngineSettings>().StopWordsArray);
+            var indexingSettings = FullTextSearchEngineSettings.Settings;
 
+            if (indexingSettings.IsEnabled)
+            {
+                Bind<Directory>()
+                    .ToMethod(c => FSDirectory.Open(new DirectoryInfo(c.Kernel.Get<HttpContext>().Server.MapPath(indexingSettings.IndexFolderLocation))))
+                    .InSingletonScope();
+                Bind<Analyzer>().To<SnowballAnalyzer>().InSingletonScope()
+                    .WithConstructorArgument("name", indexingSettings.Language)
+                    .WithConstructorArgument("stopSet", indexingSettings.StopWords);
+            }
 
             // Dependencies you're less likely to change.
             LoadCoreDependencies();
@@ -110,8 +114,18 @@ namespace Subtext
             Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
             Bind<RequestContext>().ToMethod(c => Bootstrapper.RequestContext).InRequestScope();
             Bind<IServiceLocator>().To<NinjectServiceLocator>().InSingletonScope();
-            Bind<IIndexingService>().To<IndexingService>().InSingletonScope();
-            Bind<ISearchEngineService>().To<SearchEngineService>().InSingletonScope();
+
+            var indexingSettings = FullTextSearchEngineSettings.Settings;
+            if (indexingSettings.IsEnabled)
+            {
+                Bind<IIndexingService>().To<IndexingService>().InSingletonScope();
+                Bind<ISearchEngineService>().To<SearchEngineService>().InSingletonScope();
+            }
+            else
+            {
+                Bind<IIndexingService>().To<NoOpIndexingService>().InSingletonScope();
+                Bind<ISearchEngineService>().To<NoOpSearchEngineService>().InSingletonScope();
+            }
         }
 
         private void LoadGenericDependencies()

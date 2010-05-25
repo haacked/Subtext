@@ -50,6 +50,8 @@ namespace Subtext.Web.UI.Controls
 
             urlRelatedLinks.DataSource = SearchEngineService.RelatedContents(entry.Id, RowCount, blogId); ;
             urlRelatedLinks.DataBind();
+            if (urlRelatedLinks.Items.Count == 0)
+                this.Visible = false;
             base.OnLoad(e);
         }
 

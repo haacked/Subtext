@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         [SetUp]
         public void CreateSearchEngine()
         {
-            _service = new SearchEngineService(new RAMDirectory(), new StandardAnalyzer(Version.LUCENE_CURRENT), new FullTextSearchEngineSettings());
+            _service = new SearchEngineService(new RAMDirectory(), new StandardAnalyzer(Version.LUCENE_29), new FullTextSearchEngineSettings());
         }
         
         [TearDown]

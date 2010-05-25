@@ -103,7 +103,7 @@ namespace Subtext.Framework.Services.SearchEngine
 
         private QueryParser BuildQueryParser()
         {
-            var parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_CURRENT,Body, _analyzer);
+            var parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_29, Body, _analyzer);
             parser.SetDefaultOperator(QueryParser.Operator.AND);
             return parser;
         }
