@@ -41,10 +41,12 @@ namespace Subtext.Framework.Configuration
             Parameters = new TuningParameters();
             MinimumScore = 0.1f;
             IndexFolderLocation = "~/App_Data";
+            IsEnabled = true;
         }
 
         public string Language { get; set; }
         public string IndexFolderLocation { get; set; }
+        public bool IsEnabled { get; set; }
         public TuningParameters Parameters { get; set; }
         [XmlElement("StopWords")]
         public string StopWordsString
@@ -60,20 +62,6 @@ namespace Subtext.Framework.Configuration
         }
         [XmlIgnore]
         public Hashtable StopWords { get; private set; }
-
-        [XmlIgnore]
-        public String[] StopWordsArray { 
-            get
-                {
-                    var stopWords = new string[StopAnalyzer.ENGLISH_STOP_WORDS_SET.Values.Count];
-                    int i = 0;
-                    foreach (string value in StopAnalyzer.ENGLISH_STOP_WORDS_SET.Values)
-                    {
-                        stopWords[i++] = value;
-                    }
-                    return stopWords;
-                }
-        }
 
         public float MinimumScore { get; set; }
 

@@ -549,6 +549,8 @@
     <Compile Include="Services\SearchEngine\IndexingError.cs" />
     <Compile Include="Services\SearchEngine\IndexingService.cs" />
     <Compile Include="Services\SearchEngine\ISearchEngineService.cs" />
+    <Compile Include="Services\SearchEngine\NoOpIndexingService.cs" />
+    <Compile Include="Services\SearchEngine\NoOpSearchEngineService.cs" />
     <Compile Include="Services\SearchEngine\SearchEngineEntry.cs" />
     <Compile Include="Services\SearchEngine\SearchEngineResult.cs" />
     <Compile Include="Services\SearchEngine\SearchEngineService.cs" />
