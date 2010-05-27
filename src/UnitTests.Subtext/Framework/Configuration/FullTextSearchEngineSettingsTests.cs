@@ -60,6 +60,13 @@ namespace UnitTests.Subtext.Framework.Configuration
             FullTextSearchEngineSettings settings = FullTextSearchEngineSettings.Settings;
             Assert.AreEqual("~/App_Data", settings.IndexFolderLocation);
         }
+
+        [Test]
+        public void FullTextSearchEngineSettings_WithEmptyConfig_IsEnabledIsTrue()
+        {
+            FullTextSearchEngineSettings settings = FullTextSearchEngineSettings.Settings;
+            Assert.IsTrue(settings.IsEnabled);
+        }
         
     }
 }
