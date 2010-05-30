@@ -48,7 +48,7 @@ namespace SubtextUpgrader
 
         public void RemoveOldDirectories()
         {
-            var folderNames = new[] { "Admin", "HostAdmin", "Install", "SystemMessages" };
+            var folderNames = new[] { "Admin", "HostAdmin", "Install", "SystemMessages", "Providers", "Sitemap" };
             foreach(var folderName in folderNames)
             {
                 Destination.Combine(folderName).Delete(true /*recursive*/);
