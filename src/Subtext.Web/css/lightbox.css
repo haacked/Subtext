@@ -65,12 +65,11 @@
 	}
 #prevLink { left: 0; float: left;}
 #nextLink { right: 0; float: right;}
-#prevLink:hover, #prevLink:visited:hover { background: url(../images/lightbox/prev.gif) left 50% no-repeat; }
-#nextLink:hover, #nextLink:visited:hover { background: url(../images/lightbox/next.gif) right 50% no-repeat; }
+#prevLink:hover, #prevLink:visited:hover { background: url(../images/lightbox/prevlabel.gif) left 50% no-repeat; }
+#nextLink:hover, #nextLink:visited:hover { background: url(../images/lightbox/nextlabel.gif) right 50% no-repeat; }
 
 /*** START : next / previous text links ***/
 #nextLinkText, #prevLinkText{
-color: #FF9834;
 font-weight:bold;
 text-decoration: none;
 }
