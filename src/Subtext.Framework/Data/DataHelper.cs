@@ -218,6 +218,7 @@ namespace Subtext.Framework.Data
         {
             var entry = new EntryStatsView
             {
+                BlogId = reader.ReadValue("BlogId",0),
                 PostType = ((PostType)reader.ReadValue<int>("PostType")),
                 WebCount = reader.ReadValue("WebCount", 0),
                 AggCount = reader.ReadValue("AggCount", 0),
