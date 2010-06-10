@@ -95,7 +95,7 @@ var releases = new Release[] {
 		<sourcecontrol type="filtered">
 			<sourceControlProvider type="svn">
 				<executable>C:\Program Files\Subversion\bin\svn.exe</executable>
-				<trunkUrl>http://subtext.googlecode.com/svn/trunk/src/CCNET_Config</trunkUrl>
+				<trunkUrl>http://subtext.googlecode.com/svn/trunk/tools/CCNET_Config</trunkUrl>
 				<autoGetSource>true</autoGetSource>
 			</sourceControlProvider>
 		</sourcecontrol>
