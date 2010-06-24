@@ -30,18 +30,18 @@ namespace Subtext.Web.UI
     /// </summary>
     public static class UIData
     {
-        public static LinkCategory Links(CategoryType catType, Blog blog)
+        public static LinkCategory Links(CategoryType catType, Blog blog, UrlHelper urlHelper)
         {
             switch(catType)
             {
                 case CategoryType.PostCollection:
-                    return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection, blog);
+                    return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection, blog, urlHelper);
 
                 case CategoryType.ImageCollection:
-                    return Transformer.BuildLinks(UIText.ImageCollection, CategoryType.ImageCollection, blog);
+                    return Transformer.BuildLinks(UIText.ImageCollection, CategoryType.ImageCollection, blog, urlHelper);
 
                 case CategoryType.StoryCollection:
-                    return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection, blog);
+                    return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection, blog, urlHelper);
 
                 default:
                     Debug.Fail(String.Format(CultureInfo.InvariantCulture,
