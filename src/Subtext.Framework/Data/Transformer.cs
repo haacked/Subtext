@@ -32,10 +32,10 @@ namespace Subtext.Framework.Data
         /// <summary>
         /// Converts a LinkCategoryCollection into a single LinkCategory with its own LinkCollection.
         /// </summary>
-        public static LinkCategory BuildLinks(string title, CategoryType catType, Blog blog)
+        public static LinkCategory BuildLinks(string title, CategoryType catType, Blog blog, UrlHelper urlHelper)
         {
             ICollection<LinkCategory> links = ObjectProvider.Instance().GetCategories(catType, true /* activeOnly */);
-            return MergeLinkCategoriesIntoSingleLinkCategory(title, catType, links, new UrlHelper(null, null), blog);
+            return MergeLinkCategoriesIntoSingleLinkCategory(title, catType, links, urlHelper, blog);
         }
 
         /// <summary>

@@ -11,5 +11,5 @@ using System.Reflection;
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: AssemblyVersionAttribute("2.5.0.0")]
+[assembly: AssemblyVersionAttribute("2.5.1.0")]
 

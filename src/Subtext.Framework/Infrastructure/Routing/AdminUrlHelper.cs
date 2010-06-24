@@ -104,7 +104,7 @@ namespace Subtext.Framework.Routing
 
         public VirtualPath Referrers(int id)
         {
-            return Url.AdminUrl("Referrers.aspx", new { PostId = id });
+            return Url.AdminUrl("Referrers.aspx", new { EntryId = id });
         }
 
         public VirtualPath Statistics()

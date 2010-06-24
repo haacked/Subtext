@@ -145,6 +145,7 @@ namespace Subtext.Web.UI.Controls
                 {
                     TrackBack.Text = TrackHelpers.TrackBackTag(entry, Blog, Url);
                 }
+                DataBind();
             }
             else
             {

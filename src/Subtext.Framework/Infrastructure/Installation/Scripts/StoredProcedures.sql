@@ -2188,8 +2188,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]
 	, @CurrentDateTime datetime
 )
 AS
-
-SELECT TOP(@ItemCount) 
+SET ROWCOUNT @ItemCount
+SELECT 
 	content.BlogId
 	, content.[ID]
 	, content.Title
