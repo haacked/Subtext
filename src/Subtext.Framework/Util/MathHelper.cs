@@ -29,7 +29,7 @@ namespace Subtext.Framework.Util
 
         public static decimal GetAspectRatio(int width, int height)
         {
-            return width / height;
+            return (decimal)width / (decimal)height;
         }
 
         /// <summary>
@@ -44,7 +44,6 @@ namespace Subtext.Framework.Util
             decimal originalWidth = original.Width;
             decimal originalHeight = original.Height;
 
-
             if(originalWidth <= maxWidth && originalHeight <= maxHeight)
             {
                 return original;
@@ -54,11 +53,11 @@ namespace Subtext.Framework.Util
             decimal factor;
             if(original.GetAspectRatio() > aspectRatio)
             {
-                factor = originalWidth / maxWidth;
+                factor = originalWidth / (decimal)maxWidth;
             }
             else
             {
-                factor = originalHeight / maxHeight;
+                factor = originalHeight / (decimal)maxHeight;
             }
 
             int newWidth = Convert.ToInt32(originalWidth / factor);

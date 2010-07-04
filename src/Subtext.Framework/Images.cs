@@ -23,6 +23,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Util;
 using Image=Subtext.Framework.Components.Image;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework
 {
@@ -73,7 +74,7 @@ namespace Subtext.Framework
 
                 /// TODO: make new sizes configurations. 
                 // New Display Size
-                Size displaySize = originalSize.ScaleToFit(640, 480);
+                Size displaySize = originalSize.ScaleToFit(Config.Settings.GalleryImageMaxWidth, Config.Settings.GalleryImageMaxHeight);
                 image.Height = displaySize.Height;
                 image.Width = displaySize.Width;
                 using(System.Drawing.Image displayImage = originalImage.GetResizedImage(displaySize))
@@ -82,7 +83,7 @@ namespace Subtext.Framework
                 }
 
                 // smaller thumbnail
-                Size thumbSize = originalSize.ScaleToFit(120, 120);
+                Size thumbSize = originalSize.ScaleToFit(Config.Settings.GalleryImageThumbnailWidth, Config.Settings.GalleryImageThumbnailHeight);
                 using(System.Drawing.Image thumbnailImage = originalImage.GetResizedImage(thumbSize))
                 {
                     thumbnailImage.Save(image.ThumbNailFilePath, ImageFormat.Jpeg);

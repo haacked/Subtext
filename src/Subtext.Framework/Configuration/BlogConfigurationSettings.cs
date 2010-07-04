@@ -38,6 +38,10 @@ namespace Subtext.Framework.Configuration
             ItemCount = 15;
             CategoryListPostCount = 10;
             ServerTimeZone = -2037797565; //PST
+            GalleryImageMaxWidth = 640;
+            GalleryImageMaxHeight = 480;
+            GalleryImageThumbnailHeight = 120;
+            GalleryImageThumbnailWidth = 120;
         }
 
         public Tracking Tracking
@@ -87,6 +91,11 @@ namespace Subtext.Framework.Configuration
         /// </summary>
         /// <value></value>
         public int ServerTimeZone { get; set; }
+
+        public int GalleryImageMaxWidth { get; set; }
+        public int GalleryImageMaxHeight { get; set; }
+        public int GalleryImageThumbnailWidth { get; set; }
+        public int GalleryImageThumbnailHeight { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether invisible captcha enabled.  This is 

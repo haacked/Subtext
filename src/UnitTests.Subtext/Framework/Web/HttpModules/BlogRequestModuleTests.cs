@@ -181,11 +181,11 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             //arrange
             var service = new Mock<IBlogLookupService>();
-            var result = new BlogLookupResult(null, new Uri("http://localhost/images/blog/identiconhandler.ashx"));
+            var result = new BlogLookupResult(null, new Uri("http://localhost/images/blog/services/identiconhandler.ashx"));
             service.Setup(s => s.Lookup(It.IsAny<BlogRequest>())).Returns(result);
             var httpResponse = new Mock<HttpResponseBase>();
             httpResponse.Setup(r => r.Redirect(It.IsAny<string>(), true)).Throws(new InvalidOperationException("Should not redirect"));
-            Mock<HttpRequestBase> httpRequest = CreateRequest("example.com", "/", "/images/identiconhandler.ashx", true);
+            Mock<HttpRequestBase> httpRequest = CreateRequest("example.com", "/", "/images/services/identiconhandler.ashx", true);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request).Returns(httpRequest.Object);
             httpContext.Setup(c => c.Response).Returns(httpResponse.Object);

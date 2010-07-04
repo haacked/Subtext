@@ -74,8 +74,18 @@ namespace Subtext.Framework.Web.HttpModules
         /// <value>The current.</value>
         public static BlogRequest Current
         {
-            get { return (BlogRequest)HttpContext.Current.Items[BlogRequestKey]; }
-            set { HttpContext.Current.Items[BlogRequestKey] = value; }
+            get {
+                if (HttpContext.Current == null) {
+                    return null;
+                }
+                return (BlogRequest)HttpContext.Current.Items[BlogRequestKey]; 
+            }
+            set {
+                if (HttpContext.Current != null)
+                {
+                    HttpContext.Current.Items[BlogRequestKey] = value;
+                }
+            }
         }
 
         public RequestLocation RequestLocation { get; private set; }

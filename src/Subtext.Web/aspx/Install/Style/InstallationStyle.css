@@ -206,3 +206,7 @@ div.summary dd
 	font-size: 1.2em;
 	color: #A52A2A;
 }
+
+span.accesskey {
+	text-decoration: underline;
+}
