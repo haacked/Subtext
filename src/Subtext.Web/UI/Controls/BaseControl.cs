@@ -25,6 +25,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.Web.Handlers;
 using Subtext.Web.Controls;
 using Subtext.Web.Controls.Captcha;
@@ -35,7 +36,7 @@ namespace Subtext.Web.UI.Controls
     /// <summary>
     /// Summary description for BaseControl.
     /// </summary>
-    public class BaseControl : UserControl
+    public class BaseControl : UserControl, ISkinControlContainer
     {
         AdminUrlHelper _adminUrlHelper;
 
@@ -221,6 +222,12 @@ namespace Subtext.Web.UI.Controls
             {
                 Controls.Remove(preExisting);
             }
+        }
+
+        public ISkinControlLoader SkinControlLoader
+        {
+            get;
+            set;
         }
     }
 }
