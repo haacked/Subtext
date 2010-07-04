@@ -38,7 +38,7 @@ namespace Subtext.Framework.UI.Skinning
 
         protected IContainerControl Container
         {
-            get; 
+            get;
             private set;
         }
 
@@ -51,9 +51,14 @@ namespace Subtext.Framework.UI.Skinning
         public Control LoadControl(string controlName)
         {
             var control = LoadControlFromSkin(controlName);
-            if(control != null && control.ID != null)
+            if (control != null && control.ID != null)
             {
                 control.ID = control.ID.Replace('.', '_');
+            }
+            var skinControl = control as ISkinControlContainer;
+            if (skinControl != null)
+            {
+                skinControl.SkinControlLoader = this;
             }
             return control;
         }
@@ -61,20 +66,20 @@ namespace Subtext.Framework.UI.Skinning
         Control LoadControlFromSkin(string controlName)
         {
             var result = GetLoadControlResult(Skin.TemplateFolder, controlName);
-            if(result.SkinControl != null)
+            if (result.SkinControl != null)
             {
                 return result.SkinControl;
             }
 
             // short circuit for this specific exception.
-            if(result.Exception is HttpParseException)
+            if (result.Exception is HttpParseException)
             {
                 return GetErrorControl(new SkinControlLoadException(Resources.SkinControlLoadException_Message, result.ControlPath, result.Exception));
             }
-            
+
             // Fallback
             var fallBack = GetLoadControlResult(SystemFolderName, controlName);
-            if(fallBack.SkinControl != null)
+            if (fallBack.SkinControl != null)
             {
                 return fallBack.SkinControl;
             }
@@ -88,13 +93,13 @@ namespace Subtext.Framework.UI.Skinning
             var result = GetLoadControlResult(SystemFolderName, ErrorControlName);
             Debug.Assert(result != null, "The result should never be null");
             var control = result.SkinControl;
-            if(control == null)
+            if (control == null)
             {
                 throw new InvalidOperationException("The system Error skin control is missing. Did you delete it by mistake? It should be located at '" + result.ControlPath + "'");
             }
-            
+
             var errorControl = result.SkinControl as IErrorControl;
-            if(errorControl != null)
+            if (errorControl != null)
             {
                 errorControl.Exception = exception;
             }
@@ -109,7 +114,7 @@ namespace Subtext.Framework.UI.Skinning
                 var control = Container.LoadControl(controlPath);
                 return new SkinControlLoadResult(controlPath, control, null);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new SkinControlLoadResult(controlPath, null, e);
             }

@@ -662,6 +662,7 @@
     <Compile Include="Controls\RepeaterWithEmptyDataTemplate.cs" />
     <Compile Include="Controls\RichTextEditor.cs" />
     <Compile Include="Controls\ScriptHelper.cs" />
+    <Compile Include="Controls\SkinControl.cs" />
     <Compile Include="Dependencies.cs" />
     <Compile Include="Controllers\CommentApiController.cs" />
     <Compile Include="Default.aspx.cs">
@@ -2409,6 +2410,7 @@
     <Content Include="Skins\WPSkin\style.css" />
     <Content Include="Skins\_System\commonlayout.css" />
     <Content Include="Skins\_System\commonstyle.css" />
+    <Content Include="Skins\_System\Controls\ArchivesPage.ascx" />
     <Content Include="Skins\_System\Controls\Error.ascx" />
     <Content Include="Skins\_System\Controls\Footer.ascx" />
     <Content Include="Skins\_System\Controls\FullTagCloud.ascx" />

@@ -90,7 +90,7 @@ public static class Routes
 
         routes.MapPagesToControlOfSameName("contact", "ArchivePostPage", "ArticleCategories", "search");
 
-        routes.MapControls("archives", "archives.aspx", null, new[] {"SingleColumn"});
+        routes.MapControls("archives", "archives.aspx", null, new[] {"ArchivesPage"});
 
         routes.MapControls("entries-by-day", "archive/{year}/{month}/{day}.aspx"
                            , new {year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])"}
