@@ -376,7 +376,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath CategoryUrl(Category category)
         {
-            var routeValues = new RouteValueDictionary {{"slug", category.Id}, {"categoryType", "category"}};
+            var routeValues = new RouteValueDictionary {{"slug", category.Title}, {"categoryType", "category"}};
             return GetVirtualPath("category", routeValues);
         }
 
