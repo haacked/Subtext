@@ -58,7 +58,7 @@ namespace Subtext.Framework.UI.Skinning
 
                         allTemplateConfigs =
                             from dir in skinsDirectory.Directories.OfType<VirtualDirectory>()
-                            where !dir.Name.StartsWith("_")
+                            where !dir.Name.StartsWith("_") && !dir.Name.StartsWith(".")
                             let templates = GetSkinTemplatesFromDir(dir)
                             from template in templates
                             select template;
@@ -74,7 +74,7 @@ namespace Subtext.Framework.UI.Skinning
 
                         allTemplateConfigs =
                             from dir in skinsDir.GetDirectories()
-                            where !dir.Name.StartsWith("_")
+                            where !dir.Name.StartsWith("_") && !dir.Name.StartsWith(".")
                             let templates = GetSkinTemplatesFromDir(dir)
                             from template in templates
                             select template;
@@ -122,7 +122,7 @@ namespace Subtext.Framework.UI.Skinning
                 deserializedTemplates.ForEach(t => t.TemplateFolder = directory.Name);
                 return deserializedTemplates;
             }
-            return new[] { new SkinTemplate { Name = directory.Name, TemplateFolder = directory.FullName } };
+            return new[] { new SkinTemplate { Name = directory.Name, TemplateFolder = directory.Name } };
         }
 
         private static IEnumerable<SkinTemplate> GetSkinTemplates(VirtualPathProvider virtualPathProvider, string path)

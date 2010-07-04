@@ -2433,7 +2433,6 @@
     <Content Include="aspx\HostAdmin\HostAdminTemplate.Master" />
     <Content Include="aspx\HostAdmin\Web.config" />
     <Content Include="aspx\Install\InstallTemplate.Master" />
-    <None Include="aspx\Install\Step03_CreateBlog.aspx.cs.bak" />
     <None Include="aspx\Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <None Include="aspx\Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="aspx\Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />

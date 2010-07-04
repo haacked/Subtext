@@ -296,7 +296,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.IdenticonUrl(123);
 
             //assert
-            Assert.AreEqual("/Subtext.Web/images/IdenticonHandler.ashx?code=123", url);
+            Assert.AreEqual("/Subtext.Web/images/services/IdenticonHandler.ashx?code=123", url);
         }
 
         [Test]
@@ -309,7 +309,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.IdenticonUrl(123);
 
             //assert
-            Assert.AreEqual("/images/IdenticonHandler.ashx?code=123", url);
+            Assert.AreEqual("/images/services/IdenticonHandler.ashx?code=123", url);
         }
 
         [Test]
@@ -324,7 +324,7 @@ namespace UnitTests.Subtext.Framework.Routing
             string url = helper.IdenticonUrl(123);
 
             //assert
-            Assert.AreEqual("/images/IdenticonHandler.ashx?code=123", url);
+            Assert.AreEqual("/images/services/IdenticonHandler.ashx?code=123", url);
         }
 
         [Test]

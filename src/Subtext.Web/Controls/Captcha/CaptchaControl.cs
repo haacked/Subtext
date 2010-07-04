@@ -206,7 +206,7 @@ namespace Subtext.Web.Controls.Captcha
             }
             writer.Write(">");
 
-            string src = HttpHelper.ExpandTildePath("~/images/CaptchaImage.ashx");
+            string src = HttpHelper.ExpandTildePath("~/images/services/CaptchaImage.ashx");
 
             writer.Write("<img src=\"{0}", src);
             if(!IsDesignMode)

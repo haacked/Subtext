@@ -997,10 +997,16 @@ namespace Subtext.Framework.Logging
         {
             if(HttpContext.Current != null)
             {
-                Uri url = HttpContext.Current.Request.Url;
-                if(url != null && ThreadContext.Properties != null)
+                try
                 {
-                    ThreadContext.Properties["Url"] = url.ToString();
+                    Uri url = HttpContext.Current.Request.Url;
+                    if (url != null && ThreadContext.Properties != null)
+                    {
+                        ThreadContext.Properties["Url"] = url.ToString();
+                    }
+                }
+                catch (HttpException) { 
+                
                 }
 
                 if(HttpContext.Current.Items != null && BlogRequest.Current != null)

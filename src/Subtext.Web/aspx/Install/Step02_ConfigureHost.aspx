@@ -28,20 +28,20 @@
 		<div id="hostForm" runat="server">
 			<asp:ValidationSummary ID="vldHostAdminSummary" runat="server" ValidationGroup="HostAdministration" HeaderText="Please correct the following issues" />
 			
-			<label for="txtUserName">UserName</label> 
+			<asp:Label AssociatedControlID="txtUserName" AccessKey="u" runat="server"><span class="accesskey">U</span>serName</asp:Label> 
 			<asp:TextBox ID="txtUserName" runat="server" CssClass="textbox" ValidationGroup="HostAdministration" />
 			<asp:RequiredFieldValidator ID="vldHostUsernameRequired" runat="server" ControlToValidate="txtUserName" ValidationGroup="HostAdministration" Text="*" Display="Dynamic" />
 			
-			<label for="txtEmail">Email <span class="note">(Optional, but useful if you forget your Password)</span></label>
+			<asp:Label AssociatedControlID="txtEmail" runat="server" AccessKey="e"><span class="accesskey">E</span>mail <span class="note">(Optional, but useful if you forget your Password)</span></asp:Label>
 			<asp:TextBox ID="txtEmail" runat="server" CssClass="textbox" />
 			<asp:RequiredFieldValidator ID="vldHostEmailRequired" runat="server" ControlToValidate="txtEmail" ValidationGroup="HostAdministration" Text="*" Display="Dynamic" />
 			<asp:RegularExpressionValidator ID="vldHostEmail" runat="server" ControlToValidate="txtEmail" ValidationGroup="HostAdministration" Text="*" ValidationExpression="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" ErrorMessage="Email address is not valid" Display="Dynamic" />
 		    	
-			<label for="txtPassword">Password</label> 
+			<asp:Label AssociatedControlID="txtPassword" runat="server" AccessKey="P"><span class="accesskey">P</span>assword</asp:Label> 
 			<asp:TextBox ID="txtPassword" runat="server" CssClass="textbox" TextMode="Password" />
 			<asp:RequiredFieldValidator ID="vldHostAdminPassword" runat="server" ControlToValidate="txtPassword" ValidationGroup="HostAdministration" Text="*" Display="Dynamic" />
 			
-			<label for="txtConfirmPassword">Confirm Password</label> 
+			<asp:Label AssociatedControlID="txtConfirmPassword" runat="server" AccessKey="C"><span class="accesskey">C</span>onfirm Password</asp:Label> 
 			<asp:TextBox ID="txtConfirmPassword" runat="server" CssClass="textbox" TextMode="Password" />
 			<asp:RequiredFieldValidator ID="vldHostComparePassword" runat="server" ControlToValidate="txtConfirmPassword" ValidationGroup="HostAdministration" Text="*" Display="Dynamic" />
 			<asp:CompareValidator ID="vldHostPasswordsMatch" runat="server" ControlToValidate="txtConfirmPassword" ControlToCompare="txtPassword" ValidationGroup="HostAdministration" Text="*" ErrorMessage="The passwords do not match." Display="Dynamic" />

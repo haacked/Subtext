@@ -8,5 +8,6 @@
 
 	<!-- Set NTFS ACLs on the destination specified in parameters.xml -->
 	<setAcl path="SubText.Web/images" setAclAccess="Modify" />
+	<setAcl path="SubText.Web/App_Data" setAclAccess="Modify" />
 
 </MSDeploy.iisApp>

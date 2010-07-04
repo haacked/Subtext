@@ -48,6 +48,19 @@ namespace UnitTests.Subtext.Framework.Util
         }
 
         [Test]
+        public void ScaleToFit_WithRealisticImageSizes_ScalesProperly()
+        {
+            // arrange
+            var original = new Size(1352, 879);
+
+            // act
+            Size resized = original.ScaleToFit(640, 480);
+
+            // assert
+            Assert.AreEqual(new Size(640, 416), resized); // aspect = 2
+        }
+
+        [Test]
         public void ScaleToFit_WithImageHavingAspectRatioLessThanOneScaledToAspectRatioGreaterThanOne_ScalesCorrectly()
         {
             // arrange
@@ -59,6 +72,19 @@ namespace UnitTests.Subtext.Framework.Util
 
             // assert
             Assert.AreEqual(new Size(2, 3), resized); // aspect = 0.67
+        }
+
+        [Test]
+        public void GetAspectRatio_WithLargeRatio_ReturnsCorrectValue() { 
+            // arrange
+            int width = 111;
+            int height = 31;
+
+            // act
+            var result = MathHelper.GetAspectRatio(width, height);
+
+            // assert
+            Assert.Between((double)result, (double)3.5806451612903225806451612902, (double)3.5806451612903225806451612904);
         }
     }
 }
