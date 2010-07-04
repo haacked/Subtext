@@ -809,10 +809,10 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.CategoryUrl(new LinkCategory {Id = 1234});
+            string url = helper.CategoryUrl(new LinkCategory {Id = 1234, Title = "my-category"});
 
             //assert
-            Assert.AreEqual("/category/1234.aspx", url);
+            Assert.AreEqual("/category/my-category.aspx", url);
         }
 
         [Test]
