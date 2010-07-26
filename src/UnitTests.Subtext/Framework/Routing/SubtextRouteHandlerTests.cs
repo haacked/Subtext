@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Subtext.Framework.Routing;
+using STRouting = Subtext.Framework.Routing;
 using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
@@ -22,13 +22,13 @@ namespace UnitTests.Subtext.Framework.Routing
             routeData.DataTokens.Add("controls", new[] {"SomeControl"});
             var httpContext = new Mock<HttpContextBase>();
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var pageWithControls = new Mock<IPageWithControls>();
+            var pageWithControls = new Mock<STRouting.IPageWithControls>();
             pageWithControls.Setup(p => p.SetControls(It.IsAny<IEnumerable<string>>())).Callback<IEnumerable<string>>(
                 c => controlNames = c);
-            var pageBuilder = new Mock<ISubtextPageBuilder>();
+            var pageBuilder = new Mock<STRouting.ISubtextPageBuilder>();
             pageBuilder.Setup(b => b.CreateInstanceFromVirtualPath(It.IsAny<string>(), It.IsAny<Type>())).Returns(
                 pageWithControls.Object);
-            IRouteHandler subtextRouteHandler = new PageRouteHandler("~/aspx/Dtp.aspx", pageBuilder.Object,
+            IRouteHandler subtextRouteHandler = new STRouting.PageRouteHandler("~/aspx/Dtp.aspx", pageBuilder.Object,
                                                                      new Mock<IServiceLocator>().Object);
 
             //act

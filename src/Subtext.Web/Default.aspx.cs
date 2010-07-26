@@ -37,7 +37,7 @@ namespace Subtext.Web
             
             var route = new RootRoute(HostInfo.Instance.BlogAggregationEnabled, serviceLocator);
             IRouteHandler routeHandler =
-                new PageRouteHandler(
+                new Subtext.Framework.Routing.PageRouteHandler(
                     HostInfo.Instance.BlogAggregationEnabled ? "~/aspx/AggDefault.aspx" : "~/aspx/Dtp.aspx",
                     serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator);
 
