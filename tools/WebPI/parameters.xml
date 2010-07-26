@@ -51,7 +51,11 @@
 
 	<!-- This is the parameter that is used to set ACLs, it's set to the application path \ public directory filled in by the user -->
 	<parameter name="SetAclParameter1" description="Automatically sets write access for the application" defaultValue="{Application Path}/images" tags="Hidden">
-		<parameterEntry type="ProviderPath" scope="setAcl" match="Subtext.Web" />
+		<parameterEntry type="ProviderPath" scope="setAcl" match="Subtext.Web/Images" /> 
+	</parameter>
+ 
+	<parameter name="SetAclParameter2" description="Automatically sets write access for the application" defaultValue="{Application Path}/App_Data" tags="Hidden">
+            <parameterEntry type="ProviderPath" scope="setAcl" match="Subtext.Web/App_Data" /> 
 	</parameter>
 
 </parameters>
