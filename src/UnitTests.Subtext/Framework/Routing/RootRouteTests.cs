@@ -3,7 +3,7 @@ using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
 using Ninject;
-using Subtext.Framework.Routing;
+using STRouting = Subtext.Framework.Routing;
 using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
@@ -17,16 +17,16 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
-            var routeHandler = routeData.RouteHandler as PageRouteHandler;
+            var routeHandler = routeData.RouteHandler as STRouting.PageRouteHandler;
             Assert.AreEqual("~/aspx/AggDefault.aspx", routeHandler.VirtualPath);
             Assert.AreSame(route, routeData.Route);
-            Assert.IsFalse(routeData.DataTokens.ContainsKey(PageRoute.ControlNamesKey));
+            Assert.IsFalse(routeData.DataTokens.ContainsKey(STRouting.PageRoute.ControlNamesKey));
         }
 
         [Test]
@@ -35,16 +35,16 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(false, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(false, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
-            var routeHandler = routeData.RouteHandler as PageRouteHandler;
+            var routeHandler = routeData.RouteHandler as STRouting.PageRouteHandler;
             Assert.AreEqual("~/aspx/Dtp.aspx", routeHandler.VirtualPath);
             Assert.AreSame(route, routeData.Route);
-            Assert.IsTrue(routeData.DataTokens.ContainsKey(PageRoute.ControlNamesKey));
+            Assert.IsTrue(routeData.DataTokens.ContainsKey(STRouting.PageRoute.ControlNamesKey));
         }
 
         [Test]
@@ -53,13 +53,13 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder", "subfolder" /* subfolder */, "~/");
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
-            var routeHandler = routeData.RouteHandler as PageRouteHandler;
+            var routeHandler = routeData.RouteHandler as STRouting.PageRouteHandler;
             Assert.AreEqual("~/aspx/Dtp.aspx", routeHandler.VirtualPath);
             Assert.AreSame(route, routeData.Route);
         }
@@ -70,13 +70,13 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder", "subfolder" /* subfolder */, "~/");
-            var route = new RootRoute(false, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(false, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
-            var routeHandler = routeData.RouteHandler as PageRouteHandler;
+            var routeHandler = routeData.RouteHandler as STRouting.PageRouteHandler;
             Assert.AreEqual("~/aspx/Dtp.aspx", routeHandler.VirtualPath);
             Assert.AreSame(route, routeData.Route);
         }
@@ -87,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/foo", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
@@ -103,7 +103,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/foo", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(false, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(false, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
@@ -120,7 +120,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/foo", "bar" /* subfolder */, "~/");
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
@@ -137,7 +137,7 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/foo", "bar" /* subfolder */, "~/");
-            var route = new RootRoute(false, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(false, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
@@ -152,13 +152,13 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/Default.aspx", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
-            var routeHandler = routeData.RouteHandler as PageRouteHandler;
+            var routeHandler = routeData.RouteHandler as STRouting.PageRouteHandler;
             Assert.AreEqual("~/aspx/AggDefault.aspx", routeHandler.VirtualPath);
             Assert.AreSame(route, routeData.Route);
         }
@@ -169,13 +169,13 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/Default.aspx", string.Empty /* subfolder */, "~/");
-            var route = new RootRoute(false, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(false, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
-            var routeHandler = routeData.RouteHandler as PageRouteHandler;
+            var routeHandler = routeData.RouteHandler as STRouting.PageRouteHandler;
             Assert.AreEqual("~/aspx/Dtp.aspx", routeHandler.VirtualPath);
             Assert.AreSame(route, routeData.Route);
         }
@@ -186,13 +186,13 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/default.aspx", "subfolder" /* subfolder */, "~/");
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
-            var routeHandler = routeData.RouteHandler as PageRouteHandler;
+            var routeHandler = routeData.RouteHandler as STRouting.PageRouteHandler;
             Assert.AreEqual("~/aspx/Dtp.aspx", routeHandler.VirtualPath);
             Assert.AreSame(route, routeData.Route);
         }
@@ -203,13 +203,13 @@ namespace UnitTests.Subtext.Framework.Routing
             //arrange
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeRequest("~/subfolder/default.aspx", "subfolder" /* subfolder */, "~/");
-            var route = new RootRoute(false, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(false, new Mock<IServiceLocator>().Object);
 
             //act
             RouteData routeData = route.GetRouteData(httpContext.Object);
 
             //assert
-            var routeHandler = routeData.RouteHandler as PageRouteHandler;
+            var routeHandler = routeData.RouteHandler as STRouting.PageRouteHandler;
             Assert.AreEqual("~/aspx/Dtp.aspx", routeHandler.VirtualPath);
             Assert.AreSame(route, routeData.Route);
         }
@@ -222,7 +222,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/default.aspx", string.Empty /* subfolder */, "~/");
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
             var routeValues = new RouteValueDictionary();
 
             //act
@@ -241,7 +241,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "subfolder");
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
             var routeValues = new RouteValueDictionary();
 
             //act
@@ -259,7 +259,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/default.aspx", "subfolder" /* subfolder */, "~/");
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
             var routeValues = new RouteValueDictionary(new {subfolder = "subfolder"});
 
             //act
@@ -277,7 +277,7 @@ namespace UnitTests.Subtext.Framework.Routing
             httpContext.FakeRequest("~/subfolder/default.aspx", string.Empty /* subfolder */, "~/");
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var route = new RootRoute(true, new Mock<IServiceLocator>().Object);
+            var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
             var routeValues = new RouteValueDictionary(new {foo = "bar"});
 
             //act

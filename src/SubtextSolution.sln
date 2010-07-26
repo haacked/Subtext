@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D145684-0EDA-4147-BF81-3B0BED7DA439}"
 	ProjectSection(SolutionItems) = preProject
 		..\tools\WebPI\installSQL.sql = ..\tools\WebPI\installSQL.sql
@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739
 		..\tools\CCNET_Config\Update-CCNET.build = ..\tools\CCNET_Config\Update-CCNET.build
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{ED6D2474-6402-4392-AFF0-6115A3F13C28}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Framework", "Subtext.Framework\Subtext.Framework.csproj", "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Web", "Subtext.Web\Subtext.Web.csproj", "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
@@ -29,8 +31,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.BlogEntryEditor.FCKeditor", "Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj", "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextUpgrader", "SubtextUpgrader\SubtextUpgrader.csproj", "{C49C4F5E-C147-40CF-96BB-EE12A7168CCF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{ED6D2474-6402-4392-AFF0-6115A3F13C28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextUpgraderTests", "SubtextUpgraderTests\SubtextUpgraderTests.csproj", "{86FA49AC-4761-4BFA-9C65-2F30DAEA792D}"
 EndProject

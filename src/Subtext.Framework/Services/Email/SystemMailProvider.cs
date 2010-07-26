@@ -48,7 +48,8 @@ namespace Subtext.Framework.Email
                 var from = new MailAddress(fromStr);
                 var to = new MailAddress(toStr);
 
-                var em = new MailMessage(from, to) {BodyEncoding = Encoding.UTF8, Subject = subject, Body = message, ReplyTo = from};
+                var em = new MailMessage(from, to) {BodyEncoding = Encoding.UTF8, Subject = subject, Body = message};
+                em.ReplyToList.Add(from);
 
                 var client = new SmtpClient(SmtpServer) {Port = Port, EnableSsl = SslEnabled};
 

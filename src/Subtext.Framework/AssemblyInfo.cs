@@ -25,4 +25,3 @@ using System.Security.Permissions;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
-[assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]

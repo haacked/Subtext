@@ -1,9 +1,10 @@
-﻿<#@ template language="C#v3.5" debug="True" hostspecific="True" #>
+﻿<#@ template language="C#" debug="True" hostspecific="True" #>
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Data" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Core.dll" #>
 <#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
 <#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
 <#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
 <#@ import namespace="System.Linq" #>
@@ -15,10 +16,10 @@
 <#@ import namespace="System.Data.Common" #>
 <#@ import namespace="System.Text" #>
 <#
-const string databaseName = "HaackedSubtext";
-//string databasePath = Path.GetFullPath(Host.ResolvePath(@"..\..\..\Subtext.Web\App_Data\" + databaseName + ".mdf"));
-//string ConnectionString = @"Server=.\SQLEXPRESS;AttachDbFilename=" + databasePath + ";Database=" + databaseName + ";Trusted_Connection=Yes;";
-string ConnectionString = @"Server=localhost;Database=" + databaseName + ";Trusted_Connection=True;";
+const string databaseName = "Subtext2.5";
+string databasePath = Path.GetFullPath(Host.ResolvePath(@"..\..\..\Subtext.Web\App_Data\" + databaseName + ".mdf"));
+string ConnectionString = @"Server=.\SQLEXPRESS;AttachDbFilename=" + databasePath + ";Database=" + databaseName + ";Trusted_Connection=Yes;";
+//string ConnectionString = @"Server=localhost;Database=" + databaseName + ";Trusted_Connection=True;";
 const string Namespace = "Subtext.Framework.Data";
 
 Server server = new Server();
