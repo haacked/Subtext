@@ -57,7 +57,7 @@ namespace Subtext.Framework.Data
         /// <param name="host">The host information.</param>
         public override bool UpdateHost(HostInfo host)
         {
-            return _procedures.UpdateHost(host.HostUserName, host.Password, host.Salt, host.Email);
+            return _procedures.UpdateHost(host.HostUserName, host.Email, host.Password, host.Salt);
         }
 
         /// <summary>
