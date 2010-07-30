@@ -45,18 +45,17 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack2]
+        [RollBack]
         public void GetRecentPostsDoesNotIncludeFuturePosts()
         {
+            DateTime now = Config.CurrentBlog.TimeZone.Now.AddMinutes(-5);
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null,
-                                                                               NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                               now);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null,
-                                                                              NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                              now.AddMinutes(1));
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null,
-                                                                              NullValue.NullDateTime);
+                                                                              now.AddMinutes(2));
 
             //Persist entries.
             UnitTestHelper.Create(entryZero);
@@ -87,18 +86,17 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack2]
+        [RollBack]
         public void GetEntriesByTagDoesNotIncludeFuturePosts()
         {
+            DateTime now = Config.CurrentBlog.TimeZone.Now.AddMinutes(-5);
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null,
-                                                                               NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                               now);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null,
-                                                                              NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                              now.AddMinutes(1));
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null,
-                                                                              NullValue.NullDateTime);
+                                                                              now.AddMinutes(2));
 
             //Persist entries.
             UnitTestHelper.Create(entryZero);
@@ -133,22 +131,21 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack2]
+        [RollBack]
         public void GetEntriesByCategoryDoesNotIncludeFuturePosts()
         {
+            DateTime now = Config.CurrentBlog.TimeZone.Now.AddMinutes(-5);
             //Create Category
             int blogId = Config.CurrentBlog.Id;
             int categoryId = UnitTestHelper.CreateCategory(blogId, "Test Category");
 
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null,
-                                                                               NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                               now);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null,
-                                                                              NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                              now.AddMinutes(1));
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null,
-                                                                              NullValue.NullDateTime);
+                                                                              now.AddMinutes(2));
 
             //Associate Category
             entryZero.Categories.Add("Test Category");
@@ -184,18 +181,19 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack2]
+        [RollBack]
         public void GetPostsByDayRangeDoesNotIncludeFuturePosts()
         {
+
+            DateTime now = Config.CurrentBlog.TimeZone.Now.AddMinutes(-5);
+
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null,
-                                                                               NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                               now);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null,
-                                                                              NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                              now.AddMinutes(1));
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null,
-                                                                              NullValue.NullDateTime);
+                                                                              now.AddMinutes(2));
 
 
             //Persist entries.
@@ -205,7 +203,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
 
             //Get Entries
-            DateTime now = Config.CurrentBlog.TimeZone.Now;
             var beginningOfMonth = new DateTime(now.Year, now.Month, 1);
             ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
                                                                     PostType.BlogPost, true);
@@ -227,23 +224,21 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack2]
+        [RollBack]
         public void GetPostCollectionByMonthDoesNotIncludeFuturePosts()
         {
+            DateTime now = Config.CurrentBlog.TimeZone.Now.AddMinutes(-5);
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null,
-                                                                               NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                               now);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null,
-                                                                              NullValue.NullDateTime);
-            Thread.Sleep(100);
+                                                                              now.AddMinutes(1));
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null,
-                                                                              NullValue.NullDateTime);
+                                                                              now.AddMinutes(2));
 
             //Persist entries.
             UnitTestHelper.Create(entryZero);
             UnitTestHelper.Create(entryOne);
-            DateTime now = Config.CurrentBlog.TimeZone.Now;
             entryTwo.DateSyndicated = now.AddMinutes(20);
             UnitTestHelper.Create(entryTwo);
 
