@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Components
             TimeZoneInfo serverTimeZone = TimeZones.GetTimeZones().GetById("Pacific Standard Time");
             DateTime now = DateTime.ParseExact("2009/08/11 11:50 PM", "yyyy/MM/dd hh:mm tt",
                                                CultureInfo.InvariantCulture);
-            DateTime utcNow = now.ToUniversalTime();
+            DateTime utcNow = TimeZoneInfo.ConvertTimeToUtc(now, serverTimeZone);
 
             //act
             var info = new ServerTimeZoneInfo(pacificTimeZone, serverTimeZone, now, utcNow);
@@ -37,7 +37,8 @@ namespace UnitTests.Subtext.Framework.Components
             TimeZoneInfo serverTimeZone = TimeZones.GetTimeZones().GetById("Pacific Standard Time");
             DateTime now = DateTime.ParseExact("2009/08/12 12:03 AM", "yyyy/MM/dd hh:mm tt",
                                                CultureInfo.InvariantCulture);
-            DateTime utcNow = now.ToUniversalTime();
+            
+            DateTime utcNow = TimeZoneInfo.ConvertTimeToUtc(now, serverTimeZone);
 
             //act
             var info = new ServerTimeZoneInfo(pacificTimeZone, serverTimeZone, now, utcNow);
