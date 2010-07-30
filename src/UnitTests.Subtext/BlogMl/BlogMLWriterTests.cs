@@ -15,6 +15,12 @@ namespace UnitTests.Subtext.BlogMl
     [TestFixture]
     public class BlogMLWriterTests
     {
+
+        private static string DateCreated(DateTime dateTime)
+        {
+            return String.Format(@"date-created=""{0}""", dateTime.ToUniversalTime().ToString("s"));
+        }
+
         [Test]
         public void Write_WithSourceReturningBlog_WritesBlogInfoToWriter()
         {
@@ -34,7 +40,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.Contains(output, @"<title type=""text""><![CDATA[Subtext Blog]]></title>");
             Assert.Contains(output, @"<sub-title type=""text""><![CDATA[A test blog]]></sub-title>");
             Assert.Contains(output, @"root-url=""http://subtextproject.com/""");
-            Assert.Contains(output, @"date-created=""2009-01-23T08:00:00""");
+            Assert.Contains(output, DateCreated(dateTime));
         }
 
         [Test]
