@@ -589,7 +589,8 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath TagUrl(string tagName)
         {
-            return GetVirtualPath("tag", new RouteValueDictionary{{"tag", tagName.Replace("#", "{:#:}")}});
+            //return GetVirtualPath("tag", new RouteValueDictionary{{"tag", tagName.Replace("#", "{:#:}")}});
+            return GetVirtualPath("tag", new RouteValueDictionary { { "tag", tagName } });
         }
 
         public virtual VirtualPath TagCloudUrl()
