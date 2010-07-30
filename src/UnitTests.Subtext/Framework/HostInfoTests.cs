@@ -60,6 +60,30 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual("test2", host.HostUserName, "Username wasn't changed.");
         }
 
+        [Test]
+        [RollBack2]
+        public void CanCorrectlyStored()
+        {
+            //init
+            EnsureHost();
+            HostInfo host = HostInfo.Instance;
+            Assert.IsNotNull(host, "Host should not be null.");
+
+            host.HostUserName = "test3";
+            host.Password = "password3";
+            host.Salt = "salt3";
+
+            HostInfo.UpdateHost(host);
+
+            //act
+            host = HostInfo.LoadHost(false);
+
+            //post
+            Assert.AreEqual("test3", host.HostUserName, "User name has not been correctly stored.");
+            Assert.AreEqual("password3", host.Password, "Password has not been correctly stored.");
+            Assert.AreEqual("salt3", host.Salt, "Salt has not been correctly stored.");
+        }
+
         static void EnsureHost()
         {
             try
