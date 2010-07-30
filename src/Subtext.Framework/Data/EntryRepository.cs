@@ -36,7 +36,7 @@ namespace Subtext.Framework.Data
         /// </summary>
         public override IPagedCollection<EntryStatsView> GetEntries(PostType postType, int? categoryId, int pageIndex, int pageSize)
         {
-            using(IDataReader reader = _procedures.GetEntries(BlogId, categoryId, pageIndex, pageSize, (int)postType))
+            using(IDataReader reader = _procedures.GetEntries(BlogId, categoryId, pageIndex, (int)postType, pageSize))
             {
                 return reader.ReadPagedCollection(r => reader.ReadEntryStatsView());
             }
