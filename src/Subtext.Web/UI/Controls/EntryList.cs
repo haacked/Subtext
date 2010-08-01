@@ -309,25 +309,35 @@ namespace Subtext.Web.UI.Controls
         protected virtual void BindEditLink(Entry entry, RepeaterItemEventArgs e)
         {
             var editLink = e.Item.FindControl("editLink") as HyperLink;
-            if(editLink != null)
+            var editInWlwLink = e.Item.FindControl("editInWlwLink") as HyperLink;
+
+            ExecDisplayEditLink(editLink, AdminUrl.PostsEdit(entry.Id).ToString(), Url.EditIconUrl().ToString());
+            ExecDisplayEditLink(editInWlwLink, Url.WindowsLiveWriterEditUrl(entry.Id, this.Blog), Url.EditInWlwIconUrl().ToString());
+        }
+
+        private void ExecDisplayEditLink(HyperLink link, string editUrl, string editImageUrl)
+        {
+            if (link != null)
             {
-                if(SecurityHelper.IsAdmin)
+                if (SecurityHelper.IsAdmin)
                 {
-                    editLink.Visible = true;
-                    if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
+                    link.Visible = true;
+                    link.NavigateUrl = editUrl;
+                    ControlHelper.SetTitleIfNone(link, Resources.ViewPost_EditThisEntry);
+
+                    if (String.IsNullOrEmpty(link.Text) && String.IsNullOrEmpty(link.ImageUrl))
                     {
                         //We'll slap on our little pencil icon.
-                        editLink.ImageUrl = Url.EditIconUrl();
-                        ControlHelper.SetTitleIfNone(editLink, Resources.EntryList_ClickToView);
-                        editLink.NavigateUrl = AdminUrl.PostsEdit(entry.Id);
+                        link.ImageUrl = editImageUrl;
                     }
                 }
                 else
                 {
-                    editLink.Visible = false;
+                    link.Visible = false;
                 }
             }
         }
+
 
         protected override void OnLoad(EventArgs e)
         {

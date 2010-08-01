@@ -349,6 +349,12 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath("search", new { q = keywords });
         }
 
+        public virtual string WindowsLiveWriterEditUrl(int id, Blog blog)
+        {
+            string url = GetVirtualPath("wlw", new { postid = id }).ToFullyQualifiedUrl(blog).ToString();
+            return url.Replace("http","wlw");
+        }
+
         public virtual VirtualPath MonthUrl(DateTime dateTime)
         {
             var routeValues = new RouteValueDictionary
@@ -585,6 +591,11 @@ namespace Subtext.Framework.Routing
         public virtual VirtualPath EditIconUrl()
         {
             return AppRoot() + "images/icons/edit.gif";
+        }
+
+        public virtual VirtualPath EditInWlwIconUrl()
+        {
+            return AppRoot() + "images/icons/edit-in-wlw.gif";
         }
 
         public virtual VirtualPath TagUrl(string tagName)

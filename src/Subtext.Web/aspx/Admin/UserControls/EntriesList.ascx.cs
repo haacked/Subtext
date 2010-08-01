@@ -144,6 +144,12 @@ namespace Subtext.Web.Admin.UserControls
             }
         }
 
+        public string WindowsLiveWriterEditUrl(object item)
+        {
+            var entry = (Entry)item;
+            return Url.WindowsLiveWriterEditUrl(entry.Id, this.Blog);
+        }
+
         public string ReferrersUrl(object item)
         {
             var entry = (Entry)item;

@@ -907,6 +907,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\icons\edit-in-wlw.gif" />
     <Content Include="transform.txt" />
   </ItemGroup>
   <ItemGroup>
