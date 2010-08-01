@@ -21,11 +21,13 @@ using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Logging;
+using Subtext.Extensibility.Providers;
+using System.Web.Configuration;
 
 namespace Subtext.Web.Admin
 {
     // This is sort of experimental right now. Not sure it's clean enough/performant enough.
-    internal static class Preferences
+    public static class Preferences
     {
         const int COOKIE_EXPIRY_MONTHS = 6;
         private const string COOKIES_CREATE_ISACTIVE = "AlwaysCreateItemsAsActive";
@@ -33,9 +35,11 @@ namespace Subtext.Web.Admin
         private const string COOKIES_FEEDBACK_FILTER = "AdminCookieFeedbackFilter";
         private const string COOKIES_FEEDBACK_SHOWONLYCOMMENTS = "AdminCookieFeedbackShowOnlyComments"; //obsolete
         private const string COOKIES_PAGE_SIZE_DEFAULT = "AdminCookieListingItemCount";
+        private const string COOKIES_USE_PLAIN_HTML_EDITOR = "UsePlainHtmlEditor";
+
         private readonly static ILog log = new Log();
 
-        internal static int ListingItemCount
+        public static int ListingItemCount
         {
             get
             {
@@ -57,7 +61,7 @@ namespace Subtext.Web.Admin
             }
         }
 
-        internal static bool AlwaysExpandAdvanced
+        public static bool AlwaysExpandAdvanced
         {
             get
             {
@@ -76,7 +80,7 @@ namespace Subtext.Web.Admin
             set { CreateCookie(COOKIES_EXPAND_ADVANCED, value, CookieExpiry); }
         }
 
-        internal static bool AlwaysCreateIsActive
+        public static bool AlwaysCreateIsActive
         {
             get
             {
@@ -99,12 +103,34 @@ namespace Subtext.Web.Admin
             }
         }
 
+        public static bool UsePlainHtmlEditor
+        {
+            get
+            {
+                HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_USE_PLAIN_HTML_EDITOR];
+                if (null != cookie)
+                {
+                    return String.Equals(cookie.Value, "true", StringComparison.InvariantCultureIgnoreCase)
+                               ? true
+                               : false;
+                }
+                else
+                {
+                    return Constants.USE_PLAIN_HTML_EDITOR_DEFAULT;
+                }
+            }
+            set
+            {
+                CreateCookie(COOKIES_USE_PLAIN_HTML_EDITOR, value, CookieExpiry);
+            }
+        }
+
         static DateTime CookieExpiry
         {
             get { return DateTime.Now.AddMonths(COOKIE_EXPIRY_MONTHS); }
         }
 
-        internal static string GetFeedbackItemFilter(FeedbackStatusFlag currentView)
+        public static string GetFeedbackItemFilter(FeedbackStatusFlag currentView)
         {
             string cookieName = COOKIES_FEEDBACK_FILTER + currentView;
             if(null != HttpContext.Current.Request.Cookies[cookieName])
@@ -114,7 +140,7 @@ namespace Subtext.Web.Admin
             return FeedbackType.None.ToString();
         }
 
-        internal static void SetFeedbackItemFilter(string value, FeedbackStatusFlag currentView)
+        public static void SetFeedbackItemFilter(string value, FeedbackStatusFlag currentView)
         {
             string cookieName = COOKIES_FEEDBACK_FILTER + currentView;
 
@@ -129,7 +155,7 @@ namespace Subtext.Web.Admin
         }
 
         //This is a helper. Maybe it should go in another class? 13-nov-06 mountain_sf
-        internal static FeedbackType ParseFeedbackItemFilter(string value)
+        public static FeedbackType ParseFeedbackItemFilter(string value)
         {
             try
             {
