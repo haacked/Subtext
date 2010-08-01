@@ -12,7 +12,7 @@
 				<th width="50">Web Views</th>
 				<th width="50">Agg Views</th>
 				<th width="50">Referrals</th>
-				<th width="50">&nbsp;</th>
+				<th width="100" style="text-align:center">Edit</th>
 				<th width="50">&nbsp;</th>
 			</tr>
 	</HeaderTemplate>
@@ -39,7 +39,7 @@
 				<a href="<%# ReferrersUrl(Container.DataItem) %>" title="View Referrals">View</a>
 			</td>				
 			<td>
-				<a href="<%# ContentEditUrl(Container.DataItem) %>" title="Edit Post">Edit</a>
+				<a href="<%# ContentEditUrl(Container.DataItem) %>" title="Edit Post">Online</a> - <a href="<%# WindowsLiveWriterEditUrl(Container.DataItem) %>" title="Edit Post in WLW">In WLW</a>
 			</td>
 			<td>
 				<asp:LinkButton id="lnkDelete" CausesValidation="False" CommandName="Delete" CommandArgument='<%# GetEntry(Container.DataItem).Id %>' Text="Delete" runat="server" CssClass="confirm-delete" />

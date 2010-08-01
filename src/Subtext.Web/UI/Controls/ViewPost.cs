@@ -180,23 +180,29 @@ namespace Subtext.Web.UI.Controls
         // will display the edit control.
         private void DisplayEditLink(IIdentifiable entry)
         {
-            if(editLink != null)
-            {
-                if(SecurityHelper.IsAdmin)
-                {
-                    editLink.Visible = true;
-                    editLink.NavigateUrl = AdminUrl.PostsEdit(entry.Id);
-                    ControlHelper.SetTitleIfNone(editLink, Resources.ViewPost_EditThisEntry);
+            ExecDisplayEditLink(editLink, AdminUrl.PostsEdit(entry.Id).ToString(), Url.EditIconUrl().ToString());
+            ExecDisplayEditLink(editInWlwLink, Url.WindowsLiveWriterEditUrl(entry.Id, this.Blog), Url.EditInWlwIconUrl().ToString());
+        }
 
-                    if(String.IsNullOrEmpty(editLink.Text) && String.IsNullOrEmpty(editLink.ImageUrl))
+        private void ExecDisplayEditLink(HyperLink link, string editUrl, string editImageUrl)
+        {
+            if (link != null)
+            {
+                if (SecurityHelper.IsAdmin)
+                {
+                    link.Visible = true;
+                    link.NavigateUrl = editUrl;
+                    ControlHelper.SetTitleIfNone(link, Resources.ViewPost_EditThisEntry);
+
+                    if (String.IsNullOrEmpty(link.Text) && String.IsNullOrEmpty(link.ImageUrl))
                     {
                         //We'll slap on our little pencil icon.
-                        editLink.ImageUrl = Url.EditIconUrl();
+                        link.ImageUrl = editImageUrl;
                     }
                 }
                 else
                 {
-                    editLink.Visible = false;
+                    link.Visible = false;
                 }
             }
         }

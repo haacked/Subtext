@@ -5,6 +5,7 @@ namespace Subtext.Web.UI.Controls
     public partial class ViewPost
     {
         protected HyperLink editLink;
+        protected HyperLink editInWlwLink;
         protected HyperLink TitleUrl;
         protected Label date;
         protected Label commentCount;
