@@ -487,6 +487,7 @@
     <Compile Include="SimulatedRequestContext.cs" />
     <Compile Include="SubtextWeb\Admin\AdminPageTests.cs" />
     <Compile Include="SubtextWeb\Admin\FeedbackTests.cs" />
+    <Compile Include="SubtextWeb\Admin\PreferencesTests.cs" />
     <Compile Include="SubtextWeb\Controllers\AccountControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\Admin\EntryControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\ExportControllerTests.cs" />
@@ -497,6 +498,7 @@
     <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />
     <Compile Include="SubtextWeb\Controls\ControlHelperTests.cs" />
     <Compile Include="SubtextWeb\Controls\InvisibleCaptchaTests.cs" />
+    <Compile Include="SubtextWeb\Controls\RichTextEditorTests.cs" />
     <Compile Include="SubtextWeb\HostAdmin\HostAdminPageTests.cs" />
     <Compile Include="SubtextWeb\Infrastructure\SubtextControllerFactoryTests.cs" />
     <Compile Include="SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs">

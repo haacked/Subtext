@@ -20,6 +20,10 @@ using System.Configuration.Provider;
 using MbUnit.Framework;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Configuration;
+using Subtext.Providers.BlogEntryEditor.FCKeditor;
+using Subtext.Web.Providers.BlogEntryEditor.FTB;
+using Subtext.Web.Admin;
+using Subtext.Web.Providers.BlogEntryEditor.PlainText;
 
 namespace UnitTests.Subtext.Framework.Providers
 {
@@ -45,6 +49,22 @@ namespace UnitTests.Subtext.Framework.Providers
             Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True;",
                             ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName",
                                                                                         configValue));
+        }
+
+        [Test]
+        public void ProvideEditor_Default_Is_FtbEditor()
+        {
+            using (var httpRequest = new HttpSimulator("http://localhost").SimulateRequest())
+            {
+                //arrange
+                BlogEntryEditorProvider provider;
+                
+                //act
+                ProviderConfigurationHelper.LoadProviderCollection<BlogEntryEditorProvider>("BlogEntryEditor", out provider);
+
+                //post (in test app.config the FtbBlogEntryEditorProvider is selected by default)
+                Assert.IsTrue(provider is FtbBlogEntryEditorProvider, "FtbBlogEntryEditorProvider is created by default.");
+            }
         }
     }
 }

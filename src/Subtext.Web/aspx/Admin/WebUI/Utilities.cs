@@ -190,6 +190,7 @@ namespace Subtext.Web.Admin
     {
         internal const bool ALWAYS_EXPAND_DEFAULT = false;
         internal const bool CREATE_ISACTIVE_DEFAULT = true;
+        internal const bool USE_PLAIN_HTML_EDITOR_DEFAULT = false;
         internal const string CSSSTYLE_HIDDEN = "display: none;";
 
         internal const CategoryType DEFAULT_CATEGORYTYPE = CategoryType.PostCollection;

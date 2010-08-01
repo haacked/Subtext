@@ -29,6 +29,9 @@ namespace Subtext.Web.Admin.Pages
             ddlExpandAdvanced.SelectedIndex = -1;
             ddlExpandAdvanced.Items.FindByValue(Preferences.AlwaysExpandAdvanced ? "true" : "false").Selected = true;
 
+            ddlUsePlainHtmlEditor.SelectedIndex = -1;
+            ddlUsePlainHtmlEditor.Items.FindByValue(Preferences.UsePlainHtmlEditor ? "true" : "false").Selected = true;
+
             base.BindLocalUI();
         }
 
@@ -39,6 +42,9 @@ namespace Subtext.Web.Admin.Pages
 
             bool alwaysExpand = Boolean.Parse(ddlExpandAdvanced.SelectedItem.Value);
             Preferences.AlwaysExpandAdvanced = alwaysExpand;
+
+            bool usePlainHtmlEditor = Boolean.Parse(ddlUsePlainHtmlEditor.SelectedItem.Value);
+            Preferences.UsePlainHtmlEditor = usePlainHtmlEditor;
         }
     }
 }

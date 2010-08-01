@@ -28,6 +28,13 @@
 			    <asp:ListItem Value="false">No</asp:ListItem>
 		    </asp:DropDownList> 
 	    </div>
+        <div>
+            <label for="Edit_ddlUsePlainHtmlEditor">Use plain HTML editor</label>
+            <asp:DropDownList id="ddlUsePlainHtmlEditor" runat="server" AutoPostBack="false" CssClass="number">
+			    <asp:ListItem Value="true">Yes</asp:ListItem>
+			    <asp:ListItem Value="false">No</asp:ListItem>            
+            </asp:DropDownList>
+        </div>
 	    <div class="button-div">
 		    <asp:Button id="lkbUpdate" runat="server" Text="Save" CssClass="buttonSubmit" onclick="lkbUpdate_Click" />
 	    </div>
