@@ -6,7 +6,7 @@
 
 <div class="post">
 	<div class="title">
-		<asp:HyperLink  Runat="server" ID="editLink" /><asp:hyperlink runat="server" id="TitleUrl" />
+		<asp:HyperLink  Runat="server" ID="editLink" /> <asp:HyperLink Runat="server" ID="editInWlwLink" /> <asp:hyperlink runat="server" id="TitleUrl" />
 	</div>
 	<div class="body">
 		<asp:literal id="Body" runat="server" />

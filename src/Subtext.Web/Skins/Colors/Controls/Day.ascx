@@ -8,7 +8,7 @@
 	<ItemTemplate>
 		<div class="dropshadow">
 			<div class="contentbox">
-				<h2><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink  CssClass="posttitle" Runat="server" ID="TitleUrl" /></h2>
+				<h2><asp:HyperLink Runat="server" ID="editLink" /> <asp:HyperLink Runat="server" ID="editInWlwLink" /> <asp:HyperLink  CssClass="posttitle" Runat="server" ID="TitleUrl" /></h2>
 				<div class="content">
 					<asp:Literal  runat="server" ID="PostText" />
 					<div class="postinfo">			

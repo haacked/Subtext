@@ -6,7 +6,7 @@
 			<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
 				<ItemTemplate>
 					<div class="blogpost">
-						<h2 class="postTitle"><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" /> <asp:Label ID="postDate" CssClass="postTitleDate" runat="server" Format="MMM dd" /> </h2>
+						<h2 class="postTitle"><asp:HyperLink Runat="server" ID="editLink" /> <asp:HyperLink Runat="server" ID="editInWlwLink" /> <asp:HyperLink Runat="server" ID="TitleUrl" /> <asp:Label ID="postDate" CssClass="postTitleDate" runat="server" Format="MMM dd" /> </h2>
 						<div class="post-content">
 							<asp:Literal  runat="server" ID="PostText" />
 							<p class="postfooter">

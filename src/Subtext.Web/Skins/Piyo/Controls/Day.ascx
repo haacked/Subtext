@@ -10,7 +10,7 @@
 	<ItemTemplate>
 		<div class="entry">
 
-			<h4><asp:HyperLink Runat="server" ID="editLink" /> <asp:HyperLink  Runat="server" ID="TitleUrl" /></h4>
+			<h4><asp:HyperLink Runat="server" ID="editLink" />  <asp:HyperLink Runat="server" ID="editInWlwLink" />  <asp:HyperLink  Runat="server" ID="TitleUrl" /></h4>
 			
 			<div class="post">
 			<asp:Literal  runat="server" ID="PostText" />

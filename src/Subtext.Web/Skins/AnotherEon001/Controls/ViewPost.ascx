@@ -7,7 +7,7 @@
 
 	<div class="post">
 		<h2>
-			<asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" />
+			<asp:HyperLink Runat="server" ID="editLink" />  <asp:HyperLink Runat="server" ID="editInWlwLink" /> <asp:HyperLink Runat="server" ID="TitleUrl" />
 		</h2>
 		<asp:Literal id="Body"  runat="server" />
 		<uc1:RelatedLinks id="RelatedLinks" runat="server" />
