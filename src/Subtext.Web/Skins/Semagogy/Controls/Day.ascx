@@ -9,7 +9,7 @@
 		<ItemTemplate>
 			<dl class="Post">
 				<dt>
-					<asp:HyperLink  Runat="server" ID="editLink" /><asp:hyperlink runat="server" id="TitleUrl" />
+					<asp:HyperLink  Runat="server" ID="editLink" /> <asp:HyperLink Runat="server" ID="editInWlwLink" /> <asp:hyperlink runat="server" id="TitleUrl" />
 				</dt>
 				<dd class="Text">
 					<asp:literal  runat="server" id="PostText" />

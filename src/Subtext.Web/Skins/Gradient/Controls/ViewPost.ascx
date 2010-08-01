@@ -4,7 +4,7 @@
 <uc1:PreviousNext id="PreviousNext" runat="server" />
 
 	<div class="blogpost">
-		<h2 class="postTitle"><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" /> <asp:Label ID="postDate" CssClass="postTitleDate" runat="server" Format="MMM dd" /> </h2>
+		<h2 class="postTitle"><asp:HyperLink Runat="server" ID="editLink" /> <asp:HyperLink Runat="server" ID="editInWlwLink" /> <asp:HyperLink Runat="server" ID="TitleUrl" /> <asp:Label ID="postDate" CssClass="postTitleDate" runat="server" Format="MMM dd" /> </h2>
 		<div class="post-content">
 			<asp:Literal id="Body"  runat="server" />
 			<p class="postfooter">
