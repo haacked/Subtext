@@ -21,6 +21,6 @@ using System.Resources;
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
 [assembly: AssemblyCopyright("Copyright © Phil Haack. 2005-2010 - BSD License")]
-[assembly: AssemblyInformationalVersion("2.6.0.0")]
+[assembly: AssemblyInformationalVersion("2.6 Alpha")]
 [assembly: AssemblyDelaySign(false)]
 [assembly: NeutralResourcesLanguage("en-US")]
