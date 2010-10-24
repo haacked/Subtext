@@ -1,1 +1,1 @@
-tools\Nant\NAnt -verbose -buildfile:src\SubText-CCNET.build -D:CCNetProject=Subtext -D:CCNetBuildDate=2007/08/11 -D:CCNetBuildTime=13:00:00 -D:CCNetArtifactDirectory=".." -D:CCNetWorkingDirectory="%~dp0." -D:CCNetLabel=2.2.0.0 -D:fxcop.exe="tools\FxCop\FxCopCmd.exe" testAndCover reporting release dist.source > build.log
+tools\Nant\NAnt -verbose -buildfile:src\SubText-CCNET.build -D:build.version=2.5.1.1 -D:root.dir=".." release > build.log
