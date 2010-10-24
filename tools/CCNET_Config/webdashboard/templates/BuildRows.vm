@@ -1,4 +1,0 @@
-<!-- This uses an inline style so Firefox respects the height setting. -->
-#foreach ($link in $links)
-   <li style="height:34px"><a href="$link.Url" class="$link.LinkClass">$link.Text</a></li>
-#end
