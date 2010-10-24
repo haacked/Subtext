@@ -9,7 +9,7 @@
 		</if>
 		
 		<!-- Root folder which all other folders are relative to -->
-		<property name="root.dir" value="." />
+		<property name="root.dir" value=".." />
 		
 		<!-- System .NET folders and paths -->
 		<property name="dotnetfx" value="C:\WINDOWS\Microsoft.NET\Framework" />
