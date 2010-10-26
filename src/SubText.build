@@ -57,6 +57,7 @@
 		<property name="webPI.dir" value="${tools.dir}\WebPI" />
 		
 		<loadtasks path="${tools.dir}\NAnt\tasks" failonerror="false" />
+		<loadtasks assembly="${tools.dir}\Gallio\bin\Gallio.NAntTasks.dll" failonerror="false" />
 	</target>
 
 	
@@ -120,6 +121,18 @@
 		</exec>
 	</target>
     
+	<target name="test" depends="get-publishing-properties,compile-debug">
+		<mkdir dir="${log.dir}" />
+		
+		 <gallio result-property="ExitCode" failonerror="true">
+		  <files>
+			<!-- Specify the tests files and assemblies -->
+			<include name="${source.dir}\UnitTests.Subtext\bin\debug\UnitTests.Subtext.dll" />
+		  </files>
+		 </gallio>
+
+	</target>
+	
 	<!-- 
 		Compiles Subtext and runs the MbUnit tests and NCover reports.
 	-->
@@ -129,8 +142,8 @@
 		<ncover
 			commandLineExe="${mbunit.exe}"
 			commandLineArgs='/rnf:unittest /rt:xml /rf:"${log.dir}" UnitTests.Subtext.dll'
-			program="${ncover.exe}"
-			workingDirectory="UnitTests.Subtext\bin\${configuration}"
+			program="C:\Progetti\SubText\trunk\tools\NCover\NCover.Console.exe"
+			workingDirectory="${source.dir}\UnitTests.Subtext\bin\${configuration}"
 			coverageFile="${log.dir}\ncover-temp.xml"
 			excludeAttributes="CoverageExcludeAttribute"
 		/>
