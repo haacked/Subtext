@@ -26,12 +26,11 @@
 		<property name="fxcop.dir" value="${tools.dir}\FxCop" />
 		<property name="fxcop.exe" value="${fxcop.dir}\FxCopCmd.exe" />
 		
-		<property name="mbunit.dir" value="${tools.dir}\MbUnit" />
-		<property name="mbunit.exe" value="${mbunit.dir}\MbUnit.Cons.exe" />
+		<property name="gallio.dir" value="${tools.dir}\Gallio\bin" />
+		<property name="gallio.exe" value="${gallio.dir}\Gallio.Echo.exe" />
 		
 		<property name="ncover.dir" value="${tools.dir}\NCover" />
 		<property name="ncover.exe" value="${ncover.dir}\NCover.Console.exe" />
-		<property name="ncoverexplorer.exe" value="${ncover.dir}\NCoverExplorer.Console.exe" />
 		
 		<property name="ndepend.dir" value="${tools.dir}\NDepend" />
 		<property name="ndepend.exe" value="${ndepend.dir}\NDepend.Console.exe" />
@@ -123,8 +122,15 @@
     
 	<target name="test" depends="get-publishing-properties,compile-debug">
 		<mkdir dir="${log.dir}" />
-		
-		 <gallio result-property="ExitCode" failonerror="true">
+		 
+		 <mkdir dir="${log.dir}" />
+		 <gallio result-property="ExitCode"
+		 failonerror="true"
+            report-types="html;xml;text"
+            report-directory="src\${log.dir}"
+			report-name-format="test-report"
+		 echo-results="true"
+		 verbosity="Debug">
 		  <files>
 			<!-- Specify the tests files and assemblies -->
 			<include name="${source.dir}\UnitTests.Subtext\bin\debug\UnitTests.Subtext.dll" />
@@ -138,17 +144,24 @@
 	-->
 	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
 		<mkdir dir="${log.dir}" />
-		
-		<ncover
-			commandLineExe="${mbunit.exe}"
-			commandLineArgs='/rnf:unittest /rt:xml /rf:"${log.dir}" UnitTests.Subtext.dll'
-			program="C:\Progetti\SubText\trunk\tools\NCover\NCover.Console.exe"
-			workingDirectory="${source.dir}\UnitTests.Subtext\bin\${configuration}"
-			coverageFile="${log.dir}\ncover-temp.xml"
-			excludeAttributes="CoverageExcludeAttribute"
-		/>
 
-		<call target="util.ncoverexplorer.nant" />
+		<ncover program="C:\Program Files\NCover\NCover.Console.exe"
+				testRunnerExe="${gallio.exe}"
+				testRunnerArgs="${source.dir}\${test.assembly.path}"
+				coverageFile="${log.dir}\coverage.nccov"
+				workingDirectory="${source.dir}\UnitTests.Subtext\bin\debug"
+				coverChildProcess="Gallio.Host.exe"
+				literalMode="true"
+				onlyAssembliesWithSource="True"
+				projectName="Sample"/>
+				
+	<echo message="##teamcity[dotNetCoverage ncover3_home='C:\Program Files\NCover\']" />
+        
+    <echo message="##teamcity[dotNetCoverage ncover3_reporter_args='//or FullCoverageReport:Html:{teamcity.report.path}']" />
+    
+    <echo message="##teamcity[importData type='dotNetCoverage' tool='ncover3' path='${log.dir}\coverage.nccov']" />
+
+	
 	</target>
 
 	<target name="reporting" depends="compile-release">
@@ -159,26 +172,6 @@
 			analysisReportFilename="${log.dir}\ccnet-fxcop.xml"
 			failonerror="false"
 		/>
-	</target>
-
-	<target name="util.ncoverexplorer.nant">
-		<echo message="Starting NCoverExplorer report generation..."/>
-
-		<!-- Other attributes that can be used on ncoverexplorer element:               -->
-		<!--   failMinimum="True" would fail the build if minimum coverage not met.     -->
-		<!-- Remove the xmlReportName and/or htmlReportName attributes to not generate. -->
-		<!-- Report types are 1=Module, 2=Namespace, 3=Namespace/Module.                -->
-		<!-- Valid exclusion 'type' attributes are 'Assembly', 'Namespace' and 'Class'. -->
-		<ncoverexplorer program="${ncoverexplorer.exe}"
-						projectName="SubText"
-						reportType="3"
-						outputDir="${log.dir}" 
-						xmlReportName="ncover.xml"
-						showExcluded="True">
-			<fileset>
-				<include name="${log.dir}\ncover-temp.xml"/>
-			</fileset>
-		</ncoverexplorer>
 	</target>
 
 	<target name="release" depends="dist.archive">
