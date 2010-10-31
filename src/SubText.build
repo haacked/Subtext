@@ -10,15 +10,20 @@
 		
 		<!-- Root folder which all other folders are relative to -->
 		<property name="root.dir" value=".." />
+		<!-- Root of the source tree -->
+		<property name="source.dir" value="${root.dir}\src" />
+		
+		<!-- BEGIN Properties to customize -->
+		<property name="solution.name" value="SubtextSolution.sln" />
+		<property name="test.assembly.dir" value="${source.dir}\UnitTests.Subtext\bin\Debug" />
+		<property name="test.assembly.dll" value="${test.assembly.dir}\UnitTests.Subtext.dll" />
+		<!-- END Properties to customize -->		
+		
 		
 		<!-- System .NET folders and paths -->
 		<property name="dotnetfx" value="C:\WINDOWS\Microsoft.NET\Framework" />
 		<property name="aspnet_compiler.exe" value="${dotnetfx}\v4.0.30319\aspnet_compiler.exe" />
 		<property name="msbuild.exe" value="${dotnetfx}\v4.0.30319\MSBuild.exe" />
-
-		<!-- Root of the source tree -->
-		<property name="source.dir" value="${root.dir}\src" />
-		
 		<!-- Root of the tools tree -->
 		<property name="tools.dir" value="${root.dir}\tools" />
 		
@@ -112,7 +117,7 @@
 	</target>
 	<target name="compile">
 		<exec program="${msbuild.exe}">
-			<arg value="${source.dir}\SubtextSolution.sln"/>
+			<arg value="${source.dir}\${solution.name}"/>
 			<arg value="/nologo"/>
 			<arg value="/verbosity:normal"/>
 			<arg value="/t:Build"/>
@@ -133,7 +138,7 @@
 		 verbosity="Debug">
 		  <files>
 			<!-- Specify the tests files and assemblies -->
-			<include name="${source.dir}\UnitTests.Subtext\bin\debug\UnitTests.Subtext.dll" />
+			<include name="${test.assembly.dll}" />
 		  </files>
 		 </gallio>
 
@@ -145,17 +150,17 @@
 	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
 		<mkdir dir="${log.dir}" />
 
-		<ncover program="C:\Program Files\NCover\NCover.Console.exe"
+		<ncover program="${ncover.exe}"
 				testRunnerExe="${gallio.exe}"
-				testRunnerArgs="${source.dir}\${test.assembly.path}"
+				testRunnerArgs="${test.assembly.dll}"
 				coverageFile="${log.dir}\coverage.nccov"
-				workingDirectory="${source.dir}\UnitTests.Subtext\bin\debug"
+				workingDirectory="${test.assembly.dir}"
 				coverChildProcess="Gallio.Host.exe"
 				literalMode="true"
 				onlyAssembliesWithSource="True"
 				projectName="Sample"/>
 				
-	<echo message="##teamcity[dotNetCoverage ncover3_home='C:\Program Files\NCover\']" />
+	<echo message="##teamcity[dotNetCoverage ncover3_home='${ncover.dir}']" />
         
     <echo message="##teamcity[dotNetCoverage ncover3_reporter_args='//or FullCoverageReport:Html:{teamcity.report.path}']" />
     
