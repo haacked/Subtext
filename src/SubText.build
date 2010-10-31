@@ -154,11 +154,10 @@
 				testRunnerExe="${gallio.exe}"
 				testRunnerArgs="${test.assembly.dll}"
 				coverageFile="${log.dir}\coverage.nccov"
-				workingDirectory="${test.assembly.dir}"
 				coverChildProcess="Gallio.Host.exe"
 				literalMode="true"
 				onlyAssembliesWithSource="True"
-				projectName="Sample"/>
+				projectName="Subtext"/>
 				
 	<echo message="##teamcity[dotNetCoverage ncover3_home='${ncover.dir}']" />
         
