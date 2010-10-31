@@ -16,7 +16,7 @@
 		<!-- BEGIN Properties to customize -->
 		<property name="solution.name" value="SubtextSolution.sln" />
 		<property name="test.assembly.dir" value="${source.dir}\UnitTests.Subtext\bin\Debug" />
-		<property name="test.assembly.dll" value="${test.assembly.dir}\UnitTests.Subtext.dll" />
+		<property name="test.assembly.dll" value="UnitTests.Subtext.dll" />
 		<!-- END Properties to customize -->		
 		
 		
@@ -154,8 +154,7 @@
 				testRunnerExe="${gallio.exe}"
 				testRunnerArgs="${test.assembly.dll}"
 				coverageFile="${log.dir}\coverage.nccov"
-				coverChildProcess="Gallio.Host.exe"
-				literalMode="true"
+				workingDirectory="${test.assembly.dir}"
 				onlyAssembliesWithSource="True"
 				projectName="Subtext"/>
 				
