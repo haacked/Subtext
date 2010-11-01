@@ -58,4 +58,8 @@
             <parameterEntry type="ProviderPath" scope="setAcl" match="Subtext.Web/App_Data" /> 
 	</parameter>
 
+  <parameter name="Application URL postInstall" description="The URL hostname  of the application on the target box such as www.myserver.com  ." defaultValue="" tags="AppURL,Hidden,NoProtocol">
+    <parameterEntry type="TextFile" scope="dbFullSql " match="localhost:?[0-9]+/?" />
+  </parameter>
+
 </parameters>
