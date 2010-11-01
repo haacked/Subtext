@@ -50,42 +50,50 @@ namespace Subtext.Framework.UI.Skinning
             if(allTemplates == null)
             {
                 IEnumerable<SkinTemplate> allTemplateConfigs;
-                switch (GetTrustLevel())
+                try
                 {
-                    case AspNetHostingPermissionLevel.Unrestricted:
-                    case AspNetHostingPermissionLevel.High:
-                        VirtualDirectory skinsDirectory = VirtualPathProvider.GetDirectory(RootSkinsVirtualPath);
+                    // Full trust can use VirtualPathProvider
+                    VirtualDirectory skinsDirectory = VirtualPathProvider.GetDirectory(RootSkinsVirtualPath);
 
-                        allTemplateConfigs =
-                            from dir in skinsDirectory.Directories.OfType<VirtualDirectory>()
-                            where !dir.Name.StartsWith("_") && !dir.Name.StartsWith(".")
-                            let templates = GetSkinTemplatesFromDir(dir)
-                            from template in templates
-                            select template;
+                    allTemplateConfigs =
+                        from dir in skinsDirectory.Directories.OfType<VirtualDirectory>()
+                        where !dir.Name.StartsWith("_") && !dir.Name.StartsWith(".")
+                        let templates = GetSkinTemplatesFromDir(dir)
+                        from template in templates
+                        select template;
 
-                        break;
+                    // The ToDictionary call has to be inside each try/catch block
+                    // because it's the ToDictionary that actually executes the code
+                    // that causes the SecurityException to be thrown. (IEnumerable
+                    // is deferred until the enumeration happens). As such, you'll
+                    // see this duplicated below in the catch block.
+                    allTemplates = (from template in allTemplateConfigs
+                                    where ((template.MobileSupport > MobileSupport.None && mobile)
+                                           || (template.MobileSupport < MobileSupport.MobileOnly && !mobile))
+                                    select template).ToDictionary(t => t.SkinKey, StringComparer.OrdinalIgnoreCase);
 
-                    default:
-                        var skinsDir = new DirectoryInfo
-                            ( AppDomain.CurrentDomain.BaseDirectory
-                            + Path.DirectorySeparatorChar
-                            + "skins"
-                            );
-
-                        allTemplateConfigs =
-                            from dir in skinsDir.GetDirectories()
-                            where !dir.Name.StartsWith("_") && !dir.Name.StartsWith(".")
-                            let templates = GetSkinTemplatesFromDir(dir)
-                            from template in templates
-                            select template;
-
-                        break;
                 }
+                catch (SecurityException)
+                {
+                    // Partial trust has to use the filesystem directly
+                    var skinsDir = new DirectoryInfo
+                        (AppDomain.CurrentDomain.BaseDirectory
+                        + Path.DirectorySeparatorChar
+                        + "skins"
+                        );
 
-                allTemplates = (from template in allTemplateConfigs
-                                where ((template.MobileSupport > MobileSupport.None && mobile)
-                                       || (template.MobileSupport < MobileSupport.MobileOnly && !mobile))
-                                select template).ToDictionary(t => t.SkinKey, StringComparer.OrdinalIgnoreCase);
+                    allTemplateConfigs =
+                        from dir in skinsDir.GetDirectories()
+                        where !dir.Name.StartsWith("_") && !dir.Name.StartsWith(".")
+                        let templates = GetSkinTemplatesFromDir(dir)
+                        from template in templates
+                        select template;
+
+                    allTemplates = (from template in allTemplateConfigs
+                                    where ((template.MobileSupport > MobileSupport.None && mobile)
+                                           || (template.MobileSupport < MobileSupport.MobileOnly && !mobile))
+                                    select template).ToDictionary(t => t.SkinKey, StringComparer.OrdinalIgnoreCase);
+                }
 
                 if(!mobile)
                 {
@@ -151,33 +159,6 @@ namespace Subtext.Framework.UI.Skinning
         {
             [XmlElement("SkinTemplate")]
             public SkinTemplate[] Templates { get; set; }
-        }
-
-        AspNetHostingPermissionLevel GetTrustLevel()
-        {
-            var trustLevels = new AspNetHostingPermissionLevel[]
-                                  {
-                                      AspNetHostingPermissionLevel.Unrestricted,
-                                      AspNetHostingPermissionLevel.High,
-                                      AspNetHostingPermissionLevel.Medium,
-                                      AspNetHostingPermissionLevel.Low,
-                                      AspNetHostingPermissionLevel.Minimal
-                                  };
-            foreach (var trustLevel in trustLevels)
-            {
-                try
-                {
-                    new AspNetHostingPermission(trustLevel).Demand();
-                }
-                catch (SecurityException)
-                {
-                    continue;
-                }
-
-                return trustLevel;
-            }
-
-            return AspNetHostingPermissionLevel.None;
         }
     }
 }
