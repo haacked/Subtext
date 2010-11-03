@@ -16,8 +16,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739-6817-4A4F-9386-765ABA27C754}"
 	ProjectSection(SolutionItems) = preProject
 		ccrunner.bat = ccrunner.bat
-		SubText-CCNET.build = SubText-CCNET.build
-		..\tools\CCNET_Config\Update-CCNET.build = ..\tools\CCNET_Config\Update-CCNET.build
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{ED6D2474-6402-4392-AFF0-6115A3F13C28}"

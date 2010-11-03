@@ -38,15 +38,14 @@
 
 using System;
 using System.Globalization;
+using System.Reflection;
 
-namespace Subtext.Framework
-{
+namespace Subtext.Framework {
     /// <summary>
     /// Class used to manage version information regarding 
     /// Subtext.
     /// </summary>
-    public static class VersionInfo
-    {
+    public static class VersionInfo {
         public static readonly Uri HomePageUrl = new Uri("http://SubtextProject.com/");
         static Version _version;
 
@@ -54,13 +53,10 @@ namespace Subtext.Framework
         /// Gets the version of the Subtext assembly.
         /// </summary>
         /// <value></value>
-        public static Version CurrentAssemblyVersion
-        {
-            get
-            {
-                if(_version == null)
-                {
-                    _version = typeof(VersionInfo).Assembly.GetName().Version;
+        public static Version CurrentAssemblyVersion {
+            get {
+                if (_version == null) {
+                    _version = new AssemblyName(typeof(VersionInfo).FullName).Version;
                 }
                 return _version;
             }
@@ -70,8 +66,7 @@ namespace Subtext.Framework
         /// Gets version information that is formatted for display.
         /// </summary>
         /// <value></value>
-        public static string VersionDisplayText
-        {
+        public static string VersionDisplayText {
             get { return string.Format(CultureInfo.InvariantCulture, "Subtext Version {0}", CurrentAssemblyVersion); }
         }
 
@@ -79,8 +74,7 @@ namespace Subtext.Framework
         /// Gets the user agent.
         /// </summary>
         /// <value></value>
-        public static string UserAgent
-        {
+        public static string UserAgent {
             get { return string.Format(CultureInfo.InvariantCulture, "{0} - {1}", VersionDisplayText, HomePageUrl); }
         }
     }
