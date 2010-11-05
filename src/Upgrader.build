@@ -112,6 +112,7 @@
 		Creates binary distribution
 	-->		
 	<target name="dist.archive" depends="compile-release">
+		<delete dir="${publish.dir.archive}" />
 		<mkdir dir="${publish.dir.archive}" />
 		<copy file="${upgradertool.exe}" tofile="${publish.dir.archive}\${fileLabel}.exe" />
 	</target>
