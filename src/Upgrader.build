@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText">
+
+	<property name="nant.settings.currentframework" value="net-4.0"/>
+	
+	<target name="get-publishing-properties">
+		
+		<!-- BEGIN Properties to customize -->
+		<property name="solution.name" value="SubtextSolution.sln" />
+		<!-- END Properties to customize -->
+		
+		<!-- Root folder which all other folders are relative to -->
+		<property name="root.dir" value=".." />
+		<!-- Root of the source tree -->
+		<property name="source.dir" value="${root.dir}\src" />
+		<property name="dependencies.dir" value="${root.dir}\dependencies" />
+		<property name="fileversion.txt" value="${dependencies.dir}\fileversion.txt" />
+		<property name="upgrader-resources.dir" value="${source.dir}\SubtextUpgrader\Resources" />
+		<property name="upgradertool.exe"
+					value="${source.dir}\SubtextUpgrader\bin\Release\SubtextUpgradeTool.exe" />
+		
+	
+		<!-- System .NET folders and paths -->
+		<property name="dotnetfx" value="C:\WINDOWS\Microsoft.NET\Framework" />
+		<property name="msbuild.exe" value="${dotnetfx}\v4.0.30319\MSBuild.exe" />
+		<!-- Root of the tools tree -->
+		<property name="tools.dir" value="${root.dir}\tools" />
+		
+		<!-- Artifacts folder -->
+		<property name="artifacts.dir" value="${root.dir}\output" />
+		<property name="build.dir" value="${artifacts.dir}\build" />
+		<property name="publish.dir.archive" value="${build.dir}\archive" />
+		
+		<!-- Folders for various logs and reports -->
+		<property name="buildlogs.dir" value="${artifacts.dir}\buildlogs" />
+		<property name="log.dir" value="${buildlogs.dir}\logs" />
+
+	</target>
+
+	<target name="handle-dependencies" depends="get-publishing-properties">
+		<loadfile file="${fileversion.txt}" property="build.version" />
+		<copy file="${dependencies.dir}\Subtext-${build.version}.zip"
+			  tofile="${upgrader-resources.dir}\SubText.zip" />
+		<property name="fileLabel" value="SubTextUpgraderTool-${build.version}" />
+	</target>
+	
+	<!--
+		Generates the AssemblyInfo file with the correct version number
+	-->
+	<!-- //TODO: Consider checking in this file after update the version -->
+	<target name="version" depends="handle-dependencies">
+		<echo message="##teamcity[buildNumber '${build.version}']" />
+		<asminfo output="${source.dir}\VersionInfo.Designer.cs" language="CSharp">
+			<imports>
+				<import namespace="System" />
+				<import namespace="System.Reflection" />
+			</imports>
+			<attributes>
+				<attribute type="AssemblyVersionAttribute" value="${build.version}" />
+			</attributes>
+		</asminfo>
+	</target>
+	
+	<!--
+		Cleans the build folders (not really needed in TeamCity, but useful when running the build locally
+	-->
+	<target name="clean" depends="get-publishing-properties">
+		<delete dir="${log.dir}" failonerror="false" />
+		<call target="clean-vs" />
+	</target>
+	<target name="clean-vs">
+		<foreach item="Folder" property="foldername">
+			<in>
+				<items basedir="${source.dir}">
+					<include name="*\bin" />
+					<include name="*\obj" />
+				</items>
+			</in>
+			<do>
+				<delete dir="${foldername}" />
+			</do>
+		</foreach>
+		<mkdir dir="${source.dir}\Subtext.Web\bin" />
+	</target>
+
+	<!-- 
+		Compiles Subtext
+	-->
+	<target name="compile-debug" depends="clean, version">
+		<property name="configuration" value="debug"/>
+		<call target="compile" />
+	</target>
+	<target name="compile-release" depends="clean, version">
+		<property name="configuration" value="Release"/>
+		<call target="compile" />
+	</target>
+	<target name="compile">
+		<exec program="${msbuild.exe}">
+			<arg value="${source.dir}\${solution.name}"/>
+			<arg value="/nologo"/>
+			<arg value="/verbosity:normal"/>
+			<arg value="/t:Build"/>
+			<arg value="/p:Configuration=${configuration}"/>
+		</exec>
+	</target>
+
+	<target name="release" depends="dist.archive">
+		<echo message="CI Run for build number ${build.version} successfully completed" />
+	</target>
+
+	<!-- 
+		Creates binary distribution
+	-->		
+	<target name="dist.archive" depends="compile-release">
+		<mkdir dir="${publish.dir.archive}" />
+		<copy file="${upgradertool.exe}" tofile="${publish.dir.archive}\${fileLabel}.exe" />
+	</target>
+
+</project>
