@@ -94,7 +94,7 @@ namespace SubtextUpgrader
             //* use result as source directory.
             //* run upgrader
             string fileName = Path.GetTempFileName() + ".zip";
-            string resourceName = GetType().Namespace + ".Resources.SubText-2.5.1.zip";
+            string resourceName = GetType().Namespace + ".Resources.SubText.zip";
             using(var resx = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             {
                 if(resx == null)
@@ -131,7 +131,7 @@ namespace SubtextUpgrader
 
         static string TempSourceDirectory()
         {
-            string extractDirectory = Path.Combine(Path.GetTempPath(), "SubText-2.5.1");
+            string extractDirectory = Path.Combine(Path.GetTempPath(), "SubText");
             return extractDirectory;
         }
 
