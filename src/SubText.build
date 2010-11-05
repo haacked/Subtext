@@ -50,6 +50,7 @@
 		<property name="publish.dir.latest.web" value="${publish.dir.latest}\Subtext.Web" />
 		<property name="publish.dir.archive" value="${build.dir}\archive" />
 		<property name="publish.dir.latestsource" value="${build.dir}\source" />
+		<property name="fileversion.txt" value="${build.dir}\fileversion.txt" />
 		
 		<!-- Folders for various logs and reports -->
 		<property name="buildlogs.dir" value="${artifacts.dir}\buildlogs" />
@@ -179,6 +180,7 @@
 
 	<target name="release" depends="dist.archive">
 		<echo message="CI Run for build number ${build.version} successfully completed" />
+		<echo file="${fileversion.txt}">${build.version}</echo>
 	</target>
 
 	<!-- 
@@ -285,6 +287,8 @@
 				<exclude name="**/obj/**/*" />
 			</fileset>
 		</zip>
+		
+		
 		
 	</target>
 </project>
