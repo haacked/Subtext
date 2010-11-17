@@ -56,7 +56,7 @@ namespace Subtext.Framework {
         public static Version CurrentAssemblyVersion {
             get {
                 if (_version == null) {
-                    _version = new AssemblyName(typeof(VersionInfo).FullName).Version;
+                    _version = new AssemblyName(typeof(VersionInfo).Assembly.FullName).Version;
                 }
                 return _version;
             }
