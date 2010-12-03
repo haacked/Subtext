@@ -17,37 +17,40 @@
 
 
 using System;
+using System.Reflection;
+using System.Resources;
+using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 
 namespace Subtext.Providers.BlogEntryEditor.CKEditor
 {
     public class CKEBlogEntryEditorProvider : BlogEntryEditorProvider
     {
-        public override string Text
+        private static readonly ResourceManager rm =
+    new ResourceManager("Subtext.Providers.BlogEntryEditor.CKEditor.resources.ErrorMessages",
+                        Assembly.GetExecutingAssembly());
+
+        TextBox _txtCtl;
+
+        public override String Text
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { return _txtCtl.Text; }
+            set { _txtCtl.Text = value; }
         }
 
-        public override string Xhtml
+        public override String Xhtml
         {
-            get { throw new NotImplementedException(); }
+            get { return _txtCtl.Text; }
         }
 
         public override System.Web.UI.Control RichTextEditorControl
         {
-            get { throw new NotImplementedException(); }
+            get { return _txtCtl; }
         }
 
         public override void InitializeControl(object subtextContext)
         {
-            throw new NotImplementedException();
+            _txtCtl = new TextBox();
         }
     }
 }

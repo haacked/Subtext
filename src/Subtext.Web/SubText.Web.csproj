@@ -2454,6 +2454,10 @@
       <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
       <Name>Subtext.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Subtext.Providers.BlogEntryEditor.CKEditor\Subtext.Providers.BlogEntryEditor.CKEditor.csproj">
+      <Project>{B8F3979C-2086-4C87-92A6-E77A71A3D4F2}</Project>
+      <Name>Subtext.Providers.BlogEntryEditor.CKEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj">
       <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
       <Name>Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
