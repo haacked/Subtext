@@ -39,7 +39,7 @@ namespace Subtext.Framework.Data
         {
             var groupedEntries = 
                     from entry in entries
-                    group entry by entry.DateCreated.Date
+                    group entry by entry.DateSyndicated.Date
                     into entriesGroupedByDay
                         select entriesGroupedByDay;
             foreach(var group in groupedEntries)
