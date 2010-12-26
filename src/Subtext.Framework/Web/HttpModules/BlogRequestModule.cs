@@ -20,14 +20,12 @@ using System.Web;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 
-namespace Subtext.Framework.Web.HttpModules
-{
+namespace Subtext.Framework.Web.HttpModules {
     /// <summary>
     /// Examines incoming http requests and adds Subtext specific as well as blog 
     /// specific information to the context.
     /// </summary>
-    public class BlogRequestModule : IHttpModule
-    {
+    public class BlogRequestModule : IHttpModule {
         public BlogRequestModule()
             : this(new BlogLookupService(ObjectProvider.Instance(), HostInfo.Instance))
         {
@@ -73,36 +71,37 @@ namespace Subtext.Framework.Web.HttpModules
         public BlogRequest ConvertRequestToBlogRequest(HttpContextBase httpContext)
         {
             string redirectUrl = httpContext.Request.GetFileNotFoundRedirectUrl(HttpRuntime.UsingIntegratedPipeline);
-            if(!String.IsNullOrEmpty(redirectUrl))
+            if (!String.IsNullOrEmpty(redirectUrl))
             {
-                httpContext.Response.Redirect(redirectUrl);
+                httpContext.Response.Redirect(redirectUrl, true);
+                return null;
             }
 
             // REVIEW: Maybe the BlogLookup.Lookup should take in an HttpContextBase 
             // and return the BlogRequest as part of the result.
             var blogRequest = new BlogRequest(httpContext.Request);
-            if(blogRequest.BlogNotRequired)
+            if (blogRequest.BlogNotRequired)
             {
                 return blogRequest;
             }
             BlogLookupResult result = BlogLookup.Lookup(blogRequest);
 
-            if(result == null)
+            if (result == null)
             {
-                if(blogRequest.RequestLocation != RequestLocation.LoginPage)
+                if (blogRequest.RequestLocation != RequestLocation.LoginPage)
                 {
                     httpContext.Response.Redirect("~/install/BlogNotConfiguredError.aspx", true);
                 }
                 return blogRequest;
             }
 
-            if(result.Blog == null && result.AlternateUrl != null)
+            if (result.Blog == null && result.AlternateUrl != null)
             {
-                httpContext.Response.RedirectPermanent(result.AlternateUrl.ToString());
+                httpContext.Response.RedirectPermanent(result.AlternateUrl.ToString(), true);
                 return null;
             }
 
-            if(result.Blog != null && !result.Blog.IsActive && blogRequest.RequestLocation == RequestLocation.Blog)
+            if (result.Blog != null && !result.Blog.IsActive && blogRequest.RequestLocation == RequestLocation.Blog)
             {
                 httpContext.Response.Redirect("~/SystemMessages/BlogNotActive.aspx", true);
                 return null;

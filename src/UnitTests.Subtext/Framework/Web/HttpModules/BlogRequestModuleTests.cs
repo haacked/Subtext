@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             //arrange
             var service = new Mock<IBlogLookupService>();
             service.Setup(s => s.Lookup(It.IsAny<BlogRequest>())).Returns(
-                new BlogLookupResult(new Blog {IsActive = true}, null));
+                new BlogLookupResult(new Blog { IsActive = true }, null));
             var httpResponse = new Mock<HttpResponseBase>();
             httpResponse.Setup(r => r.End()).Throws(
                 new InvalidOperationException("This method should not have been called"));
@@ -59,10 +59,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
 
             //assert
             Assert.IsNull(request);
-            httpResponse.Verify(r => r.End());
-            Assert.AreEqual(301, httpResponse.Object.StatusCode);
-            Assert.AreEqual("301 Moved Permanently", httpResponse.Object.StatusDescription);
-            Assert.AreEqual("http://www.example.com/", httpResponse.Object.RedirectLocation);
+            httpResponse.Verify(r => r.RedirectPermanent("http://www.example.com/", true));
         }
 
         [Test]
@@ -91,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             //arrange
             var service = new Mock<IBlogLookupService>();
-            var result = new BlogLookupResult(new Blog {IsActive = false}, null);
+            var result = new BlogLookupResult(new Blog { IsActive = false }, null);
             service.Setup(s => s.Lookup(It.IsAny<BlogRequest>())).Returns(result);
             var httpResponse = new Mock<HttpResponseBase>();
             Mock<HttpRequestBase> httpRequest = CreateRequest("example.com", "/", "/", true);
@@ -113,7 +110,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             //arrange
             var service = new Mock<IBlogLookupService>();
-            var result = new BlogLookupResult(new Blog {IsActive = false}, null);
+            var result = new BlogLookupResult(new Blog { IsActive = false }, null);
             service.Setup(s => s.Lookup(It.IsAny<BlogRequest>())).Returns(result);
             var httpResponse = new Mock<HttpResponseBase>();
             Mock<HttpRequestBase> httpRequest = CreateRequest("example.com", "/", "/login.aspx", true);
