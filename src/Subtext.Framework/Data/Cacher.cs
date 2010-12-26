@@ -21,14 +21,13 @@ using System.Globalization;
 using System.Web;
 using System.Web.Caching;
 using Subtext.Configuration;
+using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Infrastructure;
-using Subtext.Framework.Web;
-using Subtext.Extensibility;
 
 namespace Subtext.Framework.Data
 {
@@ -54,10 +53,10 @@ namespace Subtext.Framework.Data
         public static T GetOrInsert<T>(this ICache cache, string key, Func<T> retrievalFunction, int duration, CacheDependency cacheDependency)
         {
             var item = cache[key];
-            if(item == null)
+            if (item == null)
             {
                 item = retrievalFunction();
-                if(item != null)
+                if (item != null)
                 {
                     cache.InsertDuration(key, item, duration, cacheDependency);
                 }
@@ -68,10 +67,10 @@ namespace Subtext.Framework.Data
         public static T GetOrInsertSliding<T>(this ICache cache, string key, Func<T> retrievalFunction, CacheDependency cacheDependency, int slidingDuration)
         {
             var item = cache[key];
-            if(item == null)
+            if (item == null)
             {
                 item = retrievalFunction();
-                if(item != null)
+                if (item != null)
                 {
                     cache.InsertDurationSliding(key, item, cacheDependency, slidingDuration);
                 }
@@ -83,7 +82,7 @@ namespace Subtext.Framework.Data
         {
             return cache.GetOrInsert(key, retrievalFunction, duration, null);
         }
-        
+
         public static T GetOrInsert<T>(this ICache cache, string key, Func<T> retrievalFunction)
         {
             return cache.GetOrInsert(key, retrievalFunction, ShortDuration, null);
@@ -121,13 +120,13 @@ namespace Subtext.Framework.Data
         /// </summary>
         public static LinkCategory SingleCategory(ISubtextContext context)
         {
-            if(context == null)
+            if (context == null)
             {
                 throw new ArgumentNullException("context");
             }
 
             string categorySlug = context.RequestContext.GetSlugFromRequest();
-            if(categorySlug.IsNumeric())
+            if (categorySlug.IsNumeric())
             {
                 int categoryId = Int32.Parse(categorySlug, CultureInfo.InvariantCulture);
                 return SingleCategory(categoryId, true, context);
@@ -145,12 +144,12 @@ namespace Subtext.Framework.Data
             string singleCategoryName = categoryName;
             LinkCategory category = SingleCategory(() => context.Repository.GetLinkCategory(singleCategoryName, isActive),
                                                    categoryName, context);
-            if(category != null)
+            if (category != null)
             {
                 return category;
             }
 
-            if(context.Blog.AutoFriendlyUrlEnabled)
+            if (context.Blog.AutoFriendlyUrlEnabled)
             {
                 string theCategoryName = categoryName;
                 categoryName = categoryName.Replace(FriendlyUrlSettings.Settings.SeparatingCharacter, " ");
@@ -178,26 +177,26 @@ namespace Subtext.Framework.Data
         public static Entry GetEntryFromRequest(bool allowRedirectToEntryName, ISubtextContext context)
         {
             string slug = context.RequestContext.GetSlugFromRequest();
-            if(!String.IsNullOrEmpty(slug))
+            if (!String.IsNullOrEmpty(slug))
             {
                 return GetEntry(slug, context);
             }
 
             int? id = context.RequestContext.GetIdFromRequest();
-            if(id != null)
+            if (id != null)
             {
                 Entry entry = GetEntry(id.Value, context);
-                if(entry == null)
+                if (entry == null)
                 {
                     return null;
                 }
 
                 //TODO: Violation of SRP here!
                 //Second condition avoids infinite redirect loop. Should never happen.
-                if(allowRedirectToEntryName && entry.HasEntryName && !entry.EntryName.IsNumeric())
+                if (allowRedirectToEntryName && entry.HasEntryName && !entry.EntryName.IsNumeric())
                 {
                     HttpResponseBase response = context.HttpContext.Response;
-                    response.RedirectPermanent(context.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(context.Blog).ToString());
+                    response.RedirectPermanent(context.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(context.Blog).ToString(), true);
                 }
                 return entry;
             }
@@ -217,7 +216,7 @@ namespace Subtext.Framework.Data
 
             Func<Entry> retrieval = () => context.Repository.GetEntry(entryName, true /* activeOnly */, true /* includeCategories */);
             var cachedEntry = context.Cache.GetOrInsert(key, retrieval, MediumDuration);
-            if(cachedEntry == null)
+            if (cachedEntry == null)
             {
                 return null;
             }
@@ -234,7 +233,7 @@ namespace Subtext.Framework.Data
         {
             string key = string.Format(CultureInfo.InvariantCulture, EntryKeyId, entryId, context.Blog.Id);
             var entry = context.Cache.GetOrInsert(key, () => context.Repository.GetEntry(entryId, true /* activeOnly */, true /* includeCategories */));
-            if(entry == null)
+            if (entry == null)
             {
                 return null;
             }
