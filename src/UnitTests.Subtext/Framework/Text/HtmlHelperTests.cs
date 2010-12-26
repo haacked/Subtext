@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Text
         [Test]
         public void ShortenUrl_WithNullUrl_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => ((string)null).ShortenUrl(10) );
+            UnitTestHelper.AssertThrowsArgumentNullException(() => ((string)null).ShortenUrl(10));
         }
 
         [Test]
@@ -336,6 +336,19 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual("yourtag", tags.First());
         }
 
+        [Test]
+        public void ParseTags_WithEncodedTag_ParsesTag()
+        {
+            // arrange
+            string html = "<a href=\"http://blah/tags/c%23/default.aspx\" rel=\"tag\">C#</a>";
+
+            // act
+            IList<string> tags = html.ParseTags();
+
+            // assert
+            Assert.AreEqual("c#", tags.First());
+        }
+
         [RowTest]
         [Row("http://blah.com/blah/", "blah")]
         [Row("http://blah.com/foo-bar", "foo-bar")]
@@ -376,7 +389,7 @@ namespace UnitTests.Subtext.Framework.Text
                                      RegexOptions.IgnoreCase | RegexOptions.Singleline);
             Match match = relRegex.Match(original);
             Assert.AreEqual(expected, match.Success);
-            if(match.Success)
+            if (match.Success)
             {
                 Assert.AreEqual(matched, match.Value);
             }
@@ -393,7 +406,7 @@ namespace UnitTests.Subtext.Framework.Text
                                   RegexOptions.IgnoreCase | RegexOptions.Singleline);
             Match match = regex.Match(original);
             Assert.AreEqual(expectedMatch, match.Success);
-            if(match.Success)
+            if (match.Success)
             {
                 string matchValue = match.Value;
                 Assert.AreEqual(expectedMatchValue, matchValue);

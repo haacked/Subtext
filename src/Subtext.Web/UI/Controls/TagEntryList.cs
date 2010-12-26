@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Web.Properties;
@@ -40,10 +39,9 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if(Context != null)
+            if (Context != null)
             {
-                Uri url = HttpContext.Current.Request.Url;
-                string tagName = HttpUtility.UrlDecode(url.Segments[url.Segments.Length - 2].Replace("/", ""));
+                var tagName = RouteValues["tag"] as string;
 
                 ICollection<Entry> et = Cacher.GetEntriesByTag(Count, tagName, SubtextContext);
                 EntryStoryList.EntryListItems = et;
