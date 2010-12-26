@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Tracking
     public class TrackbackHandlerTests
     {
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ProcessRequest_WithTrackbacksDisabled_ReturnEmptyResponse()
         {
             //arrange
@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         /// Sends an RSS Snippet for requests made using the "GET" http verb.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ProcessRequest_WithGetRequest_SendsRssResponse()
         {
             //arrange
@@ -85,7 +85,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         /// Sends an error message if the id in the url does not match an existing entry.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ProcessRequest_WithInvalidEntryId_SendsErrorResponse()
         {
             //arrange
@@ -112,7 +112,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         /// Checks the error message returned when the trackback URL does not have an entry id.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ProcessRequest_WithoutEntryIdInRouteData_SendsErrorResponse()
         {
             //arrange
@@ -139,7 +139,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         /// by creating a trackback record in the local system.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ProcessRequest_WithValidTrackback_CreatesTracbackRecordInDatabase()
         {
             //arrange

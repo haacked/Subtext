@@ -14,7 +14,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
     public class EntryTagTests
     {
         [Test]
-        [RollBack]
+        [RollBack2]
         public void TagDoesNotRetrieveDraftEntry()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanTagEntry()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();

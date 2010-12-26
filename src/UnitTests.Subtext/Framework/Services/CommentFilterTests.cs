@@ -87,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void FilterAfterPersistWithCommentModerationDisabledCausesNewCommentsToBeActive()
         {
             //arrange
@@ -113,7 +113,7 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void FilterAfterPersistWithCommentModerationEnabledCausesNewCommentsToNeedApproval()
         {
             //arrange

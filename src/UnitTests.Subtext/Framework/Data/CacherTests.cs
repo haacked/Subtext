@@ -447,7 +447,7 @@ namespace UnitTests.Subtext.Framework.Data
         /// This test is to make sure a bug I introduced never happens again.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetEntryFromRequest_WithEntryHavingEntryNameButIdInRouteDataMatchingEntryInRepository_RedirectsToUrlWithSlug()
         {
             //arrange

@@ -18,7 +18,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         string _hostName;
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanDeleteEntry()
         {
             Config.CreateBlog("", "username", "password", _hostName, string.Empty);
@@ -40,7 +40,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         /// Tests that setting the date syndicated to null removes the item from syndication.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void SettingDateSyndicatedToNullRemovesItemFromSyndication()
         {
             //arrange

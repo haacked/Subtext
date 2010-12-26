@@ -39,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         /// Test the case where we have a previous, but no next entry.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPreviousAndNextEntriesReturnsPreviousWhenNoNextExists()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -67,7 +67,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         /// Test the case where we have a next, but no previous entry.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPreviousAndNextEntriesReturnsNextWhenNoPreviousExists()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         /// Test the case where we have both a previous and next.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPreviousAndNextEntriesReturnsBoth()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -132,7 +132,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         /// Test the case where we have more than three entries.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPreviousAndNextEntriesReturnsCorrectEntries()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -176,7 +176,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         /// Make sure that previous and next are based on syndication date and not entry id.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPreviousAndNextBasedOnSyndicationDateNotEntryId()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();

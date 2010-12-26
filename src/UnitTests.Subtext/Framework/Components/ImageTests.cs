@@ -11,7 +11,7 @@ namespace UnitTests.Subtext.Framework.Components
     public class ImageTests
     {
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanGetRecentImages()
         {
             //arrange

@@ -40,7 +40,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         /// Makes sure that the UpdatePassword method hashes the password.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void UpdatePasswordHashesPassword()
         {
             string hostName = UnitTestHelper.GenerateUniqueString();
