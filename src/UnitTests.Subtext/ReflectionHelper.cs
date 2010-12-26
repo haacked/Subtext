@@ -20,27 +20,19 @@ using System.Globalization;
 using System.Reflection;
 using Subtext.Framework.Properties;
 
-namespace UnitTests.Subtext
-{
+namespace UnitTests.Subtext {
     /// <summary>
     /// Helper class to simplify common reflection tasks.
     /// </summary>
-    public sealed class ReflectionHelper
-    {
-        private ReflectionHelper()
-        {
-        }
-
+    public static class ReflectionHelper {
         /// <summary>
         /// Returns the value of the private member specified.
         /// </summary>
         /// <param name="fieldName">Name of the member.</param>
         /// /// <param name="type">Type of the member.</param>
-        public static T GetStaticFieldValue<T>(string fieldName, Type type)
-        {
+        public static T GetStaticFieldValue<T>(string fieldName, Type type) {
             FieldInfo field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Static);
-            if(field != null)
-            {
+            if (field != null) {
                 return (T)field.GetValue(type);
             }
             return default(T);
@@ -50,11 +42,9 @@ namespace UnitTests.Subtext
         /// </summary>
         /// <param name="propertyName">Name of the member.</param>
         /// /// <param name="type">Type of the member.</param>
-        public static T GetStaticPropertyValue<T>(string propertyName, Type type)
-        {
+        public static T GetStaticPropertyValue<T>(string propertyName, Type type) {
             PropertyInfo property = type.GetProperty(propertyName, BindingFlags.NonPublic | BindingFlags.Static);
-            if(property != null)
-            {
+            if (property != null) {
                 return (T)property.GetValue(type, null);
             }
             return default(T);
@@ -65,12 +55,10 @@ namespace UnitTests.Subtext
         /// </summary>
         /// <param name="fieldName">Name of the member.</param>
         /// <param name="typeName"></param>
-        public static T GetStaticFieldValue<T>(string fieldName, string typeName)
-        {
+        public static T GetStaticFieldValue<T>(string fieldName, string typeName) {
             Type type = Type.GetType(typeName, true);
             FieldInfo field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Static);
-            if(field != null)
-            {
+            if (field != null) {
                 return (T)field.GetValue(type);
             }
             return default(T);
@@ -82,11 +70,9 @@ namespace UnitTests.Subtext
         /// <param name="fieldName"></param>
         /// <param name="type"></param>
         /// <param name="value"></param>
-        public static void SetStaticFieldValue<T>(string fieldName, Type type, T value)
-        {
+        public static void SetStaticFieldValue<T>(string fieldName, Type type, T value) {
             FieldInfo field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Static);
-            if(field == null)
-            {
+            if (field == null) {
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture,
                                                           Resources.ReflectionArgument_CouldNotFindsStaticField,
                                                           fieldName));
@@ -101,12 +87,10 @@ namespace UnitTests.Subtext
         /// <param name="fieldName"></param>
         /// <param name="typeName"></param>
         /// <param name="value"></param>
-        public static void SetStaticFieldValue<T>(string fieldName, string typeName, T value)
-        {
+        public static void SetStaticFieldValue<T>(string fieldName, string typeName, T value) {
             Type type = Type.GetType(typeName, true);
             FieldInfo field = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Static);
-            if(field == null)
-            {
+            if (field == null) {
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture,
                                                           Resources.ReflectionArgument_CouldNotFindsStaticField,
                                                           fieldName));
@@ -120,13 +104,11 @@ namespace UnitTests.Subtext
         /// </summary>
         /// <param name="fieldName">Name of the member.</param>
         /// <param name="source">The object that contains the member.</param>
-        public static T GetPrivateInstanceFieldValue<T>(string fieldName, object source)
-        {
+        public static T GetPrivateInstanceFieldValue<T>(string fieldName, object source) {
             FieldInfo field = source.GetType().GetField(fieldName,
                                                         BindingFlags.GetField | BindingFlags.NonPublic |
                                                         BindingFlags.Instance);
-            if(field != null)
-            {
+            if (field != null) {
                 return (T)field.GetValue(source);
             }
             return default(T);
@@ -138,13 +120,11 @@ namespace UnitTests.Subtext
         /// <param name="memberName">Name of the member.</param>
         /// <param name="source">The object that contains the member.</param>
         /// <param name="value">The value to set the member to.</param>
-        public static void SetPrivateInstanceFieldValue(string memberName, object source, object value)
-        {
+        public static void SetPrivateInstanceFieldValue(string memberName, object source, object value) {
             FieldInfo field = source.GetType().GetField(memberName,
                                                         BindingFlags.GetField | BindingFlags.NonPublic |
                                                         BindingFlags.Instance);
-            if(field == null)
-            {
+            if (field == null) {
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture,
                                                           Resources.ReflectionArgument_CouldNotFindInstanceField,
                                                           memberName));
@@ -153,20 +133,17 @@ namespace UnitTests.Subtext
             field.SetValue(source, value);
         }
 
-        public static object Instantiate(string typeName)
-        {
+        public static object Instantiate(string typeName) {
             return Instantiate(typeName, null, null);
         }
 
         public static object Instantiate(string typeName, Type[] constructorArgumentTypes,
-                                         params object[] constructorParameterValues)
-        {
+                                         params object[] constructorParameterValues) {
             return Instantiate(Type.GetType(typeName, true), constructorArgumentTypes, constructorParameterValues);
         }
 
         public static object Instantiate(Type type, Type[] constructorArgumentTypes,
-                                         params object[] constructorParameterValues)
-        {
+                                         params object[] constructorParameterValues) {
             ConstructorInfo constructor = type.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null,
                                                               constructorArgumentTypes, null);
             return constructor.Invoke(constructorParameterValues);
@@ -180,14 +157,12 @@ namespace UnitTests.Subtext
         /// <param name="methodName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static TReturn InvokeNonPublicMethod<TReturn>(Type type, string methodName, params object[] parameters)
-        {
+        public static TReturn InvokeNonPublicMethod<TReturn>(Type type, string methodName, params object[] parameters) {
             Type[] paramTypes = Array.ConvertAll(parameters, o => o.GetType());
 
             MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static, null,
                                                paramTypes, null);
-            if(method == null)
-            {
+            if (method == null) {
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindMethod,
                                   methodName), "method");
@@ -196,14 +171,12 @@ namespace UnitTests.Subtext
             return (TReturn)method.Invoke(null, parameters);
         }
 
-        public static void InvokeNonPublicMethod(object source, string methodName, params object[] parameters)
-        {
+        public static void InvokeNonPublicMethod(object source, string methodName, params object[] parameters) {
             Type[] paramTypes = Array.ConvertAll(parameters, o => o.GetType());
 
             MethodInfo method = source.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance,
                                                            null, paramTypes, null);
-            if(method == null)
-            {
+            if (method == null) {
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindMethod,
                                   methodName), "method");
@@ -213,14 +186,12 @@ namespace UnitTests.Subtext
         }
 
         public static TReturn InvokeNonPublicMethod<TReturn>(object source, string methodName,
-                                                             params object[] parameters)
-        {
+                                                             params object[] parameters) {
             Type[] paramTypes = Array.ConvertAll(parameters, o => o.GetType());
 
             MethodInfo method = source.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance,
                                                            null, paramTypes, null);
-            if(method == null)
-            {
+            if (method == null) {
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindMethod,
                                   methodName), "method");
@@ -229,11 +200,9 @@ namespace UnitTests.Subtext
             return (TReturn)method.Invoke(source, parameters);
         }
 
-        public static TReturn InvokeProperty<TReturn>(object source, string propertyName)
-        {
+        public static TReturn InvokeProperty<TReturn>(object source, string propertyName) {
             PropertyInfo propertyInfo = source.GetType().GetProperty(propertyName);
-            if(propertyInfo == null)
-            {
+            if (propertyInfo == null) {
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindProperty,
                                   propertyName), "propertyName");
@@ -242,13 +211,11 @@ namespace UnitTests.Subtext
             return (TReturn)propertyInfo.GetValue(source, null);
         }
 
-        public static TReturn InvokeNonPublicProperty<TReturn>(object source, string propertyName)
-        {
+        public static TReturn InvokeNonPublicProperty<TReturn>(object source, string propertyName) {
             PropertyInfo propertyInfo = source.GetType().GetProperty(propertyName,
                                                                      BindingFlags.NonPublic | BindingFlags.Instance,
                                                                      null, typeof(TReturn), new Type[0], null);
-            if(propertyInfo == null)
-            {
+            if (propertyInfo == null) {
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindProperty,
                                   propertyName), "propertyName");
@@ -257,12 +224,10 @@ namespace UnitTests.Subtext
             return (TReturn)propertyInfo.GetValue(source, null);
         }
 
-        public static object InvokeNonPublicProperty(object source, string propertyName)
-        {
+        public static object InvokeNonPublicProperty(object source, string propertyName) {
             PropertyInfo propertyInfo = source.GetType().GetProperty(propertyName,
                                                                      BindingFlags.NonPublic | BindingFlags.Instance);
-            if(propertyInfo == null)
-            {
+            if (propertyInfo == null) {
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, Resources.ReflectionArgument_CouldNotFindProperty,
                                   propertyName), "propertyName");
