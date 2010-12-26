@@ -26,8 +26,8 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -85,14 +85,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [RollBack2]
         public void GetBlogPostsReturnsAllPostsIfPostConfigNoneSpecified()
         {
-            //Create some entries.
+            // Create four entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
-            entryZero.IsActive = true;
+            entryZero.IsActive = entryZero.IncludeInMainSyndication = true;
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
-            entryOne.IsActive = true;
+            entryOne.IsActive = entryOne.IncludeInMainSyndication = true;
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
             entryTwo.IsActive = false;
             Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-three", "body-zero");
+            entryThree.IncludeInMainSyndication = true;
             entryThree.IsActive = true;
             entryThree.DateCreated = DateTime.Now.AddDays(10);
             entryThree.DateSyndicated = DateTime.Now.AddDays(10);
@@ -112,9 +113,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.None).ToList();
 
             //Test outcome
-            Assert.AreEqual(2, entryList.Count, "Expected to find two entry days.");
-            Assert.AreEqual(1, entryList.First().Count, "Expected to find one entry in the first day.");
-            Assert.AreEqual(3, entryList.ElementAt(1).Count, "Expected to find three entries in the second day.");
+            Assert.AreEqual(3, entryList.Count);
+            Assert.AreEqual(1, entryList.First().Count);
+            Assert.AreEqual(2, entryList.ElementAt(1).Count);
+            Assert.AreEqual(1, entryList.ElementAt(2).Count); // One of these don't have a date syndicated.
         }
 
         [Test]
@@ -123,14 +125,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         {
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
-            entryZero.IsActive = true;
+            entryZero.IsActive = entryZero.IncludeInMainSyndication = true;
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
-            entryOne.IsActive = true;
-            entryOne.DateCreated = DateTime.Now.AddDays(-1);
+            entryOne.IsActive = entryOne.IncludeInMainSyndication = true;
+            entryOne.DateSyndicated = entryOne.DateCreated = DateTime.Now.AddDays(-1);
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
             entryTwo.IsActive = false;
             Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-three", "body-zero");
-            entryThree.IsActive = true;
+            entryThree.IsActive = entryThree.IncludeInMainSyndication = true;
             entryThree.DateCreated.AddDays(-2);
             entryThree.DateSyndicated = DateTime.Now.AddDays(10);
 
@@ -142,14 +144,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
             Thread.Sleep(500);
             UnitTestHelper.Create(entryThree);
-
             Assert.IsTrue(entryThree.DateSyndicated > DateTime.Now);
 
             //Get EntryDay
             ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.IsActive).ToList();
 
             //Test outcome
-            Assert.AreEqual(2, entryList.Count, "Expected to find two entry days.");
+            Assert.AreEqual(2, entryList.Count);
             Assert.AreEqual(1, entryList.First().Count);
             Assert.AreEqual(1, entryList.ElementAt(1).Count);
         }
@@ -204,14 +205,18 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         {
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
+            entryZero.DateSyndicated = DateTime.Now.AddDays(-1);
+            entryZero.IsActive = entryZero.IncludeInMainSyndication = true;
             Thread.Sleep(100);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
+            entryOne.DateSyndicated = DateTime.Now.AddDays(-1);
+            entryOne.IsActive = entryOne.IncludeInMainSyndication = true;
             Thread.Sleep(100);
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
             entryTwo.DisplayOnHomePage = false;
             Thread.Sleep(100);
             Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
-            entryThree.DateCreated = DateTime.Now.AddDays(1);
+            entryThree.IsActive = entryThree.IncludeInMainSyndication = true;
 
             //Persist entries.
             UnitTestHelper.Create(entryZero);
@@ -252,15 +257,18 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             int blogId = Config.CurrentBlog.Id;
             int categoryId = UnitTestHelper.CreateCategory(blogId, "Test Category");
 
-            //Create some entries.
+            //Create four entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
+            entryZero.DateSyndicated = DateTime.Now.AddDays(-1);
             Thread.Sleep(100);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
+            entryOne.DateSyndicated = DateTime.Now.AddDays(-1);
             Thread.Sleep(100);
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
+            entryTwo.DateSyndicated = DateTime.Now.AddDays(-1);
             Thread.Sleep(100);
-            Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two");
-            entryThree.DateCreated = DateTime.Now.AddDays(1);
+            Entry entryThree = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-three", "body-two");
+            entryThree.DateSyndicated = DateTime.Now;
 
             //Associate Category
             entryZero.Categories.Add("Test Category");
