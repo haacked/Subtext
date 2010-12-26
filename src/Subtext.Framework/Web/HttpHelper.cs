@@ -16,16 +16,16 @@
 #endregion
 
 using System;
-using System.Linq;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Web
 {
@@ -45,7 +45,7 @@ namespace Subtext.Framework.Web
         /// </summary>
         public static void SetFileNotFoundResponse()
         {
-            if(HttpContext.Current != null && HttpContext.Current.Response != null)
+            if (HttpContext.Current != null && HttpContext.Current.Response != null)
             {
                 SetFileNotFoundResponse(Config.GetFileNotFoundPage());
             }
@@ -55,18 +55,10 @@ namespace Subtext.Framework.Web
         private static void SetFileNotFoundResponse(string fileNotFoundPage)
         {
             HttpContext.Current.Response.StatusCode = 404;
-            if(fileNotFoundPage != null)
+            if (fileNotFoundPage != null)
             {
                 HttpContext.Current.Response.Redirect(fileNotFoundPage, true);
             }
-        }
-
-        public static void RedirectPermanent(this HttpResponseBase response, string url)
-        {
-            response.StatusCode = 301;
-            response.StatusDescription = "301 Moved Permanently";
-            response.RedirectLocation = url;
-            response.End();
         }
 
         /// <summary>
@@ -75,10 +67,10 @@ namespace Subtext.Framework.Web
         /// <returns></returns>
         public static DateTime GetIfModifiedSinceDateUtc(HttpRequestBase request)
         {
-            if(request != null)
+            if (request != null)
             {
                 string ifModified = request.Headers["If-Modified-Since"];
-                if(!string.IsNullOrEmpty(ifModified))
+                if (!string.IsNullOrEmpty(ifModified))
                 {
                     return DateTimeHelper.ParseUnknownFormatUtc(ifModified);
                 }
@@ -97,7 +89,7 @@ namespace Subtext.Framework.Web
             WebRequest req = WebRequest.Create(url);
             SetProxy(req);
             var wreq = req as HttpWebRequest;
-            if(null != wreq)
+            if (null != wreq)
             {
                 wreq.UserAgent = UserAgent;
                 wreq.Referer = Referer;
@@ -126,15 +118,15 @@ namespace Subtext.Framework.Web
         public static string GetPageText(Uri url)
         {
             HttpWebResponse response = GetResponse(url);
-            using(Stream s = response.GetResponseStream())
+            using (Stream s = response.GetResponseStream())
             {
                 string enc = response.ContentEncoding;
-                if(enc == null || enc.Trim().Length == 0)
+                if (enc == null || enc.Trim().Length == 0)
                 {
                     enc = "us-ascii";
                 }
                 Encoding encode = Encoding.GetEncoding(enc);
-                using(var sr = new StreamReader(s, encode))
+                using (var sr = new StreamReader(s, encode))
                 {
                     return sr.ReadToEnd();
                 }
@@ -148,13 +140,13 @@ namespace Subtext.Framework.Web
         /// <returns></returns>
         public static IPAddress GetUserIpAddress(HttpContextBase context)
         {
-            if(context == null)
+            if (context == null)
             {
                 return IPAddress.None;
             }
 
             string result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            if(String.IsNullOrEmpty(result))
+            if (String.IsNullOrEmpty(result))
             {
                 result = HttpContext.Current.Request.UserHostAddress;
             }
@@ -162,14 +154,14 @@ namespace Subtext.Framework.Web
             {
                 // Requests behind a proxy might contain multiple IP 
                 // addresses in the forwarding header.
-                if(result.IndexOf(",", StringComparison.Ordinal) > 0)
+                if (result.IndexOf(",", StringComparison.Ordinal) > 0)
                 {
                     result = StringHelper.LeftBefore(result, ",");
                 }
             }
 
             IPAddress ipAddress;
-            if(IPAddress.TryParse(result, out ipAddress))
+            if (IPAddress.TryParse(result, out ipAddress))
             {
                 return ipAddress;
             }
@@ -196,7 +188,7 @@ namespace Subtext.Framework.Web
         /// </returns>
         public static bool IsStaticFileRequest(this HttpRequestBase request)
         {
-            if(request == null)
+            if (request == null)
             {
                 throw new ArgumentNullException("request");
             }
@@ -232,7 +224,7 @@ namespace Subtext.Framework.Web
         public static void SetProxy(WebRequest request)
         {
             IWebProxy proxy = GetProxy();
-            if(proxy != null)
+            if (proxy != null)
             {
                 request.Proxy = proxy;
             }
@@ -240,7 +232,7 @@ namespace Subtext.Framework.Web
 
         internal static IWebProxy GetProxy()
         {
-            if(String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyHost"]))
+            if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyHost"]))
             {
                 return null;
             }
@@ -249,7 +241,7 @@ namespace Subtext.Framework.Web
 
             int proxyPort;
             IWebProxy proxy = int.TryParse(ConfigurationManager.AppSettings["ProxyPort"], out proxyPort) ? new WebProxy(proxyHost, proxyPort) : new WebProxy(proxyHost);
-            if(!String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyUsername"]))
+            if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyUsername"]))
             {
                 proxy.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["ProxyUsername"],
                                                           ConfigurationManager.AppSettings["ProxyPassword"]);
@@ -264,16 +256,16 @@ namespace Subtext.Framework.Web
         /// <param name="path"></param>
         public static string ExpandTildePath(string path)
         {
-            if(String.IsNullOrEmpty(path))
+            if (String.IsNullOrEmpty(path))
             {
                 return string.Empty;
             }
 
             string reference = path;
-            if(reference.Substring(0, 2) == "~/")
+            if (reference.Substring(0, 2) == "~/")
             {
                 string appPath = HttpContext.Current.Request.ApplicationPath ?? string.Empty;
-                if(appPath.EndsWith("/", StringComparison.Ordinal))
+                if (appPath.EndsWith("/", StringComparison.Ordinal))
                 {
                     appPath = appPath.Left(appPath.Length - 1);
                 }
@@ -288,17 +280,17 @@ namespace Subtext.Framework.Web
         /// </summary>
         public static VirtualPath ExpandTildePath(this HttpContextBase httpContext, string path)
         {
-            if(String.IsNullOrEmpty(path))
+            if (String.IsNullOrEmpty(path))
             {
                 return string.Empty;
             }
 
             string reference = path;
-            if(reference.Substring(0, 2) == "~/")
+            if (reference.Substring(0, 2) == "~/")
             {
                 string appPath = httpContext.Request.ApplicationPath ?? string.Empty;
 
-                if(appPath.EndsWith("/", StringComparison.Ordinal))
+                if (appPath.EndsWith("/", StringComparison.Ordinal))
                 {
                     appPath = appPath.Left(appPath.Length - 1);
                 }
@@ -313,7 +305,7 @@ namespace Subtext.Framework.Web
         /// <returns></returns>
         public static byte[] GetFileStream(this HttpPostedFile httpPostedFile)
         {
-            if(httpPostedFile != null)
+            if (httpPostedFile != null)
             {
                 int contentLength = httpPostedFile.ContentLength;
                 var input = new byte[contentLength];
@@ -333,12 +325,12 @@ namespace Subtext.Framework.Web
         {
             string extension = Path.GetExtension(fullUrl);
 
-            if(string.IsNullOrEmpty(extension))
+            if (string.IsNullOrEmpty(extension))
             {
                 return string.Empty;
             }
 
-            switch(extension.ToUpperInvariant())
+            switch (extension.ToUpperInvariant())
             {
                 case ".PNG":
                     return "image/png";
@@ -356,14 +348,14 @@ namespace Subtext.Framework.Web
 
         public static string GetSafeFileName(this string text)
         {
-            if(string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
                 throw new ArgumentNullException("text");
             }
             var badChars = Path.GetInvalidFileNameChars();
-            foreach(var badChar in badChars)
+            foreach (var badChar in badChars)
             {
-                if(text.Contains(badChar))
+                if (text.Contains(badChar))
                 {
                     text = text.Replace(string.Format("{0}", badChar), string.Empty);
                 }
@@ -392,7 +384,7 @@ namespace Subtext.Framework.Web
             {
                 return request.UrlReferrer;
             }
-            catch(UriFormatException)
+            catch (UriFormatException)
             {
                 return null;
             }
@@ -404,7 +396,7 @@ namespace Subtext.Framework.Web
             var request = httpContext.Request;
 
             string url = request.GetFileNotFoundRedirectUrl(usingIntegratedPipeline);
-            if(!String.IsNullOrEmpty(url))
+            if (!String.IsNullOrEmpty(url))
             {
                 response.Redirect(url, true);
             }
@@ -417,42 +409,42 @@ namespace Subtext.Framework.Web
 
         public static string GetFileNotFoundRedirectUrl(this HttpRequestBase request, bool usingIntegratedPipeline)
         {
-            if(usingIntegratedPipeline || (request.QueryString == null || request.QueryString.Count == 0))
+            if (usingIntegratedPipeline || (request.QueryString == null || request.QueryString.Count == 0))
             {
-                return null;   
+                return null;
             }
 
             string key = request.QueryString.Keys[0];
-            if(key != null && key.Equals("referrer", StringComparison.InvariantCultureIgnoreCase))
+            if (key != null && key.Equals("referrer", StringComparison.InvariantCultureIgnoreCase))
                 return null;
 
 
-            string queryString = request.QueryString[0];            
-            if(string.IsNullOrEmpty(queryString))
+            string queryString = request.QueryString[0];
+            if (string.IsNullOrEmpty(queryString))
             {
                 return null;
             }
 
-            if(!queryString.Contains(";"))
+            if (!queryString.Contains(";"))
             {
                 return null;
             }
             string urlText = queryString.RightAfter(";");
-            if(String.IsNullOrEmpty(urlText))
+            if (String.IsNullOrEmpty(urlText))
             {
                 return null;
             }
 
             Uri uri = urlText.ParseUri();
-            if(uri == null)
+            if (uri == null)
             {
                 return null;
             }
             string extension = Path.GetExtension(uri.AbsolutePath);
-            if(string.IsNullOrEmpty(extension))
+            if (string.IsNullOrEmpty(extension))
             {
                 string uriAbsolutePath = uri.AbsolutePath;
-                if(!uriAbsolutePath.EndsWith("/"))
+                if (!uriAbsolutePath.EndsWith("/"))
                 {
                     uriAbsolutePath += "/";
                 }
@@ -468,16 +460,16 @@ namespace Subtext.Framework.Web
         /// <returns></returns>
         public static string StripSurroundingSlashes(string target)
         {
-            if(target == null)
+            if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
 
-            if(target.EndsWith("/"))
+            if (target.EndsWith("/"))
             {
                 target = target.Remove(target.Length - 1, 1);
             }
-            if(target.StartsWith("/"))
+            if (target.StartsWith("/"))
             {
                 target = target.Remove(0, 1);
             }
