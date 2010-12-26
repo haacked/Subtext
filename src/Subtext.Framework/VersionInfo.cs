@@ -38,7 +38,6 @@
 
 using System;
 using System.Globalization;
-using System.Reflection;
 
 namespace Subtext.Framework {
     /// <summary>
@@ -56,7 +55,7 @@ namespace Subtext.Framework {
         public static Version CurrentAssemblyVersion {
             get {
                 if (_version == null) {
-                    _version = new AssemblyName(typeof(VersionInfo).Assembly.FullName).Version;
+                    _version = typeof(VersionInfo).GetVersion();
                 }
                 return _version;
             }

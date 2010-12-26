@@ -19,8 +19,8 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Net;
-using System.Reflection;
 using System.Web;
+using Subtext.Framework;
 using Subtext.Framework.Properties;
 
 namespace Subtext.Akismet {
@@ -35,7 +35,7 @@ namespace Subtext.Akismet {
         const string SubmitHamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-ham";
         const string SubmitSpamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-spam";
         static readonly Uri VerifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
-        static readonly string Version = new AssemblyName(typeof(HttpClient).FullName).Version.ToString();
+        static readonly string Version = typeof(HttpClient).GetVersion().ToString();
         string _apiKey;
         Uri _checkUrl;
         [NonSerialized]
