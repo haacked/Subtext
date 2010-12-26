@@ -27,22 +27,22 @@ namespace Subtext.Framework.Data
     {
         public static IEnumerable<EntryDay> GetBlogPostsByCategoryGroupedByDay(this ObjectProvider repository, int itemCount, int categoryId)
         {
-            return repository.GetEntriesByCategory(itemCount, categoryId, true /*activeOnly*/).GroupByDayUsingDateCreated();
+            return repository.GetEntriesByCategory(itemCount, categoryId, true /*activeOnly*/).GroupByDayUsingDateSyndicated();
         }
 
         public static IEnumerable<EntryDay> GetBlogPostsForHomePage(this ObjectProvider repository, int itemCount, PostConfig postConfig)
         {
-            return repository.GetEntries(itemCount, PostType.BlogPost, postConfig, false /*includeCategories*/).GroupByDayUsingDateCreated();
+            return repository.GetEntries(itemCount, PostType.BlogPost, postConfig, false /*includeCategories*/).GroupByDayUsingDateSyndicated();
         }
 
-        public static IEnumerable<EntryDay> GroupByDayUsingDateCreated(this IEnumerable<Entry> entries)
+        public static IEnumerable<EntryDay> GroupByDayUsingDateSyndicated(this IEnumerable<Entry> entries)
         {
-            var groupedEntries = 
+            var groupedEntries =
                     from entry in entries
                     group entry by entry.DateSyndicated.Date
-                    into entriesGroupedByDay
+                        into entriesGroupedByDay
                         select entriesGroupedByDay;
-            foreach(var group in groupedEntries)
+            foreach (var group in groupedEntries)
             {
                 yield return new EntryDay(group.Key, group.ToList());
             }
