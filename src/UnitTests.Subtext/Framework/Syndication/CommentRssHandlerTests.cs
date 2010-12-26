@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// </para>
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CommentRssHandlerProducesValidEmptyFeed()
         {
             string hostName = UnitTestHelper.GenerateUniqueHostname();

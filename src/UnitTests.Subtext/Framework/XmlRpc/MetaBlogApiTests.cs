@@ -323,7 +323,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void editPost_WithPostHavingDifferentCategoryThanEntry_UpdatesCategory()
         {
             // arrange
@@ -374,7 +374,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetRecentPosts_ReturnsRecentPosts()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -473,7 +473,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPages_WithNumberOfPosts_ReturnsPostsInPages()
         {
             //arrange
@@ -568,7 +568,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPost_WithEntryId_ReturnsPostWithCorrectEntryUrl()
         {
             //arrange
@@ -626,7 +626,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPage_ReturnsPostWithhCorrectEntrUrl()
         {
             //arrange

@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.Framework.Data
         [Row(12, 5, 3, 2)]
         [Row(10, 5, 2, 5)]
         [Row(10, 20, 1, 10)]
-        [RollBack]
+        [RollBack2]
         public void GetPagedEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                          int itemsCountOnLastPage)
         {
@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Data
         [Row(12, 5, 3, 2)]
         [Row(10, 5, 2, 5)]
         [Row(10, 20, 1, 10)]
-        [RollBack]
+        [RollBack2]
         public void GetPagedEntriesByCategoryHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                                    int itemsCountOnLastPage)
         {
@@ -76,7 +76,7 @@ namespace UnitTests.Subtext.Framework.Data
         //[Row(12, 5, 3, 2)]
         //[Row(10, 5, 2, 5)]
         //[Row(10, 20, 1, 10)]
-        [RollBack]
+        [RollBack2]
         public void GetPagedFeedbackHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                           int itemsCountOnLastPage)
         {
@@ -92,7 +92,7 @@ namespace UnitTests.Subtext.Framework.Data
         [Row(12, 5, 3, 2)]
         [Row(10, 5, 2, 5)]
         [Row(10, 20, 1, 10)]
-        [RollBack]
+        [RollBack2]
         public void GetPagedLinksHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                        int itemsCountOnLastPage)
         {
@@ -108,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Data
         [Row(12, 5, 3, 2)]
         [Row(10, 5, 2, 5)]
         [Row(10, 20, 1, 10)]
-        [RollBack]
+        [RollBack2]
         public void GetPagedLogEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                             int itemsCountOnLastPage)
         {
@@ -124,7 +124,7 @@ namespace UnitTests.Subtext.Framework.Data
         [Row(12, 5, 3, 2)]
         [Row(10, 5, 2, 5)]
         [Row(10, 20, 1, 10)]
-        [RollBack]
+        [RollBack2]
         public void GetPagedMetaTagsHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                           int itemsCountOnLastPage)
         {
@@ -140,7 +140,7 @@ namespace UnitTests.Subtext.Framework.Data
         [Row(12, 5, 3, 2)]
         [Row(10, 5, 2, 5)]
         [Row(10, 20, 1, 10)]
-        [RollBack]
+        [RollBack2]
         public void GetPagedKeywordsHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                           int itemsCountOnLastPage)
         {
@@ -156,7 +156,7 @@ namespace UnitTests.Subtext.Framework.Data
         [Row(12, 5, 3, 2)]
         [Row(10, 5, 2, 5)]
         [Row(10, 20, 1, 10)]
-        [RollBack]
+        [RollBack2]
         public void GetPagedBlogsHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                        int itemsCountOnLastPage)
         {

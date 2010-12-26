@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetRecentPostsDoesNotIncludeFuturePosts()
         {
             DateTime now = Config.CurrentBlog.TimeZone.Now.AddMinutes(-5);
@@ -86,7 +86,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetEntriesByTagDoesNotIncludeFuturePosts()
         {
             DateTime now = Config.CurrentBlog.TimeZone.Now.AddMinutes(-5);
@@ -131,7 +131,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetEntriesByCategoryDoesNotIncludeFuturePosts()
         {
             DateTime now = Config.CurrentBlog.TimeZone.Now.AddMinutes(-5);
@@ -181,7 +181,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPostsByDayRangeDoesNotIncludeFuturePosts()
         {
 
@@ -224,7 +224,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void GetPostCollectionByMonthDoesNotIncludeFuturePosts()
         {
             DateTime now = Config.CurrentBlog.TimeZone.Now.AddMinutes(-5);

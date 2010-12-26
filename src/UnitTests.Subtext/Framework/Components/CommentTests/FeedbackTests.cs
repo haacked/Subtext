@@ -27,7 +27,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         [Row(FeedbackStatusFlag.FlaggedAsSpam, false, false, false, true)]
         [Row(FeedbackStatusFlag.NeedsModeration, false, true, false, false)]
         [Row(FeedbackStatusFlag.Deleted, false, false, true, false)]
-        [RollBack]
+        [RollBack2]
         public void CanCreateCommentWithStatus(FeedbackStatusFlag status, bool expectedApproved,
                                                bool expectedNeedsModeratorApproval, bool expectedDeleted,
                                                bool expectedFlaggedAsSpam)
@@ -47,7 +47,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ConfirmSpamRemovesApprovedBitAndSetsDeletedBit()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -63,7 +63,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void DeleteCommentSetsDeletedBit()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void DestroyCommentByStatusDestroysOnlyThatStatus()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -142,7 +142,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreateFeedbackSetsBlogStatsCorrectly()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -171,7 +171,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreateEntryDoesNotResetBlogStats()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -189,7 +189,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void DeleteEntrySetsBlogStats()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -223,7 +223,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ApproveCommentRemovesDeletedAndConfirmedSpamBits()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -247,7 +247,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         /// approved as not spam.  Make sure we get all of them when we get comments.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanGetAllApprovedComments()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -277,7 +277,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void OnlyApprovedItemsContributeToEntryFeedbackCount()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -318,7 +318,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         /// (FlaggedAsSpam | Approved).
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanGetItemsFlaggedAsSpam()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();

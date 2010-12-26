@@ -185,7 +185,7 @@ GO";
         /// Makes sure that ParseScript parses correctly.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ParseScriptParsesCorrectly()
         {
             const string script = @"SET QUOTED_IDENTIFIER OFF 

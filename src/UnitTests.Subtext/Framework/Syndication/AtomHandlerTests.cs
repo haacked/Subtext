@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// Tests writing a simple RSS feed from some database entries.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void AtomWriterProducesValidFeedFromDatabase()
         {
             string hostName = UnitTestHelper.GenerateUniqueString();

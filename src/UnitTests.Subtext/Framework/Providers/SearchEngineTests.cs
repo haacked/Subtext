@@ -12,7 +12,7 @@ namespace UnitTests.Subtext.Framework.Providers
     [TestFixture]
     public class SearchEngineTests
     {
-        [RollBack]
+        [RollBack2]
         [Test]
         public void Search_WithMultipleMatchingEntries_FindsThoseEntries()
         {

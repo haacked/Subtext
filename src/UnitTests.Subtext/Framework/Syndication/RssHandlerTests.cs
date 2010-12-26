@@ -27,7 +27,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// Tests writing a simple RSS feed from some database entries.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void RssWriterProducesValidFeedFromDatabase()
         {
             string hostName = UnitTestHelper.GenerateUniqueHostname();
@@ -73,7 +73,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void RssWriterProducesValidFeedWithEnclosureFromDatabase()
         {
             string hostName = UnitTestHelper.GenerateUniqueString() + ".com";
@@ -133,7 +133,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// Tests that a simple regular RSS feed works.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void RssHandlerProducesValidRssFeed()
         {
             string hostName = UnitTestHelper.GenerateUniqueHostname();
@@ -176,7 +176,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// Tests that items without a date syndicated are not syndicated.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void RssHandlerHandlesDateSyndicatedProperly()
         {
             // arrange
@@ -238,7 +238,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// Tests that the RssHandler orders items by DateSyndicated.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void RssHandlerSortsByDateSyndicated()
         {
             // Setup
@@ -320,7 +320,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void RssHandlerHandlesDoesNotSyndicateFuturePosts()
         {
             // Setup
@@ -394,7 +394,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// to decompress the feed and test it.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         [Ignore("Need to review")]
         public void TestCompressedFeedWorks()
         {

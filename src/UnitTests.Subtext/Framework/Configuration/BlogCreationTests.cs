@@ -39,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// if UseHashedPassword is set in web.config (as it should be).
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreatingBlogHashesPassword()
         {
             const string password = "MyPassword";
@@ -59,7 +59,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// We need a separate method for changing passwords.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ModifyingBlogShouldNotChangePassword()
         {
             Config.Settings.UseHashedPasswords = true;
@@ -78,7 +78,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// cannot create a blog with the same domain name and no subfolder.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreatingBlogWithDuplicateHostNameRequiresSubfolderName()
         {
             Config.CreateBlog("", "username", "password", _hostName, "MyBlog1");
@@ -91,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Make sure adding two distinct blogs doesn't raise an exception.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreatingMultipleBlogs_WithDistinctProperties_DoesNotThrowException()
         {
             Config.CreateBlog("title", "username", "password", UnitTestHelper.GenerateUniqueString(), string.Empty);
@@ -108,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// as another blog when both have no subfolder specified.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreateBlogCannotCreateOneWithDuplicateHostAndNoSubfolder()
         {
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -121,7 +121,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// as another blog when both have no subfolder specified.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreateBlogCannotCreateBlogWithHostThatIsDuplicateOfAnotherBlogAlias()
         {
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -136,7 +136,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// as another blog when both have no subfolder specified.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreateBlogCannotAddAliasThatIsDuplicateOfAnotherBlog()
         {
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -151,7 +151,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// as another blog.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreateBlogCannotCreateOneWithDuplicateHostAndSubfolder()
         {
             Config.CreateBlog("title", "username", "password", _hostName, "MyBlog");
@@ -164,7 +164,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// as another blog.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void UpdateBlogCannotConflictWithDuplicateHostAndSubfolder()
         {
             string secondHost = UnitTestHelper.GenerateUniqueString();
@@ -181,7 +181,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// as another blog when both have no subfolder specified.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void UpdateBlogCannotConflictWithDuplicateHost()
         {
             string anotherHost = UnitTestHelper.GenerateUniqueString();
@@ -208,7 +208,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// </p>
         /// </remarks>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CreateBlogCannotHideAnotherBlog()
         {
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -231,7 +231,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// </p>
         /// </remarks>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void UpdatingBlogCannotHideAnotherBlog()
         {
             Config.CreateBlog("title", "username", "password", "www.mydomain.com", string.Empty);
@@ -247,7 +247,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// cannot modify another blog to have the same domain name, but with no subfolder.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void UpdatingBlogWithDuplicateHostNameRequiresSubfolderName()
         {
             string anotherHost = UnitTestHelper.GenerateUniqueString();
@@ -266,7 +266,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// include the blog being edited.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void UpdatingBlogIsFine()
         {
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -276,7 +276,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         }
 
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanUpdateMobileSkin()
         {
             Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -293,7 +293,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// within the subfolder name.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void EnsureInvalidCharactersMayNotBeUsedInSubfolderName()
         {
             string[] badNames = {
@@ -312,7 +312,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// within the subfolder name.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void ReservedSubtextWordsAreNotValidForSubfolders()
         {
             string[] badSubfolders = {
@@ -355,7 +355,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Tests that creating a blog with a reserved keyword (bin) is not allowed.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CannotCreateBlogWithSubfolderNameBin()
         {
             UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => Config.CreateBlog("title", "blah", "blah", _hostName, "bin"));
@@ -365,7 +365,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Tests that modifying a blog with a reserved keyword (bin) is not allowed.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CannotRenameBlogToHaveSubfolderNameBin()
         {
             Config.CreateBlog("title", "blah", "blah", _hostName, "Anything");
@@ -379,7 +379,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Tests that creating a blog with a reserved keyword (archive) is not allowed.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CannotCreateBlogWithSubfolderNameArchive()
         {
             UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => Config.CreateBlog("title", "blah", "blah", _hostName, "archive"));
@@ -389,7 +389,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Tests that creating a blog that ends with . is not allowed
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CannotCreateBlogWithSubfolderNameEndingWithDot()
         {
             UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => Config.CreateBlog("title", "blah", "blah", _hostName, "archive."));
@@ -399,7 +399,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Tests that creating a blog that contains invalid characters is not allowed.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CannotCreateBlogWithSubfolderNameWithInvalidCharacters()
         {
             UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => Config.CreateBlog("title", "blah", "blah", _hostName, "My!Blog"));

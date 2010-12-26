@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         [Row("Subtext.Web", "blog", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
         [Row("", "", "http://localhost/images/RSS2Image.gif")]
         [Row("", "blog", "http://localhost/images/RSS2Image.gif")]
-        [RollBack]
+        [RollBack2]
         public void RssImageUrlConcatenatedProperly(string application, string subfolder, string expected)
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subfolder, application);
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// Tests writing a simple RSS feed.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void RssWriterProducesValidFeed()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
@@ -251,7 +251,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html"/>.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void RssWriterHandlesRFC3229DeltaEncoding()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
@@ -344,7 +344,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// Tests writing a simple RSS feed.
         /// </summary>
         [Test]
-        [RollBack]
+        [RollBack2]
         public void RssWriterSendsWholeFeedWhenRFC3229Disabled()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");

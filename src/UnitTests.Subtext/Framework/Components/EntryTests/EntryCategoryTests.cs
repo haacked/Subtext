@@ -13,7 +13,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
     public class EntryCategoryTests
     {
         [Test]
-        [RollBack]
+        [RollBack2]
         public void CanAddAndRemoveAllCategories()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
