@@ -37,7 +37,7 @@ namespace Subtext.Framework.Text
 
         public static string NullIfEmpty(this string s)
         {
-            if(String.IsNullOrEmpty(s))
+            if (String.IsNullOrEmpty(s))
             {
                 return null;
             }
@@ -47,16 +47,16 @@ namespace Subtext.Framework.Text
         public static string Remove(this string original, string textToRemove, int occurrenceCount,
                                     StringComparison comparison)
         {
-            if(!original.Contains(textToRemove, comparison))
+            if (!original.Contains(textToRemove, comparison))
             {
                 return original;
             }
 
             string result = original;
-            for(int i = 0; i < occurrenceCount; i++)
+            for (int i = 0; i < occurrenceCount; i++)
             {
                 result = result.LeftBefore(textToRemove, comparison) + result.RightAfter(textToRemove, comparison);
-                if(!result.Contains(textToRemove, comparison))
+                if (!result.Contains(textToRemove, comparison))
                 {
                     return result;
                 }
@@ -73,11 +73,11 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string RemoveDoubleCharacter(this string text, char character)
         {
-            if(text == null)
+            if (text == null)
             {
                 throw new ArgumentNullException("text");
             }
-            if(character == char.MinValue)
+            if (character == char.MinValue)
             {
                 return text;
             }
@@ -85,9 +85,9 @@ namespace Subtext.Framework.Text
             int i = 0;
 
             bool lastCharIsOurChar = false;
-            foreach(char c in text)
+            foreach (char c in text)
             {
-                if(c != character || !lastCharIsOurChar)
+                if (c != character || !lastCharIsOurChar)
                 {
                     newString[i] = c;
                     i++;
@@ -110,20 +110,20 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string ToPascalCase(this string text)
         {
-            if(text == null)
+            if (text == null)
             {
                 throw new ArgumentNullException("text");
             }
 
-            if(text.Length == 0)
+            if (text.Length == 0)
             {
                 return text;
             }
 
             string[] words = text.Split(' ');
-            for(int i = 0; i < words.Length; i++)
+            for (int i = 0; i < words.Length; i++)
             {
-                if(words[i].Length > 0)
+                if (words[i].Length > 0)
                 {
                     string word = words[i];
                     char firstChar = char.ToUpper(word[0], CultureInfo.InvariantCulture);
@@ -146,9 +146,9 @@ namespace Subtext.Framework.Text
         /// <exception cref="ArgumentNullException">Thrown if str is null.</exception>
         public static string Left(this string str, int length)
         {
-            if(str == null)
+            if (str == null)
                 return null;
-            if(length >= str.Length)
+            if (length >= str.Length)
             {
                 return str;
             }
@@ -169,23 +169,23 @@ namespace Subtext.Framework.Text
         /// <exception cref="ArgumentNullException">Thrown if str is null.</exception>
         public static string Right(this string original, int length)
         {
-            if(original == null)
+            if (original == null)
             {
                 throw new ArgumentNullException("original");
             }
 
-            if(length < 0)
+            if (length < 0)
             {
                 throw new ArgumentOutOfRangeException("length", length,
                                                       Resources.ArgumentOutOfRange_LengthMustNotBeNegative);
             }
 
-            if(original.Length == 0 || length == 0)
+            if (original.Length == 0 || length == 0)
             {
                 return String.Empty;
             }
 
-            if(length >= original.Length)
+            if (length >= original.Length)
             {
                 return original;
             }
@@ -221,25 +221,25 @@ namespace Subtext.Framework.Text
         /// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
         public static string RightAfter(this string original, string search, StringComparison comparisonType)
         {
-            if(original == null)
+            if (original == null)
             {
                 throw new ArgumentNullException("original");
             }
 
-            if(search == null)
+            if (search == null)
             {
                 throw new ArgumentNullException("search");
             }
 
             //Shortcut.
-            if(search.Length > original.Length || search.Length == 0)
+            if (search.Length > original.Length || search.Length == 0)
             {
                 return original;
             }
 
             int searchIndex = original.IndexOf(search, 0, comparisonType);
 
-            if(searchIndex < 0)
+            if (searchIndex < 0)
             {
                 return original;
             }
@@ -277,24 +277,24 @@ namespace Subtext.Framework.Text
         public static string RightAfterLast(this string original, string search, int startIndex,
                                             StringComparison comparisonType)
         {
-            if(original == null)
+            if (original == null)
             {
                 throw new ArgumentNullException("original");
             }
-            if(search == null)
+            if (search == null)
             {
                 throw new ArgumentNullException("search");
             }
 
             //Shortcut.
-            if(search.Length > original.Length || search.Length == 0)
+            if (search.Length > original.Length || search.Length == 0)
             {
                 return original;
             }
 
             int searchIndex = original.LastIndexOf(search, startIndex, comparisonType);
 
-            if(searchIndex < 0)
+            if (searchIndex < 0)
             {
                 return original;
             }
@@ -330,22 +330,22 @@ namespace Subtext.Framework.Text
         /// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
         public static string LeftBefore(this string original, string search, StringComparison comparisonType)
         {
-            if(original == null)
+            if (original == null)
             {
                 throw new ArgumentNullException("original");
             }
-            if(search == null)
+            if (search == null)
             {
                 throw new ArgumentNullException("search");
             }
             //Shortcut.
-            if(search.Length > original.Length || search.Length == 0)
+            if (search.Length > original.Length || search.Length == 0)
             {
                 return original;
             }
             int searchIndex = original.IndexOf(search, 0, comparisonType);
 
-            if(searchIndex < 0)
+            if (searchIndex < 0)
             {
                 return original;
             }
@@ -378,19 +378,19 @@ namespace Subtext.Framework.Text
             return NumericRegex.IsMatch(text);
         }
 
-        public static string MailToEncode(string s)
+        public static string EncodeForMailTo(this string s)
         {
-            return HttpUtility.UrlEncode(HttpUtility.HtmlAttributeEncode(HtmlHelper.RemoveHtml(s).Replace("\"", "'"))).Replace("+", " ");
+            return HttpUtility.UrlEncode(HttpUtility.HtmlAttributeEncode(s.RemoveHtml().Replace("\"", "'"))).Replace("+", " ");
         }
 
-        public static string MailToBodyEncode(string body)
+        public static string EncodeMailToBody(this string body)
         {
-            return MailToEncode(body.Replace(Environment.NewLine, "%0A"));
+            return body.Replace(Environment.NewLine, "%0A").EncodeForMailTo();
         }
 
         public static string NamedFormat(this string format, object source)
         {
-            if(format == null)
+            if (format == null)
             {
                 throw new ArgumentNullException("format");
             }
@@ -407,10 +407,10 @@ namespace Subtext.Framework.Text
             do
             {
                 expStartIndex = format.IndexOfExpressionStart(exprEndIndex + 1);
-                if(expStartIndex < 0)
+                if (expStartIndex < 0)
                 {
                     //everything after last end brace index.
-                    if(exprEndIndex + 1 < format.Length)
+                    if (exprEndIndex + 1 < format.Length)
                     {
                         yield return new LiteralFormat(
                             format.Substring(exprEndIndex + 1));
@@ -418,7 +418,7 @@ namespace Subtext.Framework.Text
                     break;
                 }
 
-                if(expStartIndex - exprEndIndex - 1 > 0)
+                if (expStartIndex - exprEndIndex - 1 > 0)
                 {
                     //everything up to next start brace index
                     yield return new LiteralFormat(format.Substring(exprEndIndex + 1
@@ -426,7 +426,7 @@ namespace Subtext.Framework.Text
                 }
 
                 int endBraceIndex = format.IndexOfExpressionEnd(expStartIndex + 1);
-                if(endBraceIndex < 0)
+                if (endBraceIndex < 0)
                 {
                     //rest of string, no end brace (could be invalid expression)
                     yield return new FormatExpression(format.Substring(expStartIndex));
@@ -438,22 +438,22 @@ namespace Subtext.Framework.Text
                     yield return new FormatExpression(format.Substring(expStartIndex
                                                                        , endBraceIndex - expStartIndex + 1));
                 }
-            } while(expStartIndex > -1);
+            } while (expStartIndex > -1);
         }
 
         static int IndexOfExpressionStart(this string format, int startIndex)
         {
             int index = format.IndexOf('{', startIndex);
-            if(index == -1)
+            if (index == -1)
             {
                 return index;
             }
 
             //peek ahead.
-            if(index + 1 < format.Length)
+            if (index + 1 < format.Length)
             {
                 char nextChar = format[index + 1];
-                if(nextChar == '{')
+                if (nextChar == '{')
                 {
                     return IndexOfExpressionStart(format, index + 2);
                 }
@@ -465,16 +465,16 @@ namespace Subtext.Framework.Text
         static int IndexOfExpressionEnd(this string format, int startIndex)
         {
             int endBraceIndex = format.IndexOf('}', startIndex);
-            if(endBraceIndex == -1)
+            if (endBraceIndex == -1)
             {
                 return endBraceIndex;
             }
             //start peeking ahead until there are no more braces...
             // }}}}
             int braceCount = 0;
-            for(int i = endBraceIndex + 1; i < format.Length; i++)
+            for (int i = endBraceIndex + 1; i < format.Length; i++)
             {
-                if(format[i] == '}')
+                if (format[i] == '}')
                 {
                     braceCount++;
                 }
@@ -483,7 +483,7 @@ namespace Subtext.Framework.Text
                     break;
                 }
             }
-            if(braceCount % 2 == 1)
+            if (braceCount % 2 == 1)
             {
                 return IndexOfExpressionEnd(format, endBraceIndex + braceCount + 1);
             }
@@ -506,22 +506,22 @@ namespace Subtext.Framework.Text
         /// <returns></returns>
         public static string Chop(this string text)
         {
-            if(String.IsNullOrEmpty(text))
+            if (String.IsNullOrEmpty(text))
             {
                 return text;
             }
             bool chopped = false;
-            if(text.EndsWith("\n", StringComparison.Ordinal))
+            if (text.EndsWith("\n", StringComparison.Ordinal))
             {
                 text = text.Substring(0, text.Length - 1);
                 chopped = true;
             }
-            if(text.EndsWith("\r", StringComparison.Ordinal))
+            if (text.EndsWith("\r", StringComparison.Ordinal))
             {
                 text = text.Substring(0, text.Length - 1);
                 chopped = true;
             }
-            if(!chopped)
+            if (!chopped)
             {
                 text = text.Substring(0, text.Length - 1);
             }
@@ -548,24 +548,24 @@ namespace Subtext.Framework.Text
         /// </remarks>
         public static string Chomp(this string text, string separator, StringComparison comparisonType)
         {
-            if(String.IsNullOrEmpty(text))
+            if (String.IsNullOrEmpty(text))
             {
                 return text;
             }
 
-            if(text.EndsWith("\n", StringComparison.Ordinal))
+            if (text.EndsWith("\n", StringComparison.Ordinal))
             {
                 text = text.Substring(0, text.Length - 1);
             }
 
-            if(text.EndsWith("\r", StringComparison.Ordinal))
+            if (text.EndsWith("\r", StringComparison.Ordinal))
             {
                 text = text.Substring(0, text.Length - 1);
             }
 
-            if(!String.IsNullOrEmpty(separator))
+            if (!String.IsNullOrEmpty(separator))
             {
-                if(text.EndsWith(separator, comparisonType))
+                if (text.EndsWith(separator, comparisonType))
                 {
                     text = text.Substring(0, text.Length - separator.Length);
                 }

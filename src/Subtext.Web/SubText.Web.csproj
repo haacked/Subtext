@@ -259,6 +259,7 @@
     <Compile Include="aspx\Admin\Feedback\Feedback.Master.designer.cs">
       <DependentUpon>Feedback.Master</DependentUpon>
     </Compile>
+    <Compile Include="aspx\Admin\Feedback\FeedbackAuthorViewModel.cs" />
     <Compile Include="aspx\Admin\Feedback\FeedbackState.cs" />
     <Compile Include="aspx\Admin\FullTextSearch.aspx.cs">
       <DependentUpon>FullTextSearch.aspx</DependentUpon>
@@ -2464,6 +2465,7 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="Skins\Mobile\Images\" />
     <Folder Include="Skins\Mobile\Scripts\" />
     <Folder Include="Skins\Naked\Images\" />

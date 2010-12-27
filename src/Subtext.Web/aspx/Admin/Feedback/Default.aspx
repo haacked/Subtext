@@ -66,68 +66,85 @@
         
         <h2 ID="headerLiteral" runat="server">Comments</h2>
         <asp:Literal ID="noCommentsMessage" runat="server" />
-		<asp:Repeater id="feedbackRepeater" runat="server">
-			<HeaderTemplate>
-				<table id="feedback" class="listing">
-					<tr>
-						<th width="16"></th>
-						<th>Title</th>						
-						<th>Author</th>
-						<th width="100">Date</th>
-						<th width="50"></th>
-					</tr>
-			</HeaderTemplate>
-			<ItemTemplate>
-				<tr class="heading">
-					<td>
-					    <a href="Edit.aspx?FeedBackID=<%# Eval("Id") %>&<%= Master.CurrentQuery %>" title="Edit this item"><asp:Image runat="server" ImageUrl="~/Images/icons/edit.gif" /></a>
-					</td>
-					<td>
-						<%# GetTitle(Container.DataItem) %>
-					</td>
-					<td class="author">
-						<%# GetAuthor(Container.DataItem) %> <%# GetAuthorInfo(Container.DataItem) %>
-					</td>
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
-					</td>
-					<td class="undoable">
-					    <ul class="horizontal">
-					        <% if(FeedbackState.Spammable) { %>
-					        <li><a href="#<%# Eval("Id") %>" class="FlaggedAsSpam">spam</a></li>
-					        <% } %>
-					        <% if(FeedbackState.Deletable) { %>
-					            <li><a href="#<%# Eval("Id") %>" class="Deleted">delete</a></li>
-					        <% } %>
-					        <% if(FeedbackState.Approvable) { %>
-					         <li><a href="#<%# Eval("Id") %>" class="Approved">approve</a></li>
-					        <% } %>
-					        <% if(FeedbackState.Destroyable) { %>
-					         <li><a href="#<%# Eval("Id") %>" class="destroy">destroy</a></li>
-					        <% } %>
-					    </ul>
-					</td>
-				</tr>
-				<tr class="body">
-					<td>
-					</td>
-					<td colspan="5">
-						<%# GetBody(Container.DataItem) %>
-					</td>
-				</tr>
-			</ItemTemplate>
-			<FooterTemplate>
-	            </table>
-		    </FooterTemplate>
-		</asp:Repeater>
-		<div class="Pager">
-		    <st:PagingControl id="resultsPager" runat="server" 
-			    PrefixText="<div>Goto page</div>" 
-			    LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
-			    UrlFormat="Default.aspx?pg={0}" 
-			    CssClass="Pager" />
-	        </div>
-	    <div class="clear">
-		    <asp:Button id="btnEmpty" runat="server" CssClass="buttonSubmit" style="float:right" Text="Empty" OnClick="OnEmptyClick" OnClientClick="return confirm('This will permanently delete every comment of this type. Continue?');" ToolTip="Empty" Visible="false" />
-		</div>
+        <asp:Repeater id="feedbackRepeater" runat="server">
+            <HeaderTemplate>
+                <table id="feedback" class="listing">
+                    <tr>
+                        <th width="16"></th>
+                        <th>Title</th>						
+                        <th>Author</th>
+                        <th width="100">Date</th>
+                        <th width="50"></th>
+                    </tr>
+            </HeaderTemplate>
+            <ItemTemplate>
+                <tr class="heading">
+                    <td>
+                        <a href="Edit.aspx?FeedBackID=<%# Eval("Id") %>&<%= Master.CurrentQuery %>" title="Edit this item"><asp:Image runat="server" ImageUrl="~/Images/icons/edit.gif" /></a>
+                    </td>
+                    <td>
+                        <%# GetTitle(Container.DataItem) %>
+                    </td>
+                    <td class="author">
+                        <span title="<%# Author.IpAddress %>"><%# Author.Name %></span> <%# Author.MailTo %> <%# Author.UrlLink %>
+                    </td>
+                    <td>
+                        <%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
+                    </td>
+                    <td class="undoable">
+                        <ul class="horizontal">
+                            <% if(FeedbackState.Spammable) { %>
+                            <li><a href="#<%# Eval("Id") %>" class="FlaggedAsSpam">spam</a></li>
+                            <% } %>
+                            <% if(FeedbackState.Deletable) { %>
+                                <li><a href="#<%# Eval("Id") %>" class="Deleted">delete</a></li>
+                            <% } %>
+                            <% if(FeedbackState.Approvable) { %>
+                             <li><a href="#<%# Eval("Id") %>" class="Approved">approve</a></li>
+                            <% } %>
+                            <% if(FeedbackState.Destroyable) { %>
+                             <li><a href="#<%# Eval("Id") %>" class="destroy">destroy</a></li>
+                            <% } %>
+                        </ul>
+                    </td>
+                </tr>
+                <tr class="body">
+                    <td>
+                    </td>
+                    <td colspan="3">
+                        <div>
+                            <%# GetBody(Container.DataItem) %>
+                        </div>
+                    </td>
+                    <td>
+                        <table class="author-details">
+                            <tr>
+                                <td colspan="2">
+                                    <%# Author.Name %> <%# Author.FormattedEmail ?? @"<span class=""none"">(no email)</span>"%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>URL:</td><td><%# Author.Url ?? @"<span class=""none"">(no website)</span>" %></td>
+                            </tr>
+                            <tr>
+                                <td>IP:</td><td><%# Author.IpAddress %></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </ItemTemplate>
+            <FooterTemplate>
+                </table>
+            </FooterTemplate>
+        </asp:Repeater>
+        <div class="Pager">
+            <st:PagingControl id="resultsPager" runat="server" 
+                PrefixText="<div>Goto page</div>" 
+                LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+                UrlFormat="Default.aspx?pg={0}" 
+                CssClass="Pager" />
+            </div>
+        <div class="clear">
+            <asp:Button id="btnEmpty" runat="server" CssClass="buttonSubmit" style="float:right" Text="Empty" OnClick="OnEmptyClick" OnClientClick="return confirm('This will permanently delete every comment of this type. Continue?');" ToolTip="Empty" Visible="false" />
+        </div>
 </asp:Content>
