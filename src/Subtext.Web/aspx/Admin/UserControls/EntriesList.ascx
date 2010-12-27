@@ -12,7 +12,7 @@
 				<th width="50">Web Views</th>
 				<th width="50">Agg Views</th>
 				<th width="50">Referrals</th>
-				<th width="100" style="text-align:center">Edit</th>
+				<th width="100" style="text-align:center">Edit<sup>*</sup></th>
 				<th width="50">&nbsp;</th>
 			</tr>
 	</HeaderTemplate>

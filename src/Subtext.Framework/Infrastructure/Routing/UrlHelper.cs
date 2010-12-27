@@ -351,8 +351,7 @@ namespace Subtext.Framework.Routing
 
         public virtual string WindowsLiveWriterEditUrl(int id, Blog blog)
         {
-            string url = GetVirtualPath("wlw", new { postid = id }).ToFullyQualifiedUrl(blog).ToString();
-            return url.Replace("http", "wlw");
+            return GetVirtualPath("root", new { postid = id }).ToFullyQualifiedUrl(blog, scheme: "wlw").ToString();
         }
 
         public virtual VirtualPath MonthUrl(DateTime dateTime)
