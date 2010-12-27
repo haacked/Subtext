@@ -57,7 +57,7 @@ namespace Subtext.Framework.Data
         /// <param name="host">The host information.</param>
         public override bool UpdateHost(HostInfo host)
         {
-            return _procedures.UpdateHost(host.HostUserName, host.Email, host.Password, host.Salt);
+            return _procedures.UpdateHost(hostUserName: host.HostUserName, email: host.Email, password: host.Password, salt: host.Salt);
         }
 
         /// <summary>
@@ -80,10 +80,11 @@ namespace Subtext.Framework.Data
         /// <returns>The blog group id</returns>
         public override int InsertBlogGroup(BlogGroup blogGroup)
         {
-            return _procedures.InsertBlogGroup(blogGroup.Title,
-                blogGroup.IsActive,
-                blogGroup.DisplayOrder.NullIfMinValue(),
-                blogGroup.Description.NullIfEmpty());
+            return _procedures.InsertBlogGroup(
+                title: blogGroup.Title,
+                active: blogGroup.IsActive,
+                displayOrder: blogGroup.DisplayOrder.NullIfMinValue(),
+                description: blogGroup.Description.NullIfEmpty());
         }
 
         /// <summary>
@@ -93,11 +94,12 @@ namespace Subtext.Framework.Data
         /// <returns>The blog group id</returns>
         public override bool UpdateBlogGroup(BlogGroup blogGroup)
         {
-            return _procedures.UpdateBlogGroup(blogGroup.Id,
-                blogGroup.Title,
-                blogGroup.IsActive,
-                blogGroup.Description.NullIfEmpty(),
-                blogGroup.DisplayOrder.NullIfMinValue());
+            return _procedures.UpdateBlogGroup(
+                id: blogGroup.Id,
+                title: blogGroup.Title,
+                active: blogGroup.IsActive,
+                description: blogGroup.Description.NullIfEmpty(),
+                displayOrder: blogGroup.DisplayOrder.NullIfMinValue());
         }
 
         public override bool DeleteBlogGroup(int blogGroupId)
