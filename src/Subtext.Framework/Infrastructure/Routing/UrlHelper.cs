@@ -388,7 +388,7 @@ namespace Subtext.Framework.Routing
 
         public virtual VirtualPath CategoryRssUrl(Category category)
         {
-            return GetVirtualPath("rss", new RouteValueDictionary { { "catId", category.Id } });
+            return GetVirtualPath("category-rss", new RouteValueDictionary { { "slug", category.Title } });
         }
 
         /// <summary>
