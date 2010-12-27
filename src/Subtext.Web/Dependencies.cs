@@ -44,7 +44,7 @@ using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.ImportExport;
 using Subtext.Infrastructure;
-using Directory=Lucene.Net.Store.Directory;
+using Directory = Lucene.Net.Store.Directory;
 
 namespace Subtext
 {
@@ -77,7 +77,7 @@ namespace Subtext
             if (indexingSettings.IsEnabled)
             {
                 Bind<Directory>()
-                    .ToMethod(c => FSDirectory.Open(new DirectoryInfo(c.Kernel.Get<HttpContext>().Server.MapPath(indexingSettings.IndexFolderLocation))))
+                    .ToMethod(c => FSDirectory.Open(new DirectoryInfo(HttpContext.Current.Server.MapPath(indexingSettings.IndexFolderLocation))))
                     .InSingletonScope();
                 Bind<Analyzer>().To<SnowballAnalyzer>().InSingletonScope()
                     .WithConstructorArgument("name", indexingSettings.Language)

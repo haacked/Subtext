@@ -649,10 +649,6 @@
     <Compile Include="Controls\SkinControl.cs" />
     <Compile Include="Dependencies.cs" />
     <Compile Include="Controllers\CommentApiController.cs" />
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -889,6 +885,7 @@
     <Compile Include="UI\WebControls\MetaTagsControl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Subtext2.5.mdf" />
     <Content Include="emoticons.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -1039,8 +1036,6 @@
     <EmbeddedResource Include="Controls\Resources\CoCommentScript.js" />
     <EmbeddedResource Include="Controls\Resources\CollapsiblePanel.js" />
     <EmbeddedResource Include="Controls\Resources\InvisibleCaptcha.js" />
-    <Content Include="App_Data\Subtext2.5.mdf">
-    </Content>
     <Content Include="aspx\Admin\Articles\Default.aspx" />
     <Content Include="aspx\Admin\Articles\Edit.aspx" />
     <Content Include="aspx\Admin\Comments.aspx" />
@@ -1411,7 +1406,6 @@
     <Content Include="aspx\SystemMessages\UpgradeInProgress.aspx" />
     <Content Include="css\lightbox.css" />
     <Content Include="css\reset.css" />
-    <Content Include="Default.aspx" />
     <Content Include="Images\admin.gif" />
     <Content Include="Images\administration_icon.gif" />
     <Content Include="Images\arrow_undo.png" />

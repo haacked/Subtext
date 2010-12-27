@@ -50,7 +50,8 @@ public static class Routes
                            , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])" }
                            , new[] { "viewpost", "comments", "postcomment" });
 
-        routes.MapRoute("comments-admin", "admin/comments/{action}.ashx", new {controller = "comment"});
+        routes.MapRoot();
+        routes.MapRoute("comments-admin", "admin/comments/{action}.ashx", new { controller = "comment" });
         routes.Ignore("{resource}.axd/{*pathInfo}");
         routes.Ignore("skins/{*pathInfo}");
         routes.MapSystemPage("MainFeed");
@@ -77,64 +78,63 @@ public static class Routes
         routes.MapHttpHandler<RssHandler>("rss", "rss.aspx");
         routes.MapHttpHandler<AtomHandler>("atom", "atom.aspx");
         routes.MapHttpHandler<RssCommentHandler>("comment-rss", "comments/commentRss/{id}.aspx");
-        routes.MapRoute("comment-api", "comments/{id}.aspx", new {controller = "CommentApi", action = "Create"},
-                        new {id = @"\d+"});
-        routes.MapRoute("aggbug", "aggbug/{id}.aspx", new {controller = "Statistics", action = "RecordAggregatorView"},
-                        new {id = @"\d+"});
+        routes.MapRoute("comment-api", "comments/{id}.aspx", new { controller = "CommentApi", action = "Create" },
+                        new { id = @"\d+" });
+        routes.MapRoute("aggbug", "aggbug/{id}.aspx", new { controller = "Statistics", action = "RecordAggregatorView" },
+                        new { id = @"\d+" });
         routes.MapHttpHandler<RsdHandler>("rsd", "rsd.xml.ashx");
         routes.MapHttpHandler<BlogSecondaryCssHandler>("customcss", "customcss.aspx");
         //TODO: routes.MapHttpHandler<CategoryRedirectHandler>("category-redirect", "category/{category}.aspx/rss", new { category = @"\d+" });
         routes.MapHttpHandler<RssCategoryHandler>("category-rss", "category/{slug}.aspx/rss",
-                                                  new {category = @"[-\w\s\d]+"});
+                                                  new { category = @"[-\w\s\d]+" });
         routes.MapHttpHandler<OpmlHandler>("opml", "opml.xml.ashx");
 
         routes.MapPagesToControlOfSameName("contact", "ArchivePostPage", "ArticleCategories", "search");
 
-        routes.MapControls("archives", "archives.aspx", null, new[] {"ArchivesPage"});
+        routes.MapControls("archives", "archives.aspx", null, new[] { "ArchivesPage" });
 
         routes.MapControls("entries-by-day", "archive/{year}/{month}/{day}.aspx"
-                           , new {year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])"}
-                           , new[] {"ArchiveDay"});
+                           , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])", day = @"([0-2]\d)|(3[0-1])" }
+                           , new[] { "ArchiveDay" });
 
         routes.MapControls("entries-by-month",
                            "archive/{year}/{month}.aspx"
-                           , new {year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])"}
-                           , new[] {"ArchiveMonth"});
+                           , new { year = @"[1-9]\d{3}", month = @"(0\d)|(1[0-2])" }
+                           , new[] { "ArchiveMonth" });
 
         routes.MapControls("article-by-id", "articles/{id}.aspx"
-                           , new {id = @"\d+"}
-                           , new[] {"viewpost", "comments", "postcomment"});
+                           , new { id = @"\d+" }
+                           , new[] { "viewpost", "comments", "postcomment" });
 
         routes.MapControls("article-by-slug", "articles/{slug}.aspx"
                            , null
-                           , new[] {"viewpost", "comments", "postcomment"});
+                           , new[] { "viewpost", "comments", "postcomment" });
 
         routes.MapControls("gallery", "gallery/{id}.aspx"
-                           , new {id = @"\d+"}
-                           , new[] {"GalleryThumbNailViewer"});
+                           , new { id = @"\d+" }
+                           , new[] { "GalleryThumbNailViewer" });
 
         routes.MapControls("gallery-image", "gallery/image/{id}.aspx"
-                           , new {id = @"\d+"}
-                           , new[] {"ViewPicture"});
+                           , new { id = @"\d+" }
+                           , new[] { "ViewPicture" });
 
         routes.MapControls("category", "{categoryType}/{slug}.aspx"
-                           , new {categoryType = @"category|stories"}
-                           , new[] {"CategoryEntryList"});
+                           , new { categoryType = @"category|stories" }
+                           , new[] { "CategoryEntryList" });
 
 
-        routes.MapControls("tag", "tags/{tag}/default.aspx", null, new[] {"TagEntryList"});
-        routes.MapControls("tag-cloud", "tags/default.aspx", null, new[] {"FullTagCloud"});
+        routes.MapControls("tag", "tags/{tag}/default.aspx", null, new[] { "TagEntryList" });
+        routes.MapControls("tag-cloud", "tags/default.aspx", null, new[] { "FullTagCloud" });
         routes.MapHttpHandler<RssTagHandler>("tag-rss", "tags/{tag}/rss.aspx");
 
-        routes.MapHttpHandler<TrackBackHandler>("trackbacks", "services/trackbacks/{id}.aspx", new {id = @"\d+"});
-        routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new {id = @"\d+"});
+        routes.MapHttpHandler<TrackBackHandler>("trackbacks", "services/trackbacks/{id}.aspx", new { id = @"\d+" });
+        routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new { id = @"\d+" });
         routes.MapXmlRpcHandler<MetaWeblog>("metaweblogapi", "services/metablogapi.aspx", null);
 
-        routes.MapRoute("wlw","",null);
+        routes.MapRoute("wlw", "wlw", null);
 
-        routes.Add("identicon", new Route("images/services/IdenticonHandler.ashx", new MvcRouteHandler()) {Defaults = new RouteValueDictionary(new {controller = "identicon", action = "image"})});
+        routes.Add("identicon", new Route("images/services/IdenticonHandler.ashx", new MvcRouteHandler()) { Defaults = new RouteValueDictionary(new { controller = "identicon", action = "image" }) });
         routes.Add("captcha", new Route("images/services/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(routes.ServiceLocator)));
         routes.Add("logout", new SubtextRoute("account/logout.ashx", new MvcRouteHandler()) { Defaults = new RouteValueDictionary(new { controller = "account", action = "logout" }) });
-        routes.MapRoot();
     }
 }
