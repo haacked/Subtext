@@ -17,7 +17,6 @@
 
 using System;
 using System.Globalization;
-using System.Web;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
@@ -25,8 +24,6 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Services;
-using Subtext.Framework.Text;
-using Subtext.Framework.Web;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Properties;
 using Subtext.Web.UI.Controls;
@@ -64,9 +61,9 @@ namespace Subtext.Web.Admin.Feedback
             filterTypeDropDown.SelectedValue = Master.FeedbackType.ToString();
 
             BindUserInterface();
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
-                if(!Contact.SendContactMessageToFeedback)
+                if (!Contact.SendContactMessageToFeedback)
                 {
                     filterTypeDropDown.Items.RemoveAt(3);
                 }
@@ -86,7 +83,7 @@ namespace Subtext.Web.Admin.Feedback
         private void BindList()
         {
             noCommentsMessage.Visible = false;
-            if(Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
+            if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
             {
                 _pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
             }
@@ -105,12 +102,13 @@ namespace Subtext.Web.Admin.Feedback
                                                                                        , excludeFilter
                                                                                        , Master.FeedbackType);
 
-            if(selectionList.Count > 0)
+            if (selectionList.Count > 0)
             {
                 resultsPager.Visible = true;
 
                 resultsPager.ItemCount = selectionList.MaxItems;
                 feedbackRepeater.DataSource = selectionList;
+                feedbackRepeater.ItemCreated += FeedbackItemDataBound;
                 feedbackRepeater.DataBind();
             }
             else
@@ -125,6 +123,20 @@ namespace Subtext.Web.Admin.Feedback
             Master.BindCounts();
         }
 
+        void FeedbackItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                Author = new FeedbackAuthorViewModel(e.Item.DataItem);
+            }
+        }
+
+        protected FeedbackAuthorViewModel Author
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         /// Gets the body of the feedback represented by the dataItem.
         /// </summary>
@@ -133,25 +145,13 @@ namespace Subtext.Web.Admin.Feedback
         protected static string GetBody(object dataItem)
         {
             var feedbackItem = (FeedbackItem)dataItem;
-            if(feedbackItem.FeedbackType != FeedbackType.PingTrack)
+            if (feedbackItem.FeedbackType != FeedbackType.PingTrack)
             {
                 return feedbackItem.Body;
             }
             return string.Format(CultureInfo.InvariantCulture,
                                  "{0}<br /><a target=\"_blank\" title=\"{3}: {1}\"  href=\"{2}\">Pingback/TrackBack</a>",
                                  feedbackItem.Body, feedbackItem.Title, feedbackItem.SourceUrl, Resources.Label_View);
-        }
-
-        /// <summary>
-        /// Returns the author during data binding. If the author specified 
-        /// an email address, includes that.
-        /// </summary>
-        /// <param name="dataItem"></param>
-        /// <returns></returns>
-        protected static string GetAuthor(object dataItem)
-        {
-            var feedbackItem = (FeedbackItem)dataItem;
-            return string.Format(@"<span title=""{0}"">{1}</span>", feedbackItem.IpAddress, feedbackItem.Author);
         }
 
         /// <summary>
@@ -163,53 +163,12 @@ namespace Subtext.Web.Admin.Feedback
         {
             var feedbackItem = (FeedbackItem)dataItem;
             string feedbackUrl = Url.FeedbackUrl(feedbackItem);
-            if(!String.IsNullOrEmpty(feedbackUrl))
+            if (!String.IsNullOrEmpty(feedbackUrl))
             {
                 return string.Format(@"<a href=""{0}"" title=""{0}"">{1}</a>", feedbackUrl, feedbackItem.Title);
             }
 
             return feedbackItem.Title;
-        }
-
-        /// <summary>
-        /// Returns the author during data binding. If the author specified 
-        /// an email address, includes that.
-        /// </summary>
-        /// <param name="dataItem"></param>
-        /// <returns></returns>
-        protected static string GetAuthorInfo(object dataItem)
-        {
-            var feedback = (FeedbackItem)dataItem;
-            string authorInfo = string.Empty;
-            string safeEmail = HttpUtility.HtmlAttributeEncode(feedback.Email);
-
-            if(!string.IsNullOrEmpty(feedback.Email) && feedback.Email.IndexOf("@") > 0)
-            {
-                string safeAuthor = StringHelper.MailToEncode(feedback.Author);
-                string safeTitle = StringHelper.MailToEncode(feedback.Title);
-                string safeBody = StringHelper.MailToBodyEncode(feedback.Body);
-
-                string mailToUrl = safeEmail
-                                   + "&subject=re:" + safeTitle
-                                   + "&body=----------%0A"
-                                   + "From: " + safeAuthor + " (" + safeEmail + ")%0A"
-                                   + "Sent: " + StringHelper.MailToEncode(feedback.DateCreated.ToString()) + "%0A"
-                                   + "Subject: " + safeTitle.Replace("+", " ") + "%0A%0A"
-                                   + safeBody;
-                authorInfo +=
-                    string.Format(
-                        @"<a href=""mailto:{0}"" title=""{1}""><img src=""{2}"" alt=""{1}"" border=""0"" class=""email"" /></a>",
-                        mailToUrl, safeEmail, HttpHelper.ExpandTildePath("~/images/email.gif"));
-            }
-
-            if(feedback.SourceUrl != null)
-            {
-                authorInfo +=
-                    string.Format(@"<a href=""{0}"" title=""{1}""><img src=""{2}"" alt=""{1}"" border=""0"" /></a>",
-                                  feedback.SourceUrl, feedback.SourceUrl, HttpHelper.ExpandTildePath("~/images/permalink.gif"));
-            }
-
-            return authorInfo;
         }
 
         protected void OnEmptyClick(object sender, EventArgs e)
@@ -227,7 +186,7 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e"></param>
         protected void OnApproveClick(object sender, EventArgs e)
         {
-            if(ApplyActionToCheckedFeedback(FeedbackItem.Approve) == 0)
+            if (ApplyActionToCheckedFeedback(FeedbackItem.Approve) == 0)
             {
                 Messages.ShowMessage(Resources.Feedback_NothingToApprove, true);
                 return;
@@ -244,7 +203,7 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e"></param>
         protected void OnDeleteClick(object sender, EventArgs e)
         {
-            if(ApplyActionToCheckedFeedback((item, service) => FeedbackItem.Delete(item)) == 0)
+            if (ApplyActionToCheckedFeedback((item, service) => FeedbackItem.Delete(item)) == 0)
             {
                 Messages.ShowMessage(Resources.Feedback_NothingToDelete, true);
                 return;
@@ -259,7 +218,7 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void OnConfirmSpam(object sender, EventArgs e)
         {
-            if(ApplyActionToCheckedFeedback(FeedbackItem.ConfirmSpam) == 0)
+            if (ApplyActionToCheckedFeedback(FeedbackItem.ConfirmSpam) == 0)
             {
                 Messages.ShowMessage(Resources.Feedback_NothingFlaggedAsSpam, true);
                 return;
@@ -270,28 +229,28 @@ namespace Subtext.Web.Admin.Feedback
         private int ApplyActionToCheckedFeedback(Action<FeedbackItem, ICommentSpamService> action)
         {
             ICommentSpamService feedbackService = null;
-            if(Blog.FeedbackSpamServiceEnabled)
+            if (Blog.FeedbackSpamServiceEnabled)
             {
                 feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey, Config.CurrentBlog,
                                                          null, Url);
             }
 
             int actionsApplied = 0;
-            foreach(RepeaterItem item in feedbackRepeater.Items)
+            foreach (RepeaterItem item in feedbackRepeater.Items)
             {
                 // Get the checkbox from the item or the alternating item.
                 var deleteCheck = item.FindControl("chkDelete") as CheckBox ?? item.FindControl("chkDeleteAlt") as CheckBox;
 
-                if(deleteCheck != null && deleteCheck.Checked)
+                if (deleteCheck != null && deleteCheck.Checked)
                 {
                     // Get the FeedbackId from the item or the alternating item.
                     var feedbackId = item.FindControl("FeedbackId") as HtmlInputHidden ?? item.FindControl("FeedbackIdAlt") as HtmlInputHidden;
 
                     int id;
-                    if(feedbackId != null && int.TryParse(feedbackId.Value, out id))
+                    if (feedbackId != null && int.TryParse(feedbackId.Value, out id))
                     {
                         FeedbackItem feedbackItem = FeedbackItem.Get(id);
-                        if(feedbackItem != null)
+                        if (feedbackItem != null)
                         {
                             actionsApplied++;
 

@@ -1321,3 +1321,22 @@ a.reply
 {
 	background: transparent url(../../../images/icons/mail-reply.png) no-repeat center left;
 }
+
+table.author-details
+{
+    background-color: #ffc; 
+    padding: 4px;
+    margin-left: 8px;
+    border: solid 1px #888;
+}
+
+body #feedback tr.body table.author-details td
+{
+    background-color: #ffc;
+    border: none;
+}
+
+.none 
+{
+    font-style: italic;    
+}
