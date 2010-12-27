@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -38,7 +39,7 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                return new CategoryWriter(HttpContext.Response.Output, _posts, Category,
+                return new CategoryWriter(new StringWriter(), _posts, Category,
                                           Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
             }
         }
@@ -53,12 +54,12 @@ namespace Subtext.Framework.Syndication
 
         protected override ICollection<Entry> GetFeedEntries()
         {
-            if(Category == null)
+            if (Category == null)
             {
                 Category = Cacher.SingleCategory(SubtextContext);
             }
 
-            if(Category != null && _posts == null)
+            if (Category != null && _posts == null)
             {
                 _posts = Cacher.GetEntriesByCategory(10, Category.Id, SubtextContext);
             }
@@ -76,10 +77,10 @@ namespace Subtext.Framework.Syndication
 
             _posts = GetFeedEntries();
 
-            if(_posts != null && _posts.Count > 0)
+            if (_posts != null && _posts.Count > 0)
             {
                 feed = new CachedFeed();
-                var cw = new CategoryWriter(HttpContext.Response.Output, _posts, Category,
+                var cw = new CategoryWriter(new StringWriter(), _posts, Category,
                                             Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
                 feed.LastModified = ConvertLastUpdatedDate(_posts.First().DateCreated);
                 feed.Xml = cw.Xml;
