@@ -2,9 +2,8 @@ using System.Web;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Ninject;
-using STRouting = Subtext.Framework.Routing;
 using Subtext.Infrastructure;
+using STRouting = Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -260,7 +259,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
-            var routeValues = new RouteValueDictionary(new {subfolder = "subfolder"});
+            var routeValues = new RouteValueDictionary(new { subfolder = "subfolder" });
 
             //act
             VirtualPathData virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
@@ -270,7 +269,7 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void GetVirtualPath_WhenSupplyingRouteValues_ReturnsNull()
+        public void GetVirtualPath_WhenSupplyingRouteValues_AppendsValuesToQueryString()
         {
             //arrange
             var httpContext = new Mock<HttpContextBase>();
@@ -278,13 +277,13 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeData = new RouteData();
             var requestContext = new RequestContext(httpContext.Object, routeData);
             var route = new STRouting.RootRoute(true, new Mock<IServiceLocator>().Object);
-            var routeValues = new RouteValueDictionary(new {foo = "bar"});
+            var routeValues = new RouteValueDictionary(new { foo = "bar" });
 
             //act
             VirtualPathData virtualPathInfo = route.GetVirtualPath(requestContext, routeValues);
 
             //assert
-            Assert.IsNull(virtualPathInfo);
+            Assert.AreEqual(virtualPathInfo.VirtualPath, "?foo=bar");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Subtext.Framework.Routing
     {
         public static IEnumerable<string> GetControlNames(this RouteData routeData)
         {
-            if(routeData.DataTokens == null)
+            if (routeData.DataTokens == null)
             {
                 return null;
             }
@@ -43,7 +43,7 @@ namespace Subtext.Framework.Routing
 
         public static void MapSystemDirectories(this SubtextRouteMapper routes, params string[] directoryNames)
         {
-            foreach(var directoryName in directoryNames)
+            foreach (var directoryName in directoryNames)
             {
                 routes.MapSystemDirectory(directoryName);
             }
@@ -81,7 +81,7 @@ namespace Subtext.Framework.Routing
         public static void MapControls(this SubtextRouteMapper routes, string name, string url,
                                        RouteValueDictionary constraints, IEnumerable<string> controls, RouteValueDictionary defaults)
         {
-            var pageRoute = 
+            var pageRoute =
             new PageRoute(url, "~/aspx/Dtp.aspx", controls, routes.ServiceLocator)
             {
                 Constraints = constraints,
@@ -97,7 +97,7 @@ namespace Subtext.Framework.Routing
 
         public static void MapPagesToControlOfSameName(this SubtextRouteMapper routes, params string[] controlNames)
         {
-            foreach(var controlName in controlNames)
+            foreach (var controlName in controlNames)
             {
                 routes.MapPageToControl(controlName);
             }
@@ -105,7 +105,7 @@ namespace Subtext.Framework.Routing
 
         public static void MapPageToControl(this SubtextRouteMapper routes, string controlName)
         {
-            routes.MapControls(controlName, controlName + ".aspx", null, new[] {controlName});
+            routes.MapControls(controlName, controlName + ".aspx", null, new[] { controlName });
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Subtext.Framework.Routing
         {
             routes.Add(routeName, new ImageRoute(url));
         }
-        
+
         public static void MapRoute(this SubtextRouteMapper routes, string routeName, string url, object defaults)
         {
             routes.MapRoute(routeName, url, defaults, null);
@@ -209,31 +209,31 @@ namespace Subtext.Framework.Routing
 
         private static RouteValueDictionary ToRouteValueDictionary(object anonymousDictionary)
         {
-            if(anonymousDictionary == null)
+            if (anonymousDictionary == null)
             {
                 return null;
             }
-            if(anonymousDictionary is RouteValueDictionary)
+            if (anonymousDictionary is RouteValueDictionary)
             {
                 return (RouteValueDictionary)anonymousDictionary;
             }
             return new RouteValueDictionary(anonymousDictionary);
         }
 
-        public static Uri ToFullyQualifiedUrl(this VirtualPath virtualPath, Blog blog)
+        public static Uri ToFullyQualifiedUrl(this VirtualPath virtualPath, Blog blog, string scheme = "http")
         {
-            if(virtualPath == null)
+            if (virtualPath == null)
             {
                 return null;
             }
 
-            if(blog == null)
+            if (blog == null)
             {
                 throw new ArgumentNullException("blog");
             }
 
-            var builder = new UriBuilder {Scheme = "http", Host = blog.Host};
-            if(HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.Url.Port != 80)
+            var builder = new UriBuilder { Scheme = scheme, Host = blog.Host };
+            if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.Url.Port != 80)
             {
                 builder.Port = HttpContext.Current.Request.Url.Port;
             }
