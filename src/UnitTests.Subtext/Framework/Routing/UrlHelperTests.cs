@@ -372,7 +372,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void ImageUrl_WithBlogWithAppPathWithoutSubfolderAndImage_ReturnsUrlForImageUploadDirectory()
         {
             //arrange
-            var blog = new Blog {Host = "localhost", Subfolder = "sub"};
+            var blog = new Blog { Host = "localhost", Subfolder = "sub" };
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
 
             //act
@@ -429,7 +429,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var image = new Image {CategoryID = 1234, Blog = new Blog {Subfolder = "subfolder"}};
+            var image = new Image { CategoryID = 1234, Blog = new Blog { Subfolder = "subfolder" } };
 
             //act
             string url = helper.GalleryUrl(image);
@@ -455,7 +455,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.GalleryImagePageUrl(new Image {ImageID = 1234, Blog = new Blog()});
+            string url = helper.GalleryImagePageUrl(new Image { ImageID = 1234, Blog = new Blog() });
 
             //assert
             Assert.AreEqual("/gallery/image/1234.aspx", url);
@@ -469,7 +469,7 @@ namespace UnitTests.Subtext.Framework.Routing
 
             //act
             string url =
-                helper.GalleryImagePageUrl(new Image {ImageID = 1234, Blog = new Blog {Subfolder = "subfolder"}});
+                helper.GalleryImagePageUrl(new Image { ImageID = 1234, Blog = new Blog { Subfolder = "subfolder" } });
 
             //assert
             Assert.AreEqual("/subfolder/gallery/image/1234.aspx", url);
@@ -480,7 +480,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
-            var image = new Image {Url = "~/images/localhost/blog1/1234/", FileName = "close.gif"};
+            var image = new Image { Url = "~/images/localhost/blog1/1234/", FileName = "close.gif" };
 
             //act
             string url = helper.GalleryImageUrl(image, image.OriginalFile);
@@ -494,8 +494,8 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
-            var blog = new Blog {Host = "localhost", Subfolder = "blog1"};
-            var image = new Image {Blog = blog, Url = null, FileName = "open.gif", CategoryID = 1234};
+            var blog = new Blog { Host = "localhost", Subfolder = "blog1" };
+            var image = new Image { Blog = blog, Url = null, FileName = "open.gif", CategoryID = 1234 };
 
             //act
             string url = helper.GalleryImageUrl(image, image.OriginalFile);
@@ -509,8 +509,8 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "localhost", Subfolder = "blog1"};
-            var image = new Image {Blog = blog, Url = null, FileName = "open.gif", CategoryID = 1234};
+            var blog = new Blog { Host = "localhost", Subfolder = "blog1" };
+            var image = new Image { Blog = blog, Url = null, FileName = "open.gif", CategoryID = 1234 };
 
             //act
             string url = helper.GalleryImageUrl(image, image.OriginalFile);
@@ -524,8 +524,8 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "localhost", Subfolder = ""};
-            var image = new Image {Blog = blog, Url = null, FileName = "open.gif", CategoryID = 1234};
+            var blog = new Blog { Host = "localhost", Subfolder = "" };
+            var image = new Image { Blog = blog, Url = null, FileName = "open.gif", CategoryID = 1234 };
 
             //act
             string url = helper.GalleryImageUrl(image, image.OriginalFile);
@@ -539,8 +539,8 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
-            var blog = new Blog {Host = "localhost", Subfolder = "blog1"};
-            var image = new Image {CategoryID = 1234, FileName = "close.gif", Blog = blog};
+            var blog = new Blog { Host = "localhost", Subfolder = "blog1" };
+            var image = new Image { CategoryID = 1234, FileName = "close.gif", Blog = blog };
             //act
             string url = helper.GalleryImageUrl(image);
 
@@ -553,8 +553,8 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "localhost", Subfolder = "blog1"};
-            var image = new Image {CategoryID = 1234, FileName = "close.gif", Blog = blog};
+            var blog = new Blog { Host = "localhost", Subfolder = "blog1" };
+            var image = new Image { CategoryID = 1234, FileName = "close.gif", Blog = blog };
 
             //act
             string url = helper.GalleryImageUrl(image);
@@ -568,8 +568,8 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
-            var blog = new Blog {Host = "localhost", Subfolder = ""};
-            var image = new Image {CategoryID = 1234, FileName = "close.gif", Blog = blog};
+            var blog = new Blog { Host = "localhost", Subfolder = "" };
+            var image = new Image { CategoryID = 1234, FileName = "close.gif", Blog = blog };
 
             //act
             string url = helper.GalleryImageUrl(image);
@@ -583,8 +583,8 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "localhost", Subfolder = ""};
-            var image = new Image {CategoryID = 1234, FileName = "close.gif", Blog = blog};
+            var blog = new Blog { Host = "localhost", Subfolder = "" };
+            var image = new Image { CategoryID = 1234, FileName = "close.gif", Blog = blog };
             //act
             string url = helper.GalleryImageUrl(image);
 
@@ -597,7 +597,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
-            var blog = new Blog {Host = "localhost", Subfolder = "blog1"};
+            var blog = new Blog { Host = "localhost", Subfolder = "blog1" };
 
             //act
             string url = helper.ImageGalleryDirectoryUrl(blog, 1234);
@@ -611,7 +611,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "localhost", Subfolder = "blog1"};
+            var blog = new Blog { Host = "localhost", Subfolder = "blog1" };
 
             //act
             string url = helper.ImageGalleryDirectoryUrl(blog, 1234);
@@ -625,7 +625,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
-            var blog = new Blog {Host = "localhost", Subfolder = ""};
+            var blog = new Blog { Host = "localhost", Subfolder = "" };
 
             //act
             string url = helper.ImageGalleryDirectoryUrl(blog, 1234);
@@ -639,7 +639,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "localhost", Subfolder = ""};
+            var blog = new Blog { Host = "localhost", Subfolder = "" };
 
             //act
             string url = helper.ImageGalleryDirectoryUrl(blog, 1234);
@@ -653,7 +653,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
-            var blog = new Blog {Host = "localhost", Subfolder = "blog1"};
+            var blog = new Blog { Host = "localhost", Subfolder = "blog1" };
 
             //act
             string url = helper.ImageDirectoryUrl(blog);
@@ -667,7 +667,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "localhost", Subfolder = "blog1"};
+            var blog = new Blog { Host = "localhost", Subfolder = "blog1" };
 
             //act
             string url = helper.ImageDirectoryUrl(blog);
@@ -681,7 +681,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
-            var blog = new Blog {Host = "localhost", Subfolder = ""};
+            var blog = new Blog { Host = "localhost", Subfolder = "" };
 
             //act
             string url = helper.ImageDirectoryUrl(blog);
@@ -695,7 +695,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "localhost", Subfolder = ""};
+            var blog = new Blog { Host = "localhost", Subfolder = "" };
 
             //act
             string url = helper.ImageDirectoryUrl(blog);
@@ -781,7 +781,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/", routeData);
 
             //act
-            string url = helper.BlogUrl(new Blog {Subfolder = "subfolder"});
+            string url = helper.BlogUrl(new Blog { Subfolder = "subfolder" });
 
             //assert
             Assert.AreEqual("/subfolder/default.aspx", url);
@@ -809,7 +809,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.CategoryUrl(new LinkCategory {Id = 1234, Title = "my-category"});
+            string url = helper.CategoryUrl(new LinkCategory { Id = 1234, Title = "my-category" });
 
             //assert
             Assert.AreEqual("/category/my-category.aspx", url);
@@ -821,10 +821,10 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.CategoryRssUrl(new LinkCategory {Id = 1234});
+            string url = helper.CategoryRssUrl(new LinkCategory { Id = 1234, Title = "MyCategory" });
 
             //assert
-            Assert.AreEqual("/rss.aspx?catId=1234", url);
+            Assert.AreEqual("/category/MyCategory/rss", url);
         }
 
         [Test]
@@ -833,7 +833,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.AdminUrl("Feedback.aspx", new {status = 2});
+            string url = helper.AdminUrl("Feedback.aspx", new { status = 2 });
 
             //assert
             Assert.AreEqual("/admin/Feedback.aspx?status=2", url);
@@ -847,7 +847,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
 
             //act
-            string url = helper.AdminUrl("Feedback.aspx", new {status = 2});
+            string url = helper.AdminUrl("Feedback.aspx", new { status = 2 });
 
             //assert
             Assert.AreEqual("/Subtext.Web/subfolder/admin/Feedback.aspx?status=2", url);
@@ -875,7 +875,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {RssProxyUrl = "test"};
+            var blog = new Blog { RssProxyUrl = "test" };
 
             //act
             Uri url = helper.RssProxyUrl(blog);
@@ -890,7 +890,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {RssProxyUrl = "http://feeds.example.com/"};
+            var blog = new Blog { RssProxyUrl = "http://feeds.example.com/" };
 
             //act
             Uri url = helper.RssProxyUrl(blog);
@@ -905,7 +905,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "example.com"};
+            var blog = new Blog { Host = "example.com" };
 
             //act
             Uri url = helper.RssUrl(blog);
@@ -919,7 +919,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/Subtext.Web");
-            var blog = new Blog { Host = "example.com", Subfolder = "blog"};
+            var blog = new Blog { Host = "example.com", Subfolder = "blog" };
 
             //act
             Uri url = helper.RssUrl(blog);
@@ -933,7 +933,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "example.com", RssProxyUrl = "http://feeds.example.com/feed"};
+            var blog = new Blog { Host = "example.com", RssProxyUrl = "http://feeds.example.com/feed" };
 
             //act
             Uri url = helper.RssUrl(blog);
@@ -947,7 +947,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "example.com"};
+            var blog = new Blog { Host = "example.com" };
 
             //act
             Uri url = helper.AtomUrl(blog);
@@ -961,7 +961,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             UrlHelper helper = SetupUrlHelper("/");
-            var blog = new Blog {Host = "example.com", RssProxyUrl = "http://atom.example.com/atom"};
+            var blog = new Blog { Host = "example.com", RssProxyUrl = "http://atom.example.com/atom" };
 
             //act
             Uri url = helper.AtomUrl(blog);
@@ -1162,7 +1162,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void MetaWeblogApiUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
         {
             //arrange
-            var blog = new Blog {Host = "example.com", Subfolder = "sub"};
+            var blog = new Blog { Host = "example.com", Subfolder = "sub" };
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "sub");
             UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
@@ -1178,7 +1178,7 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RsdUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
         {
             //arrange
-            var blog = new Blog {Host = "example.com", Subfolder = "sub"};
+            var blog = new Blog { Host = "example.com", Subfolder = "sub" };
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "sub");
             UrlHelper helper = SetupUrlHelper("/Subtext.Web", routeData);
