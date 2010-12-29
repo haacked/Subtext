@@ -52,7 +52,7 @@ namespace Subtext.Web.UI.Controls
             get
             {
                 string contactSetting = ConfigurationManager.AppSettings["ContactToFeedback"];
-                if(contactSetting != null)
+                if (contactSetting != null)
                 {
                     bool useFeedback;
                     bool.TryParse(contactSetting, out useFeedback);
@@ -73,7 +73,7 @@ namespace Subtext.Web.UI.Controls
 
             EnsureEmailRequired();
             //Captcha should not be given to admin.
-            if(!SecurityHelper.IsAdmin)
+            if (!SecurityHelper.IsAdmin)
             {
                 int btnIndex = Controls.IndexOf(btnSend);
                 AddCaptchaIfNecessary(ref captcha, ref invisibleCaptchaValidator, btnIndex);
@@ -87,15 +87,15 @@ namespace Subtext.Web.UI.Controls
 
         private void EnsureEmailRequired()
         {
-            foreach(Control control in Controls)
+            foreach (Control control in Controls)
             {
                 var validator = control as RequiredFieldValidator;
-                if(validator == null)
+                if (validator == null)
                 {
                     continue;
                 }
 
-                if(validator.ControlToValidate == tbEmail.ID)
+                if (validator.ControlToValidate == tbEmail.ID)
                 {
                     return;
                 }
@@ -112,7 +112,7 @@ namespace Subtext.Web.UI.Controls
 
         private void OnSendButtonClick(object sender, EventArgs e)
         {
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
                 var contactMessage = new FeedbackItem(FeedbackType.ContactPage)
                 {
@@ -124,20 +124,19 @@ namespace Subtext.Web.UI.Controls
                 };
 
 
-                if(SendContactMessageToFeedback || String.IsNullOrEmpty(Blog.Email))
+                if (SendContactMessageToFeedback || String.IsNullOrEmpty(Blog.Email))
                 {
                     CreateCommentWithContactMessage(contactMessage);
                 }
                 else
                 {
-                    
                     try
                     {
                         var emailService = new EmailService(EmailProvider.Instance(), new EmbeddedTemplateEngine(),
                                                         SubtextContext);
                         emailService.EmailCommentToBlogAuthor(contactMessage);
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         lblMessage.Text =
                             "Your message could not be sent, most likely due to a problem with the mail server.";
@@ -145,7 +144,25 @@ namespace Subtext.Web.UI.Controls
                     }
                 }
                 lblMessage.Text = "Your message was sent.";
+
+                SwapWithLabel(tbName);
+                SwapWithLabel(tbEmail);
+                SwapWithLabel(tbMessage);
+                SwapWithLabel(tbSubject);
+                if (captcha != null)
+                {
+                    Controls.Remove(captcha);
+                }
+                Controls.Remove(btnSend);
             }
+        }
+
+        private void SwapWithLabel(TextBox textBox)
+        {
+            int index = Controls.IndexOf(textBox);
+            Controls.RemoveAt(index);
+            Controls.AddAt(index, new LiteralControl(textBox.Text));
+            textBox.Visible = true;
         }
 
         private void CreateCommentWithContactMessage(FeedbackItem contactMessage)
@@ -153,7 +170,7 @@ namespace Subtext.Web.UI.Controls
             try
             {
                 ICommentSpamService feedbackService = null;
-                if(Blog.FeedbackSpamServiceEnabled)
+                if (Blog.FeedbackSpamServiceEnabled)
                 {
                     feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
                 }
@@ -161,17 +178,10 @@ namespace Subtext.Web.UI.Controls
                                                         new CommentFilter(SubtextContext, feedbackService));
                 commentService.Create(contactMessage, true/*runFilters*/);
             }
-            catch(BaseCommentException exc)
+            catch (BaseCommentException exc)
             {
                 lblMessage.Text = exc.Message;
             }
-
-            tbName.Text = string.Empty;
-            tbEmail.Text = string.Empty;
-            tbSubject.Text = string.Empty;
-            tbMessage.Text = string.Empty;
         }
-
-        //todo: move this to an appropriate place.
     }
 }
