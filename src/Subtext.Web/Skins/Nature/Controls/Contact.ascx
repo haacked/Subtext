@@ -20,7 +20,7 @@
 			<asp:textbox id="tbName" cssclass="Text" runat="server" />
 		</dd>
 		<dt>
-			<label for="Contact_ascx_tbEmail" accesskey="E"><span class="accessKey">E</span>mail</label> 
+			<label for="Contact_ascx_tbEmail" accesskey="E" class="required"><span class="accessKey">E</span>mail</label> 
 			<asp:RequiredFieldValidator id="RequiredFieldValidator4" runat="server" ErrorMessage="Please enter an email address."
 					ControlToValidate="tbEmail" Display="Static">*</asp:RequiredFieldValidator>
 			<asp:RegularExpressionValidator id="vldEmailRegex" runat="server" ErrorMessage="The email address you've entered does not appear to be valid." ControlToValidate="tbEmail" Display="Dynamic" ValidationExpression="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$">*</asp:RegularExpressionValidator>
