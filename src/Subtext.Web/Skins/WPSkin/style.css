@@ -241,7 +241,7 @@ a, h2 a:hover, h3 a:hover
 }
 
 /*hyperlinks, mouse over*/
-a:hover {
+a:hover, a.active {
 	color: #147;
 	text-decoration: underline;
 }

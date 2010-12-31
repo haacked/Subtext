@@ -388,6 +388,11 @@ body {
 #myLinks li a:hover {
 	text-decoration:underline;
 }
+#myLinks li a.active{
+    font-weight:bolder;
+    text-decoration:underline;
+    font-style:italic;
+}
 .shareIcon {
 	background:transparent url(../../images/share-icon-16x16.png) no-repeat scroll left center;
 	padding-left:25px;

@@ -104,11 +104,21 @@ dd
 		padding-top: 105px;
 		background-image: url(Images/NavigationHome.gif);
 	}
+	
+		table.Layout td.c1 dl.Navigation dd a.Home.active
+	{
+		background-image: url(Images/NavigationHomeActive.gif);
+	}
 
 	table.Layout td.c1 dl.Navigation dd a.Contact
 	{
 		padding-top: 80px;
 		background-image: url(Images/NavigationContact.gif);
+	}
+	
+		table.Layout td.c1 dl.Navigation dd a.Contact.active
+	{
+		background-image: url(Images/NavigationContactActive.gif);
 	}
 	
 	table.Layout td.c1 dl.Navigation dd a.Syndication

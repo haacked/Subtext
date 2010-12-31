@@ -37,7 +37,7 @@ div.previousNext a:hover
 }
 
 /* light grey */
-#title h2
+#title h2, a.active
 {
 	color: #ccc;
 }

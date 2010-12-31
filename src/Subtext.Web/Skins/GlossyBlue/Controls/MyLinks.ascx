@@ -1,9 +1,8 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.MyLinks" %>
+<ul id="nav">
+    <li class="page_item"><st:NavigationLink ActiveCssClass="active" Runat="server" Text="Home" ID="HomeLink" /></li>
+    <li class="page_item"><st:NavigationLink Runat="server" Text="Archives" ID="Archives" title="Archives" ActiveCssClass="active" /></li>
+    <li class="page_item"><st:NavigationLink ActiveCssClass="active" AccessKey="9" Runat="server" Text="Contact" ID="ContactLink" /></li>
+</ul>
 
-<div id="menu">
-    <ul>
-	    <li><asp:HyperLink Runat="server" Text="Home" ID="HomeLink" /></li>
-	    <li><asp:HyperLink AccessKey="9" Runat="server" Text="Contact" ID="ContactLink" /></li>
-	    <li><asp:HyperLink Runat="server" Text="Admin" ID="Admin" /></li>
-    </ul>
-</div>
+

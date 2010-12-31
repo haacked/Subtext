@@ -6,18 +6,18 @@
 	<div class="links">
 		<ul>
 			<li>
-				<asp:hyperlink cssclass="Home" runat="server" navigateurl="~/Default.aspx" text="Home" id="HomeLink" /></li>
+				<st:NavigationLink ActiveCssClass="active" cssclass="Home" runat="server" navigateurl="~/Default.aspx" text="Home" id="HomeLink" /></li>
 			<li>
-				<asp:hyperlink cssclass="archives" runat="server" navigateurl="~/Archives.aspx" text="Archives"	id="Archives" visible="False" />
+				<st:NavigationLink ActiveCssClass="active" cssclass="archives" runat="server" navigateurl="~/Archives.aspx" text="Archives"	id="Archives" visible="False" />
 			</li>
 			<li>
-				<asp:hyperlink cssclass="Contact" runat="server" navigateurl="~/Contact.aspx" text="Contact" id="ContactLink" /></li>
+				<st:NavigationLink ActiveCssClass="active" cssclass="Contact" runat="server" navigateurl="~/Contact.aspx" text="Contact" id="ContactLink" /></li>
 			<li>
-				<asp:hyperlink cssclass="Syndication" runat="server" text="Syndication"
+				<asp:HyperLink cssclass="Syndication" runat="server" text="Syndication"
 					id="Syndication" />
 			</li>
 			<li>
-				<asp:hyperlink cssclass="Admin" runat="server" text="Admin" id="Admin" />
+				<asp:HyperLink cssclass="Admin" runat="server" text="Admin" id="Admin" />
 			</li>
 		</ul>
 	</div>

@@ -217,7 +217,7 @@ a:hover {
 	border-top: 1px solid #D4DEEC;
 	border-bottom: 1px solid #D4DEEC;
 }
-#column a.rounded:hover {
+#column a.rounded:hover, #column a.rounded.active {
 	color: #FAFCFD;
 	background: #285090;
 	border-top: 1px solid #93A9C9;

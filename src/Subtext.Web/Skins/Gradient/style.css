@@ -117,7 +117,7 @@ div.post-content
 
 html>body #nav ul li a { width: auto; }
 
-#nav ul li a:hover
+#nav ul li a:hover, #nav ul li a.active
 {
 	background-color: #fefefe;
 	color: #000;
