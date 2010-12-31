@@ -22,6 +22,7 @@ using System.IO;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Caching;
+using System.Web.Hosting;
 using System.Web.Routing;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Snowball;
@@ -77,7 +78,7 @@ namespace Subtext
             if (indexingSettings.IsEnabled)
             {
                 Bind<Directory>()
-                    .ToMethod(c => FSDirectory.Open(new DirectoryInfo(HttpContext.Current.Server.MapPath(indexingSettings.IndexFolderLocation))))
+                    .ToMethod(c => FSDirectory.Open(new DirectoryInfo(HostingEnvironment.MapPath(indexingSettings.IndexFolderLocation))))
                     .InSingletonScope();
                 Bind<Analyzer>().To<SnowballAnalyzer>().InSingletonScope()
                     .WithConstructorArgument("name", indexingSettings.Language)
