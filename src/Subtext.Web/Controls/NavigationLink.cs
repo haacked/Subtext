@@ -17,7 +17,9 @@
 
 using System;
 using System.ComponentModel;
+using System.Web;
 using System.Web.UI.WebControls;
+using Subtext.Framework.Text;
 
 namespace Subtext.Web.Controls
 {
@@ -48,9 +50,9 @@ namespace Subtext.Web.Controls
         /// <param name="e"></param>
         protected override void OnPreRender(EventArgs e)
         {
-            if(ActiveCssClass.Length > 0 && IsRequestForSamePage(NavigateUrl))
+            if (ActiveCssClass.Length > 0 && IsRequestForSamePage())
             {
-                if(!String.IsNullOrEmpty(CssClass))
+                if (!String.IsNullOrEmpty(CssClass))
                 {
                     CssClass += " ";
                 }
@@ -59,14 +61,45 @@ namespace Subtext.Web.Controls
             base.OnPreRender(e);
         }
 
-        private bool IsRequestForSamePage(string navigateUrl)
+        public bool IsRequestForSamePage(string navigatePath, string requestAbsolutePath)
         {
-            if(navigateUrl == "/")
+            if (IsDirectory(navigatePath) && !IsDirectory(requestAbsolutePath))
             {
-                navigateUrl += "Default.aspx";
+                navigatePath += "Default.aspx";
             }
 
-            return String.Equals(Page.Request.Url.AbsolutePath, navigateUrl, StringComparison.OrdinalIgnoreCase);
+            if (IsDefaultPage(navigatePath) && IsDirectory(requestAbsolutePath))
+            {
+                navigatePath = navigatePath.LeftBefore("Default.aspx", StringComparison.OrdinalIgnoreCase);
+            }
+
+            return String.Equals(requestAbsolutePath, navigatePath, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsRequestForSamePage()
+        {
+            string navigatePath = VirtualPathUtility.ToAbsolute(NavigateUrl);
+            return IsRequestForSamePage(navigatePath, Page.Request.Url.AbsolutePath);
+        }
+
+        private static bool IsDefaultPage(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                return false;
+            }
+
+            return url.EndsWith("Default.aspx", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsDirectory(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                return false;
+            }
+
+            return url.EndsWith("/", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
