@@ -15,7 +15,7 @@ a {
 a:visited {
 	color: #285090;
 }
-a:hover {
+a:hover, #links div ul li a.active {
 	color: #eeeff7;
 }
 #main {

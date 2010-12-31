@@ -285,7 +285,10 @@ a.removeCommentLink
 #myLinks .links .home:hover,
 #myLinks .links .contact:hover,
 #myLinks .links .syndication:hover,
-#myLinks .links .archives:hover
+#myLinks .links .archives:hover,
+#myLinks .links .home.active,
+#myLinks .links .contact.active,
+#myLinks .links .archives.active
 {
 	background-position : 0px -15px;
 	text-decoration : none;

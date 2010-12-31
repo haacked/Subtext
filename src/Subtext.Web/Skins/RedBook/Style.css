@@ -164,7 +164,7 @@ body{
 #navigation ul li a:visited{
 
 }
-#navigation ul li a:hover, #navigation ul li.current a{
+#navigation ul li a:hover, #navigation ul li.current a, #navigation ul li a.active{
   background-image:url(Images/underlink.jpg);
 	background-position:bottom;
 	background-repeat:repeat-x;

@@ -159,7 +159,8 @@ blockquote {
 	padding : 2px;
 }
 
-#leftmenu a:hover {
+#leftmenu a:hover,
+#leftmenu a.active {
 	background-color : #CCD5E0;
 }
 

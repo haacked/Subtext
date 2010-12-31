@@ -11,6 +11,8 @@ body, td {
 	margin-bottom: 5px;
 }
 
+
+
 a:visited, a:active, a:link {	
 	color : #355EA0;
 	text-decoration : none;
@@ -78,7 +80,7 @@ a.listitem:visited, a.listitem:active, a.listitem:link {
 	text-decoration : none;
 }
 
-a.listitem:hover {
+a.listitem:hover, a.listitem.active {
 	color: #FF6600;
 	text-decoration : underline;
 }

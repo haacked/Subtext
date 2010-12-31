@@ -1170,7 +1170,7 @@ body > #top-link {position:fixed;}
 							background:#fcfaf0 url(images/bullet_sideBar.png) no-repeat 5px 5px;
 							
 						}
-						#sidebar ul a:hover {
+						#sidebar ul a:hover, #sidebar ul a.active {
 							color:#607F25;
 							background-color:#f8f5e0;
 							background-image: url(images/bullet_sideBar_h.png)

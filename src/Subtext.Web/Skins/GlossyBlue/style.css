@@ -137,7 +137,7 @@ form {
 	border-right: 1px solid #AFCD69;
 	display: block;
 }
-#nav .page_item a:hover {
+#nav .page_item a:hover, #nav .page_item a.active {
 	color: #000000;
 }
 
