@@ -55,9 +55,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9\lib\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -132,6 +131,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\SubText.zip" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -141,6 +143,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)..\tools\ilmerge\ilmerge" /target:winexe /out:SubtextUpgradeTool.exe "$(TargetPath)" "$(TargetDir)ICSharpCode.SharpZipLib.dll"</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)..\tools\ilmerge\ilmerge" /target:winexe /out:SubtextUpgradeTool.exe "$(TargetPath)" "$(TargetDir)Ionic.Zip.dll"</PostBuildEvent>
   </PropertyGroup>
 </Project>
