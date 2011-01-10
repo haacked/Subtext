@@ -28,9 +28,6 @@ using System.Security.Principal;
 using System.Text;
 using System.Web;
 using System.Web.Routing;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Zip.Compression;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
 using Moq;
 using Ninject;
@@ -483,79 +480,6 @@ namespace UnitTests.Subtext
             formatter = new BinaryFormatter();
             object o = formatter.Deserialize(stream);
             return (T)o;
-        }
-
-        /// <summary>
-        /// Returns a deflated version of the response sent by the web server. If the 
-        /// web server did not send a compressed stream then the original stream is returned. 
-        /// </summary>
-        /// <param name="encoding">Encoding of the stream. One of 'deflate' or 'gzip' or Empty.</param>
-        /// <param name="inputStream">Input Stream</param>
-        /// <returns>Seekable Stream</returns>
-        public static Stream GetDeflatedResponse(string encoding, Stream inputStream)
-        {
-            //BORROWED FROM RSS BANDIT.
-            const int bufferSize = 4096; // 4K read buffer
-
-            Stream compressed = null, input = inputStream;
-            bool tryAgainDeflate = true;
-
-            if(input.CanSeek)
-            {
-                input.Seek(0, SeekOrigin.Begin);
-            }
-
-            if(encoding == "deflate")
-            {
-                //to solve issue "invalid checksum" exception with dasBlog and "deflate" setting:
-                //input = ResponseToMemory(input);			// need them within mem to have a seekable stream
-                compressed = new InflaterInputStream(input); // try deflate with headers
-            }
-            else if(encoding == "gzip")
-            {
-                compressed = new GZipInputStream(input);
-            }
-
-            retry_decompress:
-            if(compressed != null)
-            {
-                var decompressed = new MemoryStream();
-
-                try
-                {
-                    int size = bufferSize;
-                    var writeData = new byte[bufferSize];
-                    while(true)
-                    {
-                        size = compressed.Read(writeData, 0, size);
-                        if(size > 0)
-                        {
-                            decompressed.Write(writeData, 0, size);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-                catch(GZipException)
-                {
-                    if(tryAgainDeflate && (encoding == "deflate"))
-                    {
-                        input.Seek(0, SeekOrigin.Begin); // reset position
-                        compressed = new InflaterInputStream(input, new Inflater(true));
-                        tryAgainDeflate = false;
-                        goto retry_decompress;
-                    }
-                    throw;
-                }
-
-                //reposition to beginning of decompressed stream then return
-                decompressed.Seek(0, SeekOrigin.Begin);
-                return decompressed;
-            }
-            // allready seeked, just return
-            return input;
         }
 
         public static Blog CreateBlogAndSetupContext()

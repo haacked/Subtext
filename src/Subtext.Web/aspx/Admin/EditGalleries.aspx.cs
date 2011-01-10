@@ -21,7 +21,6 @@ using System.Globalization;
 using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using ICSharpCode.SharpZipLib.Zip;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -29,6 +28,8 @@ using Subtext.Framework.Web;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Properties;
 using Image=Subtext.Framework.Components.Image;
+using Subtext.Framework.Infrastructure;
+using Ionic.Zip;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -254,80 +255,42 @@ namespace Subtext.Web.Admin.Pages
 
             byte[] archiveData = ImageFile.PostedFile.GetFileStream();
 
-            using(var memoryStream = new MemoryStream(archiveData))
-            {
-                using(var zip = new ZipInputStream(memoryStream))
-                {
-                    ZipEntry theEntry;
-                    while((theEntry = zip.GetNextEntry()) != null)
-                    {
-                        string fileName = Path.GetFileName(theEntry.Name);
+            using (var zipArchive = ZipFile.Read(new MemoryStream(archiveData))) {
+                foreach (var entry in zipArchive.Entries) {
+                    var image = new Image {
+                        Blog = Blog,
+                        CategoryID = CategoryId,
+                        Title = entry.FileName,
+                        IsActive = ckbIsActiveImage.Checked,
+                        FileName = Path.GetFileName(entry.FileName),
+                        Url = Url.ImageGalleryDirectoryUrl(Blog, CategoryId),
+                        LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryId)
+                    };
 
-                        // TODO: Filter for image types?
-                        if(!String.IsNullOrEmpty(fileName))
-                        {
-                            byte[] fileData;
+                    var memoryStream = new MemoryStream();
 
-                            var image = new Image
-                            {
-                                Blog = Blog,
-                                CategoryID = CategoryId,
-                                Title = fileName,
-                                IsActive = ckbIsActiveImage.Checked,
-                                FileName = Path.GetFileName(fileName),
-                                Url = Url.ImageGalleryDirectoryUrl(Blog, CategoryId),
-                                LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, CategoryId)
-                            };
-
-                            // Read the next file from the Zip stream
-                            using(var currentFileData = new MemoryStream((int)theEntry.Size))
-                            {
-                                int size = 2048;
-                                var data = new byte[size];
-                                while(true)
-                                {
-                                    size = zip.Read(data, 0, data.Length);
-                                    if(size > 0)
-                                    {
-                                        currentFileData.Write(data, 0, size);
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-
-                                fileData = currentFileData.ToArray();
+                    entry.Extract(memoryStream);
+                    var fileData = memoryStream.ToArray();
+                    try {
+                        // If it exists, update it
+                        if (File.Exists(image.OriginalFilePath)) {
+                            Images.Update(image, fileData);
+                            updatedFiles.Add(entry.FileName);
+                        }
+                        else {
+                            // Attempt insertion as a new image
+                            int imageId = Images.InsertImage(image, fileData);
+                            if (imageId > 0) {
+                                goodFiles.Add(entry.FileName);
                             }
-
-                            try
-                            {
-                                // If it exists, update it
-                                if(File.Exists(image.OriginalFilePath))
-                                {
-                                    Images.Update(image, fileData);
-                                    updatedFiles.Add(theEntry.Name);
-                                }
-                                else
-                                {
-                                    // Attempt insertion as a new image
-                                    int imageId = Images.InsertImage(image, fileData);
-                                    if(imageId > 0)
-                                    {
-                                        goodFiles.Add(theEntry.Name);
-                                    }
-                                    else
-                                    {
-                                        // Wrong format, perhaps?
-                                        badFiles.Add(theEntry.Name);
-                                    }
-                                }
-                            }
-                            catch(Exception ex)
-                            {
-                                badFiles.Add(theEntry.Name + " (" + ex.Message + ")");
+                            else {
+                                // Wrong format, perhaps?
+                                badFiles.Add(entry.FileName);
                             }
                         }
+                    }
+                    catch (Exception ex) {
+                        badFiles.Add(entry.FileName + " (" + ex.Message + ")");
                     }
                 }
             }
