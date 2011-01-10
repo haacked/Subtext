@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using ICSharpCode.SharpZipLib.Zip;
+using Ionic.Zip;
 
 namespace SubtextUpgrader
 {
@@ -17,7 +17,7 @@ namespace SubtextUpgrader
         private void button2_Click(object sender, EventArgs e)
         {
             folderBrowserDialog1.SelectedPath = Destination.Text;
-            if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 Destination.Text = folderBrowserDialog1.SelectedPath;
             }
@@ -25,7 +25,7 @@ namespace SubtextUpgrader
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 Backup.Text = folderBrowserDialog1.SelectedPath;
             }
@@ -39,7 +39,7 @@ namespace SubtextUpgrader
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            if(string.IsNullOrEmpty(Destination.Text))
+            if (string.IsNullOrEmpty(Destination.Text))
             {
                 MessageBox.Show("Destination path required.");
                 return;
@@ -62,7 +62,7 @@ namespace SubtextUpgrader
                 var upgrayedd = new Upgrader(settings, backgroundWorker1);
                 upgrayedd.Run();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 backgroundWorker1.CancelAsync();
                 string message = "Oops! " +
@@ -95,19 +95,19 @@ namespace SubtextUpgrader
             //* run upgrader
             string fileName = Path.GetTempFileName() + ".zip";
             string resourceName = GetType().Namespace + ".Resources.SubText.zip";
-            using(var resx = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            using (var resx = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
             {
-                if(resx == null)
+                if (resx == null)
                 {
                     throw new InvalidOperationException(String.Format("Resource '{0}' does not exist", resourceName));
                 }
-                using(var fs = File.Create(fileName))
+                using (var fs = File.Create(fileName))
                 {
                     const int offset = 0;
                     const int size = 4096;
                     int count;
                     var buffer = new byte[size];
-                    while((count = resx.Read(buffer, offset, size)) > 0)
+                    while ((count = resx.Read(buffer, offset, size)) > 0)
                     {
                         fs.Write(buffer, offset, count);
                     }
@@ -117,16 +117,21 @@ namespace SubtextUpgrader
             }
 
             string extractDirectory = TempSourceDirectory();
-            if(Directory.Exists(extractDirectory))
+            if (Directory.Exists(extractDirectory))
             {
                 backgroundWorker1.ReportProgress(3, String.Format("Deleting to '{0}'", extractDirectory));
                 ClearTempSourceDirectory();
             }
 
-            var zip = new FastZip();
-            string message = String.Format("Extracting to '{0}'", extractDirectory);
-            backgroundWorker1.ReportProgress(5, message);
-            zip.ExtractZip(fileName, extractDirectory, string.Empty);
+            using (ZipFile zip = ZipFile.Read(fileName))
+            {
+                string message = String.Format("Extracting to '{0}'", extractDirectory);
+                backgroundWorker1.ReportProgress(5, message);
+                foreach (var zipEntry in zip)
+                {
+                    zipEntry.Extract(extractDirectory, ExtractExistingFileAction.OverwriteSilently);
+                }
+            }
         }
 
         static string TempSourceDirectory()
@@ -138,7 +143,7 @@ namespace SubtextUpgrader
         private void ClearTempSourceDirectory()
         {
             string extractDirectory = TempSourceDirectory();
-            if(Directory.Exists(extractDirectory))
+            if (Directory.Exists(extractDirectory))
             {
                 Directory.Delete(extractDirectory, true);
             }
@@ -157,7 +162,7 @@ namespace SubtextUpgrader
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if(e.Cancelled)
+            if (e.Cancelled)
             {
                 Message.Text += "Cancelled!";
             }
