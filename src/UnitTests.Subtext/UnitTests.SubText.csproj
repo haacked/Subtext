@@ -135,9 +135,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\BlogML.dll</HintPath>
+    <Reference Include="BlogML, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\blogml.2.2.0\lib\BlogML.dll</HintPath>
     </Reference>
     <Reference Include="CookComputing.XmlRpcV2, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -523,6 +522,7 @@
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedChanges.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedDefault.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

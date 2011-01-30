@@ -55,9 +55,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlogML, Version=1.0.2229.38505, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Subtext.Framework\..\Dependencies\BlogML.dll</HintPath>
+    <Reference Include="BlogML, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\blogml.2.2.0\lib\BlogML.dll</HintPath>
     </Reference>
     <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -135,9 +135,8 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\BlogML.dll</HintPath>
+    <Reference Include="BlogML, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\blogml.2.2.0\lib\BlogML.dll</HintPath>
     </Reference>
     <Reference Include="blowery.Web.HttpCompress, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -782,6 +781,7 @@
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\StoredProcedures.sql" />
     <EmbeddedResource Include="Services\Email\Templates\CommentReceived.template" />
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.02.05.01.sql" />
+    <None Include="packages.config" />
     <None Include="Web References\com.community-credit.www\affiliateservices.disco" />
     <None Include="app.config" />
     <None Include="Data\CodeGen\_Settings.tt" />
