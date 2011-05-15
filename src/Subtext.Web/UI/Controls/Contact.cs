@@ -62,6 +62,27 @@ namespace Subtext.Web.UI.Controls
             }
         }
 
+        // If you've ever turned on ContactToFeedback in the past, but later turn it off, 
+        // you may still want to show the existing messages.
+        public static bool ShowContactMessages
+        {
+            get
+            {
+                if (SendContactMessageToFeedback)
+                {
+                    return true;
+                }
+                string contactSetting = ConfigurationManager.AppSettings["ShowContactToFeedback"];
+                if (contactSetting != null)
+                {
+                    bool showFeedback;
+                    bool.TryParse(contactSetting, out showFeedback);
+                    return showFeedback;
+                }
+                return false;
+            }
+        }
+
         /// <summary>
         /// Initializes the control.  Sets up the send button's 
         /// click event handler.
