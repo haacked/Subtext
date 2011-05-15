@@ -63,7 +63,7 @@ namespace Subtext.Web.Admin.Feedback
             BindUserInterface();
             if (!IsPostBack)
             {
-                if (!Contact.SendContactMessageToFeedback)
+                if (!Contact.ShowContactMessages)
                 {
                     filterTypeDropDown.Items.RemoveAt(3);
                 }

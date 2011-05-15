@@ -23,7 +23,7 @@ namespace Subtext.Web.Admin.Feedback
         {
             get
             {
-                if(page == NullValue.NullInt32)
+                if (page == NullValue.NullInt32)
                 {
                     string pageText = Request.QueryString["pg"] ?? "0";
                     page = Convert.ToInt32(pageText);
@@ -36,18 +36,18 @@ namespace Subtext.Web.Admin.Feedback
         {
             get
             {
-                if(_feedbackType == (FeedbackType)(-1))
+                if (_feedbackType == (FeedbackType)(-1))
                 {
                     string typeText = Request.QueryString["type"] ?? Preferences.GetFeedbackItemFilter(FeedbackStatus);
                     try
                     {
                         _feedbackType = (FeedbackType)Enum.Parse(typeof(FeedbackType), typeText);
-                        if(_feedbackType == FeedbackType.ContactPage && !Contact.SendContactMessageToFeedback)
+                        if (!Contact.ShowContactMessages && _feedbackType == FeedbackType.ContactPage && !Contact.SendContactMessageToFeedback)
                         {
                             _feedbackType = FeedbackType.None;
                         }
                     }
-                    catch(ArgumentException)
+                    catch (ArgumentException)
                     {
                         //Grab it from the cookie.
                         _feedbackType = FeedbackType.None;
@@ -62,14 +62,14 @@ namespace Subtext.Web.Admin.Feedback
         {
             get
             {
-                if(_status == (FeedbackStatusFlag)(-1))
+                if (_status == (FeedbackStatusFlag)(-1))
                 {
                     string filter = Request.QueryString["status"] ?? "Approved";
                     try
                     {
                         _status = (FeedbackStatusFlag)Enum.Parse(typeof(FeedbackStatusFlag), filter, true);
                     }
-                    catch(ArgumentException)
+                    catch (ArgumentException)
                     {
                         _status = FeedbackStatusFlag.Approved;
                     }
