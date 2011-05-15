@@ -64,7 +64,7 @@
 		    Logged in as 
 		    <strong>
 			    <asp:Literal Runat="server" ID="LoggedInUser" Text="<%# Config.CurrentBlog.Author %>" />
-	        </strong> (<a title="Logout" href="<%= Url.Logout() %>">logout</a>)
+	        </strong> (<a title="Logout" href="<%= Url.Logout() %>">logout</a> | <a href="<%= Url.AdminUrl("Security.aspx") %>" title="Change password">change password</a>)
 	     </div>
 
         <div id="header">
