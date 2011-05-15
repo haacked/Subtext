@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Infrastructure;
+using System.Web;
 
 namespace Subtext.Web.Admin.Commands
 {
@@ -28,8 +30,11 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public class DeleteGalleryCommand : DeleteTitledTargetCommand
     {
-        public DeleteGalleryCommand(string galleryDirectoryPath, int galleryId, string galleryTitle)
+        HttpServerUtilityBase _server;
+
+        public DeleteGalleryCommand(HttpServerUtilityBase server, string galleryDirectoryPath, int galleryId, string galleryTitle)
         {
+            _server = server;
             _targetID = galleryId;
             itemTitle = galleryTitle;
             GalleryDirectoryPath = galleryDirectoryPath;
@@ -44,15 +49,16 @@ namespace Subtext.Web.Admin.Commands
                 ICollection<Image> imageList = Images.GetImagesByCategoryId(_targetID, false);
 
                 // delete the folder
-                string galleryFolder = GalleryDirectoryPath;
-                if(Directory.Exists(galleryFolder))
+                string galleryFolder = _server.MapPath(GalleryDirectoryPath);
+                if (Directory.Exists(galleryFolder))
                 {
                     Directory.Delete(galleryFolder, true);
                 }
-                if(imageList.Count > 0)
+
+                if (imageList.Count > 0)
                 {
                     // delete from data provider
-                    foreach(Image currentImage in imageList)
+                    foreach (Image currentImage in imageList)
                     {
                         Images.DeleteImage(currentImage);
                     }
@@ -62,7 +68,7 @@ namespace Subtext.Web.Admin.Commands
                 Links.DeleteLinkCategory(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, _targetName, _targetID, ex.Message);
             }
