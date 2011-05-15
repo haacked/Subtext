@@ -19,8 +19,9 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         [SetUp]
         public void CreateSearchEngine()
         {
-            stopWords = new string[StopAnalyzer.ENGLISH_STOP_WORDS_SET.Values.Count];
-            int i = 0;
+            stopWords = new string[StopAnalyzer.ENGLISH_STOP_WORDS_SET.Values.Count + 1];
+            stopWords[0] = "into";
+            int i = 1;
             foreach (string value in StopAnalyzer.ENGLISH_STOP_WORDS_SET.Values)
             {
                 stopWords[i++] = value;
@@ -39,31 +40,31 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         {
             _service.AddPost(new SearchEngineEntry
             {
-                                    EntryId = 1,
-                                    Body = "This is a sample post",
-                                    Title = "This is the title",
-                                    Tags = "Title",
-                                    BlogName = "MyTestBlog",
-                                    IsPublished = true,
-                                    PublishDate = DateTime.Now,
-                                    EntryName = "this-is-the-title"
-                                }
+                EntryId = 1,
+                Body = "This is a sample post",
+                Title = "This is the title",
+                Tags = "Title",
+                BlogName = "MyTestBlog",
+                IsPublished = true,
+                PublishDate = DateTime.Now,
+                EntryName = "this-is-the-title"
+            }
                 );
 
             _service.AddPost(new SearchEngineEntry
             {
-                        EntryId = 2,
-                        Body = "This is another sample post",
-                        Title = "This is another title",
-                        Tags = "Title another",
-                        BlogName = "MyTestBlog",
-                        IsPublished = true,
-                        PublishDate = DateTime.Now,
-                        EntryName = "this-is-the-title"
-                    }
+                EntryId = 2,
+                Body = "This is another sample post",
+                Title = "This is another title",
+                Tags = "Title another",
+                BlogName = "MyTestBlog",
+                IsPublished = true,
+                PublishDate = DateTime.Now,
+                EntryName = "this-is-the-title"
+            }
             );
 
-            var result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
+            var result = _service.Search("sample", 100, 0) as List<SearchEngineResult>;
             Assert.AreEqual(2, result.Count);
         }
 
@@ -103,7 +104,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 }
             );
 
-            var result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
+            var result = _service.Search("sample", 100, 0) as List<SearchEngineResult>;
 
             Assert.AreEqual("This is the title", result[0].Title);
             Assert.AreEqual("MyTestBlog", result[0].BlogName);
@@ -139,10 +140,10 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             }
             );
 
-            var result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
+            var result = _service.Search("sample", 100, 0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count);
 
-            result = _service.Search("post", 100,0) as List<SearchEngineResult>;
+            result = _service.Search("post", 100, 0) as List<SearchEngineResult>;
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(1, result[0].EntryId);
         }
@@ -165,7 +166,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
 
             _service.RemovePost(1);
 
-            var result = _service.Search("sample", 100,0) as List<SearchEngineResult>;
+            var result = _service.Search("sample", 100, 0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count);
         }
 
@@ -201,7 +202,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             );
 
             int totNumber = _service.GetTotalIndexedEntryCount();
-            Assert.AreEqual(2,totNumber);
+            Assert.AreEqual(2, totNumber);
         }
 
         [Test]
@@ -275,8 +276,8 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             }
 
 
-            var result = _service.RelatedContents(1, 100,0) as List<SearchEngineResult>;
-            Assert.IsTrue(result.Count>0);
+            var result = _service.RelatedContents(1, 100, 0) as List<SearchEngineResult>;
+            Assert.IsTrue(result.Count > 0);
         }
 
         [Test]
@@ -298,8 +299,8 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 );
             }
 
-            var result = _service.RelatedContents(1, 100,0) as List<SearchEngineResult>;
-            Assert.AreEqual(0, result.Count(r => r.EntryId==1));
+            var result = _service.RelatedContents(1, 100, 0) as List<SearchEngineResult>;
+            Assert.AreEqual(0, result.Count(r => r.EntryId == 1));
         }
 
         [Test]
@@ -323,7 +324,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 }
                 );
             }
-            
+
 
             var result = _service.RelatedContents(1, 100, 0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count());
@@ -362,7 +363,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             });
 
 
-            var result = _service.RelatedContents(1, 100,0) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1, 100, 0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count(r => r.EntryId == 20));
         }
 
@@ -398,7 +399,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             });
 
 
-            var result = _service.RelatedContents(1,100,0) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1, 100, 0) as List<SearchEngineResult>;
             Assert.AreEqual(0, result.Count(r => r.EntryId == 20));
         }
 
@@ -460,8 +461,68 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 );
             }
 
-            var result = _service.RelatedContents(1, 10, 1) as List<SearchEngineResult>;
+            var result = _service.RelatedContents(1, 10, 1).ToList<SearchEngineResult>();
             Assert.AreEqual(9, result.Count);
+        }
+
+        [Test]
+        public void SearchEngineService_Search_WithSpecialSearchCharactersReturnsEmptyList()
+        {
+            // arrange
+
+            // act
+            var results = _service.Search(")", 100, 1).ToList<SearchEngineResult>();
+
+            // assert
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [Test]
+        public void SearchEngineService_Search_WithBackSlashSearchCharactersReturnsEmptyList()
+        {
+            // arrange
+
+            // act
+            var results = _service.Search(@"\", 100, 1).ToList<SearchEngineResult>();
+
+            // assert
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [Test]
+        public void SearchEngineService_Search_WithTwoBackSlashSearchCharactersReturnsEmptyList()
+        {
+            // arrange
+
+            // act
+            var results = _service.Search(@"\\", 100, 1).ToList<SearchEngineResult>();
+
+            // assert
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [Test]
+        public void SearchEngineService_Search_WithStopWordOnlyReturnsEmptyList()
+        {
+            // arrange
+
+            // act
+            var results = _service.Search("into", 100, 1).ToList<SearchEngineResult>();
+
+            // assert
+            Assert.AreEqual(0, results.Count);
+        }
+
+        [Test]
+        public void SearchEngineService_Search_WithStopWordsAndWhiteSpaceOnlyReturnsEmptyList()
+        {
+            // arrange
+
+            // act
+            var results = _service.Search("into into", 100, 1).ToList<SearchEngineResult>();
+
+            // assert
+            Assert.AreEqual(0, results.Count);
         }
 
     }
