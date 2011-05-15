@@ -37,6 +37,8 @@ namespace Subtext.Framework.Services.SearchEngine
         private readonly Analyzer _analyzer;
         private static IndexWriter _writer;
         private readonly FullTextSearchEngineSettings _settings;
+        // Special Lucene characters: http://lucene.apache.org/java/2_4_0/queryparsersyntax.html#Escaping Special Characters
+        private readonly static string[] specialLuceneCharacters = { @"\", "+", "-", "&&", "||", "!", "(", ")", "{", "}", "[", "]", "^", "\"", "~", "*", "?", ":" };
 
         private const string Title = "Title";
         private const string Body = "Body";
@@ -63,14 +65,14 @@ namespace Subtext.Framework.Services.SearchEngine
 
         private void DoWriterAction(Action<IndexWriter> action)
         {
-            lock(WriterLock)
+            lock (WriterLock)
             {
                 EnsureIndexWriter();
             }
             action(_writer);
         }
 
-        private T DoWriterAction<T>(Func<IndexWriter,T> action)
+        private T DoWriterAction<T>(Func<IndexWriter, T> action)
         {
             lock (WriterLock)
             {
@@ -78,26 +80,27 @@ namespace Subtext.Framework.Services.SearchEngine
             }
             return action(_writer);
         }
-      
+
         // Method should only be called from within a lock.
         void EnsureIndexWriter()
         {
-            if(_writer == null)
+            if (_writer == null)
             {
-                if(IndexWriter.IsLocked(_directory))
+                if (IndexWriter.IsLocked(_directory))
                 {
                     Log.Error("Something left a lock in the index folder: deleting it");
                     IndexWriter.Unlock(_directory);
                     Log.Info("Lock Deleted... can proceed");
                 }
-                _writer = new IndexWriter(_directory, _analyzer,IndexWriter.MaxFieldLength.UNLIMITED);
+                _writer = new IndexWriter(_directory, _analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
                 _writer.SetMergePolicy(new LogDocMergePolicy(_writer));
                 _writer.SetMergeFactor(5);
             }
         }
 
-        private IndexSearcher Searcher { 
-            get {return DoWriterAction(writer => new IndexSearcher(writer.GetReader())); }
+        private IndexSearcher Searcher
+        {
+            get { return DoWriterAction(writer => new IndexSearcher(writer.GetReader())); }
         }
 
 
@@ -129,7 +132,7 @@ namespace Subtext.Framework.Services.SearchEngine
                     var currentPost = post;
                     DoWriterAction(writer => writer.AddDocument(CreateDocument(currentPost)));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     errors.Add(new IndexingError(post, ex));
                 }
@@ -137,13 +140,13 @@ namespace Subtext.Framework.Services.SearchEngine
             DoWriterAction(writer =>
             {
                 writer.Commit();
-                if(optimize)
+                if (optimize)
                 {
                     writer.Optimize();
                 }
 
             });
-            
+
             return errors;
         }
 
@@ -156,7 +159,7 @@ namespace Subtext.Framework.Services.SearchEngine
         public int GetIndexedEntryCount(int blogId)
         {
             var query = GetBlogIdSearchQuery(blogId);
-            TopDocs hits = Searcher.Search(query,1);
+            TopDocs hits = Searcher.Search(query, 1);
             return hits.totalHits;
         }
 
@@ -277,7 +280,7 @@ namespace Subtext.Framework.Services.SearchEngine
             };
             string entryName = doc.Get(EntryName);
             result.EntryName = !String.IsNullOrEmpty(entryName) ? entryName : null;
-            
+
             return result;
         }
 
@@ -289,7 +292,7 @@ namespace Subtext.Framework.Services.SearchEngine
             Query query = GetIdSearchQuery(entryId);
             TopDocs hits = Searcher.Search(query, max);
 
-            if(hits.scoreDocs.Length <= 0) 
+            if (hits.scoreDocs.Length <= 0)
             {
                 return list;
             }
@@ -306,7 +309,7 @@ namespace Subtext.Framework.Services.SearchEngine
             mlt.SetBoost(_settings.Parameters.MoreLikeThisBoost);
 
             var moreResultsQuery = mlt.Like(docNum);
-            return PerformQuery(list, moreResultsQuery, max+1, blogId, entryId);
+            return PerformQuery(list, moreResultsQuery, max + 1, blogId, entryId);
         }
 
         public IEnumerable<SearchEngineResult> Search(string queryString, int max, int blogId)
@@ -317,18 +320,34 @@ namespace Subtext.Framework.Services.SearchEngine
         public IEnumerable<SearchEngineResult> Search(string queryString, int max, int blogId, int entryId)
         {
             var list = new List<SearchEngineResult>();
-            if (String.IsNullOrEmpty(queryString)) return list;
+            if (String.IsNullOrEmpty(queryString))
+            {
+                return list;
+            }
+
             QueryParser parser = BuildQueryParser();
+            foreach (var specialCharacter in specialLuceneCharacters)
+            {
+                if (queryString.Contains(specialCharacter))
+                {
+                    queryString = queryString.Replace(specialCharacter, @"\" + specialCharacter);
+                }
+            }
+
             Query bodyQuery = parser.Parse(queryString);
 
-            
+            if (bodyQuery.ToString() == "")
+            {
+                return list;
+            }
+
             string queryStringMerged = String.Format("({0}) OR ({1}) OR ({2})",
                                                      bodyQuery,
                                                      bodyQuery.ToString().Replace("Body", "Title"),
                                                      bodyQuery.ToString().Replace("Body", "Tags"));
 
             Query query = parser.Parse(queryStringMerged);
-            
+
 
             return PerformQuery(list, query, max, blogId, entryId);
         }
@@ -337,7 +356,7 @@ namespace Subtext.Framework.Services.SearchEngine
         {
             Query isPublishedQuery = new TermQuery(new Term(Published, true.ToString()));
             Query isBlogQuery = GetBlogIdSearchQuery(blogId);
-            
+
             var query = new BooleanQuery();
             query.Add(isPublishedQuery, BooleanClause.Occur.MUST);
             query.Add(queryOrig, BooleanClause.Occur.MUST);
@@ -347,7 +366,7 @@ namespace Subtext.Framework.Services.SearchEngine
             int length = hits.scoreDocs.Length;
             int resultsAdded = 0;
             float minScore = _settings.MinimumScore;
-            float scoreNorm = 1.0f / hits.GetMaxScore(); 
+            float scoreNorm = 1.0f / hits.GetMaxScore();
             for (int i = 0; i < length && resultsAdded < max; i++)
             {
                 float score = hits.scoreDocs[i].score * scoreNorm;
@@ -357,7 +376,7 @@ namespace Subtext.Framework.Services.SearchEngine
                     list.Add(result);
                     resultsAdded++;
                 }
-                    
+
             }
             return list;
         }
@@ -369,36 +388,36 @@ namespace Subtext.Framework.Services.SearchEngine
 
         public void Dispose()
         {
-            lock(WriterLock)
+            lock (WriterLock)
             {
-                if(!_disposed)
+                if (!_disposed)
                 {
                     //Never checking for disposing = true because there are
                     //no managed resources to dispose
 
                     var writer = _writer;
 
-                    if(writer != null)
+                    if (writer != null)
                     {
                         try
                         {
                             writer.Close();
                         }
-                        catch(ObjectDisposedException e)
+                        catch (ObjectDisposedException e)
                         {
-                           Log.Error("Exception while disposing SearchEngineService", e); 
+                            Log.Error("Exception while disposing SearchEngineService", e);
                         }
                         _writer = null;
                     }
 
                     var directory = _directory;
-                    if(directory != null)
+                    if (directory != null)
                     {
                         try
                         {
                             directory.Close();
                         }
-                        catch(ObjectDisposedException e)
+                        catch (ObjectDisposedException e)
                         {
                             Log.Error("Exception while disposing SearchEngineService", e);
                         }
