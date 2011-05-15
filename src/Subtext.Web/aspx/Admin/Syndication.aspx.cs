@@ -33,11 +33,10 @@ namespace Subtext.Web.Admin.Pages
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 PopulateForm();
             }
-            ManageHiddenSettings();
         }
 
         private void PopulateForm()
@@ -51,20 +50,6 @@ namespace Subtext.Web.Admin.Pages
             txtLicenseUrl.Text = info.LicenseUrl;
         }
 
-        private void ManageHiddenSettings()
-        {
-            chkEnableSyndication.Attributes["onclick"] = "toggleHideOnCheckbox(this, 'otherSettings');";
-
-            string startupScript = "<script type=\"text/javascript\">"
-                                   + Environment.NewLine + "var checkbox = document.getElementById('" +
-                                   chkEnableSyndication.ClientID + "');"
-                                   + Environment.NewLine + " toggleHideOnCheckbox(checkbox, 'otherSettings');"
-                                   + Environment.NewLine + "</script>";
-
-            Type ctype = GetType();
-            Page.ClientScript.RegisterStartupScript(ctype, "startupScript", startupScript);
-        }
-
         private void SaveSettings()
         {
             try
@@ -72,7 +57,7 @@ namespace Subtext.Web.Admin.Pages
                 UpdateConfiguration();
                 Messages.ShowMessage(RES_SUCCESS);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION, RES_FAILURE, ex.Message));
             }

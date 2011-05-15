@@ -34,43 +34,43 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(txtCommentDelayIntervalMinutes.Text.Length > 0)
+                if (txtCommentDelayIntervalMinutes.Text.Length > 0)
                 {
                     ValidateIntegerRange(Resources.CommentValidation_CommentDelay, txtCommentDelayIntervalMinutes.Text,
                                          0, 3600, Resources.CommentValidation_CommentDelayTooSmall,
                                          Resources.CommentValidation_CommentDelayTooBig);
                 }
 
-                if(txtDaysTillCommentsClosed.Text.Length > 0)
+                if (txtDaysTillCommentsClosed.Text.Length > 0)
                 {
                     ValidateInteger(Resources.CommentValidation_DaysTillClose, txtDaysTillCommentsClosed.Text, 0,
                                     int.MaxValue);
                 }
 
-                if(txtNumberOfRecentComments.Text.Length > 0)
+                if (txtNumberOfRecentComments.Text.Length > 0)
                 {
                     ValidateInteger(Resources.CommentValidation_RecentCommentsCount, txtNumberOfRecentComments.Text, 0,
                                     int.MaxValue);
                 }
 
-                if(txtRecentCommentsLength.Text.Length > 0)
+                if (txtRecentCommentsLength.Text.Length > 0)
                 {
                     ValidateInteger(Resources.CommentValidation_LengthOfRecentComment, txtRecentCommentsLength.Text, 0,
                                     int.MaxValue);
                 }
 
-                if(!String.IsNullOrEmpty(txtAkismetAPIKey.Text))
+                if (!String.IsNullOrEmpty(txtAkismetAPIKey.Text))
                 {
                     var akismet = new AkismetSpamService(txtAkismetAPIKey.Text, Blog, null, Url);
                     try
                     {
-                        if(!akismet.VerifyApiKey())
+                        if (!akismet.VerifyApiKey())
                         {
                             Messages.ShowError(Resources.Comments_CouldNotVerifyAkismetKey);
                             return false;
                         }
                     }
-                    catch(SecurityException e)
+                    catch (SecurityException e)
                     {
                         Messages.ShowError(string.Format(CultureInfo.InvariantCulture,
                                                          Resources.Comments_AkismetRequiresPermissionType,
@@ -109,7 +109,6 @@ namespace Subtext.Web.Admin.Pages
         protected override void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
-            ManageHiddenSettings();
         }
 
         protected override void BindLocalUI()
@@ -125,7 +124,7 @@ namespace Subtext.Web.Admin.Pages
 
             txtAkismetAPIKey.Text = info.FeedbackSpamServiceKey;
 
-            if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
+            if (info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
             {
                 txtDaysTillCommentsClosed.Text = info.DaysTillCommentsClose.ToString(CultureInfo.InvariantCulture);
             }
@@ -134,7 +133,7 @@ namespace Subtext.Web.Admin.Pages
                 txtDaysTillCommentsClosed.Text = string.Empty;
             }
 
-            if(info.CommentDelayInMinutes > 0 && info.CommentDelayInMinutes < int.MaxValue)
+            if (info.CommentDelayInMinutes > 0 && info.CommentDelayInMinutes < int.MaxValue)
             {
                 txtCommentDelayIntervalMinutes.Text = info.CommentDelayInMinutes.ToString(CultureInfo.InvariantCulture);
             }
@@ -143,7 +142,7 @@ namespace Subtext.Web.Admin.Pages
                 txtCommentDelayIntervalMinutes.Text = string.Empty;
             }
 
-            if(info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
+            if (info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
             {
                 txtNumberOfRecentComments.Text = info.NumberOfRecentComments.ToString(CultureInfo.InvariantCulture);
             }
@@ -152,7 +151,7 @@ namespace Subtext.Web.Admin.Pages
                 txtNumberOfRecentComments.Text = string.Empty;
             }
 
-            if(info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
+            if (info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
             {
                 txtRecentCommentsLength.Text = info.RecentCommentsLength.ToString(CultureInfo.InvariantCulture);
             }
@@ -164,27 +163,13 @@ namespace Subtext.Web.Admin.Pages
             base.BindLocalUI();
         }
 
-        private void ManageHiddenSettings()
-        {
-            chkEnableComments.Attributes["onclick"] = "toggleHideOnCheckbox(this, 'otherSettings');";
-
-            string startupScript = "<script type=\"text/javascript\">"
-                                   + Environment.NewLine + "var checkbox = document.getElementById('" +
-                                   chkEnableComments.ClientID + "');"
-                                   + Environment.NewLine + " toggleHideOnCheckbox(checkbox, 'otherSettings');"
-                                   + Environment.NewLine + "</script>";
-
-            Type ctype = GetType();
-            Page.ClientScript.RegisterStartupScript(ctype, "startupScript", startupScript);
-        }
-
         private void SaveSettings()
         {
             try
             {
                 UpdateConfiguration();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION, Resources.Comments_SettingsFailed, ex.Message));
             }
@@ -192,7 +177,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void UpdateConfiguration()
         {
-            if(IsPageValid)
+            if (IsPageValid)
             {
                 Blog info = Blog;
 
@@ -205,7 +190,7 @@ namespace Subtext.Web.Admin.Pages
 
                 info.CommentDelayInMinutes = txtCommentDelayIntervalMinutes.Text.Length == 0 ? 0 : int.Parse(txtCommentDelayIntervalMinutes.Text);
 
-                if(txtDaysTillCommentsClosed.Text.Length > 0)
+                if (txtDaysTillCommentsClosed.Text.Length > 0)
                 {
                     info.DaysTillCommentsClose = ValidateInteger(Resources.CommentValidation_DaysTillClose,
                                                                  txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
@@ -215,7 +200,7 @@ namespace Subtext.Web.Admin.Pages
                     info.DaysTillCommentsClose = int.MaxValue;
                 }
 
-                if(txtNumberOfRecentComments.Text.Length > 0)
+                if (txtNumberOfRecentComments.Text.Length > 0)
                 {
                     info.NumberOfRecentComments = ValidateInteger(Resources.CommentValidation_RecentCommentsCount,
                                                                   txtNumberOfRecentComments.Text, 0, int.MaxValue);
@@ -225,7 +210,7 @@ namespace Subtext.Web.Admin.Pages
                     info.NumberOfRecentComments = int.MaxValue;
                 }
 
-                if(txtRecentCommentsLength.Text.Length > 0)
+                if (txtRecentCommentsLength.Text.Length > 0)
                 {
                     info.RecentCommentsLength = ValidateInteger(Resources.CommentValidation_LengthOfRecentComment,
                                                                 txtRecentCommentsLength.Text, 0, int.MaxValue);
@@ -258,19 +243,19 @@ namespace Subtext.Web.Admin.Pages
             try
             {
                 int theNumber = int.Parse(value);
-                if(theNumber < minAllowedValue)
+                if (theNumber < minAllowedValue)
                 {
                     throw new ArgumentException(string.Format(tooSmallFormatMessage, fieldName, minAllowedValue),
                                                 fieldName);
                 }
-                if(theNumber > maxAllowedValue)
+                if (theNumber > maxAllowedValue)
                 {
                     throw new ArgumentException(string.Format(tooBigFormatMessage, fieldName, maxAllowedValue),
                                                 fieldName);
                 }
                 return theNumber;
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 throw new ArgumentException(
                     string.Format(CultureInfo.InvariantCulture, Resources.Message_ValueMustBePositive, fieldName),
