@@ -37,7 +37,7 @@ namespace Subtext.Web
         {
             IPagedCollection<Blog> blogs = Repository.GetPagedBlogs(null, 0, 1, ConfigurationFlags.None);
 
-            if(blogs.Count > 0)
+            if (blogs.Count > 0)
             {
                 ltlMessage.Text =
                     "<p>"
@@ -51,7 +51,7 @@ namespace Subtext.Web
                     + "</p>"
                     + "<p>If you are trying to set up an aggregate blog, make sure aggregate blogs are enabled via "
                     +
-                    "the Web.config file.  See <a href=\"http://subtextproject.com/Home/Docs/Configuration/ConfiguringAggregateBlogs/tabid/122/Default.aspx\" title=\"Configuring Aggregate Blogs\">this article</a> for more information.</p>";
+                    "the Web.config file.  See <a href=\"http://subtextproject.com/Configuring-Aggregate-Blogs.ashx\" title=\"Configuring Aggregate Blogs\">this article</a> for more information.</p>";
             }
             else
             {
