@@ -107,7 +107,6 @@
 			<label>Rel data</label>
 			<asp:TextBox id="txbRel" runat="server" columns="255" width="98%" />
 			<span class="checkbox">
-				<asp:CheckBox id="chkNewWindow" runat="server" Text="New Window" /> 
 				<asp:CheckBox id="chkFirstOnly" runat="server" Text="Replace First Occurrence Only" />
 				<asp:CheckBox id="chkCaseSensitive" runat="server" Text="Is Case Sensitive" />
 			</span>

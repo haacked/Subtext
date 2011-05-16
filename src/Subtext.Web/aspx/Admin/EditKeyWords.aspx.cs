@@ -41,7 +41,7 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(ViewState[VSKEY_KEYWORDID] != null)
+                if (ViewState[VSKEY_KEYWORDID] != null)
                 {
                     return (int)ViewState[VSKEY_KEYWORDID];
                 }
@@ -59,9 +59,9 @@ namespace Subtext.Web.Admin.Pages
         {
             //BindLocalUI(); //no need to call
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
-                if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+                if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
                 {
                     _resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
                 }
@@ -74,16 +74,16 @@ namespace Subtext.Web.Admin.Pages
             }
         }
 
-/*
-		private void BindLocalUI()
-		{
-			//wasn't working. I have added a button to GUI for this. - GY
-			LinkButton lkbNewLink = Utilities.CreateLinkButton("New KeyWord");
-			lkbNewLink.Click += new System.EventHandler(lkbNewKeyWord_Click);
-			lkbNewLink.CausesValidation =false;
-			PageContainer.AddToActions(lkbNewLink);
-		}
-*/
+        /*
+                private void BindLocalUI()
+                {
+                    //wasn't working. I have added a button to GUI for this. - GY
+                    LinkButton lkbNewLink = Utilities.CreateLinkButton("New KeyWord");
+                    lkbNewLink.Click += new System.EventHandler(lkbNewKeyWord_Click);
+                    lkbNewLink.CausesValidation =false;
+                    PageContainer.AddToActions(lkbNewLink);
+                }
+        */
 
         private void BindList()
         {
@@ -92,7 +92,7 @@ namespace Subtext.Web.Admin.Pages
             IPagedCollection<KeyWord> selectionList = Repository.GetPagedKeyWords(_resultsPageNumber,
                                                                                 resultsPager.PageSize);
 
-            if(selectionList.Count > 0)
+            if (selectionList.Count > 0)
             {
                 resultsPager.ItemCount = selectionList.MaxItems;
                 rprSelectionList.DataSource = selectionList;
@@ -114,11 +114,10 @@ namespace Subtext.Web.Admin.Pages
             txbText.Text = kw.Text;
 
 
-            chkNewWindow.Checked = kw.OpenInNewWindow;
             chkFirstOnly.Checked = kw.ReplaceFirstTimeOnly;
             chkCaseSensitive.Checked = kw.CaseSensitive;
 
-            if(AdminMasterPage != null)
+            if (AdminMasterPage != null)
             {
                 string title = string.Format(CultureInfo.InvariantCulture, "Editing KeyWord \"{0}\"", kw.Title);
                 AdminMasterPage.Title = title;
@@ -136,14 +135,13 @@ namespace Subtext.Web.Admin.Pages
                     Title = txbTitle.Text,
                     Url = txbUrl.Text,
                     Text = txbText.Text,
-                    OpenInNewWindow = chkNewWindow.Checked,
                     ReplaceFirstTimeOnly = chkFirstOnly.Checked,
                     CaseSensitive = chkCaseSensitive.Checked,
                     Rel = txbRel.Text,
                     Word = txbWord.Text
                 };
 
-                if(KeyWordID > 0)
+                if (KeyWordID > 0)
                 {
                     successMessage = Constants.RES_SUCCESSEDIT;
                     keyword.Id = KeyWordID;
@@ -154,7 +152,7 @@ namespace Subtext.Web.Admin.Pages
                     KeyWordID = Repository.InsertKeyWord(keyword);
                 }
 
-                if(KeyWordID > 0)
+                if (KeyWordID > 0)
                 {
                     BindList();
                     Messages.ShowMessage(successMessage);
@@ -165,7 +163,7 @@ namespace Subtext.Web.Admin.Pages
                                        + " There was a baseline problem posting your KeyWord.");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
                                                  Constants.RES_FAILUREEDIT, ex.Message));
@@ -188,7 +186,6 @@ namespace Subtext.Web.Admin.Pages
             txbUrl.Text = string.Empty;
             txbRel.Text = string.Empty;
             txbWord.Text = string.Empty;
-            chkNewWindow.Checked = false;
             chkFirstOnly.Checked = false;
             chkCaseSensitive.Checked = false;
         }
@@ -206,7 +203,7 @@ namespace Subtext.Web.Admin.Pages
         // REFACTOR
         public string CheckHiddenStyle()
         {
-            if(_isListHidden)
+            if (_isListHidden)
             {
                 return Constants.CSSSTYLE_HIDDEN;
             }
@@ -218,7 +215,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void rprSelectionList_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
+            switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "edit":
                     KeyWordID = Convert.ToInt32(e.CommandArgument);
