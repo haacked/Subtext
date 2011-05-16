@@ -16,6 +16,7 @@
 		<link href="../skins/_system/commonstyle.css" rel="stylesheet" type="text/css" />
 		<link href="../skins/_system/commonlayout.css" rel="stylesheet" type="text/css" />
 		<asp:Literal id="Style" runat="Server" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
 		<script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>"></script>
         <link href="../css/lightbox.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/lightbox.js") %>"></script>
