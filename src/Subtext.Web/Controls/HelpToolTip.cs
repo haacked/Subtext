@@ -60,7 +60,7 @@ namespace Subtext.Web.Controls
             get
             {
                 int result;
-                if(!int.TryParse(Attributes["ImageHeight"], out result))
+                if (!int.TryParse(Attributes["ImageHeight"], out result))
                 {
                     return int.MinValue;
                 }
@@ -78,7 +78,7 @@ namespace Subtext.Web.Controls
             get
             {
                 int result;
-                if(!int.TryParse(Attributes["ImageWidth"], out result))
+                if (!int.TryParse(Attributes["ImageWidth"], out result))
                 {
                     return int.MinValue;
                 }
@@ -98,18 +98,18 @@ namespace Subtext.Web.Controls
         protected override void Render(HtmlTextWriter writer)
         {
             const string format = @"<a class=""helpLink"" onclick=""showHelpTip(event, '{0}'); return false;"" href=""?"">";
-            string helpText = HelpText.Replace("'", "\\'");
+            string helpText = HelpText.Replace("'", "\\'").Replace("\r\n", "<br />").Replace("\n", "<br />");
             writer.Write(string.Format(CultureInfo.InvariantCulture, format, helpText));
             RenderChildren(writer);
-            if(ImageUrl.Length > 0)
+            if (ImageUrl.Length > 0)
             {
                 string imageUrl = HttpHelper.ExpandTildePath(ImageUrl);
                 writer.Write(String.Format(CultureInfo.InvariantCulture, "<img src=\"{0}\" ", imageUrl));
-                if(ImageWidth > 0)
+                if (ImageWidth > 0)
                 {
                     writer.Write(string.Format(CultureInfo.InvariantCulture, "width=\"{0}\" ", ImageWidth));
                 }
-                if(ImageHeight > 0)
+                if (ImageHeight > 0)
                 {
                     writer.Write(string.Format(CultureInfo.InvariantCulture, "height=\"{0}\" ", ImageHeight));
                 }
