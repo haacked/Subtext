@@ -33,6 +33,7 @@ namespace Subtext.Web.Admin.Commands
 
         public DeleteImageCommand(string galleryDirectoryPath, Image image, string imageTitle)
         {
+            GalleryDirectoryPath = galleryDirectoryPath;
             _targetName = "Image";
             itemTitle = imageTitle;
             Image = image;
@@ -54,18 +55,18 @@ namespace Subtext.Web.Admin.Commands
 
                 Images.DeleteImage(currentImage);
 
+
                 // now delete the associated files if they exist
-                string galleryFolder = GalleryDirectoryPath;
-                if(Directory.Exists(galleryFolder))
+                if (Directory.Exists(GalleryDirectoryPath))
                 {
-                    DeleteFile(galleryFolder, currentImage.OriginalFile);
-                    DeleteFile(galleryFolder, currentImage.ResizedFile);
-                    DeleteFile(galleryFolder, currentImage.ThumbNailFile);
+                    DeleteFile(GalleryDirectoryPath, currentImage.OriginalFile);
+                    DeleteFile(GalleryDirectoryPath, currentImage.ResizedFile);
+                    DeleteFile(GalleryDirectoryPath, currentImage.ThumbNailFile);
                 }
 
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, _targetName, Image.ImageID, ex.Message);
             }
@@ -74,7 +75,7 @@ namespace Subtext.Web.Admin.Commands
         private void DeleteFile(string path, string filename)
         {
             string localPath = Path.Combine(path, filename);
-            if(File.Exists(localPath))
+            if (File.Exists(localPath))
             {
                 File.Delete(localPath);
             }
