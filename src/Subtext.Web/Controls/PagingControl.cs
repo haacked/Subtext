@@ -28,9 +28,6 @@ namespace Subtext.Web.Controls
     /// <summary>
     /// Control used to render paging through records.
     /// </summary>
-    [
-        Designer(typeof(PagerDesigner))
-    ]
     [ToolboxData("<{0}:PagingControl runat=\"server\" />")]
     public class PagingControl : Control
     {
@@ -115,7 +112,7 @@ namespace Subtext.Web.Controls
 
         protected virtual void WriteConditional(HtmlTextWriter writer, string value, bool condition)
         {
-            if(condition)
+            if (condition)
             {
                 writer.Write(value);
             }
@@ -126,14 +123,14 @@ namespace Subtext.Web.Controls
         protected override void Render(HtmlTextWriter writer)
         {
             // there's only 1 page, a pager is useless so render nothing
-            if(TotalPageCount == 0 || FirstPageIndex == (TotalPageCount - 1))
+            if (TotalPageCount == 0 || FirstPageIndex == (TotalPageCount - 1))
             {
                 return;
             }
 
             var currentPage = (int)ViewState[ViewStateKeys.PageIndex];
 
-            if(_cssClass.Length > 0)
+            if (_cssClass.Length > 0)
             {
                 writer.AddAttribute("class", _cssClass);
             }
@@ -152,11 +149,11 @@ namespace Subtext.Web.Controls
 
             // if the start page isn't the first, then we display << to allow
             // paging backwards DisplayCountPage
-            if(startPage != 0)
+            if (startPage != 0)
             {
                 // if we specified including 'First' link back to pageindex 0, 
                 // write it plus an optional spacer
-                if(displayFirstLastPageLinks)
+                if (displayFirstLastPageLinks)
                 {
                     writer.Write(RenderLink(FirstPageIndex, _firstText));
                 }
@@ -166,13 +163,13 @@ namespace Subtext.Web.Controls
                                         "<<"));
             }
             //Now, loop through start to end and display all the links.
-            for(int i = startPage; i < endPage; i++)
+            for (int i = startPage; i < endPage; i++)
             {
                 writer.Write(RenderLink(i, i == PageIndex));
             }
 
             // if we're already displaying the last page, no need for paging or Last Page link
-            if(endPage - 1 != LastPageIndex)
+            if (endPage - 1 != LastPageIndex)
             {
                 writer.Write(
                     RenderLink(
@@ -181,7 +178,7 @@ namespace Subtext.Web.Controls
                             : LastPageIndex, ">>"));
                 // if we specified including 'Last' link back to the last page, write it plus 
                 // an optional spacer
-                if(displayFirstLastPageLinks && PageIndex < LastPageIndex)
+                if (displayFirstLastPageLinks && PageIndex < LastPageIndex)
                 {
                     writer.Write(RenderLink(LastPageIndex, _lastText));
                 }
@@ -211,7 +208,8 @@ namespace Subtext.Web.Controls
         public int ItemCount
         {
             get { return ViewState[ViewStateKeys.ItemCount] == null ? 0 : (int)ViewState[ViewStateKeys.ItemCount]; }
-            set {
+            set
+            {
                 ViewState[ViewStateKeys.ItemCount] = value < 0 ? 0 : value;
             }
         }
@@ -227,7 +225,8 @@ namespace Subtext.Web.Controls
                            ? FirstPageIndex
                            : (int)ViewState[ViewStateKeys.PageIndex];
             }
-            set {
+            set
+            {
                 ViewState[ViewStateKeys.PageIndex] = value >= FirstPageIndex ? value : FirstPageIndex;
             }
         }
@@ -238,7 +237,8 @@ namespace Subtext.Web.Controls
         public int PageSize
         {
             get { return ViewState[ViewStateKeys.PageSize] == null ? 10 : (int)ViewState[ViewStateKeys.PageSize]; }
-            set {
+            set
+            {
                 ViewState[ViewStateKeys.PageSize] = value >= MinPageSize ? value : MinPageSize;
             }
         }
@@ -257,7 +257,7 @@ namespace Subtext.Web.Controls
             set
             {
                 int dislpayPageCount = value;
-                if(dislpayPageCount < MinDisplayPageCount)
+                if (dislpayPageCount < MinDisplayPageCount)
                 {
                     dislpayPageCount = MinDisplayPageCount;
                 }
@@ -274,7 +274,7 @@ namespace Subtext.Web.Controls
         {
             get
             {
-                if(PageSize > 0)
+                if (PageSize > 0)
                 {
                     return (int)Math.Ceiling((double)ItemCount / PageSize);
                 }
@@ -357,24 +357,5 @@ namespace Subtext.Web.Controls
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// Gontrols the look of the control in the designer.
-    /// </summary>
-    public class PagerDesigner : ControlDesigner
-    {
-        public override void Initialize(IComponent component)
-        {
-            if(component is PagingControl)
-            {
-                var context = component as PagingControl;
-                context.PageSize = 10;
-                context.ItemCount = 120;
-                context.PageIndex++;
-            }
-
-            base.Initialize(component);
-        }
     }
 }
