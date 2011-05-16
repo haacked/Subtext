@@ -13,6 +13,11 @@
                 hidingStatus: function(undoable, target) {
                     undoable.next('tr').removeClass('undoable');
                 },
+                getUndoPostData: function(clickSource, target) {
+                    var data = this.getPostData(clickSource, target);
+                    data.status = 'Approved';
+                    return data;
+                },
                 getPostData: function(clickSource, target) {
                     var data = this.getPostData(clickSource, target);
                     data.status = clickSource.attr('class');
@@ -93,16 +98,16 @@
                     </td>
                     <td class="undoable">
                         <ul class="horizontal">
-                            <% if(FeedbackState.Spammable) { %>
+                            <% if (FeedbackState.Spammable) { %>
                             <li><a href="#<%# Eval("Id") %>" class="FlaggedAsSpam">spam</a></li>
                             <% } %>
-                            <% if(FeedbackState.Deletable) { %>
+                            <% if (FeedbackState.Deletable) { %>
                                 <li><a href="#<%# Eval("Id") %>" class="Deleted">delete</a></li>
                             <% } %>
-                            <% if(FeedbackState.Approvable) { %>
+                            <% if (FeedbackState.Approvable) { %>
                              <li><a href="#<%# Eval("Id") %>" class="Approved">approve</a></li>
                             <% } %>
-                            <% if(FeedbackState.Destroyable) { %>
+                            <% if (FeedbackState.Destroyable) { %>
                              <li><a href="#<%# Eval("Id") %>" class="destroy">destroy</a></li>
                             <% } %>
                         </ul>
