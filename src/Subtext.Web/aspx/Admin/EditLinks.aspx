@@ -280,7 +280,6 @@
 			<asp:DropDownList id="ddlCategories" runat="server" />
 			<span class="checkbox">
 			    <asp:CheckBox id="ckbIsActive" runat="server" textalign="Left" Text="Visible" />
-			    <asp:CheckBox id="chkNewWindow" runat="server" textalign="Left" Text="New Window" />
 			</span>
 			
 			<div>

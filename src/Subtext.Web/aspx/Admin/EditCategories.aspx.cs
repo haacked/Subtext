@@ -33,7 +33,7 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(ViewState["CategoryType"] != null)
+                if (ViewState["CategoryType"] != null)
                 {
                     return (CategoryType)ViewState["CategoryType"];
                 }
@@ -44,9 +44,9 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void OnLoad(EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
-                if(null != Request.QueryString[Keys.QRYSTR_CATEGORYTYPE])
+                if (null != Request.QueryString[Keys.QRYSTR_CATEGORYTYPE])
                 {
                     CategoryType =
                         (CategoryType)Enum.Parse(typeof(CategoryType), Request.QueryString[Keys.QRYSTR_CATEGORYTYPE]);
@@ -56,7 +56,7 @@ namespace Subtext.Web.Admin.Pages
                     CategoryType = CategoryType.LinkCollection;
                 }
 
-                if(CategoryType == CategoryType.LinkCollection)
+                if (CategoryType == CategoryType.LinkCollection)
                 {
                     TabSectionId = "Links";
                 }
@@ -68,7 +68,7 @@ namespace Subtext.Web.Admin.Pages
             }
             else
             {
-                if(CategoryType == CategoryType.LinkCollection)
+                if (CategoryType == CategoryType.LinkCollection)
                 {
                     TabSectionId = "Links";
                 }
@@ -79,7 +79,7 @@ namespace Subtext.Web.Admin.Pages
         // REFACTOR: Maybe. Some sections can be inferred from the catType, but not the not cat pages.
         private void BindLocalUI()
         {
-            switch(CategoryType)
+            switch (CategoryType)
             {
                 case CategoryType.PostCollection:
                     TabSectionId = "Posts";
@@ -122,7 +122,7 @@ namespace Subtext.Web.Admin.Pages
         {
             try
             {
-                if(category.Id > 0)
+                if (category.Id > 0)
                 {
                     Repository.UpdateLinkCategory(category);
                     Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, "Category \"{0}\" was updated.",
@@ -135,7 +135,7 @@ namespace Subtext.Web.Admin.Pages
                                                        category.Title));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
             }
@@ -175,14 +175,14 @@ namespace Subtext.Web.Admin.Pages
             var isActive = e.Item.FindControl("ckbIsActive") as CheckBox;
             var txbDescription = e.Item.FindControl("txbDescription") as TextBox;
 
-            if(null == title || null == isActive)
+            if (null == title || null == isActive)
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_EditCategoriesControlsNotFound);
             }
 
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
-                if(Utilities.IsNullorEmpty(title.Text))
+                if (Utilities.IsNullorEmpty(title.Text))
                 {
                     Messages.ShowError(Resources.Message_CategoryMustHaveTitle);
                     return;
@@ -195,7 +195,7 @@ namespace Subtext.Web.Admin.Pages
                 existingCategory.Title = title.Text;
                 existingCategory.IsActive = isActive.Checked;
 
-                if(id != 0)
+                if (id != 0)
                 {
                     PersistCategory(existingCategory);
                 }
@@ -223,7 +223,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void lkbPost_Click(object sender, EventArgs e)
         {
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
                 var newCategory = new LinkCategory
                 {

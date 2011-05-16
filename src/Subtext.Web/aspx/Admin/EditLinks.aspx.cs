@@ -49,7 +49,7 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(ViewState["filterCategoryID"] == null)
+                if (ViewState["filterCategoryID"] == null)
                 {
                     return null;
                 }
@@ -65,7 +65,7 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(ViewState[VSKEY_LINKID] != null)
+                if (ViewState[VSKEY_LINKID] != null)
                 {
                     return (int)ViewState[VSKEY_LINKID];
                 }
@@ -83,14 +83,14 @@ namespace Subtext.Web.Admin.Pages
             headerLiteral.Visible = true;
             BindLocalUI();
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
-                if(Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
+                if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
                 {
                     _resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
                 }
 
-                if(Request.QueryString[Keys.QRYSTR_CATEGORYID] != null)
+                if (Request.QueryString[Keys.QRYSTR_CATEGORYID] != null)
                 {
                     filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
                 }
@@ -98,7 +98,7 @@ namespace Subtext.Web.Admin.Pages
                 resultsPager.PageSize = Preferences.ListingItemCount;
                 resultsPager.PageIndex = _resultsPageNumber;
 
-                if(filterCategoryID != null)
+                if (filterCategoryID != null)
                 {
                     resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}",
                                                             Keys.QRYSTR_CATEGORYID, filterCategoryID);
@@ -130,7 +130,7 @@ namespace Subtext.Web.Admin.Pages
             IPagedCollection<Link> selectionList = Repository.GetPagedLinks(filterCategoryID, _resultsPageNumber,
                                                                             resultsPager.PageSize, true);
 
-            if(selectionList.Count > 0)
+            if (selectionList.Count > 0)
             {
                 resultsPager.ItemCount = selectionList.MaxItems;
                 rprSelectionList.DataSource = selectionList;
@@ -157,14 +157,13 @@ namespace Subtext.Web.Admin.Pages
             txbRss.Text = currentLink.Rss;
             txtXfn.Text = currentLink.Relation;
 
-            chkNewWindow.Checked = currentLink.NewWindow;
             ckbIsActive.Checked = currentLink.IsActive;
 
             BindLinkCategories();
             ddlCategories.Items.FindByValue(currentLink.CategoryId.ToString(CultureInfo.InvariantCulture)).Selected =
                 true;
 
-            if(AdminMasterPage != null)
+            if (AdminMasterPage != null)
             {
                 string title = string.Format(CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
                 AdminMasterPage.Title = title;
@@ -174,7 +173,7 @@ namespace Subtext.Web.Admin.Pages
         public void BindLinkCategories()
         {
             ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
-            if(selectionList != null && selectionList.Count != 0)
+            if (selectionList != null && selectionList.Count != 0)
             {
                 ddlCategories.DataSource = selectionList;
                 ddlCategories.DataValueField = "Id";
@@ -201,12 +200,11 @@ namespace Subtext.Web.Admin.Pages
                     Rss = txbRss.Text,
                     IsActive = ckbIsActive.Checked,
                     CategoryId = Convert.ToInt32(ddlCategories.SelectedItem.Value),
-                    NewWindow = chkNewWindow.Checked,
                     Id = Config.CurrentBlog.Id,
                     Relation = txtXfn.Text
                 };
 
-                if(LinkID > 0)
+                if (LinkID > 0)
                 {
                     successMessage = Constants.RES_SUCCESSEDIT;
                     link.Id = LinkID;
@@ -217,7 +215,7 @@ namespace Subtext.Web.Admin.Pages
                     LinkID = Repository.CreateLink(link);
                 }
 
-                if(LinkID > 0)
+                if (LinkID > 0)
                 {
                     BindList();
                     Messages.ShowMessage(successMessage);
@@ -228,7 +226,7 @@ namespace Subtext.Web.Admin.Pages
                                        + " There was a baseline problem posting your link.");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
                                                  Constants.RES_FAILUREEDIT, ex.Message));
@@ -252,11 +250,10 @@ namespace Subtext.Web.Admin.Pages
             txbTitle.Text = String.Empty;
             txbUrl.Text = String.Empty;
             txbRss.Text = String.Empty;
-            chkNewWindow.Checked = false;
 
             ckbIsActive.Checked = Preferences.AlwaysCreateIsActive;
 
-            if(showEdit)
+            if (showEdit)
             {
                 BindLinkCategories();
             }
@@ -276,11 +273,11 @@ namespace Subtext.Web.Admin.Pages
 
         private void ImportOpml()
         {
-            if(OpmlImportFile.PostedFile.FileName.Trim().Length > 0)
+            if (OpmlImportFile.PostedFile.FileName.Trim().Length > 0)
             {
                 OpmlItemCollection importedLinks = OpmlProvider.Import(OpmlImportFile.PostedFile.InputStream);
 
-                if(importedLinks.Count > 0)
+                if (importedLinks.Count > 0)
                 {
                     var command = new ImportLinksCommand(importedLinks,
                                                          Int32.Parse(ddlImportExportCategories.SelectedItem.Value));
@@ -294,7 +291,7 @@ namespace Subtext.Web.Admin.Pages
         // REFACTOR
         public string CheckHiddenStyle()
         {
-            if(_isListHidden)
+            if (_isListHidden)
             {
                 return Constants.CSSSTYLE_HIDDEN;
             }
@@ -312,7 +309,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void lkbImportOpml_Click(object sender, EventArgs e)
         {
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
                 ImportOpml();
             }
@@ -320,7 +317,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void rprSelectionList_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
+            switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "edit":
                     LinkID = Convert.ToInt32(e.CommandArgument);
