@@ -164,8 +164,14 @@ namespace Subtext.Web.UI.Controls
                         return;
                     }
                 }
-                lblMessage.Text = "Your message was sent.";
-
+                if (!Context.User.IsAdministrator())
+                {
+                    lblMessage.Text = "Your message was sent.";
+                }
+                else
+                {
+                    lblMessage.Text = "Message submitted successfully, but no email was sent because you&#8217;re logged in as administrator.";
+                }
                 SwapWithLabel(tbName);
                 SwapWithLabel(tbEmail);
                 SwapWithLabel(tbMessage);
