@@ -2,10 +2,6 @@
     CodeBehind="Configure.aspx.cs" Inherits="Subtext.Web.Admin.Pages.Configure" %>
 
 <asp:Content ContentPlaceHolderID="actionsHeading" runat="server">
-<% if (false) { %>
-    <script src="../Scripts/jquery-1.2.6-vsdoc.js" type="text/javascript"></script>
-<% } %>
-
     <script type="text/javascript">
         function updateTimeZoneInfo(timeZones) {
             ajaxServices.getTimeZoneInfo(timeZones.value, function(response) {
