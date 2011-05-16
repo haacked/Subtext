@@ -433,7 +433,10 @@ namespace Subtext.Web.Admin.Pages
         private void DeleteImage(int imageId)
         {
             Image image = Repository.GetImage(imageId, false /* activeOnly */);
-            var command = new DeleteImageCommand(image, Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID))
+
+            string galleryDirectoryPath = SubtextContext.HttpContext.Server.MapPath(Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
+
+            var command = new DeleteImageCommand(image, galleryDirectoryPath)
             {
                 ExecuteSuccessMessage = string.Format(CultureInfo.CurrentCulture, "Image '{0}' deleted",
                                                       image.OriginalFile)
