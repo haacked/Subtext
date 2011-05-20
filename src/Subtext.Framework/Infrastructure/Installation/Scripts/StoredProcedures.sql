@@ -5445,6 +5445,7 @@ SELECT ActivePostCount = (
 								YEAR(DateCreated)
 				 ) CommentsPerMonth
 	)
+GO
 
 GRANT EXECUTE ON [<dbUser,varchar,dbo>].[subtext_GetBlogStats] TO [public]
 GO
