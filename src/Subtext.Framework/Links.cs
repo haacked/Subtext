@@ -39,10 +39,10 @@ namespace Subtext.Framework
             var categories = new LinkCategory[postCategories.Count];
             postCategories.CopyTo(categories, 0);
 
-            foreach(LinkCategory category in categories)
+            foreach (LinkCategory category in categories)
             {
                 LinkCategory innerCategory = category;
-                if(!links.Exists(link => innerCategory.Id == link.CategoryId))
+                if (!links.Exists(link => innerCategory.Id == link.CategoryId))
                 {
                     postCategories.Remove(category);
                 }

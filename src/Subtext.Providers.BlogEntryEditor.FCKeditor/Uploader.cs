@@ -50,7 +50,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 
         protected override void OnInit(EventArgs e)
         {
-            if(!SubtextContext.User.IsInRole("Admins"))
+            if (!SubtextContext.User.IsInRole("Admins"))
             {
                 SubtextContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 SubtextContext.HttpContext.Response.End();

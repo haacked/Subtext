@@ -72,17 +72,17 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 
         public override void Initialize(string name, NameValueCollection configValue)
         {
-            if(name == null)
+            if (name == null)
             {
                 throw new ArgumentNullException("name", rm.GetString("nameNeeded"));
             }
 
-            if(configValue == null)
+            if (configValue == null)
             {
                 throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
             }
 
-            if(configValue["WebFormFolder"] != null)
+            if (configValue["WebFormFolder"] != null)
             {
                 _webFormFolder = configValue["WebFormFolder"];
             }
@@ -91,7 +91,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                 throw new InvalidOperationException(rm.GetString("WebFormFolderNeeded"));
             }
 
-            if(configValue["ImageBrowserURL"] != null)
+            if (configValue["ImageBrowserURL"] != null)
             {
                 _imageBrowserURL = configValue["ImageBrowserURL"];
             }
@@ -100,7 +100,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                 throw new InvalidOperationException(rm.GetString("ImageBrowserURLNeeded"));
             }
 
-            if(configValue["LinkBrowserURL"] != null)
+            if (configValue["LinkBrowserURL"] != null)
             {
                 _linkBrowserURL = configValue["LinkBrowserURL"];
             }
@@ -109,7 +109,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                 throw new InvalidOperationException(rm.GetString("LinkBrowserURLNeeded"));
             }
 
-            if(configValue["ImageConnectorURL"] != null)
+            if (configValue["ImageConnectorURL"] != null)
             {
                 _imageConnectorURL = configValue["ImageConnectorURL"];
             }
@@ -118,7 +118,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                 throw new InvalidOperationException(rm.GetString("ImageConnectorURLNeeded"));
             }
 
-            if(configValue["LinkConnectorURL"] != null)
+            if (configValue["LinkConnectorURL"] != null)
             {
                 _linkConnectorURL = configValue["LinkConnectorURL"];
             }
@@ -128,7 +128,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             }
 
 
-            if(configValue["FileAllowedExtensions"] != null)
+            if (configValue["FileAllowedExtensions"] != null)
             {
                 FileAllowedExtensions = configValue["FileAllowedExtensions"];
             }
@@ -138,7 +138,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             }
 
 
-            if(configValue["ImageAllowedExtensions"] != null)
+            if (configValue["ImageAllowedExtensions"] != null)
             {
                 ImageAllowedExtensions = configValue["ImageAllowedExtensions"];
             }
@@ -147,12 +147,12 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                 throw new InvalidOperationException(rm.GetString("ImageAllowedExtensionsNeeded"));
             }
 
-            if(configValue["ToolbarSet"] != null)
+            if (configValue["ToolbarSet"] != null)
             {
                 _toolbarSet = configValue["ToolbarSet"];
             }
 
-            if(configValue["Skin"] != null)
+            if (configValue["Skin"] != null)
             {
                 _skin = configValue["Skin"];
             }
@@ -164,24 +164,24 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
         {
             var subtextContext = context as ISubtextContext;
             _fckCtl.ID = ControlId;
-            if(!String.IsNullOrEmpty(_webFormFolder))
+            if (!String.IsNullOrEmpty(_webFormFolder))
             {
                 _fckCtl.BasePath = HttpHelper.ExpandTildePath(_webFormFolder);
             }
 
-            if(Width != Unit.Empty)
+            if (Width != Unit.Empty)
             {
                 _fckCtl.Width = Width;
             }
-            if(Height != Unit.Empty)
+            if (Height != Unit.Empty)
             {
                 _fckCtl.Height = Height;
             }
-            if(_toolbarSet.Length != 0)
+            if (_toolbarSet.Length != 0)
             {
                 _fckCtl.ToolbarSet = _toolbarSet;
             }
-            if(_skin.Length != 0)
+            if (_skin.Length != 0)
             {
                 _fckCtl.SkinPath = _fckCtl.BasePath + "editor/skins/" + _skin + "/";
             }
@@ -189,7 +189,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             string blogSubFolder = subtextContext.Blog.Subfolder;
             string currentImageConnector = _imageConnectorURL;
             string currentLinkConnector = _linkConnectorURL;
-            if(blogSubFolder.Length > 0)
+            if (blogSubFolder.Length > 0)
             {
                 currentImageConnector = _imageConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
                 currentLinkConnector = _linkConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");

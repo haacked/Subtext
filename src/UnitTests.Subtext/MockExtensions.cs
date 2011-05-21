@@ -28,7 +28,7 @@ namespace UnitTests.Subtext
                                                              Mock<ObjectProvider> repository)
         {
             subtextContext.Setup(c => c.Repository).Returns(repository.Object);
-            StringWriter writer = subtextContext.FakeSubtextContextRequest(new Blog {Host = "localhost"}, "/sitemap.xml",
+            StringWriter writer = subtextContext.FakeSubtextContextRequest(new Blog { Host = "localhost" }, "/sitemap.xml",
                                                                            "/", string.Empty);
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(
@@ -175,7 +175,7 @@ namespace UnitTests.Subtext
             subtextContextMock.Setup(c => c.HttpContext).Returns(httpContext.Object);
 
             string imagePath = "/images/RSS2Image.gif";
-            if(applicationPath != "/")
+            if (applicationPath != "/")
             {
                 imagePath = applicationPath + imagePath;
             }
@@ -205,7 +205,7 @@ namespace UnitTests.Subtext
         public static void FakeSyndicationRequest(this Mock<HttpContextBase> httpContextMock, string virtualPath,
                                                   string applicationPath, Action<string> callback)
         {
-            var headers = new NameValueCollection {{"If-Modified-Since", null}};
+            var headers = new NameValueCollection { { "If-Modified-Since", null } };
             httpContextMock.Setup(c => c.Request.AppRelativeCurrentExecutionFilePath).Returns(virtualPath);
             httpContextMock.Setup(c => c.Request.Path).Returns(virtualPath);
             httpContextMock.Setup(c => c.Request.FilePath).Returns(virtualPath);
@@ -218,7 +218,7 @@ namespace UnitTests.Subtext
             httpContextMock.Setup(c => c.Response.Cache.SetETag(It.IsAny<string>()));
             httpContextMock.Setup(c => c.Response.AddHeader(It.IsAny<string>(), It.IsAny<string>()));
             httpContextMock.SetupSet(c => c.Response.StatusCode, It.IsAny<int>());
-            if(callback != null)
+            if (callback != null)
             {
                 httpContextMock.Setup(c => c.Response.Write(It.IsAny<string>())).Callback(callback);
             }

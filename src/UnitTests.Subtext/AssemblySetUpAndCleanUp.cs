@@ -17,7 +17,7 @@ namespace UnitTests.Subtext
         public static void SetUp()
         {
             Console.WriteLine("Assembly Setup beginning...");
-            if(ConfigurationManager.AppSettings["connectionStringName"] == "subtextExpress")
+            if (ConfigurationManager.AppSettings["connectionStringName"] == "subtextExpress")
             {
                 //For use with SQL Express. If you use "subtextData", we assume you already have the database created.
                 DatabaseHelper.CreateAndInstallDatabase(Config.ConnectionString, Config.ConnectionString.Database,
@@ -25,17 +25,17 @@ namespace UnitTests.Subtext
             }
             else
             {
-                using(var connection = new SqlConnection(Config.ConnectionString))
+                using (var connection = new SqlConnection(Config.ConnectionString))
                 {
                     connection.Open();
-                    using(SqlTransaction transaction = connection.BeginTransaction())
+                    using (SqlTransaction transaction = connection.BeginTransaction())
                     {
                         try
                         {
                             ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
                             transaction.Commit();
                         }
-                        catch(Exception)
+                        catch (Exception)
                         {
                             transaction.Rollback();
                         }
@@ -50,14 +50,14 @@ namespace UnitTests.Subtext
         {
             try
             {
-                if(ConfigurationManager.AppSettings["connectionStringName"] == "subtextExpress")
+                if (ConfigurationManager.AppSettings["connectionStringName"] == "subtextExpress")
                 {
                     try
                     {
                         DatabaseHelper.DeleteDatabase(Config.ConnectionString.Server, Config.ConnectionString.Database,
                                                       "App_Data");
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Console.WriteLine(
                             "Exception occurred while deleting the database. We'll get it the next time around.");
@@ -65,7 +65,7 @@ namespace UnitTests.Subtext
                     }
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
             }
         }

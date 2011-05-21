@@ -40,20 +40,20 @@ namespace Subtext.Framework
             {
                 return DateTime.Parse(dateTime, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
             }
-            catch(FormatException)
+            catch (FormatException)
             {
             }
 
-            string[] formats = {"r", "s", "u", "yyyyMMddTHHmmss"};
+            string[] formats = { "r", "s", "u", "yyyyMMddTHHmmss" };
 
-            foreach(string dateFormat in formats)
+            foreach (string dateFormat in formats)
             {
                 try
                 {
                     return DateTime.ParseExact(dateTime, dateFormat, CultureInfo.InvariantCulture,
                                                DateTimeStyles.AdjustToUniversal);
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                 }
             }
@@ -69,7 +69,7 @@ namespace Subtext.Framework
         {
             string date = Path.GetFileNameWithoutExtension(url);
             var en = new CultureInfo("en-US");
-            switch(date.Length)
+            switch (date.Length)
             {
                 case 8:
                     return DateTime.ParseExact(date, "MMddyyyy", en);

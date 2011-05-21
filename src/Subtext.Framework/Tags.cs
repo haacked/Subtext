@@ -48,7 +48,7 @@ namespace Subtext.Framework
         /// </summary>
         public static ICollection<Tag> GetMostUsedTags(this ObjectProvider repository, int itemCount)
         {
-            if(itemCount < 0)
+            if (itemCount < 0)
             {
                 throw new ArgumentOutOfRangeException("itemCount", itemCount,
                                                       Resources.ArgumentOutOfRange_NegativeTagItemCount);
@@ -59,7 +59,7 @@ namespace Subtext.Framework
             double stdDev = topTags.Values.StandardDeviation(out mean);
 
             var tags = new List<Tag>();
-            foreach(var tag in topTags)
+            foreach (var tag in topTags)
             {
                 var t = new Tag(tag);
                 t.Factor = (t.Count - mean) / stdDev;
@@ -72,27 +72,27 @@ namespace Subtext.Framework
 
         public static int ComputeWeight(double factor, double standardDeviation)
         {
-            if(factor <= -0.25 * standardDeviation)
+            if (factor <= -0.25 * standardDeviation)
             {
                 return 1;
             }
-            if(factor <= 0 * standardDeviation)
+            if (factor <= 0 * standardDeviation)
             {
                 return 2;
             }
-            if(factor <= 0.25 * standardDeviation)
+            if (factor <= 0.25 * standardDeviation)
             {
                 return 3;
             }
-            if(factor < 0.5 * standardDeviation)
+            if (factor < 0.5 * standardDeviation)
             {
                 return 4;
             }
-            if(factor < 1 * standardDeviation)
+            if (factor < 1 * standardDeviation)
             {
                 return 5;
             }
-            if(factor < 2 * standardDeviation)
+            if (factor < 2 * standardDeviation)
             {
                 return 6;
             }

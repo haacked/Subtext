@@ -25,12 +25,12 @@ namespace Subtext.Framework
     {
         public static int Create(Enclosure enclosure)
         {
-            if(enclosure == null)
+            if (enclosure == null)
             {
                 throw new ArgumentNullException("enclosure");
             }
 
-            if(!enclosure.IsValid)
+            if (!enclosure.IsValid)
             {
                 throw new ArgumentException(enclosure.ValidationMessage);
             }
@@ -42,12 +42,12 @@ namespace Subtext.Framework
 
         public static bool Update(Enclosure enclosure)
         {
-            if(enclosure == null)
+            if (enclosure == null)
             {
                 throw new ArgumentNullException("enclosure");
             }
 
-            if(!enclosure.IsValid)
+            if (!enclosure.IsValid)
             {
                 throw new ArgumentException(enclosure.ValidationMessage);
             }

@@ -45,7 +45,7 @@ namespace Subtext.Framework
             {
                 // no lock singleton.
                 HostInfo instance = _instance;
-                if(instance == null)
+                if (instance == null)
                 {
                     instance = LoadHost(true);
                     // the next line might overwrite a HostInfo created by another thread,
@@ -72,7 +72,7 @@ namespace Subtext.Framework
                     LoadHost(false);
                     return true;
                 }
-                catch(HostDataDoesNotExistException)
+                catch (HostDataDoesNotExistException)
                 {
                     return false;
                 }
@@ -123,25 +123,25 @@ namespace Subtext.Framework
             try
             {
                 _instance = ObjectProvider.Instance().LoadHostInfo(new HostInfo());
-                if(_instance != null)
+                if (_instance != null)
                 {
                     _instance.BlogAggregationEnabled =
                         String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true",
                                       StringComparison.OrdinalIgnoreCase);
-                    if(_instance.BlogAggregationEnabled)
+                    if (_instance.BlogAggregationEnabled)
                     {
                         InitAggregateBlog(_instance);
                     }
                 }
                 return _instance;
             }
-            catch(SqlException e)
+            catch (SqlException e)
             {
                 // LoadHostInfo now executes the stored proc subtext_GetHost, instead of checking the table subtext_Host 
-                if(e.Message.IndexOf("Invalid object name 'subtext_Host'") >= 0 ||
+                if (e.Message.IndexOf("Invalid object name 'subtext_Host'") >= 0 ||
                    e.Message.IndexOf("Could not find stored procedure 'subtext_GetHost'") >= 0)
                 {
-                    if(suppressException)
+                    if (suppressException)
                     {
                         return null;
                     }
@@ -158,7 +158,7 @@ namespace Subtext.Framework
         /// <returns></returns>
         public static bool UpdateHost(HostInfo host)
         {
-            if(ObjectProvider.Instance().UpdateHost(host))
+            if (ObjectProvider.Instance().UpdateHost(host))
             {
                 _instance = host;
                 return true;
@@ -172,12 +172,12 @@ namespace Subtext.Framework
         /// <returns></returns>
         public static bool CreateHost(string hostUserName, string hostPassword, string email)
         {
-            if(Instance != null)
+            if (Instance != null)
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_HostRecordAlreadyExists);
             }
 
-            var host = new HostInfo {HostUserName = hostUserName, Email = email};
+            var host = new HostInfo { HostUserName = hostUserName, Email = email };
 
             SetHostPassword(host, hostPassword);
             _instance = host;
@@ -187,7 +187,7 @@ namespace Subtext.Framework
         public static void SetHostPassword(HostInfo host, string newPassword)
         {
             host.Salt = SecurityHelper.CreateRandomSalt();
-            if(Config.Settings.UseHashedPasswords)
+            if (Config.Settings.UseHashedPasswords)
             {
                 string hashedPassword = SecurityHelper.HashPassword(newPassword, host.Salt);
                 host.Password = hashedPassword;
@@ -201,7 +201,7 @@ namespace Subtext.Framework
         private static void InitAggregateBlog(HostInfo hostInfo)
         {
             string aggregateHost = ConfigurationManager.AppSettings["AggregateUrl"];
-            if(aggregateHost == null)
+            if (aggregateHost == null)
             {
                 return;
             }
@@ -210,7 +210,7 @@ namespace Subtext.Framework
             var regex = new Regex(@"^(https?://)?(?<host>.+?)(/.*)?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             Match match = regex.Match(aggregateHost);
 
-            if(match.Success)
+            if (match.Success)
             {
                 aggregateHost = match.Groups["host"].Value;
             }
@@ -225,7 +225,7 @@ namespace Subtext.Framework
             };
             //TODO: blog.MobileSkin = ...
 
-            if(hostInfo != null)
+            if (hostInfo != null)
             {
                 blog.UserName = hostInfo.HostUserName;
                 hostInfo.AggregateBlog = blog;

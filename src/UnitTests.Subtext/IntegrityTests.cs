@@ -1,5 +1,5 @@
-﻿using MbUnit.Framework;
-using log4net.Appender;
+﻿using log4net.Appender;
+using MbUnit.Framework;
 
 namespace UnitTests.Subtext
 {

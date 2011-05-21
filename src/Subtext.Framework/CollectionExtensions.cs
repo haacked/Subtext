@@ -36,7 +36,7 @@ namespace Subtext.Framework
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            foreach(T item in source)
+            foreach (T item in source)
             {
                 action(item);
             }
@@ -60,15 +60,15 @@ namespace Subtext.Framework
                                group item by itemKeySelector(item) into groupedByKey
                                select groupedByKey;
 
-            foreach(var itemGroup in groupedItems)
+            foreach (var itemGroup in groupedItems)
             {
-                foreach(var container in containers)
+                foreach (var container in containers)
                 {
-                    if(!keySelector(container).Equals(itemGroup.Key))
+                    if (!keySelector(container).Equals(itemGroup.Key))
                     {
                         continue;
                     }
-                    foreach(var item in itemGroup)
+                    foreach (var item in itemGroup)
                     {
                         accumulator(container, item);
                     }
