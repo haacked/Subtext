@@ -1269,7 +1269,7 @@ tr.undoable td, tr.undoable td:hover
 	border-left: none;
 }
 
-.undoable a, .actions a, .undo a
+.undoable a, .actions a, .undo a, .categoriesList a
 {
 	-moz-border-radius: 4px;
 	-khtml-border-radius: 4px;
@@ -1278,13 +1278,19 @@ tr.undoable td, tr.undoable td:hover
 	border: solid 1px transparent;
 }
 
-.undoable a:hover, .actions a:hover, .undo a:hover
+.undoable a:hover, .actions a:hover, .undo a:hover, .categoriesList a:hover
 {
 	border-top: solid 1px #ddd;
 	border-right: solid 1px #aaa;
 	border-bottom: solid 1px #aaa;
 	border-left: solid 1px #ddd;
 	background-color: #eee;
+}
+
+.actions a, .categoriesList a
+{
+    padding: 2px 5px;
+    display: block;
 }
 
 a.Deleted 
