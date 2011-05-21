@@ -7,7 +7,7 @@ namespace Subtext.Framework
         public static TValue ItemOrNull<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
             TValue value;
-            if(!dictionary.TryGetValue(key, out value))
+            if (!dictionary.TryGetValue(key, out value))
             {
                 return default(TValue);
             }

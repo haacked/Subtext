@@ -36,7 +36,7 @@ namespace FredCK.FCKeditorV2
         {
             XmlNode oNode;
 
-            if(node.GetType() == typeof(XmlDocument))
+            if (node.GetType() == typeof(XmlDocument))
             {
                 oNode = node.AppendChild(((XmlDocument)node).CreateElement(newElementName));
             }
@@ -45,7 +45,7 @@ namespace FredCK.FCKeditorV2
                 oNode = node.AppendChild(node.OwnerDocument.CreateElement(newElementName));
             }
 
-            if(innerValue != null)
+            if (innerValue != null)
             {
                 oNode.AppendChild(node.OwnerDocument.CreateTextNode(innerValue));
             }
@@ -62,7 +62,7 @@ namespace FredCK.FCKeditorV2
 
         public static void SetAttribute(XmlNode node, string attributeName, string attributeValue)
         {
-            if(node.Attributes[attributeName] != null)
+            if (node.Attributes[attributeName] != null)
             {
                 node.Attributes[attributeName].Value = attributeValue;
             }

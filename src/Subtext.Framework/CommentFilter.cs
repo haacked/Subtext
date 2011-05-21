@@ -63,14 +63,14 @@ namespace Subtext.Framework
         /// <exception type="CommentDuplicateException">Thrown if the blog does not allow duplicate comments and too many are received in a short period of time.</exception>
         public void FilterBeforePersist(FeedbackItem feedback)
         {
-            if(!SubtextContext.User.IsAdministrator())
+            if (!SubtextContext.User.IsAdministrator())
             {
-                if(!SourceFrequencyIsValid(feedback))
+                if (!SourceFrequencyIsValid(feedback))
                 {
                     throw new CommentFrequencyException(Blog.CommentDelayInMinutes);
                 }
 
-                if(!Blog.DuplicateCommentsEnabled && IsDuplicateComment(feedback))
+                if (!Blog.DuplicateCommentsEnabled && IsDuplicateComment(feedback))
                 {
                     throw new CommentDuplicateException();
                 }
@@ -94,14 +94,14 @@ namespace Subtext.Framework
         /// <param name="feedbackItem">Entry.</param>
         public void FilterAfterPersist(FeedbackItem feedbackItem)
         {
-            if(!SubtextContext.User.IsAdministrator())
+            if (!SubtextContext.User.IsAdministrator())
             {
-                if(!Blog.ModerationEnabled)
+                if (!Blog.ModerationEnabled)
                 {
                     //Akismet Check...
-                    if(Blog.FeedbackSpamServiceEnabled && SpamService != null)
+                    if (Blog.FeedbackSpamServiceEnabled && SpamService != null)
                     {
-                        if(SpamService.IsSpam(feedbackItem))
+                        if (SpamService.IsSpam(feedbackItem))
                         {
                             FlagAsSpam(feedbackItem);
                             return;
@@ -142,14 +142,14 @@ namespace Subtext.Framework
         // posting too many.
         bool SourceFrequencyIsValid(FeedbackItem feedbackItem)
         {
-            if(Blog.CommentDelayInMinutes <= 0)
+            if (Blog.CommentDelayInMinutes <= 0)
             {
                 return true;
             }
 
             object lastComment = Cache[FilterCacheKey + feedbackItem.IpAddress];
 
-            if(lastComment != null)
+            if (lastComment != null)
             {
                 //Comment was made too frequently.
                 return false;
@@ -166,7 +166,7 @@ namespace Subtext.Framework
         {
             const int recentEntryCapacity = 10;
 
-            if(Cache == null)
+            if (Cache == null)
             {
                 return false;
             }
@@ -176,9 +176,9 @@ namespace Subtext.Framework
             // this entry will be a duplicate of a recent entry.
             // This checks in memory before going to the database (or other persistent store).
             var recentCommentChecksums = Cache[FilterCacheKey + ".RECENT_COMMENTS"] as Queue<string>;
-            if(recentCommentChecksums != null)
+            if (recentCommentChecksums != null)
             {
-                if(recentCommentChecksums.Contains(feedbackItem.ChecksumHash))
+                if (recentCommentChecksums.Contains(feedbackItem.ChecksumHash))
                 {
                     return true;
                 }
@@ -191,13 +191,13 @@ namespace Subtext.Framework
 
             // Check the database
             FeedbackItem duplicate = SubtextContext.Repository.GetFeedbackByChecksumHash(feedbackItem.ChecksumHash);
-            if(duplicate != null)
+            if (duplicate != null)
             {
                 return true;
             }
 
             //Ok, this is not a duplicate... Update recent comments.
-            if(recentCommentChecksums.Count == recentEntryCapacity)
+            if (recentCommentChecksums.Count == recentEntryCapacity)
             {
                 recentCommentChecksums.Dequeue();
             }

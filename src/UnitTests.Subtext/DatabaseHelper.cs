@@ -22,7 +22,7 @@ namespace UnitTests.Subtext
 
         public static void CreateDatabase(string serverName, string databaseName, string directory)
         {
-            if(!Directory.Exists(directory))
+            if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
@@ -44,7 +44,7 @@ namespace UnitTests.Subtext
             }
             finally
             {
-                if(server != null)
+                if (server != null)
                 {
                     server.ConnectionContext.SqlConnectionObject.Close();
                 }
@@ -76,12 +76,12 @@ namespace UnitTests.Subtext
         {
             try
             {
-                if(File.Exists(path))
+                if (File.Exists(path))
                 {
                     File.Delete(path);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Could not delete database file '{0}'", path);
                 Console.WriteLine(e);
@@ -91,14 +91,14 @@ namespace UnitTests.Subtext
         private static void CreateSqlUserForCurrentUser(Database db, IIdentity currentIdentity)
         {
             User user = FindUserByLogin(db, currentIdentity.Name);
-            if(user == null)
+            if (user == null)
             {
                 try
                 {
                     Console.WriteLine("CREATING USER");
                     CreateUser(db, currentIdentity.Name, currentIdentity.Name);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Console.WriteLine(e);
                     Console.WriteLine("Could not create sql user for current identity.");
@@ -110,12 +110,12 @@ namespace UnitTests.Subtext
         {
             try
             {
-                if(!server.Logins.Contains(identity.Name))
+                if (!server.Logins.Contains(identity.Name))
                 {
                     CreateLogin(server, db, identity.Name);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 Console.WriteLine("Could not create login for current user.");
@@ -126,26 +126,26 @@ namespace UnitTests.Subtext
         {
             try
             {
-                if(!server.Logins.Contains(@"BUILTIN\Users"))
+                if (!server.Logins.Contains(@"BUILTIN\Users"))
                 {
                     try
                     {
                         CreateLogin(server, db, @"BUILTIN\Users");
                     }
-                    catch(FailedOperationException e)
+                    catch (FailedOperationException e)
                     {
                         Console.WriteLine(e);
                         Console.WriteLine("Trying to continue...");
                     }
                 }
 
-                if(!db.Users.Contains("Users"))
+                if (!db.Users.Contains("Users"))
                 {
                     CreateUser(db, @"BUILTIN\Users", "Users");
                 }
                 db.Roles["db_owner"].AddMember("Users");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 Console.WriteLine("Could not create 'Users' group. Continuing...");
@@ -182,9 +182,9 @@ namespace UnitTests.Subtext
 
         private static User FindUserByLogin(Database db, string login)
         {
-            foreach(User user in db.Users)
+            foreach (User user in db.Users)
             {
-                if(user.Login == login)
+                if (user.Login == login)
                 {
                     return user;
                 }
@@ -194,14 +194,14 @@ namespace UnitTests.Subtext
 
         private static void CreateLogin(Server server, NamedSmoObject db, string loginName)
         {
-            var login = new Login(server, loginName) {DefaultDatabase = db.Name, LoginType = LoginType.WindowsUser};
+            var login = new Login(server, loginName) { DefaultDatabase = db.Name, LoginType = LoginType.WindowsUser };
             login.AddToRole("sysadmin");
             login.Create();
         }
 
         private static void CreateUser(Database db, string login, string userName)
         {
-            var user = new User(db, userName) {Login = login};
+            var user = new User(db, userName) { Login = login };
             user.Create();
         }
 
@@ -212,7 +212,7 @@ namespace UnitTests.Subtext
             var server = new Server(serverName);
 
             // Check if database is current attached to sqlexpress.
-            if(!server.Databases.Contains(databaseName))
+            if (!server.Databases.Contains(databaseName))
             {
                 Console.WriteLine("Server does not contain db '{0}'", databaseName);
                 return;
@@ -222,14 +222,14 @@ namespace UnitTests.Subtext
             try
             {
                 DataFile dataFile = db.FileGroups[0].Files[0];
-                if(!File.Exists(dataFile.FileName))
+                if (!File.Exists(dataFile.FileName))
                 {
                     Console.WriteLine("'{0}' does not exist. Attempting to detach without altering db..",
                                       dataFile.FileName);
                 }
                 db.DatabaseOptions.UserAccess = DatabaseUserAccess.Single;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Execution failure exception. Continuing.");
                 Console.WriteLine(e);
@@ -239,7 +239,7 @@ namespace UnitTests.Subtext
             {
                 server.KillAllProcesses(db.Name);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Could not kill all processes");
                 Console.WriteLine(e);
@@ -250,7 +250,7 @@ namespace UnitTests.Subtext
             {
                 db.Alter(TerminationClause.FailOnOpenTransactions);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Could not alter the database.");
                 Console.WriteLine(e);
@@ -261,7 +261,7 @@ namespace UnitTests.Subtext
                 Console.WriteLine("Detaching existing database before restore ...");
                 server.DetachDatabase(db.Name, false);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("Detach failed, let's continue anyways.");
                 Console.WriteLine(e);

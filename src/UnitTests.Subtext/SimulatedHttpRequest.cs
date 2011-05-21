@@ -53,12 +53,12 @@ namespace UnitTests.Subtext
                                     string query, TextWriter output, string host, int port, string verb)
             : base(applicationPath, physicalAppPath, page, query, output)
         {
-            if(String.IsNullOrEmpty(host))
+            if (String.IsNullOrEmpty(host))
             {
                 throw new ArgumentNullException("host");
             }
 
-            if(applicationPath == null)
+            if (applicationPath == null)
             {
                 throw new ArgumentNullException("applicationPath");
             }
@@ -69,7 +69,8 @@ namespace UnitTests.Subtext
             _physicalFilePath = physicalFilePath;
         }
 
-        public SimulatedHttpRequest(string applicationPath, string physicalAppPath, string page, string query) : this(applicationPath, physicalAppPath, @"c:\inetpub\" + page, page, query, new StringWriter(), "localhost", 80, "GET")
+        public SimulatedHttpRequest(string applicationPath, string physicalAppPath, string page, string query)
+            : this(applicationPath, physicalAppPath, @"c:\inetpub\" + page, page, query, new StringWriter(), "localhost", 80, "GET")
         {
         }
 
@@ -128,12 +129,12 @@ namespace UnitTests.Subtext
         /// <returns>An array of header name-value pairs.</returns>
         public override string[][] GetUnknownRequestHeaders()
         {
-            if(_headers == null || _headers.Count == 0)
+            if (_headers == null || _headers.Count == 0)
             {
                 return null;
             }
             var headersArray = new string[_headers.Count][];
-            for(int i = 0; i < _headers.Count; i++)
+            for (int i = 0; i < _headers.Count; i++)
             {
                 headersArray[i] = new string[2];
                 headersArray[i][0] = _headers.Keys[i];
@@ -144,12 +145,12 @@ namespace UnitTests.Subtext
 
         public override string GetKnownRequestHeader(int index)
         {
-            if(index == 0x24)
+            if (index == 0x24)
             {
                 return _referer == null ? string.Empty : _referer.ToString();
             }
 
-            if(index == 12 && _verb == "POST")
+            if (index == 12 && _verb == "POST")
             {
                 return "application/x-www-form-urlencoded";
             }
@@ -199,7 +200,7 @@ namespace UnitTests.Subtext
 
         public string CurrentExecutionPath
         {
-            get; 
+            get;
             set;
         }
 
@@ -211,7 +212,7 @@ namespace UnitTests.Subtext
         {
             string formText = string.Empty;
 
-            foreach(string key in _formVariables.Keys)
+            foreach (string key in _formVariables.Keys)
             {
                 formText += string.Format(CultureInfo.InvariantCulture, "{0}={1}&", key, _formVariables[key]);
             }

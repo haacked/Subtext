@@ -22,11 +22,13 @@ namespace Subtext.Framework
     [Serializable]
     public class IllegalPostCharactersException : Exception
     {
-        public IllegalPostCharactersException(String s) : base(s)
+        public IllegalPostCharactersException(String s)
+            : base(s)
         {
         }
 
-        public IllegalPostCharactersException(String s, Exception inner) : base(s, inner)
+        public IllegalPostCharactersException(String s, Exception inner)
+            : base(s, inner)
         {
         }
     }

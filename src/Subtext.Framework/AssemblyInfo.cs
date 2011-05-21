@@ -18,7 +18,6 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 
 [assembly: AssemblyTitle("Subtext.Framework")]
 [assembly: AssemblyDescription("Contains the core business logic for Subtext.")]

@@ -30,12 +30,12 @@ namespace Subtext.Framework
     {
         public static int Create(MetaTag metaTag)
         {
-            if(metaTag == null)
+            if (metaTag == null)
             {
                 throw new ArgumentNullException("metaTag");
             }
 
-            if(!metaTag.IsValid)
+            if (!metaTag.IsValid)
             {
                 throw new ArgumentException(metaTag.ValidationMessage);
             }
@@ -46,12 +46,12 @@ namespace Subtext.Framework
 
         public static bool Update(MetaTag metaTag)
         {
-            if(metaTag == null)
+            if (metaTag == null)
             {
                 throw new ArgumentNullException("metaTag");
             }
 
-            if(!metaTag.IsValid)
+            if (!metaTag.IsValid)
             {
                 throw new ArgumentException(metaTag.ValidationMessage);
             }

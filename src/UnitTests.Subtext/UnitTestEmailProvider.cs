@@ -26,7 +26,7 @@ namespace UnitTests.Subtext
             Subject = subject;
             Message = message;
 
-            if(internalProvider == null)
+            if (internalProvider == null)
             {
                 return;
             }

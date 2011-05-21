@@ -64,7 +64,8 @@ namespace Subtext.Framework
             DaysTillCommentsClose = Int32.MaxValue;
         }
 
-        public Blog(bool isAggregateBlog) : this()
+        public Blog(bool isAggregateBlog)
+            : this()
         {
             IsAggregateBlog = isAggregateBlog;
         }
@@ -102,7 +103,7 @@ namespace Subtext.Framework
         {
             get
             {
-                if(_timeZone == null)
+                if (_timeZone == null)
                 {
                     TimeZoneInfo timeZone = TimeZones.GetTimeZones().GetById(TimeZoneId) ?? TimeZoneInfo.Local;
                     _timeZone = new TimeZoneWrapper(timeZone);
@@ -120,7 +121,7 @@ namespace Subtext.Framework
             get { return _timeZoneId; }
             set
             {
-                if(_timeZoneId != value)
+                if (_timeZoneId != value)
                 {
                     _timeZone = null;
                     _timeZoneId = value;
@@ -144,7 +145,7 @@ namespace Subtext.Framework
             get { return _categoryListPostCount; }
             set
             {
-                if(value < 0)
+                if (value < 0)
                 {
                     value = 0;
                     //needed when upgrading from versions that did not have this column ("CategoryListPostCount") in the subtext_Config table.
@@ -181,10 +182,10 @@ namespace Subtext.Framework
         {
             get
             {
-                if(string.IsNullOrEmpty(_languageCode))
+                if (string.IsNullOrEmpty(_languageCode))
                 {
                     //Just being paranoid in making this check.
-                    if(_language == null)
+                    if (_language == null)
                     {
                         _language = "en-US";
                     }
@@ -366,7 +367,7 @@ namespace Subtext.Framework
         {
             get
             {
-                if(_commentDelayInMinutes < 0 || _commentDelayInMinutes == int.MaxValue)
+                if (_commentDelayInMinutes < 0 || _commentDelayInMinutes == int.MaxValue)
                 {
                     return 0;
                 }
@@ -384,7 +385,7 @@ namespace Subtext.Framework
         {
             get
             {
-                if(_numberOfRecentComments < 0 || _numberOfRecentComments == int.MaxValue)
+                if (_numberOfRecentComments < 0 || _numberOfRecentComments == int.MaxValue)
                 {
                     return 0;
                 }
@@ -402,7 +403,7 @@ namespace Subtext.Framework
         {
             get
             {
-                if(_recentCommentsLength < 0 || _recentCommentsLength == int.MaxValue)
+                if (_recentCommentsLength < 0 || _recentCommentsLength == int.MaxValue)
                 {
                     return DefaultRecentCommentsLength;
                 }
@@ -454,7 +455,7 @@ namespace Subtext.Framework
             get { return _subfolder ?? string.Empty; }
             set
             {
-                if(!String.IsNullOrEmpty(value))
+                if (!String.IsNullOrEmpty(value))
                 {
                     value = HttpHelper.StripSurroundingSlashes(value);
                 }
@@ -482,12 +483,12 @@ namespace Subtext.Framework
             get
             {
                 return _openIdUrl;
-            } 
+            }
             set
             {
-                if(value != null)
+                if (value != null)
                 {
-                    if(!value.StartsWith("http://") && !value.StartsWith("https://"))
+                    if (!value.StartsWith("http://") && !value.StartsWith("https://"))
                     {
                         _openIdUrl = "http://" + value;
                     }
@@ -647,9 +648,9 @@ namespace Subtext.Framework
             get { return _rssProxyUrl; }
             set
             {
-                if(!String.IsNullOrEmpty(value))
+                if (!String.IsNullOrEmpty(value))
                 {
-                    if(value.Contains("\\"))
+                    if (value.Contains("\\"))
                     {
                         throw new InvalidOperationException(Resources.InvalidOperation_BackslashesInRssProxyName);
                     }
@@ -690,7 +691,7 @@ namespace Subtext.Framework
         /// <returns></returns>
         public static string StripPortFromHost(string host)
         {
-            if(String.IsNullOrEmpty(host))
+            if (String.IsNullOrEmpty(host))
             {
                 throw new ArgumentNullException("host");
             }
@@ -705,7 +706,7 @@ namespace Subtext.Framework
         /// <returns></returns>
         public static string StripWwwPrefixFromHost(string host)
         {
-            if(String.IsNullOrEmpty(host))
+            if (String.IsNullOrEmpty(host))
             {
                 throw new ArgumentNullException("host");
             }
@@ -724,7 +725,7 @@ namespace Subtext.Framework
         public static IPagedCollection<Blog> GetBlogsByHost(string host, int pageIndex, int pageSize,
                                                             ConfigurationFlags flags)
         {
-            if(String.IsNullOrEmpty(host))
+            if (String.IsNullOrEmpty(host))
             {
                 throw new ArgumentNullException("host");
             }
@@ -758,7 +759,7 @@ namespace Subtext.Framework
         /// <param name="select">Select.</param>
         protected void FlagSetter(ConfigurationFlags cf, bool select)
         {
-            if(select)
+            if (select)
             {
                 Flag = Flag | cf;
             }
@@ -786,7 +787,7 @@ namespace Subtext.Framework
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            if(obj == null || GetType() != obj.GetType())
+            if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }

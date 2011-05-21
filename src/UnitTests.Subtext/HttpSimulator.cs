@@ -39,11 +39,13 @@ namespace UnitTests.Subtext
         private SimulatedHttpRequest _workerRequest;
         private string _currentExecutionPath;
 
-        public HttpSimulator() : this("/", DefaultPhysicalAppPath)
+        public HttpSimulator()
+            : this("/", DefaultPhysicalAppPath)
         {
         }
 
-        public HttpSimulator(string applicationPath) : this(applicationPath, DefaultPhysicalAppPath)
+        public HttpSimulator(string applicationPath)
+            : this(applicationPath, DefaultPhysicalAppPath)
         {
         }
 
@@ -179,7 +181,7 @@ namespace UnitTests.Subtext
         {
             return SimulateRequest(url, httpVerb, null, headers);
         }
-        
+
         /// <summary>
         /// Sets up the HttpContext objects to simulate a request.
         /// </summary>
@@ -194,7 +196,7 @@ namespace UnitTests.Subtext
 
             ParseRequestUrl(url);
 
-            if(_responseWriter == null)
+            if (_responseWriter == null)
             {
                 _builder = new StringBuilder();
                 _responseWriter = new StringWriter(_builder);
@@ -204,17 +206,17 @@ namespace UnitTests.Subtext
 
             string query = ExtractQueryStringPart(url);
 
-            if(formVariables != null)
+            if (formVariables != null)
             {
                 _formVars.Add(formVariables);
             }
 
-            if(_formVars.Count > 0)
+            if (_formVars.Count > 0)
             {
                 httpVerb = HttpVerb.POST; //Need to enforce this.
             }
 
-            if(headers != null)
+            if (headers != null)
             {
                 _headers.Add(headers);
             }
@@ -225,7 +227,7 @@ namespace UnitTests.Subtext
             _workerRequest.Form.Add(_formVars);
             _workerRequest.Headers.Add(_headers);
 
-            if(_referer != null)
+            if (_referer != null)
             {
                 _workerRequest.SetReferer(_referer);
             }
@@ -274,7 +276,7 @@ namespace UnitTests.Subtext
             HttpContext.Current.Items.Clear();
             var session =
                 (HttpSessionState)
-                ReflectionHelper.Instantiate(typeof(HttpSessionState), new[] {typeof(IHttpSessionState)},
+                ReflectionHelper.Instantiate(typeof(HttpSessionState), new[] { typeof(IHttpSessionState) },
                                              new FakeHttpSessionState());
 
             HttpContext.Current.Items.Add("AspSession", session);
@@ -287,7 +289,7 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public HttpSimulator SetReferer(Uri referer)
         {
-            if(_workerRequest != null)
+            if (_workerRequest != null)
             {
                 _workerRequest.SetReferer(referer);
             }
@@ -304,7 +306,7 @@ namespace UnitTests.Subtext
         public HttpSimulator SetFormVariable(string name, string value)
         {
             //TODO: Change this ordering requirement.
-            if(_workerRequest != null)
+            if (_workerRequest != null)
             {
                 throw new InvalidOperationException("Cannot set form variables after calling Simulate().");
             }
@@ -323,7 +325,7 @@ namespace UnitTests.Subtext
         public HttpSimulator SetHeader(string name, string value)
         {
             //TODO: Change this ordering requirement.
-            if(_workerRequest != null)
+            if (_workerRequest != null)
             {
                 throw new InvalidOperationException("Cannot set headers after calling Simulate().");
             }
@@ -335,7 +337,7 @@ namespace UnitTests.Subtext
 
         private void ParseRequestUrl(Uri url)
         {
-            if(url == null)
+            if (url == null)
             {
                 return;
             }
@@ -349,14 +351,14 @@ namespace UnitTests.Subtext
 
         static string RightAfter(string original, string search)
         {
-            if(search.Length > original.Length || search.Length == 0)
+            if (search.Length > original.Length || search.Length == 0)
             {
                 return original;
             }
 
             int searchIndex = original.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase);
 
-            if(searchIndex < 0)
+            if (searchIndex < 0)
             {
                 return original;
             }
@@ -367,7 +369,7 @@ namespace UnitTests.Subtext
         private static string ExtractQueryStringPart(Uri url)
         {
             string query = url.Query ?? string.Empty;
-            if(query.StartsWith("?"))
+            if (query.StartsWith("?"))
             {
                 return query.Substring(1);
             }
@@ -385,8 +387,8 @@ namespace UnitTests.Subtext
             ReflectionHelper.SetPrivateInstanceFieldValue("_appDomainAppPath", runtime, PhysicalApplicationPath);
             // set app virtual path property value
             const string vpathTypeName = "System.Web.VirtualPath, System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a";
-            object virtualPath = ReflectionHelper.Instantiate(vpathTypeName, new[] {typeof(string)},
-                                                              new object[] {ApplicationPath + "/"});
+            object virtualPath = ReflectionHelper.Instantiate(vpathTypeName, new[] { typeof(string) },
+                                                              new object[] { ApplicationPath + "/" });
             ReflectionHelper.SetPrivateInstanceFieldValue("_appDomainAppVPath", runtime, virtualPath);
 
             // set codegen dir property value
@@ -405,7 +407,7 @@ namespace UnitTests.Subtext
             {
                 environment = new HostingEnvironment();
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 //Shoot, we need to grab it via reflection.
                 environment = ReflectionHelper.GetStaticFieldValue<HostingEnvironment>("_theHostingEnvironment",
@@ -420,7 +422,7 @@ namespace UnitTests.Subtext
         ///<filterpriority>2</filterpriority>
         public void Dispose()
         {
-            if(HttpContext.Current != null)
+            if (HttpContext.Current != null)
             {
                 HttpContext.Current = null;
             }
@@ -430,7 +432,7 @@ namespace UnitTests.Subtext
 
         protected static string NormalizeSlashes(string s)
         {
-            if(String.IsNullOrEmpty(s) || s == "/")
+            if (String.IsNullOrEmpty(s) || s == "/")
             {
                 return "/";
             }
@@ -458,7 +460,7 @@ namespace UnitTests.Subtext
 
         protected static string StripTrailingBackSlashes(string s)
         {
-            if(String.IsNullOrEmpty(s))
+            if (String.IsNullOrEmpty(s))
             {
                 return string.Empty;
             }
