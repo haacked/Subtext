@@ -36,7 +36,7 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
 
             int? categoryId = SubtextContext.RequestContext.GetIdFromRequest();
-            if(categoryId != null)
+            if (categoryId != null)
             {
                 Days.Days = Repository.GetBlogPostsByCategoryGroupedByDay(Blog.ItemCount, categoryId.Value).ToList();
             }

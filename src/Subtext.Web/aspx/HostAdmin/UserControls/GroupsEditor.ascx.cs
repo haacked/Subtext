@@ -50,7 +50,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             get
             {
-                if(ViewState[VSKEY_GROUPID] != null)
+                if (ViewState[VSKEY_GROUPID] != null)
                 {
                     return (int)ViewState[VSKEY_GROUPID];
                 }
@@ -98,7 +98,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             btnAddNewGroup.Text = Resources.Label_NewBlogGroup;
             ((HostAdminTemplate)Page.Master).AddSidebarControl(btnAddNewGroup);
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 chkShowInactive.Checked = false;
             }
@@ -112,7 +112,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             ICollection<BlogGroup> groups = Config.ListBlogGroups(!chkShowInactive.Checked);
 
-            if(groups.Count > 0)
+            if (groups.Count > 0)
             {
                 rprGroupsList.Visible = true;
                 rprGroupsList.DataSource = groups;
@@ -133,10 +133,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             BindEditHelp();
 
-            if(!CreatingGroup)
+            if (!CreatingGroup)
             {
                 BlogGroup group = ObjectProvider.Instance().GetBlogGroup(GroupId, false);
-                if(group != null)
+                if (group != null)
                 {
                     txtTitle.Text = group.Title;
                     txtDescription.Text = group.Description;
@@ -168,7 +168,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         protected void rprGroupsList_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
+            switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "edit":
                     string[] arr = ((string)e.CommandArgument).Split('|');
@@ -198,7 +198,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         private void DeleteGroup()
         {
-            if(ObjectProvider.Instance().DeleteBlogGroup(GroupId))
+            if (ObjectProvider.Instance().DeleteBlogGroup(GroupId))
             {
                 BindList();
             }
@@ -213,7 +213,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             try
             {
-                if(GroupId != NullValue.NullInt32)
+                if (GroupId != NullValue.NullInt32)
                 {
                     SaveGroupEdits();
                 }
@@ -224,7 +224,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                 BindList();
                 return;
             }
-            catch(BaseBlogConfigurationException e)
+            catch (BaseBlogConfigurationException e)
             {
                 messagePanel.ShowError(e.Message);
             }
@@ -235,7 +235,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         void SaveNewGroup()
         {
             int displayOrder;
-            if(!Int32.TryParse(txtDisplayOrder.Text, out displayOrder))
+            if (!Int32.TryParse(txtDisplayOrder.Text, out displayOrder))
             {
                 displayOrder = NullValue.NullInt32;
             }
@@ -248,7 +248,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                 DisplayOrder = displayOrder,
             };
 
-            if(ObjectProvider.Instance().InsertBlogGroup(blogGroup) > 0)
+            if (ObjectProvider.Instance().InsertBlogGroup(blogGroup) > 0)
             {
                 messagePanel.ShowMessage(Resources.GroupsEditor_BlogGroupCreated);
             }
@@ -262,7 +262,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         void SaveGroupEdits()
         {
             int displayOrder;
-            if(!Int32.TryParse(txtDisplayOrder.Text, out displayOrder))
+            if (!Int32.TryParse(txtDisplayOrder.Text, out displayOrder))
             {
                 displayOrder = NullValue.NullInt32;
             }
@@ -277,7 +277,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             };
 
 
-            if(ObjectProvider.Instance().UpdateBlogGroup(blogGroup))
+            if (ObjectProvider.Instance().UpdateBlogGroup(blogGroup))
             {
                 messagePanel.ShowMessage(Resources.GroupsEditor_BlogGroupSaved);
             }
@@ -289,7 +289,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         protected static string ToggleActiveString(bool active)
         {
-            if(active)
+            if (active)
             {
                 return Resources.Label_Deactivate;
             }
@@ -315,7 +315,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
                 ObjectProvider.Instance().UpdateBlogGroup(blogGroup);
             }
-            catch(BaseBlogConfigurationException e)
+            catch (BaseBlogConfigurationException e)
             {
                 messagePanel.ShowError(e.Message);
             }

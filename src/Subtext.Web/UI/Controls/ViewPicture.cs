@@ -19,7 +19,7 @@ using System;
 using System.Drawing;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Util;
-using Image=Subtext.Framework.Components.Image;
+using Image = Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -32,7 +32,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            if(Context != null)
+            if (Context != null)
             {
                 int? imageId = SubtextContext.RequestContext.GetIdFromRequest();
                 Image image = Repository.GetImage(imageId.Value, true /* activeOnly */);
@@ -53,13 +53,13 @@ namespace Subtext.Web.UI.Controls
 
         protected void ImageCreated(object sender, DataListItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var image = (Image)e.Item.DataItem;
-                if(image != null)
+                if (image != null)
                 {
                     var thumbNailImage = (HyperLink)e.Item.FindControl("ThumbNailImage");
-                    if(thumbNailImage != null)
+                    if (thumbNailImage != null)
                     {
                         thumbNailImage.ImageUrl = Url.GalleryImageUrl(image, image.ThumbNailFile);
                         thumbNailImage.NavigateUrl = Url.GalleryImagePageUrl(image);

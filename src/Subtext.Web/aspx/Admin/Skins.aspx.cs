@@ -19,7 +19,7 @@ namespace Subtext.Web.Admin
 
         protected override void OnLoad(EventArgs e)
         {
-            if(String.IsNullOrEmpty(Request.Form["SkinKey"]))
+            if (String.IsNullOrEmpty(Request.Form["SkinKey"]))
             {
                 BindLocalUI();
             }
@@ -34,15 +34,16 @@ namespace Subtext.Web.Admin
         {
             get
             {
-                if(_skins == null)
+                if (_skins == null)
                 {
                     var skinEngine = new SkinEngine();
                     var skins = from skin in skinEngine.GetSkinTemplates(false /* mobile */).Values
-                             where skin.SkinKey != "AGGREGATE" orderby skin.Name
-                             select skin;
-                    foreach(SkinTemplate template in skins)
+                                where skin.SkinKey != "AGGREGATE"
+                                orderby skin.Name
+                                select skin;
+                    foreach (SkinTemplate template in skins)
                     {
-                        if(template.MobileSupport == MobileSupport.Supported)
+                        if (template.MobileSupport == MobileSupport.Supported)
                         {
                             template.Name += Resources.Skins_MobileReady;
                         }
@@ -57,7 +58,7 @@ namespace Subtext.Web.Admin
         {
             get
             {
-                if(_mobileSkins == null)
+                if (_mobileSkins == null)
                 {
                     var skinEngine = new SkinEngine();
                     var skins = new List<SkinTemplate>(skinEngine.GetSkinTemplates(true /* mobile */).Values);
@@ -87,7 +88,7 @@ namespace Subtext.Web.Admin
 
         protected string EvalChecked(object o)
         {
-            if(IsSelectedSkin(o))
+            if (IsSelectedSkin(o))
             {
                 return "checked=\"checked\"";
             }
@@ -96,7 +97,7 @@ namespace Subtext.Web.Admin
 
         protected string EvalSelected(object o)
         {
-            if(IsSelectedSkin(o))
+            if (IsSelectedSkin(o))
             {
                 return " selected";
             }

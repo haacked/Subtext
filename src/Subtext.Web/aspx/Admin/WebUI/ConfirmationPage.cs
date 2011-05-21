@@ -54,7 +54,7 @@ namespace Subtext.Web.Admin.Pages
         protected override void OnPreRender(EventArgs e)
         {
             //If we are in edit mode, register the script
-            if(IsInEdit)
+            if (IsInEdit)
             {
                 Type ctype = GetType();
                 Page.ClientScript.RegisterClientScriptBlock(ctype
@@ -72,7 +72,7 @@ namespace Subtext.Web.Admin.Pages
         protected override void Render(HtmlTextWriter writer)
         {
             //If we are in edit mode, wire up the onbeforeunload event
-            if(IsInEdit)
+            if (IsInEdit)
             {
                 TextWriter tempWriter = new StringWriter();
                 base.Render(new HtmlTextWriter(tempWriter));

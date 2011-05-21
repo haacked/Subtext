@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Install {
-    
-    
-    public partial class Step02_ConfigureHost {
-        
+namespace Subtext.Web.Install
+{
+
+
+    public partial class Step02_ConfigureHost
+    {
+
         /// <summary>
         /// ltlMessage control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal ltlMessage;
-        
+
         /// <summary>
         /// hostForm control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl hostForm;
-        
+
         /// <summary>
         /// vldHostAdminSummary control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ValidationSummary vldHostAdminSummary;
-        
+
         /// <summary>
         /// txtUserName control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUserName;
-        
+
         /// <summary>
         /// vldHostUsernameRequired control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator vldHostUsernameRequired;
-        
+
         /// <summary>
         /// txtEmail control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
-        
+
         /// <summary>
         /// vldHostEmailRequired control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator vldHostEmailRequired;
-        
+
         /// <summary>
         /// vldHostEmail control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator vldHostEmail;
-        
+
         /// <summary>
         /// txtPassword control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPassword;
-        
+
         /// <summary>
         /// vldHostAdminPassword control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator vldHostAdminPassword;
-        
+
         /// <summary>
         /// txtConfirmPassword control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtConfirmPassword;
-        
+
         /// <summary>
         /// vldHostComparePassword control.
         /// </summary>
@@ -120,7 +122,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator vldHostComparePassword;
-        
+
         /// <summary>
         /// vldHostPasswordsMatch control.
         /// </summary>
@@ -129,7 +131,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CompareValidator vldHostPasswordsMatch;
-        
+
         /// <summary>
         /// btnSave control.
         /// </summary>

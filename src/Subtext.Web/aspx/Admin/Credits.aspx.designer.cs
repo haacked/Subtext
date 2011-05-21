@@ -7,9 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.WebUI {
-    
-    
-    public partial class Credits {
+namespace Subtext.Web.Admin.WebUI
+{
+
+
+    public partial class Credits
+    {
     }
 }

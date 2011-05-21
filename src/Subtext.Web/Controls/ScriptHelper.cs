@@ -47,7 +47,7 @@ namespace Subtext.Web.Controls
             string language = "javascript";
             string extension = Path.GetExtension(scriptName);
 
-            if(String.Equals(extension, ".vbs", StringComparison.OrdinalIgnoreCase))
+            if (String.Equals(extension, ".vbs", StringComparison.OrdinalIgnoreCase))
             {
                 language = "vbscript";
             }
@@ -83,11 +83,11 @@ namespace Subtext.Web.Controls
         {
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
             Stream resourceStream = executingAssembly.GetManifestResourceStream(typeof(ScriptHelper), resourceName);
-            if(resourceStream == null)
+            if (resourceStream == null)
             {
                 return string.Empty;
             }
-            using(var reader = new StreamReader(resourceStream, Encoding.ASCII))
+            using (var reader = new StreamReader(resourceStream, Encoding.ASCII))
             {
                 return reader.ReadToEnd();
             }

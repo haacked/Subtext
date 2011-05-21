@@ -37,29 +37,29 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if(Context != null)
+            if (Context != null)
             {
-                if(HomeLink != null)
+                if (HomeLink != null)
                 {
                     HomeLink.NavigateUrl = Url.BlogUrl();
                     ControlHelper.SetTitleIfNone(HomeLink, "Link to the home page.");
                 }
 
-                if(ContactLink != null)
+                if (ContactLink != null)
                 {
                     ContactLink.NavigateUrl = Url.ContactFormUrl();
                     ControlHelper.SetTitleIfNone(ContactLink, "Contact form.");
                 }
 
-                if(Archives != null)
+                if (Archives != null)
                 {
                     Archives.NavigateUrl = Url.ArchivesUrl();
                     ControlHelper.SetTitleIfNone(Archives, "View Archives.");
                 }
 
-                if(Admin != null)
+                if (Admin != null)
                 {
-                    if(Request.IsAuthenticated && SecurityHelper.IsAdmin)
+                    if (Request.IsAuthenticated && SecurityHelper.IsAdmin)
                     {
                         Admin.Text = "Admin";
                         Admin.NavigateUrl = AdminUrl.Home();
@@ -73,10 +73,10 @@ namespace Subtext.Web.UI.Controls
                     }
                 }
 
-                if(Syndication != null)
+                if (Syndication != null)
                 {
                     Syndication.NavigateUrl = Url.RssUrl(Blog).ToString();
-                    if(Syndication.ImageUrl.StartsWith("~/"))
+                    if (Syndication.ImageUrl.StartsWith("~/"))
                     {
                         Syndication.ImageUrl = Url.ResolveUrl(Syndication.ImageUrl);
                     }

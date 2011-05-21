@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web {
-    
-    
-    public partial class BlogNotActive {
-        
+namespace Subtext.Web
+{
+
+
+    public partial class BlogNotActive
+    {
+
         /// <summary>
         /// plcInactiveBlogMessage control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder plcInactiveBlogMessage;
-        
+
         /// <summary>
         /// hostAdminLink control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor hostAdminLink;
-        
+
         /// <summary>
         /// plcNothingToSeeHere control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder plcNothingToSeeHere;
-        
+
         /// <summary>
         /// lnkBlog control.
         /// </summary>

@@ -76,7 +76,7 @@ namespace Subtext.Web.Controls
         protected string _linkTextCollapsed = "less";
         Label headerLabel;
 
-        #region Accessors		
+        #region Accessors
 
         /// <summary>
         /// Gets or sets the link style.
@@ -148,7 +148,7 @@ namespace Subtext.Web.Controls
             set
             {
                 _displayHeader = value;
-                if(!value)
+                if (!value)
                 {
                     Collapsible = false;
                 }
@@ -174,7 +174,7 @@ namespace Subtext.Web.Controls
             get { return _headerText; }
             set
             {
-                if(headerLabel != null)
+                if (headerLabel != null)
                 {
                     headerLabel.Text = value;
                 }
@@ -203,7 +203,7 @@ namespace Subtext.Web.Controls
             get { return (bool)(ViewState[VskeyCollapsible] ?? false); }
             set
             {
-                if(value)
+                if (value)
                 {
                     _displayHeader = true;
                 }
@@ -276,7 +276,7 @@ namespace Subtext.Web.Controls
 
         void RegisterClientScript()
         {
-            if(Page.ClientScript.IsClientScriptBlockRegistered(ClientScriptKey))
+            if (Page.ClientScript.IsClientScriptBlockRegistered(ClientScriptKey))
             {
                 Type cstype = GetType();
                 Page.ClientScript.RegisterClientScriptBlock(cstype, ClientScriptKey,
@@ -290,7 +290,7 @@ namespace Subtext.Web.Controls
         /// <param name="e"></param>
         protected override void OnPreRender(EventArgs e)
         {
-            if(Collapsible)
+            if (Collapsible)
             {
                 RegisterClientScript();
             }
@@ -300,14 +300,14 @@ namespace Subtext.Web.Controls
 
         protected virtual void RebuildControls()
         {
-            if(_displayHeader)
+            if (_displayHeader)
             {
-                _contents = new Panel {ID = CtlidContents};
+                _contents = new Panel { ID = CtlidContents };
                 _contents = (Panel)SetCssClass(_contents, _bodyCssClass);
 
-                while(Controls.Count > 0)
+                while (Controls.Count > 0)
                 {
-                    if(Controls[0] is IValidator)
+                    if (Controls[0] is IValidator)
                     {
                         Page.Validators.Add((IValidator)Controls[0]);
                     }
@@ -316,15 +316,15 @@ namespace Subtext.Web.Controls
                 }
                 Controls.Clear();
 
-                _header = new Panel {ID = CtlidHeader};
+                _header = new Panel { ID = CtlidHeader };
                 SetCssClass(_header, _headerCssClass);
 
-                headerLabel = new Label {ID = "headerDisplayLabel", Text = HeaderText};
+                headerLabel = new Label { ID = "headerDisplayLabel", Text = HeaderText };
                 headerLabel = (Label)SetCssClass(headerLabel, _headerTextCssClass);
 
                 _collapseLink = CreateCollapseLink();
 
-                if(_linkBeforeHeader)
+                if (_linkBeforeHeader)
                 {
                     _header.Controls.Add(_collapseLink);
                     _header.Controls.Add(headerLabel);
@@ -340,7 +340,7 @@ namespace Subtext.Web.Controls
             }
             else
             {
-                if(_bodyCssClass != null)
+                if (_bodyCssClass != null)
                 {
                     CssClass = _bodyCssClass;
                 }
@@ -349,17 +349,17 @@ namespace Subtext.Web.Controls
 
         protected override void Render(HtmlTextWriter writer)
         {
-            if(null != Page)
+            if (null != Page)
             {
                 Page.VerifyRenderingInServerForm(this);
             }
 
-            if(null != _collapseLink)
+            if (null != _collapseLink)
             {
                 _collapseLink.Visible = Collapsible;
             }
 
-            if(_displayHeader && Collapsible)
+            if (_displayHeader && Collapsible)
             {
                 _collapseLink.Attributes.Add("onclick",
                                              String.Format(CultureInfo.InvariantCulture,
@@ -369,7 +369,7 @@ namespace Subtext.Web.Controls
                                                            HttpHelper.ExpandTildePath(LinkImage),
                                                            HttpHelper.ExpandTildePath(LinkImageCollapsed)));
 
-                if(Collapsed)
+                if (Collapsed)
                 {
                     _contents.Style.Add("display", "none");
                     _image.ImageUrl = LinkImageCollapsed;
@@ -381,11 +381,11 @@ namespace Subtext.Web.Controls
 
         protected virtual HyperLink CreateCollapseLink()
         {
-            var createdLink = new HyperLink {ID = CtlidLink};
+            var createdLink = new HyperLink { ID = CtlidLink };
             createdLink = (HyperLink)SetCssClass(createdLink, _linkCssClass);
             createdLink.NavigateUrl = "#";
 
-            switch(LinkStyle)
+            switch (LinkStyle)
             {
                 case CollapseLinkStyle.Text:
                     createdLink.Text = _linkText;
@@ -429,7 +429,7 @@ namespace Subtext.Web.Controls
 
         protected virtual WebControl SetCssClass(WebControl webControl, string css)
         {
-            if(!string.IsNullOrEmpty(css))
+            if (!string.IsNullOrEmpty(css))
             {
                 webControl.CssClass = css;
             }

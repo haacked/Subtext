@@ -37,11 +37,11 @@ namespace Subtext.Web.UI.Controls
 
         protected virtual void Tags_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var tag = (Tag)e.Item.DataItem;
                 var tagLink = e.Item.FindControl("TagUrl") as HyperLink;
-                if(tagLink != null)
+                if (tagLink != null)
                 {
                     tagLink.NavigateUrl = Url.TagUrl(tag.TagName);
                 }
@@ -55,21 +55,21 @@ namespace Subtext.Web.UI.Controls
             TagItems = Cacher.GetTopTags(ItemCount, SubtextContext);
             int tagCount = TagItems.Count();
 
-            if(tagCount == 0)
+            if (tagCount == 0)
             {
                 Visible = false;
             }
             else
             {
                 var tagRepeater = FindControl("Tags") as Repeater;
-                if(tagRepeater != null)
+                if (tagRepeater != null)
                 {
                     tagRepeater.DataSource = TagItems;
                     tagRepeater.DataBind();
                 }
 
                 var defaultTagLink = ControlHelper.FindControlRecursively(this, "DefaultTagLink") as HyperLink;
-                if(defaultTagLink != null)
+                if (defaultTagLink != null)
                 {
                     defaultTagLink.NavigateUrl = Url.TagCloudUrl();
                 }

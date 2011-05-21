@@ -57,7 +57,7 @@ namespace Subtext.Web.UI.WebControls
         {
             get
             {
-                if(_templateFile == null)
+                if (_templateFile == null)
                 {
                     var skin = SkinConfig.GetCurrentSkin(Config.CurrentBlog, new HttpContextWrapper(HttpContext.Current));
                     _templateFile = string.Format(SkinPath, skin.TemplateFolder);
@@ -70,7 +70,7 @@ namespace Subtext.Web.UI.WebControls
         protected override void AddParsedSubObject(object obj)
         {
             var contentRegion = obj as ContentRegion;
-            if(contentRegion != null)
+            if (contentRegion != null)
             {
                 _contents.Add(contentRegion);
             }
@@ -85,7 +85,7 @@ namespace Subtext.Web.UI.WebControls
 
         private void BuildMasterPage()
         {
-            if(String.IsNullOrEmpty(TemplateFile))
+            if (String.IsNullOrEmpty(TemplateFile))
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_TemplateFileIsNull);
             }
@@ -93,11 +93,11 @@ namespace Subtext.Web.UI.WebControls
             _template.ID = ID + "_Template";
 
             int count = _template.Controls.Count;
-            for(int index = 0; index < count; index++)
+            for (int index = 0; index < count; index++)
             {
                 Control control = _template.Controls[0];
                 _template.Controls.Remove(control);
-                if(control.Visible)
+                if (control.Visible)
                 {
                     Controls.Add(control);
                 }
@@ -107,10 +107,10 @@ namespace Subtext.Web.UI.WebControls
 
         private void BuildContents()
         {
-            foreach(ContentRegion content in _contents)
+            foreach (ContentRegion content in _contents)
             {
                 Control region = FindControl(content.ID);
-                if(region == null)
+                if (region == null)
                 {
                     throw new InvalidOperationException(String.Format(Resources.InvalidOperation_ContentRegionNotFound,
                                                                       content.ID));
@@ -118,7 +118,7 @@ namespace Subtext.Web.UI.WebControls
                 region.Controls.Clear();
 
                 int count = content.Controls.Count;
-                for(int index = 0; index < count; index++)
+                for (int index = 0; index < count; index++)
                 {
                     Control control = content.Controls[0];
                     content.Controls.Remove(control);

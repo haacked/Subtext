@@ -38,7 +38,7 @@ namespace Subtext.Web.Pages
         protected override void OnInit(EventArgs e)
         {
             Response.Clear();
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 Response.TrySkipIisCustomErrors = true;
                 Response.StatusCode = 500;
@@ -46,7 +46,7 @@ namespace Subtext.Web.Pages
 
                 try
                 {
-                    if(SubtextContext.Blog != null)
+                    if (SubtextContext.Blog != null)
                     {
                         HomeLink.NavigateUrl = Url.BlogUrl();
                     }
@@ -57,9 +57,9 @@ namespace Subtext.Web.Pages
                 }
 
                 Exception exception = Server.GetLastError();
-                if(exception == null || exception is HttpUnhandledException)
+                if (exception == null || exception is HttpUnhandledException)
                 {
-                    if(exception == null || exception.InnerException == null)
+                    if (exception == null || exception.InnerException == null)
                     {
                         // There is no exception. User probably browsed here.
                         ErrorMessageLabel.Text = "No error message available.";
@@ -70,16 +70,16 @@ namespace Subtext.Web.Pages
 
                 var exceptionMsgs = new StringBuilder();
 
-                if(exception is FileNotFoundException)
+                if (exception is FileNotFoundException)
                 {
                     exceptionMsgs.Append("<p>The resource you requested could not be found.</p>");
                 }
-                else if(exception is SmtpException)
+                else if (exception is SmtpException)
                 {
                     log.Error("Exception handled by the Error page.", exception);
                     exceptionMsgs.Append("<p>Could not send email. Could be an issue with the mail server settings.</p>");
                 }
-                else if(exception is BlogInactiveException)
+                else if (exception is BlogInactiveException)
                 {
                     log.Info("Blog Inactive Exception", exception);
                     exceptionMsgs.AppendFormat("<p>{0}</p>", exception.Message);

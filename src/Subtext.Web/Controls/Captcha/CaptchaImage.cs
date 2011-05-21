@@ -77,7 +77,7 @@ namespace Subtext.Web.Controls.Captcha
         /// <param name="disposing">if set to <c>true</c> [disposing].</param>
         public virtual void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
                 Image.Dispose();
             }
@@ -101,13 +101,13 @@ namespace Subtext.Web.Controls.Captcha
             {
                 try
                 {
-                    using(var font1 = new Font(value, 12f))
+                    using (var font1 = new Font(value, 12f))
                     {
                         fontFamilyName = value;
                         font1.Dispose();
                     }
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     fontFamilyName = FontFamily.GenericSerif.Name;
                 }
@@ -128,7 +128,7 @@ namespace Subtext.Web.Controls.Captcha
             get { return height; }
             set
             {
-                if(value <= MinHeight)
+                if (value <= MinHeight)
                 {
                     throw new ArgumentOutOfRangeException("height", value,
                                                           String.Format(CultureInfo.InvariantCulture,
@@ -147,7 +147,7 @@ namespace Subtext.Web.Controls.Captcha
         {
             get
             {
-                if(image == null)
+                if (image == null)
                 {
                     image = GenerateImagePrivate();
                 }
@@ -163,7 +163,7 @@ namespace Subtext.Web.Controls.Captcha
             get { return width; }
             set
             {
-                if(value <= MinWidth)
+                if (value <= MinWidth)
                 {
                     throw new ArgumentOutOfRangeException("width", value,
                                                           String.Format(Resources.ArgumentOutOfRange_Width, MinWidth));
@@ -190,7 +190,7 @@ namespace Subtext.Web.Controls.Captcha
         {
             Font font;
             var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            using(Graphics graphics = Graphics.FromImage(bitmap))
+            using (Graphics graphics = Graphics.FromImage(bitmap))
             {
                 graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 var rectF = new RectangleF(0f, 0f, width, height);
@@ -199,19 +199,19 @@ namespace Subtext.Web.Controls.Captcha
                 graphics.FillRectangle(smallConfettiBrush, rect);
                 float previousWidth = 0f;
                 float size = Convert.ToInt32((height * 0.8));
-                while(true)
+                while (true)
                 {
                     font = new Font(fontFamilyName, size, FontStyle.Bold);
                     SizeF textSize = graphics.MeasureString(Text, font);
-                    if(textSize.Width <= width)
+                    if (textSize.Width <= width)
                     {
                         break;
                     }
-                    if(previousWidth > 0f)
+                    if (previousWidth > 0f)
                     {
                         int estimatedSize =
                             Convert.ToInt32(((textSize.Width - width) / (previousWidth - textSize.Width)));
-                        if(estimatedSize > 0)
+                        if (estimatedSize > 0)
                         {
                             size -= estimatedSize;
                         }
@@ -235,10 +235,10 @@ namespace Subtext.Web.Controls.Captcha
 
                 var textPath = new GraphicsPath();
                 textPath.AddString(Text, font.FontFamily, (int)font.Style, font.Size, rect, format);
-                if(FontWarp != FontWarpFactor.None)
+                if (FontWarp != FontWarpFactor.None)
                 {
                     int warpDivisor = 0;
-                    switch(FontWarp)
+                    switch (FontWarp)
                     {
                         case FontWarpFactor.Low:
                             warpDivisor = 6;
@@ -265,7 +265,7 @@ namespace Subtext.Web.Controls.Captcha
                                                 rect.Height);
                     PointF point4 = RandomPoint(rect.Width - (widthRange - Convert.ToInt32(point3.X)), rect.Width,
                                                 rect.Height - (heightRange - Convert.ToInt32(point2.Y)), rect.Height);
-                    var points = new[] {point1, point2, point3, point4};
+                    var points = new[] { point1, point2, point3, point4 };
                     var matrix = new Matrix();
                     matrix.Translate(0f, 0f);
                     textPath.Warp(points, rectF, matrix, WarpMode.Perspective, 0f);
@@ -275,7 +275,7 @@ namespace Subtext.Web.Controls.Captcha
 
                 int maxDimension = Math.Max(rect.Width, rect.Height);
                 int steps = Convert.ToInt32((((double)(rect.Width * rect.Height)) / 30));
-                for(int i = 0; i <= steps; i++)
+                for (int i = 0; i <= steps; i++)
                 {
                     graphics.FillEllipse(largeConfettiBrush, random.Next(rect.Width), random.Next(rect.Height),
                                          random.Next(Convert.ToInt32((((double)maxDimension) / 50))),

@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Pages {
-    
-    
-    public partial class login {
-        
+namespace Subtext.Web.Pages
+{
+
+
+    public partial class login
+    {
+
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
         /// Message control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal Message;
-        
+
         /// <summary>
         /// UserNameLabel control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label UserNameLabel;
-        
+
         /// <summary>
         /// tbUserName control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbUserName;
-        
+
         /// <summary>
         /// UserNameRequired control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator UserNameRequired;
-        
+
         /// <summary>
         /// PasswordLabel control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label PasswordLabel;
-        
+
         /// <summary>
         /// tbPassword control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbPassword;
-        
+
         /// <summary>
         /// PasswordRequired control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator PasswordRequired;
-        
+
         /// <summary>
         /// chkRememberMe control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkRememberMe;
-        
+
         /// <summary>
         /// btnLogin control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLogin;
-        
+
         /// <summary>
         /// openIdMessage control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal openIdMessage;
-        
+
         /// <summary>
         /// btnOpenIdLogin control.
         /// </summary>

@@ -41,7 +41,7 @@ namespace Subtext.Web.Admin.Articles
 
         private void BindLocalUI()
         {
-            var newPostLink = new HyperLink {Text = Resources.Label_NewArticle, NavigateUrl = "Edit.aspx"};
+            var newPostLink = new HyperLink { Text = Resources.Label_NewArticle, NavigateUrl = "Edit.aspx" };
             AdminMasterPage.AddToActions(newPostLink);
 
             HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,

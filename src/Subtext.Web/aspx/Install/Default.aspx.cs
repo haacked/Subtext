@@ -33,7 +33,7 @@ namespace Subtext.Web.Install
     {
         protected override void OnLoad(EventArgs e)
         {
-            if(InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion) == InstallationState.Complete)
+            if (InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion) == InstallationState.Complete)
             {
                 Response.Redirect("InstallationComplete.aspx");
             }

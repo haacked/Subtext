@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class EditPreferences {
-        
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class EditPreferences
+    {
+
         /// <summary>
         /// ddlPublished control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlPublished;
-        
+
         /// <summary>
         /// ddlExpandAdvanced control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlExpandAdvanced;
-        
+
         /// <summary>
         /// ddlUsePlainHtmlEditor control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlUsePlainHtmlEditor;
-        
+
         /// <summary>
         /// lkbUpdate control.
         /// </summary>

@@ -31,18 +31,18 @@ namespace Subtext.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             // Remote users do not get the extra information.
-            if(SecurityHelper.UserIsConnectingLocally)
+            if (SecurityHelper.UserIsConnectingLocally)
             {
                 plcDiagnosticInfo.Visible = true;
 
                 Exception exception = Server.GetLastError();
                 Exception baseException = null;
-                if(exception != null)
+                if (exception != null)
                 {
                     baseException = exception.GetBaseException();
                 }
 
-                if(baseException != null)
+                if (baseException != null)
                 {
                     lblErrorMessage.Text = baseException.Message;
                     lblStackTrace.Text = baseException.StackTrace;

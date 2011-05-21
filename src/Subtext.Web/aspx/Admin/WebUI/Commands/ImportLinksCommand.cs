@@ -50,7 +50,7 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if(!Utilities.IsNullorEmpty(_promptMessage))
+                if (!Utilities.IsNullorEmpty(_promptMessage))
                 {
                     return FormatMessage(_promptMessage, _linksToImport.Count);
                 }
@@ -71,14 +71,14 @@ namespace Subtext.Web.Admin.Commands
                 //				_allLinks = Links.GetPagedLinks(1, allLinks.MaxItems);
 
                 // process import collection
-                foreach(OpmlItem item in _linksToImport)
+                foreach (OpmlItem item in _linksToImport)
                 {
                     ImportOpmlItem(item);
                 }
 
                 return FormatMessage(ExecuteSuccessMessage, _linksToImport.Count);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, ex.Message);
             }
@@ -92,7 +92,7 @@ namespace Subtext.Web.Admin.Commands
 
         private void ImportOpmlItem(OpmlItem item)
         {
-            foreach(OpmlItem childItem in item.ChildItems)
+            foreach (OpmlItem childItem in item.ChildItems)
             {
                 ImportOpmlItem(childItem);
             }
@@ -110,7 +110,7 @@ namespace Subtext.Web.Admin.Commands
             // TODO: let user specify and pass as command props
 
             // this isn't a valid collision test really
-            if(!_allLinks.Contains(newLink))
+            if (!_allLinks.Contains(newLink))
             {
                 Links.CreateLink(newLink);
             }

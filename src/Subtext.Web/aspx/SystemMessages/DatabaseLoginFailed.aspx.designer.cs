@@ -8,17 +8,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web {
-    
-    
+namespace Subtext.Web
+{
+
+
     /// <summary>
     /// DatabaseLoginFailed class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class DatabaseLoginFailed {
-        
+    public partial class DatabaseLoginFailed
+    {
+
         /// <summary>
         /// plcDiagnosticInfo control.
         /// </summary>
@@ -27,7 +29,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder plcDiagnosticInfo;
-        
+
         /// <summary>
         /// lblErrorMessage control.
         /// </summary>
@@ -36,7 +38,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblErrorMessage;
-        
+
         /// <summary>
         /// lblStackTrace control.
         /// </summary>

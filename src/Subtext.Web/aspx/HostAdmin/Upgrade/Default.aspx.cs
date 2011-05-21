@@ -16,11 +16,11 @@
 #endregion
 
 using System;
+using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Scripting.Exceptions;
 using Subtext.Web.Properties;
-using Ninject;
 
 namespace Subtext.Web.HostAdmin.Upgrade
 {
@@ -36,13 +36,13 @@ namespace Subtext.Web.HostAdmin.Upgrade
         [Inject]
         public IInstallationManager InstallationManager
         {
-            get; 
+            get;
             set;
         }
 
         protected override void OnLoad(EventArgs e)
         {
-            if(InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion) == InstallationState.Complete)
+            if (InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion) == InstallationState.Complete)
             {
                 Response.Redirect("~/HostAdmin/Upgrade/UpgradeComplete.aspx");
             }
@@ -60,11 +60,11 @@ namespace Subtext.Web.HostAdmin.Upgrade
                 InstallationManager.Upgrade(VersionInfo.CurrentAssemblyVersion);
                 Response.Redirect("~/HostAdmin/Upgrade/UpgradeComplete.aspx");
             }
-            catch(SqlScriptExecutionException exception)
+            catch (SqlScriptExecutionException exception)
             {
                 plcHolderUpgradeMessage.Visible = true;
 
-                if(InstallationManager.IsPermissionDeniedException(exception))
+                if (InstallationManager.IsPermissionDeniedException(exception))
                 {
                     messageLiteral.Text = Resources.Upgrade_UserDoesNotHavePermission;
                     return;

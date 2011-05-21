@@ -25,7 +25,6 @@ using System.Xml;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Tracking;
 using Subtext.Framework.Web;
 using Subtext.Web.UI.Controls;
@@ -57,7 +56,7 @@ namespace Subtext.Web
 
             var hostInfo = HostInfo.Instance;
 
-            if(hostInfo.AggregateBlog == null)
+            if (hostInfo.AggregateBlog == null)
             {
                 HttpHelper.SetFileNotFoundResponse();
                 return;
@@ -67,7 +66,7 @@ namespace Subtext.Web
                 hostInfo.AggregateBlog.Host, groupId, 25);
 
             //TODO: Use our other feed generation code.
-            if(entries != null && entries.Count > 0)
+            if (entries != null && entries.Count > 0)
             {
                 string rssXml = GetRSS(entries, Request.ApplicationPath);
                 Response.ContentEncoding = Encoding.UTF8;
@@ -79,7 +78,7 @@ namespace Subtext.Web
 
         private string GetRSS(IEnumerable<Entry> entries, string appPath)
         {
-            if(!appPath.EndsWith("/"))
+            if (!appPath.EndsWith("/"))
             {
                 appPath += "/";
             }
@@ -107,7 +106,7 @@ namespace Subtext.Web
 
             bool useAggBugs = Config.Settings.Tracking.EnableAggBugs;
 
-            foreach(Entry entry in entries)
+            foreach (Entry entry in entries)
             {
                 writer.WriteStartElement("item");
                 writer.WriteElementString("title", entry.Title);

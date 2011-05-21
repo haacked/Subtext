@@ -40,7 +40,7 @@ namespace Subtext.Web.UI.Handlers
 
             var httpContext = new HttpContextWrapper(context);
             var skin = SkinConfig.GetCurrentSkin(Config.CurrentBlog, httpContext);
-            if(skin != null)
+            if (skin != null)
             {
                 context.Response.Write(skin.CustomCssText);
             }

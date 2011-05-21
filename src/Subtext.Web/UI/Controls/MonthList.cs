@@ -32,7 +32,7 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if(Context != null)
+            if (Context != null)
             {
                 DateTime dt = DateTimeHelper.DateFromUrl(Request.Path);
                 MonthListings.DescriptionOnly = true;

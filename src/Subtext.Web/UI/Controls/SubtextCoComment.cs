@@ -51,7 +51,7 @@ namespace Subtext.Web.UI.Controls
 
             CommentAuthorFieldName = GetControlUniqueId("tbName");
             CommentButtonId = GetControlUniqueId("btnSubmit");
-            if(string.IsNullOrEmpty(CommentButtonId))
+            if (string.IsNullOrEmpty(CommentButtonId))
             {
                 CommentButtonId = GetControlUniqueId("btnCompliantSubmit");
             }
@@ -62,7 +62,7 @@ namespace Subtext.Web.UI.Controls
         private string GetControlUniqueId(string controlId)
         {
             Control control = ControlHelper.FindControlRecursively(Page, controlId);
-            if(control != null)
+            if (control != null)
             {
                 return control.UniqueID;
             }

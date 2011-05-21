@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin {
-    
-    
-    public partial class HostAdminTemplate {
-        
+namespace Subtext.Web.HostAdmin
+{
+
+
+    public partial class HostAdminTemplate
+    {
+
         /// <summary>
         /// lnkStyleSheet control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlLink lnkStyleSheet;
-        
+
         /// <summary>
         /// lnkCsharp control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlLink lnkCsharp;
-        
+
         /// <summary>
         /// lknCommon control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlLink lknCommon;
-        
+
         /// <summary>
         /// lnkHelpTipCss control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlLink lnkHelpTipCss;
-        
+
         /// <summary>
         /// frmMain control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm frmMain;
-        
+
         /// <summary>
         /// hostAdminName control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal hostAdminName;
-        
+
         /// <summary>
         /// MPSectionTitle control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder MPSectionTitle;
-        
+
         /// <summary>
         /// mnuDefault control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.MenuItem mnuDefault;
-        
+
         /// <summary>
         /// mnuManageGroups control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.MenuItem mnuManageGroups;
-        
+
         /// <summary>
         /// mnuChangePassword control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.MenuItem mnuChangePassword;
-        
+
         /// <summary>
         /// mnuErrorLog control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.MenuItem mnuErrorLog;
-        
+
         /// <summary>
         /// MPSidebar control.
         /// </summary>
@@ -120,7 +122,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder MPSidebar;
-        
+
         /// <summary>
         /// MPContent control.
         /// </summary>

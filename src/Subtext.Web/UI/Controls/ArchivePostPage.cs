@@ -52,21 +52,21 @@ namespace Subtext.Web.UI.Controls
 
         protected void CategoryCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var linkcat = (LinkCategory)e.Item.DataItem;
-                if(linkcat != null)
+                if (linkcat != null)
                 {
-                    if(linkcat.Id != 0)
+                    if (linkcat.Id != 0)
                     {
                         var description = (Label)e.Item.FindControl("Description");
-                        if(description != null)
+                        if (description != null)
                         {
                             description.Text = linkcat.Description;
                         }
 
                         var catlink = (HyperLink)e.Item.FindControl("CatLink");
-                        if(catlink != null)
+                        if (catlink != null)
                         {
                             catlink.NavigateUrl = Url.CategoryUrl(linkcat);
                             catlink.Text = linkcat.Title;
@@ -79,13 +79,13 @@ namespace Subtext.Web.UI.Controls
 
         protected void DateItemCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var link = (Link)e.Item.DataItem;
-                if(link != null)
+                if (link != null)
                 {
                     var datelink = (HyperLink)e.Item.FindControl("DateLink");
-                    if(datelink != null)
+                    if (datelink != null)
                     {
                         datelink.NavigateUrl = link.Url;
                         datelink.Text = link.Title;

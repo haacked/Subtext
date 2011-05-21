@@ -35,7 +35,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            if(Days != null)
+            if (Days != null)
             {
                 DaysList.DataSource = Days;
                 DaysList.DataBind();

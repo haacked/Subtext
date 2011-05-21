@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.UserControls {
-    
-    
-    public partial class CategoryLinkList {
-        
+namespace Subtext.Web.Admin.UserControls
+{
+
+
+    public partial class CategoryLinkList
+    {
+
         /// <summary>
         /// rptCategories control.
         /// </summary>

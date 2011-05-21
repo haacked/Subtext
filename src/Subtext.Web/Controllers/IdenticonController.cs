@@ -26,7 +26,8 @@ namespace Subtext.Web.Controllers
 {
     public class IdenticonController : Controller
     {
-        public IdenticonController() : this(null)
+        public IdenticonController()
+            : this(null)
         {
         }
 
@@ -39,25 +40,25 @@ namespace Subtext.Web.Controllers
 
         public int Size
         {
-            get; 
+            get;
             private set;
         }
 
         public ActionResult Image(int? code)
         {
-            if(code == null)
+            if (code == null)
             {
                 code = IdenticonUtil.Code(HttpContext.Request.UserHostAddress);
             }
 
             string etag = IdenticonUtil.ETag(code.Value, Size);
 
-            if(HttpContext != null && HttpContext.Request != null && HttpContext.Request.Headers != null && HttpContext.Request.Headers["If-None-Match"] == etag)
+            if (HttpContext != null && HttpContext.Request != null && HttpContext.Request.Headers != null && HttpContext.Request.Headers["If-None-Match"] == etag)
             {
                 // browser already has the image cached
                 return new NotModifiedResult();
             }
-            
+
             return new IdenticonResult(code.Value, Size, etag);
         }
     }

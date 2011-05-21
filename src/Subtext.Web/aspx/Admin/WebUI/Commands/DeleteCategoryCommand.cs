@@ -37,7 +37,7 @@ namespace Subtext.Web.Admin.Commands
                 Links.DeleteLinkCategory(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, _targetName, itemTitle, ex.Message);
             }

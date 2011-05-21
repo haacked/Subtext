@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class Comments {
-        
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class Comments
+    {
+
         /// <summary>
         /// Messages control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
+
         /// <summary>
         /// chkEnableComments control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkEnableComments;
-        
+
         /// <summary>
         /// HelpToolTip1 control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip1;
-        
+
         /// <summary>
         /// chkEnableTrackbacks control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkEnableTrackbacks;
-        
+
         /// <summary>
         /// Helptooltip5 control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip5;
-        
+
         /// <summary>
         /// chkEnableCommentModeration control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkEnableCommentModeration;
-        
+
         /// <summary>
         /// helpCommentModeration control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip helpCommentModeration;
-        
+
         /// <summary>
         /// chkCoCommentEnabled control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkCoCommentEnabled;
-        
+
         /// <summary>
         /// Helptooltip6 control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip6;
-        
+
         /// <summary>
         /// chkEnableCaptcha control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkEnableCaptcha;
-        
+
         /// <summary>
         /// helpCaptcha control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip helpCaptcha;
-        
+
         /// <summary>
         /// chkAllowDuplicates control.
         /// </summary>
@@ -120,7 +122,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkAllowDuplicates;
-        
+
         /// <summary>
         /// Helptooltip4 control.
         /// </summary>
@@ -129,7 +131,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip4;
-        
+
         /// <summary>
         /// hlpAkismet control.
         /// </summary>
@@ -138,7 +140,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip hlpAkismet;
-        
+
         /// <summary>
         /// txtAkismetAPIKey control.
         /// </summary>
@@ -147,7 +149,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAkismetAPIKey;
-        
+
         /// <summary>
         /// HelpToolTip2 control.
         /// </summary>
@@ -156,7 +158,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip2;
-        
+
         /// <summary>
         /// txtCommentDelayIntervalMinutes control.
         /// </summary>
@@ -165,7 +167,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCommentDelayIntervalMinutes;
-        
+
         /// <summary>
         /// Helptooltip3 control.
         /// </summary>
@@ -174,7 +176,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip3;
-        
+
         /// <summary>
         /// txtDaysTillCommentsClosed control.
         /// </summary>
@@ -183,7 +185,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDaysTillCommentsClosed;
-        
+
         /// <summary>
         /// Helptooltip7 control.
         /// </summary>
@@ -192,7 +194,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip7;
-        
+
         /// <summary>
         /// txtNumberOfRecentComments control.
         /// </summary>
@@ -201,7 +203,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNumberOfRecentComments;
-        
+
         /// <summary>
         /// Helptooltip8 control.
         /// </summary>
@@ -210,7 +212,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip8;
-        
+
         /// <summary>
         /// txtRecentCommentsLength control.
         /// </summary>
@@ -219,7 +221,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtRecentCommentsLength;
-        
+
         /// <summary>
         /// lkbPost control.
         /// </summary>

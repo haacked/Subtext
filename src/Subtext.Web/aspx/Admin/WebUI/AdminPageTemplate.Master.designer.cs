@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.WebUI {
-    
-    
-    public partial class AdminPageTemplate {
-        
+namespace Subtext.Web.Admin.WebUI
+{
+
+
+    public partial class AdminPageTemplate
+    {
+
         /// <summary>
         /// head control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
-        
+
         /// <summary>
         /// AdminSection control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl AdminSection;
-        
+
         /// <summary>
         /// frmMain control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm frmMain;
-        
+
         /// <summary>
         /// LoggedInUser control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal LoggedInUser;
-        
+
         /// <summary>
         /// galleryTab control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl galleryTab;
-        
+
         /// <summary>
         /// MainContent control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
-        
+
         /// <summary>
         /// actionsHeading control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder actionsHeading;
-        
+
         /// <summary>
         /// LinksActions control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.LinkList LinksActions;
-        
+
         /// <summary>
         /// categoryListHeading control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder categoryListHeading;
-        
+
         /// <summary>
         /// categoryListLinks control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.Admin.WebUI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder categoryListLinks;
-        
+
         /// <summary>
         /// pageContent control.
         /// </summary>

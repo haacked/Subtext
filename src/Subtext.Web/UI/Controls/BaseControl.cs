@@ -49,7 +49,7 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                if(SubtextPage != null)
+                if (SubtextPage != null)
                 {
                     return SubtextPage.Url;
                 }
@@ -61,7 +61,7 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                if(_adminUrlHelper == null)
+                if (_adminUrlHelper == null)
                 {
                     _adminUrlHelper = new AdminUrlHelper(Url);
                 }
@@ -74,7 +74,7 @@ namespace Subtext.Web.UI.Controls
             get
             {
                 SubtextPage subtextPage = SubtextPage;
-                if(subtextPage != null)
+                if (subtextPage != null)
                 {
                     return subtextPage.Blog;
                 }
@@ -166,10 +166,10 @@ namespace Subtext.Web.UI.Controls
 
         protected void BindCurrentEntryControls(Entry entry, Control root)
         {
-            foreach(Control control in root.Controls)
+            foreach (Control control in root.Controls)
             {
                 var currentEntryControl = control as CurrentEntryControl;
-                if(currentEntryControl != null)
+                if (currentEntryControl != null)
                 {
                     currentEntryControl.Entry = new EntryViewModel(entry, SubtextContext);
                     currentEntryControl.DataBind();
@@ -186,12 +186,12 @@ namespace Subtext.Web.UI.Controls
         protected void AddCaptchaIfNecessary(ref CaptchaControl captcha, ref InvisibleCaptcha invisibleCaptchaValidator,
                                              int btnIndex)
         {
-            if(Config.CurrentBlog.CaptchaEnabled)
+            if (Config.CurrentBlog.CaptchaEnabled)
             {
-                captcha = new CaptchaControl {ID = "captcha"};
+                captcha = new CaptchaControl { ID = "captcha" };
                 Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
-                if(preExisting == null)
-                    // && !Config.CurrentBlog.FeedbackSpamServiceEnabled) Experimental code for improved UI. Will put back in later. - Phil Haack 10/09/2006
+                if (preExisting == null)
+                // && !Config.CurrentBlog.FeedbackSpamServiceEnabled) Experimental code for improved UI. Will put back in later. - Phil Haack 10/09/2006
                 {
                     Controls.AddAt(btnIndex, captcha);
                 }
@@ -201,7 +201,7 @@ namespace Subtext.Web.UI.Controls
                 RemoveCaptcha();
             }
 
-            if(Config.Settings.InvisibleCaptchaEnabled)
+            if (Config.Settings.InvisibleCaptchaEnabled)
             {
                 invisibleCaptchaValidator = new InvisibleCaptcha
                 {
@@ -218,7 +218,7 @@ namespace Subtext.Web.UI.Controls
         protected void RemoveCaptcha()
         {
             Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
-            if(preExisting != null)
+            if (preExisting != null)
             {
                 Controls.Remove(preExisting);
             }

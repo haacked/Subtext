@@ -43,7 +43,7 @@ namespace Subtext.Web.Controls
         /// </summary>
         protected override void OnItemCreated(RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Footer && Items.Count == 0)
+            if (e.Item.ItemType == ListItemType.Footer && Items.Count == 0)
             {
                 Controls.Add(EmptyDataTemplate);
             }

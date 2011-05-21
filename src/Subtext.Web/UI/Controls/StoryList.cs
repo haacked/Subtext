@@ -42,7 +42,7 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if(Context != null)
+            if (Context != null)
             {
                 Blog info = Blog;
 
@@ -52,7 +52,7 @@ namespace Subtext.Web.UI.Controls
                 //as of 3sep2006, this is a configurable option. 
                 //However, we retain the ability to overide the CategoryListPostCount setting via the query string, as usual.
 
-                if(lc == null)
+                if (lc == null)
                 {
                     HttpHelper.SetFileNotFoundResponse();
                     return;
@@ -62,13 +62,13 @@ namespace Subtext.Web.UI.Controls
                 EntryStoryList.EntryListItems = ec;
 
                 EntryStoryList.EntryListTitle = lc.Title;
-                if(lc.HasDescription)
+                if (lc.HasDescription)
                 {
                     EntryStoryList.EntryListDescription = lc.Description;
                 }
 
-                if(count != 0 && ec != null && ec.Count == info.CategoryListPostCount)
-                    //crappy. If the only category has #CategoryListPostCount entries, we will show the full archive link?
+                if (count != 0 && ec != null && ec.Count == info.CategoryListPostCount)
+                //crappy. If the only category has #CategoryListPostCount entries, we will show the full archive link?
                 {
                     EntryStoryList.EntryListReadMoreText = string.Format(CultureInfo.InvariantCulture,
                                                                          "Full {0} Archive", lc.Title);

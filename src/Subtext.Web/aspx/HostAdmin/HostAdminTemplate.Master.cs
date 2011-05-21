@@ -12,12 +12,12 @@ namespace Subtext.Web.HostAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 DataBind();
             }
 
-            if(hostAdminName != null && HostInfo.Instance != null)
+            if (hostAdminName != null && HostInfo.Instance != null)
             {
                 hostAdminName.Text = HostInfo.Instance.HostUserName;
             }
@@ -29,7 +29,7 @@ namespace Subtext.Web.HostAdmin
         /// <param name="control"></param>
         public void AddSidebarControl(Control control)
         {
-            if(MPSidebar != null)
+            if (MPSidebar != null)
             {
                 MPSidebar.Controls.Add(control);
             }

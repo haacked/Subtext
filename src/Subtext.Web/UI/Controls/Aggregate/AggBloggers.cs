@@ -42,13 +42,13 @@ namespace Subtext.Web.UI.Controls
             BlogGroupId = GetGroupIdFromQueryString();
             Blogs = Repository.GetBlogsByGroup(HostInfo.Instance.AggregateBlog.Host, BlogGroupId);
 
-            if(ShowGroups)
+            if (ShowGroups)
             {
                 BlogGroups = Repository.GroupBlogs(Blogs);
             }
             else
             {
-                var groups = new Collection<BlogGroup> {new BlogGroup {Blogs = Blogs.ToList()}};
+                var groups = new Collection<BlogGroup> { new BlogGroup { Blogs = Blogs.ToList() } };
                 BlogGroups = groups;
             }
             base.OnLoad(e);

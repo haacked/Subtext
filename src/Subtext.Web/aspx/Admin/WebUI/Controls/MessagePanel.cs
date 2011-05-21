@@ -65,7 +65,7 @@ namespace Subtext.Web.Admin.WebUI
         {
             get
             {
-                if(_messageCssClass == null)
+                if (_messageCssClass == null)
                 {
                     _messageCssClass = "MessagePanel";
                 }
@@ -78,7 +78,7 @@ namespace Subtext.Web.Admin.WebUI
         {
             get
             {
-                if(_errorCssClass == null)
+                if (_errorCssClass == null)
                 {
                     _errorCssClass = "ErrorPanel";
                 }
@@ -91,7 +91,7 @@ namespace Subtext.Web.Admin.WebUI
         {
             get
             {
-                if(_messageIconUrl == null)
+                if (_messageIconUrl == null)
                 {
                     _messageIconUrl = "~/images/icons/ico_info.gif";
                 }
@@ -104,7 +104,7 @@ namespace Subtext.Web.Admin.WebUI
         {
             get
             {
-                if(_errorIconUrl == null)
+                if (_errorIconUrl == null)
                 {
                     _errorIconUrl = "~/images/icons/ico_critical.gif";
                 }
@@ -117,19 +117,19 @@ namespace Subtext.Web.Admin.WebUI
 
         protected override void Render(HtmlTextWriter writer)
         {
-            if(null != Page)
+            if (null != Page)
             {
                 Page.VerifyRenderingInServerForm(this);
             }
 
-            if(ShowErrorPanel)
+            if (ShowErrorPanel)
             {
                 Panel errorPanel = BuildPanel(Error, ErrorCssClass,
                                               Utilities.AbsolutePath(ErrorIconUrl));
                 Controls.Add(errorPanel);
             }
 
-            if(ShowMessagePanel)
+            if (ShowMessagePanel)
             {
                 Panel messagePanel = BuildPanel(Message, MessageCssClass,
                                                 Utilities.AbsolutePath(MessageIconUrl));
@@ -143,12 +143,12 @@ namespace Subtext.Web.Admin.WebUI
         {
             var result = new Panel();
 
-            if(null != imageUrl && cssClass.Length > 0)
+            if (null != imageUrl && cssClass.Length > 0)
             {
                 result.CssClass = cssClass;
             }
 
-            if(!string.IsNullOrEmpty(imageUrl))
+            if (!string.IsNullOrEmpty(imageUrl))
             {
                 var image = new Image();
                 image.Attributes.Add("src", imageUrl);
@@ -169,7 +169,7 @@ namespace Subtext.Web.Admin.WebUI
 
         public void ShowMessage(string message, bool clearExistingMessages)
         {
-            if(clearExistingMessages)
+            if (clearExistingMessages)
             {
                 Message = message;
             }
@@ -189,7 +189,7 @@ namespace Subtext.Web.Admin.WebUI
 
         public void ShowError(string message, bool clearExistingMessages)
         {
-            if(clearExistingMessages)
+            if (clearExistingMessages)
             {
                 Error = message;
             }

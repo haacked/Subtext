@@ -102,13 +102,13 @@ namespace Subtext.Web.Controls.Captcha
                                                                                                   encryptedBytes.Length);
                 return Encoding.UTF8.GetString(decryptedBytes);
             }
-            catch(FormatException fe)
+            catch (FormatException fe)
             {
                 throw new CaptchaExpiredException(
                     String.Format(CultureInfo.InvariantCulture, Resources.CaptchaExpired_EncryptedTextNotValid,
                                   encryptedEncodedText), fe);
             }
-            catch(CryptographicException e)
+            catch (CryptographicException e)
             {
                 throw new CaptchaExpiredException(Resources.CaptchaExpired_KeyOutOfSynch, e);
             }
@@ -118,7 +118,7 @@ namespace Subtext.Web.Controls.Captcha
         /// <returns>true if the control properties are valid; otherwise, false.</returns>
         protected override bool ControlPropertiesValid()
         {
-            if(!String.IsNullOrEmpty(ControlToValidate))
+            if (!String.IsNullOrEmpty(ControlToValidate))
             {
                 CheckControlValidationProperty(ControlToValidate, "ControlToValidate");
             }
@@ -148,12 +148,12 @@ namespace Subtext.Web.Controls.Captcha
             {
                 return ValidateCaptcha();
             }
-            catch(CaptchaExpiredException e)
+            catch (CaptchaExpiredException e)
             {
-                if(e.InnerException != null)
+                if (e.InnerException != null)
                 {
                     string warning = Resources.Warning_CaptchaExpired;
-                    if(HttpContext.Current != null && HttpContext.Current.Request != null)
+                    if (HttpContext.Current != null && HttpContext.Current.Request != null)
                     {
                         warning += " User Agent: " + HttpContext.Current.Request.UserAgent;
                     }
@@ -191,7 +191,7 @@ namespace Subtext.Web.Controls.Captcha
         {
             string formValue = Page.Request.Form[HiddenEncryptedAnswerFieldName];
             AnswerAndDate answerAndDate = AnswerAndDate.ParseAnswerAndDate(formValue, CaptchaTimeout);
-            if(answerAndDate.Expired)
+            if (answerAndDate.Expired)
             {
                 throw new CaptchaExpiredException(Resources.CaptchaExpired_WaitedTooLong);
             }
@@ -230,14 +230,14 @@ namespace Subtext.Web.Controls.Captcha
             answerAndDate._answer = string.Empty;
             answerAndDate._date = DateTime.MinValue;
 
-            if(String.IsNullOrEmpty(encryptedAnswer))
+            if (String.IsNullOrEmpty(encryptedAnswer))
             {
                 return answerAndDate;
             }
 
             string decryptedAnswer = CaptchaBase.DecryptString(encryptedAnswer);
             string[] answerParts = decryptedAnswer.Split('|');
-            if(answerParts.Length < 2)
+            if (answerParts.Length < 2)
             {
                 return answerAndDate;
             }
@@ -245,7 +245,7 @@ namespace Subtext.Web.Controls.Captcha
             answerAndDate._answer = answerParts[0];
             answerAndDate._date = DateTime.ParseExact(answerParts[1], "yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture);
 
-            if(timeoutInSeconds != 0 && (DateTime.Now - answerAndDate._date).TotalSeconds >= timeoutInSeconds)
+            if (timeoutInSeconds != 0 && (DateTime.Now - answerAndDate._date).TotalSeconds >= timeoutInSeconds)
             {
                 throw new CaptchaExpiredException(Resources.CaptchaExpired_WaitedTooLong);
             }

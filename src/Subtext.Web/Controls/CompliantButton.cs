@@ -40,7 +40,8 @@ namespace Subtext.Web.Controls
 
         private class CompliantHtmlTextWriter : HtmlTextWriter
         {
-            internal CompliantHtmlTextWriter(TextWriter writer) : base(writer)
+            internal CompliantHtmlTextWriter(TextWriter writer)
+                : base(writer)
             {
             }
 
@@ -52,7 +53,7 @@ namespace Subtext.Web.Controls
             /// <param name="value"></param>
             public override void AddAttribute(string name, string value)
             {
-                if(String.Equals(name, "language", StringComparison.OrdinalIgnoreCase))
+                if (String.Equals(name, "language", StringComparison.OrdinalIgnoreCase))
                 {
                     return;
                 }
@@ -71,7 +72,7 @@ namespace Subtext.Web.Controls
             /// <param name="fEndode"></param>
             public override void AddAttribute(string name, string value, bool fEndode)
             {
-                if(String.Equals(name, "language", StringComparison.OrdinalIgnoreCase))
+                if (String.Equals(name, "language", StringComparison.OrdinalIgnoreCase))
                 {
                     return;
                 }

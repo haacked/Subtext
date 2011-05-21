@@ -43,14 +43,14 @@ namespace Subtext.Web.UI.Controls
             HomeUrl = Url.BlogUrl();
             Subtitle = Blog.SubTitle;
 
-            if(null != FindControl("HeaderTitle"))
+            if (null != FindControl("HeaderTitle"))
             {
                 HeaderTitle.NavigateUrl = HomeUrl;
                 HeaderTitle.Text = Title;
                 ControlHelper.SetTitleIfNone(HeaderTitle, "The Title Of This Blog.");
             }
 
-            if(null != FindControl("HeaderSubTitle"))
+            if (null != FindControl("HeaderSubTitle"))
             {
                 HeaderSubTitle.Text = Subtitle;
             }

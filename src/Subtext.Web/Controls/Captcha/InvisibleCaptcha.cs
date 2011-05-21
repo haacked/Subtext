@@ -126,11 +126,11 @@ namespace Subtext.Web.Controls.Captcha
             string answer = Page.Request.Form[AnswerFormFieldName];
             // In an Ajax postback, we don't want to render this if javascript is enabled 
             // because the page won't know to set this span to be invisible.
-            if(Accessible && String.IsNullOrEmpty(answer))
+            if (Accessible && String.IsNullOrEmpty(answer))
             {
                 base.Render(writer);
                 writer.AddAttribute("id", CaptchaInputClientId);
-                if(!string.IsNullOrEmpty(CssClass))
+                if (!string.IsNullOrEmpty(CssClass))
                 {
                     writer.AddAttribute("class", CssClass);
                 }
@@ -148,7 +148,7 @@ namespace Subtext.Web.Controls.Captcha
         protected override string GetClientSpecifiedAnswer()
         {
             string answer = base.GetClientSpecifiedAnswer();
-            if(String.IsNullOrEmpty(answer))
+            if (String.IsNullOrEmpty(answer))
             {
                 answer = Page.Request.Form[VisibleAnswerFieldName];
             }

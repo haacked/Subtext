@@ -16,9 +16,7 @@
 #endregion
 
 using System.Web;
-using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Services;
 
 namespace Subtext.Web.UI
 {

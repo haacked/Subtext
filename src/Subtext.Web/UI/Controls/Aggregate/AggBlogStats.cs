@@ -36,7 +36,7 @@ namespace Subtext.Web.UI.Controls
 
             int? groupId = GetGroupIdFromQueryString();
             HostStats stats = Repository.GetTotalBlogStats(HostInfo.Instance.AggregateBlog.Host, groupId);
-            if(stats != null)
+            if (stats != null)
             {
                 BlogCount.Text = stats.BlogCount.ToString();
                 PostCount.Text = stats.PostCount.ToString();

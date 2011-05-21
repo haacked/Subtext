@@ -27,12 +27,12 @@ namespace Subtext.Web.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult RecordAggregatorView(int id)
         {
-            if(CachedVersionIsOkay(SubtextContext.HttpContext.Request))
+            if (CachedVersionIsOkay(SubtextContext.HttpContext.Request))
             {
                 return new NotModifiedResult();
             }
 
-            if(id > 0)
+            if (id > 0)
             {
                 var entryView = new EntryView
                 {
@@ -51,7 +51,7 @@ namespace Subtext.Web.Controllers
         {
             //Get header value
             DateTime dt = HttpHelper.GetIfModifiedSinceDateUtc(request);
-            if(dt == NullValue.NullDateTime)
+            if (dt == NullValue.NullDateTime)
             {
                 return false;
             }

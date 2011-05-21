@@ -43,7 +43,7 @@ namespace Subtext.Web.Admin.Commands
                 SearchEngine.RemovePost(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return FormatMessage(ExecuteFailureMessage, _targetName, _targetID, ex.Message);
             }

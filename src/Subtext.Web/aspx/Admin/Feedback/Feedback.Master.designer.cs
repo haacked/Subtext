@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Feedback {
-    
-    
-    public partial class FeedbackMaster {
-        
+namespace Subtext.Web.Admin.Feedback
+{
+
+
+    public partial class FeedbackMaster
+    {
+
         /// <summary>
         /// head control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
-        
+
         /// <summary>
         /// feedbackContent control.
         /// </summary>

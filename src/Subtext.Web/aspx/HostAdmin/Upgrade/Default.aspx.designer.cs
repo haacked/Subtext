@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin.Upgrade {
-    
-    
-    public partial class Default {
-        
+namespace Subtext.Web.HostAdmin.Upgrade
+{
+
+
+    public partial class Default
+    {
+
         /// <summary>
         /// plcHolderUpgradeMessage control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.HostAdmin.Upgrade {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder plcHolderUpgradeMessage;
-        
+
         /// <summary>
         /// messageLiteral control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.HostAdmin.Upgrade {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal messageLiteral;
-        
+
         /// <summary>
         /// btnUpgrade control.
         /// </summary>

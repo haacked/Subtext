@@ -23,7 +23,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.ModelBinders;
 using Subtext.Framework.Services;
-using HtmlHelper=Subtext.Framework.Text.HtmlHelper;
+using HtmlHelper = Subtext.Framework.Text.HtmlHelper;
 
 namespace Subtext.Web.Controllers
 {
@@ -44,14 +44,14 @@ namespace Subtext.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public void Create(int id, [ModelBinder(typeof(XmlModelBinder))] XmlDocument xml)
         {
-            if(xml == null)
+            if (xml == null)
             {
                 throw new ArgumentNullException("xml");
             }
-            var comment = new FeedbackItem(FeedbackType.Comment) {CreatedViaCommentApi = true};
+            var comment = new FeedbackItem(FeedbackType.Comment) { CreatedViaCommentApi = true };
 
             string name = (xml.SelectSingleNode("//item/author") ?? Empty).InnerText;
-            if(name.IndexOf("<") != -1)
+            if (name.IndexOf("<") != -1)
             {
                 name = name.Substring(0, name.IndexOf("<"));
             }

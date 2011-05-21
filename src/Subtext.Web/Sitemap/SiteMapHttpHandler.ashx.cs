@@ -34,7 +34,8 @@ namespace Subtext.Web.SiteMap
     /// </summary>    
     public class SiteMapHttpHandler : SubtextHttpHandler
     {
-        public SiteMapHttpHandler(ISubtextContext subtextContext) : base(subtextContext)
+        public SiteMapHttpHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
@@ -54,9 +55,9 @@ namespace Subtext.Web.SiteMap
 
             ICollection<Entry> posts = Repository.GetEntries(0, PostType.BlogPost, PostConfig.IsActive, false
                 /* includeCategories */);
-            if(posts != null)
+            if (posts != null)
             {
-                foreach(Entry post in posts)
+                foreach (Entry post in posts)
                 {
                     ChangeFrequency frequency = CalculateFrequency(post);
                     urlCollection.Add(
@@ -68,9 +69,9 @@ namespace Subtext.Web.SiteMap
             // all articles
             ICollection<Entry> stories = Repository.GetEntries(0, PostType.Story, PostConfig.IsActive, false
                 /* includeCategories */);
-            if(stories != null)
+            if (stories != null)
             {
-                foreach(Entry story in stories)
+                foreach (Entry story in stories)
                 {
                     ChangeFrequency frequency = CalculateFrequency(story);
                     urlCollection.Add(
@@ -86,9 +87,9 @@ namespace Subtext.Web.SiteMap
             LinkCategory categories = Transformer.MergeLinkCategoriesIntoSingleLinkCategory(string.Empty /* title */,
                                                                                             CategoryType.PostCollection,
                                                                                             links, Url, Blog);
-            if(categories != null)
+            if (categories != null)
             {
-                foreach(Link category in categories.Links)
+                foreach (Link category in categories.Links)
                 {
                     urlCollection.Add(
                         new UrlElement(new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog) + category.Url),
@@ -102,9 +103,9 @@ namespace Subtext.Web.SiteMap
             ICollection<ArchiveCount> archiveCounts = Repository.GetPostCountsByMonth();
             LinkCategory archives = Transformer.MergeArchiveCountsIntoLinkCategory(string.Empty, archiveCounts, Url,
                                                                                    Blog);
-            if(archives != null)
+            if (archives != null)
             {
-                foreach(Link archive in archives.Links)
+                foreach (Link archive in archives.Links)
                 {
                     urlCollection.Add(
                         new UrlElement(
@@ -124,19 +125,19 @@ namespace Subtext.Web.SiteMap
         private static ChangeFrequency CalculateFrequency(Entry entry)
         {
             ChangeFrequency frequency = ChangeFrequency.Hourly;
-            if(entry.DateModified < DateTime.Now.AddMonths(-12))
+            if (entry.DateModified < DateTime.Now.AddMonths(-12))
             {
                 frequency = ChangeFrequency.Yearly;
             }
-            else if(entry.DateModified < DateTime.Now.AddDays(-60))
+            else if (entry.DateModified < DateTime.Now.AddDays(-60))
             {
                 frequency = ChangeFrequency.Monthly;
             }
-            else if(entry.DateModified < DateTime.Now.AddDays(-14))
+            else if (entry.DateModified < DateTime.Now.AddDays(-14))
             {
                 frequency = ChangeFrequency.Weekly;
             }
-            else if(entry.DateModified < DateTime.Now.AddDays(-2))
+            else if (entry.DateModified < DateTime.Now.AddDays(-2))
             {
                 frequency = ChangeFrequency.Daily;
             }

@@ -51,9 +51,9 @@ namespace Subtext.Web.UI.Controls
 
         protected override void OnLoad(EventArgs e)
         {
-            if(IsPostBack)
+            if (IsPostBack)
             {
-                return; 
+                return;
             }
 
             var searchResults = FindControl("results") as Repeater;
@@ -67,7 +67,7 @@ namespace Subtext.Web.UI.Controls
             {
                 if (txtSearch != null) txtSearch.Text = queryString;
                 var results = SearchEngineService.Search(queryString, MaxResultsCount, Blog.Id);
-                if (results.Count()>0)
+                if (results.Count() > 0)
                 {
                     searchResults.DataSource = results;
                     searchResults.DataBind();
@@ -93,7 +93,7 @@ namespace Subtext.Web.UI.Controls
 
         public SearchEngineResult SearchResult
         {
-            get; 
+            get;
             private set;
         }
 

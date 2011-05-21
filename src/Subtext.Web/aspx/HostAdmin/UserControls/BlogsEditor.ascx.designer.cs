@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin.UserControls {
-    
-    
-    public partial class BlogsEditor {
-        
+namespace Subtext.Web.HostAdmin.UserControls
+{
+
+
+    public partial class BlogsEditor
+    {
+
         /// <summary>
         /// messagePanel control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel messagePanel;
-        
+
         /// <summary>
         /// pnlResults control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.AdvancedPanel pnlResults;
-        
+
         /// <summary>
         /// chkShowInactive control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkShowInactive;
-        
+
         /// <summary>
         /// rprBlogsList control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rprBlogsList;
-        
+
         /// <summary>
         /// lblNoMessages control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblNoMessages;
-        
+
         /// <summary>
         /// resultsPager control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.PagingControl resultsPager;
-        
+
         /// <summary>
         /// pnlEdit control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.AdvancedPanel pnlEdit;
-        
+
         /// <summary>
         /// blogEditorHelp control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip blogEditorHelp;
-        
+
         /// <summary>
         /// Img3 control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage Img3;
-        
+
         /// <summary>
         /// Helptooltip1 control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip1;
-        
+
         /// <summary>
         /// txtTitle control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTitle;
-        
+
         /// <summary>
         /// hostDomainHelpTip control.
         /// </summary>
@@ -120,7 +122,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip hostDomainHelpTip;
-        
+
         /// <summary>
         /// txtHost control.
         /// </summary>
@@ -129,7 +131,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtHost;
-        
+
         /// <summary>
         /// virtualDirectory control.
         /// </summary>
@@ -138,7 +140,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden virtualDirectory;
-        
+
         /// <summary>
         /// tdAliasHost control.
         /// </summary>
@@ -147,7 +149,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAliasHost;
-        
+
         /// <summary>
         /// hdnAliasId control.
         /// </summary>
@@ -156,7 +158,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnAliasId;
-        
+
         /// <summary>
         /// txtAliasHost control.
         /// </summary>
@@ -165,7 +167,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAliasHost;
-        
+
         /// <summary>
         /// tdAliasList control.
         /// </summary>
@@ -174,7 +176,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAliasList;
-        
+
         /// <summary>
         /// blogAliasListRepeater control.
         /// </summary>
@@ -183,7 +185,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater blogAliasListRepeater;
-        
+
         /// <summary>
         /// applicationHelpTip control.
         /// </summary>
@@ -192,7 +194,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip applicationHelpTip;
-        
+
         /// <summary>
         /// txtApplication control.
         /// </summary>
@@ -201,7 +203,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtApplication;
-        
+
         /// <summary>
         /// tdAliasApplication control.
         /// </summary>
@@ -210,7 +212,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAliasApplication;
-        
+
         /// <summary>
         /// txtAliasApplication control.
         /// </summary>
@@ -219,7 +221,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAliasApplication;
-        
+
         /// <summary>
         /// ddlGroups control.
         /// </summary>
@@ -228,7 +230,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlGroups;
-        
+
         /// <summary>
         /// tbAliasActive control.
         /// </summary>
@@ -237,7 +239,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tbAliasActive;
-        
+
         /// <summary>
         /// cbAliasActive control.
         /// </summary>
@@ -246,7 +248,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbAliasActive;
-        
+
         /// <summary>
         /// helpUsername control.
         /// </summary>
@@ -255,7 +257,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip helpUsername;
-        
+
         /// <summary>
         /// txtUsername control.
         /// </summary>
@@ -264,7 +266,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUsername;
-        
+
         /// <summary>
         /// btnAliasCancel control.
         /// </summary>
@@ -273,7 +275,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAliasCancel;
-        
+
         /// <summary>
         /// btnAliasSave control.
         /// </summary>
@@ -282,7 +284,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAliasSave;
-        
+
         /// <summary>
         /// passwordRow control.
         /// </summary>
@@ -291,7 +293,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableRow passwordRow;
-        
+
         /// <summary>
         /// helpPassword control.
         /// </summary>
@@ -300,7 +302,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip helpPassword;
-        
+
         /// <summary>
         /// txtPassword control.
         /// </summary>
@@ -309,7 +311,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPassword;
-        
+
         /// <summary>
         /// passwordRowConfirm control.
         /// </summary>
@@ -318,7 +320,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableRow passwordRowConfirm;
-        
+
         /// <summary>
         /// txtPasswordConfirm control.
         /// </summary>
@@ -327,7 +329,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPasswordConfirm;
-        
+
         /// <summary>
         /// btnCancel control.
         /// </summary>
@@ -336,7 +338,7 @@ namespace Subtext.Web.HostAdmin.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCancel;
-        
+
         /// <summary>
         /// btnSave control.
         /// </summary>

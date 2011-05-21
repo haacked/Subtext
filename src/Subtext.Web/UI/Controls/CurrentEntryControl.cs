@@ -45,7 +45,7 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         public override void DataBind()
         {
-            if(Entry != null && !_dataBound)
+            if (Entry != null && !_dataBound)
             {
                 _dataBound = true;
                 base.DataBind();

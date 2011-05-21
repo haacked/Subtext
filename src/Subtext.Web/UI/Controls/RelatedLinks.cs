@@ -16,19 +16,17 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Services.SearchEngine;
 
 namespace Subtext.Web.UI.Controls
 {
     public class RelatedLinks : BaseControl
     {
-        public ISearchEngineService SearchEngineService { 
+        public ISearchEngineService SearchEngineService
+        {
             get
             {
                 return SubtextPage.SearchEngineService;
@@ -58,7 +56,7 @@ namespace Subtext.Web.UI.Controls
 
         protected virtual void MoreReadingCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var pi = (SearchEngineResult)e.Item.DataItem;
                 BindLink(e, pi);
@@ -70,12 +68,12 @@ namespace Subtext.Web.UI.Controls
             var relatedLink = (HyperLink)e.Item.FindControl("Link");
             var datePublished = (Literal)e.Item.FindControl("DatePublished");
             var score = (Literal)e.Item.FindControl("Score");
-            if(relatedLink != null)
+            if (relatedLink != null)
             {
                 relatedLink.Text = searchResult.Title;
                 relatedLink.NavigateUrl = Url.EntryUrl(searchResult);
-                if (datePublished!=null) datePublished.Text = searchResult.DateSyndicated.ToShortDateString();
-                if (score!=null) score.Text = searchResult.Score.ToString();
+                if (datePublished != null) datePublished.Text = searchResult.DateSyndicated.ToShortDateString();
+                if (score != null) score.Text = searchResult.Score.ToString();
             }
         }
     }

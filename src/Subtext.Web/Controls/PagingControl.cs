@@ -18,10 +18,8 @@
 #undef Diagnostic
 
 using System;
-using System.ComponentModel;
 using System.Globalization;
 using System.Web.UI;
-using System.Web.UI.Design;
 
 namespace Subtext.Web.Controls
 {

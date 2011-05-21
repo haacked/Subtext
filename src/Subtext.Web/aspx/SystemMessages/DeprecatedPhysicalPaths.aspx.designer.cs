@@ -8,9 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.pages.SystemMessages {
-    
-    
-    public partial class DeprecatedPhysicalPaths {
+namespace Subtext.Web.pages.SystemMessages
+{
+
+
+    public partial class DeprecatedPhysicalPaths
+    {
     }
 }

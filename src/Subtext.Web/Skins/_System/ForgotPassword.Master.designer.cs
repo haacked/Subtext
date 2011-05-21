@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Skins._System {
-    
-    
-    public partial class ForgotPassword {
-        
+namespace Subtext.Web.Skins._System
+{
+
+
+    public partial class ForgotPassword
+    {
+
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
         /// instructionsPlaceholder control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder instructionsPlaceholder;
-        
+
         /// <summary>
         /// defaultInstructions control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder defaultInstructions;
-        
+
         /// <summary>
         /// Message control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal Message;
-        
+
         /// <summary>
         /// FailureText control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal FailureText;
-        
+
         /// <summary>
         /// ResetForm control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder ResetForm;
-        
+
         /// <summary>
         /// lblUsername control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblUsername;
-        
+
         /// <summary>
         /// usernameTextBox control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox usernameTextBox;
-        
+
         /// <summary>
         /// UserNameRequired control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator UserNameRequired;
-        
+
         /// <summary>
         /// lblEmail control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEmail;
-        
+
         /// <summary>
         /// emailTextBox control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.Skins._System {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox emailTextBox;
-        
+
         /// <summary>
         /// btnSubmitUsername control.
         /// </summary>

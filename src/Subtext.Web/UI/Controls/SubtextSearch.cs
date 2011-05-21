@@ -31,7 +31,7 @@ namespace Subtext.Web.UI.Controls
 
         protected override void OnInit(EventArgs e)
         {
-            if(btnSearch != null)
+            if (btnSearch != null)
             {
                 btnSearch.Click += OnSearchClick;
             }
@@ -40,7 +40,7 @@ namespace Subtext.Web.UI.Controls
 
         protected override void OnLoad(EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 string queryString = SubtextContext.RequestContext.GetQueryFromRequest();
                 txtSearch.Text = queryString;
@@ -55,9 +55,9 @@ namespace Subtext.Web.UI.Controls
 
         protected void OnSearchClick(object sender, EventArgs e)
         {
-            if(!String.IsNullOrEmpty(txtSearch.Text))
+            if (!String.IsNullOrEmpty(txtSearch.Text))
                 Response.Redirect(Url.SearchPageUrl(txtSearch.Text), true);
-        
+
         }
 
     }

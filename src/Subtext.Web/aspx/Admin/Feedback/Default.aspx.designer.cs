@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Feedback {
-    
-    
-    public partial class Default {
-        
+namespace Subtext.Web.Admin.Feedback
+{
+
+
+    public partial class Default
+    {
+
         /// <summary>
         /// Messages control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
+
         /// <summary>
         /// filterTypeDropDown control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList filterTypeDropDown;
-        
+
         /// <summary>
         /// headerLiteral control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLiteral;
-        
+
         /// <summary>
         /// noCommentsMessage control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal noCommentsMessage;
-        
+
         /// <summary>
         /// feedbackRepeater control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater feedbackRepeater;
-        
+
         /// <summary>
         /// resultsPager control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.PagingControl resultsPager;
-        
+
         /// <summary>
         /// btnEmpty control.
         /// </summary>

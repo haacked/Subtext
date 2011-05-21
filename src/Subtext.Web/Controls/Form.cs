@@ -44,7 +44,7 @@ namespace Subtext.Web.Controls
             sb.AppendFormat(FormActionScript, ClientID);
 
             ScriptManager scriptManager = ScriptManager.GetCurrent(Page);
-            if((scriptManager != null) && scriptManager.SupportsPartialRendering)
+            if ((scriptManager != null) && scriptManager.SupportsPartialRendering)
             {
                 sb.AppendFormat(AjaxFormActionScript, ClientID);
             }

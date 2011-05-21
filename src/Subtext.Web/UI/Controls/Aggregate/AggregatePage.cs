@@ -25,10 +25,10 @@ namespace Subtext.Web.UI.Controls
         {
             int? groupId = null;
             string groupIdText = Request.QueryString["GroupID"];
-            if(groupIdText != null)
+            if (groupIdText != null)
             {
                 int parsedGroupId;
-                if(int.TryParse(groupIdText, out parsedGroupId))
+                if (int.TryParse(groupIdText, out parsedGroupId))
                 {
                     groupId = parsedGroupId;
                 }

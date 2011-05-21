@@ -42,7 +42,8 @@ namespace Subtext.Web.Controls.Captcha
         /// Initializes a new instance of the <see cref="CaptchaExpiredException"/> class.
         /// </summary>
         /// <param name="message">The message.</param>
-        public CaptchaExpiredException(string message) : base(message)
+        public CaptchaExpiredException(string message)
+            : base(message)
         {
         }
 
@@ -51,7 +52,8 @@ namespace Subtext.Web.Controls.Captcha
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
-        public CaptchaExpiredException(string message, Exception innerException) : base(message, innerException)
+        public CaptchaExpiredException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }

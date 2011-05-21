@@ -31,14 +31,14 @@ namespace Subtext.Web
         [Inject]
         public IInstallationManager InstallationManager
         {
-            get; 
+            get;
             set;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             InstallationState state = InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion);
-            if(state == InstallationState.NeedsUpgrade)
+            if (state == InstallationState.NeedsUpgrade)
             {
                 plcUpgradeInProgressMessage.Visible = true;
                 plcNothingToSeeHere.Visible = false;

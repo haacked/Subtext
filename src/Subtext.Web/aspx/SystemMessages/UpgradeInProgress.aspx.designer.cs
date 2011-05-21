@@ -8,9 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web {
-    
-    public partial class UpgradeInProgress {
+namespace Subtext.Web
+{
+
+    public partial class UpgradeInProgress
+    {
         protected System.Web.UI.WebControls.PlaceHolder plcUpgradeInProgressMessage;
         protected System.Web.UI.HtmlControls.HtmlAnchor hostAdminLink;
         protected System.Web.UI.WebControls.PlaceHolder plcNothingToSeeHere;

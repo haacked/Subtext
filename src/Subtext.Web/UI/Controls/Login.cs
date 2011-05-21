@@ -34,7 +34,7 @@ namespace Subtext.Web.UI.Controls
 
         private void Page_Load(object sender, EventArgs e)
         {
-            if(SecurityHelper.IsAdmin)
+            if (SecurityHelper.IsAdmin)
             {
                 Controls.Clear();
                 Visible = false;
@@ -43,16 +43,16 @@ namespace Subtext.Web.UI.Controls
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if(SubtextContext.HttpContext.Authenticate(Blog, tbUserName.Text, tbPassword.Text, RememberMe.Checked))
+            if (SubtextContext.HttpContext.Authenticate(Blog, tbUserName.Text, tbPassword.Text, RememberMe.Checked))
             {
                 Response.Redirect(Request.Path);
             }
-                ////			BlogConfig config = Config.CurrentBlog;
-                //			if(tbUserName.Text == config.UserName && tbPassword.Text == config.Password)
-                //			{
-                //				FormsAuthentication.SetAuthCookie(config.BlogId.ToString(),RememberMe.Checked);
-                //				Response.Redirect(Request.Path);
-                //			}
+            ////			BlogConfig config = Config.CurrentBlog;
+            //			if(tbUserName.Text == config.UserName && tbPassword.Text == config.Password)
+            //			{
+            //				FormsAuthentication.SetAuthCookie(config.BlogId.ToString(),RememberMe.Checked);
+            //				Response.Redirect(Request.Path);
+            //			}
             else
             {
                 Message.Text = "That's not it";

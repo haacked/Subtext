@@ -33,12 +33,12 @@ namespace Subtext.Web.Admin.WebUI
 
         protected override void Render(HtmlTextWriter output)
         {
-            if(_items.Count > 0)
+            if (_items.Count > 0)
             {
                 output.WriteBeginTag("ul");
                 output.WriteAttribute("id", ClientID, false);
                 output.Write(HtmlTextWriter.TagRightChar);
-                foreach(WebControl currentLink in _items)
+                foreach (WebControl currentLink in _items)
                 {
                     output.RenderBeginTag(HtmlTextWriterTag.Li);
                     currentLink.RenderControl(output);
@@ -56,7 +56,8 @@ namespace Subtext.Web.Admin.WebUI
     // in a cleaner way.
     public sealed class LinkControlCollection : Collection<WebControl>
     {
-        public LinkControlCollection() : base()
+        public LinkControlCollection()
+            : base()
         {
         }
 
@@ -75,11 +76,11 @@ namespace Subtext.Web.Admin.WebUI
             var adding = new HyperLink();
             adding.Text = text;
             adding.NavigateUrl = navigateUrl;
-            if(null != cssClass && cssClass.Length > 0)
+            if (null != cssClass && cssClass.Length > 0)
             {
                 adding.CssClass = cssClass;
             }
-            if(null != target && target.Length > 0)
+            if (null != target && target.Length > 0)
             {
                 adding.Target = target;
             }
@@ -98,7 +99,7 @@ namespace Subtext.Web.Admin.WebUI
             adding.Text = text;
             adding.Click += new EventHandler(targetHandler);
 
-            if(null != cssClass && cssClass.Length > 0)
+            if (null != cssClass && cssClass.Length > 0)
             {
                 adding.CssClass = cssClass;
             }

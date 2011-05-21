@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class EditArticles {
-        
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class EditArticles
+    {
+
         /// <summary>
         /// categoryLinks control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.UserControls.CategoryLinkList categoryLinks;
-        
+
         /// <summary>
         /// Editor control.
         /// </summary>

@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class EditImage {
-        
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class EditImage
+    {
+
         /// <summary>
         /// categoryLinks control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.UserControls.CategoryLinkList categoryLinks;
-        
+
         /// <summary>
         /// Messages control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
+
         /// <summary>
         /// headerLiteral control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLiteral;
-        
+
         /// <summary>
         /// txbTitle control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbTitle;
-        
+
         /// <summary>
         /// ddlGalleries control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlGalleries;
-        
+
         /// <summary>
         /// ckbPublished control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ckbPublished;
-        
+
         /// <summary>
         /// lnkThumbnail control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink lnkThumbnail;
-        
+
         /// <summary>
         /// lkbUpdateImage control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lkbUpdateImage;
-        
+
         /// <summary>
         /// ImageFile control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputFile ImageFile;
-        
+
         /// <summary>
         /// lbkAddImage control.
         /// </summary>

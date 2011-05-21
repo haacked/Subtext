@@ -17,7 +17,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -44,7 +43,7 @@ namespace Subtext.Web.Admin.Pages
             get
             {
                 var master = Master as AdminPageTemplate;
-                if(master == null && Master != null && Master.Master != null)
+                if (master == null && Master != null && Master.Master != null)
                 {
                     master = Master.Master as AdminPageTemplate;
                 }
@@ -59,7 +58,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void OnInit(EventArgs e)
         {
-            if(!User.IsInRole("Admins"))
+            if (!User.IsInRole("Admins"))
             {
                 string url = Url.LoginUrl(Request.Url.PathAndQuery);
                 Response.Redirect(url, true);
@@ -70,12 +69,12 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void OnLoad(EventArgs e)
         {
-            if(Page.Master != null)
+            if (Page.Master != null)
             {
                 body = AdminMasterPage.FindControl("AdminSection") as HtmlGenericControl;
             }
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 ControlHelper.ApplyRecursively(SetTextBoxStyle, this);
                 ControlHelper.ApplyRecursively(SetButtonStyle, this);
@@ -86,7 +85,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void OnPreRender(EventArgs e)
         {
-            if(body != null && !String.IsNullOrEmpty(TabSectionId))
+            if (body != null && !String.IsNullOrEmpty(TabSectionId))
             {
                 ControlHelper.AddCssClass(body, TabSectionId);
             }
@@ -95,13 +94,13 @@ namespace Subtext.Web.Admin.Pages
         static void SetTextBoxStyle(Control control)
         {
             var textBox = control as TextBox;
-            if(textBox != null)
+            if (textBox != null)
             {
-                if(textBox.TextMode == TextBoxMode.SingleLine || textBox.TextMode == TextBoxMode.Password)
+                if (textBox.TextMode == TextBoxMode.SingleLine || textBox.TextMode == TextBoxMode.Password)
                 {
                     ControlHelper.AddCssClass(textBox, "textbox");
                 }
-                if(textBox.TextMode == TextBoxMode.MultiLine)
+                if (textBox.TextMode == TextBoxMode.MultiLine)
                 {
                     ControlHelper.AddCssClass(textBox, "textarea");
                 }
@@ -111,7 +110,7 @@ namespace Subtext.Web.Admin.Pages
         static void SetButtonStyle(Control control)
         {
             var button = control as Button;
-            if(button != null)
+            if (button != null)
             {
                 ControlHelper.AddCssClass(button, "button");
             }

@@ -61,17 +61,17 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 
         public override void Initialize(string name, NameValueCollection configValue)
         {
-            if(name == null)
+            if (name == null)
             {
                 throw new ArgumentNullException("name", Rm.GetString("nameNeeded"));
             }
 
-            if(configValue == null)
+            if (configValue == null)
             {
                 throw new ArgumentNullException("configValue", Rm.GetString("configNeeded"));
             }
 
-            if(configValue["WebFormFolder"] != null)
+            if (configValue["WebFormFolder"] != null)
             {
                 _webFormFolder = configValue["WebFormFolder"];
             }
@@ -80,15 +80,15 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
                 throw new InvalidOperationException(Rm.GetString("WebFormFolderNeeded"));
             }
 
-            if(configValue["toolbarlayout"] != null)
+            if (configValue["toolbarlayout"] != null)
             {
                 _toolbarlayout = configValue["toolbarlayout"];
             }
-            if(configValue["FormatHtmlTagsToXhtml"] != null)
+            if (configValue["FormatHtmlTagsToXhtml"] != null)
             {
                 _formatHtmlTagsToXhtml = Boolean.Parse(configValue["FormatHtmlTagsToXhtml"]);
             }
-            if(configValue["RemoveServerNamefromUrls"] != null)
+            if (configValue["RemoveServerNamefromUrls"] != null)
             {
                 _removeServerNamefromUrls = Boolean.Parse(configValue["RemoveServerNamefromUrls"]);
             }
@@ -98,26 +98,26 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 
         public override void InitializeControl(object context)
         {
-            _ftbCtl = new FreeTextBox {ID = ControlId};
+            _ftbCtl = new FreeTextBox { ID = ControlId };
 
-            if(Width != Unit.Empty)
+            if (Width != Unit.Empty)
             {
                 _ftbCtl.Width = Width;
             }
 
-            if(Height != Unit.Empty)
+            if (Height != Unit.Empty)
             {
                 _ftbCtl.Height = Height;
             }
 
-            if(_toolbarlayout != null && _toolbarlayout.Trim().Length != 0)
+            if (_toolbarlayout != null && _toolbarlayout.Trim().Length != 0)
             {
                 _ftbCtl.ToolbarLayout = _toolbarlayout;
             }
             _ftbCtl.FormatHtmlTagsToXhtml = _formatHtmlTagsToXhtml;
             _ftbCtl.RemoveServerNameFromUrls = _removeServerNamefromUrls;
 
-            if(!string.IsNullOrEmpty(_webFormFolder))
+            if (!string.IsNullOrEmpty(_webFormFolder))
             {
                 _ftbCtl.ImageGalleryUrl =
                     HttpHelper.ExpandTildePath(_webFormFolder + "ftb.imagegallery.aspx?rif={0}&cif={0}");

@@ -24,7 +24,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Web;
 using Subtext.Web.Properties;
-using Image=Subtext.Framework.Components.Image;
+using Image = Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -44,9 +44,9 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(ViewState[VskeyImageid] == null || NullValue.NullInt32 == (int)ViewState[VskeyImageid])
+                if (ViewState[VskeyImageid] == null || NullValue.NullInt32 == (int)ViewState[VskeyImageid])
                 {
-                    if(null != Request.QueryString[Keys.QRYSTR_IMAGEID])
+                    if (null != Request.QueryString[Keys.QRYSTR_IMAGEID])
                     {
                         ViewState[VskeyImageid] = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_IMAGEID]);
                     }
@@ -59,12 +59,12 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(_image == null)
+                if (_image == null)
                 {
                     _image = Repository.GetImage(ImageId, false /* activeOnly */);
                 }
 
-                if(_image == null)
+                if (_image == null)
                 {
                     throw new InvalidOperationException(Resources.InvalidOperation_ImageUndefined);
                 }
@@ -83,7 +83,7 @@ namespace Subtext.Web.Admin.Pages
         {
             ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection,
                                                                           ActiveFilter.None);
-            if(selectionList.Count > 0)
+            if (selectionList.Count > 0)
             {
                 ddlGalleries.DataSource = selectionList;
                 ddlGalleries.DataValueField = "Id";
@@ -101,7 +101,7 @@ namespace Subtext.Web.Admin.Pages
 
                 ListItem listItem =
                     ddlGalleries.Items.FindByValue(_image.CategoryID.ToString(CultureInfo.InvariantCulture));
-                if(listItem != null)
+                if (listItem != null)
                 {
                     ddlGalleries.SelectedIndex = ddlGalleries.Items.IndexOf(listItem);
                 }
@@ -109,7 +109,7 @@ namespace Subtext.Web.Admin.Pages
                 // that will let us actually move the files too.
                 ddlGalleries.Enabled = false;
 
-                if(AdminMasterPage != null)
+                if (AdminMasterPage != null)
                 {
                     string title = string.Format(CultureInfo.InvariantCulture, Resources.EditGalleries_EditImage,
                                                  Image.Title);
@@ -125,7 +125,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected string EvalImageUrl(object imageObject)
         {
-            if(imageObject is Image)
+            if (imageObject is Image)
             {
                 var image = (Image)imageObject;
                 image.Blog = Blog;
@@ -136,7 +136,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected string EvalImageNavigateUrl(object imageObject)
         {
-            if(imageObject is Image)
+            if (imageObject is Image)
             {
                 var image = (Image)imageObject;
                 return Url.GalleryImagePageUrl(image);
@@ -152,7 +152,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void UpdateImage()
         {
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
                 _image = Repository.GetImage(ImageId, false /* activeOnly */);
                 _image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
@@ -169,7 +169,7 @@ namespace Subtext.Web.Admin.Pages
                     Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
                     BindImage();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
                 }
@@ -178,7 +178,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void ReplaceImage()
         {
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
                 _image = Repository.GetImage(ImageId, false /* activeOnly */);
                 _image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
@@ -195,7 +195,7 @@ namespace Subtext.Web.Admin.Pages
                     Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
                     BindImage();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
                 }

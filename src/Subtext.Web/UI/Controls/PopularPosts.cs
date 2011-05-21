@@ -18,8 +18,8 @@
 using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Components;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
@@ -51,13 +51,13 @@ namespace Subtext.Web.UI.Controls
                 if (Request.Cookies[strCookieName] != null)
                 {
                     filterTypeText = Request.Cookies[strCookieName].Value;
-                }                
+                }
             }
 
             Response.Cookies[strCookieName].Value = filterTypeText;
             Response.Cookies[strCookieName].Expires = Config.CurrentBlog.TimeZone.Now.AddYears(1);
 
-            if(!string.IsNullOrEmpty(filterTypeText))
+            if (!string.IsNullOrEmpty(filterTypeText))
             {
                 try
                 {
@@ -72,7 +72,7 @@ namespace Subtext.Web.UI.Controls
 
             base.OnLoad(e);
 
-            if(posts != null)
+            if (posts != null)
             {
                 postList.DataSource = posts;
                 postList.DataBind();
@@ -86,7 +86,7 @@ namespace Subtext.Web.UI.Controls
 
         protected void PostCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 CurrentEntry = (EntryStatsView)e.Item.DataItem;
             }

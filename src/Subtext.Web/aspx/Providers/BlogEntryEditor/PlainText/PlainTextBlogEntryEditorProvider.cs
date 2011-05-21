@@ -57,23 +57,23 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
 
         public override void Initialize(string name, NameValueCollection configValue)
         {
-            if(name == null)
+            if (name == null)
             {
                 throw new ArgumentNullException("name", rm.GetString("nameNeeded"));
             }
-            if(configValue == null)
+            if (configValue == null)
             {
                 throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
             }
-            if(configValue["rows"] != null)
+            if (configValue["rows"] != null)
             {
                 _rows = Convert.ToInt32(configValue["rows"]);
             }
-            if(configValue["cols"] != null)
+            if (configValue["cols"] != null)
             {
                 _cols = Convert.ToInt32(configValue["cols"]);
             }
-            if(configValue["cssClass"] != null)
+            if (configValue["cssClass"] != null)
             {
                 _cssClass = configValue["cssClass"];
             }
@@ -85,16 +85,16 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
         {
             _txtCtl = new TextBox();
             _txtCtl.ID = ControlId;
-            if(_cssClass != null && _cssClass.Trim().Length != 0)
+            if (_cssClass != null && _cssClass.Trim().Length != 0)
             {
                 _txtCtl.CssClass = _cssClass;
             }
 
-            if(Width != Unit.Empty)
+            if (Width != Unit.Empty)
             {
                 _txtCtl.Width = Width;
             }
-            if(Height != Unit.Empty)
+            if (Height != Unit.Empty)
             {
                 _txtCtl.Height = Height;
             }

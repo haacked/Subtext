@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class Customize {
-        
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class Customize
+    {
+
         /// <summary>
         /// MetatagRepeater control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater MetatagRepeater;
-        
+
         /// <summary>
         /// resultsPager control.
         /// </summary>

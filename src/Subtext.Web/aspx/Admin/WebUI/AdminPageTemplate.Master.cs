@@ -16,9 +16,7 @@
 #endregion
 
 using System;
-using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Security;
 
 namespace Subtext.Web.Admin.WebUI
 {
@@ -52,7 +50,7 @@ namespace Subtext.Web.Admin.WebUI
             // wired up. 
             LinksActions.Items.Add(button);
             LinksActions.Controls.Add(button);
-            if(!String.IsNullOrEmpty(rssFeed))
+            if (!String.IsNullOrEmpty(rssFeed))
             {
                 HyperLink rssLink = CreateAdminRssHyperlink(rssFeed);
                 LinksActions.Items.Add(rssLink);
@@ -80,7 +78,7 @@ namespace Subtext.Web.Admin.WebUI
         public void AddToActions(HyperLink link, string rssFeed)
         {
             LinksActions.Items.Add(link);
-            if(!String.IsNullOrEmpty(rssFeed))
+            if (!String.IsNullOrEmpty(rssFeed))
             {
                 LinksActions.Items.Add(CreateAdminRssHyperlink(rssFeed));
             }

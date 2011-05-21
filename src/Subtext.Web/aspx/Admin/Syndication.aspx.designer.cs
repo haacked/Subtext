@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class Syndication {
-        
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class Syndication
+    {
+
         /// <summary>
         /// Messages control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
+
         /// <summary>
         /// chkEnableSyndication control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkEnableSyndication;
-        
+
         /// <summary>
         /// HelpToolTip1 control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip1;
-        
+
         /// <summary>
         /// helpImg control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage helpImg;
-        
+
         /// <summary>
         /// chkUseSyndicationCompression control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkUseSyndicationCompression;
-        
+
         /// <summary>
         /// HelpToolTip2 control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip2;
-        
+
         /// <summary>
         /// Img1 control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage Img1;
-        
+
         /// <summary>
         /// chkUseDeltaEncoding control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkUseDeltaEncoding;
-        
+
         /// <summary>
         /// Helptooltip4 control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip4;
-        
+
         /// <summary>
         /// Img2 control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage Img2;
-        
+
         /// <summary>
         /// hlpFeedburner control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip hlpFeedburner;
-        
+
         /// <summary>
         /// Img4 control.
         /// </summary>
@@ -120,7 +122,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage Img4;
-        
+
         /// <summary>
         /// txtFeedBurnerName control.
         /// </summary>
@@ -129,7 +131,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFeedBurnerName;
-        
+
         /// <summary>
         /// HelpToolTip3 control.
         /// </summary>
@@ -138,7 +140,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip3;
-        
+
         /// <summary>
         /// Img3 control.
         /// </summary>
@@ -147,7 +149,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlImage Img3;
-        
+
         /// <summary>
         /// txtLicenseUrl control.
         /// </summary>
@@ -156,7 +158,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtLicenseUrl;
-        
+
         /// <summary>
         /// lkbPost control.
         /// </summary>

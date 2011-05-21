@@ -29,7 +29,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected virtual void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 BindLocalUI();
             }

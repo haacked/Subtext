@@ -51,7 +51,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            if(Context != null)
+            if (Context != null)
             {
                 DateTime selectedDate = ChooseSelectedDateFromUrl();
                 entryCal.ToolTip = selectedDate.ToShortDateString();
@@ -90,11 +90,11 @@ namespace Subtext.Web.UI.Controls
 
             // /YYYY/MM/DD.aspx ?
             var match = new Regex("(.*)(\\d{4})/(\\d{2})/(\\d{2}).aspx$");
-            if(match.IsMatch(Request.RawUrl))
+            if (match.IsMatch(Request.RawUrl))
             {
                 dateStr = match.Replace(Request.RawUrl, "$3-$4-$2");
 
-                if(TryParseDateTime(dateStr, out parsedDate))
+                if (TryParseDateTime(dateStr, out parsedDate))
                 {
                     return parsedDate;
                 }
@@ -102,11 +102,11 @@ namespace Subtext.Web.UI.Controls
 
             // /YYYY/MM.aspx ?
             match = new Regex("(.*)(\\d{4})/(\\d{2}).aspx$");
-            if(match.IsMatch(Request.RawUrl))
+            if (match.IsMatch(Request.RawUrl))
             {
                 dateStr = match.Replace(Request.RawUrl, "$3-01-$2");
 
-                if(TryParseDateTime(dateStr, out parsedDate))
+                if (TryParseDateTime(dateStr, out parsedDate))
                 {
                     IsUrlMonthMode = true;
                     return parsedDate;
@@ -130,7 +130,7 @@ namespace Subtext.Web.UI.Controls
                 parsedDate = DateTime.ParseExact(dateString, "MM-dd-yyyy", CultureInfo.InvariantCulture);
                 return true;
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 parsedDate = Blog.TimeZone.Now;
                 return false;
@@ -144,7 +144,7 @@ namespace Subtext.Web.UI.Controls
         private void LoadMonthData()
         {
             _monthEntries = Cacher.GetEntriesForMonth(entryCal.SelectedDate, SubtextContext);
-            if(_monthEntries == null)
+            if (_monthEntries == null)
             {
                 Trace.Warn("SubTextBlogCalendar Error: Cacher.GetMonth");
                 _dateCount = 0;
@@ -164,7 +164,7 @@ namespace Subtext.Web.UI.Controls
         /// <param name="e"></param>
         protected void entryCal_DayRender(object sender, DayRenderEventArgs e)
         {
-            if(_currentDateIndex >= _dateCount || _currentDateIndex < 0)
+            if (_currentDateIndex >= _dateCount || _currentDateIndex < 0)
             {
                 return;
             }
@@ -172,7 +172,7 @@ namespace Subtext.Web.UI.Controls
             DateTime entryDate = _monthEntries.ElementAt(_currentDateIndex).DateCreated;
             DateTime calDate = e.Day.Date;
 
-            if(IsSameDay(calDate, entryDate))
+            if (IsSameDay(calDate, entryDate))
             {
                 e.Cell.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\">{1}</a>",
                                             Url.DayUrl(e.Day.Date), e.Day.Date.Day);
@@ -181,7 +181,7 @@ namespace Subtext.Web.UI.Controls
                 do
                 {
                     _currentDateIndex--;
-                } while(_currentDateIndex > -1 &&
+                } while (_currentDateIndex > -1 &&
                         IsSameDay(e.Day.Date, _monthEntries.ElementAt(_currentDateIndex).DateCreated));
             }
         }

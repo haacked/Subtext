@@ -45,71 +45,71 @@ namespace Subtext.Web.UI.Controls
             Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
 
             //if found
-            if(entry != null)
+            if (entry != null)
             {
                 //Sent entry properties
                 MainLink.NavigateUrl = Url.BlogUrl();
                 var entries = Cacher.GetPreviousNextEntry(entry.Id, PostType.BlogPost, SubtextContext);
 
                 //Remember, the NEXT entry is the MORE RECENT entry.
-                switch(entries.Count)
+                switch (entries.Count)
                 {
                     case 0:
-                    {
-                        //you have no entries. You should blog more
-                        if(PrevLink != null)
                         {
-                            PrevLink.Visible = false;
-                            
-                        }
-                        if(NextLink != null)
-                        {
-                            NextLink.Visible = false;
-                        }
-                        break;
-                    }
-                    case 1:
-                    {
-                        //since there is only one record, you are at an end
-                        //Check EntryId to see if it is greater or less than
-                        //the current ID
-                        if (entries.First().DateSyndicated > entry.DateSyndicated)
-                        {
-                            //this is the oldest blog
-                            if(PrevLink != null)
+                            //you have no entries. You should blog more
+                            if (PrevLink != null)
                             {
                                 PrevLink.Visible = false;
+
                             }
-                            if(LeftPipe != null)
-                            {
-                                LeftPipe.Visible = false;
-                            }
-                            SetNav(NextLink, entries.First());
-                        }
-                        else
-                        {
-                            //this is the latest blog
-                            if(NextLink != null)
+                            if (NextLink != null)
                             {
                                 NextLink.Visible = false;
                             }
-                            if(RightPipe != null)
-                            {
-                                RightPipe.Visible = false;
-                            }
-                            SetNav(PrevLink, entries.First());
+                            break;
                         }
-                        break;
-                    }
+                    case 1:
+                        {
+                            //since there is only one record, you are at an end
+                            //Check EntryId to see if it is greater or less than
+                            //the current ID
+                            if (entries.First().DateSyndicated > entry.DateSyndicated)
+                            {
+                                //this is the oldest blog
+                                if (PrevLink != null)
+                                {
+                                    PrevLink.Visible = false;
+                                }
+                                if (LeftPipe != null)
+                                {
+                                    LeftPipe.Visible = false;
+                                }
+                                SetNav(NextLink, entries.First());
+                            }
+                            else
+                            {
+                                //this is the latest blog
+                                if (NextLink != null)
+                                {
+                                    NextLink.Visible = false;
+                                }
+                                if (RightPipe != null)
+                                {
+                                    RightPipe.Visible = false;
+                                }
+                                SetNav(PrevLink, entries.First());
+                            }
+                            break;
+                        }
                     case 2:
-                    {
-                        //two records found. The first record will be NEXT
-                        //the second record will be PREVIOUS
-                        //This is because the query is sorted by EntryId
-                        SetNav(NextLink, entries.First());
-                        SetNav(PrevLink, entries.ElementAt(1));
-                        break;
-                    }
+                        {
+                            //two records found. The first record will be NEXT
+                            //the second record will be PREVIOUS
+                            //This is because the query is sorted by EntryId
+                            SetNav(NextLink, entries.First());
+                            SetNav(PrevLink, entries.ElementAt(1));
+                            break;
+                        }
                 }
             }
             else
@@ -124,12 +124,12 @@ namespace Subtext.Web.UI.Controls
 
         private void SetNav(HyperLink navLink, EntrySummary entry)
         {
-            if(navLink == null)
+            if (navLink == null)
             {
                 return;
             }
             string format = navLink.Attributes["Format"];
-            if(String.IsNullOrEmpty(format))
+            if (String.IsNullOrEmpty(format))
             {
                 format = "{0}";
             }
@@ -138,12 +138,12 @@ namespace Subtext.Web.UI.Controls
 
             string entryTitle = HttpUtility.HtmlDecode(entry.Title);
             string sizeLimitText = navLink.Attributes["TextSizeLimit"];
-            if(!String.IsNullOrEmpty(sizeLimitText))
+            if (!String.IsNullOrEmpty(sizeLimitText))
             {
                 int sizeLimit;
-                if(int.TryParse(sizeLimitText, out sizeLimit))
+                if (int.TryParse(sizeLimitText, out sizeLimit))
                 {
-                    if(sizeLimit > 0 && sizeLimit < entryTitle.Length)
+                    if (sizeLimit > 0 && sizeLimit < entryTitle.Length)
                     {
                         entryTitle = entryTitle.Substring(0, sizeLimit) + "...";
                     }

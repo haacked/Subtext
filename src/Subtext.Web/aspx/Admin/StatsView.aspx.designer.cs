@@ -8,9 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class StatsView {
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class StatsView
+    {
     }
 }
