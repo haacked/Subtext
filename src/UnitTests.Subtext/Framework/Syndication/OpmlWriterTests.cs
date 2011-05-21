@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Syndication
                 new Blog {Id = 2, Host = "haacked.com", Title = "You've Been Haacked"}
             };
             var writer = new StringWriter();
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.RssUrl(blogs[0])).Returns(new Uri("http://example.com/blog1/Rss.aspx"));
             urlHelper.Setup(u => u.RssUrl(blogs[1])).Returns(new Uri("http://haacked.com/Rss.aspx"));
             var opml = new OpmlWriter();

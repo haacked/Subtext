@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Web.Mvc;
 using CookComputing.XmlRpc;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -45,7 +46,8 @@ namespace Subtext.Framework.XmlRpc
     {
         static readonly Log Log = new Log();
 
-        public MetaWeblog(ISubtextContext context) : this(context, context.ServiceLocator.GetService<IEntryPublisher>())
+        public MetaWeblog(ISubtextContext context)
+            : this(context, context.ServiceLocator.GetService<IEntryPublisher>())
         {
         }
 
@@ -57,14 +59,14 @@ namespace Subtext.Framework.XmlRpc
 
         protected IEntryPublisher EntryPublisher
         {
-            get; 
+            get;
             private set;
         }
 
         private Entry GetBlogPost(string pageId)
         {
             Entry entry = Repository.GetEntry(Int32.Parse(pageId, CultureInfo.InvariantCulture), false /*activeOnly*/, true /*includeCategories*/);
-            if(entry == null)
+            if (entry == null)
             {
                 return null;
             }
@@ -114,7 +116,7 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             Entry entry = GetBlogPost(postid);
-            if(entry != null)
+            if (entry != null)
             {
                 entry.Author = Blog.Author;
                 entry.Email = Blog.Email;
@@ -124,7 +126,7 @@ namespace Subtext.Framework.XmlRpc
                 entry.PostType = PostType.BlogPost;
 
                 //User trying to change future dating.
-                if(publish && post.dateCreated != null &&
+                if (publish && post.dateCreated != null &&
                    Blog.TimeZone.IsInFuture(post.dateCreated.Value, TimeZoneInfo.Utc))
                 {
                     entry.DateSyndicated = post.dateCreated.Value;
@@ -134,10 +136,10 @@ namespace Subtext.Framework.XmlRpc
                 entry.DateModified = Blog.TimeZone.Now;
 
                 EntryPublisher.Publish(entry);
-                
-                if(entry.Enclosure == null)
+
+                if (entry.Enclosure == null)
                 {
-                    if(post.enclosure != null)
+                    if (post.enclosure != null)
                     {
                         Components.Enclosure enclosure = post.enclosure.Value.CopyValuesToEnclosure();
                         enclosure.EntryId = entry.Id;
@@ -146,7 +148,7 @@ namespace Subtext.Framework.XmlRpc
                 }
                 else // if(entry.Enclosure != null)
                 {
-                    if(post.enclosure != null)
+                    if (post.enclosure != null)
                     {
                         Components.Enclosure enclosure = entry.Enclosure;
                         post.enclosure.Value.CopyValuesTo(enclosure);
@@ -166,7 +168,7 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             Entry entry = GetBlogPost(postid);
-            if(entry == null)
+            if (entry == null)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_CouldNotFindEntry);
             }
@@ -182,7 +184,7 @@ namespace Subtext.Framework.XmlRpc
                 categories = new string[entry.Categories.Count]
             };
 
-            if(entry.Enclosure != null)
+            if (entry.Enclosure != null)
             {
                 post.enclosure = new Enclosure
                 {
@@ -192,7 +194,7 @@ namespace Subtext.Framework.XmlRpc
                 };
             }
 
-            if(entry.HasEntryName)
+            if (entry.HasEntryName)
             {
                 post.wp_slug = entry.EntryName;
             }
@@ -239,7 +241,7 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             ICollection<LinkCategory> categories = Repository.GetCategories(CategoryType.PostCollection, false);
-            if(categories == null)
+            if (categories == null)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_NoCategories);
             }
@@ -295,7 +297,7 @@ namespace Subtext.Framework.XmlRpc
                 string imageFilePhysicalPath = Path.Combine(imageDirectory, mediaobject.name);
                 FileHelper.WriteBytesToFile(imageFilePhysicalPath, mediaobject.bits);
             }
-            catch(IOException)
+            catch (IOException)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_ErrorSavingFile);
             }
@@ -343,7 +345,7 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             Entry entry = GetBlogPost(page_id);
-            if(entry != null)
+            if (entry != null)
             {
                 entry.Author = Blog.Author;
                 entry.Email = Blog.Email;
@@ -352,7 +354,7 @@ namespace Subtext.Framework.XmlRpc
                 entry.Description = content.excerpt ?? string.Empty;
                 entry.IncludeInMainSyndication = true;
 
-                if(content.categories != null)
+                if (content.categories != null)
                 {
                     entry.Categories.AddRange(content.categories);
                 }
@@ -360,7 +362,7 @@ namespace Subtext.Framework.XmlRpc
                 entry.PostType = PostType.Story;
                 entry.IsActive = publish;
 
-                if(!string.IsNullOrEmpty(content.wp_slug))
+                if (!string.IsNullOrEmpty(content.wp_slug))
                 {
                     entry.EntryName = content.wp_slug;
                 }
@@ -420,11 +422,11 @@ namespace Subtext.Framework.XmlRpc
                 categories = new string[entry.Categories.Count]
             };
             entry.Categories.CopyTo(post.categories, 0);
-            if(entry.HasEntryName)
+            if (entry.HasEntryName)
             {
                 post.wp_slug = entry.EntryName;
             }
-            if(entry.Enclosure != null)
+            if (entry.Enclosure != null)
             {
                 post.enclosure = new Enclosure
                 {
@@ -458,13 +460,13 @@ namespace Subtext.Framework.XmlRpc
 
         private void ValidateUser(string username, string password, bool allowServiceAccess)
         {
-            if(!Config.Settings.AllowServiceAccess || !allowServiceAccess)
+            if (!Config.Settings.AllowServiceAccess || !allowServiceAccess)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_WebServiceNotEnabled);
             }
 
             bool isValid = SecurityHelper.IsValidUser(Blog, username, password);
-            if(!isValid)
+            if (!isValid)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_UsernameAndPasswordInvalid);
             }
@@ -474,7 +476,7 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            var entry = new Entry(postType) {PostType = postType, IsActive = publish, Author = Blog.Author, Email = Blog.Email};
+            var entry = new Entry(postType) { PostType = postType, IsActive = publish, Author = Blog.Author, Email = Blog.Email };
             post.CopyValuesTo(entry);
             entry.AllowComments = true;
             entry.DisplayOnHomePage = true;
@@ -484,7 +486,7 @@ namespace Subtext.Framework.XmlRpc
             dateTimeInPost = Blog.TimeZone.FromUtc(dateTimeInPost);
 
             entry.DateCreated = entry.DateModified = Blog.TimeZone.Now;
-            if(publish)
+            if (publish)
             {
                 entry.DateSyndicated = dateTimeInPost;
             }
@@ -498,12 +500,12 @@ namespace Subtext.Framework.XmlRpc
             {
                 //TODO: Review whether keywords should be true.
                 postId = EntryPublisher.Publish(entry);
-                if(Blog.TrackbacksEnabled)
+                if (Blog.TrackbacksEnabled)
                 {
                     NotificationServices.Run(entry, Blog, Url);
                 }
 
-                if(post.enclosure != null)
+                if (post.enclosure != null)
                 {
                     Components.Enclosure enclosure = post.enclosure.Value.CopyValuesToEnclosure();
                     enclosure.EntryId = postId;
@@ -512,11 +514,11 @@ namespace Subtext.Framework.XmlRpc
 
                 AddCommunityCredits(entry);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new XmlRpcFaultException(0, e.Message + " " + e.StackTrace);
             }
-            if(postId < 0)
+            if (postId < 0)
             {
                 throw new XmlRpcFaultException(0, Resources.XmlRpcFault_AddPostFailed);
             }
@@ -529,12 +531,12 @@ namespace Subtext.Framework.XmlRpc
             {
                 CommunityCreditNotification.AddCommunityCredits(entry, Url, Blog);
             }
-            catch(CommunityCreditNotificationException ex)
+            catch (CommunityCreditNotificationException ex)
             {
                 Log.WarnFormat(Resources.XmlRpcWarn_CommunityCredits,
                                Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(), ex.Message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error(Resources.XmlRpcError_CommunityCredits, ex);
             }
@@ -547,14 +549,14 @@ namespace Subtext.Framework.XmlRpc
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
             ICollection<LinkCategory> lcc = Repository.GetCategories(CategoryType.PostCollection, false);
-            if(lcc == null)
+            if (lcc == null)
             {
                 throw new XmlRpcFaultException(0, "No categories exist");
             }
 
             var categories = new MtCategory[lcc.Count];
             int i = 0;
-            foreach(LinkCategory linkCategory in lcc)
+            foreach (LinkCategory linkCategory in lcc)
             {
                 var category = new MtCategory(linkCategory.Id.ToString(CultureInfo.InvariantCulture),
                                                linkCategory.Title);
@@ -571,14 +573,14 @@ namespace Subtext.Framework.XmlRpc
         {
             ValidateUser(username, password, Blog.AllowServiceAccess);
 
-            if(categories != null && categories.Length > 0)
+            if (categories != null && categories.Length > 0)
             {
                 int postId = Int32.Parse(postid, CultureInfo.InvariantCulture);
 
                 IEnumerable<int> categoryIds = from category in categories
                                                select int.Parse(category.categoryId, CultureInfo.InvariantCulture);
 
-                if(categoryIds.Any())
+                if (categoryIds.Any())
                 {
                     Repository.SetEntryCategoryList(postId, categoryIds);
                 }
@@ -596,20 +598,20 @@ namespace Subtext.Framework.XmlRpc
             int postId = Int32.Parse(postid, CultureInfo.InvariantCulture);
             ICollection<Link> postCategories = Repository.GetLinkCollectionByPostId(postId);
             var categories = new MtCategory[postCategories.Count];
-            if(postCategories.Count > 0)
+            if (postCategories.Count > 0)
             {
                 // REFACTOR: Might prefer seeing a dictionary come back straight from the provider.
                 // for now we'll build our own catid->catTitle lookup--we need it below bc collection
                 // from post is going to be null for title.
                 ICollection<LinkCategory> cats = Repository.GetCategories(CategoryType.PostCollection, false);
                 var catLookup = new Hashtable(cats.Count);
-                foreach(LinkCategory currentCat in cats)
+                foreach (LinkCategory currentCat in cats)
                 {
                     catLookup.Add(currentCat.Id, currentCat.Title);
                 }
 
                 int i = 0;
-                foreach(Link link in postCategories)
+                foreach (Link link in postCategories)
                 {
                     var category = new MtCategory(link.CategoryId.ToString(CultureInfo.InvariantCulture),
                                                    (string)catLookup[link.CategoryId]);
@@ -636,7 +638,7 @@ namespace Subtext.Framework.XmlRpc
             Description = "Retrieve information about the text formatting plugins supported by the server.")]
         public MtTextFilter[] GetSupportedTextFilters()
         {
-            return new[] {new MtTextFilter("test", "test"),};
+            return new[] { new MtTextFilter("test", "test"), };
         }
 
         #region Nested type: BloggerPost
@@ -659,8 +661,10 @@ namespace Subtext.Framework.XmlRpc
         public struct MtCategory
         {
             public string categoryId;
-            [XmlRpcMissingMapping(MappingAction.Ignore)] public string categoryName;
-            [XmlRpcMissingMapping(MappingAction.Ignore)] public bool isPrimary;
+            [XmlRpcMissingMapping(MappingAction.Ignore)]
+            public string categoryName;
+            [XmlRpcMissingMapping(MappingAction.Ignore)]
+            public bool isPrimary;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="MtCategory"/> class.

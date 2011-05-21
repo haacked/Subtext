@@ -29,13 +29,13 @@ using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Routing
 {
-    public class UrlHelper
+    public class BlogUrlHelper
     {
-        protected UrlHelper()
+        protected BlogUrlHelper()
         {
         }
 
-        public UrlHelper(RequestContext context, RouteCollection routes)
+        public BlogUrlHelper(RequestContext context, RouteCollection routes)
         {
             RequestContext = context ??
                              new RequestContext(new HttpContextWrapper(System.Web.HttpContext.Current), new RouteData());

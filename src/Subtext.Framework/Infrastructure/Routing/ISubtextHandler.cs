@@ -26,7 +26,7 @@ namespace Subtext.Framework.Routing
         [Inject]
         ISubtextContext SubtextContext { get; }
 
-        UrlHelper Url { get; }
+        BlogUrlHelper Url { get; }
 
         ObjectProvider Repository { get; }
 

@@ -45,7 +45,7 @@ namespace Subtext.Web.UI.Controls
             get { return SubtextContext.RequestContext.RouteData.Values; }
         }
 
-        public UrlHelper Url
+        public BlogUrlHelper Url
         {
             get
             {

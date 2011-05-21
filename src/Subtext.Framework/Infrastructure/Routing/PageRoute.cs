@@ -17,8 +17,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using System.Web.Routing;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
@@ -26,16 +26,16 @@ namespace Subtext.Framework.Routing
     {
         public const string ControlNamesKey = "controls";
 
-        public PageRoute(string url, string virtualPath, IEnumerable<string> controls, IServiceLocator serviceLocator)
+        public PageRoute(string url, string virtualPath, IEnumerable<string> controls, IDependencyResolver serviceLocator)
             : this(url, virtualPath, controls, serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator)
         {
         }
 
         public PageRoute(string url, string virtualPath, IEnumerable<string> controls, ISubtextPageBuilder pageBuilder,
-                         IServiceLocator serviceLocator)
+                         IDependencyResolver serviceLocator)
             : base(url, new PageRouteHandler(virtualPath, pageBuilder, serviceLocator))
         {
-            DataTokens = new RouteValueDictionary {{ControlNamesKey, controls.AsEnumerable()}};
+            DataTokens = new RouteValueDictionary { { ControlNamesKey, controls.AsEnumerable() } };
         }
     }
 }

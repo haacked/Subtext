@@ -26,7 +26,7 @@ namespace Subtext.Framework.Syndication
 {
     public class OpmlWriter
     {
-        public virtual void Write(IEnumerable<Blog> blogs, TextWriter writer, UrlHelper urlHelper)
+        public virtual void Write(IEnumerable<Blog> blogs, TextWriter writer, BlogUrlHelper urlHelper)
         {
             var settings = new XmlWriterSettings
             {

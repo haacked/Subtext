@@ -29,7 +29,7 @@ namespace Subtext.Web.UI.Controls
     /// </summary>
     public class SubtextCoComment : CoComment
     {
-        public UrlHelper Url
+        public BlogUrlHelper Url
         {
             get
             {

@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             entry.Body = "The following items are waiting approval.";
             entry.PostType = PostType.None;
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(url => url.ImageUrl(It.IsAny<string>())).Returns("/images/RSS2Image.gif");
             urlHelper.Setup(url => url.GetVirtualPath(It.IsAny<string>(), It.IsAny<object>())).Returns(
                 "/blog/Admin/Feedback.aspx?status=2");
@@ -136,7 +136,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             var comments = new List<FeedbackItem>();
             comments.Add(comment);
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(url => url.EntryUrl(It.IsAny<Entry>())).Returns(
                 "/Subtext.Web/archive/2006/02/01/titleofthepost.aspx");
             urlHelper.Setup(url => url.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns(

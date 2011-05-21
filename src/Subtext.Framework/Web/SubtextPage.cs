@@ -38,7 +38,7 @@ namespace Subtext.Framework.Web.Handlers
         [Inject]
         public ISearchEngineService SearchEngineService { get; set; }
 
-        public UrlHelper Url
+        public BlogUrlHelper Url
         {
             get { return SubtextContext.UrlHelper; }
         }

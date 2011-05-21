@@ -25,7 +25,7 @@ namespace Subtext.Web.Admin.WebUI
 {
     public class AdminMasterPage : MasterPage
     {
-        public UrlHelper Url
+        public BlogUrlHelper Url
         {
             get { return SubtextPage.Url; }
         }

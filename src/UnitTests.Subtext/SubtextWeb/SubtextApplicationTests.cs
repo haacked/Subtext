@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using log4net;
 using MbUnit.Framework;
@@ -10,7 +11,6 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Infrastructure;
 using Subtext.Web;
 
 namespace UnitTests.Subtext.SubtextWeb
@@ -22,11 +22,11 @@ namespace UnitTests.Subtext.SubtextWeb
         public void StartApplication_SetsLogInitializedToFalse()
         {
             // arrange
-            var app = new SubtextApplication(null);
+            var app = new SubtextApplication();
             var server = new Mock<HttpServerUtilityBase>();
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IDependencyResolver>().Object),
                                  server.Object);
 
             // assert
@@ -37,12 +37,12 @@ namespace UnitTests.Subtext.SubtextWeb
         public void StartApplication_AddsAdminDirectoryToInvalidPaths_IfAdminDirectoryExistsInWrongPlace()
         {
             // arrange
-            var app = new SubtextApplication(null);
+            var app = new SubtextApplication();
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.MapPath("~/Admin")).Returns(Directory.CreateDirectory("Admin").FullName);
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IDependencyResolver>().Object),
                                  server.Object);
 
             // assert
@@ -53,16 +53,16 @@ namespace UnitTests.Subtext.SubtextWeb
         public void StartApplication_AddsLoginFileToInvalidPaths_IfLoginFileExistsInWrongPlace()
         {
             // arrange
-            var app = new SubtextApplication(null);
+            var app = new SubtextApplication();
             var server = new Mock<HttpServerUtilityBase>();
-            using(StreamWriter writer = File.CreateText("login.aspx"))
+            using (StreamWriter writer = File.CreateText("login.aspx"))
             {
                 writer.Write("test");
             }
             server.Setup(s => s.MapPath("~/login.aspx")).Returns(Path.GetFullPath("login.aspx"));
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IDependencyResolver>().Object),
                                  server.Object);
 
             // assert
@@ -73,12 +73,12 @@ namespace UnitTests.Subtext.SubtextWeb
         public void StartApplication_AddsHostAdminDirectoryToInvalidPaths_IfHostAdminDirectoryExistsInWrongPlace()
         {
             // arrange
-            var app = new SubtextApplication(null);
+            var app = new SubtextApplication();
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.MapPath("~/HostAdmin")).Returns(Directory.CreateDirectory("HostAdmin").FullName);
 
             // act
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IDependencyResolver>().Object),
                                  server.Object);
 
             // assert
@@ -89,7 +89,7 @@ namespace UnitTests.Subtext.SubtextWeb
         public void BeginApplicationRequest_LogsThatTheApplicationHasStartedAndSetsLogInitializedTrue()
         {
             // arrange
-            var app = new SubtextApplication(null);
+            var app = new SubtextApplication();
             Assert.IsFalse(app.LogInitialized);
             var log = new Mock<ILog>();
             string logMessage = null;
@@ -107,10 +107,10 @@ namespace UnitTests.Subtext.SubtextWeb
         public void BeginApplicationRequest_WithOldAdminDirectory_ThrowsDeprecatedFileExistsException()
         {
             // arrange
-            var app = new SubtextApplication(null);
+            var app = new SubtextApplication();
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.MapPath("~/Admin")).Returns(Directory.CreateDirectory("Admin").FullName);
-            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IServiceLocator>().Object),
+            app.StartApplication(new SubtextRouteMapper(new RouteCollection(), new Mock<IDependencyResolver>().Object),
                                  server.Object);
 
             // act, assert
@@ -183,7 +183,7 @@ namespace UnitTests.Subtext.SubtextWeb
         public void OnApplicationError_WithHttpUnhandledExceptionContainingNoInnerException_Transfers()
         {
             // arrange
-            var app = new SubtextApplication(null);
+            var app = new SubtextApplication();
             string transferLocation = null;
             var server = new Mock<HttpServerUtilityBase>();
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
@@ -243,7 +243,7 @@ namespace UnitTests.Subtext.SubtextWeb
         public void HandleDeprecatedFilePathsException_WithDepecatedPhysicalPathsException_ReturnsFalse()
         {
             // arrange
-            var exception = new DeprecatedPhysicalPathsException(new[] {"~/Admin"});
+            var exception = new DeprecatedPhysicalPathsException(new[] { "~/Admin" });
             var server = new Mock<HttpServerUtilityBase>();
             string transferLocation = null;
             server.Setup(s => s.Execute(It.IsAny<string>(), false)).Callback<string, bool>(
@@ -299,7 +299,7 @@ namespace UnitTests.Subtext.SubtextWeb
             ()
         {
             // arrange
-            
+
             var server = new Mock<HttpServerUtilityBase>();
             string transferLocation = null;
             server.Setup(s => s.Transfer(It.IsAny<string>())).Callback<string>(s => transferLocation = s);
@@ -530,10 +530,10 @@ namespace UnitTests.Subtext.SubtextWeb
 
         private static void CleanupDirectories()
         {
-            var directories = new[] {"Admin", "HostAdmin"};
+            var directories = new[] { "Admin", "HostAdmin" };
             Array.ForEach(directories, directory =>
                 {
-                    if(Directory.Exists(directory))
+                    if (Directory.Exists(directory))
                     {
                         Directory.Delete(directory, true);
                     }

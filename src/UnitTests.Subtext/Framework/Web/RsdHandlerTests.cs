@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Web
             blog.Subfolder = "sub";
             blog.Host = "example.com";
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
             urlHelper.Setup(u => u.MetaWeblogApiUrl(blog)).Returns(
                 new Uri("http://example.com/sub/services/metablogapi.aspx"));

@@ -114,7 +114,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/", "Subtext.Web", null);
-            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
+            Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/Subtext.Web/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(
                 e => "/Subtext.Web/whatever/" + e.Id + ".aspx");
@@ -269,7 +269,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             var entries = new List<Entry>(CreateSomeEntriesDescending());
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/", "Subtext.Web", null);
-            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
+            Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/Subtext.Web/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/Subtext.Web/whatever");
 
@@ -362,7 +362,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             var entries = new List<Entry>(CreateSomeEntriesDescending());
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/Subtext.Web/", "Subtext.Web", null);
-            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
+            Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/Subtext.Web/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(e => "/Subtext.Web/whatever/" + e.Id);
 

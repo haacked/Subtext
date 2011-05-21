@@ -29,7 +29,7 @@ namespace Subtext.Framework.Tracking
     {
         static readonly Log Log = new Log();
 
-        public static void AddCommunityCredits(Entry entry, UrlHelper urlHelper, Blog blog)
+        public static void AddCommunityCredits(Entry entry, BlogUrlHelper urlHelper, Blog blog)
         {
             string result;
 

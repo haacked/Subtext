@@ -43,7 +43,7 @@ namespace Subtext.Framework.Email
 
         protected Blog Blog { get; private set; }
 
-        protected UrlHelper Url { get; private set; }
+        protected BlogUrlHelper Url { get; private set; }
 
         protected ISubtextContext Context { get; private set; }
 

@@ -182,7 +182,7 @@ namespace Subtext.Web.UI.Pages
                     {
                         return null;
                     }
-                    _query = UrlHelper.ExtractKeywordsFromReferrer(referrer, request.Url);
+                    _query = BlogUrlHelper.ExtractKeywordsFromReferrer(referrer, request.Url);
                 }
                 return _query;
             }

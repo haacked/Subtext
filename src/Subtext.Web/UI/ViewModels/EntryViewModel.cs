@@ -41,7 +41,7 @@ namespace Subtext.Web.UI.ViewModels
 
         protected Entry Entry { get; private set; }
 
-        protected UrlHelper UrlHelper
+        protected BlogUrlHelper UrlHelper
         {
             get { return SubtextContext.UrlHelper; }
         }

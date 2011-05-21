@@ -455,7 +455,7 @@ namespace UnitTests.Subtext.Framework.Data
 
             var entry = new Entry(PostType.BlogPost) { Id = 123, EntryName = "testing-slug", Title = "Testing 123" };
             repository.Setup(r => r.GetEntry(123, true, true)).Returns(entry);
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/testing-slug.aspx");
             UnitTestHelper.SetupBlog();
             var response = new Mock<HttpResponseBase>();

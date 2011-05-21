@@ -16,17 +16,16 @@
 #endregion
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.UI;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class PageRouteHandler : RouteHandlerBase
     {
-        public PageRouteHandler(string virtualPath, ISubtextPageBuilder pageBuilder, IServiceLocator serviceLocator)
+        public PageRouteHandler(string virtualPath, ISubtextPageBuilder pageBuilder, IDependencyResolver serviceLocator)
             : base(serviceLocator)
         {
             VirtualPath = virtualPath;
@@ -39,15 +38,14 @@ namespace Subtext.Framework.Routing
 
         protected override IHttpHandler GetHandler(RequestContext requestContext)
         {
-            Bootstrapper.RequestContext = requestContext;
             var page = PageBuilder.CreateInstanceFromVirtualPath(VirtualPath, typeof(Page)) as IHttpHandler;
 
-            if(page != null)
+            if (page != null)
             {
                 var pageWithControls = page as IPageWithControls;
-                if(pageWithControls != null)
+                if (pageWithControls != null)
                 {
-                    if(requestContext.RouteData.DataTokens != null)
+                    if (requestContext.RouteData.DataTokens != null)
                     {
                         IEnumerable<string> controls = requestContext.RouteData.GetControlNames();
                         pageWithControls.SetControls(controls);

@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Web.Mvc;
 using log4net;
-using Ninject;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Services.SearchEngine;
-using Subtext.ImportExport;
 using Subtext.Web.Properties;
 
 namespace Subtext.Web.Admin.Pages
@@ -36,19 +30,19 @@ namespace Subtext.Web.Admin.Pages
             try
             {
                 var errors = indexingService.RebuildIndex();
-                if(errors.Count()==0)
+                if (errors.Count() == 0)
                     Messages.ShowMessage(Resources.FullTextSearch_ReindexingCompleted);
                 else
                 {
                     string errormessages = string.Empty;
                     foreach (var error in errors)
                     {
-                        errormessages += String.Format("<li>Unable to index post with id {0}: {1}</li>",error.Entry.EntryId,error.Exception.Message);
+                        errormessages += String.Format("<li>Unable to index post with id {0}: {1}</li>", error.Entry.EntryId, error.Exception.Message);
                     }
                     Messages.ShowError(String.Format(Resources.FullTextSearch_ReindexingCompletedWithErrorsFormat, errormessages));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error(Resources.FullTextSearch_ReindexingFailed, ex);
                 Messages.ShowError(ex.Message, true);

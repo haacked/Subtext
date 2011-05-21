@@ -22,12 +22,12 @@ namespace Subtext.Framework.Routing
 {
     public class AdminUrlHelper
     {
-        public AdminUrlHelper(UrlHelper urlHelper)
+        public AdminUrlHelper(BlogUrlHelper urlHelper)
         {
             Url = urlHelper;
         }
 
-        public UrlHelper Url { get; private set; }
+        public BlogUrlHelper Url { get; private set; }
 
         public VirtualPath Home()
         {

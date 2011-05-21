@@ -32,7 +32,7 @@ namespace Subtext.Framework.Data
         /// <summary>
         /// Converts a LinkCategoryCollection into a single LinkCategory with its own LinkCollection.
         /// </summary>
-        public static LinkCategory BuildLinks(string title, CategoryType catType, Blog blog, UrlHelper urlHelper)
+        public static LinkCategory BuildLinks(string title, CategoryType catType, Blog blog, BlogUrlHelper urlHelper)
         {
             ICollection<LinkCategory> links = ObjectProvider.Instance().GetCategories(catType, true /* activeOnly */);
             return MergeLinkCategoriesIntoSingleLinkCategory(title, catType, links, urlHelper, blog);
@@ -43,7 +43,7 @@ namespace Subtext.Framework.Data
         /// </summary>
         public static LinkCategory MergeLinkCategoriesIntoSingleLinkCategory(string title, CategoryType catType,
                                                                              IEnumerable<LinkCategory> links,
-                                                                             UrlHelper urlHelper, Blog blog)
+                                                                             BlogUrlHelper urlHelper, Blog blog)
         {
             if(!links.IsNullOrEmpty())
             {
@@ -58,7 +58,7 @@ namespace Subtext.Framework.Data
             return null;
         }
 
-        private static Link GetLinkFromLinkCategory(LinkCategory linkCategory, CategoryType catType, UrlHelper urlHelper, Blog blog)
+        private static Link GetLinkFromLinkCategory(LinkCategory linkCategory, CategoryType catType, BlogUrlHelper urlHelper, Blog blog)
         {
             var link = new Link {Title = linkCategory.Title};
 
@@ -85,7 +85,7 @@ namespace Subtext.Framework.Data
         /// Will convert ArchiveCountCollection method from Archives.GetPostsByMonthArchive()
         /// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
         /// </summary>
-        public static LinkCategory BuildMonthLinks(string title, UrlHelper urlHelper, Blog blog)
+        public static LinkCategory BuildMonthLinks(string title, BlogUrlHelper urlHelper, Blog blog)
         {
             ICollection<ArchiveCount> archiveCounts = ObjectProvider.Instance().GetPostCountsByMonth();
             return MergeArchiveCountsIntoLinkCategory(title, archiveCounts, urlHelper, blog);
@@ -93,7 +93,7 @@ namespace Subtext.Framework.Data
 
         public static LinkCategory MergeArchiveCountsIntoLinkCategory(string title,
                                                                       IEnumerable<ArchiveCount> archiveCounts,
-                                                                      UrlHelper urlHelper, Blog blog)
+                                                                      BlogUrlHelper urlHelper, Blog blog)
         {
             var linkCategory = new LinkCategory {Title = title};
             foreach(ArchiveCount archiveCount in archiveCounts)
@@ -116,7 +116,7 @@ namespace Subtext.Framework.Data
         /// Will convert ArchiveCountCollection method from Archives.GetPostsByCategoryArchive()
         /// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
         /// </summary>
-        public static LinkCategory BuildCategoriesArchiveLinks(string title, UrlHelper urlHelper)
+        public static LinkCategory BuildCategoriesArchiveLinks(string title, BlogUrlHelper urlHelper)
         {
             ICollection<ArchiveCount> acc = Archives.GetPostCountByCategory();
 

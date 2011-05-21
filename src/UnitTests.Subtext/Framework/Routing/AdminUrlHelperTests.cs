@@ -1,11 +1,10 @@
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Ninject;
 using Subtext.Framework.Components;
 using Subtext.Framework.Routing;
-using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -273,13 +272,13 @@ namespace UnitTests.Subtext.Framework.Routing
         private static AdminUrlHelper SetupUrlHelper(string appPath, RouteData routeData)
         {
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IDependencyResolver>().Object);
             Routes.RegisterRoutes(subtextRoutes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
             httpContext.Setup(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var helper = new UrlHelper(requestContext, routes);
+            var helper = new BlogUrlHelper(requestContext, routes);
             return new AdminUrlHelper(helper);
         }
     }

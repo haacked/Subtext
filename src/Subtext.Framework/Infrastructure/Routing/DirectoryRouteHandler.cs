@@ -18,15 +18,15 @@
 using System;
 using System.IO;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Subtext.Framework.Properties;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class DirectoryRouteHandler : PageRouteHandler
     {
-        public DirectoryRouteHandler(ISubtextPageBuilder pageBuilder, IServiceLocator serviceLocator)
+        public DirectoryRouteHandler(ISubtextPageBuilder pageBuilder, IDependencyResolver serviceLocator)
             : base(null, pageBuilder, serviceLocator)
         {
         }
@@ -35,16 +35,16 @@ namespace Subtext.Framework.Routing
         {
             RouteData routeData = requestContext.RouteData;
             var route = routeData.Route as IDirectoryRoute;
-            if(route == null)
+            if (route == null)
             {
                 throw new InvalidOperationException(
                     Resources.InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes);
             }
 
             string virtualPath = string.Format("~/aspx/{0}/{1}", route.DirectoryName, routeData.Values["pathinfo"]);
-            if(String.IsNullOrEmpty(Path.GetExtension(virtualPath)))
+            if (String.IsNullOrEmpty(Path.GetExtension(virtualPath)))
             {
-                if(!virtualPath.EndsWith("/"))
+                if (!virtualPath.EndsWith("/"))
                 {
                     virtualPath += "/";
                 }

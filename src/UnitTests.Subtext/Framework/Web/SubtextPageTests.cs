@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework.Routing
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Repository).Returns(new Mock<ObjectProvider>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(
-                new UrlHelper(new RequestContext(new Mock<HttpContextBase>().Object, new RouteData()), null));
+                new BlogUrlHelper(new RequestContext(new Mock<HttpContextBase>().Object, new RouteData()), null));
             subtextContext.Setup(c => c.Blog).Returns(new Blog());
             var subtextPage = new SubtextPage();
 

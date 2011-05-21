@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
                 var httpContext = new Mock<HttpContextBase>();
                 httpContext.Setup(c => c.Request.ApplicationPath).Returns("path");
                 context.Setup(c => c.UrlHelper).Returns(
-                    new UrlHelper(new RequestContext(httpContext.Object, new RouteData()), null));
+                    new BlogUrlHelper(new RequestContext(httpContext.Object, new RouteData()), null));
                 context.Setup(c => c.Blog).Returns(new Blog { Host = "host" });
                 var page = new SubtextPage { SubtextContext = context.Object };
                 var editor = new RichTextEditor { Page = page };
@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
                 var httpContext = new Mock<HttpContextBase>();
                 httpContext.Setup(c => c.Request.ApplicationPath).Returns("path");
                 context.Setup(c => c.UrlHelper).Returns(
-                    new UrlHelper(new RequestContext(httpContext.Object, new RouteData()), null));
+                    new BlogUrlHelper(new RequestContext(httpContext.Object, new RouteData()), null));
                 context.Setup(c => c.Blog).Returns(new Blog { Host = "host" });
                 var page = new SubtextPage { SubtextContext = context.Object };
                 var editor = new RichTextEditor { Page = page };

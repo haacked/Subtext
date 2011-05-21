@@ -69,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             StringWriter writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
-            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
+            Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
             subtextContext.SetupBlog(blog);
             var handler = new TrackBackHandler(subtextContext.Object);
@@ -96,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             StringWriter writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", int.MaxValue.ToString());
-            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
+            Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
             subtextContext.SetupBlog(blog);
             var handler = new TrackBackHandler(subtextContext.Object);
@@ -122,7 +122,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             var subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
+            Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
             subtextContext.SetupBlog(blog);
             var handler = new TrackBackHandler(subtextContext.Object);
@@ -158,7 +158,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             subtextContext.SetupBlog(blog);
             var handler = new TrackBackHandler(subtextContext.Object);
             handler.SourceVerification += (sender, e) => e.Verified = true;
-            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
+            Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
             Mock<HttpContextBase> httpContext = Mock.Get(subtextContext.Object.RequestContext.HttpContext);

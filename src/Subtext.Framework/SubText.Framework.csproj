@@ -157,9 +157,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject, Version=2.0.0.152, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+    <Reference Include="Ninject, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Ninject.dll</HintPath>
+      <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -191,13 +191,10 @@
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
-    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Mobile" />
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\System.Web.Mvc.dll</HintPath>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>D:\dev\svn\subtext\trunk\src\Dependencies\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.Services">
       <Name>System.Web.Services</Name>
     </Reference>
@@ -424,7 +421,6 @@
     <Compile Include="ImportExport\IBlogMLSource.cs" />
     <Compile Include="ImportExport\IBlogMLWriter.cs" />
     <Compile Include="Infrastructure\ActionResults\ExportActionResult.cs" />
-    <Compile Include="Infrastructure\Bootstrapper.cs" />
     <Compile Include="Infrastructure\Installation\IInstallationManager.cs" />
     <Compile Include="Infrastructure\Installation\IInstaller.cs" />
     <Compile Include="Infrastructure\Installation\InstallationManager.cs" />
@@ -444,10 +440,8 @@
     <Compile Include="Infrastructure\Installation\Scripting\TemplateParameter.cs" />
     <Compile Include="Infrastructure\Installation\Scripting\TemplateParameterCollection.cs" />
     <Compile Include="Infrastructure\Installation\SqlInstaller.cs" />
-    <Compile Include="Infrastructure\IServiceLocator.cs" />
     <Compile Include="Infrastructure\ITimeZone.cs" />
     <Compile Include="Infrastructure\ModelBinders\XmlModelBinder.cs" />
-    <Compile Include="Infrastructure\NinjectServiceLocator.cs" />
     <Compile Include="Infrastructure\Routing\AdminUrlHelper.cs" />
     <Compile Include="Infrastructure\Routing\AggregateEnabledConstraint.cs" />
     <Compile Include="Infrastructure\Routing\DirectoryRoute.cs" />
@@ -461,7 +455,6 @@
     <Compile Include="Infrastructure\Routing\ISubtextPageBuilder.cs" />
     <Compile Include="Infrastructure\Routing\PageRoute.cs" />
     <Compile Include="Infrastructure\Routing\PageRouteHandler.cs" />
-    <Compile Include="Infrastructure\Pipeline\PipelineService.cs" />
     <Compile Include="Infrastructure\Routing\RootRoute.cs" />
     <Compile Include="Infrastructure\Routing\RouteHandlerBase.cs" />
     <Compile Include="Infrastructure\Routing\SubfolderRoute.cs" />

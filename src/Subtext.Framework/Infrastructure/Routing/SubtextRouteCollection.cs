@@ -15,22 +15,22 @@
 
 #endregion
 
+using System.Web.Mvc;
 using System.Web.Routing;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class SubtextRouteMapper
     {
-        public SubtextRouteMapper(RouteCollection routes, IServiceLocator serviceLocator)
+        public SubtextRouteMapper(RouteCollection routes, IDependencyResolver serviceLocator)
         {
             Routes = routes;
             ServiceLocator = serviceLocator;
         }
 
-        public IServiceLocator ServiceLocator
+        public IDependencyResolver ServiceLocator
         {
-            get; 
+            get;
             private set;
         }
 

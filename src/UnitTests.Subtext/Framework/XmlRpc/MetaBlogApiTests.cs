@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Web.Mvc;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Extensibility;
@@ -12,7 +13,6 @@ using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.XmlRpc;
-using Subtext.Infrastructure;
 using Enclosure = Subtext.Framework.XmlRpc.Enclosure;
 using FrameworkEnclosure = Subtext.Framework.Components.Enclosure;
 
@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             subtextContext.Setup(c => c.UrlHelper.CategoryUrl(It.IsAny<LinkCategory>())).Returns("/Category/42.aspx");
             subtextContext.Setup(c => c.UrlHelper.CategoryRssUrl(It.IsAny<LinkCategory>())).Returns("/rss.aspx?catId=42");
             subtextContext.Setup(c => c.Repository.GetCategories(CategoryType.PostCollection, false)).Returns(new[] { category });
-            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IServiceLocator>().Object);
+            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             var api = new MetaWeblog(subtextContext.Object);
 
             //act
@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IServiceLocator>().Object);
+            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
 
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
             var post = new Post
@@ -101,9 +101,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
             var post = new Post
             {
-                categories = null, 
-                description = "A unit test", 
-                title = "A unit testing title", 
+                categories = null,
+                description = "A unit test",
+                title = "A unit testing title",
                 dateCreated = DateTime.UtcNow
             };
 
@@ -237,7 +237,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             FrameworkEnclosure enclosure = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
                                               "http://perseus.franklins.net/hanselminutes_0107.mp3", "audio/mp3", 123, 26707573, true, true);
             entry.Enclosure = enclosure;
-            var post = new Post {title = "Title 2", description = "Blah", dateCreated = DateTime.UtcNow};
+            var post = new Post { title = "Title 2", description = "Blah", dateCreated = DateTime.UtcNow };
 
             var postEnclosure = new Enclosure
             {
@@ -263,7 +263,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             //arrange
             FrameworkEnclosure enclosure = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
                                               "http://example.com/foo.mp3", "audio/mp3", 123, 26707573, true, true);
-            var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true, Enclosure = enclosure};
+            var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true, Enclosure = enclosure };
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.Categories.Add("TestCategory");
             var blog = new Blog { Id = 123, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
@@ -301,7 +301,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             FrameworkEnclosure enclosure = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
                                               "http://example.com/foo.mp3", "audio/mp3", 123, 2650, true, true);
             enclosure.Id = 321;
-            var entry = new Entry(PostType.BlogPost) {Title = "Title 1", Body = "Blah", IsActive = true, Enclosure = enclosure};
+            var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true, Enclosure = enclosure };
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var subtextContext = new Mock<ISubtextContext>();
             var blog = new Blog { Id = 999, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
@@ -311,7 +311,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             subtextContext.Setup(c => c.Repository.DeleteEnclosure(321)).Callback(() => enclosureDeleted = true);
             var entryPublisher = new Mock<IEntryPublisher>();
             entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>()));
-            var post = new Post {title = "Title 2", description = "Blah", dateCreated = DateTime.UtcNow};
+            var post = new Post { title = "Title 2", description = "Blah", dateCreated = DateTime.UtcNow };
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
 
             // act
@@ -327,7 +327,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         public void editPost_WithPostHavingDifferentCategoryThanEntry_UpdatesCategory()
         {
             // arrange
-            var entry = new Entry(PostType.BlogPost) {Id = 12345, Title = "Title 1", Body = "Blah", IsActive = true };
+            var entry = new Entry(PostType.BlogPost) { Id = 12345, Title = "Title 1", Body = "Blah", IsActive = true };
             entry.Categories.Add("Category1");
             entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var subtextContext = new Mock<ISubtextContext>();
@@ -337,9 +337,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var entryPublisher = new Mock<IEntryPublisher>();
             Entry publishedEntry = null;
             entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
-            var post = new Post { title = "Title 2", description = "Blah", categories = new[] { "Category2"}, dateCreated = DateTime.UtcNow };
+            var post = new Post { title = "Title 2", description = "Blah", categories = new[] { "Category2" }, dateCreated = DateTime.UtcNow };
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
-            
+
             // act
             bool result = api.editPost("12345", "username", "password", post, true);
 
@@ -384,7 +384,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             BlogRequest.Current.Blog = blog;
             blog.AllowServiceAccess = true;
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
@@ -392,7 +392,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
             subtextContext.SetupBlog(blog);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
-            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IServiceLocator>().Object);
+            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
 
             var api = new MetaWeblog(subtextContext.Object);
             Post[] posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
@@ -483,13 +483,13 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IServiceLocator>().Object);
+            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             var api = new MetaWeblog(subtextContext.Object);
@@ -578,13 +578,13 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IServiceLocator>().Object);
+            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             var api = new MetaWeblog(subtextContext.Object);
@@ -636,13 +636,13 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/entry/whatever");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
             subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
-            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IServiceLocator>().Object);
+            subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
             var api = new MetaWeblog(subtextContext.Object);
