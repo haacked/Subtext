@@ -32,7 +32,7 @@ namespace Subtext.Web.UI
     {
         public static LinkCategory Links(CategoryType catType, Blog blog, BlogUrlHelper urlHelper)
         {
-            switch(catType)
+            switch (catType)
             {
                 case CategoryType.PostCollection:
                     return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection, blog, urlHelper);

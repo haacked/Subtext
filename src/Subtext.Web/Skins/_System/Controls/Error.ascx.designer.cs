@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Skins._System.Controls {
-    
-    
-    public partial class Error {
-        
+namespace Subtext.Web.Skins._System.Controls
+{
+
+
+    public partial class Error
+    {
+
         /// <summary>
         /// Image1 control.
         /// </summary>

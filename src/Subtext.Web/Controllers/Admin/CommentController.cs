@@ -31,7 +31,7 @@ namespace Subtext.Web.Controllers
 
         protected ICommentService CommentService
         {
-            get; 
+            get;
             private set;
         }
 
@@ -40,7 +40,7 @@ namespace Subtext.Web.Controllers
             var comment = CommentService.Get(id);
             string subject = string.Format("Comment by {0}", comment.Author);
             string predicate = null;
-            switch(status)
+            switch (status)
             {
                 case FeedbackStatusFlag.Approved:
                     predicate = "has been approved";
@@ -55,8 +55,8 @@ namespace Subtext.Web.Controllers
                     break;
             }
             CommentService.UpdateStatus(comment, status);
-            
-            return Json(new {subject, predicate});
+
+            return Json(new { subject, predicate });
         }
 
         public ActionResult Destroy(int id)
@@ -66,7 +66,7 @@ namespace Subtext.Web.Controllers
             const string predicate = "was destroyed (there is no undo)";
             CommentService.Destroy(id);
 
-            return Json(new {subject, predicate});
+            return Json(new { subject, predicate });
         }
     }
 }

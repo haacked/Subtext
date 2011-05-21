@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class EditKeyWords {
-        
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class EditKeyWords
+    {
+
         /// <summary>
         /// Messages control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
+
         /// <summary>
         /// Results control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder Results;
-        
+
         /// <summary>
         /// rprSelectionList control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rprSelectionList;
-        
+
         /// <summary>
         /// resultsPager control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.PagingControl resultsPager;
-        
+
         /// <summary>
         /// btnCreate control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCreate;
-        
+
         /// <summary>
         /// Edit control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// txbWord control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbWord;
-        
+
         /// <summary>
         /// Requiredfieldvalidator2 control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator2;
-        
+
         /// <summary>
         /// txbText control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbText;
-        
+
         /// <summary>
         /// Requiredfieldvalidator3 control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator3;
-        
+
         /// <summary>
         /// txbUrl control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbUrl;
-        
+
         /// <summary>
         /// txbTitle control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbTitle;
-        
+
         /// <summary>
         /// txbRel control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbRel;
-        
+
         /// <summary>
         /// chkFirstOnly control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkFirstOnly;
-        
+
         /// <summary>
         /// chkCaseSensitive control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkCaseSensitive;
-        
+
         /// <summary>
         /// lkbPost control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lkbPost;
-        
+
         /// <summary>
         /// lkbCancel control.
         /// </summary>

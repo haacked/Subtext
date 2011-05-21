@@ -37,12 +37,12 @@ namespace Subtext.Web.Admin
             string imageDirectoryPath = Url.ImageDirectoryPath(Blog);
             try
             {
-                if(!Directory.Exists(imageDirectoryPath))
+                if (!Directory.Exists(imageDirectoryPath))
                 {
                     Directory.CreateDirectory(imageDirectoryPath);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 imageGallery.Visible = false;
                 errorMsg.Visible = true;

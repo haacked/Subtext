@@ -39,12 +39,12 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if(FooterText != null)
+            if (FooterText != null)
             {
                 FooterText.Text = Blog.Author;
             }
 
-            if(currentYear != null)
+            if (currentYear != null)
             {
                 currentYear.Text = Blog.TimeZone.Now.Year.ToString(CultureInfo.InvariantCulture);
             }

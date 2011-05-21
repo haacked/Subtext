@@ -21,7 +21,7 @@ namespace Subtext.Web.Admin.Posts
 
         private void BindLocalUI()
         {
-            var newPostLink = new HyperLink {Text = Resources.Label_NewPost, NavigateUrl = AdminUrl.PostsEdit()};
+            var newPostLink = new HyperLink { Text = Resources.Label_NewPost, NavigateUrl = AdminUrl.PostsEdit() };
             AdminMasterPage.AddToActions(newPostLink);
 
             HyperLink lnkEditCategories = Utilities.CreateHyperLink(Resources.Label_EditCategories,

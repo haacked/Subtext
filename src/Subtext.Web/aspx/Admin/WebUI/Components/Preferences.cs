@@ -21,8 +21,6 @@ using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Logging;
-using Subtext.Extensibility.Providers;
-using System.Web.Configuration;
 
 namespace Subtext.Web.Admin
 {
@@ -43,7 +41,7 @@ namespace Subtext.Web.Admin
         {
             get
             {
-                if(null != HttpContext.Current.Request.Cookies[COOKIES_PAGE_SIZE_DEFAULT])
+                if (null != HttpContext.Current.Request.Cookies[COOKIES_PAGE_SIZE_DEFAULT])
                 {
                     return Int32.Parse(HttpContext.Current.Request.Cookies[COOKIES_PAGE_SIZE_DEFAULT].Value);
                 }
@@ -54,7 +52,7 @@ namespace Subtext.Web.Admin
             }
             set
             {
-                if(value > 0)
+                if (value > 0)
                 {
                     CreateCookie(COOKIES_PAGE_SIZE_DEFAULT, value, CookieExpiry);
                 }
@@ -66,7 +64,7 @@ namespace Subtext.Web.Admin
             get
             {
                 HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_EXPAND_ADVANCED];
-                if(null != cookie)
+                if (null != cookie)
                 {
                     return String.Equals(cookie.Value, "true", StringComparison.InvariantCultureIgnoreCase)
                                ? true
@@ -85,7 +83,7 @@ namespace Subtext.Web.Admin
             get
             {
                 HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_CREATE_ISACTIVE];
-                if(null != cookie)
+                if (null != cookie)
                 {
                     return String.Equals(cookie.Value, "true", StringComparison.InvariantCultureIgnoreCase)
                                ? true
@@ -98,7 +96,7 @@ namespace Subtext.Web.Admin
             }
             set
             {
-//				if (value != Constants.CREATE_ISACTIVE_DEFAULT)
+                //				if (value != Constants.CREATE_ISACTIVE_DEFAULT)
                 CreateCookie(COOKIES_CREATE_ISACTIVE, value, CookieExpiry);
             }
         }
@@ -133,7 +131,7 @@ namespace Subtext.Web.Admin
         public static string GetFeedbackItemFilter(FeedbackStatusFlag currentView)
         {
             string cookieName = COOKIES_FEEDBACK_FILTER + currentView;
-            if(null != HttpContext.Current.Request.Cookies[cookieName])
+            if (null != HttpContext.Current.Request.Cookies[cookieName])
             {
                 return HttpContext.Current.Request.Cookies[cookieName].Value;
             }
@@ -144,7 +142,7 @@ namespace Subtext.Web.Admin
         {
             string cookieName = COOKIES_FEEDBACK_FILTER + currentView;
 
-            if(Enum.IsDefined(typeof(FeedbackType), value))
+            if (Enum.IsDefined(typeof(FeedbackType), value))
             {
                 CreateCookie(cookieName, value, CookieExpiry);
             }
@@ -161,12 +159,12 @@ namespace Subtext.Web.Admin
             {
                 return (FeedbackType)Enum.Parse(typeof(FeedbackType), value, true);
             }
-            catch(ArgumentNullException ane)
+            catch (ArgumentNullException ane)
             {
                 log.Warn("Could not parse FeedbackType value. Value was null.", ane);
                 return FeedbackType.None;
             }
-            catch(ArgumentException ae)
+            catch (ArgumentException ae)
             {
                 log.Warn("Could not parse FeedbackType value.", ae);
                 return FeedbackType.None;

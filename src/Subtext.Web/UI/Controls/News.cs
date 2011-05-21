@@ -30,9 +30,9 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if(Context != null)
+            if (Context != null)
             {
-                if(Blog.HasNews)
+                if (Blog.HasNews)
                 {
                     NewsItem.Text = Blog.News;
                 }

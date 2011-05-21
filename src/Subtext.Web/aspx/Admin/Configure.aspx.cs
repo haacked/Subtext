@@ -46,14 +46,14 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(_skins == null)
+                if (_skins == null)
                 {
                     var engine = new SkinEngine();
                     IDictionary<string, SkinTemplate> templates = engine.GetSkinTemplates(false /* mobile */);
                     _skins = templates.Values;
-                    foreach(SkinTemplate template in _skins)
+                    foreach (SkinTemplate template in _skins)
                     {
-                        if(template.MobileSupport == MobileSupport.Supported)
+                        if (template.MobileSupport == MobileSupport.Supported)
                         {
                             template.Name += " (mobile ready)";
                         }
@@ -67,7 +67,7 @@ namespace Subtext.Web.Admin.Pages
         {
             get
             {
-                if(_mobileSkins == null)
+                if (_mobileSkins == null)
                 {
                     var engine = new SkinEngine();
                     IDictionary<string, SkinTemplate> templates = engine.GetSkinTemplates(true /* mobile */);
@@ -107,18 +107,18 @@ namespace Subtext.Web.Admin.Pages
             ddlTimezone.DataValueField = "Id";
             ddlTimezone.DataBind();
             ListItem selectedItem = ddlTimezone.Items.FindByValue(Blog.TimeZoneId.ToString(CultureInfo.InvariantCulture));
-            if(selectedItem != null)
+            if (selectedItem != null)
             {
                 selectedItem.Selected = true;
             }
 
             ListItem languageItem = ddlLangLocale.Items.FindByValue(Blog.Language);
-            if(languageItem != null)
+            if (languageItem != null)
             {
                 languageItem.Selected = true;
             }
 
-            if(Blog.Skin.HasCustomCssText)
+            if (Blog.Skin.HasCustomCssText)
             {
                 txbSecondaryCss.Text = Blog.Skin.CustomCssText;
             }
@@ -126,18 +126,18 @@ namespace Subtext.Web.Admin.Pages
             //TODO: Move to a general DataBind() call.
             int count = Config.Settings.ItemCount;
             int increment = 1;
-            for(int i = 1; i <= count; i = i + increment)
-                //starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
+            for (int i = 1; i <= count; i = i + increment)
+            //starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
             {
                 ddlItemCount.Items.Add(new ListItem(i.ToString(CultureInfo.InvariantCulture),
                                                     i.ToString(CultureInfo.InvariantCulture)));
-                if(i == 25)
+                if (i == 25)
                 {
                     increment = 5;
                 }
             }
 
-            if(Blog.ItemCount <= count)
+            if (Blog.ItemCount <= count)
             {
                 ddlItemCount.Items.FindByValue(Blog.ItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
             }
@@ -145,32 +145,32 @@ namespace Subtext.Web.Admin.Pages
             //int 0 = "All" items
             int categoryListPostCount = Config.Settings.CategoryListPostCount;
             int maxDropDownItems = categoryListPostCount;
-            if(maxDropDownItems <= 0)
+            if (maxDropDownItems <= 0)
             {
                 maxDropDownItems = 50; //since 0 represents "All", this provides some other options in the ddl.
             }
             ddlCategoryListPostCount.Items.Add(new ListItem("All".ToString(CultureInfo.InvariantCulture),
                                                             0.ToString(CultureInfo.InvariantCulture)));
             increment = 1;
-            for(int j = 1; j <= maxDropDownItems; j = j + increment)
-                //starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
+            for (int j = 1; j <= maxDropDownItems; j = j + increment)
+            //starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
             {
                 ddlCategoryListPostCount.Items.Add(new ListItem(j.ToString(CultureInfo.InvariantCulture),
                                                                 j.ToString(CultureInfo.InvariantCulture)));
-                if(j == 25)
+                if (j == 25)
                 {
                     increment = 5;
                 }
             }
 
-            if(Blog.CategoryListPostCount <= maxDropDownItems)
+            if (Blog.CategoryListPostCount <= maxDropDownItems)
             {
                 ddlCategoryListPostCount.Items.FindByValue(
                     Blog.CategoryListPostCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
             }
 
             UpdateTime();
-            
+
             base.BindLocalUI();
         }
 
@@ -205,7 +205,7 @@ namespace Subtext.Web.Admin.Pages
 
                 Messages.ShowMessage(SuccessMessage);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION, FailureMessage, ex.Message));
             }

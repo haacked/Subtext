@@ -27,7 +27,7 @@ namespace Subtext.Web
     {
         protected override void OnLoad(EventArgs e)
         {
-            if(!Blog.IsActive)
+            if (!Blog.IsActive)
             {
                 plcInactiveBlogMessage.Visible = true;
                 plcNothingToSeeHere.Visible = false;

@@ -55,16 +55,16 @@ namespace Subtext.Web.UI.Controls
 
         protected string GetFullUrl(string host, string app)
         {
-            if(_appPath == null)
+            if (_appPath == null)
             {
                 _appPath = HttpContext.Current.Request.ApplicationPath;
-                if(!_appPath.ToLower(CultureInfo.InvariantCulture).EndsWith("/"))
+                if (!_appPath.ToLower(CultureInfo.InvariantCulture).EndsWith("/"))
                 {
                     _appPath += "/";
                 }
             }
 
-            if(Request.Url.Port != 80)
+            if (Request.Url.Port != 80)
             {
                 host += ":" + Request.Url.Port;
             }

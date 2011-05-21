@@ -42,7 +42,7 @@ namespace Subtext.Web.Admin
             XmlNode bodyNode = doc.CreateElement("body");
             rootNode.AppendChild(bodyNode);
 
-            foreach(Link currentItem in items)
+            foreach (Link currentItem in items)
             {
                 XmlNode outline = doc.CreateElement("outline");
 
@@ -75,7 +75,7 @@ namespace Subtext.Web.Admin
         {
             item.RenderOpml(writer);
 
-            foreach(OpmlItem childItem in item.ChildItems)
+            foreach (OpmlItem childItem in item.ChildItems)
             {
                 WriteOpmlItem(childItem, writer);
             }
@@ -91,7 +91,7 @@ namespace Subtext.Web.Admin
 
             XPathNodeIterator outlineItems = nav.Select("/opml/body/outline");
 
-            while(outlineItems.MoveNext())
+            while (outlineItems.MoveNext())
             {
                 _currentBatch.AddRange(DeserializeItem(outlineItems.Current));
             }
@@ -103,46 +103,46 @@ namespace Subtext.Web.Admin
         {
             var items = new List<OpmlItem>();
 
-            if(nav.HasAttributes)
+            if (nav.HasAttributes)
             {
                 string title = nav.GetAttribute("title", "");
-                if(String.IsNullOrEmpty(title))
+                if (String.IsNullOrEmpty(title))
                 {
                     title = nav.GetAttribute("text", "");
                 }
 
                 string htmlUrl = nav.GetAttribute("htmlurl", "");
-                if(String.IsNullOrEmpty(htmlUrl))
+                if (String.IsNullOrEmpty(htmlUrl))
                 {
                     htmlUrl = nav.GetAttribute("htmlUrl", "");
                 }
 
                 string xmlUrl = nav.GetAttribute("xmlurl", "");
-                if(String.IsNullOrEmpty(xmlUrl))
+                if (String.IsNullOrEmpty(xmlUrl))
                 {
                     xmlUrl = nav.GetAttribute("xmlUrl", "");
                 }
 
                 OpmlItem currentItem = null;
                 string description = nav.GetAttribute("description", "");
-                if(!String.IsNullOrEmpty(title) && !String.IsNullOrEmpty(htmlUrl))
+                if (!String.IsNullOrEmpty(title) && !String.IsNullOrEmpty(htmlUrl))
                 {
                     currentItem = new OpmlItem(title, description, xmlUrl, htmlUrl);
                 }
 
-                if(null != currentItem)
+                if (null != currentItem)
                 {
                     items.Add(currentItem);
                 }
             }
 
-            if(nav.HasChildren)
+            if (nav.HasChildren)
             {
                 XPathNodeIterator childItems = nav.SelectChildren("outline", "");
-                while(childItems.MoveNext())
+                while (childItems.MoveNext())
                 {
                     IEnumerable<OpmlItem> children = DeserializeItem(childItems.Current);
-                    if(null != children)
+                    if (null != children)
                     {
                         items.InsertRange(items.Count, children);
                     }

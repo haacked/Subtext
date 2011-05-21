@@ -8,17 +8,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Pages {
-    
-    
+namespace Subtext.Web.Pages
+{
+
+
     /// <summary>
     /// Error class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class Error {
-        
+    public partial class Error
+    {
+
         /// <summary>
         /// ErrorMessageLabel control.
         /// </summary>
@@ -27,7 +29,7 @@ namespace Subtext.Web.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label ErrorMessageLabel;
-        
+
         /// <summary>
         /// HomeLink control.
         /// </summary>

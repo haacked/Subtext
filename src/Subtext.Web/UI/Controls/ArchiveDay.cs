@@ -32,7 +32,7 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if(Context != null)
+            if (Context != null)
             {
                 try
                 {
@@ -42,7 +42,7 @@ namespace Subtext.Web.UI.Controls
                         string.Format(CultureInfo.InvariantCulture, "{0} - {1} Entries", Blog.Title,
                                       dayDate.ToString("D", CultureInfo.CurrentCulture)), Context);
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     //Somebody probably is messing with the url.
                     //404 is set in filenotfound - DF

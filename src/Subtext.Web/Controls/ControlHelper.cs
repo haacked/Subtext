@@ -36,12 +36,12 @@ namespace Subtext.Web.Controls
             string classes = control.Attributes["class"] ?? string.Empty;
 
             var regex = new Regex(@"(^|\s)" + Regex.Escape(cssClass) + @"($|\s)", RegexOptions.IgnoreCase);
-            if(regex.IsMatch(classes))
+            if (regex.IsMatch(classes))
             {
                 return;
             }
 
-            if(classes.Length > 0)
+            if (classes.Length > 0)
             {
                 control.Attributes["class"] += " " + cssClass;
             }
@@ -56,14 +56,14 @@ namespace Subtext.Web.Controls
             string classes = control.CssClass ?? string.Empty;
 
             var regex = new Regex(@"(^|\s)" + Regex.Escape(cssClass) + @"($|\s)", RegexOptions.IgnoreCase);
-            if(regex.IsMatch(classes))
+            if (regex.IsMatch(classes))
             {
                 return;
             }
 
-            if(control.CssClass != null)
+            if (control.CssClass != null)
             {
-                if(control.CssClass.Length > 0)
+                if (control.CssClass.Length > 0)
                 {
                     control.CssClass += " " + cssClass;
                 }
@@ -105,7 +105,7 @@ namespace Subtext.Web.Controls
         /// <param name="root">The root control.</param>
         public static void ApplyRecursively(Action<Control> controlAction, Control root)
         {
-            foreach(Control control in root.Controls)
+            foreach (Control control in root.Controls)
             {
                 controlAction(control);
                 ApplyRecursively(controlAction, control);
@@ -120,14 +120,14 @@ namespace Subtext.Web.Controls
         /// <returns></returns>
         public static Control FindControlRecursively(Control parent, string id)
         {
-            foreach(Control child in parent.Controls)
+            foreach (Control child in parent.Controls)
             {
-                if(child.ID == id)
+                if (child.ID == id)
                 {
                     return child;
                 }
                 Control foundControl = FindControlRecursively(child, id);
-                if(foundControl != null)
+                if (foundControl != null)
                 {
                     return foundControl;
                 }
@@ -143,14 +143,14 @@ namespace Subtext.Web.Controls
         /// <returns></returns>
         public static string GetPageFormClientId(Control parent)
         {
-            foreach(Control child in parent.Controls)
+            foreach (Control child in parent.Controls)
             {
-                if(child is HtmlForm)
+                if (child is HtmlForm)
                 {
                     return child.ClientID;
                 }
                 string id = GetPageFormClientId(child);
-                if(id != null)
+                if (id != null)
                 {
                     return id;
                 }
@@ -205,13 +205,13 @@ namespace Subtext.Web.Controls
         /// <param name="title">The title.</param>
         private static void SetTitleIfNoneInternal(WebControl link, string title)
         {
-            if(link == null)
+            if (link == null)
             {
                 throw new ArgumentNullException("link");
             }
 
             // Use the ToolTip propety since that is rendered as the title attribute.
-            if(link.ToolTip.Length == 0)
+            if (link.ToolTip.Length == 0)
             {
                 link.ToolTip = title;
             }

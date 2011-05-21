@@ -79,7 +79,7 @@ namespace Subtext.Web.Controls.Captcha
         {
             get
             {
-                if(String.IsNullOrEmpty(_text))
+                if (String.IsNullOrEmpty(_text))
                 {
                     _text = GenerateRandomText();
                 }
@@ -96,7 +96,7 @@ namespace Subtext.Web.Controls.Captcha
         {
             get
             {
-                if(_randomTextLength <= 0)
+                if (_randomTextLength <= 0)
                 {
                     _randomTextLength = 4;
                 }
@@ -118,7 +118,7 @@ namespace Subtext.Web.Controls.Captcha
             var collection1 = new InstalledFontCollection();
             FontFamily[] familyArray1 = collection1.Families;
             string fontFamily = "bogus";
-            while(GoodFontList.IndexOf(fontFamily, StringComparison.OrdinalIgnoreCase) == -1)
+            while (GoodFontList.IndexOf(fontFamily, StringComparison.OrdinalIgnoreCase) == -1)
             {
                 fontFamily = familyArray1[Random.Next(0, collection1.Families.Length)].Name.ToLowerInvariant();
             }
@@ -131,12 +131,12 @@ namespace Subtext.Web.Controls.Captcha
         /// <returns></returns>
         public string ToEncryptedString()
         {
-            if(Width == 0)
+            if (Width == 0)
             {
                 Width = 180;
             }
 
-            if(Height == 0)
+            if (Height == 0)
             {
                 Height = 50;
             }
@@ -169,7 +169,7 @@ namespace Subtext.Web.Controls.Captcha
         {
             var builder = new StringBuilder();
             int length = TextChars.Length;
-            for(int i = 0; i < TextLength; i++)
+            for (int i = 0; i < TextLength; i++)
             {
                 builder.Append(TextChars.Substring(Random.Next(length), 1));
             }

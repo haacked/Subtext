@@ -145,7 +145,7 @@ namespace Subtext.Web.Admin
 
             newChild.SetParent(this);
 
-            if(SiteMap.Instance.ContainsID(newChild.ID))
+            if (SiteMap.Instance.ContainsID(newChild.ID))
             {
                 SiteMap.Instance[newChild.ID] = newChild;
             }
@@ -171,16 +171,16 @@ namespace Subtext.Web.Admin
         {
             var ancestors = new List<PageLocation>();
 
-            if(includeSelf)
+            if (includeSelf)
             {
                 ancestors.Add(this);
             }
 
             PageLocation currentAncestor = _parent;
-            while(null != currentAncestor)
+            while (null != currentAncestor)
             {
                 ancestors.Add(currentAncestor);
-                if(currentAncestor.IsRoot)
+                if (currentAncestor.IsRoot)
                 {
                     break;
                 }

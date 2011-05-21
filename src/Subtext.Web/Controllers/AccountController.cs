@@ -31,7 +31,7 @@ namespace Subtext.Web.Controllers
 
         protected ISubtextContext SubtextContext
         {
-            get; 
+            get;
             set;
         }
 
@@ -40,7 +40,7 @@ namespace Subtext.Web.Controllers
             get;
             set;
         }
-        
+
         public ActionResult Logout()
         {
             AccountService.Logout(SubtextContext);

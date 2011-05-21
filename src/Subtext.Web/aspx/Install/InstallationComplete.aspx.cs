@@ -29,34 +29,34 @@ namespace Subtext.Web.Install
         {
             InstallationManager.ResetInstallationStatusCache();
 
-            if(paraBlogLink != null)
+            if (paraBlogLink != null)
             {
                 paraBlogLink.Visible = false;
             }
-            if(paraBlogAdminLink != null)
+            if (paraBlogAdminLink != null)
             {
                 paraBlogAdminLink.Visible = false;
             }
-            if(paraBlogmlImport != null)
+            if (paraBlogmlImport != null)
             {
                 paraBlogmlImport.Visible = false;
             }
 
-            if(Config.CurrentBlog != null)
+            if (Config.CurrentBlog != null)
             {
-                if(lnkBlog != null && paraBlogLink != null)
+                if (lnkBlog != null && paraBlogLink != null)
                 {
                     paraBlogLink.Visible = true;
                     lnkBlog.HRef = Url.BlogUrl();
                 }
 
-                if(lnkBlogAdmin != null && paraBlogAdminLink != null)
+                if (lnkBlogAdmin != null && paraBlogAdminLink != null)
                 {
                     paraBlogAdminLink.Visible = true;
                     lnkBlogAdmin.HRef = AdminUrl.Home();
                 }
 
-                if(lnkBlogMl != null && paraBlogmlImport != null)
+                if (lnkBlogMl != null && paraBlogmlImport != null)
                 {
                     paraBlogmlImport.Visible = true;
                     lnkBlogMl.HRef = AdminUrl.ImportExport();

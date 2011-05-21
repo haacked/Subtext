@@ -62,12 +62,12 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                if(Comment != null)
+                if (Comment != null)
                 {
                     string commentBody = HttpUtility.HtmlEncode(HtmlHelper.RemoveHtml(Comment.Body));
-                    if(Blog.RecentCommentsLength > 0)
+                    if (Blog.RecentCommentsLength > 0)
                     {
-                        if(commentBody.Length > Blog.RecentCommentsLength)
+                        if (commentBody.Length > Blog.RecentCommentsLength)
                         {
                             commentBody = commentBody.Substring(0, Blog.RecentCommentsLength) + "...";
                         }
@@ -90,7 +90,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            if(Comments != null && feedList != null)
+            if (Comments != null && feedList != null)
             {
                 feedList.DataSource = Comments;
                 feedList.DataBind();
@@ -112,19 +112,19 @@ namespace Subtext.Web.UI.Controls
 
         protected void EntryCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 Comment = (FeedbackItem)e.Item.DataItem;
 
                 var title = (HyperLink)e.Item.FindControl("Link");
-                if(title != null)
+                if (title != null)
                 {
                     title.Text = SafeCommentBody;
                     title.NavigateUrl = Url.FeedbackUrl(Comment);
                     ControlHelper.SetTitleIfNone(title, "Reader Comment.");
                 }
                 var author = (Literal)e.Item.FindControl("Author");
-                if(author != null)
+                if (author != null)
                 {
                     author.Text = HttpUtility.HtmlEncode(Comment.Author);
                 }

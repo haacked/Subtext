@@ -52,9 +52,9 @@ namespace Subtext.Web.Install
         {
             get
             {
-                for(int i = 0; i < WizardPages.Length; i++)
+                for (int i = 0; i < WizardPages.Length; i++)
                 {
-                    if(IsOnPage(WizardPages[i]) && i < WizardPages.Length - 1)
+                    if (IsOnPage(WizardPages[i]) && i < WizardPages.Length - 1)
                     {
                         return WizardPages[i + 1];
                     }
@@ -71,7 +71,7 @@ namespace Subtext.Web.Install
         {
             InstallationState status = InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion);
 
-            switch(status)
+            switch (status)
             {
                 case InstallationState.NeedsInstallation:
                 case InstallationState.NeedsUpgrade:
@@ -81,15 +81,15 @@ namespace Subtext.Web.Install
                 default:
                     HostInfo info = HostInfo.LoadHost(true /* suppressException */);
 
-                    if(info == null)
+                    if (info == null)
                     {
                         EnsureInstallStep("Step02_ConfigureHost.aspx");
                     }
-                    if(info != null && Config.BlogCount == 0)
+                    if (info != null && Config.BlogCount == 0)
                     {
                         EnsureInstallStep("Step03_CreateBlog.aspx");
                     }
-                    if(info != null && Config.BlogCount > 0)
+                    if (info != null && Config.BlogCount > 0)
                     {
                         EnsureInstallStep("InstallationComplete.aspx");
                     }
@@ -107,16 +107,16 @@ namespace Subtext.Web.Install
 
         void EnsureInstallStep(params string[] pages)
         {
-            if(pages.Length == 0)
+            if (pages.Length == 0)
             {
                 return;
             }
 
-            foreach(string page in pages)
+            foreach (string page in pages)
             {
-                if(!string.IsNullOrEmpty(page))
+                if (!string.IsNullOrEmpty(page))
                 {
-                    if(IsOnPage(page))
+                    if (IsOnPage(page))
                     {
                         return;
                     }

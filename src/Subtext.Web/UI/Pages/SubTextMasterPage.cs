@@ -66,12 +66,12 @@ namespace Subtext.Web.UI.Pages
             get
             {
                 string declaration = "var subtextAllowedHtmlTags = [";
-                for(int i = 0; i < Config.Settings.AllowedHtmlTags.Count; i++)
+                for (int i = 0; i < Config.Settings.AllowedHtmlTags.Count; i++)
                 {
                     string tagname = Config.Settings.AllowedHtmlTags.Keys[i];
                     declaration += string.Format(CultureInfo.InvariantCulture, "'{0}', ", tagname);
                 }
-                if(Config.Settings.AllowedHtmlTags.Count > 0)
+                if (Config.Settings.AllowedHtmlTags.Count > 0)
                 {
                     declaration = declaration.Left(declaration.Length - 2);
                 }
@@ -84,14 +84,14 @@ namespace Subtext.Web.UI.Pages
         {
             _controls = controls;
         }
-            
+
         public void InitializeControls(ISkinControlLoader controlLoader)
         {
             IEnumerable<string> controlNames = _controls;
-            if(controlNames != null)
+            if (controlNames != null)
             {
                 var apnlCommentsWrapper = new UpdatePanel { Visible = true, ID = CommentsPanelId };
-                if(!controlNames.Contains("HomePage", StringComparer.OrdinalIgnoreCase) && !String.IsNullOrEmpty(Query))
+                if (!controlNames.Contains("HomePage", StringComparer.OrdinalIgnoreCase) && !String.IsNullOrEmpty(Query))
                 {
                     int entryId = -1;
                     Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
@@ -100,17 +100,17 @@ namespace Subtext.Web.UI.Pages
                         entryId = entry.Id;
                     }
                     var query = Query;
-                    if(!String.IsNullOrEmpty(query))
+                    if (!String.IsNullOrEmpty(query))
                     {
                         var searchResults = SearchEngineService.Search(query, 5, Blog.Id, entryId);
-                        if(searchResults.Any())
+                        if (searchResults.Any())
                         {
                             AddMoreResultsControl(searchResults, controlLoader, apnlCommentsWrapper);
                         }
                     }
                 }
 
-                foreach(string controlName in controlNames)
+                foreach (string controlName in controlNames)
                 {
                     Control control = controlLoader.LoadControl(controlName);
                     AddControlToBody(controlName, control, apnlCommentsWrapper, CenterBodyControl);
@@ -121,10 +121,10 @@ namespace Subtext.Web.UI.Pages
         private void AddMoreResultsControl(IEnumerable<SearchEngineResult> searchResults, ISkinControlLoader controlLoader, UpdatePanel apnlCommentsWrapper)
         {
             var moreResults = controlLoader.LoadControl("MoreResults");
-            if(moreResults != null)
+            if (moreResults != null)
             {
                 var moreSearchResults = moreResults as MoreResultsLikeThis;
-                if(moreSearchResults != null)
+                if (moreSearchResults != null)
                 {
                     moreSearchResults.SearchResults = searchResults;
                 }
@@ -134,16 +134,16 @@ namespace Subtext.Web.UI.Pages
 
         public void AddControlToBody(string controlName, Control control, UpdatePanel apnlCommentsWrapper, Control centerBodyControl)
         {
-            if(controlName.Equals("Comments", StringComparison.OrdinalIgnoreCase))
+            if (controlName.Equals("Comments", StringComparison.OrdinalIgnoreCase))
             {
                 control.Visible = true;
                 commentsControl = control as Comments;
                 apnlCommentsWrapper.ContentTemplateContainer.Controls.Add(control);
             }
-            else if(controlName.Equals("PostComment", StringComparison.OrdinalIgnoreCase))
+            else if (controlName.Equals("PostComment", StringComparison.OrdinalIgnoreCase))
             {
                 postCommentControl = control as PostComment;
-                if(postCommentControl != null)
+                if (postCommentControl != null)
                 {
                     postCommentControl.CommentApproved += OnCommentPosted;
                 }
@@ -152,7 +152,7 @@ namespace Subtext.Web.UI.Pages
             }
             else
             {
-                if(centerBodyControl != null)
+                if (centerBodyControl != null)
                 {
                     centerBodyControl.Controls.Add(control);
                 }
@@ -163,22 +163,22 @@ namespace Subtext.Web.UI.Pages
         {
             get
             {
-                if(_query == null)
+                if (_query == null)
                 {
                     var request = SubtextContext.HttpContext.Request;
                     var referrer = request.UrlReferrer;
-                    if(referrer == null)
+                    if (referrer == null)
                     {
-                        if(request.IsLocal)
+                        if (request.IsLocal)
                         {
                             string referrerInQuery = request.QueryString["referrer"];
-                            if(!String.IsNullOrEmpty(referrerInQuery))
+                            if (!String.IsNullOrEmpty(referrerInQuery))
                             {
                                 Uri.TryCreate(referrerInQuery, UriKind.Absolute, out referrer);
                             }
                         }
                     }
-                    if(referrer == null)
+                    if (referrer == null)
                     {
                         return null;
                     }
@@ -194,10 +194,10 @@ namespace Subtext.Web.UI.Pages
         {
             var skin = SkinConfig.GetCurrentSkin(Blog, SubtextContext.HttpContext);
             var skinControlLoader = new SkinControlLoader(this, skin);
-            
+
             InitializeControls(skinControlLoader);
 
-            if(skin.HasCustomCssText)
+            if (skin.HasCustomCssText)
             {
                 CustomCss.Attributes.Add("href", Url.CustomCssUrl());
             }
@@ -207,12 +207,12 @@ namespace Subtext.Web.UI.Pages
                 CustomCss.Visible = false;
             }
 
-            if(Rsd != null)
+            if (Rsd != null)
             {
                 Rsd.Attributes.Add("href", Url.RsdUrl(Blog).ToString());
             }
 
-            if(wlwmanifest != null)
+            if (wlwmanifest != null)
             {
                 wlwmanifest.Attributes.Add("href", Url.WlwManifestUrl());
             }
@@ -223,33 +223,33 @@ namespace Subtext.Web.UI.Pages
                 opensearch.Attributes.Add("Title", Blog.Title);
             }
 
-            if(RSSLink != null)
+            if (RSSLink != null)
             {
                 RSSLink.Attributes.Add("href", Url.RssUrl(Blog).ToString());
             }
 
             // if specified, add script elements
-            if(scripts != null)
+            if (scripts != null)
             {
                 scripts.Text = ScriptRenderer.RenderScriptElementCollection(skin.SkinKey);
             }
 
-            if(styles != null)
+            if (styles != null)
             {
                 styles.Text = StyleRenderer.RenderStyleElementCollection(skin.SkinKey);
             }
 
-            if(openIDServer != null && !string.IsNullOrEmpty(Blog.OpenIdServer))
+            if (openIDServer != null && !string.IsNullOrEmpty(Blog.OpenIdServer))
             {
                 openIDServer.Text = string.Format(OpenIdServerLocation, Blog.OpenIdServer);
             }
 
-            if(openIDDelegate != null && !string.IsNullOrEmpty(Blog.OpenIdDelegate))
+            if (openIDDelegate != null && !string.IsNullOrEmpty(Blog.OpenIdDelegate))
             {
                 openIDDelegate.Text = string.Format(OpenIdDelegateLocation, Blog.OpenIdDelegate);
             }
 
-            if(metaTags != null)
+            if (metaTags != null)
             {
                 metaTags.Blog = Blog;
             }
@@ -257,7 +257,7 @@ namespace Subtext.Web.UI.Pages
 
         void OnCommentPosted(object sender, EventArgs e)
         {
-            if(commentsControl != null)
+            if (commentsControl != null)
             {
                 commentsControl.InvalidateFeedbackCache();
                 commentsControl.BindFeedback(true); //don't get it from cache.
@@ -277,7 +277,7 @@ namespace Subtext.Web.UI.Pages
             //Is this for extra security?
             EnableViewState = false;
             pageTitle.Text = Globals.CurrentTitle(Context);
-            if(!String.IsNullOrEmpty(Blog.Author))
+            if (!String.IsNullOrEmpty(Blog.Author))
             {
                 authorMetaTag.Text = String.Format(Environment.NewLine + "<meta name=\"author\" content=\"{0}\" />",
                                                    Blog.Author);
@@ -285,7 +285,7 @@ namespace Subtext.Web.UI.Pages
             versionMetaTag.Text =
                 String.Format("{0}<meta name=\"Generator\" content=\"{1}\" />{0}", Environment.NewLine, VersionInfo.VersionDisplayText);
 
-            if(!String.IsNullOrEmpty(Blog.TrackingCode))
+            if (!String.IsNullOrEmpty(Blog.TrackingCode))
             {
                 customTrackingCode.Text = Blog.TrackingCode;
             }

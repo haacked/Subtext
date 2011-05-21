@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Install {
-    
-    
-    public partial class Step03_CreateBlog {
-        
+namespace Subtext.Web.Install
+{
+
+
+    public partial class Step03_CreateBlog
+    {
+
         /// <summary>
         /// hostAdminlink control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink hostAdminlink;
-        
+
         /// <summary>
         /// btnQuickCreate control.
         /// </summary>

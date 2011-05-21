@@ -31,7 +31,7 @@ namespace Subtext.Web.UI.ViewModels
 
         public EntryViewModel(Entry entry, ISubtextContext context)
         {
-            if(entry == null)
+            if (entry == null)
             {
                 throw new ArgumentNullException("entry");
             }
@@ -52,7 +52,7 @@ namespace Subtext.Web.UI.ViewModels
         {
             get
             {
-                if(_url == null)
+                if (_url == null)
                 {
                     _url = UrlHelper.EntryUrl(Entry);
                 }
@@ -64,7 +64,7 @@ namespace Subtext.Web.UI.ViewModels
         {
             get
             {
-                if(_fullyQualifiedUrl == null)
+                if (_fullyQualifiedUrl == null)
                 {
                     _fullyQualifiedUrl = Url.ToFullyQualifiedUrl(SubtextContext.Blog).ToString();
                 }

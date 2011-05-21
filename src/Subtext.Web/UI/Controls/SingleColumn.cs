@@ -52,13 +52,13 @@ namespace Subtext.Web.UI.Controls
             var lcc = new List<LinkCategory>();
 
             LinkCategory storyCollection = UIData.Links(CategoryType.StoryCollection, blog, Url);
-            if(storyCollection != null)
+            if (storyCollection != null)
             {
                 lcc.Add(storyCollection);
             }
 
             LinkCategory archiveMonth = UIData.ArchiveMonth(Url, blog);
-            if(archiveMonth != null)
+            if (archiveMonth != null)
             {
                 lcc.Add(archiveMonth);
             }
@@ -74,13 +74,13 @@ namespace Subtext.Web.UI.Controls
 
 
             LinkCategory postCollection = UIData.Links(CategoryType.PostCollection, blog, Url);
-            if(postCollection != null)
+            if (postCollection != null)
             {
                 lcc.Add(postCollection);
             }
 
             LinkCategory imageCollection = UIData.Links(CategoryType.ImageCollection, blog, Url);
-            if(imageCollection != null)
+            if (imageCollection != null)
             {
                 lcc.Add(imageCollection);
             }

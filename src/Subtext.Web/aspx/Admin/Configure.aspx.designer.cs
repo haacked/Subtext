@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class Configure {
-        
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class Configure
+    {
+
         /// <summary>
         /// Messages control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
+
         /// <summary>
         /// txbTitle control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbTitle;
-        
+
         /// <summary>
         /// txbSubtitle control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbSubtitle;
-        
+
         /// <summary>
         /// txbUser control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbUser;
-        
+
         /// <summary>
         /// txbAuthor control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbAuthor;
-        
+
         /// <summary>
         /// txbAuthorEmail control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbAuthorEmail;
-        
+
         /// <summary>
         /// ckbShowEmailonRssFeed control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ckbShowEmailonRssFeed;
-        
+
         /// <summary>
         /// ckbAllowServiceAccess control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ckbAllowServiceAccess;
-        
+
         /// <summary>
         /// chkAutoGenerate control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkAutoGenerate;
-        
+
         /// <summary>
         /// Helptooltip4 control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip Helptooltip4;
-        
+
         /// <summary>
         /// hlpTimeZone control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip hlpTimeZone;
-        
+
         /// <summary>
         /// ddlTimezone control.
         /// </summary>
@@ -120,7 +122,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTimezone;
-        
+
         /// <summary>
         /// lblCurrentTime control.
         /// </summary>
@@ -129,7 +131,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal lblCurrentTime;
-        
+
         /// <summary>
         /// lblServerTime control.
         /// </summary>
@@ -138,7 +140,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal lblServerTime;
-        
+
         /// <summary>
         /// lblServerTimeZone control.
         /// </summary>
@@ -147,7 +149,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal lblServerTimeZone;
-        
+
         /// <summary>
         /// lblUtcTime control.
         /// </summary>
@@ -156,7 +158,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal lblUtcTime;
-        
+
         /// <summary>
         /// ddlLangLocale control.
         /// </summary>
@@ -165,7 +167,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlLangLocale;
-        
+
         /// <summary>
         /// ddlItemCount control.
         /// </summary>
@@ -174,7 +176,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlItemCount;
-        
+
         /// <summary>
         /// ddlCategoryListPostCount control.
         /// </summary>
@@ -183,7 +185,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCategoryListPostCount;
-        
+
         /// <summary>
         /// HelpToolTip1 control.
         /// </summary>
@@ -192,7 +194,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip1;
-        
+
         /// <summary>
         /// txbSecondaryCss control.
         /// </summary>
@@ -201,7 +203,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbSecondaryCss;
-        
+
         /// <summary>
         /// txbNews control.
         /// </summary>
@@ -210,7 +212,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbNews;
-        
+
         /// <summary>
         /// txbGenericTrackingCode control.
         /// </summary>
@@ -219,7 +221,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbGenericTrackingCode;
-        
+
         /// <summary>
         /// btnPost control.
         /// </summary>

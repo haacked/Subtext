@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Posts {
-    
-    
-    public partial class Edit {
-        
+namespace Subtext.Web.Admin.Posts
+{
+
+
+    public partial class Edit
+    {
+
         /// <summary>
         /// Editor control.
         /// </summary>

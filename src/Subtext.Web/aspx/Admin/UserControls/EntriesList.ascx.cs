@@ -23,7 +23,6 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Properties;
@@ -56,7 +55,7 @@ namespace Subtext.Web.Admin.UserControls
         {
             get
             {
-                if(ViewState["PostType"] != null)
+                if (ViewState["PostType"] != null)
                 {
                     return (PostType)ViewState["PostType"];
                 }
@@ -73,12 +72,12 @@ namespace Subtext.Web.Admin.UserControls
 
         protected override void OnLoad(EventArgs e)
         {
-            if(Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
+            if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
             {
                 pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
             }
 
-            if(Request.QueryString[Keys.QRYSTR_CATEGORYID] != null)
+            if (Request.QueryString[Keys.QRYSTR_CATEGORYID] != null)
             {
                 categoryId = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
             }
@@ -86,17 +85,17 @@ namespace Subtext.Web.Admin.UserControls
             resultsPager.PageSize = Preferences.ListingItemCount;
             resultsPager.PageIndex = pageIndex;
 
-            if(categoryId != null)
+            if (categoryId != null)
             {
                 string catIdQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID,
                                                         categoryId);
-                if(!resultsPager.UrlFormat.EndsWith(catIdQueryString))
+                if (!resultsPager.UrlFormat.EndsWith(catIdQueryString))
                 {
                     resultsPager.UrlFormat += catIdQueryString;
                 }
             }
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 BindList();
             }
@@ -112,7 +111,7 @@ namespace Subtext.Web.Admin.UserControls
         private void ConfirmDelete(int postID)
         {
             var page = (AdminPage)Page;
-            if(page != null)
+            if (page != null)
             {
                 var command = new DeletePostCommand(Repository, postID, page.SearchEngine);
                 command.Execute();
@@ -163,10 +162,10 @@ namespace Subtext.Web.Admin.UserControls
             Debug.Assert(entry != null, "Entry should never be null here");
 
             string active = "False";
-            if(entry.IsActive)
+            if (entry.IsActive)
             {
                 active = "True";
-                if(entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
+                if (entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
                 {
                     active += "<em> on " + entry.DateSyndicated.ToShortDateString() + "</em>";
                 }
@@ -176,10 +175,10 @@ namespace Subtext.Web.Admin.UserControls
 
         private void BindList()
         {
-            if(categoryId != null)
+            if (categoryId != null)
             {
                 LinkCategory category = Repository.GetLinkCategory(categoryId, false);
-                if(category != null)
+                if (category != null)
                 {
                     HeaderText = Resources.Label_Posts.ToUpper(CultureInfo.CurrentCulture) + " (" + category.Title + ")";
                 }
@@ -188,7 +187,7 @@ namespace Subtext.Web.Admin.UserControls
             IPagedCollection<EntryStatsView> selectionList = Repository.GetEntries(EntryType, categoryId, pageIndex,
                                                                                         resultsPager.PageSize);
 
-            if(selectionList.Count > 0)
+            if (selectionList.Count > 0)
             {
                 resultsPager.ItemCount = selectionList.MaxItems;
                 rprSelectionList.DataSource = selectionList;

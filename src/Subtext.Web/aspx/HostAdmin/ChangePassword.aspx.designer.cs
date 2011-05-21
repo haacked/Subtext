@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin {
-    
-    
-    public partial class ChangePassword {
-        
+namespace Subtext.Web.HostAdmin
+{
+
+
+    public partial class ChangePassword
+    {
+
         /// <summary>
         /// emailChangedLabel control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label emailChangedLabel;
-        
+
         /// <summary>
         /// txtEmail control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEmail;
-        
+
         /// <summary>
         /// lblSuccess control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSuccess;
-        
+
         /// <summary>
         /// validationSummary control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ValidationSummary validationSummary;
-        
+
         /// <summary>
         /// vldCurrentPassword control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator vldCurrentPassword;
-        
+
         /// <summary>
         /// vldCurrent control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CustomValidator vldCurrent;
-        
+
         /// <summary>
         /// txtCurrentPassword control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCurrentPassword;
-        
+
         /// <summary>
         /// vldNewPassword control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator vldNewPassword;
-        
+
         /// <summary>
         /// txtNewPassword control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNewPassword;
-        
+
         /// <summary>
         /// vldConfirmPassword control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator vldConfirmPassword;
-        
+
         /// <summary>
         /// vldComparePasswords control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CompareValidator vldComparePasswords;
-        
+
         /// <summary>
         /// txtConfirmPassword control.
         /// </summary>
@@ -120,7 +122,7 @@ namespace Subtext.Web.HostAdmin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtConfirmPassword;
-        
+
         /// <summary>
         /// btnSave control.
         /// </summary>

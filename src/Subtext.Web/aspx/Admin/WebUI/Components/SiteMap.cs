@@ -72,7 +72,7 @@ namespace Subtext.Web.Admin
             doc.Load(filepath);
 
             XmlNode pageLocations = doc.SelectSingleNode("/Navigation/RootPage");
-            if(null != pageLocations)
+            if (null != pageLocations)
             {
                 Encoding encoding = Utilities.GetEncoding(filepath);
                 byte[] buffer = encoding.GetBytes(pageLocations.OuterXml);
@@ -99,7 +99,7 @@ namespace Subtext.Web.Admin
 
         public IEnumerable<PageLocation> GetAncestors(string id, bool includeSelf)
         {
-            if(_pages.ContainsKey(id))
+            if (_pages.ContainsKey(id))
             {
                 return _pages[id].GetAncestors(includeSelf);
             }
@@ -132,9 +132,9 @@ namespace Subtext.Web.Admin
 
         protected void RecursePageLocations(PageLocation currentLocation)
         {
-            if(currentLocation.HasChildren)
+            if (currentLocation.HasChildren)
             {
-                foreach(PageLocation childLocation in currentLocation.ChildLocations)
+                foreach (PageLocation childLocation in currentLocation.ChildLocations)
                 {
                     childLocation.SetParent(currentLocation);
                     RecursePageLocations(childLocation);

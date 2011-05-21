@@ -25,7 +25,7 @@ namespace Subtext.Web.HostAdmin
     {
         protected override void OnInit(EventArgs e)
         {
-            if(!User.IsInRole("HostAdmins"))
+            if (!User.IsInRole("HostAdmins"))
             {
                 FormsAuthentication.RedirectToLoginPage();
                 return;

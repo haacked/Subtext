@@ -45,14 +45,14 @@ namespace Subtext.Web.Controls.Captcha
 
             string textToRender = captcha.Text;
 
-            if(string.IsNullOrEmpty(textToRender))
+            if (string.IsNullOrEmpty(textToRender))
             {
                 application.Response.StatusCode = 404;
                 application.Response.End();
             }
             else
             {
-                using(var captchaImage = new CaptchaImage())
+                using (var captchaImage = new CaptchaImage())
                 {
                     captchaImage.Width = captcha.Width;
                     captchaImage.Height = captcha.Height;

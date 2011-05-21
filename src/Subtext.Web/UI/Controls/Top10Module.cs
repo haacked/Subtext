@@ -39,7 +39,7 @@ namespace Subtext.Web.UI.Controls
 
             ICollection<EntrySummary> entrySummaries = ObjectProvider.Instance().GetTopEntrySummaries(blogId, 10);
 
-            foreach(EntrySummary entrySummary in entrySummaries)
+            foreach (EntrySummary entrySummary in entrySummaries)
             {
                 string title = entrySummary.Title;
                 string myUrl = Url.EntryUrl(entrySummary);

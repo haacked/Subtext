@@ -8,17 +8,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin.Upgrade {
-    
-    
+namespace Subtext.Web.HostAdmin.Upgrade
+{
+
+
     /// <summary>
     /// UpgradeComplete class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class UpgradeComplete {
-        
+    public partial class UpgradeComplete
+    {
+
         /// <summary>
         /// lnkHostAdmin control.
         /// </summary>

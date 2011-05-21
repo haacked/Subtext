@@ -52,15 +52,15 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            if(CurrentDay != null)
+            if (CurrentDay != null)
             {
                 DayList.ItemDataBound += DayList_ItemDataBound;
 
-                if(ImageLink != null)
+                if (ImageLink != null)
                 {
                     ImageLink.NavigateUrl = Url.DayUrl(CurrentDay.BlogDay);
 
-                    if(ImageLink.ImageUrl.StartsWith("~/"))
+                    if (ImageLink.ImageUrl.StartsWith("~/"))
                     {
                         ImageLink.ImageUrl = Url.ResolveUrl(ImageLink.ImageUrl);
                     }
@@ -68,7 +68,7 @@ namespace Subtext.Web.UI.Controls
                     ControlHelper.SetTitleIfNone(ImageLink, "Click to see entries for this day.");
                 }
 
-                if(DateTitle != null)
+                if (DateTitle != null)
                     DateTitle.Text = CurrentDay.BlogDay.ToLongDateString();
                 DayList.DataSource = CurrentDay;
                 DayList.DataBind();

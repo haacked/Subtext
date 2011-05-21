@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Install {
-    
-    
-    public partial class InstallationComplete {
-        
+namespace Subtext.Web.Install
+{
+
+
+    public partial class InstallationComplete
+    {
+
         /// <summary>
         /// paraBlogLink control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl paraBlogLink;
-        
+
         /// <summary>
         /// lnkBlog control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkBlog;
-        
+
         /// <summary>
         /// paraBlogAdminLink control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl paraBlogAdminLink;
-        
+
         /// <summary>
         /// lnkBlogAdmin control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkBlogAdmin;
-        
+
         /// <summary>
         /// lnkHostAdmin control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
-        
+
         /// <summary>
         /// paraBlogmlImport control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl paraBlogmlImport;
-        
+
         /// <summary>
         /// lnkBlogMl control.
         /// </summary>

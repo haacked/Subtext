@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Posts {
-    
-    
-    public partial class Default {
-        
+namespace Subtext.Web.Admin.Posts
+{
+
+
+    public partial class Default
+    {
+
         /// <summary>
         /// Messages control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.Posts {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
+
         /// <summary>
         /// entries control.
         /// </summary>

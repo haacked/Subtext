@@ -52,7 +52,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             get
             {
-                if(ViewState["BlogId"] != null)
+                if (ViewState["BlogId"] != null)
                 {
                     return (int)ViewState["BlogId"];
                 }
@@ -69,7 +69,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             get
             {
-                if(ViewState["AliasId"] != null)
+                if (ViewState["AliasId"] != null)
                 {
                     return (int)ViewState["AliasId"];
                 }
@@ -87,7 +87,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             get
             {
-                if(ViewState["CurrentBlogCount"] != null)
+                if (ViewState["CurrentBlogCount"] != null)
                 {
                     return (int)ViewState["CurrentBlogCount"];
                 }
@@ -107,9 +107,9 @@ namespace Subtext.Web.HostAdmin.UserControls
             {
                 bool isValidSoFar = true;
 
-                if(CreatingBlog)
+                if (CreatingBlog)
                 {
-                    if(IsTextBoxEmpty(txtPassword))
+                    if (IsTextBoxEmpty(txtPassword))
                     {
                         isValidSoFar = false;
                         messagePanel.ShowError(Resources.BlogsEditor_PasswordRequired + "<br />", true);
@@ -117,7 +117,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                     isValidSoFar = isValidSoFar && ValidateRequiredField(txtTitle, "Title");
                 }
 
-                if(txtPassword.Text != txtPasswordConfirm.Text)
+                if (txtPassword.Text != txtPasswordConfirm.Text)
                 {
                     isValidSoFar = false;
                     messagePanel.ShowError(Resources.BlogsEditor_PasswordsDoNotMatch + "<br />", false);
@@ -144,12 +144,12 @@ namespace Subtext.Web.HostAdmin.UserControls
             ((HostAdminTemplate)Page.Master).AddSidebarControl(AddNewBlogButton);
 
             //Paging...
-            if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+            if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
             {
                 _pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
             }
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 resultsPager.PageSize = Preferences.ListingItemCount;
                 resultsPager.PageIndex = _pageIndex;
@@ -182,7 +182,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             IPagedCollection<Blog> blogs = Blog.GetBlogs(_pageIndex, resultsPager.PageSize, configFlags);
 
-            if(blogs.Count > 0)
+            if (blogs.Count > 0)
             {
                 resultsPager.Visible = true;
                 resultsPager.ItemCount = blogs.MaxItems;
@@ -212,7 +212,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             BindEditHelp();
 
             Blog blog;
-            if(!CreatingBlog)
+            if (!CreatingBlog)
             {
                 blog = Repository.GetBlogById(BlogId);
                 txtApplication.Text = blog.Subfolder;
@@ -228,7 +228,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             else
             {
                 ListItem item = ddlGroups.Items.FindByValue("1");
-                if(item != null)
+                if (item != null)
                 {
                     item.Selected = true;
                 }
@@ -242,7 +242,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                                                 "onPreviewChanged('{0}', '{1}', '{2}', true);", txtHost.ClientID,
                                                 txtApplication.ClientID, virtualDirectory.ClientID);
 
-            if(!Page.ClientScript.IsStartupScriptRegistered("SetUrlPreview"))
+            if (!Page.ClientScript.IsStartupScriptRegistered("SetUrlPreview"))
             {
                 string startupScript = "<script type=\"text/javascript\">"
                                        + Environment.NewLine
@@ -287,7 +287,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         protected void OnBlogItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
+            switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "edit":
                     BlogId = Convert.ToInt32(e.CommandArgument);
@@ -311,11 +311,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         private void SaveConfig()
         {
-            if(PageIsValid)
+            if (PageIsValid)
             {
                 try
                 {
-                    if(BlogId != NullValue.NullInt32)
+                    if (BlogId != NullValue.NullInt32)
                     {
                         SaveBlogEdits();
                     }
@@ -326,7 +326,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                     BindList();
                     return;
                 }
-                catch(BaseBlogConfigurationException e)
+                catch (BaseBlogConfigurationException e)
                 {
                     messagePanel.ShowError(e.Message);
                 }
@@ -337,7 +337,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         // Saves a new blog.  Any exceptions are propagated up to the caller.
         void SaveNewBlog()
         {
-            if(
+            if (
                 Config.CreateBlog(txtTitle.Text, txtUsername.Text, txtPassword.Text, txtHost.Text, txtApplication.Text,
                                   Int32.Parse(ddlGroups.SelectedValue)) > 0)
             {
@@ -354,7 +354,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             Blog blog = Repository.GetBlogById(BlogId);
 
-            if(blog == null)
+            if (blog == null)
             {
                 throw new InvalidOperationException("BlogId not valid");
             }
@@ -365,7 +365,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             blog.UserName = txtUsername.Text;
             blog.BlogGroupId = Int32.Parse(ddlGroups.SelectedValue);
 
-            if(txtPassword.Text.Length > 0)
+            if (txtPassword.Text.Length > 0)
             {
                 blog.Password = SecurityHelper.HashPassword(txtPassword.Text);
             }
@@ -375,7 +375,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                 Repository.UpdateConfigData(blog);
                 messagePanel.ShowMessage(Resources.BlogsEditor_BlogSaved);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 messagePanel.ShowError(Resources.Message_UnexpectedError);
             }
@@ -388,7 +388,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         bool ValidateRequiredField(ITextControl textbox, string fieldName)
         {
-            if(IsTextBoxEmpty(textbox))
+            if (IsTextBoxEmpty(textbox))
             {
                 messagePanel.ShowError(
                     String.Format(CultureInfo.InvariantCulture, Resources.BlogsEditor_FieldRequired, fieldName) +
@@ -400,7 +400,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         bool ValidateFieldLength(ITextControl textbox, string fieldName, int maxLength)
         {
-            if(textbox.Text.Length > maxLength)
+            if (textbox.Text.Length > maxLength)
             {
                 messagePanel.ShowError(
                     String.Format(Resources.BlogsEditor_ValueTooLong, fieldName, maxLength) + "<br />", false);
@@ -411,7 +411,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         protected static string ToggleActiveString(bool active)
         {
-            if(active)
+            if (active)
             {
                 return Resources.Label_Deactivate;
             }
@@ -425,7 +425,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             try
             {
                 Repository.UpdateConfigData(blog);
-                if(blog.IsActive)
+                if (blog.IsActive)
                 {
                     messagePanel.ShowMessage(Resources.BlogsEditor_BlogActivated);
                 }
@@ -434,7 +434,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                     messagePanel.ShowMessage(Resources.BlogsEditor_BlogDeactivated);
                 }
             }
-            catch(BaseBlogConfigurationException e)
+            catch (BaseBlogConfigurationException e)
             {
                 messagePanel.ShowError(e.Message);
             }
@@ -488,7 +488,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             var args = (CommandEventArgs)e;
             BlogAlias alias = Config.GetBlogAlias(Convert.ToInt32(args.CommandArgument));
-            if(args.CommandName == "EditAlias")
+            if (args.CommandName == "EditAlias")
             {
                 AliasId = alias.Id;
                 BindEdit();
@@ -500,7 +500,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                 Config.UpdateBlogAlias(alias);
             }
 
-            if(args.CommandName == "DeleteAlias")
+            if (args.CommandName == "DeleteAlias")
             {
                 AliasId = NullValue.NullInt32;
                 Config.DeleteBlogAlias(alias);
@@ -512,7 +512,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         protected void btnAliasSave_Click(object sender, EventArgs e)
         {
             var alias = new BlogAlias();
-            if(AliasId != NullValue.NullInt32)
+            if (AliasId != NullValue.NullInt32)
             {
                 alias.Id = AliasId;
             }
@@ -522,7 +522,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             alias.BlogId = BlogId;
             alias.IsActive = cbAliasActive.Checked;
 
-            if(AliasId == NullValue.NullInt32)
+            if (AliasId == NullValue.NullInt32)
             {
                 Config.AddBlogAlias(alias);
             }

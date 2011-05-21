@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.HostAdmin.Pages {
-    
-    
-    public partial class ErrorLog {
-        
+namespace Subtext.Web.HostAdmin.Pages
+{
+
+
+    public partial class ErrorLog
+    {
+
         /// <summary>
         /// Log control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.HostAdmin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Log;
-        
+
         /// <summary>
         /// LogPage control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.HostAdmin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.RepeaterWithEmptyDataTemplate LogPage;
-        
+
         /// <summary>
         /// resultsPager control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.HostAdmin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.PagingControl resultsPager;
-        
+
         /// <summary>
         /// btnExportToExcel control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.HostAdmin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnExportToExcel;
-        
+
         /// <summary>
         /// btnClearLog control.
         /// </summary>

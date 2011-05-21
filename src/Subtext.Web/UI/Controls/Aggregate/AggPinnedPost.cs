@@ -49,7 +49,7 @@ namespace Subtext.Web.UI.Controls
 
             //Get the entry
             Entry entry = Repository.GetEntry(ContentID, true /*activeOnly*/, false /*includeCategories*/);
-            if(entry != null)
+            if (entry != null)
             {
                 PinnedPost.Text = entry.Body;
                 PinnedTitle.Text = (string.IsNullOrEmpty(EntryTitle)) ? PinnedTitle.Text = entry.Title : EntryTitle;

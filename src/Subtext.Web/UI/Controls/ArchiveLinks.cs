@@ -41,22 +41,22 @@ namespace Subtext.Web.UI.Controls
 
             // we want to make sure that the LinkCategory is NOT null before we add it to the collection.
             LinkCategory category = UIData.Links(CategoryType.PostCollection, blog, Url);
-            if(category != null)
+            if (category != null)
             {
                 linkCategories.Add(category);
             }
             category = UIData.Links(CategoryType.StoryCollection, blog, Url);
-            if(category != null)
+            if (category != null)
             {
                 linkCategories.Add(category);
             }
             category = UIData.ArchiveMonth(Url, blog);
-            if(category != null)
+            if (category != null)
             {
                 linkCategories.Add(category);
             }
             category = UIData.Links(CategoryType.ImageCollection, blog, Url);
-            if(category != null)
+            if (category != null)
             {
                 linkCategories.Add(category);
             }

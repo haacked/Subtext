@@ -44,7 +44,7 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if(!Utilities.IsNullorEmpty(_promptMessage))
+                if (!Utilities.IsNullorEmpty(_promptMessage))
                 {
                     return FormatMessage(_promptMessage, _targetName, itemTitle);
                 }

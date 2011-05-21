@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
-using Image=Subtext.Framework.Components.Image;
+using Image = Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.UI.Controls
 {

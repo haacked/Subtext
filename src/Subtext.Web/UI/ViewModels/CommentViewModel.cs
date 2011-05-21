@@ -42,8 +42,8 @@ namespace Subtext.Web.UI.ViewModels
 
         public int Id
         {
-            get 
-            { 
+            get
+            {
                 return Feedback.Id;
             }
         }
@@ -71,8 +71,8 @@ namespace Subtext.Web.UI.ViewModels
             get { return Feedback.Email; }
         }
 
-        public bool IsBlogAuthor 
-        { 
+        public bool IsBlogAuthor
+        {
             get
             {
                 return Feedback.IsBlogAuthor;
@@ -80,7 +80,7 @@ namespace Subtext.Web.UI.ViewModels
         }
 
         public string DisplayUrl
-        { 
+        {
             get
             {
                 return UrlHelper.FeedbackUrl(Feedback);
@@ -89,8 +89,8 @@ namespace Subtext.Web.UI.ViewModels
 
         public DateTime DateCreated
         {
-            get 
-            { 
+            get
+            {
                 return Feedback.DateCreated;
             }
 

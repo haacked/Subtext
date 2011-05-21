@@ -45,7 +45,7 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         /// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         protected override void OnLoad(EventArgs e)
-        {            
+        {
             // number of posts to show, use default if not set by user
             // use recentcomments settings here - avoid schema additions & 
             // likely most people would be happy with the same settings for both controls anyway
@@ -56,7 +56,7 @@ namespace Subtext.Web.UI.Controls
 
             base.OnLoad(e);
 
-            if(_posts != null)
+            if (_posts != null)
             {
                 postList.DataSource = _posts;
                 postList.DataBind();
@@ -70,12 +70,12 @@ namespace Subtext.Web.UI.Controls
 
         protected void PostCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var post = (Entry)e.Item.DataItem;
                 Entry = new EntryViewModel(post, SubtextContext);
                 var lnkPost = (HyperLink)e.Item.FindControl("Link");
-                if(lnkPost != null)
+                if (lnkPost != null)
                 {
                     // display whole title, (up to 255 chars), no truncation
                     lnkPost.Text = HtmlHelper.RemoveHtml(post.Title);

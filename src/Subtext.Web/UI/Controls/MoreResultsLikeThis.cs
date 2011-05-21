@@ -45,7 +45,7 @@ namespace Subtext.Web.UI.Controls
         private int _rowCount;
         public int RowCount
         {
-            get { return _rowCount+1; }
+            get { return _rowCount + 1; }
             set { _rowCount = value; }
         }
 
@@ -60,7 +60,7 @@ namespace Subtext.Web.UI.Controls
 
         public IEnumerable<SearchEngineResult> SearchResults
         {
-            get; 
+            get;
             set;
         }
 
@@ -69,9 +69,9 @@ namespace Subtext.Web.UI.Controls
             int blogId = Blog.Id >= 1 ? Blog.Id : 0;
             var urlRelatedLinks = FindControl("Links") as Repeater;
 
-            if(urlRelatedLinks != null)
+            if (urlRelatedLinks != null)
             {
-                if(SearchResults==null)
+                if (SearchResults == null)
                 {
                     int entryId = -1;
                     Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
@@ -82,7 +82,7 @@ namespace Subtext.Web.UI.Controls
                 urlRelatedLinks.DataBind();
             }
             var keywords = FindControl("keywords") as Literal;
-            if(keywords != null)
+            if (keywords != null)
             {
                 keywords.Text = HttpUtility.HtmlEncode(Query);
             }
@@ -97,10 +97,10 @@ namespace Subtext.Web.UI.Controls
                 var pi = (SearchEngineResult)e.Item.DataItem;
                 BindLink(e, pi);
             }
-            if(e.Item.ItemType == ListItemType.Footer)
+            if (e.Item.ItemType == ListItemType.Footer)
             {
                 var searchMoreLink = e.Item.FindControl("searchMore") as HtmlAnchor;
-                if(searchMoreLink != null)
+                if (searchMoreLink != null)
                 {
                     searchMoreLink.InnerText = searchMoreLink.InnerText + Query;
                     searchMoreLink.HRef = Url.SearchPageUrl(Query);

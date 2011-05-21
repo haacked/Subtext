@@ -35,7 +35,7 @@ namespace Subtext.Web.HostAdmin.Pages
 
         private void LoadPage()
         {
-            if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+            if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
             {
                 logPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
             }

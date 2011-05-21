@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Pages {
-    
-    
-    public partial class EditGalleries {
-        
+namespace Subtext.Web.Admin.Pages
+{
+
+
+    public partial class EditGalleries
+    {
+
         /// <summary>
         /// Messages control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
+
         /// <summary>
         /// Results control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder Results;
-        
+
         /// <summary>
         /// dgrSelectionList control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataGrid dgrSelectionList;
-        
+
         /// <summary>
         /// Add control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Add;
-        
+
         /// <summary>
         /// txbNewTitle control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbNewTitle;
-        
+
         /// <summary>
         /// ckbNewIsActive control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ckbNewIsActive;
-        
+
         /// <summary>
         /// txbNewDescription control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbNewDescription;
-        
+
         /// <summary>
         /// lkbPost control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lkbPost;
-        
+
         /// <summary>
         /// ImagesDiv control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder ImagesDiv;
-        
+
         /// <summary>
         /// AddImages control.
         /// </summary>
@@ -102,7 +104,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.AdvancedPanel AddImages;
-        
+
         /// <summary>
         /// ImageFile control.
         /// </summary>
@@ -111,7 +113,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputFile ImageFile;
-        
+
         /// <summary>
         /// txbImageTitle control.
         /// </summary>
@@ -120,7 +122,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbImageTitle;
-        
+
         /// <summary>
         /// ckbIsActiveImage control.
         /// </summary>
@@ -129,7 +131,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ckbIsActiveImage;
-        
+
         /// <summary>
         /// PanelDefaultName control.
         /// </summary>
@@ -138,7 +140,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder PanelDefaultName;
-        
+
         /// <summary>
         /// lbkAddImage control.
         /// </summary>
@@ -147,7 +149,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lbkAddImage;
-        
+
         /// <summary>
         /// PanelSuggestNewName control.
         /// </summary>
@@ -156,7 +158,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel PanelSuggestNewName;
-        
+
         /// <summary>
         /// TextBoxImageFileName control.
         /// </summary>
@@ -165,7 +167,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxImageFileName;
-        
+
         /// <summary>
         /// lbkNewFile control.
         /// </summary>
@@ -174,7 +176,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lbkNewFile;
-        
+
         /// <summary>
         /// plhImageHeader control.
         /// </summary>
@@ -183,7 +185,7 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder plhImageHeader;
-        
+
         /// <summary>
         /// rprImages control.
         /// </summary>

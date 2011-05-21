@@ -8,19 +8,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web {
-    
-    
-    public partial class ForgotPassword {
-        
+namespace Subtext.Web
+{
+
+
+    public partial class ForgotPassword
+    {
+
         /// <summary>
         /// Master property.
         /// </summary>
         /// <remarks>
         /// Auto-generated property.
         /// </remarks>
-        public new Subtext.Web.Skins._System.ForgotPassword Master {
-            get {
+        public new Subtext.Web.Skins._System.ForgotPassword Master
+        {
+            get
+            {
                 return ((Subtext.Web.Skins._System.ForgotPassword)(base.Master));
             }
         }

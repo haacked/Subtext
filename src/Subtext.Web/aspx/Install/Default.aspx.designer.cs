@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Install {
-    
-    
-    public partial class Default {
-        
+namespace Subtext.Web.Install
+{
+
+
+    public partial class Default
+    {
+
         /// <summary>
         /// litDatabaseName control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Install {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal litDatabaseName;
-        
+
         /// <summary>
         /// btnInstallClick control.
         /// </summary>

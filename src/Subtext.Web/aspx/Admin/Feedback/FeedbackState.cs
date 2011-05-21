@@ -21,7 +21,7 @@ namespace Subtext.Web.Admin.Feedback
         {
             //We've reduced multiple switch statements to one, 
             //that's good enough in my book.
-            switch(status)
+            switch (status)
             {
                 case FeedbackStatusFlag.Approved:
                     return new ApprovedFeedbackState();

@@ -52,14 +52,14 @@ namespace Subtext.Web.Admin.Pages
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
-                if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+                if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
                 {
                     _pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
                 }
 
-                if(null != Request.QueryString["EntryId"])
+                if (null != Request.QueryString["EntryId"])
                 {
                     _entryId = Convert.ToInt32(Request.QueryString["EntryId"]);
                 }
@@ -73,7 +73,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void BindLocalUI()
         {
-            if(_entryId == NullValue.NullInt32)
+            if (_entryId == NullValue.NullInt32)
             {
                 //SetReferalDesc("Referrals");
             }
@@ -88,7 +88,7 @@ namespace Subtext.Web.Admin.Pages
         {
             IPagedCollection<Referrer> referrers;
 
-            if(_entryId == NullValue.NullInt32)
+            if (_entryId == NullValue.NullInt32)
             {
                 referrers = Repository.GetPagedReferrers(_pageIndex, resultsPager.PageSize, NullValue.NullInt32);
             }
@@ -98,7 +98,7 @@ namespace Subtext.Web.Admin.Pages
                 referrers = Repository.GetPagedReferrers(_pageIndex, resultsPager.PageSize, _entryId);
             }
 
-            if(referrers != null && referrers.Count > 0)
+            if (referrers != null && referrers.Count > 0)
             {
                 resultsPager.ItemCount = referrers.MaxItems;
                 rprSelectionList.DataSource = referrers;
@@ -108,7 +108,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void SetReferalDesc(string selection, string title)
         {
-            if(AdminMasterPage != null)
+            if (AdminMasterPage != null)
             {
                 string bctitle = string.Format(CultureInfo.InvariantCulture, Resources.Label_Viewing + " {0}:{1}",
                                                selection, title);
@@ -118,7 +118,7 @@ namespace Subtext.Web.Admin.Pages
 
         public string CheckHiddenStyle()
         {
-            if(_isListHidden)
+            if (_isListHidden)
             {
                 return Constants.CSSSTYLE_HIDDEN;
             }
@@ -130,13 +130,13 @@ namespace Subtext.Web.Admin.Pages
 
         public string GetTitle(object dataItem)
         {
-            if(dataItem is Referrer)
+            if (dataItem is Referrer)
             {
                 var referrer = (Referrer)dataItem;
 
-                if(referrer.PostTitle != null)
+                if (referrer.PostTitle != null)
                 {
-                    if(referrer.PostTitle.Trim().Length <= 50)
+                    if (referrer.PostTitle.Trim().Length <= 50)
                     {
                         return "<a href=\"../posts/" + referrer.EntryId + ".aspx\" target=\"_new\">" +
                                referrer.PostTitle + "</a>";
@@ -151,7 +151,7 @@ namespace Subtext.Web.Admin.Pages
 
         public string GetReferrer(object dataItem)
         {
-            if(dataItem is Referrer)
+            if (dataItem is Referrer)
             {
                 var referrer = (Referrer)dataItem;
                 string urlEncodedReferrerUrl = Uri.EscapeUriString(referrer.ReferrerUrl);
@@ -170,7 +170,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void rprSelectionList_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            switch(e.CommandName.ToLower(CultureInfo.InvariantCulture))
+            switch (e.CommandName.ToLower(CultureInfo.InvariantCulture))
             {
                 case "create":
                     object[] args = e.CommandArgument.ToString().Split('|');
@@ -196,10 +196,10 @@ namespace Subtext.Web.Admin.Pages
                                           Config.CurrentBlog.TimeZone.Now);
                 var commentService = new CommentService(SubtextContext, null);
 
-                if(commentService.Create(entry, true/*runFilters*/) > 0)
+                if (commentService.Create(entry, true/*runFilters*/) > 0)
                 {
                     ICommentSpamService feedbackService = null;
-                    if(Config.CurrentBlog.FeedbackSpamServiceEnabled)
+                    if (Config.CurrentBlog.FeedbackSpamServiceEnabled)
                     {
                         feedbackService = new AkismetSpamService(Config.CurrentBlog.FeedbackSpamServiceKey,
                                                                  Config.CurrentBlog, null, Url);
@@ -216,7 +216,7 @@ namespace Subtext.Web.Admin.Pages
                                        + " There was a baseline problem posting your Trackback.");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error(ex.Message, ex);
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION,

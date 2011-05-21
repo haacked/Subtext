@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin {
-    
-    
-    public partial class Skins {
-        
+namespace Subtext.Web.Admin
+{
+
+
+    public partial class Skins
+    {
+
         /// <summary>
         /// skinRepeater control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater skinRepeater;
-        
+
         /// <summary>
         /// mobileSkinRepeater control.
         /// </summary>

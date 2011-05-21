@@ -36,7 +36,7 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            if(Context != null)
+            if (Context != null)
             {
                 Blog info = Blog;
                 PostCount.Text = info.PostCount.ToString(CultureInfo.InvariantCulture);

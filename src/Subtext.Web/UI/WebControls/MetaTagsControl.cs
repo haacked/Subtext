@@ -13,18 +13,18 @@ namespace Subtext.Web.UI.WebControls
     {
         public Blog Blog
         {
-            get; 
+            get;
             set;
         }
 
         protected override void Render(HtmlTextWriter writer)
         {
             IPagedCollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(Blog, 0, int.MaxValue);
-            foreach(MetaTag tag in blogMetaTags)
+            foreach (MetaTag tag in blogMetaTags)
             {
                 var htmlMetaTag = new HtmlMeta { Content = tag.Content };
 
-                if(!string.IsNullOrEmpty(tag.Name))
+                if (!string.IsNullOrEmpty(tag.Name))
                 {
                     htmlMetaTag.Name = tag.Name;
                 }

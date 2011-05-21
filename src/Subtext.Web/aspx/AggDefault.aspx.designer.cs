@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web {
-    
-    
-    public partial class AggDefault {
-        
+namespace Subtext.Web
+{
+
+
+    public partial class AggDefault
+    {
+
         /// <summary>
         /// title control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal title;
-        
+
         /// <summary>
         /// Style control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal Style;
-        
+
         /// <summary>
         /// Form1 control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
-        
+
         /// <summary>
         /// TitleLink control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink TitleLink;
-        
+
         /// <summary>
         /// AggSyndication1 control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.UI.Controls.AggSyndication AggSyndication1;
-        
+
         /// <summary>
         /// AggBlogStats1 control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.UI.Controls.AggBlogStats AggBlogStats1;
-        
+
         /// <summary>
         /// AggBloggers1 control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.UI.Controls.AggBloggers AggBloggers1;
-        
+
         /// <summary>
         /// AggPinnedPost1 control.
         /// </summary>
@@ -84,7 +86,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.UI.Controls.AggPinnedPost AggPinnedPost1;
-        
+
         /// <summary>
         /// AggRecentPosts1 control.
         /// </summary>
@@ -93,7 +95,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.UI.Controls.AggRecentPosts AggRecentPosts1;
-        
+
         /// <summary>
         /// AggRecentImages1 control.
         /// </summary>

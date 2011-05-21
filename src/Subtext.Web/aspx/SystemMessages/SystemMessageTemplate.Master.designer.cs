@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.SystemMessages {
-    
-    
-    public partial class Site1 {
-        
+namespace Subtext.Web.SystemMessages
+{
+
+
+    public partial class Site1
+    {
+
         /// <summary>
         /// Head1 control.
         /// </summary>
@@ -21,7 +23,7 @@ namespace Subtext.Web.SystemMessages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlHead Head1;
-        
+
         /// <summary>
         /// installStyle control.
         /// </summary>
@@ -30,7 +32,7 @@ namespace Subtext.Web.SystemMessages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlLink installStyle;
-        
+
         /// <summary>
         /// installFavicon control.
         /// </summary>
@@ -39,7 +41,7 @@ namespace Subtext.Web.SystemMessages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlLink installFavicon;
-        
+
         /// <summary>
         /// frmMain control.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Subtext.Web.SystemMessages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm frmMain;
-        
+
         /// <summary>
         /// logoImage control.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Subtext.Web.SystemMessages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image logoImage;
-        
+
         /// <summary>
         /// MPTitle control.
         /// </summary>
@@ -66,7 +68,7 @@ namespace Subtext.Web.SystemMessages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder MPTitle;
-        
+
         /// <summary>
         /// MPSubTitle control.
         /// </summary>
@@ -75,7 +77,7 @@ namespace Subtext.Web.SystemMessages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder MPSubTitle;
-        
+
         /// <summary>
         /// Content control.
         /// </summary>

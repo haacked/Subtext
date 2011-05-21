@@ -83,7 +83,7 @@ namespace Subtext.Web.SiteMap
             get { return _priority; }
             set
             {
-                if(value < 0.0M || value > 1.0M)
+                if (value < 0.0M || value > 1.0M)
                 {
                     throw new ArgumentOutOfRangeException(Resources.ArgumentOutOfRange_Priority);
                 }

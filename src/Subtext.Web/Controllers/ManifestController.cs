@@ -19,7 +19,7 @@ using System.Web.Mvc;
 using Subtext.Framework;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
-using UrlHelper=Subtext.Framework.Routing.BlogUrlHelper;
+using UrlHelper = Subtext.Framework.Routing.BlogUrlHelper;
 
 namespace Subtext.Web.Controllers
 {
@@ -62,7 +62,8 @@ namespace Subtext.Web.Controllers
         }
 
         public ISubtextContext SubtextContext { get; private set; }
-        public UrlHelper UrlHelper {
+        public UrlHelper UrlHelper
+        {
             get
             {
                 return SubtextContext.UrlHelper;
@@ -82,7 +83,7 @@ namespace Subtext.Web.Controllers
             var adminUrlHelper = new AdminUrlHelper(UrlHelper);
             var adminUrl = adminUrlHelper.Home().ToFullyQualifiedUrl(Blog);
             var postEditingUrl = adminUrlHelper.PostsEdit().ToFullyQualifiedUrl(Blog);
-            
+
             string manifestXml = string.Format(ManifestXml, Blog.TrackbacksEnabled.ToYesNo(), adminUrl, postEditingUrl);
 
             return Content(manifestXml, "text/xml");

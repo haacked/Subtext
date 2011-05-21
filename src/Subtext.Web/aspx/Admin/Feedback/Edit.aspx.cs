@@ -28,11 +28,11 @@ namespace Subtext.Web.Admin.Feedback
         {
             get
             {
-                if(FeedbackId > -1 && ReturnToOriginalPost)
+                if (FeedbackId > -1 && ReturnToOriginalPost)
                 {
                     // We came from outside the post, let's go there.
                     FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackId);
-                    if(updatedFeedback != null)
+                    if (updatedFeedback != null)
                     {
                         return Url.FeedbackUrl(updatedFeedback);
                     }
@@ -46,11 +46,11 @@ namespace Subtext.Web.Admin.Feedback
         {
             get
             {
-                if(_feedbackId == NullValue.NullInt32)
+                if (_feedbackId == NullValue.NullInt32)
                 {
                     string feedbackIdText = Request.QueryString["FeedbackID"] ?? " ";
                     int id;
-                    if(int.TryParse(feedbackIdText, out id))
+                    if (int.TryParse(feedbackIdText, out id))
                     {
                         _feedbackId = id;
                     }
@@ -66,13 +66,13 @@ namespace Subtext.Web.Admin.Feedback
 
         protected override void OnLoad(EventArgs e)
         {
-            if(FeedbackId == NullValue.NullInt32)
+            if (FeedbackId == NullValue.NullInt32)
             {
                 Response.Redirect(CancelUrl);
                 return;
             }
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 BindFeedbackEdit();
             }
@@ -82,7 +82,7 @@ namespace Subtext.Web.Admin.Feedback
         private void BindFeedbackEdit()
         {
             FeedbackItem currentFeedback = FeedbackItem.Get(FeedbackId);
-            if(currentFeedback == null)
+            if (currentFeedback == null)
             {
                 Response.Redirect("./");
                 return;
@@ -91,14 +91,14 @@ namespace Subtext.Web.Admin.Feedback
             SetConfirmation();
             lblName.Text = currentFeedback.Author;
             lblEmail.Text = currentFeedback.Email;
-            if(currentFeedback.Email.Length > 0)
+            if (currentFeedback.Email.Length > 0)
             {
                 hlAuthorEmail.NavigateUrl = "mailto:" + currentFeedback.Email;
             }
 
             hlEntryLink.NavigateUrl = Url.FeedbackUrl(currentFeedback);
             hlEntryLink.Text = Url.FeedbackUrl(currentFeedback);
-            if(currentFeedback.SourceUrl != null)
+            if (currentFeedback.SourceUrl != null)
             {
                 txbWebsite.Text = currentFeedback.SourceUrl.ToString();
             }
@@ -122,24 +122,24 @@ namespace Subtext.Web.Admin.Feedback
             Uri feedbackWebsite = null;
             valtxbWebsite.IsValid = !(txbWebsite.Text.Length > 0) || Uri.TryCreate(txbWebsite.Text, UriKind.RelativeOrAbsolute, out feedbackWebsite);
 
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
                 FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackId);
                 updatedFeedback.Title = txbTitle.Text;
                 updatedFeedback.Body = richTextEditor.Text;
-                if(feedbackWebsite != null)
+                if (feedbackWebsite != null)
                 {
                     updatedFeedback.SourceUrl = feedbackWebsite;
                 }
                 FeedbackItem.Update(updatedFeedback);
                 Cacher.InvalidateFeedback(updatedFeedback.Entry, SubtextContext);
-                if(ReturnToOriginalPost)
+                if (ReturnToOriginalPost)
                 {
                     Response.Redirect(Url.FeedbackUrl(updatedFeedback));
                     return;
                 }
 
-                
+
                 Messages.ShowMessage(Constants.RES_SUCCESSEDIT, false);
             }
         }

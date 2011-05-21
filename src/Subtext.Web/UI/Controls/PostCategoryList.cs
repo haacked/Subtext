@@ -37,7 +37,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            if(LinkCategories != null)
+            if (LinkCategories != null)
             {
                 CatList.DataSource = LinkCategories;
                 CatList.DataBind();
@@ -51,7 +51,7 @@ namespace Subtext.Web.UI.Controls
 
         protected override void OnPreRender(EventArgs e)
         {
-            if(CatList.Items.Count == 0)
+            if (CatList.Items.Count == 0)
             {
                 Visible = ShowEmpty;
             }
@@ -60,14 +60,14 @@ namespace Subtext.Web.UI.Controls
 
         protected void CategoryCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var linkcat = (LinkCategory)e.Item.DataItem;
-                if(linkcat != null)
+                if (linkcat != null)
                 {
                     var linkControl = (HyperLink)e.Item.FindControl("Link");
                     linkControl.NavigateUrl = Url.CategoryUrl(linkcat);
-                    if(string.IsNullOrEmpty(linkControl.Attributes["title"]))
+                    if (string.IsNullOrEmpty(linkControl.Attributes["title"]))
                     {
                         linkControl.Attributes["title"] = "";
                     }

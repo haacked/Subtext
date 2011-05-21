@@ -45,7 +45,7 @@ namespace Subtext.Web.UI.Controls
                     string.Format(CultureInfo.InvariantCulture, "{0} - {1} " + Resources.Label_Entries, Blog.Title,
                                   dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)), Context);
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 HttpHelper.SetFileNotFoundResponse();
             }

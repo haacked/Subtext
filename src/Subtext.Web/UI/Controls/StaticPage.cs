@@ -43,13 +43,13 @@ namespace Subtext.Web.UI.Controls
 
         protected void CategoryCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var linkcat = (LinkCategory)e.Item.DataItem;
-                if(linkcat != null)
+                if (linkcat != null)
                 {
                     var title = (Literal)e.Item.FindControl("Title");
-                    if(title != null)
+                    if (title != null)
                     {
                         title.Text = linkcat.Title;
                     }
@@ -63,23 +63,23 @@ namespace Subtext.Web.UI.Controls
 
         protected void LinkCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var link = (Link)e.Item.DataItem;
-                if(link != null)
+                if (link != null)
                 {
                     var linkControl = (HyperLink)e.Item.FindControl("Link");
                     linkControl.NavigateUrl = link.Url;
                     linkControl.Text = link.Title;
-                    if(link.NewWindow)
+                    if (link.NewWindow)
                     {
                         linkControl.Target = "_blank";
                     }
 
-                    if(link.HasRss)
+                    if (link.HasRss)
                     {
                         var rssLink = (HyperLink)e.Item.FindControl("RssLink");
-                        if(rssLink != null)
+                        if (rssLink != null)
                         {
                             rssLink.NavigateUrl = link.Rss;
                             rssLink.Visible = true;

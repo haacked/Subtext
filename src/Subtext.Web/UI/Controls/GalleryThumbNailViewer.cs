@@ -21,7 +21,7 @@ using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Util;
-using Image=Subtext.Framework.Components.Image;
+using Image = Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -34,15 +34,15 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
             // Put user code to initialize the page here
-            if(Context != null)
+            if (Context != null)
             {
                 int? categoryId = SubtextContext.RequestContext.GetIdFromRequest();
 
                 ImageCollection ic = Repository.GetImagesByCategoryId(categoryId.Value, true /* activeOnly */);
-                if(ic != null)
+                if (ic != null)
                 {
                     GalleryTitle.Text = ic.Category.Title;
-                    if(ic.Category.HasDescription)
+                    if (ic.Category.HasDescription)
                     {
                         Description.Text = string.Format(CultureInfo.InvariantCulture, "{0}",
                                                          HttpUtility.HtmlEncode(ic.Category.Description));
@@ -55,14 +55,14 @@ namespace Subtext.Web.UI.Controls
 
         protected void ImageCreated(object sender, DataListItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var image = (Image)e.Item.DataItem;
-                if(image != null)
+                if (image != null)
                 {
                     image.Blog = Blog;
                     var thumbNailImage = (HyperLink)e.Item.FindControl("ThumbNailImage");
-                    if(thumbNailImage != null)
+                    if (thumbNailImage != null)
                     {
                         thumbNailImage.ImageUrl = Url.GalleryImageUrl(image, image.ThumbNailFile);
                         thumbNailImage.NavigateUrl = Url.GalleryImagePageUrl(image);

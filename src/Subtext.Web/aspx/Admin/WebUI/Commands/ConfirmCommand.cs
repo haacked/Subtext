@@ -52,7 +52,7 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if(!Utilities.IsNullorEmpty(_executeSuccessMessage))
+                if (!Utilities.IsNullorEmpty(_executeSuccessMessage))
                 {
                     return _executeSuccessMessage;
                 }
@@ -68,7 +68,7 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if(!Utilities.IsNullorEmpty(_executeFailureMessage))
+                if (!Utilities.IsNullorEmpty(_executeFailureMessage))
                 {
                     return _executeFailureMessage;
                 }
@@ -84,7 +84,7 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if(!Utilities.IsNullorEmpty(_cancelSuccessMessage))
+                if (!Utilities.IsNullorEmpty(_cancelSuccessMessage))
                 {
                     return _cancelSuccessMessage;
                 }
@@ -100,7 +100,7 @@ namespace Subtext.Web.Admin.Commands
         {
             get
             {
-                if(!Utilities.IsNullorEmpty(_cancelFailureMessage))
+                if (!Utilities.IsNullorEmpty(_cancelFailureMessage))
                 {
                     return _cancelFailureMessage;
                 }
@@ -129,7 +129,7 @@ namespace Subtext.Web.Admin.Commands
             {
                 return string.Format(CultureInfo.InvariantCulture, format, args);
             }
-            catch(ArgumentNullException)
+            catch (ArgumentNullException)
             {
                 return format;
             }
@@ -143,18 +143,18 @@ namespace Subtext.Web.Admin.Commands
         /// <returns></returns>
         protected string GetDisplayTextFromIntArray(ICollection<int> integers)
         {
-            if(integers == null || integers.Count == 0)
+            if (integers == null || integers.Count == 0)
             {
                 return string.Empty;
             }
 
-            if(integers.Count == 2)
+            if (integers.Count == 2)
             {
                 return integers.First() + " and " + integers.ElementAt(1);
             }
 
             string display = string.Empty;
-            foreach(int integer in integers)
+            foreach (int integer in integers)
             {
                 display += integer + ", ";
             }

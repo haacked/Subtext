@@ -54,7 +54,7 @@ namespace Subtext.Web.Controls
         public void OnError(Exception ex)
         {
             EventHandler<RichTextEditorErrorEventArgs> error = Error;
-            if(error != null)
+            if (error != null)
             {
                 error(this, new RichTextEditorErrorEventArgs(ex));
             }

@@ -32,7 +32,7 @@ namespace Subtext.Web.Admin.Articles
         {
             entries.HeaderText = Resources.Label_Articles;
             string message = Request.QueryString["message"];
-            if(!string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(message))
             {
                 Messages.ShowMessage(message);
             }

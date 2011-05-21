@@ -15,7 +15,7 @@ namespace Subtext.Web.Admin.Posts
         {
             entries.HeaderText = Resources.Label_Entries;
             string message = Request.QueryString["message"];
-            if(!string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(message))
             {
                 Messages.ShowMessage(message);
             }

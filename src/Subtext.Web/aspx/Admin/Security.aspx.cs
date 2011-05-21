@@ -33,11 +33,11 @@ namespace Subtext.Web.Admin.Pages
 
         protected override void BindLocalUI()
         {
-            if(!String.IsNullOrEmpty(Blog.OpenIdUrl))
+            if (!String.IsNullOrEmpty(Blog.OpenIdUrl))
             {
                 tbOpenIDURL.Text = Blog.OpenIdUrl;
             }
-            
+
             tbOpenIDServer.Text = Blog.OpenIdServer;
             tbOpenIDDelegate.Text = Blog.OpenIdDelegate;
 
@@ -48,18 +48,18 @@ namespace Subtext.Web.Admin.Pages
         {
             string openIdUrl = tbOpenIDURL.Text == "http://" ? string.Empty : tbOpenIDURL.Text;
             Blog.OpenIdUrl = openIdUrl;
-                
+
             Repository.UpdateConfigData(Blog);
         }
 
         protected void btnChangePassword_Click(object sender, EventArgs e)
         {
             string failureMessage = Resources.Security_PasswordNotUpdated;
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
-                if(SecurityHelper.IsValidPassword(SubtextContext.Blog, tbCurrent.Text))
+                if (SecurityHelper.IsValidPassword(SubtextContext.Blog, tbCurrent.Text))
                 {
-                    if(tbPassword.Text == tbPasswordConfirm.Text)
+                    if (tbPassword.Text == tbPasswordConfirm.Text)
                     {
                         SecurityHelper.UpdatePassword(tbPassword.Text);
 

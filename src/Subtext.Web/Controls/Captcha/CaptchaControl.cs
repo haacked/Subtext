@@ -139,11 +139,11 @@ namespace Subtext.Web.Controls.Captcha
 
         private void GenerateNewCaptcha()
         {
-            if(Width.IsEmpty)
+            if (Width.IsEmpty)
             {
                 Width = Unit.Pixel(180);
             }
-            if(Height.IsEmpty)
+            if (Height.IsEmpty)
             {
                 Height = Unit.Pixel(50);
             }
@@ -161,7 +161,7 @@ namespace Subtext.Web.Controls.Captcha
         {
             bool isValid = base.EvaluateIsValid();
 
-            if(isValid)
+            if (isValid)
             {
                 //We don't want the CAPTCHA to change if the 
                 //user specifies a correct answer but some other 
@@ -178,7 +178,7 @@ namespace Subtext.Web.Controls.Captcha
         protected override void OnPreRender(EventArgs e)
         {
             // We store the answer encrypted so it can't be tampered with.
-            if(!Page.IsPostBack || !IsValid)
+            if (!Page.IsPostBack || !IsValid)
             {
                 GenerateNewCaptcha();
             }
@@ -196,7 +196,7 @@ namespace Subtext.Web.Controls.Captcha
         {
             RenderHiddenInputForEncryptedAnswer(writer);
             writer.Write("<div id=\"{0}\"", ClientID);
-            if(!String.IsNullOrEmpty(CssClass))
+            if (!String.IsNullOrEmpty(CssClass))
             {
                 writer.Write(" class=\"{0}\"", CssClass);
             }
@@ -209,7 +209,7 @@ namespace Subtext.Web.Controls.Captcha
             string src = HttpHelper.ExpandTildePath("~/images/services/CaptchaImage.ashx");
 
             writer.Write("<img src=\"{0}", src);
-            if(!IsDesignMode)
+            if (!IsDesignMode)
             {
                 writer.Write("?spec={0}", HttpUtility.UrlEncodeUnicode(_captcha.ToEncryptedString()));
             }
@@ -217,13 +217,13 @@ namespace Subtext.Web.Controls.Captcha
 
             writer.Write(" width=\"{0}\" ", Width.Value);
             writer.Write(" height=\"{0}\" ", Height.Value);
-            if(ToolTip.Length > 0)
+            if (ToolTip.Length > 0)
             {
                 writer.Write(" alt='{0}'", ToolTip);
             }
             writer.Write(" />");
 
-            if(DefaultText.Length > 0)
+            if (DefaultText.Length > 0)
             {
                 writer.Write("<label for=\"{0}\">", AnswerFormFieldName);
                 writer.Write(DefaultText);
@@ -234,19 +234,19 @@ namespace Subtext.Web.Controls.Captcha
             writer.Write("<input name=\"{0}\" type=\"text\" size=\"", AnswerFormFieldName);
             writer.Write(_captcha.TextLength.ToString(CultureInfo.InvariantCulture));
             writer.Write("\" maxlength=\"{0}\"", _captcha.TextLength);
-            if(AccessKey.Length > 0)
+            if (AccessKey.Length > 0)
             {
                 writer.Write(" accesskey=\"{0}\"", AccessKey);
             }
-            if(!Enabled)
+            if (!Enabled)
             {
                 writer.Write(" disabled=\"disabled\"");
             }
-            if(TabIndex > 0)
+            if (TabIndex > 0)
             {
                 writer.Write(" tabindex=\"{0}\"", TabIndex);
             }
-            if(Page.IsPostBack && IsValid)
+            if (Page.IsPostBack && IsValid)
             {
                 writer.Write(" value=\"{0}\" />", HttpUtility.HtmlEncode(Page.Request.Form[AnswerFormFieldName]));
             }
@@ -259,5 +259,5 @@ namespace Subtext.Web.Controls.Captcha
         }
     }
 
-    
+
 }

@@ -49,7 +49,7 @@ namespace Subtext.Web.Controls
         {
             get
             {
-                if(IsAttributeDefined("title"))
+                if (IsAttributeDefined("title"))
                 {
                     return Attributes["title"];
                 }
@@ -66,7 +66,7 @@ namespace Subtext.Web.Controls
         {
             get
             {
-                if(IsAttributeDefined("highlightclass"))
+                if (IsAttributeDefined("highlightclass"))
                 {
                     return Attributes["highlightclass"];
                 }
@@ -83,7 +83,7 @@ namespace Subtext.Web.Controls
         {
             get
             {
-                if(IsAttributeDefined("href"))
+                if (IsAttributeDefined("href"))
                 {
                     return ConvertToAppPath(Attributes["href"]);
                 }
@@ -106,7 +106,7 @@ namespace Subtext.Web.Controls
         {
             get
             {
-                if(IsAttributeDefined("parentpath"))
+                if (IsAttributeDefined("parentpath"))
                 {
                     return ConvertToAppPath(Attributes["parentpath"]);
                 }
@@ -129,7 +129,7 @@ namespace Subtext.Web.Controls
             {
                 // If control points to /about/ and we're on /about/default.aspx 
                 // then this is true.
-                if(CurrentRequestPath == ParentPath && ParentPath == Href)
+                if (CurrentRequestPath == ParentPath && ParentPath == Href)
                 {
                     return true;
                 }
@@ -158,7 +158,7 @@ namespace Subtext.Web.Controls
 
             string cssClass = string.Empty;
             string hrefString = string.Empty;
-            if(IsOnThisMenusPage && HighlightCssClass.Length > 0)
+            if (IsOnThisMenusPage && HighlightCssClass.Length > 0)
             {
                 cssClass = string.Format(CultureInfo.InvariantCulture, " class=\"{0}\"", HighlightCssClass);
             }
@@ -168,7 +168,7 @@ namespace Subtext.Web.Controls
             }
 
             string idText = string.Empty;
-            if(IsAttributeDefined("id"))
+            if (IsAttributeDefined("id"))
             {
                 idText = string.Format(" id=\"{0}\"", Attributes["id"]);
             }

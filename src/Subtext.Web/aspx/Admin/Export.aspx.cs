@@ -26,7 +26,7 @@ namespace Subtext.Web.Admin.Pages
         {
             string command = Request.QueryString["command"].ToLower(CultureInfo.InvariantCulture);
 
-            switch(command)
+            switch (command)
             {
                 case "opml":
                     ExportLinksToOpml();
@@ -39,25 +39,25 @@ namespace Subtext.Web.Admin.Pages
         public void ExportLinksToOpml()
         {
             //TODO: Implement
-//			PagedLinkCollection pagedAllLinks = Links.GetPagedLinks(1, 1);
-//			LinkCollection allLinks = Links.GetPagedLinks(1, pagedAllLinks.MaxItems);	
-//			XmlDocument doc = OpmlProvider.Export(allLinks);
-//
-//			Response.Clear();
-//			Response.ContentEncoding = System.Text.Encoding.UTF8;
-//			Response.AppendHeader("Content-Disposition", "attachment; filename=links.opml");
-////			Response.AppendHeader("Content-Length", doc.OuterXml.Length.ToString());
-//			Response.ContentType = "application/octet-stream";
-//
-//			XmlTextWriter writer = new XmlTextWriter(Response.OutputStream, Response.ContentEncoding);
-//			writer.Formatting = Formatting.Indented;
-//			writer.Indentation = 4;
-//			writer.IndentChar = ' ';
-//			doc.Save(writer);
-//			writer.Flush();
-//			
-//			Response.End();
-//			writer.Close();
+            //			PagedLinkCollection pagedAllLinks = Links.GetPagedLinks(1, 1);
+            //			LinkCollection allLinks = Links.GetPagedLinks(1, pagedAllLinks.MaxItems);	
+            //			XmlDocument doc = OpmlProvider.Export(allLinks);
+            //
+            //			Response.Clear();
+            //			Response.ContentEncoding = System.Text.Encoding.UTF8;
+            //			Response.AppendHeader("Content-Disposition", "attachment; filename=links.opml");
+            ////			Response.AppendHeader("Content-Length", doc.OuterXml.Length.ToString());
+            //			Response.ContentType = "application/octet-stream";
+            //
+            //			XmlTextWriter writer = new XmlTextWriter(Response.OutputStream, Response.ContentEncoding);
+            //			writer.Formatting = Formatting.Indented;
+            //			writer.Indentation = 4;
+            //			writer.IndentChar = ' ';
+            //			doc.Save(writer);
+            //			writer.Flush();
+            //			
+            //			Response.End();
+            //			writer.Close();
         }
 
         #region Web Form Designer generated code

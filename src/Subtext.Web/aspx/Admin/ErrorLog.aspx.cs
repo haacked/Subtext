@@ -40,7 +40,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void LoadPage()
         {
-            if(null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+            if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
             {
                 _logPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
             }

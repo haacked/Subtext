@@ -61,7 +61,7 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                if(_entryViewModel == null)
+                if (_entryViewModel == null)
                 {
                     _entryViewModel = new EntryViewModel(RealEntry, SubtextContext);
                 }
@@ -73,10 +73,10 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                if(_entry == null)
+                if (_entry == null)
                 {
                     _entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-                    if(_entry == null)
+                    if (_entry == null)
                     {
                         HttpHelper.SetFileNotFoundResponse();
                     }
@@ -102,9 +102,9 @@ namespace Subtext.Web.UI.Controls
             tbComment.MaxLength = 4000;
             SetValidationGroup();
 
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
-                if(Entry == null)
+                if (Entry == null)
                 {
                     //Somebody probably is messing with the url.
                     Response.Redirect("~/SystemMessages/FileNotFound.aspx", true);
@@ -113,13 +113,13 @@ namespace Subtext.Web.UI.Controls
 
                 ResetCommentFields();
 
-                if(Config.CurrentBlog.CoCommentsEnabled)
+                if (Config.CurrentBlog.CoCommentsEnabled)
                 {
-                    if(coComment == null)
+                    if (coComment == null)
                     {
                         coComment = new SubtextCoComment();
                         var coCommentPlaceHolder = Page.FindControl("coCommentPlaceholder") as PlaceHolder;
-                        if(coCommentPlaceHolder != null)
+                        if (coCommentPlaceHolder != null)
                         {
                             coCommentPlaceHolder.Controls.Add(coComment);
                         }
@@ -134,24 +134,24 @@ namespace Subtext.Web.UI.Controls
 
         void SetValidationGroup()
         {
-            foreach(Control control in Controls)
+            foreach (Control control in Controls)
             {
                 var validator = control as BaseValidator;
-                if(validator != null)
+                if (validator != null)
                 {
                     validator.ValidationGroup = "SubtextComment";
                     continue;
                 }
 
                 var btn = control as Button;
-                if(btn != null)
+                if (btn != null)
                 {
                     btn.ValidationGroup = "SubtextComment";
                     continue;
                 }
 
                 var textbox = control as TextBox;
-                if(textbox != null)
+                if (textbox != null)
                 {
                     textbox.ValidationGroup = "SubtextComment";
                     continue;
@@ -164,10 +164,10 @@ namespace Subtext.Web.UI.Controls
         /// </summary>
         protected virtual void OnCommentApproved(FeedbackItem feedback)
         {
-            if(feedback.Approved)
+            if (feedback.Approved)
             {
                 EventHandler<EventArgs> theEvent = CommentApproved;
-                if(theEvent != null)
+                if (theEvent != null)
                 {
                     theEvent(this, EventArgs.Empty);
                 }
@@ -176,7 +176,7 @@ namespace Subtext.Web.UI.Controls
 
         private void RemoveCommentControls()
         {
-            for(int i = Controls.Count - 1; i >= 0; i--)
+            for (int i = Controls.Count - 1; i >= 0; i--)
             {
                 Controls.RemoveAt(i);
             }
@@ -187,20 +187,20 @@ namespace Subtext.Web.UI.Controls
         private void OnSubmitButtonClick(object sender, EventArgs e)
         {
             Thread.Sleep(5000);
-            if(!Page.IsValid)
+            if (!Page.IsValid)
             {
                 return;
             }
-            
+
             LastDitchValidation();
             try
             {
                 Entry currentEntry = RealEntry;
-                if(IsCommentAllowed)
+                if (IsCommentAllowed)
                 {
                     FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
                     ICommentSpamService feedbackService = null;
-                    if(Blog.FeedbackSpamServiceEnabled)
+                    if (Blog.FeedbackSpamServiceEnabled)
                     {
                         feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
                     }
@@ -211,7 +211,7 @@ namespace Subtext.Web.UI.Controls
                                                         SubtextContext);
                     emailService.EmailCommentToBlogAuthor(feedbackItem);
 
-                    if(chkRemember == null || chkRemember.Checked)
+                    if (chkRemember == null || chkRemember.Checked)
                     {
                         SetRememberedUserCookie();
                     }
@@ -219,7 +219,7 @@ namespace Subtext.Web.UI.Controls
                     DisplayResultMessage(feedbackItem);
                 }
             }
-            catch(BaseCommentException exception)
+            catch (BaseCommentException exception)
             {
                 Message.Text = exception.Message;
             }
@@ -230,7 +230,7 @@ namespace Subtext.Web.UI.Controls
             //The validation controls and otherwise should catch everything.
             //This is here to be extra safe.
             //Anything triggering these exceptions is probably malicious.
-            if(tbComment.Text.Length > 4000
+            if (tbComment.Text.Length > 4000
                || tbTitle.Text.Length > 128
                || tbEmail.Text.Length > 128
                || tbName.Text.Length > 32
@@ -245,7 +245,7 @@ namespace Subtext.Web.UI.Controls
             var user = new HttpCookie("CommentUser");
             user.Values["Name"] = tbName.Text;
             user.Values["Url"] = tbUrl.Text;
-            if(tbEmail != null)
+            if (tbEmail != null)
             {
                 user.Values["Email"] = tbEmail.Text;
             }
@@ -258,7 +258,7 @@ namespace Subtext.Web.UI.Controls
             RemoveCommentControls();
             Message = new Label();
 
-            if(feedbackItem.Approved)
+            if (feedbackItem.Approved)
             {
                 Message.Text = Resources.PostComment_ThanksForComment;
                 Message.CssClass = "success";
@@ -267,7 +267,7 @@ namespace Subtext.Web.UI.Controls
                 OnCommentApproved(feedbackItem);
                 return;
             }
-            if(feedbackItem.NeedsModeratorApproval)
+            if (feedbackItem.NeedsModeratorApproval)
             {
                 Message.Text = Resources.PostComment_ThanksForComment + " It will be displayed soon.";
                 Message.CssClass = "error moderation";
@@ -282,8 +282,8 @@ namespace Subtext.Web.UI.Controls
 
         private FeedbackItem CreateFeedbackInstanceFromFormInput(IIdentifiable currentEntry)
         {
-            var feedbackItem = new FeedbackItem(FeedbackType.Comment) {Author = tbName.Text};
-            if(tbEmail != null)
+            var feedbackItem = new FeedbackItem(FeedbackType.Comment) { Author = tbName.Text };
+            if (tbEmail != null)
             {
                 feedbackItem.Email = tbEmail.Text;
             }
@@ -298,53 +298,53 @@ namespace Subtext.Web.UI.Controls
 
         private void ResetCommentFields()
         {
-            if(tbComment != null)
+            if (tbComment != null)
             {
                 tbComment.Text = string.Empty;
             }
 
-            if(tbEmail != null)
+            if (tbEmail != null)
             {
                 tbEmail.Text = SecurityHelper.IsAdmin ? Blog.Email : string.Empty;
             }
 
-            if(tbName != null)
+            if (tbName != null)
             {
                 tbName.Text = SecurityHelper.IsAdmin ? Blog.UserName : string.Empty;
             }
 
-            if(tbTitle != null)
+            if (tbTitle != null)
             {
                 tbTitle.Text = string.Format("re: {0}", HttpUtility.HtmlDecode(RealEntry.Title));
             }
 
-            if(tbUrl != null)
+            if (tbUrl != null)
             {
                 tbUrl.Text = SecurityHelper.IsAdmin ? Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() : string.Empty;
             }
 
             HttpCookie user = Request.Cookies["CommentUser"];
-            if(user != null)
+            if (user != null)
             {
                 tbName.Text = user.Values["Name"];
                 tbUrl.Text = user.Values["Url"];
 
                 // Remember by default if no-checkbox.
-                if(chkRemember != null && chkRemember.Checked)
+                if (chkRemember != null && chkRemember.Checked)
                 {
                     chkRemember.Checked = true;
                 }
 
                 //Check to see if email textbox is present
-                if(tbEmail != null && user.Values["Email"] != null)
+                if (tbEmail != null && user.Values["Email"] != null)
                 {
                     tbEmail.Text = user.Values["Email"];
                 }
             }
 
-            if(IsCommentsRendered)
+            if (IsCommentsRendered)
             {
-                if(RealEntry.CommentingClosed)
+                if (RealEntry.CommentingClosed)
                 {
                     Controls.Clear();
                     Controls.Add(
@@ -364,21 +364,21 @@ namespace Subtext.Web.UI.Controls
 
         override protected void OnInit(EventArgs e)
         {
-            if(btnSubmit != null)
+            if (btnSubmit != null)
             {
                 btnSubmit.Click += OnSubmitButtonClick;
             }
 
-            if(btnCompliantSubmit != null)
+            if (btnCompliantSubmit != null)
             {
                 btnCompliantSubmit.Click += OnSubmitButtonClick;
             }
 
             //Captcha should not be given to admin.
-            if(!SecurityHelper.IsAdmin)
+            if (!SecurityHelper.IsAdmin)
             {
                 int btnIndex = Controls.IndexOf(btnSubmit);
-                if(btnIndex < 0)
+                if (btnIndex < 0)
                 {
                     btnIndex = Controls.IndexOf(btnCompliantSubmit);
                 }

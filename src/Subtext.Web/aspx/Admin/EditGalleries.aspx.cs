@@ -21,6 +21,7 @@ using System.Globalization;
 using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Ionic.Zip;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -28,8 +29,6 @@ using Subtext.Framework.Web;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Properties;
 using Image = Subtext.Framework.Components.Image;
-using Subtext.Framework.Infrastructure;
-using Ionic.Zip;
 
 namespace Subtext.Web.Admin.Pages
 {

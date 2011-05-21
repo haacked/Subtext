@@ -37,7 +37,7 @@ namespace Subtext.Web.HostAdmin
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
                 HostInfo.SetHostPassword(HostInfo.Instance, txtNewPassword.Text);
                 HostInfo.UpdateHost(HostInfo.Instance);
@@ -55,7 +55,7 @@ namespace Subtext.Web.HostAdmin
         private void ValidatePassword(object source, ServerValidateEventArgs args)
         {
             string password = txtCurrentPassword.Text;
-            if(Config.Settings.UseHashedPasswords)
+            if (Config.Settings.UseHashedPasswords)
             {
                 password = SecurityHelper.HashPassword(password, HostInfo.Instance.Salt);
             }

@@ -8,8 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.SystemMessages {
-    
-    public partial class FileNotFound {
+namespace Subtext.Web.SystemMessages
+{
+
+    public partial class FileNotFound
+    {
     }
 }

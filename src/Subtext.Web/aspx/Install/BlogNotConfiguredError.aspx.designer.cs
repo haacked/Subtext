@@ -8,17 +8,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web {
-    
-    
+namespace Subtext.Web
+{
+
+
     /// <summary>
     /// BlogNotConfiguredError class.
     /// </summary>
     /// <remarks>
     /// Auto-generated class.
     /// </remarks>
-    public partial class BlogNotConfiguredError {
-        
+    public partial class BlogNotConfiguredError
+    {
+
         /// <summary>
         /// ltlMessage control.
         /// </summary>

@@ -31,8 +31,8 @@ using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 using Subtext.Identicon;
 using Subtext.Web.Controls;
-using Image=System.Web.UI.WebControls.Image;
 using Subtext.Web.UI.ViewModels;
+using Image = System.Web.UI.WebControls.Image;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -74,10 +74,10 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                if(_entry == null)
+                if (_entry == null)
                 {
                     _entry = Cacher.GetEntryFromRequest(true, SubtextContext);
-                    if(_entry == null)
+                    if (_entry == null)
                     {
                         HttpHelper.SetFileNotFoundResponse();
                     }
@@ -102,7 +102,7 @@ namespace Subtext.Web.UI.Controls
 
             _gravatarService = new GravatarService(ConfigurationManager.AppSettings);
 
-            if(Blog.CommentsEnabled)
+            if (Blog.CommentsEnabled)
             {
                 BindFeedback(true);
             }
@@ -116,7 +116,7 @@ namespace Subtext.Web.UI.Controls
         {
             Entry entry = RealEntry;
 
-            if(entry != null && entry.AllowComments)
+            if (entry != null && entry.AllowComments)
             {
                 BindFeedback(entry, fromCache);
             }
@@ -129,14 +129,14 @@ namespace Subtext.Web.UI.Controls
         // Customizes the display row for each comment.
         protected void CommentsCreated(object sender, RepeaterItemEventArgs e)
         {
-            if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 var feedbackItem = (FeedbackItem)e.Item.DataItem;
                 _comment = new CommentViewModel(feedbackItem, SubtextContext);
-                if(feedbackItem != null)
+                if (feedbackItem != null)
                 {
                     var title = (Literal)(e.Item.FindControl("Title"));
-                    if(title != null)
+                    if (title != null)
                     {
                         // we should probably change skin format to dynamically wire up to 
                         // skin located title and permalinks at some point
@@ -148,20 +148,20 @@ namespace Subtext.Web.UI.Controls
 
                     //Shows the name of the commenter with a link if provided.
                     var namelink = (HyperLink)e.Item.FindControl("NameLink");
-                    if(namelink != null)
+                    if (namelink != null)
                     {
-                        if(feedbackItem.SourceUrl != null)
+                        if (feedbackItem.SourceUrl != null)
                         {
                             namelink.NavigateUrl = feedbackItem.SourceUrl.ToString();
                             ControlHelper.SetTitleIfNone(namelink, feedbackItem.SourceUrl.ToString());
                         }
 
-                        if(feedbackItem.FeedbackType == FeedbackType.Comment)
+                        if (feedbackItem.FeedbackType == FeedbackType.Comment)
                         {
                             namelink.Text = feedbackItem.Author;
                             ControlHelper.SetTitleIfNone(namelink, feedbackItem.Author);
                         }
-                        else if(feedbackItem.FeedbackType == FeedbackType.PingTrack)
+                        else if (feedbackItem.FeedbackType == FeedbackType.PingTrack)
                         {
                             namelink.Text = !String.IsNullOrEmpty(feedbackItem.Author)
                                                 ? feedbackItem.Author
@@ -169,42 +169,42 @@ namespace Subtext.Web.UI.Controls
                             ControlHelper.SetTitleIfNone(namelink, "PingBack/TrackBack");
                         }
 
-                        if(feedbackItem.IsBlogAuthor)
+                        if (feedbackItem.IsBlogAuthor)
                         {
                             HtmlHelper.AppendCssClass(namelink, "author");
                         }
                     }
 
                     var postDate = (Literal)(e.Item.FindControl("PostDate"));
-                    if(postDate != null)
+                    if (postDate != null)
                     {
                         postDate.Text = feedbackItem.DateCreated.ToShortDateString() + " " +
                                         feedbackItem.DateCreated.ToShortTimeString();
                     }
 
                     var post = e.Item.FindControl("PostText") as Literal;
-                    if(post != null)
+                    if (post != null)
                     {
-                        if(feedbackItem.Body.Length > 0)
+                        if (feedbackItem.Body.Length > 0)
                         {
                             post.Text = feedbackItem.Body;
-                            if(feedbackItem.Body.Length == 0 && feedbackItem.FeedbackType == FeedbackType.PingTrack)
+                            if (feedbackItem.Body.Length == 0 && feedbackItem.FeedbackType == FeedbackType.PingTrack)
                             {
                                 post.Text = "Pingback / Trackback";
                             }
                         }
                     }
 
-                    if(_gravatarService.Enabled)
+                    if (_gravatarService.Enabled)
                     {
                         var gravatarImage = e.Item.FindControl("GravatarImg") as Image;
-                        if(gravatarImage != null)
+                        if (gravatarImage != null)
                         {
                             //This allows per-skin configuration of the default gravatar image.
                             string defaultGravatarImage = gravatarImage.Attributes["PlaceHolderImage"];
 
                             string ip;
-                            if(feedbackItem.IpAddress != null)
+                            if (feedbackItem.IpAddress != null)
                             {
                                 ip = feedbackItem.IpAddress.ToString();
                             }
@@ -215,9 +215,9 @@ namespace Subtext.Web.UI.Controls
 
                             //This allows a host-wide setting of the default gravatar image.
                             string gravatarUrl = null;
-                            if(!String.IsNullOrEmpty(feedbackItem.Email))
+                            if (!String.IsNullOrEmpty(feedbackItem.Email))
                             {
-                                if(!String.IsNullOrEmpty(defaultGravatarImage))
+                                if (!String.IsNullOrEmpty(defaultGravatarImage))
                                 {
                                     string host = Request.Url.Host;
                                     string scheme = Request.Url.Scheme;
@@ -229,10 +229,10 @@ namespace Subtext.Web.UI.Controls
                                 }
                                 gravatarUrl = _gravatarService.GenerateUrl(feedbackItem.Email, defaultGravatarImage);
                             }
-                            if(!String.IsNullOrEmpty(gravatarUrl))
+                            if (!String.IsNullOrEmpty(gravatarUrl))
                             {
                                 gravatarImage.Attributes.Remove("PlaceHolderImage");
-                                if(gravatarUrl.Length != 0)
+                                if (gravatarUrl.Length != 0)
                                 {
                                     gravatarImage.ImageUrl = gravatarUrl;
                                     gravatarImage.Visible = true;
@@ -247,13 +247,13 @@ namespace Subtext.Web.UI.Controls
                         }
                     }
 
-                    if(Request.IsAuthenticated && SecurityHelper.IsAdmin)
+                    if (Request.IsAuthenticated && SecurityHelper.IsAdmin)
                     {
                         var editCommentTextLink = (HyperLink)(e.Item.FindControl("EditCommentTextLink"));
-                        if(editCommentTextLink != null)
+                        if (editCommentTextLink != null)
                         {
                             editCommentTextLink.NavigateUrl = AdminUrl.FeedbackEdit(feedbackItem.Id);
-                            if(String.IsNullOrEmpty(editCommentTextLink.Text))
+                            if (String.IsNullOrEmpty(editCommentTextLink.Text))
                             {
                                 editCommentTextLink.Text = "Edit Comment " +
                                                            feedbackItem.Id.ToString(CultureInfo.InstalledUICulture);
@@ -261,10 +261,10 @@ namespace Subtext.Web.UI.Controls
                             ControlHelper.SetTitleIfNone(editCommentTextLink, "Click to edit this entry.");
                         }
                         var editCommentImgLink = (HyperLink)(e.Item.FindControl("EditCommentImgLink"));
-                        if(editCommentImgLink != null)
+                        if (editCommentImgLink != null)
                         {
                             editCommentImgLink.NavigateUrl = AdminUrl.FeedbackEdit(feedbackItem.Id);
-                            if(String.IsNullOrEmpty(editCommentImgLink.ImageUrl))
+                            if (String.IsNullOrEmpty(editCommentImgLink.ImageUrl))
                             {
                                 editCommentImgLink.ImageUrl = Url.EditIconUrl();
                             }
@@ -279,7 +279,7 @@ namespace Subtext.Web.UI.Controls
 
         private static string Link(string title, string link)
         {
-            if(link == null)
+            if (link == null)
             {
                 return string.Empty;
             }
@@ -301,9 +301,9 @@ namespace Subtext.Web.UI.Controls
                 CommentList.DataSource = fromCache ? Cacher.GetFeedback(entry, SubtextContext) : Repository.GetFeedbackForEntry(entry);
                 CommentList.DataBind();
 
-                if(CommentList.Items.Count == 0)
+                if (CommentList.Items.Count == 0)
                 {
-                    if(entry.CommentingClosed)
+                    if (entry.CommentingClosed)
                     {
                         Controls.Clear();
                     }
@@ -319,7 +319,7 @@ namespace Subtext.Web.UI.Controls
                     NoCommentMessage.Text = string.Empty;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error(e.Message, e);
                 Visible = false;

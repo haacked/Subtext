@@ -39,20 +39,20 @@ namespace Subtext.Web.Admin
         {
             const string ADMIN_DEFAULT = "/admin";
 
-            if(null != HttpContext.Current)
+            if (null != HttpContext.Current)
             {
-                if(null != path && path.StartsWith("~"))
+                if (null != path && path.StartsWith("~"))
                 {
                     string relativePath = path.Substring(1, path.Length - 1);
                     string appPath = HttpContext.Current.Request.ApplicationPath;
 
-                    if(relativePath.StartsWith(ADMIN_DEFAULT, StringComparison.InvariantCultureIgnoreCase))
+                    if (relativePath.StartsWith(ADMIN_DEFAULT, StringComparison.InvariantCultureIgnoreCase))
                     {
                         relativePath = relativePath.Replace(ADMIN_DEFAULT,
                                                             "admin");
                     }
 
-                    if(relativePath.StartsWith("/"))
+                    if (relativePath.StartsWith("/"))
                     {
                         relativePath = relativePath.Substring(1, relativePath.Length - 1);
                     }
@@ -84,9 +84,9 @@ namespace Subtext.Web.Admin
 
         internal static string Truncate(string value, int numChars, bool useSuffix)
         {
-            if(value.Length > numChars)
+            if (value.Length > numChars)
             {
-                if(useSuffix && (value.Length > numChars - Constants.TRUNCATE_SUFFIX.Length))
+                if (useSuffix && (value.Length > numChars - Constants.TRUNCATE_SUFFIX.Length))
                 {
                     return value.Substring(0, numChars - Constants.TRUNCATE_SUFFIX.Length)
                            + Constants.TRUNCATE_SUFFIX;
@@ -119,7 +119,7 @@ namespace Subtext.Web.Admin
 
         internal static WebControl CopyStyles(WebControl control, NameValueCollection styles)
         {
-            foreach(string key in styles.Keys)
+            foreach (string key in styles.Keys)
             {
                 control.Style.Add(key, styles[key]);
             }
@@ -135,25 +135,25 @@ namespace Subtext.Web.Admin
             {
                 file = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-                if(file.CanSeek)
+                if (file.CanSeek)
                 {
                     // get the bom, if there is one
                     var bom = new byte[4];
                     file.Read(bom, 0, 4);
 
                     // utf-8
-                    if(bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf)
+                    if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf)
                     {
                         result = Encoding.UTF8;
                     }
-                        // ucs-2le, ucs-4le, ucs-16le, utf-16, ucs-2, ucs-4
-                    else if((bom[0] == 0xff && bom[1] == 0xfe) ||
+                    // ucs-2le, ucs-4le, ucs-16le, utf-16, ucs-2, ucs-4
+                    else if ((bom[0] == 0xff && bom[1] == 0xfe) ||
                             (bom[0] == 0xfe && bom[1] == 0xff) ||
                             (bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff))
                     {
                         result = Encoding.Unicode;
                     }
-                        // else ascii
+                    // else ascii
                     else
                     {
                         result = Encoding.ASCII;
@@ -169,7 +169,7 @@ namespace Subtext.Web.Admin
             }
             finally
             {
-                if(null != file)
+                if (null != file)
                 {
                     file.Close();
                 }

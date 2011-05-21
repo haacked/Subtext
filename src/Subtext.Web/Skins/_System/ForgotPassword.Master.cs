@@ -14,7 +14,7 @@ namespace Subtext.Web.Skins._System
         protected override void OnLoad(EventArgs e)
         {
             defaultInstructions.Visible = true;
-            if(Config.CurrentBlog == null)
+            if (Config.CurrentBlog == null)
             {
                 ResetForm.Visible = defaultInstructions.Visible = false;
                 FailureText.Text = Resources.ForgotPasswordMaster_DoesNotWorkForHostAdmins;
@@ -25,7 +25,7 @@ namespace Subtext.Web.Skins._System
         protected void OnForgotButtonClick(object sender, EventArgs args)
         {
             Blog currentBlog = Config.CurrentBlog;
-            if(currentBlog == null)
+            if (currentBlog == null)
             {
                 FailureText.Text = Resources.ForgotPasswordMaster_DoesNotWorkForHostAdmins;
             }
@@ -37,7 +37,7 @@ namespace Subtext.Web.Skins._System
 
         private void ResetAdminPassword(Blog currentBlog)
         {
-            if(String.IsNullOrEmpty(currentBlog.Email) || currentBlog.Email != emailTextBox.Text ||
+            if (String.IsNullOrEmpty(currentBlog.Email) || currentBlog.Email != emailTextBox.Text ||
                currentBlog.UserName != usernameTextBox.Text)
             {
                 Message.Visible = false;
