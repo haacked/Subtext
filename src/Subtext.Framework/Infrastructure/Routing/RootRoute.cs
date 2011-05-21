@@ -18,9 +18,9 @@
 using System;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
@@ -32,13 +32,13 @@ namespace Subtext.Framework.Routing
         Route _subfolderAppRootRoute;
         Route _subfolderDefaultRoute;
 
-        public RootRoute(bool blogAggregationEnabled, IServiceLocator serviceLocator)
+        public RootRoute(bool blogAggregationEnabled, IDependencyResolver serviceLocator)
             : this(blogAggregationEnabled, null, null, serviceLocator)
         {
         }
 
         public RootRoute(bool blogAggregationEnabled, IRouteHandler normalRouteHandler, IRouteHandler aggRouteHandler,
-                         IServiceLocator serviceLocator)
+                         IDependencyResolver serviceLocator)
         {
             BlogAggregationEnabled = blogAggregationEnabled;
             NormalRouteHandler = normalRouteHandler ??

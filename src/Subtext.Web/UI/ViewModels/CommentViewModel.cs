@@ -33,7 +33,7 @@ namespace Subtext.Web.UI.ViewModels
 
         protected FeedbackItem Feedback { get; private set; }
 
-        protected UrlHelper UrlHelper
+        protected BlogUrlHelper UrlHelper
         {
             get { return SubtextContext.UrlHelper; }
         }

@@ -16,12 +16,12 @@
 #endregion
 
 using System;
+using System.Web.Mvc;
 using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Infrastructure;
 
 namespace Subtext.Web.Install
 {
@@ -37,7 +37,7 @@ namespace Subtext.Web.Install
         [Inject]
         public IEntryPublisher EntryPublisher
         {
-            get; 
+            get;
             set;
         }
 
@@ -60,20 +60,20 @@ namespace Subtext.Web.Install
             const bool passwordAlreadyHashed = true;
             int blogId = Config.CreateBlog("TEMPORARY BLOG NAME", hostInfo.HostUserName, hostInfo.Password,
                                            Request.Url.Host, string.Empty, passwordAlreadyHashed);
-            if(blogId > -1)
+            if (blogId > -1)
             {
                 var blog = Repository.GetBlogById(blogId);
-                
+
                 BlogRequest.Current.Blog = blog;
                 // Need to refresh the context now that we have a blog.
-                SubtextContext = Bootstrapper.ServiceLocator.GetService<ISubtextContext>();
-                if(!String.IsNullOrEmpty(hostInfo.Email))
+                SubtextContext = DependencyResolver.Current.GetService<ISubtextContext>();
+                if (!String.IsNullOrEmpty(hostInfo.Email))
                 {
                     blog.Email = hostInfo.Email;
                     Repository.UpdateConfigData(blog);
                 }
                 InstallationManager.CreateWelcomeContent(SubtextContext, EntryPublisher, Blog);
-                
+
 
                 //We probably should have creating the blog authenticate the user 
                 //automatically so this redirect doesn't require a login.

@@ -48,7 +48,7 @@ namespace Subtext.ImportExport
 
         protected ISubtextContext SubtextContext { get; private set; }
         protected Blog Blog { get; private set; }
-        protected UrlHelper Url { get; private set; }
+        protected BlogUrlHelper Url { get; private set; }
 
         public BlogMLBlog ConvertBlog(Blog blog)
         {

@@ -14,12 +14,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endregion
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -50,7 +50,7 @@ namespace Subtext.Web.Admin.UserControls
         {
             get
             {
-                if(ViewState["PostType"] != null)
+                if (ViewState["PostType"] != null)
                 {
                     return (PostType)ViewState["PostType"];
                 }
@@ -63,11 +63,11 @@ namespace Subtext.Web.Admin.UserControls
         {
             get
             {
-                if(_postId == null)
+                if (_postId == null)
                 {
                     string postIdText = Request.QueryString["PostId"];
                     int postId;
-                    if(int.TryParse(postIdText, out postId))
+                    if (int.TryParse(postIdText, out postId))
                     {
                         _postId = postId;
                     }
@@ -80,7 +80,7 @@ namespace Subtext.Web.Admin.UserControls
         {
             get
             {
-                if(ViewState[CategoryTypeViewStateKey] != null)
+                if (ViewState[CategoryTypeViewStateKey] != null)
                 {
                     return (CategoryType)ViewState[CategoryTypeViewStateKey];
                 }
@@ -98,12 +98,12 @@ namespace Subtext.Web.Admin.UserControls
 
         protected override void OnLoad(EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
                 BindCategoryList();
                 SetEditorMode();
 
-                if(PostId != null)
+                if (PostId != null)
                 {
                     BindPostEdit();
                 }
@@ -159,14 +159,14 @@ namespace Subtext.Web.Admin.UserControls
             SetConfirmation();
 
             Entry entry = GetEntryForEditing(PostId.Value);
-            if(entry == null)
+            if (entry == null)
             {
                 ReturnToOrigin(null);
                 return;
             }
 
             txbTitle.Text = entry.Title;
-            if(!NullValue.IsNull(entry.DateSyndicated) && entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
+            if (!NullValue.IsNull(entry.DateSyndicated) && entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
             {
                 txtPostDate.Text = entry.DateSyndicated.ToString(CultureInfo.CurrentCulture);
             }
@@ -183,13 +183,13 @@ namespace Subtext.Web.Admin.UserControls
 
             PopulateMimeTypeDropDown();
             //Enclosures
-            if(entry.Enclosure != null)
+            if (entry.Enclosure != null)
             {
                 Enclosure.Collapsed = false;
                 txbEnclosureTitle.Text = entry.Enclosure.Title;
                 txbEnclosureUrl.Text = entry.Enclosure.Url;
                 txbEnclosureSize.Text = entry.Enclosure.Size.ToString();
-                if(ddlMimeType.Items.FindByText(entry.Enclosure.MimeType) != null)
+                if (ddlMimeType.Items.FindByText(entry.Enclosure.MimeType) != null)
                 {
                     ddlMimeType.SelectedValue = entry.Enclosure.MimeType;
                 }
@@ -205,7 +205,7 @@ namespace Subtext.Web.Admin.UserControls
             chkComments.Checked = entry.AllowComments;
             chkCommentsClosed.Checked = entry.CommentingClosed;
             SetCommentControls();
-            if(entry.CommentingClosedByAge)
+            if (entry.CommentingClosedByAge)
             {
                 chkCommentsClosed.Enabled = false;
             }
@@ -224,19 +224,19 @@ namespace Subtext.Web.Admin.UserControls
             ckbPublished.Checked = entry.IsActive;
 
             BindCategoryList();
-            for(int i = 0; i < cklCategories.Items.Count; i++)
+            for (int i = 0; i < cklCategories.Items.Count; i++)
             {
                 cklCategories.Items[i].Selected = false;
             }
 
             ICollection<Link> postCategories = Repository.GetLinkCollectionByPostId(PostId.Value);
-            if(postCategories.Count > 0)
+            if (postCategories.Count > 0)
             {
-                foreach(Link postCategory in postCategories)
+                foreach (Link postCategory in postCategories)
                 {
                     ListItem categoryItem =
                         cklCategories.Items.FindByValue(postCategory.CategoryId.ToString(CultureInfo.InvariantCulture));
-                    if(categoryItem == null)
+                    if (categoryItem == null)
                     {
                         throw new InvalidOperationException(
                             string.Format(Resources.EntryEditor_CouldNotFindCategoryInList, postCategory.CategoryId,
@@ -250,7 +250,7 @@ namespace Subtext.Web.Admin.UserControls
             Advanced.Collapsed = !Preferences.AlwaysExpandAdvanced;
 
             var adminMasterPage = Page.Master as AdminPageTemplate;
-            if(adminMasterPage != null)
+            if (adminMasterPage != null)
             {
                 string title = string.Format(CultureInfo.InvariantCulture, Resources.EntryEditor_EditingTitle,
                                              CategoryType == CategoryType.StoryCollection
@@ -259,7 +259,7 @@ namespace Subtext.Web.Admin.UserControls
                 adminMasterPage.Title = title;
             }
 
-            if(entry.HasEntryName)
+            if (entry.HasEntryName)
             {
                 Advanced.Collapsed = false;
                 txbEntryName.Text = entry.EntryName;
@@ -269,7 +269,7 @@ namespace Subtext.Web.Admin.UserControls
         private void PopulateMimeTypeDropDown()
         {
             ddlMimeType.Items.Add(new ListItem(Resources.Label_Choose, "none"));
-            foreach(string key in MimeTypesMapper.Mappings.List)
+            foreach (string key in MimeTypesMapper.Mappings.List)
             {
                 ddlMimeType.Items.Add(new ListItem(MimeTypesMapper.Mappings.List[key],
                                                    MimeTypesMapper.Mappings.List[key]));
@@ -279,7 +279,7 @@ namespace Subtext.Web.Admin.UserControls
 
         private void SetCommentControls()
         {
-            if(!Blog.CommentsEnabled)
+            if (!Blog.CommentsEnabled)
             {
                 chkComments.Enabled = false;
                 chkCommentsClosed.Enabled = false;
@@ -293,11 +293,11 @@ namespace Subtext.Web.Admin.UserControls
 
         private void ReturnToOrigin(string message)
         {
-            if(ReturnToOriginalPost && PostId != null)
+            if (ReturnToOriginalPost && PostId != null)
             {
                 // We came from outside the post, let's go there.
                 Entry updatedEntry = Repository.GetEntry(PostId.Value, true /*activeOnly*/, false /*includeCategories*/);
-                if(updatedEntry != null)
+                if (updatedEntry != null)
                 {
                     Response.Redirect(Url.EntryUrl(updatedEntry));
                 }
@@ -305,7 +305,7 @@ namespace Subtext.Web.Admin.UserControls
             else
             {
                 string url = "Default.aspx";
-                if(!String.IsNullOrEmpty(message))
+                if (!String.IsNullOrEmpty(message))
                 {
                     url += "?message=" + HttpUtility.UrlEncode(message);
                 }
@@ -321,14 +321,14 @@ namespace Subtext.Web.Admin.UserControls
 
             EnableEnclosureValidation(EnclosureEnabled());
 
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
                 string successMessage = Constants.RES_SUCCESSNEW;
 
                 try
                 {
                     Entry entry;
-                    if(PostId == null)
+                    if (PostId == null)
                     {
                         ValidateEntryTypeIsNotNone(EntryType);
                         entry = new Entry(EntryType);
@@ -336,7 +336,7 @@ namespace Subtext.Web.Admin.UserControls
                     else
                     {
                         entry = GetEntryForEditing(PostId.Value);
-                        if(entry.PostType != EntryType)
+                        if (entry.PostType != EntryType)
                         {
                             EntryType = entry.PostType;
                         }
@@ -350,14 +350,14 @@ namespace Subtext.Web.Admin.UserControls
 
                     //Enclosure
                     int enclosureId = 0;
-                    if(entry.Enclosure != null)
+                    if (entry.Enclosure != null)
                     {
                         enclosureId = entry.Enclosure.Id;
                     }
 
-                    if(EnclosureEnabled())
+                    if (EnclosureEnabled())
                     {
-                        if(entry.Enclosure == null)
+                        if (entry.Enclosure == null)
                         {
                             entry.Enclosure = new Enclosure();
                         }
@@ -390,12 +390,12 @@ namespace Subtext.Web.Admin.UserControls
                     entry.Categories.Clear();
                     ReplaceSelectedCategoryNames(entry.Categories);
 
-                    if(!NullValue.IsNull(postDate))
+                    if (!NullValue.IsNull(postDate))
                     {
                         entry.DateSyndicated = postDate;
                     }
 
-                    if(PostId != null)
+                    if (PostId != null)
                     {
                         successMessage = Constants.RES_SUCCESSEDIT;
                         entry.DateModified = Config.CurrentBlog.TimeZone.Now;
@@ -404,15 +404,15 @@ namespace Subtext.Web.Admin.UserControls
                         var entryPublisher = SubtextContext.ServiceLocator.GetService<IEntryPublisher>();
                         entryPublisher.Publish(entry);
 
-                        if(entry.Enclosure == null && enclosureId != 0)
+                        if (entry.Enclosure == null && enclosureId != 0)
                         {
                             Enclosures.Delete(enclosureId);
                         }
-                        else if(entry.Enclosure != null && entry.Enclosure.Id != 0)
+                        else if (entry.Enclosure != null && entry.Enclosure.Id != 0)
                         {
                             Enclosures.Update(entry.Enclosure);
                         }
-                        else if(entry.Enclosure != null && entry.Enclosure.Id == 0)
+                        else if (entry.Enclosure != null && entry.Enclosure.Id == 0)
                         {
                             entry.Enclosure.EntryId = entry.Id;
                             Enclosures.Create(entry.Enclosure);
@@ -426,7 +426,7 @@ namespace Subtext.Web.Admin.UserControls
                         _postId = entryPublisher.Publish(entry);
                         NotificationServices.Run(entry, Blog, Url);
 
-                        if(entry.Enclosure != null)
+                        if (entry.Enclosure != null)
                         {
                             entry.Enclosure.EntryId = PostId.Value;
                             Enclosures.Create(entry.Enclosure);
@@ -436,7 +436,7 @@ namespace Subtext.Web.Admin.UserControls
                         AddCommunityCredits(entry);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
                                                      Constants.RES_FAILUREEDIT, ex.Message));
@@ -444,7 +444,7 @@ namespace Subtext.Web.Admin.UserControls
                 }
 
                 //Prepared success messages were reset in the catch block because of some error on posting the content
-                if(!String.IsNullOrEmpty(successMessage))
+                if (!String.IsNullOrEmpty(successMessage))
                 {
                     ReturnToOrigin(successMessage);
                 }
@@ -459,15 +459,15 @@ namespace Subtext.Web.Admin.UserControls
 
         private bool EnclosureEnabled()
         {
-            if(!String.IsNullOrEmpty(txbEnclosureUrl.Text))
+            if (!String.IsNullOrEmpty(txbEnclosureUrl.Text))
             {
                 return true;
             }
-            if(!String.IsNullOrEmpty(txbEnclosureTitle.Text))
+            if (!String.IsNullOrEmpty(txbEnclosureTitle.Text))
             {
                 return true;
             }
-            if(!String.IsNullOrEmpty(txbEnclosureSize.Text))
+            if (!String.IsNullOrEmpty(txbEnclosureSize.Text))
             {
                 return true;
             }
@@ -486,9 +486,9 @@ namespace Subtext.Web.Admin.UserControls
         private void ReplaceSelectedCategoryNames(ICollection<string> sc)
         {
             sc.Clear();
-            foreach(ListItem item in cklCategories.Items)
+            foreach (ListItem item in cklCategories.Items)
             {
-                if(item.Selected)
+                if (item.Selected)
                 {
                     sc.Add(item.Text);
                 }
@@ -499,14 +499,14 @@ namespace Subtext.Web.Admin.UserControls
         {
             try
             {
-                if(PostId != null)
+                if (PostId != null)
                 {
                     string successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
                     var al = new List<int>();
 
-                    foreach(ListItem item in cklCategories.Items)
+                    foreach (ListItem item in cklCategories.Items)
                     {
-                        if(item.Selected)
+                        if (item.Selected)
                         {
                             al.Add(int.Parse(item.Value));
                         }
@@ -514,10 +514,10 @@ namespace Subtext.Web.Admin.UserControls
                     Repository.SetEntryCategoryList(PostId.Value, al);
                     return successMessage;
                 }
-                
+
                 Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE + Resources.EntryEditor_ProblemEditingPostCategories);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
                                                  Constants.RES_FAILUREEDIT, ex.Message));
@@ -527,7 +527,7 @@ namespace Subtext.Web.Admin.UserControls
 
         private void SetEditorMode()
         {
-            if(CategoryType == CategoryType.StoryCollection)
+            if (CategoryType == CategoryType.StoryCollection)
             {
                 chkDisplayHomePage.Visible = false;
                 chkIsAggregated.Visible = false;
@@ -560,12 +560,12 @@ namespace Subtext.Web.Admin.UserControls
 
         private void OnCancelClick(object sender, EventArgs e)
         {
-            if(PostId != null && ReturnToOriginalPost)
+            if (PostId != null && ReturnToOriginalPost)
             {
                 // We came from outside the post, let's go there.
                 Entry updatedEntry = Repository.GetEntry(PostId.Value, true /* activeOnly */, false
                     /* includeCategories */);
-                if(updatedEntry != null)
+                if (updatedEntry != null)
                 {
                     Response.Redirect(Url.EntryUrl(updatedEntry));
                     return;
@@ -583,7 +583,7 @@ namespace Subtext.Web.Admin.UserControls
         private void OnUpdateCategoriesClick(object sender, EventArgs e)
         {
             string successMessage = UpdateCategories();
-            if(successMessage != null)
+            if (successMessage != null)
             {
                 ReturnToOrigin(successMessage);
             }
@@ -600,12 +600,12 @@ namespace Subtext.Web.Admin.UserControls
             {
                 CommunityCreditNotification.AddCommunityCredits(entry, Url, Blog);
             }
-            catch(CommunityCreditNotificationException ex)
+            catch (CommunityCreditNotificationException ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
                                                  Resources.EntryEditor_ErrorSendingToCommunityCredits, ex.Message));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
                                                  Resources.EntryEditor_ErrorSendingToCommunityCredits, ex.Message));

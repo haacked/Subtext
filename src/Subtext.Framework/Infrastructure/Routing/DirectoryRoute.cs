@@ -15,21 +15,21 @@
 
 #endregion
 
-using Subtext.Infrastructure;
+using System.Web.Mvc;
 
 namespace Subtext.Framework.Routing
 {
     public class DirectoryRoute : SubtextRoute, IDirectoryRoute
     {
-        public DirectoryRoute(string directoryName, IServiceLocator serviceLocator) :
+        public DirectoryRoute(string directoryName, IDependencyResolver serviceLocator) :
             base(directoryName + "/{*pathInfo}", new DirectoryRouteHandler(serviceLocator.GetService<ISubtextPageBuilder>(), serviceLocator))
         {
             DirectoryName = directoryName;
         }
-        
+
         public string DirectoryName
         {
-            get; 
+            get;
             private set;
         }
     }

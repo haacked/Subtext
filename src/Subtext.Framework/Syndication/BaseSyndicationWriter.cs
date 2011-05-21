@@ -49,7 +49,7 @@ namespace Subtext.Framework.Syndication
 
         public ISubtextContext SubtextContext { get; private set; }
 
-        public UrlHelper UrlHelper { get; private set; }
+        public BlogUrlHelper UrlHelper { get; private set; }
 
         public Blog Blog { get; private set; }
 

@@ -22,7 +22,7 @@ namespace UnitTests.Subtext.Framework.Email
             var blog = new Blog {Email = "cody@example.com", UserName = "cody"};
             var emailProvider = new Mock<EmailProvider>();
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
+            context.Setup(c => c.UrlHelper).Returns(new Mock<BlogUrlHelper>().Object);
             context.Setup(c => c.Blog).Returns(blog);
             context.Setup(c => c.User.Identity.Name).Returns("cody");
             context.Setup(c => c.User.IsInRole("Admins")).Returns(true);
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Email
             var blog = new Blog {Email = string.Empty};
             var emailProvider = new Mock<EmailProvider>();
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
+            context.Setup(c => c.UrlHelper).Returns(new Mock<BlogUrlHelper>().Object);
             context.Setup(c => c.Blog).Returns(blog);
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
             emailProvider.Setup(
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Email
             var comment = new FeedbackItem(FeedbackType.PingTrack) {};
             var blog = new Blog {Email = "foo@example.com"};
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.UrlHelper).Returns(new Mock<UrlHelper>().Object);
+            context.Setup(c => c.UrlHelper).Returns(new Mock<BlogUrlHelper>().Object);
             context.Setup(c => c.Blog).Returns(blog);
             var emailProvider = new Mock<EmailProvider>();
             var emailService = new EmailService(emailProvider.Object, new Mock<ITemplateEngine>().Object, context.Object);
@@ -209,7 +209,7 @@ namespace UnitTests.Subtext.Framework.Email
             var template = new Mock<ITextTemplate>();
             templateEngine.Setup(t => t.GetTemplate(It.IsAny<string>())).Returns(template.Object);
             template.Setup(t => t.Format(It.IsAny<object>())).Returns("message");
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.FeedbackUrl(comment)).Returns("/");
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
@@ -231,7 +231,7 @@ namespace UnitTests.Subtext.Framework.Email
             var template = new Mock<ITextTemplate>();
             templateEngine.Setup(t => t.GetTemplate(It.IsAny<string>())).Returns(template.Object);
             template.Setup(t => t.Format(It.IsAny<object>())).Returns("message");
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.FeedbackUrl(comment)).Returns("/");
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
@@ -384,7 +384,7 @@ namespace UnitTests.Subtext.Framework.Email
             var emailProvider = new Mock<EmailProvider>();
             var templateEngine = new Mock<ITemplateEngine>();
             var template = new NamedFormatTextTemplate(templateText);
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
             context.Setup(c => c.Blog).Returns(new Blog {Email = "foo@example.com", Author = "to", Host = "localhost"});

@@ -27,7 +27,7 @@ namespace Subtext.Web.Admin.WebUI.Controls
     {
         AdminUrlHelper _adminUrl;
 
-        public UrlHelper Url
+        public BlogUrlHelper Url
         {
             get { return SubtextPage.Url; }
         }

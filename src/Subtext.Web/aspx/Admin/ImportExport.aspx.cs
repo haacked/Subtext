@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Web.Mvc;
 using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -48,18 +49,18 @@ namespace Subtext.Web.Admin.Pages
 
         protected void btnLoad_Click(object sender, EventArgs e)
         {
-            if(Page.IsValid)
+            if (Page.IsValid)
             {
                 try
                 {
                     //Temporarily extend script timeout for large BlogML imports
-                    if(Server.ScriptTimeout < 3600)
+                    if (Server.ScriptTimeout < 3600)
                     {
                         Server.ScriptTimeout = 3600;
                     }
                     LoadBlogML();
                 }
-                catch(InvalidOperationException)
+                catch (InvalidOperationException)
                 {
                     Messages.ShowError(Resources.ImportExport_InvalidBlogMLFile, true);
                 }
@@ -70,12 +71,12 @@ namespace Subtext.Web.Admin.Pages
         {
             ISubtextContext context = SubtextContext;
             var importService = context.ServiceLocator.GetService<IBlogImportService>();
-            
+
             try
             {
                 importService.ImportBlog(importBlogMLFile.PostedFile.InputStream);
             }
-            catch(BlogImportException e)
+            catch (BlogImportException e)
             {
                 Log.Error(Resources.ImportExport_ImportFailed, e);
                 Messages.ShowError(e.Message, true);
@@ -90,7 +91,7 @@ namespace Subtext.Web.Admin.Pages
 
         protected void btnClearContent_Click(object sender, EventArgs e)
         {
-            if(chkClearContent.Checked)
+            if (chkClearContent.Checked)
             {
                 chkClearContent.Checked = false;
                 chkClearContent.Visible = false;

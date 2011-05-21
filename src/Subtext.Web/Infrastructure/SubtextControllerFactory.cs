@@ -24,12 +24,12 @@ namespace Subtext.Web.Infrastructure
 {
     public class SubtextControllerFactory : IControllerFactory
     {
-        public SubtextControllerFactory(IServiceLocator serviceLocator)
+        public SubtextControllerFactory(IDependencyResolver serviceLocator)
         {
             ServiceLocator = serviceLocator;
         }
 
-        protected IServiceLocator ServiceLocator { get; private set; }
+        protected IDependencyResolver ServiceLocator { get; private set; }
 
         public IController CreateController(RequestContext requestContext, string controllerName)
         {
@@ -37,11 +37,11 @@ namespace Subtext.Web.Infrastructure
 
             IController instance = null;
             Type controllerType = Type.GetType(string.Format("Subtext.Web.Controllers.{0}Controller", controllerName), false /*ignoreOnError*/, true /*ignoreCase*/);
-            if(controllerType != null)
+            if (controllerType != null)
             {
                 instance = ServiceLocator.GetService(controllerType) as IController;
                 var controller = instance as Controller;
-                if(controller != null)
+                if (controller != null)
                 {
                     controller.TempDataProvider = new EmptyTempDataProvider();
                 }
@@ -53,10 +53,16 @@ namespace Subtext.Web.Infrastructure
         public void ReleaseController(IController controller)
         {
             var disposable = controller as IDisposable;
-            if(disposable != null)
+            if (disposable != null)
             {
                 disposable.Dispose();
             }
+        }
+
+
+        public System.Web.SessionState.SessionStateBehavior GetControllerSessionBehavior(RequestContext requestContext, string controllerName)
+        {
+            throw new NotImplementedException();
         }
     }
 }

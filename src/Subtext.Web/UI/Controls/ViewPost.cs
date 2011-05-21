@@ -17,9 +17,9 @@
 
 using System;
 using System.Globalization;
+using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Ninject;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -27,7 +27,6 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 using Subtext.Framework.Tracking;
-using Subtext.Infrastructure;
 using Subtext.Web.Controls;
 using Subtext.Web.Properties;
 
@@ -56,15 +55,14 @@ namespace Subtext.Web.UI.Controls
             Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
 
             //if found
-            if(entry != null)
+            if (entry != null)
             {
                 BindCurrentEntryControls(entry, this);
 
                 DisplayEditLink(entry);
 
-                Bootstrapper.RequestContext = SubtextContext.RequestContext;
-                var statistics = Bootstrapper.ServiceLocator.GetService<IStatisticsService>();
-                statistics.RecordWebView(new EntryView {EntryId = entry.Id, BlogId = Blog.Id});
+                var statistics = DependencyResolver.Current.GetService<IStatisticsService>();
+                statistics.RecordWebView(new EntryView { EntryId = entry.Id, BlogId = Blog.Id });
 
                 //Set the page title
                 Globals.SetTitle(entry.Title, Context);
@@ -74,23 +72,23 @@ namespace Subtext.Web.UI.Controls
                 ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
                 TitleUrl.NavigateUrl = Url.EntryUrl(entry);
                 Body.Text = entry.Body;
-                if(PostDescription != null)
+                if (PostDescription != null)
                 {
                     PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}",
                                                          entry.DateSyndicated.ToLongDateString(),
                                                          entry.DateSyndicated.ToShortTimeString());
                 }
                 Trace.Write("loading categories");
-                if(Categories != null)
+                if (Categories != null)
                 {
                     Categories.LinkCategories = Links.GetLinkCategoriesByPostId(entry.Id);
                     Categories.DataBind();
                 }
 
-                if(date != null)
+                if (date != null)
                 {
                     string entryUrl = Url.EntryUrl(entry);
-                    if(date.Attributes["Format"] != null)
+                    if (date.Attributes["Format"] != null)
                     {
                         date.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>",
                                                   entryUrl, entry.DateSyndicated.ToString(date.Attributes["Format"]),
@@ -105,22 +103,22 @@ namespace Subtext.Web.UI.Controls
                     }
                 }
 
-                if(commentCount != null)
+                if (commentCount != null)
                 {
-                    if(Blog.CommentsEnabled && entry.AllowComments)
+                    if (Blog.CommentsEnabled && entry.AllowComments)
                     {
                         string entryUrl = Url.EntryUrl(entry);
-                        if(entry.FeedBackCount == 0)
+                        if (entry.FeedBackCount == 0)
                         {
                             commentCount.Text = string.Format(LinkToComments, entryUrl, Resources.EntryList_AddComment,
                                                               string.Empty);
                         }
-                        else if(entry.FeedBackCount == 1)
+                        else if (entry.FeedBackCount == 1)
                         {
                             commentCount.Text = string.Format(LinkToComments, entryUrl, Resources.EntryList_OneComment,
                                                               string.Empty);
                         }
-                        else if(entry.FeedBackCount > 1)
+                        else if (entry.FeedBackCount > 1)
                         {
                             commentCount.Text = string.Format(LinkToComments, entryUrl, entry.FeedBackCount,
                                                               Resources.EntryList_CommentsPlural);
@@ -131,17 +129,17 @@ namespace Subtext.Web.UI.Controls
                 BindEnclosure(entry);
 
                 //Set Pingback/Trackback 
-                if(PingBack == null)
+                if (PingBack == null)
                 {
                     PingBack = Page.FindControl("pinbackLinkTag") as Literal;
                 }
 
-                if(PingBack != null)
+                if (PingBack != null)
                 {
                     PingBack.Text = TrackHelpers.GetPingPackTag(Url);
                 }
 
-                if(TrackBack != null)
+                if (TrackBack != null)
                 {
                     TrackBack.Text = TrackHelpers.TrackBackTag(entry, Blog, Url);
                 }
@@ -157,15 +155,15 @@ namespace Subtext.Web.UI.Controls
 
         private void BindEnclosure(Entry entry)
         {
-            if(Enclosure != null)
+            if (Enclosure != null)
             {
-                if(entry.Enclosure != null && entry.Enclosure.ShowWithPost)
+                if (entry.Enclosure != null && entry.Enclosure.ShowWithPost)
                 {
                     bool displaySize;
                     Boolean.TryParse(Enclosure.Attributes["DisplaySize"], out displaySize);
 
                     string sizeStr = "";
-                    if(displaySize)
+                    if (displaySize)
                     {
                         sizeStr = string.Format(" ({0})", entry.Enclosure.FormattedSize);
                     }

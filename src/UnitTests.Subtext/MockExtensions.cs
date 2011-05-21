@@ -30,7 +30,7 @@ namespace UnitTests.Subtext
             subtextContext.Setup(c => c.Repository).Returns(repository.Object);
             StringWriter writer = subtextContext.FakeSubtextContextRequest(new Blog {Host = "localhost"}, "/sitemap.xml",
                                                                            "/", string.Empty);
-            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
+            Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns<Entry>(
                 e =>
                 e.PostType == PostType.BlogPost
@@ -81,7 +81,7 @@ namespace UnitTests.Subtext
             httpContext.Stub(h => h.Response.ContentType);
             var hashTable = new Hashtable();
             httpContext.Setup(c => c.Items).Returns(hashTable);
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
 
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", subfolder);
@@ -114,13 +114,13 @@ namespace UnitTests.Subtext
             return context;
         }
 
-        public static Mock<ISubtextContext> SetupUrlHelper(this Mock<ISubtextContext> context, Mock<UrlHelper> urlHelper)
+        public static Mock<ISubtextContext> SetupUrlHelper(this Mock<ISubtextContext> context, Mock<BlogUrlHelper> urlHelper)
         {
             context.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
             return context;
         }
 
-        public static Mock<ISubtextContext> SetupUrlHelper(this Mock<ISubtextContext> context, UrlHelper urlHelper)
+        public static Mock<ISubtextContext> SetupUrlHelper(this Mock<ISubtextContext> context, BlogUrlHelper urlHelper)
         {
             context.Setup(c => c.UrlHelper).Returns(urlHelper);
             return context;
@@ -166,7 +166,7 @@ namespace UnitTests.Subtext
                                                   string virtualPath, string applicationPath, string subfolder,
                                                   Action<string> callback)
         {
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             var httpContext = new Mock<HttpContextBase>();
             httpContext.FakeSyndicationRequest(virtualPath, applicationPath, callback);
             var hashTable = new Hashtable();

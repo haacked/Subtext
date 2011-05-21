@@ -33,7 +33,7 @@ namespace Subtext.Framework.Services
         private readonly static ILog Log = new Log();
         readonly AkismetClient _akismet;
         readonly Blog _blog;
-        readonly UrlHelper _urlHelper;
+        readonly BlogUrlHelper _urlHelper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AkismetSpamService"/> class.
@@ -44,7 +44,7 @@ namespace Subtext.Framework.Services
         {
         }
 
-        public AkismetSpamService(string apiKey, Blog blog, AkismetClient akismetClient, UrlHelper urlHelper)
+        public AkismetSpamService(string apiKey, Blog blog, AkismetClient akismetClient, BlogUrlHelper urlHelper)
         {
             _blog = blog;
             _akismet = akismetClient ?? new AkismetClient(apiKey, urlHelper.BlogUrl().ToFullyQualifiedUrl(blog));
@@ -53,7 +53,7 @@ namespace Subtext.Framework.Services
             {
                 _akismet.Proxy = proxy;
             }
-            _urlHelper = urlHelper ?? new UrlHelper(null, null);
+            _urlHelper = urlHelper ?? new BlogUrlHelper(null, null);
         }
 
         /// <summary>

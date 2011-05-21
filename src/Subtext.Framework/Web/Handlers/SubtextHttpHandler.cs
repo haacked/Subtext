@@ -35,7 +35,7 @@ namespace Subtext.Framework.Web.Handlers
             get { return SubtextContext.Blog; }
         }
 
-        public UrlHelper Url
+        public BlogUrlHelper Url
         {
             get { return SubtextContext.UrlHelper; }
         }

@@ -16,24 +16,23 @@
 #endregion
 
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Subtext.Framework.XmlRpc;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public class XmlRpcRouteHandler<THandler> : IRouteHandler where THandler : SubtextXmlRpcService
     {
-        public XmlRpcRouteHandler(IServiceLocator serviceLocator)
+        public XmlRpcRouteHandler(IDependencyResolver serviceLocator)
         {
             ServiceLocator = serviceLocator;
         }
 
-        protected IServiceLocator ServiceLocator { get; private set; }
+        protected IDependencyResolver ServiceLocator { get; private set; }
 
         public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
-            Bootstrapper.RequestContext = requestContext;
             return ServiceLocator.GetService<THandler>();
         }
     }

@@ -1,10 +1,10 @@
 using System;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework.Routing;
-using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -15,8 +15,8 @@ namespace UnitTests.Subtext.Framework.Routing
         public void RouteHandler_ConstructedWithType_InstantiatesNewHandlerEveryTime()
         {
             // arrange
-            var serviceLocator = new Mock<IServiceLocator>();
-            serviceLocator.Setup(l => l.GetService<FakeHttpHandler>()).Returns(() => new FakeHttpHandler());
+            var serviceLocator = new Mock<IDependencyResolver>();
+            serviceLocator.Setup(l => l.GetService(typeof(FakeHttpHandler))).Returns(() => new FakeHttpHandler());
             var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, new RouteData());
             IRouteHandler routeHandler = new HttpRouteHandler<FakeHttpHandler>(serviceLocator.Object);
 

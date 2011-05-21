@@ -479,7 +479,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                     XmlNode oFileNode = XmlUtil.AppendElement(oFilesNode, "File");
 
                     //TODO: Seriously refactor.
-                    var urlHelper = new UrlHelper(null, null);
+                    var urlHelper = new BlogUrlHelper(null, null);
 
                     XmlUtil.SetAttribute(oFileNode, "name",
                                          string.Format(CultureInfo.InvariantCulture, "{0}|{1}", entry.Title,

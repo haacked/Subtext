@@ -27,9 +27,9 @@ namespace Subtext.Framework.Providers
     {
         readonly Blog _blog;
         readonly StoredProcedures _procedures;
-        readonly UrlHelper _urlHelper;
+        readonly BlogUrlHelper _urlHelper;
 
-        public SearchEngine(Blog blog, UrlHelper urlHelper, string connectionString)
+        public SearchEngine(Blog blog, BlogUrlHelper urlHelper, string connectionString)
         {
             _blog = blog;
             _procedures = new StoredProcedures(connectionString);

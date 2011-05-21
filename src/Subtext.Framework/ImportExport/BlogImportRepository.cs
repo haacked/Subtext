@@ -55,7 +55,7 @@ namespace Subtext.ImportExport
             get { return SubtextContext.Blog; }
         }
 
-        protected UrlHelper Url
+        protected BlogUrlHelper Url
         {
             get { return SubtextContext.UrlHelper; }
         }

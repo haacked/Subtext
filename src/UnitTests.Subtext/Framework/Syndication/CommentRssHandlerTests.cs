@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             subtextContext.FakeSyndicationContext(blog, "/" + id + ".aspx", s => rssOutput = s);
             subtextContext.Setup(c => c.Repository).Returns(repository.Object);
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
-            Mock<UrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
+            Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever/entry");
 
             var handler = new RssCommentHandler(subtextContext.Object);

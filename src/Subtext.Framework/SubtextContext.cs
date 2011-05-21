@@ -17,6 +17,7 @@
 
 using System.Security.Principal;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
@@ -27,8 +28,8 @@ namespace Subtext.Framework
 {
     public class SubtextContext : ISubtextContext
     {
-        public SubtextContext(Blog blog, RequestContext requestContext, UrlHelper urlHelper, ObjectProvider repository,
-                              IPrincipal user, ICache cache, IServiceLocator serviceLocator)
+        public SubtextContext(Blog blog, RequestContext requestContext, BlogUrlHelper urlHelper, ObjectProvider repository,
+                              IPrincipal user, ICache cache, IDependencyResolver serviceLocator)
         {
             Blog = blog;
             RequestContext = requestContext;
@@ -48,7 +49,7 @@ namespace Subtext.Framework
             get { return RequestContext.HttpContext; }
         }
 
-        public UrlHelper UrlHelper { get; private set; }
+        public BlogUrlHelper UrlHelper { get; private set; }
 
         public ObjectProvider Repository { get; private set; }
 
@@ -56,9 +57,9 @@ namespace Subtext.Framework
 
         public ICache Cache { get; private set; }
 
-        public IServiceLocator ServiceLocator
+        public IDependencyResolver ServiceLocator
         {
-            get; 
+            get;
             private set;
         }
 

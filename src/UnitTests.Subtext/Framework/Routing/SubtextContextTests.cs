@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var requestContext = new RequestContext(new Mock<HttpContextBase>().Object, new RouteData());
-            var urlHelper = new UrlHelper(requestContext, new RouteCollection());
+            var urlHelper = new BlogUrlHelper(requestContext, new RouteCollection());
             ObjectProvider objectRepository = new Mock<ObjectProvider>().Object;
             var blog = new Blog();
 

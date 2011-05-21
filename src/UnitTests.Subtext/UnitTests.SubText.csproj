@@ -186,9 +186,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject, Version=2.0.0.152, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+    <Reference Include="Ninject, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\Ninject.dll</HintPath>
+      <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -216,13 +216,10 @@
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
-    <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\System.Web.Mvc.dll</HintPath>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>D:\dev\svn\subtext\trunk\src\Dependencies\System.Web.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -340,7 +337,7 @@
     </Compile>
     <Compile Include="Framework\HostInfoTests.cs" />
     <Compile Include="Framework\ImageTests.cs" />
-    <Compile Include="Framework\Infrastructure\NinjectServiceLocatorTests.cs" />
+    <Compile Include="Framework\Infrastructure\NinjectMVC3Tests.cs" />
     <Compile Include="Framework\Infrastructure\TimeZoneWrapperTests.cs" />
     <Compile Include="Framework\LinksTests.cs">
       <SubType>Code</SubType>
@@ -495,7 +492,7 @@
     <Compile Include="SubtextWeb\Controls\NavigationLinkTests.cs" />
     <Compile Include="SubtextWeb\Controls\RichTextEditorTests.cs" />
     <Compile Include="SubtextWeb\HostAdmin\HostAdminPageTests.cs" />
-    <Compile Include="SubtextWeb\Infrastructure\SubtextControllerFactoryTests.cs" />
+    <Compile Include="SubtextWeb\Infrastructure\SubtextControllerActivatorTests.cs" />
     <Compile Include="SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs">
       <SubType>Code</SubType>
     </Compile>

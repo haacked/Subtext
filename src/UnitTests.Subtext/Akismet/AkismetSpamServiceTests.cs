@@ -22,7 +22,7 @@ namespace UnitTests.Subtext.Akismet
             akismetClient.Setup(c => c.SubmitSpam(It.IsAny<IComment>())).Callback<IComment>(
                 comment => submittedSpam = comment);
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(helper => helper.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/feedback-item");
             var service = new AkismetSpamService("apikey"
                                                  , new Blog {Host = "localhost"}
@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Akismet
         {
             // arrange
             var feedback = new FeedbackItem(FeedbackType.ContactPage);
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(helper => helper.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns((VirtualPath)null);
             urlHelper.Setup(helper => helper.BlogUrl()).Returns("/");
             var service = new AkismetSpamService("abracadabra", new Blog {Host = "localhost"}, null, urlHelper.Object);
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Akismet
             {
                 SourceUrl = new Uri("http://example.com/author-source")
             };
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(helper => helper.FeedbackUrl(It.IsAny<FeedbackItem>())).Returns("/foo");
             urlHelper.Setup(helper => helper.BlogUrl()).Returns("/");
             var service = new AkismetSpamService("abracadabra", new Blog { Host = "localhost" }, null, urlHelper.Object);

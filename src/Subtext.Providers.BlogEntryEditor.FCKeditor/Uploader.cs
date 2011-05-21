@@ -31,7 +31,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
         [Inject]
         public ISubtextContext SubtextContext { get; set; }
 
-        public UrlHelper Url
+        public BlogUrlHelper Url
         {
             get { return SubtextContext.UrlHelper; }
         }

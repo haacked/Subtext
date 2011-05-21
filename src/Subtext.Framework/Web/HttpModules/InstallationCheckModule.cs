@@ -17,8 +17,8 @@
 
 using System;
 using System.Web;
+using System.Web.Mvc;
 using Subtext.Framework.Infrastructure.Installation;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Web.HttpModules
 {
@@ -27,7 +27,8 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class InstallationCheckModule : IHttpModule
     {
-        public InstallationCheckModule() : this(null)
+        public InstallationCheckModule()
+            : this(null)
         {
         }
 
@@ -36,7 +37,7 @@ namespace Subtext.Framework.Web.HttpModules
         /// </summary>
         public InstallationCheckModule(IInstallationManager installationManager)
         {
-            InstallationManager = installationManager ?? Bootstrapper.ServiceLocator.GetService<IInstallationManager>();
+            InstallationManager = installationManager ?? DependencyResolver.Current.GetService<IInstallationManager>();
         }
 
         public IInstallationManager InstallationManager { get; private set; }
@@ -75,7 +76,7 @@ namespace Subtext.Framework.Web.HttpModules
         public void HandleInstallationStatus(HttpContextBase context, BlogRequest blogRequest, HostInfo hostInfo)
         {
             string redirectUrl = GetInstallationRedirectUrl(blogRequest, hostInfo);
-            if(!String.IsNullOrEmpty(redirectUrl))
+            if (!String.IsNullOrEmpty(redirectUrl))
             {
                 context.Response.Redirect(redirectUrl);
             }
@@ -89,31 +90,31 @@ namespace Subtext.Framework.Web.HttpModules
             const string installUrl = "~/install/default.aspx";
 
             // Bypass for static files.
-            if(blogRequest.RawUrl.IsStaticFileRequest())
+            if (blogRequest.RawUrl.IsStaticFileRequest())
             {
                 return null;
             }
 
-            if(hostInfo == null && blogRequest.RequestLocation != RequestLocation.Installation)
+            if (hostInfo == null && blogRequest.RequestLocation != RequestLocation.Installation)
             {
                 return installUrl;
             }
 
             // Want to redirect to install if installation is required, 
             // or if we're missing a HostInfo record.
-            if((InstallationManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, null) || hostInfo == null))
+            if ((InstallationManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, null) || hostInfo == null))
             {
                 InstallationState state = InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion);
-                if(state == InstallationState.NeedsInstallation
+                if (state == InstallationState.NeedsInstallation
                    && !blogRequest.IsHostAdminRequest
                    && blogRequest.RequestLocation != RequestLocation.Installation)
                 {
                     return installUrl;
                 }
 
-                if(state == InstallationState.NeedsUpgrade)
+                if (state == InstallationState.NeedsUpgrade)
                 {
-                    if(blogRequest.RequestLocation != RequestLocation.Upgrade
+                    if (blogRequest.RequestLocation != RequestLocation.Upgrade
                        && blogRequest.RequestLocation != RequestLocation.LoginPage
                        && blogRequest.RequestLocation != RequestLocation.SystemMessages
                        && blogRequest.RequestLocation != RequestLocation.HostAdmin)

@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Providers
             UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 1", "body"));
             UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("author", "whatever 2",
                                                                                    "the body has some words"));
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
             var search = new SearchEngine(Config.CurrentBlog, urlHelper.Object, Config.ConnectionString);
 

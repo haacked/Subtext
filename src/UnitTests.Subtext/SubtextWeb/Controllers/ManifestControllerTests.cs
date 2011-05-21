@@ -3,7 +3,7 @@ using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
 using Subtext.Web.Controllers;
-using UrlHelper=Subtext.Framework.Routing.UrlHelper;
+using UrlHelper=Subtext.Framework.Routing.BlogUrlHelper;
 
 namespace UnitTests.Subtext.SubtextWeb.Controllers
 {

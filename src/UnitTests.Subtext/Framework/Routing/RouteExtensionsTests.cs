@@ -1,9 +1,8 @@
+using System.Web.Mvc;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
-using Ninject;
 using Subtext.Framework.Routing;
-using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
@@ -15,7 +14,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IDependencyResolver>().Object);
 
             //act
             subtextRoutes.Ignore("url");
@@ -29,10 +28,10 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IDependencyResolver>().Object);
 
             //act
-            subtextRoutes.MapControls("url", new {constraint = "constraintvalue"}, new[] {"controls"});
+            subtextRoutes.MapControls("url", new { constraint = "constraintvalue" }, new[] { "controls" });
 
             //assert
             Assert.AreEqual("constraintvalue", ((PageRoute)routes[0]).Constraints["constraint"]);
@@ -43,10 +42,10 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IDependencyResolver>().Object);
 
             //act
-            subtextRoutes.MapControls("url", new[] {"controls"});
+            subtextRoutes.MapControls("url", new[] { "controls" });
 
             //assert
             Assert.AreEqual("url", ((PageRoute)routes[0]).Url);
@@ -57,7 +56,7 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IDependencyResolver>().Object);
 
             //act
             subtextRoutes.MapSystemDirectory("install");

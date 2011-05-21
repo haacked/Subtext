@@ -156,7 +156,7 @@ namespace UnitTests.Subtext.InstallationTests
             var entryPublisher = new Mock<IEntryPublisher>();
             Entry entry = null;
             entryPublisher.Setup(p => p.Publish(It.Is<Entry>(e => e.PostType == PostType.BlogPost))).Callback<Entry>(e => entry = e);
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.AdminUrl("")).Returns("/admin/default.aspx");
             urlHelper.Setup(u => u.EntryUrl(It.Is<Entry>(e => e.PostType == PostType.Story))).Returns<Entry>(e => "/articles/" + e.EntryName + ".aspx");
             urlHelper.Setup(u => u.HostAdminUrl("default.aspx")).Returns("/hostadmin/default.aspx");
@@ -189,7 +189,7 @@ namespace UnitTests.Subtext.InstallationTests
             var entryPublisher = new Mock<IEntryPublisher>();
             Entry article = null;
             entryPublisher.Setup(p => p.Publish(It.Is<Entry>(e => e.PostType == PostType.Story))).Callback<Entry>(e => article = e);
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.AdminUrl("articles")).Returns("/admin/articles/default.aspx");
             var context = new Mock<ISubtextContext>();
             context.SetupUrlHelper(urlHelper);
@@ -212,7 +212,7 @@ namespace UnitTests.Subtext.InstallationTests
             var installationManager = new InstallationManager(new Mock<IInstaller>().Object, null);
             var repository = new Mock<ObjectProvider>();
             var entryPublisher = new Mock<IEntryPublisher>();
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.AdminUrl("feedback")).Returns("/admin/feedback/default.aspx");
             var context = new Mock<ISubtextContext>();
             context.SetupUrlHelper(urlHelper);

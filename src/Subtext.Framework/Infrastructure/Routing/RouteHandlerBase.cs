@@ -16,27 +16,26 @@
 #endregion
 
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
-using Subtext.Infrastructure;
 
 namespace Subtext.Framework.Routing
 {
     public abstract class RouteHandlerBase : IRouteHandler
     {
-        protected RouteHandlerBase(IServiceLocator serviceLocator)
+        protected RouteHandlerBase(IDependencyResolver serviceLocator)
         {
             ServiceLocator = serviceLocator;
         }
 
-        public IServiceLocator ServiceLocator
+        public IDependencyResolver ServiceLocator
         {
-            get; 
+            get;
             private set;
         }
 
         IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext)
         {
-            Bootstrapper.RequestContext = requestContext;
             return GetHandler(requestContext);
         }
 

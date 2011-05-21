@@ -79,7 +79,7 @@ namespace Subtext.Framework.Web.Handlers
         /// <summary>
         /// Writes the RSD for the specified blog into the XmlWriter.
         /// </summary>
-        public void WriteRsd(XmlWriter writer, Blog blog, UrlHelper urlHelper)
+        public void WriteRsd(XmlWriter writer, Blog blog, BlogUrlHelper urlHelper)
         {
             writer.WriteStartDocument();
             writer.WriteStartElement("rsd", "http://archipelago.phrasewise.com/rsd");

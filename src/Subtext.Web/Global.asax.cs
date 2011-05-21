@@ -25,7 +25,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using log4net;
-using Ninject.Modules;
+using Ninject.Activation.Caching;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
@@ -36,8 +36,6 @@ using Subtext.Framework.Routing;
 using Subtext.Framework.Security;
 using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.Web.HttpModules;
-using Subtext.Infrastructure;
-using Subtext.Web.Infrastructure;
 
 namespace Subtext.Web
 {
@@ -51,18 +49,6 @@ namespace Subtext.Web
         private const string ErrorPageLocation = "~/aspx/SystemMessages/error.aspx";
         private readonly static ILog Log = new Log(LogManager.GetLogger(typeof(SubtextApplication)));
 
-        public SubtextApplication() : this(new Dependencies())
-        {
-        }
-
-        public SubtextApplication(INinjectModule module)
-        {
-            if(module != null)
-            {
-                Bootstrapper.InitializeKernel(module);
-            }
-        }
-
         public bool LogInitialized { get; private set; }
         public ReadOnlyCollection<string> DeprecatedPhysicalPaths { get; private set; }
 
@@ -73,7 +59,7 @@ namespace Subtext.Web
         /// <param name="e"></param>
         protected void Application_Start(object sender, EventArgs e)
         {
-            var routes = new SubtextRouteMapper(RouteTable.Routes, Bootstrapper.ServiceLocator);
+            var routes = new SubtextRouteMapper(RouteTable.Routes, DependencyResolver.Current);
             StartApplication(routes, new HttpServerUtilityWrapper(Server));
             Application["DeprecatedPhysicalPaths"] = DeprecatedPhysicalPaths;
         }
@@ -81,8 +67,6 @@ namespace Subtext.Web
         public virtual void StartApplication(SubtextRouteMapper routes, HttpServerUtilityBase server)
         {
             Routes.RegisterRoutes(routes);
-            var factory = new SubtextControllerFactory(routes.ServiceLocator);
-            ControllerBuilder.Current.SetControllerFactory(factory);
 
             var deprecatedPaths = new[]
             {
@@ -90,8 +74,8 @@ namespace Subtext.Web
                 "~/SystemMessages", "~/AggDefault.aspx", "~/DTP.aspx",
                 "~/ForgotPassword.aspx", "~/login.aspx", "~/logout.aspx", "~/MainFeed.aspx"
             };
-            var invalidPaths = 
-                from path in deprecatedPaths 
+            var invalidPaths =
+                from path in deprecatedPaths
                 where Directory.Exists(server.MapPath(path)) || File.Exists(server.MapPath(path))
                 select path;
             DeprecatedPhysicalPaths = new ReadOnlyCollection<string>(invalidPaths.ToList());
@@ -99,7 +83,7 @@ namespace Subtext.Web
 
         public override void Init()
         {
-            if(DeprecatedPhysicalPaths == null)
+            if (DeprecatedPhysicalPaths == null)
             {
                 DeprecatedPhysicalPaths = Application["DeprecatedPhysicalPaths"] as ReadOnlyCollection<string>;
             }
@@ -123,7 +107,7 @@ namespace Subtext.Web
         /// </returns>
         public override string GetVaryByCustomString(HttpContext context, string custom)
         {
-            if(custom == "Blogger")
+            if (custom == "Blogger")
             {
                 return string.Format("{0}:{1}", Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), SecurityHelper.IsAdmin);
             }
@@ -138,7 +122,7 @@ namespace Subtext.Web
         /// <param name="e"></param>
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
-            if(BlogRequest.Current.RequestLocation != RequestLocation.StaticFile)
+            if (BlogRequest.Current.RequestLocation != RequestLocation.StaticFile)
             {
                 BeginApplicationRequest(Log);
             }
@@ -146,19 +130,24 @@ namespace Subtext.Web
 
         protected void Application_EndRequest(object sender, EventArgs e)
         {
-            Bootstrapper.ServiceLocator.DisposeRequestScoped(HttpContext.Current);
+            var cache = DependencyResolver.Current.GetService<Ninject.Activation.Caching.ICache>() as Cache;
+            if (cache != null)
+            {
+                cache.Clear(HttpContext.Current);
+                //cache.DisposeRequestScoped(httpContext);
+            }
         }
 
         public void BeginApplicationRequest(ILog log)
         {
-            if(!LogInitialized)
+            if (!LogInitialized)
             {
                 //This line will trigger the configuration.
                 log.Info("Subtext Application Started");
                 LogInitialized = true;
             }
 
-            if(DeprecatedPhysicalPaths != null && DeprecatedPhysicalPaths.Count > 0)
+            if (DeprecatedPhysicalPaths != null && DeprecatedPhysicalPaths.Count > 0)
             {
                 throw new DeprecatedPhysicalPathsException(DeprecatedPhysicalPaths);
             }
@@ -172,9 +161,9 @@ namespace Subtext.Web
         protected void Application_Error(Object sender, EventArgs e)
         {
             Exception exception = Server.GetLastError();
-            if(BlogRequest.Current == null || BlogRequest.Current.RequestLocation != RequestLocation.StaticFile)
+            if (BlogRequest.Current == null || BlogRequest.Current.RequestLocation != RequestLocation.StaticFile)
             {
-                var installationManager = Bootstrapper.ServiceLocator.GetService<IInstallationManager>();
+                var installationManager = DependencyResolver.Current.GetService<IInstallationManager>();
                 OnApplicationError(exception, new HttpServerUtilityWrapper(Server), Log, installationManager);
             }
         }
@@ -182,38 +171,38 @@ namespace Subtext.Web
         public void OnApplicationError(Exception exception, HttpServerUtilityBase server, ILog log, IInstallationManager installationManager)
         {
             exception = UnwrapHttpUnhandledException(exception);
-            if(exception == null)
+            if (exception == null)
             {
                 server.Transfer(ErrorPageLocation);
                 return;
             }
 
-            if(HandleDeprecatedFilePathsException(exception, server, this))
+            if (HandleDeprecatedFilePathsException(exception, server, this))
             {
                 return;
             }
 
             LogIfCommentException(exception, log);
 
-            if(HandleSqlException(exception, server))
+            if (HandleSqlException(exception, server))
             {
                 return;
             }
 
             BlogRequest blogRequest = BlogRequest.Current;
-            if(HandleRequestLocationException(exception, blogRequest, installationManager, new HttpResponseWrapper(Response)))
+            if (HandleRequestLocationException(exception, blogRequest, installationManager, new HttpResponseWrapper(Response)))
             {
                 return;
             }
 
-            if(HandleBadConnectionStringException(exception, server))
+            if (HandleBadConnectionStringException(exception, server))
             {
                 return;
             }
 
-            if(exception is HttpException)
+            if (exception is HttpException)
             {
-                if(((HttpException)exception).GetHttpCode() == 404)
+                if (((HttpException)exception).GetHttpCode() == 404)
                 {
                     return;
                 }
@@ -226,9 +215,9 @@ namespace Subtext.Web
 
         public static Exception UnwrapHttpUnhandledException(Exception exception)
         {
-            if(exception is HttpUnhandledException)
+            if (exception is HttpUnhandledException)
             {
-                if(exception.InnerException == null)
+                if (exception.InnerException == null)
                 {
                     return null;
                 }
@@ -241,7 +230,7 @@ namespace Subtext.Web
                                                               SubtextApplication application)
         {
             var depecratedException = exception as DeprecatedPhysicalPathsException;
-            if(depecratedException != null)
+            if (depecratedException != null)
             {
                 server.Execute(DeprecatedPhysicalPathsPage, false);
                 server.ClearError();
@@ -260,10 +249,10 @@ namespace Subtext.Web
         public static void LogIfCommentException(Exception exception, ILog log)
         {
             var commentException = exception as BaseCommentException;
-            if(commentException != null)
+            if (commentException != null)
             {
                 string message = "Comment exception thrown and handled in Global.asax.";
-                if(HttpContext.Current != null && HttpContext.Current.Request != null)
+                if (HttpContext.Current != null && HttpContext.Current.Request != null)
                 {
                     message += string.Format("-- User Agent: {0}", HttpContext.Current.Request.UserAgent);
                 }
@@ -275,7 +264,7 @@ namespace Subtext.Web
         {
             //Sql Exception and request is for "localhost"
             var sqlException = exception as SqlException;
-            if(sqlException != null)
+            if (sqlException != null)
             {
                 int exceptionNumber = sqlException.Number;
                 string message = sqlException.Message;
@@ -288,7 +277,7 @@ namespace Subtext.Web
         public static bool HandleSqlExceptionNumber(int exceptionNumber, string exceptionMessage,
                                                     HttpServerUtilityBase server)
         {
-            if(exceptionNumber == (int)SqlErrorMessage.SqlServerDoesNotExistOrAccessDenied
+            if (exceptionNumber == (int)SqlErrorMessage.SqlServerDoesNotExistOrAccessDenied
                ||
                (exceptionNumber == (int)SqlErrorMessage.CouldNotFindStoredProcedure &&
                 exceptionMessage.Contains("'blog_GetConfig'"))
@@ -299,7 +288,7 @@ namespace Subtext.Web
                 return true;
             }
 
-            if(exceptionNumber == (int)SqlErrorMessage.LoginFailsCannotOpenDatabase
+            if (exceptionNumber == (int)SqlErrorMessage.LoginFailsCannotOpenDatabase
                || exceptionNumber == (int)SqlErrorMessage.LoginFailed
                || exceptionNumber == (int)SqlErrorMessage.LoginFailedInvalidUserOfTrustedConnection
                || exceptionNumber == (int)SqlErrorMessage.LoginFailedNotAssociatedWithTrustedConnection
@@ -315,19 +304,19 @@ namespace Subtext.Web
 
         public static bool HandleRequestLocationException(Exception exception, BlogRequest blogRequest, IInstallationManager installManager, HttpResponseBase response)
         {
-            if(blogRequest.RequestLocation != RequestLocation.Installation &&
+            if (blogRequest.RequestLocation != RequestLocation.Installation &&
                blogRequest.RequestLocation != RequestLocation.Upgrade)
             {
-                if(installManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, exception))
+                if (installManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, exception))
                 {
                     response.Redirect("~/install/default.aspx", true);
                     return true;
                 }
             }
 
-            if(blogRequest.RequestLocation != RequestLocation.SystemMessages)
+            if (blogRequest.RequestLocation != RequestLocation.SystemMessages)
             {
-                if(exception.GetType() == typeof(BlogInactiveException))
+                if (exception.GetType() == typeof(BlogInactiveException))
                 {
                     response.Redirect("~/SystemMessages/BlogNotActive.aspx", true);
                     return true;
@@ -338,14 +327,14 @@ namespace Subtext.Web
 
         public static bool HandleBadConnectionStringException(Exception exception, HttpServerUtilityBase server)
         {
-            if(exception is InvalidOperationException && exception.Message.Contains("ConnectionString"))
+            if (exception is InvalidOperationException && exception.Message.Contains("ConnectionString"))
             {
                 // Probably a missing connection string.
                 server.Transfer(BadConnectionStringPage);
                 return true;
             }
 
-            if(exception is ArgumentException
+            if (exception is ArgumentException
                && (
                       exception.Message.Contains("Keyword not supported")
                       || exception.Message.Contains("Invalid value for key")
@@ -363,7 +352,7 @@ namespace Subtext.Web
         public static void HandleUnhandledException(Exception exception, HttpServerUtilityBase server,
                                                     bool isCustomErrorEnabled, ILog log)
         {
-            if(isCustomErrorEnabled)
+            if (isCustomErrorEnabled)
             {
                 server.Transfer(ErrorPageLocation);
             }
@@ -383,8 +372,8 @@ namespace Subtext.Web
 
         public void EndApplication()
         {
-            var searchEngine = Bootstrapper.ServiceLocator.GetService<ISearchEngineService>();
-            if(searchEngine!=null)
+            var searchEngine = DependencyResolver.Current.GetService<ISearchEngineService>();
+            if (searchEngine != null)
                 searchEngine.Dispose();
             LogInitialized = false;
         }

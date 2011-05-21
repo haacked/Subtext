@@ -27,6 +27,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Principal;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using MbUnit.Framework;
 using Moq;
@@ -67,9 +68,9 @@ namespace UnitTests.Subtext
         public static void UnpackEmbeddedResource(string resourceName, string outputPath)
         {
             Stream stream = UnpackEmbeddedResource(resourceName);
-            using(var reader = new StreamReader(stream))
+            using (var reader = new StreamReader(stream))
             {
-                using(StreamWriter writer = File.CreateText(outputPath))
+                using (StreamWriter writer = File.CreateText(outputPath))
                 {
                     writer.Write(reader.ReadToEnd());
                     writer.Flush();
@@ -88,7 +89,7 @@ namespace UnitTests.Subtext
         public static string UnpackEmbeddedResource(string resourceName, Encoding encoding)
         {
             Stream stream = UnpackEmbeddedResource(resourceName);
-            using(var reader = new StreamReader(stream))
+            using (var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
             }
@@ -104,12 +105,12 @@ namespace UnitTests.Subtext
         /// <param name="fileName">The file to write the resourcce.</param>
         public static string UnpackEmbeddedBinaryResource(string resourceName, string fileName)
         {
-            using(Stream stream = UnpackEmbeddedResource(resourceName))
+            using (Stream stream = UnpackEmbeddedResource(resourceName))
             {
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
                 string filePath = !Path.IsPathRooted(fileName) ? GetPathInExecutingAssemblyLocation(fileName) : Path.GetFullPath(fileName);
-                using(FileStream outStream = File.Create(filePath))
+                using (FileStream outStream = File.Create(filePath))
                 {
                     outStream.Write(buffer, 0, buffer.Length);
                 }
@@ -219,7 +220,7 @@ namespace UnitTests.Subtext
             subfolder = StripSlashes(subfolder); // MyBlog
 
             string appPhysicalDir = @"c:\projects\SubtextSystem\";
-            if(applicationPath.Length == 0)
+            if (applicationPath.Length == 0)
             {
                 applicationPath = "/";
             }
@@ -231,7 +232,7 @@ namespace UnitTests.Subtext
 
             SetHttpRequestApplicationPath(applicationPath);
 
-            if(subfolder.Length > 0)
+            if (subfolder.Length > 0)
             {
                 page = subfolder + "/" + page; //	MyBlog/default.aspx
             }
@@ -265,8 +266,8 @@ namespace UnitTests.Subtext
                     true);
             Assert.IsNotNull(virtualPathType);
             MethodInfo createMethod = virtualPathType.GetMethod("Create", BindingFlags.Static | BindingFlags.Public,
-                                                                null, new[] {typeof(string)}, null);
-            object virtualPath = createMethod.Invoke(null, new object[] {applicationPath});
+                                                                null, new[] { typeof(string) }, null);
+            object virtualPath = createMethod.Invoke(null, new object[] { applicationPath });
 
             appDomainAppVPathField.SetValue(currentRuntime, virtualPath);
         }
@@ -278,7 +279,7 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static string StripSlashes(string target)
         {
-            if(target.Length == 0)
+            if (target.Length == 0)
             {
                 return target;
             }
@@ -293,21 +294,21 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static string StripOuterSlashes(string target)
         {
-            if(target.Length == 0)
+            if (target.Length == 0)
             {
                 return target;
             }
 
             char firstChar = target[0];
-            if(firstChar == '\\' || firstChar == '/')
+            if (firstChar == '\\' || firstChar == '/')
             {
                 target = target.Substring(1);
             }
 
-            if(target.Length > 0)
+            if (target.Length > 0)
             {
                 char lastChar = target[target.Length - 1];
-                if(lastChar == '\\' || lastChar == '/')
+                if (lastChar == '\\' || lastChar == '/')
                 {
                     target = target.Substring(0, target.Length - 1);
                 }
@@ -322,36 +323,36 @@ namespace UnitTests.Subtext
         /// <param name="expected"></param>
         public static void AssertStringsEqualCharacterByCharacter(string expected, string result)
         {
-            if(result != expected)
+            if (result != expected)
             {
                 int unequalPos = 0;
-                for(int i = 0; i < Math.Max(result.Length, expected.Length); i++)
+                for (int i = 0; i < Math.Max(result.Length, expected.Length); i++)
                 {
                     var originalChar = (char)0;
                     var expectedChar = (char)0;
-                    if(i < result.Length)
+                    if (i < result.Length)
                     {
                         originalChar = result[i];
                     }
 
-                    if(i < expected.Length)
+                    if (i < expected.Length)
                     {
                         expectedChar = expected[i];
                     }
 
-                    if(unequalPos == 0 && originalChar != expectedChar)
+                    if (unequalPos == 0 && originalChar != expectedChar)
                     {
                         unequalPos = i;
                     }
 
                     string expectedCharText = "" + originalChar;
-                    if(char.IsWhiteSpace(originalChar))
+                    if (char.IsWhiteSpace(originalChar))
                     {
                         expectedCharText = "{" + (int)originalChar + "}";
                     }
 
                     string expectedCharDisplay = "" + expectedChar;
-                    if(char.IsWhiteSpace(expectedChar))
+                    if (char.IsWhiteSpace(expectedChar))
                     {
                         expectedCharDisplay = "{" + (int)expectedChar + "}";
                     }
@@ -383,12 +384,12 @@ namespace UnitTests.Subtext
                                                               string entryName, DateTime dateCreated)
         {
             var entry = new Entry(PostType.BlogPost);
-            if(entryName != null)
+            if (entryName != null)
             {
                 entry.EntryName = entryName;
             }
             entry.BlogId = blog.Id;
-            if(dateCreated != NullValue.NullDateTime)
+            if (dateCreated != NullValue.NullDateTime)
             {
                 entry.DateCreated = dateCreated;
                 entry.DateModified = entry.DateCreated;
@@ -417,7 +418,7 @@ namespace UnitTests.Subtext
                 Url = "http://noneofyourbusiness.com/",
                 Relation = rel
             };
-            if(entryId != null)
+            if (entryId != null)
             {
                 link.PostId = (int)entryId;
             }
@@ -454,9 +455,9 @@ namespace UnitTests.Subtext
         {
             var category = new LinkCategory
             {
-                BlogId = Config.CurrentBlog.Id, 
-                Title = title, 
-                CategoryType = categoryType, 
+                BlogId = Config.CurrentBlog.Id,
+                Title = title,
+                CategoryType = categoryType,
                 IsActive = true
             };
             return Links.CreateLinkCategory(category);
@@ -476,7 +477,7 @@ namespace UnitTests.Subtext
             formatter.Serialize(stream, serializableObject);
             byte[] serialized = stream.ToArray();
 
-            stream = new MemoryStream(serialized) {Position = 0};
+            stream = new MemoryStream(serialized) { Position = 0 };
             formatter = new BinaryFormatter();
             object o = formatter.Deserialize(stream);
             return (T)o;
@@ -502,7 +503,7 @@ namespace UnitTests.Subtext
 
         public static BlogAlias CreateBlogAlias(Blog info, string host, string subfolder, bool active)
         {
-            var alias = new BlogAlias {BlogId = info.Id, Host = host, Subfolder = subfolder, IsActive = active};
+            var alias = new BlogAlias { BlogId = info.Id, Host = host, Subfolder = subfolder, IsActive = active };
 
             Config.AddBlogAlias(alias);
             return alias;
@@ -511,9 +512,9 @@ namespace UnitTests.Subtext
         public static MetaTag BuildMetaTag(string content, string name, string httpEquiv, int blogId, int? entryId,
                                            DateTime created)
         {
-            var mt = new MetaTag {Name = name, HttpEquiv = httpEquiv, Content = content, BlogId = blogId};
+            var mt = new MetaTag { Name = name, HttpEquiv = httpEquiv, Content = content, BlogId = blogId };
 
-            if(entryId.HasValue)
+            if (entryId.HasValue)
             {
                 mt.EntryId = entryId.Value;
             }
@@ -528,12 +529,12 @@ namespace UnitTests.Subtext
             var tags = new List<MetaTag>(numberOfTags);
 
             int? entryId = null;
-            if(entry != null)
+            if (entry != null)
             {
                 entryId = entry.Id;
             }
 
-            for(int i = 0; i < numberOfTags; i++)
+            for (int i = 0; i < numberOfTags; i++)
             {
                 MetaTag aTag = BuildMetaTag(
                     GenerateUniqueString().Left(50),
@@ -568,24 +569,24 @@ namespace UnitTests.Subtext
         public static void AssertSimpleProperties(object o, params string[] excludedProperties)
         {
             var excludes = new StringDictionary();
-            foreach(string exclude in excludedProperties)
+            foreach (string exclude in excludedProperties)
             {
                 excludes.Add(exclude, "");
             }
 
             Type t = o.GetType();
             PropertyInfo[] props = t.GetProperties();
-            foreach(PropertyInfo property in props)
+            foreach (PropertyInfo property in props)
             {
-                if(excludes.ContainsKey(property.Name))
+                if (excludes.ContainsKey(property.Name))
                 {
                     continue;
                 }
 
-                if(property.CanRead && property.CanWrite)
+                if (property.CanRead && property.CanWrite)
                 {
                     object valueToSet;
-                    if(property.PropertyType == typeof(int)
+                    if (property.PropertyType == typeof(int)
                        || property.PropertyType == typeof(short)
                        || property.PropertyType == typeof(decimal)
                        || property.PropertyType == typeof(double)
@@ -593,35 +594,35 @@ namespace UnitTests.Subtext
                     {
                         valueToSet = 42;
                     }
-                    else if(property.PropertyType == typeof(string))
+                    else if (property.PropertyType == typeof(string))
                     {
                         valueToSet = "This Is a String";
                     }
-                    else if(property.PropertyType == typeof(DateTime))
+                    else if (property.PropertyType == typeof(DateTime))
                     {
                         valueToSet = DateTime.Now;
                     }
-                    else if(property.PropertyType == typeof(Uri))
+                    else if (property.PropertyType == typeof(Uri))
                     {
                         valueToSet = new Uri("http://subtextproject.com/");
                     }
-                    else if(property.PropertyType == typeof(IPAddress))
+                    else if (property.PropertyType == typeof(IPAddress))
                     {
                         valueToSet = IPAddress.Parse("127.0.0.1");
                     }
-                    else if(property.PropertyType == typeof(bool))
+                    else if (property.PropertyType == typeof(bool))
                     {
                         valueToSet = true;
                     }
-                    else if(property.PropertyType == typeof(PageType))
+                    else if (property.PropertyType == typeof(PageType))
                     {
                         valueToSet = PageType.HomePage;
                     }
-                    else if(property.PropertyType == typeof(ICollection<Link>))
+                    else if (property.PropertyType == typeof(ICollection<Link>))
                     {
                         valueToSet = new List<Link>();
                     }
-                    else if(property.PropertyType == typeof(ICollection<Image>))
+                    else if (property.PropertyType == typeof(ICollection<Image>))
                     {
                         valueToSet = new List<Image>();
                     }
@@ -788,11 +789,11 @@ namespace UnitTests.Subtext
                                                                          output, "GET");
             BlogRequest.Current.Blog = blog;
 
-            if(Config.CurrentBlog != null)
+            if (Config.CurrentBlog != null)
             {
                 Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
             }
-            HttpContext.Current.User = new GenericPrincipal(new GenericIdentity(userName), new[] {"Administrators"});
+            HttpContext.Current.User = new GenericPrincipal(new GenericIdentity(userName), new[] { "Administrators" });
 
             return new SimulatedRequestContext(request, sb, output, host);
         }
@@ -800,14 +801,13 @@ namespace UnitTests.Subtext
         public static int Create(Entry entry)
         {
             var requestContext = new RequestContext(new HttpContextWrapper(HttpContext.Current), new RouteData());
-            Bootstrapper.RequestContext = requestContext;
-            var serviceLocator = new Mock<IServiceLocator>().Object;
+            var serviceLocator = new Mock<IDependencyResolver>().Object;
             var searchEngineService = new Mock<IIndexingService>().Object;
-            Bootstrapper.ServiceLocator = serviceLocator;
+            DependencyResolver.SetResolver(serviceLocator);
             var routes = new RouteCollection();
             var subtextRoutes = new SubtextRouteMapper(routes, serviceLocator);
             Routes.RegisterRoutes(subtextRoutes);
-            var urlHelper = new UrlHelper(requestContext, routes);
+            var urlHelper = new BlogUrlHelper(requestContext, routes);
             var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper,
                                                     ObjectProvider.Instance(), requestContext.HttpContext.User,
                                                     new SubtextCache(requestContext.HttpContext.Cache), serviceLocator);
@@ -845,26 +845,26 @@ namespace UnitTests.Subtext
             kernel.Setup(
                 k =>
                 k.CreateRequest(It.IsAny<Type>(), It.IsAny<Func<IBindingMetadata, bool>>(),
-                                It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>())).Returns(request.Object);
+                                It.IsAny<IEnumerable<IParameter>>(), It.IsAny<bool>(), It.IsAny<bool>())).Returns(request.Object);
             kernel.Setup(k => k.Resolve(It.IsAny<IRequest>())).Returns(returnFunc);
             return kernel.Object;
         }
 
-        public static UrlHelper SetupUrlHelper(string appPath)
+        public static BlogUrlHelper SetupUrlHelper(string appPath)
         {
             return SetupUrlHelper(appPath, new RouteData());
         }
 
-        public static UrlHelper SetupUrlHelper(string appPath, RouteData routeData)
+        public static BlogUrlHelper SetupUrlHelper(string appPath, RouteData routeData)
         {
             var routes = new RouteCollection();
-            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IServiceLocator>().Object);
+            var subtextRoutes = new SubtextRouteMapper(routes, new Mock<IDependencyResolver>().Object);
             Routes.RegisterRoutes(subtextRoutes);
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request.ApplicationPath).Returns(appPath);
             httpContext.Setup(c => c.Response.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(s => s);
             var requestContext = new RequestContext(httpContext.Object, routeData);
-            var helper = new UrlHelper(requestContext, routes);
+            var helper = new BlogUrlHelper(requestContext, routes);
             return helper;
         }
 
@@ -876,7 +876,7 @@ namespace UnitTests.Subtext
         /// <returns></returns>
         public static void Update(Entry entry, ISubtextContext context)
         {
-            if(entry == null)
+            if (entry == null)
             {
                 throw new ArgumentNullException("entry");
             }
@@ -888,7 +888,7 @@ namespace UnitTests.Subtext
                 new EmoticonsTransformation(context),
                 new KeywordExpander(repository)
             };
-            
+
             //TODO: Maybe use a INinjectParameter to control this.
             var searchEngineService = new Mock<IIndexingService>().Object;
             var publisher = new EntryPublisher(context, transform, new SlugGenerator(FriendlyUrlSettings.Settings), searchEngineService);
@@ -914,7 +914,7 @@ namespace UnitTests.Subtext
             {
                 action();
             }
-            catch(TException exception)
+            catch (TException exception)
             {
                 return exception;
             }

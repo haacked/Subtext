@@ -49,7 +49,7 @@ namespace Subtext.Framework.Tracking
     public static class TrackHelpers
     {
         //Text to insert into a file with pinkback service location
-        public static string GetPingPackTag(UrlHelper urlHelper)
+        public static string GetPingPackTag(BlogUrlHelper urlHelper)
         {
             return string.Format(CultureInfo.InvariantCulture,
                                  "<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\"></link>",
@@ -57,7 +57,7 @@ namespace Subtext.Framework.Tracking
         }
 
         //Body of text to insert into a post with Trackback
-        public static string TrackBackTag(Entry entry, Blog blog, UrlHelper urlHelper)
+        public static string TrackBackTag(Entry entry, Blog blog, BlogUrlHelper urlHelper)
         {
             if(entry == null)
             {

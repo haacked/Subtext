@@ -22,9 +22,9 @@ namespace UnitTests.Subtext.Framework.Syndication
             var context = new Mock<ISubtextContext>();
             context.Stub(c => c.HttpContext.Response.ContentType);
             context.Setup(c => c.HttpContext.Response.Output).Returns(new StringWriter());
-            context.SetupUrlHelper(new Mock<UrlHelper>());
+            context.SetupUrlHelper(new Mock<BlogUrlHelper>());
             var writer = new Mock<OpmlWriter>();
-            writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<UrlHelper>()));
+            writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<BlogUrlHelper>()));
             var handler = new OpmlHandler(context.Object, writer.Object);
 
             //act
@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             context.Setup(c => c.HttpContext.Response.Output).Returns(new StringWriter());
             context.Setup(c => c.HttpContext.Request.QueryString).Returns(queryString);
             context.Setup(c => c.HttpContext.Request.Url).Returns(new Uri("http://example.com/"));
-            context.SetupUrlHelper(new Mock<UrlHelper>());
+            context.SetupUrlHelper(new Mock<BlogUrlHelper>());
             var repository = new Mock<ObjectProvider>();
             int? parsedGroupId = null;
             repository.Setup(r => r.GetBlogsByGroup("example.com", It.IsAny<int?>())).Callback<string, int?>(
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             context.SetupRepository(repository);
 
             var writer = new Mock<OpmlWriter>();
-            writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<UrlHelper>()));
+            writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<BlogUrlHelper>()));
             var handler = new OpmlHandler(context.Object, writer.Object);
             var hostInfo = new HostInfo {BlogAggregationEnabled = true, AggregateBlog = new Blog()};
 

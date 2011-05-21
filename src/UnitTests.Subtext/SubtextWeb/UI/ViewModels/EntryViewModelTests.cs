@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.SubtextWeb.UI.ViewModels
         public void FullyQualifiedUrl_ReturnsCorrectUrl()
         {
             // arrange
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             var entry = new Entry(PostType.BlogPost)
             {
                 Id = 123,

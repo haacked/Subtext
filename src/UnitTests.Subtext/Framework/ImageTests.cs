@@ -173,7 +173,7 @@ namespace UnitTests.Subtext.Framework
         public void GalleryDirectoryPath_WithBlogAndCategoryId_ReturnPhysicalDirectoryPath()
         {
             // arrange
-            UrlHelper helper = UnitTestHelper.SetupUrlHelper("/Subtext.Web");
+            BlogUrlHelper helper = UnitTestHelper.SetupUrlHelper("/Subtext.Web");
             Mock<HttpContextBase> httpContext = Mock.Get(helper.HttpContext);
             httpContext.Setup(c => c.Server.MapPath("/Subtext.Web/images/localhost/Subtext_Web/123/")).Returns(
                 @"c:\123\");

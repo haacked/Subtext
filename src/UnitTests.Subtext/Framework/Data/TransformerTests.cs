@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Framework.Data
             // arrange
             var blog = new Blog {Host = "example.com"};
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.CategoryUrl(It.IsAny<Category>())).Returns("/");
 
             var links = new[]
@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Data
             // arrange
             var blog = new Blog { Host = "example.com" };
 
-            var urlHelper = new Mock<UrlHelper>();
+            var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.CategoryUrl(It.IsAny<Category>())).Returns("/");
 
             var links = new LinkCategory[0];

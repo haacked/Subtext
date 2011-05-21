@@ -17,10 +17,10 @@
 
 using System.Security.Principal;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
-using Subtext.Framework.Services.SearchEngine;
 using Subtext.Infrastructure;
 
 namespace Subtext.Framework
@@ -31,9 +31,9 @@ namespace Subtext.Framework
         ObjectProvider Repository { get; }
         RequestContext RequestContext { get; }
         HttpContextBase HttpContext { get; }
-        UrlHelper UrlHelper { get; }
+        BlogUrlHelper UrlHelper { get; }
         IPrincipal User { get; }
         ICache Cache { get; }
-        IServiceLocator ServiceLocator { get; }
+        IDependencyResolver ServiceLocator { get; }
     }
 }

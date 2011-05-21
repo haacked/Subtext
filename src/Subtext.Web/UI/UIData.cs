@@ -30,7 +30,7 @@ namespace Subtext.Web.UI
     /// </summary>
     public static class UIData
     {
-        public static LinkCategory Links(CategoryType catType, Blog blog, UrlHelper urlHelper)
+        public static LinkCategory Links(CategoryType catType, Blog blog, BlogUrlHelper urlHelper)
         {
             switch(catType)
             {
@@ -55,7 +55,7 @@ namespace Subtext.Web.UI
         /// A LinkCategory is a common item to databind to a web control.
         /// </summary>
         /// <returns></returns>
-        public static LinkCategory ArchiveMonth(UrlHelper urlHelper, Blog blog)
+        public static LinkCategory ArchiveMonth(BlogUrlHelper urlHelper, Blog blog)
         {
             return Transformer.BuildMonthLinks(UIText.Archives, urlHelper, blog);
         }

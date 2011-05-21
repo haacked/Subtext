@@ -35,7 +35,7 @@ namespace Subtext.Web.HostAdmin
             }
         }
 
-        public UrlHelper Url
+        public BlogUrlHelper Url
         {
             get { return (Page as HostAdminPage).Url; }
         }

@@ -36,7 +36,7 @@ namespace Subtext.Framework.XmlRpc
             get { return SubtextContext.Blog; }
         }
 
-        protected UrlHelper Url
+        protected BlogUrlHelper Url
         {
             get { return SubtextContext.UrlHelper; }
         }

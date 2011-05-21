@@ -51,7 +51,7 @@ namespace Subtext.Framework.Tracking
         /// <summary>
         /// Posts trackbacks and pingbacks for the specified entry.
         /// </summary>
-        public static void Run(Entry entry, Blog blog, UrlHelper urlHelper)
+        public static void Run(Entry entry, Blog blog, BlogUrlHelper urlHelper)
         {
             if(!blog.TrackbacksEnabled)
             {

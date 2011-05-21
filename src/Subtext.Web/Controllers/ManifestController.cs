@@ -19,7 +19,7 @@ using System.Web.Mvc;
 using Subtext.Framework;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Text;
-using UrlHelper=Subtext.Framework.Routing.UrlHelper;
+using UrlHelper=Subtext.Framework.Routing.BlogUrlHelper;
 
 namespace Subtext.Web.Controllers
 {
