@@ -1,0 +1,141 @@
+body
+{
+    font-family: Georgia, Serif;
+    margin: 0px;
+}
+
+a:link, a:active
+{
+    color: #00C;
+}
+
+a:visited
+{
+    color: #009;
+}
+
+a:hover
+{
+    color: #900;
+}
+
+h1
+{
+    color: #600;
+    font-size: 2em;
+    padding: 18px 0px 0px 220px;
+    margin: 0px;
+}
+
+h1 a:link, h1 a:visited, h1 a:active
+{
+    color: #600;
+    text-decoration: none;
+}
+
+h3 a {color: Red;}
+
+h1 a:hover, h3 a:hover
+{
+    color: #C00;
+}
+
+#authors 
+{
+    font-family: Calibri, helvetica, Sans-Serif;
+}
+
+#intro
+{
+    border: 1px solid #FA0;
+    margin: 10px;
+    padding: 0px 10px;
+}
+
+#intro p
+{
+    margin: 10px 0px;
+}
+
+#authors, #extra
+{
+    top: 10px;
+    position: absolute;
+    width: 190px;
+    left: 10px;
+    background-color: #FFF;
+    border: 1px solid #FA0;
+    border-top: 10px solid #FA0;
+    border-bottom: 10px solid #FA0;
+    padding-bottom: 10px;
+}
+
+#authors ul, #extra ul
+{
+    list-style: none;
+    padding: 0px;
+    margin: 0px 5px;
+}
+
+#authors h2, #extra h2
+{
+    font-family: Georgia;
+    font-size: 1.2em;
+    margin: 15px 5px;
+}
+
+#authors p, #extra p
+{
+    margin: 10px 5px;
+}
+
+#main
+{
+    margin-left: 220px;
+    margin-right: 160px;
+}
+
+#main h2
+{
+    color: #a60;
+    font-size: 1.5em;
+    border-bottom: solid 1px #999;
+}
+
+#main h3
+{
+    font-family: Georgia;
+    font-size: 1.2em;
+}
+
+#main .post
+{
+    border-bottom: 1px solid #FA0;
+}
+
+#main div.body , #main .postfoot
+{
+    padding: 0 10px 0 10px;	
+}
+
+#main .postfoot
+{
+    font-size: 0.8em;
+}
+
+#extra
+{
+    width: 130px;
+    right: 20px;
+    left: auto;
+}
+
+#aggrecentimages div
+{
+    padding: 5px;
+}
+
+img
+{
+    border: none;
+}

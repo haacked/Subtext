@@ -218,7 +218,7 @@ namespace Subtext.Framework
             var blog = new Blog(true /*isAggregateBlog*/)
             {
                 Title = ConfigurationManager.AppSettings["AggregateTitle"],
-                Skin = SkinConfig.DefaultSkin,
+                Skin = GetAggregateSkin(),
                 Host = aggregateHost,
                 Subfolder = string.Empty,
                 IsActive = true
@@ -230,6 +230,16 @@ namespace Subtext.Framework
                 blog.UserName = hostInfo.HostUserName;
                 hostInfo.AggregateBlog = blog;
             }
+        }
+
+        public static SkinConfig GetAggregateSkin()
+        {
+            string aggregateSkin = ConfigurationManager.AppSettings["AggregateSkin"] as string;
+            if (String.IsNullOrEmpty(aggregateSkin))
+            {
+                aggregateSkin = "Aggregate/Simple";
+            }
+            return new SkinConfig { TemplateFolder = aggregateSkin };
         }
     }
 }
