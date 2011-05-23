@@ -15,6 +15,7 @@
 
 #endregion
 
+using System.Web;
 using Subtext.Framework;
 
 namespace Subtext.Web.UI.Controls
@@ -24,6 +25,16 @@ namespace Subtext.Web.UI.Controls
         protected new AggregatePage Page
         {
             get { return base.Page as AggregatePage; }
+        }
+
+        protected string AggregateUrl
+        {
+            get { return Url.AppRoot(); }
+        }
+
+        protected string ImageUrl(string imageName)
+        {
+            return VirtualPathUtility.ToAbsolute("~/images/" + imageName);
         }
 
         protected int? GetGroupIdFromQueryString()

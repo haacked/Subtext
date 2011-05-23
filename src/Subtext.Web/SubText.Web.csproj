@@ -917,6 +917,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\icons\edit-in-wlw.gif" />
+    <Content Include="Skins\Aggregate\White\Controls\AggBloggers.ascx" />
+    <Content Include="Skins\Aggregate\White\Controls\AggBlogStats.ascx" />
+    <Content Include="Skins\Aggregate\White\Controls\AggPinnedPost.ascx" />
+    <Content Include="Skins\Aggregate\White\Controls\AggRecentImages.ascx" />
+    <Content Include="Skins\Aggregate\White\Controls\AggRecentPosts.ascx" />
+    <Content Include="Skins\Aggregate\White\Controls\AggSyndication.ascx" />
+    <Content Include="Skins\Aggregate\White\PageTemplate.ascx" />
+    <Content Include="Skins\Aggregate\White\style.css" />
+    <Content Include="Skins\_System\Controls\AggRecentPosts.ascx" />
     <Content Include="transform.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -1529,7 +1538,6 @@
     <Content Include="Scripts\tableEffects.js" />
     <Content Include="Scripts\XFNHighlighter.css" />
     <Content Include="Scripts\XFNHighlighter.js" />
-    <Content Include="Skins\Aggregate\Simple\blue.css" />
     <Content Include="Skins\Aggregate\Simple\Controls\AggBloggers.ascx" />
     <Content Include="Skins\Aggregate\Simple\Controls\AggBlogStats.ascx" />
     <Content Include="Skins\Aggregate\Simple\Controls\AggPinnedPost.ascx" />
