@@ -1525,7 +1525,6 @@
     <Content Include="Scripts\json.js" />
     <Content Include="Scripts\lightbox.js" />
     <Content Include="Scripts\LiveCommentPreview.js" />
-    <Content Include="Scripts\flash.js" />
     <Content Include="Scripts\niceforms.js" />
     <Content Include="Scripts\tableEffects.js" />
     <Content Include="Scripts\XFNHighlighter.css" />

@@ -3,38 +3,38 @@
 
 <asp:Content ContentPlaceHolderID="actionsHeading" runat="server">
     <script type="text/javascript">
-        function updateTimeZoneInfo(timeZones) {
-            ajaxServices.getTimeZoneInfo(timeZones.value, function(response) {
-                if (response.error)
-                    handleError(response.error);
-                else {
-                    ("#timeZoneInfo").flash();
-                    $("#serverTimeZone").html(response.result.serverTimeZone);
-                    $("#serverTime").html(response.result.serverTime);
-                    $("#serverUtcTime").html(response.result.serverUtcTime);
-                    $("#currentTime").html(response.result.currentTime);
-                }
-            });
-        }
+        $(function () {
+            $('select.timezone').change(function () {
+                var timeZone = $(this).val();
+                ajaxServices.getTimeZoneInfo(timeZone, function (response) {
+                    if (response.error)
+                    //TODO: Handle this more gracefully.
+                        alert(response.error);
+                    else {
+                        $("#timeZoneInfo").effect('highlight', {}, 1000);
+                        $("#serverTimeZone").html(response.result.serverTimeZone);
+                        $("#serverTime").html(response.result.serverTime);
+                        $("#serverUtcTime").html(response.result.serverUtcTime);
+                        $("#currentTime").html(response.result.currentTime);
+                    }
+                });
 
-        function handleError(error) {
-            //TODO: show message gracefully.
-            alert(error);
-        }
+            });
+        });
     </script>
 
-    <h2>
-        Options</h2>
+    <h2>Options</h2>
 </asp:Content>
+
 <asp:Content ContentPlaceHolderID="categoryListHeading" runat="server">
 </asp:Content>
-<asp:Content ContentPlaceHolderID="categoryListLinks"
-    runat="server">
+
+<asp:Content ContentPlaceHolderID="categoryListLinks" runat="server">
 </asp:Content>
+
 <asp:Content ContentPlaceHolderID="pageContent" runat="server">
     <st:MessagePanel ID="Messages" runat="server" />
-    <h2>
-        Configure</h2>
+    <h2>Configure</h2>
     <div class="Edit" id="configure-form">
         <asp:Panel runat="server" GroupingText="Main Settings" CssClass="options">
             <label accesskey="t" for="Edit_txbTitle">
@@ -74,9 +74,7 @@
                     <st:HelpToolTip ID="hlpTimeZone" runat="server" HelpText="Select your timezone, which may differ from the timezone where your blog server is located."
                         ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
                 </label>
-                <asp:DropDownList ID="ddlTimezone" runat="server" 
-                    onchange="updateTimeZoneInfo(this)" 
-                    CssClass="wide-dropdown" />
+                <asp:DropDownList ID="ddlTimezone" runat="server" CssClass="wide-dropdown timezone" />
             </p>
             <div id="timeZoneInfo">
                 <em>Time at selected timezone is: 
