@@ -94,6 +94,8 @@
 		<foreach item="Folder" property="foldername">
 			<in>
 				<items basedir="${source.dir}">
+					<include name="*\bin\**" />
+					<include name="*\obj\**" />
 					<include name="*\bin" />
 					<include name="*\obj" />
 				</items>
