@@ -1,296 +1,296 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText">
 
-	<property name="nant.settings.currentframework" value="net-4.0"/>
-	
-	<target name="get-publishing-properties">
-		<if test="${not property::exists('build.version')}"> 
-			<fail message="build.version property not set, so can't create distribution files" />
-		</if>
-		
-		<!-- Root folder which all other folders are relative to -->
-		<property name="root.dir" value=".." />
-		<!-- Root of the source tree -->
-		<property name="source.dir" value="${root.dir}\src" />
-		
-		<!-- BEGIN Properties to customize -->
-		<property name="solution.name" value="SubtextSolution.sln" />
-		<property name="test.assembly.dir" value="${source.dir}\UnitTests.Subtext\bin\Debug" />
-		<property name="test.assembly.dll" value="UnitTests.Subtext.dll" />
-		<!-- END Properties to customize -->		
-		
-		
-		<!-- System .NET folders and paths -->
-		<property name="dotnetfx" value="C:\WINDOWS\Microsoft.NET\Framework" />
-		<property name="aspnet_compiler.exe" value="${dotnetfx}\v4.0.30319\aspnet_compiler.exe" />
-		<property name="msbuild.exe" value="${dotnetfx}\v4.0.30319\MSBuild.exe" />
-		<!-- Root of the tools tree -->
-		<property name="tools.dir" value="${root.dir}\tools" />
-		
-		<!-- Various tools -->
-		<property name="fxcop.dir" value="${tools.dir}\FxCop" />
-		<property name="fxcop.exe" value="${fxcop.dir}\FxCopCmd.exe" />
-		
-		<property name="gallio.dir" value="${tools.dir}\Gallio\bin" />
-		<property name="gallio.exe" value="${gallio.dir}\Gallio.Echo.exe" />
-		
-		<property name="ncover.dir" value="${tools.dir}\NCover" />
-		<property name="ncover.exe" value="${ncover.dir}\NCover.Console.exe" />
-		
-		<property name="ndepend.dir" value="${tools.dir}\NDepend" />
-		<property name="ndepend.exe" value="${ndepend.dir}\NDepend.Console.exe" />
-		<property name="ndepend.config" value="${ndepend.dir}\NDependProject.xml" />
-
-		<!-- Artifacts folder -->
-		<property name="artifacts.dir" value="${root.dir}\output" />
-		<property name="build.dir" value="${artifacts.dir}\build" />
-		
-		<!-- Folders for the final downloadable files -->
-		<property name="publish.dir.latest" value="${build.dir}\latest" />
-		<property name="publish.dir.latest.web" value="${publish.dir.latest}\Subtext.Web" />
-		<property name="publish.dir.archive" value="${build.dir}\archive" />
-		<property name="publish.dir.latestsource" value="${build.dir}\source" />
-		<property name="fileversion.txt" value="${build.dir}\fileversion.txt" />
-		
-		<!-- Folders for various logs and reports -->
-		<property name="buildlogs.dir" value="${artifacts.dir}\buildlogs" />
-		<property name="log.dir" value="${buildlogs.dir}\logs" />
-		<!-- Directory for hosting images of NDepend report for specific builds -->
-		<property name="artifacts.assets.dir" value="${buildlogs.dir}\NDependImages"/>
-		
-		<property name="fileLabel" value="SubText-${build.version}" />
-		<property name="webPI.dir" value="${tools.dir}\WebPI" />
-		
-		<loadtasks path="${tools.dir}\NAnt\tasks" failonerror="false" />
-		<loadtasks assembly="${tools.dir}\Gallio\bin\Gallio.NAntTasks.dll" failonerror="false" />
-	</target>
-
-	
-	<!--
-		Generates the AssemblyInfo file with the correct version number
-	-->
-	<!-- //TODO: Consider checking in this file after update the version -->
-	<target name="version" depends="get-publishing-properties">
-		<echo message="##teamcity[buildNumber '${build.version}']" />
-		<asminfo output="${source.dir}\VersionInfo.Designer.cs" language="CSharp">
-			<imports>
-				<import namespace="System" />
-				<import namespace="System.Reflection" />
-			</imports>
-			<attributes>
-				<attribute type="AssemblyVersionAttribute" value="${build.version}" />
-			</attributes>
-		</asminfo>
-	</target>
-	
-	<!--
-		Cleans the build folders (not really needed in TeamCity, but useful when running the build locally
-	-->
-	<target name="clean" depends="get-publishing-properties">
-		<delete dir="${log.dir}" failonerror="false" />
-		<call target="clean-vs" />
-	</target>
-	<target name="clean-vs">
-		<foreach item="Folder" property="foldername">
-			<in>
-				<items basedir="${source.dir}">
-					<include name="*\bin\**" />
-					<include name="*\obj\**" />
-					<include name="*\bin" />
-					<include name="*\obj" />
-				</items>
-			</in>
-			<do>
-				<delete dir="${foldername}" />
-			</do>
-		</foreach>
-		<mkdir dir="${source.dir}\Subtext.Web\bin" />
-	</target>
-
-	<!-- 
-		Compiles Subtext
-	-->
-	<target name="compile-debug" depends="clean, version">
-		<property name="configuration" value="debug"/>
-		<call target="compile" />
-	</target>
-	<target name="compile-release" depends="clean, version">
-		<property name="configuration" value="Release"/>
-		<call target="compile" />
-	</target>
-	<target name="compile">
-		<exec program="${msbuild.exe}">
-			<arg value="${source.dir}\${solution.name}"/>
-			<arg value="/nologo"/>
-			<arg value="/verbosity:normal"/>
-			<arg value="/t:Build"/>
-			<arg value="/p:Configuration=${configuration}"/>
-		</exec>
-	</target>
+    <property name="nant.settings.currentframework" value="net-4.0"/>
     
-	<target name="test" depends="get-publishing-properties,compile-debug">
-		<mkdir dir="${log.dir}" />
-		 
-		 <mkdir dir="${log.dir}" />
-		 <gallio result-property="ExitCode"
-		 failonerror="true"
+    <target name="get-publishing-properties">
+        <if test="${not property::exists('build.version')}"> 
+            <fail message="build.version property not set, so can't create distribution files" />
+        </if>
+        
+        <!-- Root folder which all other folders are relative to -->
+        <property name="root.dir" value=".." />
+        <!-- Root of the source tree -->
+        <property name="source.dir" value="${root.dir}\src" />
+        
+        <!-- BEGIN Properties to customize -->
+        <property name="solution.name" value="SubtextSolution.sln" />
+        <property name="test.assembly.dir" value="${source.dir}\UnitTests.Subtext\bin\Debug" />
+        <property name="test.assembly.dll" value="UnitTests.Subtext.dll" />
+        <!-- END Properties to customize -->		
+        
+        
+        <!-- System .NET folders and paths -->
+        <property name="dotnetfx" value="C:\WINDOWS\Microsoft.NET\Framework" />
+        <property name="aspnet_compiler.exe" value="${dotnetfx}\v4.0.30319\aspnet_compiler.exe" />
+        <property name="msbuild.exe" value="${dotnetfx}\v4.0.30319\MSBuild.exe" />
+        <!-- Root of the tools tree -->
+        <property name="tools.dir" value="${root.dir}\tools" />
+        
+        <!-- Various tools -->
+        <property name="fxcop.dir" value="${tools.dir}\FxCop" />
+        <property name="fxcop.exe" value="${fxcop.dir}\FxCopCmd.exe" />
+        
+        <property name="gallio.dir" value="${tools.dir}\Gallio\bin" />
+        <property name="gallio.exe" value="${gallio.dir}\Gallio.Echo.exe" />
+        
+        <property name="ncover.dir" value="${tools.dir}\NCover" />
+        <property name="ncover.exe" value="${ncover.dir}\NCover.Console.exe" />
+        
+        <property name="ndepend.dir" value="${tools.dir}\NDepend" />
+        <property name="ndepend.exe" value="${ndepend.dir}\NDepend.Console.exe" />
+        <property name="ndepend.config" value="${ndepend.dir}\NDependProject.xml" />
+
+        <!-- Artifacts folder -->
+        <property name="artifacts.dir" value="${root.dir}\output" />
+        <property name="build.dir" value="${artifacts.dir}\build" />
+        
+        <!-- Folders for the final downloadable files -->
+        <property name="publish.dir.latest" value="${build.dir}\latest" />
+        <property name="publish.dir.latest.web" value="${publish.dir.latest}\Subtext.Web" />
+        <property name="publish.dir.archive" value="${build.dir}\archive" />
+        <property name="publish.dir.latestsource" value="${build.dir}\source" />
+        <property name="fileversion.txt" value="${build.dir}\fileversion.txt" />
+        
+        <!-- Folders for various logs and reports -->
+        <property name="buildlogs.dir" value="${artifacts.dir}\buildlogs" />
+        <property name="log.dir" value="${buildlogs.dir}\logs" />
+        <!-- Directory for hosting images of NDepend report for specific builds -->
+        <property name="artifacts.assets.dir" value="${buildlogs.dir}\NDependImages"/>
+        
+        <property name="fileLabel" value="SubText-${build.version}" />
+        <property name="webPI.dir" value="${tools.dir}\WebPI" />
+        
+        <loadtasks path="${tools.dir}\NAnt\tasks" failonerror="false" />
+        <loadtasks assembly="${tools.dir}\Gallio\bin\Gallio.NAntTasks.dll" failonerror="false" />
+    </target>
+
+    
+    <!--
+        Generates the AssemblyInfo file with the correct version number
+    -->
+    <!-- //TODO: Consider checking in this file after update the version -->
+    <target name="version" depends="get-publishing-properties">
+        <echo message="##teamcity[buildNumber '${build.version}']" />
+        <asminfo output="${source.dir}\VersionInfo.Designer.cs" language="CSharp">
+            <imports>
+                <import namespace="System" />
+                <import namespace="System.Reflection" />
+            </imports>
+            <attributes>
+                <attribute type="AssemblyVersionAttribute" value="${build.version}" />
+            </attributes>
+        </asminfo>
+    </target>
+    
+    <!--
+        Cleans the build folders (not really needed in TeamCity, but useful when running the build locally
+    -->
+    <target name="clean" depends="get-publishing-properties">
+        <delete dir="${log.dir}" failonerror="false" />
+        <call target="clean-vs" />
+    </target>
+    <target name="clean-vs">
+        <foreach item="Folder" property="foldername">
+            <in>
+                <items basedir="${source.dir}">
+                    <include name="*\bin\**" />
+                    <include name="*\obj\**" />
+                    <include name="*\bin" />
+                    <include name="*\obj" />
+                </items>
+            </in>
+            <do>
+                <delete dir="${foldername}" />
+            </do>
+        </foreach>
+        <mkdir dir="${source.dir}\Subtext.Web\bin" />
+    </target>
+
+    <!-- 
+        Compiles Subtext
+    -->
+    <target name="compile-debug" depends="clean, version">
+        <property name="configuration" value="debug"/>
+        <call target="compile" />
+    </target>
+    <target name="compile-release" depends="clean, version">
+        <property name="configuration" value="Release"/>
+        <call target="compile" />
+    </target>
+    <target name="compile">
+        <exec program="${msbuild.exe}">
+            <arg value="${source.dir}\${solution.name}"/>
+            <arg value="/nologo"/>
+            <arg value="/verbosity:normal"/>
+            <arg value="/t:Build"/>
+            <arg value="/p:Configuration=${configuration}"/>
+        </exec>
+    </target>
+    
+    <target name="test" depends="get-publishing-properties,compile-debug">
+        <mkdir dir="${log.dir}" />
+         
+         <mkdir dir="${log.dir}" />
+         <gallio result-property="ExitCode"
+         failonerror="true"
             report-types="html;xml;text"
             report-directory="src\${log.dir}"
-			report-name-format="test-report"
-		 echo-results="true"
-		 verbosity="Debug">
-		  <files>
-			<!-- Specify the tests files and assemblies -->
-			<include name="${test.assembly.dll}" />
-		  </files>
-		 </gallio>
+            report-name-format="test-report"
+         echo-results="true"
+         verbosity="Debug">
+          <files>
+            <!-- Specify the tests files and assemblies -->
+            <include name="${test.assembly.dll}" />
+          </files>
+         </gallio>
 
-	</target>
-	
-	<!-- 
-		Compiles Subtext and runs the MbUnit tests and NCover reports.
-	-->
-	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
-		<mkdir dir="${log.dir}" />
+    </target>
+    
+    <!-- 
+        Compiles Subtext and runs the MbUnit tests and NCover reports.
+    -->
+    <target name="testAndCover" depends="get-publishing-properties,compile-debug">
+        <mkdir dir="${log.dir}" />
 
-		<ncover program="${ncover.exe}"
-				testRunnerExe="${gallio.exe}"
-				testRunnerArgs="${test.assembly.dll}"
-				coverageFile="${log.dir}\coverage.nccov"
-				workingDirectory="${test.assembly.dir}"
-				onlyAssembliesWithSource="True"
-				projectName="Subtext"/>
-				
-	<echo message="##teamcity[dotNetCoverage ncover3_home='${ncover.dir}']" />
+        <ncover program="${ncover.exe}"
+                testRunnerExe="${gallio.exe}"
+                testRunnerArgs="${test.assembly.dll}"
+                coverageFile="${log.dir}\coverage.nccov"
+                workingDirectory="${test.assembly.dir}"
+                onlyAssembliesWithSource="True"
+                projectName="Subtext"/>
+                
+    <echo message="##teamcity[dotNetCoverage ncover3_home='${ncover.dir}']" />
         
     <echo message="##teamcity[dotNetCoverage ncover3_reporter_args='//or FullCoverageReport:Html:{teamcity.report.path}']" />
     
     <echo message="##teamcity[importData type='dotNetCoverage' tool='ncover3' path='${log.dir}\coverage.nccov']" />
 
-	
-	</target>
+    
+    </target>
 
-	<target name="reporting" depends="compile-release">
-		<setenv name="PATH" path="${fxcop.dir}\;%PATH%" verbose="true" />
+    <target name="reporting" depends="compile-release">
+        <setenv name="PATH" path="${fxcop.dir}\;%PATH%" verbose="true" />
 
-		<fxcop 
-			projectFile="${tools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
-			analysisReportFilename="${log.dir}\ccnet-fxcop.xml"
-			failonerror="false"
-		/>
-	</target>
+        <fxcop 
+            projectFile="${tools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
+            analysisReportFilename="${log.dir}\ccnet-fxcop.xml"
+            failonerror="false"
+        />
+    </target>
 
-	<target name="release" depends="dist.archive">
-		<echo message="CI Run for build number ${build.version} successfully completed" />
-		<echo file="${fileversion.txt}">${build.version}</echo>
-	</target>
+    <target name="release" depends="dist.archive">
+        <echo message="CI Run for build number ${build.version} successfully completed" />
+        <echo file="${fileversion.txt}">${build.version}</echo>
+    </target>
 
-	<!-- 
-		Prepares for binary distribution
-	-->	
-	<target name="dist.publish.latest" depends="compile-release">
-		<delete dir="${publish.dir.latest.web}" failonerror="false" />
-		<delete dir="${publish.dir.latest}" failonerror="false" />
-		<mkdir dir="${publish.dir.latest}" />
-		<mkdir dir="${publish.dir.latest.web}" />
+    <!-- 
+        Prepares for binary distribution
+    -->	
+    <target name="dist.publish.latest" depends="compile-release">
+        <delete dir="${publish.dir.latest.web}" failonerror="false" />
+        <delete dir="${publish.dir.latest}" failonerror="false" />
+        <mkdir dir="${publish.dir.latest}" />
+        <mkdir dir="${publish.dir.latest.web}" />
 
-		<call target="precompiled.deploy" />
+        <call target="precompiled.deploy" />
 
-		<copy todir="${publish.dir.latest}" includeemptydirs="false">
-		  <fileset basedir="${webPI.dir}">
-			<include name="installSQL.sql" />
-			<include name="manifest.xml" />
-			<include name="parameters.xml" />
-			<include name="readme.txt" />
-		  </fileset>
-		</copy>
-		
-		<attrib readonly="false" >
-			<fileset basedir="${publish.dir.latest}">
-				<include name="**/*" />
-			</fileset>
-		</attrib>
-		
-		<call target="javascript.minify" />
-	</target>
+        <copy todir="${publish.dir.latest}" includeemptydirs="false">
+          <fileset basedir="${webPI.dir}">
+            <include name="installSQL.sql" />
+            <include name="manifest.xml" />
+            <include name="parameters.xml" />
+            <include name="readme.txt" />
+          </fileset>
+        </copy>
+        
+        <attrib readonly="false" >
+            <fileset basedir="${publish.dir.latest}">
+                <include name="**/*" />
+            </fileset>
+        </attrib>
+        
+        <call target="javascript.minify" />
+    </target>
 
 
-	<!-- 
-		Precompiles ASP.NET site
-	-->		
-	<target name="precompiled.deploy">
-		<delete dir="${publish.dir.latest}\precompiled" failonerror="false" />
-		<mkdir dir="${publish.dir.latest}\precompiled" failonerror="false" />
+    <!-- 
+        Precompiles ASP.NET site
+    -->		
+    <target name="precompiled.deploy">
+        <delete dir="${publish.dir.latest}\precompiled" failonerror="false" />
+        <mkdir dir="${publish.dir.latest}\precompiled" failonerror="false" />
 
-		<exec program="${aspnet_compiler.exe}"
-		  commandline="-f -u -p ${source.dir}\Subtext.Web -v / ${publish.dir.latest}\precompiled"/>
+        <exec program="${aspnet_compiler.exe}"
+          commandline="-f -u -p ${source.dir}\Subtext.Web -v / ${publish.dir.latest}\precompiled"/>
 
-		<copy todir="${publish.dir.latest.web}" includeemptydirs="false">
-		  <fileset basedir="${publish.dir.latest}\precompiled">
-			<include name="emoticons.txt" />
-			<include name="favicon.ico" />
-			<include name="**/*" />
-			
-			<exclude name="**/*.bmp" />
-			<exclude name="**/*.cs"/>
-			<exclude name="**/*.txt"/>
-			<exclude name="**/*.resx"/>
-			<exclude name="bin/*.xml"/>
-			<exclude name="**/*.csproj"/>
-			<exclude name="**/*.csproj.user"/>
-			<exclude name="**/.cvsignore"/>
-			<exclude name="**/.svn"/>
-			<exclude name="obj/**"/>
-			<exclude name="_Resharper.*"/>
-		  </fileset>
+        <copy todir="${publish.dir.latest.web}" includeemptydirs="false">
+          <fileset basedir="${publish.dir.latest}\precompiled">
+            <include name="emoticons.txt" />
+            <include name="favicon.ico" />
+            <include name="**/*" />
+            
+            <exclude name="**/*.bmp" />
+            <exclude name="**/*.cs"/>
+            <exclude name="**/*.txt"/>
+            <exclude name="**/*.resx"/>
+            <exclude name="bin/*.xml"/>
+            <exclude name="**/*.csproj"/>
+            <exclude name="**/*.csproj.user"/>
+            <exclude name="**/.cvsignore"/>
+            <exclude name="**/.svn"/>
+            <exclude name="obj/**"/>
+            <exclude name="_Resharper.*"/>
+          </fileset>
     </copy>
     
     <delete dir="${publish.dir.latest}\precompiled" failonerror="false" />
-	</target>
-	
-	<!-- 
-		Minifies javascript and CSS
-	-->		
-	<target name="javascript.minify" depends="get-publishing-properties">
-		<yuicompressor todir="${publish.dir.latest.web}"> 
-			<fileset basedir="${publish.dir.latest.web}"> 
-				<include name="Skins/**/*.js" />
-				<include name="Scripts/**/*.js" />
-				<include name="Skins/**/*.css" />
-				<include name="Scripts/**/*.css" />
-			</fileset> 
-		</yuicompressor>
-	</target>
+    </target>
+    
+    <!-- 
+        Minifies javascript and CSS
+    -->		
+    <target name="javascript.minify" depends="get-publishing-properties">
+        <yuicompressor todir="${publish.dir.latest.web}"> 
+            <fileset basedir="${publish.dir.latest.web}"> 
+                <include name="Skins/**/*.js" />
+                <include name="Scripts/**/*.js" />
+                <include name="Skins/**/*.css" />
+                <include name="Scripts/**/*.css" />
+            </fileset> 
+        </yuicompressor>
+    </target>
 
-	<!-- 
-		Creates binary distribution
-	-->		
-	<target name="dist.archive" depends="dist.publish.latest">
-		<mkdir dir="${publish.dir.archive}" />
-		<zip zipfile="${publish.dir.archive}\${fileLabel}.zip">
-			<fileset basedir="${publish.dir.latest}">
-				<include name="**/*" />
-				<exclude name="**/*.pdb" />
-			</fileset>
-		</zip>
-	</target>
-	
-	<!-- 
-		Creates source distribution
-	-->	
-	<target name="dist.source" depends="get-publishing-properties">
-		<delete dir="${publish.dir.latestsource}" failonerror="false" />
-		<mkdir dir="${publish.dir.latestsource}" />
-		
-		<zip zipfile="${publish.dir.latestsource}\${fileLabel}.src.zip">
-			<fileset basedir="${source.dir}">
-				<include name="**/*" />
-				<exclude name="**/bin/**/*" />
-				<exclude name="**/obj/**/*" />
-			</fileset>
-		</zip>
-		
-		
-		
-	</target>
+    <!-- 
+        Creates binary distribution
+    -->		
+    <target name="dist.archive" depends="dist.publish.latest">
+        <mkdir dir="${publish.dir.archive}" />
+        <zip zipfile="${publish.dir.archive}\${fileLabel}.zip">
+            <fileset basedir="${publish.dir.latest}">
+                <include name="**/*" />
+                <exclude name="**/*.pdb" />
+            </fileset>
+        </zip>
+    </target>
+    
+    <!-- 
+        Creates source distribution
+    -->	
+    <target name="dist.source" depends="get-publishing-properties">
+        <delete dir="${publish.dir.latestsource}" failonerror="false" />
+        <mkdir dir="${publish.dir.latestsource}" />
+        
+        <zip zipfile="${publish.dir.latestsource}\${fileLabel}.src.zip">
+            <fileset basedir="${source.dir}">
+                <include name="**/*" />
+                <exclude name="**/bin/**/*" />
+                <exclude name="**/obj/**/*" />
+            </fileset>
+        </zip>
+        
+        
+        
+    </target>
 </project>
