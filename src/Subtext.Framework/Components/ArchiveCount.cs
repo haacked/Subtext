@@ -25,10 +25,7 @@ namespace Subtext.Framework.Components
     [Serializable]
     public class ArchiveCount
     {
-        public String Title { get; set; }
-
-        public int Id { get; set; }
-
+        // This is the date in the Blog's timezone, not UTC
         public DateTime Date { get; set; }
 
         public int Count { get; set; }

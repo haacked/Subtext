@@ -192,11 +192,6 @@ namespace Subtext.ImportExport
             };
             bmlBlog.ExtendedProperties.Add(bmlExtProp);
 
-            /* TODO: The blog.TrackbasksEnabled determines if Subtext will ACCEPT and SEND trackbacks.
-             * Perhaps we should separate the two out?
-             * For now, we'll assume that if a BlogML blog allows sending, it will also
-             * allow receiving track/pingbacks.
-             */
             bmlExtProp.Key = BlogMLBlogExtendedProperties.EnableSendingTrackbacks;
             bmlExtProp.Value = blog.TrackbacksEnabled
                                    ? SendTrackbackTypes.Yes.ToString()

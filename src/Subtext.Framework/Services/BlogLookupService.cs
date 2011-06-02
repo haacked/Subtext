@@ -40,7 +40,7 @@ namespace Subtext.Framework.Services
         {
             get
             {
-                if(_host == null)
+                if (_host == null)
                 {
                     _host = HostInfo.LoadHost(true);
                 }
@@ -50,16 +50,16 @@ namespace Subtext.Framework.Services
 
         public BlogLookupResult Lookup(BlogRequest blogRequest)
         {
-            if(Host == null)
+            if (Host == null)
             {
                 return new BlogLookupResult(null, null);
             }
 
             string host = blogRequest.Host;
             Blog blog = Repository.GetBlog(host, blogRequest.Subfolder);
-            if(blog != null)
+            if (blog != null)
             {
-                if(!String.Equals(host, blog.Host, StringComparison.OrdinalIgnoreCase)
+                if (!String.Equals(host, blog.Host, StringComparison.OrdinalIgnoreCase)
                    || !String.Equals(blogRequest.Subfolder, blog.Subfolder, StringComparison.OrdinalIgnoreCase))
                 {
                     UriBuilder alternateUrl = ReplaceHost(blogRequest.RawUrl, blog.Host);
@@ -71,19 +71,19 @@ namespace Subtext.Framework.Services
 
             IPagedCollection<Blog> pagedBlogs = Repository.GetPagedBlogs(null, 0, 10, ConfigurationFlags.None);
             int totalBlogCount = pagedBlogs.MaxItems;
-            if(Host.BlogAggregationEnabled && totalBlogCount > 0)
+            if (Host.BlogAggregationEnabled && totalBlogCount > 0)
             {
-                if(!String.IsNullOrEmpty(blogRequest.Subfolder))
+                if (!String.IsNullOrEmpty(blogRequest.Subfolder))
                 {
                     return null;
                 }
                 return new BlogLookupResult(Host.AggregateBlog, null);
             }
 
-            if(totalBlogCount == 1)
+            if (totalBlogCount == 1)
             {
                 Blog onlyBlog = pagedBlogs.First();
-                if(onlyBlog.Host == blogRequest.Host)
+                if (onlyBlog.Host == blogRequest.Host)
                 {
                     Uri onlyBlogUrl =
                         ReplaceSubfolder(new UriBuilder(blogRequest.RawUrl), blogRequest, onlyBlog.Subfolder).Uri;
@@ -92,12 +92,12 @@ namespace Subtext.Framework.Services
 
                 //Extra special case to deal with a common deployment problem where dev uses "localhost" on 
                 //dev machine. But deploys to real domain.
-                if(OnlyBlogIsLocalHostNotCurrentHost(host, onlyBlog))
+                if (OnlyBlogIsLocalHostNotCurrentHost(host, onlyBlog))
                 {
                     onlyBlog.Host = host;
                     Repository.UpdateBlog(onlyBlog);
 
-                    if(onlyBlog.Subfolder != blogRequest.Subfolder)
+                    if (onlyBlog.Subfolder != blogRequest.Subfolder)
                     {
                         Uri onlyBlogUrl =
                             ReplaceSubfolder(new UriBuilder(blogRequest.RawUrl), blogRequest, onlyBlog.Subfolder).Uri;
@@ -111,12 +111,6 @@ namespace Subtext.Framework.Services
 
             return null;
         }
-
-        //private bool CurrentRequestIsForBlogAlias(BlogRequest blogRequest)
-        //{
-        //    !String.Equals(blogRequest.Host, blog.Host, StringComparison.OrdinalIgnoreCase)
-        //           || !String.Equals(blogRequest.Subfolder, blog.Subfolder, StringComparison.OrdinalIgnoreCase)
-        //}
 
         private static bool OnlyBlogIsLocalHostNotCurrentHost(string host, Blog onlyBlog)
         {
@@ -132,26 +126,26 @@ namespace Subtext.Framework.Services
 
         private static UriBuilder ReplaceHost(Uri originalUrl, string newHost)
         {
-            var builder = new UriBuilder(originalUrl) {Host = newHost};
+            var builder = new UriBuilder(originalUrl) { Host = newHost };
             return builder;
         }
 
         private static UriBuilder ReplaceSubfolder(UriBuilder originalUrl, BlogRequest blogRequest, string newSubfolder)
         {
-            if(!String.Equals(blogRequest.Subfolder, newSubfolder, StringComparison.OrdinalIgnoreCase))
+            if (!String.Equals(blogRequest.Subfolder, newSubfolder, StringComparison.OrdinalIgnoreCase))
             {
                 string appPath = blogRequest.ApplicationPath;
-                if(!appPath.EndsWith("/"))
+                if (!appPath.EndsWith("/"))
                 {
                     appPath += "/";
                 }
 
                 int indexAfterAppPath = appPath.Length;
-                if(!String.IsNullOrEmpty(blogRequest.Subfolder))
+                if (!String.IsNullOrEmpty(blogRequest.Subfolder))
                 {
                     originalUrl.Path = originalUrl.Path.Remove(indexAfterAppPath, blogRequest.Subfolder.Length + 1);
                 }
-                if(!String.IsNullOrEmpty(newSubfolder))
+                if (!String.IsNullOrEmpty(newSubfolder))
                 {
                     originalUrl.Path = originalUrl.Path.Substring(0, indexAfterAppPath) + newSubfolder + "/" +
                                        originalUrl.Path.Substring(indexAfterAppPath);

@@ -437,8 +437,6 @@ namespace Subtext.Framework.Data
 
                 ac.Date = parsedDate;
                 ac.Count = reader.ReadValue<int>("Count");
-                //TODO: This broke the unit tests: ac.Title = reader.ReadValue<string>("Title");
-                //TODO: This broke the unit tests: ac.Id = reader.ReadValue<int>("Id");
                 acc.Add(ac);
             }
             return acc;

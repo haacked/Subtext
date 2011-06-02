@@ -85,7 +85,7 @@ namespace Subtext.Framework.Tracking
             }
 
             //Create our notification Components
-            using(var pbnp = new PingBackNotificatinProxy())
+            using(var pbnp = new PingBackNotificationProxy())
             {
                 //for each link, try to pingback and/or trackback
                 foreach(string link in links)
@@ -117,7 +117,7 @@ namespace Subtext.Framework.Tracking
         {
             if(track.PingWeblogs)
             {
-                using(var weblogs = new WeblogsNotificatinProxy())
+                using(var weblogs = new WeblogsNotificationProxy())
                 {
                     weblogs.Ping(BlogName, FullyQualifiedUrl);
                 }

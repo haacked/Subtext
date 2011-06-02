@@ -15,17 +15,11 @@
 
 #endregion
 
-using System.Web.UI;
 using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.WebUI
 {
-    // TODO: Designer, design-time enhancements
-    // TODO: Collapsible property, don't add link to ctls if false -- interaction with Collapsed tests?
-    // TODO: Properties should not have dependencies on each other; Setting one property should not 
-    // affect other properties
-
-    [ToolboxData("<{0}:AdvancedPanel runat=\"server\"></{0}:AdvancedPanel>")]
+    // TODO: Get Rid of this.
     public class AdvancedPanel : CollapsiblePanel
     {
         /// <summary>
