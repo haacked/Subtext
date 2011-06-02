@@ -19,6 +19,44 @@ namespace UnitTests.Subtext.Framework.Data
     public class DataHelperTests
     {
         [Test]
+        public void ReadFeedbackItem_ReadsParentEntrySyndicated_AsUTC()
+        {
+            // arrange
+            var reader = new Mock<IDataReader>();
+            DateTime dateSyndicated = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
+            reader.SetupGet(r => r["Id"]).Returns(1);
+            reader.SetupGet(r => r["Title"]).Returns("Test");
+            reader.SetupGet(r => r["Body"]).Returns("Foo");
+            reader.SetupGet(r => r["EntryId"]).Returns(99);
+            reader.SetupGet(r => r["Author"]).Returns("Author");
+            reader.SetupGet(r => r["IsBlogAuthor"]).Returns(false);
+            reader.SetupGet(r => r["Email"]).Returns("Foo");
+            reader.SetupGet(r => r["Url"]).Returns("http://subtextproject.com/");
+            reader.SetupGet(r => r["FeedbackType"]).Returns(1);
+            reader.SetupGet(r => r["StatusFlag"]).Returns(1);
+            reader.SetupGet(r => r["CommentAPI"]).Returns(false);
+            reader.SetupGet(r => r["Referrer"]).Returns("Foo");
+            reader.SetupGet(r => r["IpAddress"]).Returns("127.0.0.1");
+            reader.SetupGet(r => r["UserAgent"]).Returns("Foo");
+            reader.SetupGet(r => r["FeedbackChecksumHash"]).Returns("Foo");
+            reader.SetupGet(r => r["DateCreatedUtc"]).Returns(dateSyndicated.AddDays(-2));
+            reader.SetupGet(r => r["DateModifiedUtc"]).Returns(dateSyndicated.AddHours(-1));
+            reader.SetupGet(r => r["ParentEntryName"]).Returns("FooBarParent");
+            reader.SetupGet(r => r["ParentEntryCreateDateUtc"]).Returns(dateSyndicated.AddDays(-5));
+            reader.SetupGet(r => r["ParentEntryDatePublishedUtc"]).Returns(dateSyndicated.AddDays(-4));
+
+            // act
+            var feedback = reader.Object.ReadFeedbackItem();
+
+            // assert
+            Assert.AreEqual(dateSyndicated.AddDays(-4), feedback.ParentDatePublishedUtc);
+            Assert.AreEqual(DateTimeKind.Utc, feedback.DateCreatedUtc.Kind);
+            Assert.AreEqual(DateTimeKind.Utc, feedback.DateModifiedUtc.Kind);
+            Assert.AreEqual(DateTimeKind.Utc, feedback.ParentDateCreatedUtc.Kind);
+            Assert.AreEqual(DateTimeKind.Utc, feedback.ParentDatePublishedUtc.Kind);
+        }
+
+        [Test]
         public void ReadValue_WithValueMatchingType_ReturnsValueAsType()
         {
             //arrange
@@ -68,7 +106,7 @@ namespace UnitTests.Subtext.Framework.Data
             reader.SetupGet(r => r["column"]).Returns(null);
 
             //act
-            var result = reader.Object.ReadValue("column", value => {throw new FormatException();}, 8675309);
+            var result = reader.Object.ReadValue("column", value => { throw new FormatException(); }, 8675309);
 
             //assert
             Assert.AreEqual(8675309, result);
@@ -94,7 +132,7 @@ namespace UnitTests.Subtext.Framework.Data
             //arrange
             var reader = new Mock<IDataReader>();
             reader.Setup(r => r.Read()).Returns(new Queue<bool>(new[] { true, true, false }).Dequeue);
-            reader.SetupGet(r => r["column"]).Returns(new Queue<object>(new object[] {123, 456}).Dequeue);
+            reader.SetupGet(r => r["column"]).Returns(new Queue<object>(new object[] { 123, 456 }).Dequeue);
 
             //act
             var result = reader.Object.ReadEnumerable(r => r.ReadValue<Int32>("column")).ToList();
@@ -204,11 +242,10 @@ namespace UnitTests.Subtext.Framework.Data
         }
 
         [Test]
-        public void
-            IDataReader_WithDateTimeColumnHavingSameNameAsDateTimeProperty_PopulatesObjectWithPropertySetCorrectly()
+        public void IDataReader_WithDateTimeColumnHavingSameNameAsDateTimeProperty_PopulatesObjectWithPropertySetCorrectly()
         {
             //arrange
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
             var reader = new Mock<IDataReader>();
             reader.Setup(r => r.Read()).Returns(true).AtMostOnce();
             reader.SetupGet(r => r["DateProperty"]).Returns(now);
@@ -238,8 +275,7 @@ namespace UnitTests.Subtext.Framework.Data
         }
 
         [Test]
-        public void
-            IDataReader_WithNullableIntColumnHavingSameNameAsProperty_PopulatesObjectWithNullablePropertySetCorrectly()
+        public void IDataReader_WithNullableIntColumnHavingSameNameAsProperty_PopulatesObjectWithNullablePropertySetCorrectly()
         {
             //arrange
             var reader = new Mock<IDataReader>();
@@ -260,25 +296,29 @@ namespace UnitTests.Subtext.Framework.Data
         [Test]
         public void LoadArchiveCountParsesDateCorrectly()
         {
+            // Arrange
             var reader = new TestDataReader();
             reader.AddRecord(1, 2, 2005, 23);
             reader.AddRecord(1, 23, 2005, 23);
 
+            // Act
             ICollection<ArchiveCount> archive = DataHelper.ReadArchiveCount(reader);
+
+            // Assert
             Assert.AreEqual(2, archive.Count, "Should only have two records.");
 
             ArchiveCount first = null;
             ArchiveCount second = null;
 
-            foreach(ArchiveCount count in archive)
+            foreach (ArchiveCount count in archive)
             {
-                if(first == null)
+                if (first == null)
                 {
                     first = count;
                     continue;
                 }
 
-                if(second == null)
+                if (second == null)
                 {
                     second = count;
                     continue;
@@ -291,7 +331,7 @@ namespace UnitTests.Subtext.Framework.Data
                             "Something happened to the date parsing.");
         }
 
-        #region Teast class that implements IDataReader
+        #region Test class that implements IDataReader
 
         #region Nested type: DataReaderRecord
 
@@ -486,13 +526,13 @@ namespace UnitTests.Subtext.Framework.Data
             {
                 get
                 {
-                    if(_records.Count == 0)
+                    if (_records.Count == 0)
                     {
                         throw new InvalidOperationException("No records in this reader.");
                     }
 
                     var record = (DataReaderRecord)_records[_currentIndex];
-                    switch(name)
+                    switch (name)
                     {
                         case "Month":
                             return record.Month;

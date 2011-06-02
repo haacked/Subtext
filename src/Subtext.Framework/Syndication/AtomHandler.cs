@@ -76,7 +76,7 @@ namespace Subtext.Framework.Syndication
             ICache cache = SubtextContext.Cache;
             if(cache != null)
             {
-                cache.InsertDuration(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublished), feed,
+                cache.InsertDuration(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublishedUtc), feed,
                                      Cacher.MediumDuration, null);
             }
         }

@@ -5,6 +5,7 @@ using MbUnit.Framework;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -143,10 +144,10 @@ namespace UnitTests.Subtext.Framework
         {
             // arrange
             UnitTestHelper.SetupBlog();
-            
+
             // act
-            IPagedCollection<Blog> blogs = Blog.GetBlogs(0, int.MaxValue, ConfigurationFlags.None);
-            
+            IPagedCollection<Blog> blogs = new DatabaseObjectProvider().GetBlogs(0, int.MaxValue, ConfigurationFlags.None);
+
             // assert
             Assert.GreaterEqualThan(blogs.Count, 1);
             var blog = blogs.First(b => b.Id == Config.CurrentBlog.Id);
@@ -221,7 +222,7 @@ namespace UnitTests.Subtext.Framework
         public void GetBlogsByHostThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() =>
-                                                               Blog.GetBlogsByHost(null, 0, 10,
+                                                               new DatabaseObjectProvider().GetBlogsByHost(null, 0, 10,
                                                                                    ConfigurationFlags.IsActive));
         }
 

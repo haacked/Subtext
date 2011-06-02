@@ -22,7 +22,6 @@ using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.Commands;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Properties;
@@ -165,7 +164,7 @@ namespace Subtext.Web.Admin.UserControls
             if (entry.IsActive)
             {
                 active = "True";
-                if (entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
+                if (entry.DatePublishedUtc > DateTime.UtcNow)
                 {
                     active += "<em> on " + entry.DateSyndicated.ToShortDateString() + "</em>";
                 }

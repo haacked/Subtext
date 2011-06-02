@@ -16,7 +16,6 @@
 #endregion
 
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
@@ -45,12 +44,12 @@ namespace Subtext.Framework.Data
                                                                              IEnumerable<LinkCategory> links,
                                                                              BlogUrlHelper urlHelper, Blog blog)
         {
-            if(!links.IsNullOrEmpty())
+            if (!links.IsNullOrEmpty())
             {
-                var mergedLinkCategory = new LinkCategory {Title = title};
+                var mergedLinkCategory = new LinkCategory { Title = title };
 
                 var merged = from linkCategory in links
-                            select GetLinkFromLinkCategory(linkCategory, catType, urlHelper, blog);
+                             select GetLinkFromLinkCategory(linkCategory, catType, urlHelper, blog);
                 mergedLinkCategory.Links.AddRange(merged);
                 return mergedLinkCategory;
             }
@@ -60,9 +59,9 @@ namespace Subtext.Framework.Data
 
         private static Link GetLinkFromLinkCategory(LinkCategory linkCategory, CategoryType catType, BlogUrlHelper urlHelper, Blog blog)
         {
-            var link = new Link {Title = linkCategory.Title};
+            var link = new Link { Title = linkCategory.Title };
 
-            switch(catType)
+            switch (catType)
             {
                 case CategoryType.StoryCollection:
                     link.Url = urlHelper.CategoryUrl(linkCategory).ToFullyQualifiedUrl(blog).ToString();
@@ -81,60 +80,6 @@ namespace Subtext.Framework.Data
             return link;
         }
 
-        /// <summary>
-        /// Will convert ArchiveCountCollection method from Archives.GetPostsByMonthArchive()
-        /// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
-        /// </summary>
-        public static LinkCategory BuildMonthLinks(string title, BlogUrlHelper urlHelper, Blog blog)
-        {
-            ICollection<ArchiveCount> archiveCounts = ObjectProvider.Instance().GetPostCountsByMonth();
-            return MergeArchiveCountsIntoLinkCategory(title, archiveCounts, urlHelper, blog);
-        }
 
-        public static LinkCategory MergeArchiveCountsIntoLinkCategory(string title,
-                                                                      IEnumerable<ArchiveCount> archiveCounts,
-                                                                      BlogUrlHelper urlHelper, Blog blog)
-        {
-            var linkCategory = new LinkCategory {Title = title};
-            foreach(ArchiveCount archiveCount in archiveCounts)
-            {
-                var link = new Link
-                {
-                    NewWindow = false,
-                    IsActive = true,
-                    Title = archiveCount.Date.ToString("y") + " (" +
-                            archiveCount.Count.ToString(CultureInfo.InvariantCulture) + ")",
-                    Url = urlHelper.MonthUrl(archiveCount.Date)
-                };
-
-                linkCategory.Links.Add(link);
-            }
-            return linkCategory;
-        }
-
-        /// <summary>
-        /// Will convert ArchiveCountCollection method from Archives.GetPostsByCategoryArchive()
-        /// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
-        /// </summary>
-        public static LinkCategory BuildCategoriesArchiveLinks(string title, BlogUrlHelper urlHelper)
-        {
-            ICollection<ArchiveCount> acc = Archives.GetPostCountByCategory();
-
-            var category = new LinkCategory {Title = title};
-            foreach(ArchiveCount ac in acc)
-            {
-                var link = new Link
-                {
-                    IsActive = true,
-                    NewWindow = false,
-                    Title = string.Format("{0} ({1})", ac.Title, ac.Count.ToString(CultureInfo.InvariantCulture)),
-                    Url = urlHelper.CategoryUrl(new Category {Id = ac.Id, Title = ac.Title})
-                };
-                //Ugh, I hate how categories work in Subtext. So intertwined with links.
-
-                category.Links.Add(link);
-            }
-            return category;
-        }
     }
 }

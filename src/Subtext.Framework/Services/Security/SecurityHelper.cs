@@ -70,7 +70,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                if(HttpContext.Current.Request.IsAuthenticated)
+                if (HttpContext.Current.Request.IsAuthenticated)
                 {
                     try
                     {
@@ -111,7 +111,7 @@ namespace Subtext.Framework.Security
         public static bool Authenticate(this HttpContextBase httpContext, Blog blog, string username, string password,
                                         bool persist)
         {
-            if(!IsValidUser(blog, username, password))
+            if (!IsValidUser(blog, username, password))
             {
                 return false;
             }
@@ -131,19 +131,19 @@ namespace Subtext.Framework.Security
         public static bool Authenticate(string claimedIdentifier, bool persist)
         {
             Blog currentBlog = Config.CurrentBlog;
-            if(currentBlog == null)
+            if (currentBlog == null)
             {
                 return false;
             }
 
             //If the current blog doesn't have a valid OpenID URI, must fail
-            if(!Uri.IsWellFormedUriString(currentBlog.OpenIdUrl, UriKind.Absolute))
+            if (!Uri.IsWellFormedUriString(currentBlog.OpenIdUrl, UriKind.Absolute))
             {
                 return false;
             }
 
             //If the cliamed identifier isn't a valid OpenID URI, must fail
-            if(!Uri.IsWellFormedUriString(claimedIdentifier, UriKind.Absolute))
+            if (!Uri.IsWellFormedUriString(claimedIdentifier, UriKind.Absolute))
             {
                 return false;
             }
@@ -151,14 +151,14 @@ namespace Subtext.Framework.Security
             var currentBlogClaimUri = new Uri(currentBlog.OpenIdUrl);
             var claimedUri = new Uri(claimedIdentifier);
 
-            if(claimedUri.Host != currentBlogClaimUri.Host ||
+            if (claimedUri.Host != currentBlogClaimUri.Host ||
                claimedUri.AbsolutePath != currentBlogClaimUri.AbsolutePath ||
                claimedUri.Query != currentBlogClaimUri.Query)
             {
                 return false;
             }
 
-            if(Log.IsDebugEnabled)
+            if (Log.IsDebugEnabled)
             {
                 Log.Debug("SetAuthenticationTicket-Admins via OpenID for " + currentBlog.UserName);
             }
@@ -176,22 +176,22 @@ namespace Subtext.Framework.Security
         /// <returns></returns>
         public static bool AuthenticateHostAdmin(string username, string password, bool persist)
         {
-            if(!String.Equals(username, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
+            if (!String.Equals(username, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
 
-            if(Config.Settings.UseHashedPasswords)
+            if (Config.Settings.UseHashedPasswords)
             {
                 password = HashPassword(password, HostInfo.Instance.Salt);
             }
 
-            if(!String.Equals(HostInfo.Instance.Password, password, StringComparison.InvariantCultureIgnoreCase))
+            if (!String.Equals(HostInfo.Instance.Password, password, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
 
-            if(Log.IsDebugEnabled)
+            if (Log.IsDebugEnabled)
             {
                 Log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
             }
@@ -207,7 +207,7 @@ namespace Subtext.Framework.Security
         /// <returns>a correctly named cookie with Expires date set 30 years ago</returns>
         public static HttpCookie GetExpiredCookie(this HttpRequestBase request, Blog blog)
         {
-            var expiredCookie = new HttpCookie(request.GetFullCookieName(blog)) {Expires = DateTime.Now.AddYears(-30)};
+            var expiredCookie = new HttpCookie(request.GetFullCookieName(blog)) { Expires = DateTime.UtcNow.AddYears(-30) };
             return expiredCookie;
         }
 
@@ -221,11 +221,11 @@ namespace Subtext.Framework.Security
             HttpCookie c;
             int count = request.Cookies.Count;
 
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 c = request.Cookies[i];
 
-                if(c.Name == request.GetFullCookieName(blog))
+                if (c.Name == request.GetFullCookieName(blog))
                 {
                     authCookie = c;
                     break;
@@ -252,13 +252,13 @@ namespace Subtext.Framework.Security
             //See if we need to authenticate the HostAdmin
             string path = request.Path;
             string returnUrl = request.QueryString["ReturnURL"];
-            if(forceHostAdmin
+            if (forceHostAdmin
                || (path + returnUrl).Contains("HostAdmin", StringComparison.OrdinalIgnoreCase))
             {
                 name.Append("HA.");
             }
 
-            if(!forceHostAdmin && blog != null)
+            if (!forceHostAdmin && blog != null)
             {
                 name.Append(blog.Id.ToString(CultureInfo.InvariantCulture));
             }
@@ -266,7 +266,7 @@ namespace Subtext.Framework.Security
             {
                 name.Append("null");
             }
-            if(Log.IsDebugEnabled)
+            if (Log.IsDebugEnabled)
             {
                 Log.Debug("GetFullCookieName selected cookie named " + name);
             }
@@ -367,7 +367,7 @@ namespace Subtext.Framework.Security
         /// </summary>
         public static bool IsValidUser(Blog blog, string username, string password)
         {
-            if(String.Equals(username, blog.UserName, StringComparison.OrdinalIgnoreCase))
+            if (String.Equals(username, blog.UserName, StringComparison.OrdinalIgnoreCase))
             {
                 return IsValidPassword(blog, password);
             }
@@ -384,13 +384,13 @@ namespace Subtext.Framework.Security
         /// </summary>
         public static bool IsValidPassword(Blog blog, string password)
         {
-            if(blog.IsPasswordHashed)
+            if (blog.IsPasswordHashed)
             {
                 password = HashPassword(password);
             }
             string storedPassword = blog.Password;
 
-            if(storedPassword.IndexOf('-') > 0)
+            if (storedPassword.IndexOf('-') > 0)
             {
                 // NOTE: This is necessary because I want to change how 
                 // we store the password.  Maybe changing the password 
@@ -399,7 +399,7 @@ namespace Subtext.Framework.Security
                 // string.  Converting to a Base64 hash.
                 string[] hashBytesStrings = storedPassword.Split('-');
                 var hashedBytes = new byte[hashBytesStrings.Length];
-                for(int i = 0; i < hashBytesStrings.Length; i++)
+                for (int i = 0; i < hashBytesStrings.Length; i++)
                 {
                     hashedBytes[i] = byte.Parse(hashBytesStrings[i].ToString(CultureInfo.InvariantCulture),
                                                 NumberStyles.HexNumber, CultureInfo.InvariantCulture);
@@ -462,7 +462,7 @@ namespace Subtext.Framework.Security
 
         public static bool IsAdministrator(this IPrincipal user)
         {
-            if(user == null)
+            if (user == null)
             {
                 return false;
             }
@@ -478,7 +478,7 @@ namespace Subtext.Framework.Security
         /// <returns></returns>
         public static bool IsInRole(string role)
         {
-            if(HttpContext.Current.User == null)
+            if (HttpContext.Current.User == null)
             {
                 return false;
             }

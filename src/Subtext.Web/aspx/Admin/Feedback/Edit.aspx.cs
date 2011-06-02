@@ -31,7 +31,7 @@ namespace Subtext.Web.Admin.Feedback
                 if (FeedbackId > -1 && ReturnToOriginalPost)
                 {
                     // We came from outside the post, let's go there.
-                    FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackId);
+                    FeedbackItem updatedFeedback = Repository.Get(FeedbackId);
                     if (updatedFeedback != null)
                     {
                         return Url.FeedbackUrl(updatedFeedback);
@@ -81,7 +81,7 @@ namespace Subtext.Web.Admin.Feedback
 
         private void BindFeedbackEdit()
         {
-            FeedbackItem currentFeedback = FeedbackItem.Get(FeedbackId);
+            FeedbackItem currentFeedback = Repository.Get(FeedbackId);
             if (currentFeedback == null)
             {
                 Response.Redirect("./");
@@ -124,14 +124,14 @@ namespace Subtext.Web.Admin.Feedback
 
             if (Page.IsValid)
             {
-                FeedbackItem updatedFeedback = FeedbackItem.Get(FeedbackId);
+                FeedbackItem updatedFeedback = Repository.Get(FeedbackId);
                 updatedFeedback.Title = txbTitle.Text;
                 updatedFeedback.Body = richTextEditor.Text;
                 if (feedbackWebsite != null)
                 {
                     updatedFeedback.SourceUrl = feedbackWebsite;
                 }
-                FeedbackItem.Update(updatedFeedback);
+                Repository.Update(updatedFeedback);
                 Cacher.InvalidateFeedback(updatedFeedback.Entry, SubtextContext);
                 if (ReturnToOriginalPost)
                 {

@@ -8,7 +8,6 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
@@ -64,7 +63,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entryPublisher.Setup(publisher => publisher.Publish(It.IsAny<Entry>())).Callback<Entry>(e => publishedEntry = e);
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
             subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
 
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
@@ -129,19 +128,17 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var entryPublisher = new Mock<IEntryPublisher>();
             entryPublisher.Setup(publisher => publisher.Publish(It.IsAny<Entry>())).Returns(42).Callback<Entry>(
                 entry => publishedEntry = entry);
-            DateTime now = DateTime.Now;
-            DateTime utcNow = now.ToUniversalTime();
+            DateTime now = DateTime.UtcNow;
 
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
             var post = new Post();
             post.categories = null;
             post.description = "A unit test";
             post.title = "A unit testing title";
-            post.dateCreated = utcNow.AddDays(1);
+            post.dateCreated = now.AddDays(1);
 
             // act
-            string result = api.newPost(blog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post,
-                                        true);
+            string result = api.newPost(blog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
 
             // assert
             Assert.IsNotNull(publishedEntry);
@@ -162,7 +159,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
                 enclosure => publishedEnclosure = enclosure);
             var entryPublisher = new Mock<IEntryPublisher>();
             entryPublisher.Setup(publisher => publisher.Publish(It.IsAny<Entry>())).Returns(42);
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
             DateTime utcNow = now.ToUniversalTime();
 
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
@@ -201,7 +198,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var entryPublisher = new Mock<IEntryPublisher>();
             entryPublisher.Setup(publisher => publisher.Publish(It.IsAny<Entry>())).Returns(42).Callback<Entry>(
                 entry => publishedEntry = entry);
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
             DateTime utcNow = now.ToUniversalTime();
 
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
@@ -221,11 +218,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         }
 
         [Test]
-        public void editPost_WithEntryHavingEnclosure_UpdatesEntryEnclosureWithNewEncoluser()
+        public void editPost_WithEntryHavingEnclosure_UpdatesEntryEnclosureWithNewEnclosure()
         {
             //arrange
             var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true };
-            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc = entry.DatePublishedUtc = entry.DateModifiedUtc = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.Categories.Add("TestCategory");
             var blog = new Blog { Id = 123, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
             var subtextContext = new Mock<ISubtextContext>();
@@ -264,7 +261,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             FrameworkEnclosure enclosure = UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
                                               "http://example.com/foo.mp3", "audio/mp3", 123, 26707573, true, true);
             var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true, Enclosure = enclosure };
-            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc = entry.DatePublishedUtc = entry.DateModifiedUtc = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.Categories.Add("TestCategory");
             var blog = new Blog { Id = 123, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
             var subtextContext = new Mock<ISubtextContext>();
@@ -302,7 +299,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
                                               "http://example.com/foo.mp3", "audio/mp3", 123, 2650, true, true);
             enclosure.Id = 321;
             var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true, Enclosure = enclosure };
-            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc = entry.DatePublishedUtc = entry.DateModifiedUtc = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var subtextContext = new Mock<ISubtextContext>();
             var blog = new Blog { Id = 999, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
             subtextContext.Setup(c => c.Blog).Returns(blog);
@@ -329,7 +326,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             // arrange
             var entry = new Entry(PostType.BlogPost) { Id = 12345, Title = "Title 1", Body = "Blah", IsActive = true };
             entry.Categories.Add("Category1");
-            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc = entry.DatePublishedUtc = entry.DateModifiedUtc = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var subtextContext = new Mock<ISubtextContext>();
             var blog = new Blog { Id = 999, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
             subtextContext.Setup(c => c.Blog).Returns(blog);
@@ -354,7 +351,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         {
             //arrange
             var entry = new Entry(PostType.BlogPost) { Title = "Title 1", Body = "Blah", IsActive = true };
-            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc = entry.DatePublishedUtc = entry.DateModifiedUtc = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             entry.Categories.Add("TestCategory");
             var blog = new Blog { Id = 123, Host = "localhost", AllowServiceAccess = true, UserName = "username", Password = "password" };
             var subtextContext = new Mock<ISubtextContext>();
@@ -378,9 +375,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         public void GetRecentPosts_ReturnsRecentPosts()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            Blog blog = Config.GetBlog(hostname, "");
+            Blog blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, "");
             BlogRequest.Current.Blog = blog;
             blog.AllowServiceAccess = true;
 
@@ -389,7 +386,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
             subtextContext.SetupBlog(blog);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
             subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
@@ -408,9 +405,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah";
             entry.IsActive = true;
             entry.IncludeInMainSyndication = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             entry.Categories.Add(category1Name);
             UnitTestHelper.Create(entry);
 
@@ -419,9 +416,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Title = "Title 2";
             entry.Body = "Blah1";
             entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             entry.Categories.Add(category1Name);
             entry.Categories.Add(category2Name);
             UnitTestHelper.Create(entry);
@@ -431,9 +428,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IncludeInMainSyndication = true;
             entry.Body = "Blah2";
             entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.BlogPost);
@@ -441,9 +438,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IncludeInMainSyndication = true;
             entry.Body = "Blah3";
             entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             entry.Categories.Add(category2Name);
             int entryId = UnitTestHelper.Create(entry);
 
@@ -478,9 +475,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         {
             //arrange
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<BlogUrlHelper>();
@@ -488,7 +485,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
             subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
@@ -506,9 +503,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah";
             entry.IsActive = true;
             entry.IncludeInMainSyndication = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.Story);
@@ -516,9 +513,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Title = "Title 2";
             entry.Body = "Blah1";
             entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.Story);
@@ -528,9 +525,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IncludeInMainSyndication = true;
             entry.Body = "Blah2";
             entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             UnitTestHelper.Create(entry);
 
             entry = new Entry(PostType.Story);
@@ -538,9 +535,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.IncludeInMainSyndication = true;
             entry.Body = "Blah3";
             entry.IsActive = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             entry.Categories.Add(category2Name);
             int entryId = UnitTestHelper.Create(entry);
 
@@ -573,9 +570,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         {
             //arrange
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<BlogUrlHelper>();
@@ -583,7 +580,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
             subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
@@ -598,9 +595,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah";
             entry.IsActive = true;
             entry.IncludeInMainSyndication = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             entry.Categories.Add(category1Name);
             int entryId = UnitTestHelper.Create(entry);
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
@@ -631,9 +628,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         {
             //arrange
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "");
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, "");
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<BlogUrlHelper>();
@@ -641,7 +638,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
             subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
@@ -656,9 +653,9 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah";
             entry.IsActive = true;
             entry.IncludeInMainSyndication = true;
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             entry.Categories.Add(category1Name);
             int entryId = UnitTestHelper.Create(entry);
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";

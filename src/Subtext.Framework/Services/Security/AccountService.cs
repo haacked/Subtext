@@ -32,13 +32,13 @@ namespace Subtext.Framework.Services.Account
         {
             var request = context.HttpContext.Request;
             var response = context.HttpContext.Response;
-            var authCookie = new HttpCookie(request.GetFullCookieName(context.Blog)) { Expires = DateTime.Now.AddYears(-30) };
+            var authCookie = new HttpCookie(request.GetFullCookieName(context.Blog)) { Expires = DateTime.UtcNow.AddYears(-30) };
             response.Cookies.Add(authCookie);
 
-            if(Log.IsDebugEnabled)
+            if (Log.IsDebugEnabled)
             {
                 string username = context.HttpContext.User.Identity.Name;
-                if(Log.IsDebugEnabled)
+                if (Log.IsDebugEnabled)
                 {
                     Log.Debug("Logging out " + username);
                     Log.Debug("the code MUST call a redirect after this");

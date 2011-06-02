@@ -93,8 +93,9 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
         /// </summary>
         [Test]
         [RollBack2]
-        public void CommentRssWriterProducesValidFeed()
+        public void Xml_WithOneCommentNeedingModeration_ProducesValidRSSFeedWithTheOneComment()
         {
+            // Arrange
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
 
             var blogInfo = new Blog();
@@ -115,18 +116,18 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post",
                                                                            "Body of the post.");
             entry.EntryName = "titleofthepost";
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("2006/02/01 08:00", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             entry.Id = 1001;
 
             var comment = new FeedbackItem(FeedbackType.Comment);
             comment.Id = 1002;
-            comment.DateCreated =
-                comment.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            comment.DateCreatedUtc =
+                comment.DateModifiedUtc = DateTime.ParseExact("2006/02/02 07:00", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             comment.Title = "re: titleofthepost";
             comment.ParentEntryName = entry.EntryName;
-            comment.ParentDateCreated = entry.DateCreated;
+            comment.ParentDateCreatedUtc = entry.DateCreatedUtc;
             comment.Body = "<strong>I rule!</strong>";
             comment.Author = "Jane Schmane";
             comment.Email = "jane@example.com";
@@ -187,30 +188,35 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
                               + indent(3) +
                               @"<guid>http://localhost/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#1002</guid>" +
                               Environment.NewLine
-                              + indent(3) + @"<pubDate>Wed, 01 Feb 2006 08:00:00 GMT</pubDate>" + Environment.NewLine
+                              + indent(3) + @"<pubDate>Thu, 02 Feb 2006 07:00:00 GMT</pubDate>" + Environment.NewLine
                               + indent(2) + @"</item>" + Environment.NewLine
                               + indent() + @"</channel>" + Environment.NewLine
                               + @"</rss>";
 
             expected = string.Format(expected, VersionInfo.VersionDisplayText);
 
-            Assert.AreEqual(expected, writer.Xml);
+            // Act
+            string rss = writer.Xml;
+
+            // Assert
+            UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, rss);
+            //Assert.AreEqual(expected, writer.Xml);
         }
 
         [Test]
         public void Ctor_WithNullEntryCollection_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => 
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
                 new CommentRssWriter(new StringWriter(), null, new Entry(PostType.BlogPost),
                                  new Mock<ISubtextContext>().Object)
                 );
-            
+
         }
 
         [Test]
         public void Ctor_WithNullEntry_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => 
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
                 new CommentRssWriter(new StringWriter(), new List<FeedbackItem>(), null, new Mock<ISubtextContext>().Object)
             );
         }

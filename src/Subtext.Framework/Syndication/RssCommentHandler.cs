@@ -36,7 +36,8 @@ namespace Subtext.Framework.Syndication
         protected ICollection<FeedbackItem> Comments;
         protected Entry ParentEntry;
 
-        public RssCommentHandler(ISubtextContext subtextContext) : base(subtextContext)
+        public RssCommentHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
@@ -59,18 +60,18 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         protected override ICollection<FeedbackItem> GetFeedEntries()
         {
-            if(ParentEntry == null)
+            if (ParentEntry == null)
             {
                 ParentEntry = Cacher.GetEntryFromRequest(false, SubtextContext);
             }
 
-            if(ParentEntry == null)
+            if (ParentEntry == null)
             {
                 // bad news... we couldn't find the entry the request is looking for - return 404.
                 HttpHelper.SetFileNotFoundResponse();
             }
 
-            if(ParentEntry != null && Comments == null)
+            if (ParentEntry != null && Comments == null)
             {
                 Comments = Cacher.GetFeedback(ParentEntry, SubtextContext);
             }
@@ -93,7 +94,7 @@ namespace Subtext.Framework.Syndication
 
             var feed = new CachedFeed();
             CommentRssWriter crw = GetCommentWriter(_comments, ParentEntry);
-            feed.LastModified = _comments.Count > 0 ? ConvertLastUpdatedDate(_comments.Last().DateCreated) : ParentEntry.DateCreated;
+            feed.LastModifiedUtc = _comments.Count > 0 ? _comments.Last().DateCreatedUtc : ParentEntry.DateCreatedUtc;
             feed.Xml = crw.Xml;
             return feed;
         }
@@ -101,15 +102,15 @@ namespace Subtext.Framework.Syndication
         protected override bool IsLocalCacheOk()
         {
             string dt = LastModifiedHeader;
-            if(dt != null)
+            if (dt != null)
             {
                 _comments = GetFeedEntries();
 
-                if(_comments != null && _comments.Count > 0)
+                if (_comments != null && _comments.Count > 0)
                 {
                     return
-                        DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture),
-                                         ConvertLastUpdatedDate(_comments.Last().DateCreated)) == 0;
+                        DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime(),
+                                         _comments.Last().DateCreatedUtc) == 0;
                 }
             }
             return false;
@@ -120,9 +121,9 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns></returns>
-        protected override DateTime GetItemCreatedDate(FeedbackItem item)
+        protected override DateTime GetItemCreatedDateUtc(FeedbackItem item)
         {
-            return item.DateCreated;
+            return item.DateCreatedUtc;
         }
     }
 }

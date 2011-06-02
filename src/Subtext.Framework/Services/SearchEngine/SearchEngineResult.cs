@@ -29,8 +29,6 @@ namespace Subtext.Framework.Services.SearchEngine
         public string BlogName { get; set; }
         public float Score { get; set; }
 
-        #region IEntryIdentity Members
-
         public string EntryName { get; set; }
 
         public DateTime DateSyndicated
@@ -38,20 +36,16 @@ namespace Subtext.Framework.Services.SearchEngine
             get { return PublishDate; }
         }
 
+        public DateTime DatePublishedUtc { get; set; }
+
         public PostType PostType
         {
             get { return PostType.BlogPost; }
         }
 
-        #endregion
-
-        #region IIdentifiable Members
-
         public int Id
         {
             get { return EntryId; }
         }
-
-        #endregion
     }
 }

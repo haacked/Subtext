@@ -192,8 +192,7 @@ namespace Subtext.Web.Admin.Pages
             try
             {
                 var entry = new Trackback(EntryId, txbTitle.Text, txbUrl.Text.EnsureUrl(), string.Empty,
-                                          txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text,
-                                          Config.CurrentBlog.TimeZone.Now);
+                                          txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text);
                 var commentService = new CommentService(SubtextContext, null);
 
                 if (commentService.Create(entry, true/*runFilters*/) > 0)

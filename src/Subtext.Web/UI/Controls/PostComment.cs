@@ -249,7 +249,7 @@ namespace Subtext.Web.UI.Controls
             {
                 user.Values["Email"] = tbEmail.Text;
             }
-            user.Expires = DateTime.Now.AddDays(30);
+            user.Expires = DateTime.UtcNow.AddDays(30);
             Response.Cookies.Add(user);
         }
 

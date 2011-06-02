@@ -17,12 +17,13 @@
 
 using System;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using Subtext.Scripting.Exceptions;
 using Subtext.Framework.Properties;
+using Subtext.Scripting.Exceptions;
 
 namespace Subtext.Scripting
 {
@@ -93,7 +94,8 @@ namespace Subtext.Scripting
         /// </summary>
         /// <param name="scriptStream">The stream containing the script to execute.</param>
         /// <param name="encoding">The encoding.</param>
-        public SqlScriptRunner(Stream scriptStream, Encoding encoding) : this(ReadStream(scriptStream, encoding))
+        public SqlScriptRunner(Stream scriptStream, Encoding encoding)
+            : this(ReadStream(scriptStream, encoding))
         {
         }
 
@@ -101,7 +103,8 @@ namespace Subtext.Scripting
         /// Initializes a new instance of the <see cref="SqlScriptRunner"/> class.
         /// </summary>
         /// <param name="scriptText">The full script text to execute.</param>
-        public SqlScriptRunner(string scriptText) : this(Script.ParseScripts(scriptText))
+        public SqlScriptRunner(string scriptText)
+            : this(Script.ParseScripts(scriptText))
         {
         }
 
@@ -122,8 +125,6 @@ namespace Subtext.Scripting
         {
             get { return _scripts; }
         }
-
-        #region IScript Members
 
         /// <summary>
         /// Executes the script.
@@ -147,40 +148,36 @@ namespace Subtext.Scripting
                                   RegexOptions.Multiline);
 
             _scripts.ApplyTemplatesToScripts();
-            foreach(Script script in _scripts)
+            foreach (Script script in _scripts)
             {
                 int returnValue = script.Execute(transaction);
 
                 Match match = regex.Match(script.ScriptText);
-                if(match.Success)
+                if (match.Success)
                 {
                     /* 
 					 * For UPDATE, INSERT, and DELETE statements, the return value is the 
 					 * number of rows affected by the command. For all other types of statements, 
 					 * the return value is -1. If a rollback occurs, the return value is also -1. 
 					 */
-                    if(!IsCrudScript(script))
+                    if (!IsCrudScript(script))
                     {
                         continue;
                     }
 
-                    if(returnValue > -1)
+                    if (returnValue > -1)
                     {
                         recordsAffectedTotal += returnValue;
                     }
                     else
                     {
-                        throw new SqlScriptExecutionException(Resources.SqlScriptExecutionError_ErrorOccurred, script,
-                                                              returnValue);
+                        Debugger.Break();
+                        throw new SqlScriptExecutionException(Resources.SqlScriptExecutionError_ErrorOccurred, script, returnValue);
                     }
                 }
             }
             return recordsAffectedTotal;
         }
-
-        #endregion
-
-        #region ITemplateScript Members
 
         /// <summary>
         /// Gets the template parameters embedded in the script.
@@ -190,8 +187,6 @@ namespace Subtext.Scripting
         {
             get { return _scripts.TemplateParameters; }
         }
-
-        #endregion
 
         private static bool IsCrudScript(Script script)
         {
@@ -213,7 +208,7 @@ namespace Subtext.Scripting
 
         static string ReadStream(Stream stream, Encoding encoding)
         {
-            using(var reader = new StreamReader(stream, encoding))
+            using (var reader = new StreamReader(stream, encoding))
             {
                 return reader.ReadToEnd();
             }

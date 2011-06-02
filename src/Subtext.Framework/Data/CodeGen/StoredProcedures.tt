@@ -62,7 +62,7 @@ foreach(StoredProcedure storedProcedure in database.StoredProcedures) {
 	var proc = new StoredProcedureInfo(storedProcedure);
 	
 	if(proc.IsSubtextProcedure) { #>
-		public <#= proc.ReturnType #> <#= proc.MethodName #>(<#= proc.Parameters.ToArgumentList() #>) {
+		public virtual <#= proc.ReturnType #> <#= proc.MethodName #>(<#= proc.Parameters.ToArgumentList() #>) {
 <#		if(proc.Parameters.Count > 0) {
 
 			for(int i = 0; i < proc.OutputParameters.Count; i++) {

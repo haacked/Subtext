@@ -19,7 +19,6 @@
         <property name="test.assembly.dll" value="UnitTests.Subtext.dll" />
         <!-- END Properties to customize -->
 
-
         <!-- System .NET folders and paths -->
         <property name="dotnetfx" value="C:\WINDOWS\Microsoft.NET\Framework" />
         <property name="aspnet_compiler.exe" value="${dotnetfx}\v4.0.30319\aspnet_compiler.exe" />
@@ -132,7 +131,8 @@
         <mkdir dir="${log.dir}" />
 
         <mkdir dir="${log.dir}" />
-        <gallio result-property="ExitCode"
+        <gallio working-directory="${test.assembly.dir}"
+            result-property="ExitCode"
             failonerror="true"
             report-types="html;xml;text"
             report-directory="src\${log.dir}"
@@ -161,12 +161,8 @@
                 projectName="Subtext"/>
 
         <echo message="##teamcity[dotNetCoverage ncover3_home='${ncover.dir}']" />
-
         <echo message="##teamcity[dotNetCoverage ncover3_reporter_args='//or FullCoverageReport:Html:{teamcity.report.path}']" />
-
         <echo message="##teamcity[importData type='dotNetCoverage' tool='ncover3' path='${log.dir}\coverage.nccov']" />
-
-
     </target>
 
     <target name="reporting" depends="compile-release">

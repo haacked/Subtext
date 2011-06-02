@@ -80,5 +80,10 @@ namespace Subtext.Infrastructure
         /// <param name="sourceTimeZone"></param>
         /// <returns></returns>
         bool IsInFuture(DateTime dateTime, TimeZoneInfo sourceTimeZone);
+
+        /// <summary>
+        /// TimeZone Offset from UTC
+        /// </summary>
+        int Offset { get; }
     }
 }

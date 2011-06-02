@@ -62,7 +62,7 @@ namespace Subtext.Framework.Syndication.Admin
 
         protected override ICollection<string> GetCategoriesFromItem(LogEntry item)
         {
-            IList<string> collection = new List<string> {item.Level};
+            IList<string> collection = new List<string> { item.Level };
 
             string path = item.Url.PathAndQuery.Split('?')[0];
             collection.Add(path);

@@ -15,6 +15,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using Subtext.Framework.Components;
@@ -46,9 +47,9 @@ namespace Subtext.Framework.Providers
         {
             ICollection<SearchResult> results = new List<SearchResult>();
 
-            using(IDataReader reader = _procedures.SearchEntries(blogId, searchTerm, _blog.TimeZone.Now))
+            using (IDataReader reader = _procedures.SearchEntries(blogId, searchTerm, DateTime.UtcNow))
             {
-                while(reader.Read())
+                while (reader.Read())
                 {
                     Entry foundEntry = reader.ReadEntry(true);
                     results.Add(new SearchResult(foundEntry.Title, _urlHelper.EntryUrl(foundEntry).ToUri()));

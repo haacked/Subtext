@@ -91,7 +91,7 @@ namespace Subtext.Web.UI.ViewModels
         {
             get
             {
-                return Feedback.DateCreated;
+                return Feedback.DateCreatedUtc;
             }
 
         }
@@ -100,7 +100,7 @@ namespace Subtext.Web.UI.ViewModels
         {
             get
             {
-                return Feedback.DateModified;
+                return Feedback.DateModifiedUtc;
             }
 
         }

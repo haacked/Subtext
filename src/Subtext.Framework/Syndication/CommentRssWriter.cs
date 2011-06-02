@@ -36,14 +36,15 @@ namespace Subtext.Framework.Syndication
         /// Creates a new <see cref="CommentRssWriter"/> instance.
         /// </summary>
         public CommentRssWriter(TextWriter writer, ICollection<FeedbackItem> commentEntries, Entry entry,
-                                ISubtextContext context) : base(writer, NullValue.NullDateTime, false, context)
+                                ISubtextContext context)
+            : base(writer, NullValue.NullDateTime, false, context)
         {
-            if(commentEntries == null)
+            if (commentEntries == null)
             {
                 throw new ArgumentNullException("commentEntries");
             }
 
-            if(entry == null)
+            if (entry == null)
             {
                 throw new ArgumentNullException("entry");
             }
@@ -171,7 +172,7 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         protected override DateTime GetSyndicationDate(FeedbackItem item)
         {
-            return item.DateCreated;
+            return item.DateCreatedUtc;
         }
 
         /// <summary>
@@ -181,7 +182,7 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         protected override DateTime GetPublishedDateUtc(FeedbackItem item)
         {
-            return Blog.TimeZone.ToUtc(item.DateCreated);
+            return item.DateCreatedUtc;
         }
 
         protected override EnclosureItem GetEnclosureFromItem(FeedbackItem item)

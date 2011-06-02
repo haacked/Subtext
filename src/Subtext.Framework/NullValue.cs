@@ -33,7 +33,7 @@ namespace Subtext.Framework
         /// <summary>Represents a null DateTime</summary>
         public static DateTime NullDateTime
         {
-            get { return DateTime.MinValue; }
+            get { return DateTime.MinValue.ToUniversalTime(); }
         }
 
         /// <summary>
@@ -43,26 +43,9 @@ namespace Subtext.Framework
         /// <returns>
         /// 	<c>true</c> if the specified value is null; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsNull(int number)
+        public static bool IsNull(this int number)
         {
             return number == NullInt32;
-        }
-
-        public static bool IsNull(Guid guid)
-        {
-            return guid == Guid.Empty;
-        }
-
-        /// <summary>
-        /// Determines whether the specified number is null.
-        /// </summary>
-        /// <param name="number">The number.</param>
-        /// <returns>
-        /// 	<c>true</c> if the specified number is null; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsNull(double number)
-        {
-            return number.Equals(NullDouble);
         }
 
         /// <summary>
@@ -72,9 +55,9 @@ namespace Subtext.Framework
         /// <returns>
         /// 	<c>true</c> if the specified date time is null; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsNull(DateTime dateTime)
+        public static bool IsNull(this DateTime dateTime)
         {
-            return dateTime == NullDateTime;
+            return dateTime.ToUniversalTime() == NullDateTime;
         }
     }
 }

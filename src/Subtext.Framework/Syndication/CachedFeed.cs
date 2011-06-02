@@ -42,7 +42,7 @@ namespace Subtext.Framework.Syndication
         /// Gets or sets the date this feed was last modified.
         /// </summary>
         /// <value></value>
-        public DateTime LastModified
+        public DateTime LastModifiedUtc
         {
             //TODO: Need to figure out what happens to the date when we set LastModified date. 
             // Returned data usually does not match 
@@ -50,10 +50,14 @@ namespace Subtext.Framework.Syndication
             get { return _lastModified; }
             set
             {
-                //Just incase the user changes timezones after a post
-                if(value > DateTime.Now)
+                if (value.Kind != DateTimeKind.Utc)
                 {
-                    value = DateTime.Now;
+                    throw new InvalidOperationException("LastModifiedUtc was not specified as UTC");
+                }
+                //Just incase the user changes timezones after a post
+                if (value > DateTime.UtcNow)
+                {
+                    value = DateTime.UtcNow;
                 }
                 _lastModified = value;
             }
@@ -86,11 +90,11 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if(_etag == null)
+                if (_etag == null)
                 {
                     // if we did not set the etag, just use the 
                     // LastModified Date
-                    _etag = LastModified.ToString(CultureInfo.InvariantCulture);
+                    _etag = LastModifiedUtc.ToString(CultureInfo.InvariantCulture);
                 }
                 return _etag;
             }

@@ -173,7 +173,7 @@ namespace Subtext.Web.Admin.Feedback
 
         protected void OnEmptyClick(object sender, EventArgs e)
         {
-            FeedbackItem.Destroy(_feedbackStatusFilter);
+            Repository.Destroy(_feedbackStatusFilter);
             BindList();
         }
 
@@ -186,7 +186,7 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e"></param>
         protected void OnApproveClick(object sender, EventArgs e)
         {
-            if (ApplyActionToCheckedFeedback(FeedbackItem.Approve) == 0)
+            if (ApplyActionToCheckedFeedback(Repository.Approve) == 0)
             {
                 Messages.ShowMessage(Resources.Feedback_NothingToApprove, true);
                 return;
@@ -203,7 +203,7 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e"></param>
         protected void OnDeleteClick(object sender, EventArgs e)
         {
-            if (ApplyActionToCheckedFeedback((item, service) => FeedbackItem.Delete(item)) == 0)
+            if (ApplyActionToCheckedFeedback((item, service) => Repository.Delete(item)) == 0)
             {
                 Messages.ShowMessage(Resources.Feedback_NothingToDelete, true);
                 return;
@@ -218,7 +218,7 @@ namespace Subtext.Web.Admin.Feedback
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void OnConfirmSpam(object sender, EventArgs e)
         {
-            if (ApplyActionToCheckedFeedback(FeedbackItem.ConfirmSpam) == 0)
+            if (ApplyActionToCheckedFeedback(Repository.ConfirmSpam) == 0)
             {
                 Messages.ShowMessage(Resources.Feedback_NothingFlaggedAsSpam, true);
                 return;
@@ -249,7 +249,7 @@ namespace Subtext.Web.Admin.Feedback
                     int id;
                     if (feedbackId != null && int.TryParse(feedbackId.Value, out id))
                     {
-                        FeedbackItem feedbackItem = FeedbackItem.Get(id);
+                        FeedbackItem feedbackItem = Repository.Get(id);
                         if (feedbackItem != null)
                         {
                             actionsApplied++;

@@ -35,8 +35,8 @@ namespace Subtext.Framework.Components
         {
             Categories = new List<string>();
             PostConfig = PostConfig.None;
-            DateModified = NullValue.NullDateTime;
-            DateCreated = NullValue.NullDateTime;
+            DateModifiedUtc = NullValue.NullDateTime;
+            DateCreatedUtc = NullValue.NullDateTime;
             PostType = postType;
             Blog = blog;
             Id = NullValue.NullInt32;
@@ -119,7 +119,7 @@ namespace Subtext.Framework.Components
         /// Gets or sets the date this entry was last updated.
         /// </summary>
         /// <value></value>
-        public DateTime DateModified { get; set; }
+        public DateTime DateModifiedUtc { get; set; }
 
         /// <summary>
         /// Gets or sets the date the item was published.
@@ -127,14 +127,35 @@ namespace Subtext.Framework.Components
         /// <value></value>
         public DateTime DateSyndicated
         {
-            get { return _dateSyndicated; }
+            get
+            {
+                if (Blog == null)
+                {
+                    return _datePublishedUtc;
+                }
+                if (DatePublishedUtc.IsNull())
+                {
+                    return NullValue.NullDateTime;
+                }
+                return Blog.TimeZone.FromUtc(DatePublishedUtc);
+            }
+        }
+
+        DateTime _datePublishedUtc = NullValue.NullDateTime;
+        public DateTime DatePublishedUtc
+        {
+            get
+            {
+                return _datePublishedUtc;
+            }
+
             set
             {
-                if(NullValue.IsNull(value))
+                if (value.IsNull())
                 {
                     IncludeInMainSyndication = false;
                 }
-                _dateSyndicated = value;
+                _datePublishedUtc = value;
             }
         }
 
@@ -220,7 +241,7 @@ namespace Subtext.Framework.Components
             set
             {
                 // Closing By Age overrides explicit closing
-                if(!CommentingClosedByAge)
+                if (!CommentingClosedByAge)
                 {
                     PostConfigSetter(PostConfig.CommentsClosed, value);
                 }
@@ -235,12 +256,13 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(Blog.DaysTillCommentsClose == int.MaxValue)
+
+                if (Blog.DaysTillCommentsClose == int.MaxValue)
                 {
                     return false;
                 }
 
-                return Blog.TimeZone.Now > DateSyndicated.AddDays(Blog.DaysTillCommentsClose);
+                return DateTimeOffset.UtcNow > DatePublishedUtc.AddDays(Blog.DaysTillCommentsClose);
             }
         }
 
@@ -281,7 +303,15 @@ namespace Subtext.Framework.Components
         /// Gets or sets the date this item was created.
         /// </summary>
         /// <value></value>
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreatedUtc { get; set; }
+
+        public DateTime DateCreated
+        {
+            get
+            {
+                return Blog.TimeZone.FromUtc(DateCreatedUtc);
+            }
+        }
 
         protected bool EntryPropertyCheck(PostConfig ep)
         {
@@ -290,7 +320,7 @@ namespace Subtext.Framework.Components
 
         protected void PostConfigSetter(PostConfig ep, bool select)
         {
-            if(select)
+            if (select)
             {
                 PostConfig = PostConfig | ep;
             }
@@ -309,12 +339,12 @@ namespace Subtext.Framework.Components
         /// <returns></returns>
         public static int CalculateChecksum(string text)
         {
-            if(text == null)
+            if (text == null)
             {
                 throw new ArgumentNullException("text");
             }
             int checksum = 0;
-            foreach(char c in text)
+            foreach (char c in text)
             {
                 checksum += c;
             }
@@ -325,7 +355,7 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(_comments == null)
+                if (_comments == null)
                 {
                     _comments = new List<FeedbackItem>();
                 }

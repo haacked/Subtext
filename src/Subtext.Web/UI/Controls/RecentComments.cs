@@ -47,7 +47,7 @@ namespace Subtext.Web.UI.Controls
             int commentCount = Config.CurrentBlog.NumberOfRecentComments > 0
                                    ? Config.CurrentBlog.NumberOfRecentComments
                                    : DefaultRecentPostCount;
-            ICollection<FeedbackItem> comments = FeedbackItem.GetRecentComments(commentCount);
+            ICollection<FeedbackItem> comments = Repository.GetRecentComments(commentCount);
             Comments = (from c in comments where c.EntryId > 0 select c).ToList();
             Gravatar = new GravatarService(ConfigurationManager.AppSettings);
         }

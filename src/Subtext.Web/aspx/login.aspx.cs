@@ -76,7 +76,7 @@ namespace Subtext.Web.Pages
         {
             if (btnOpenIdLogin.RememberMe)
             {
-                var openIdCookie = new HttpCookie("__OpenIdUrl__", btnOpenIdLogin.Text) { Expires = DateTime.Now.AddDays(14) };
+                var openIdCookie = new HttpCookie("__OpenIdUrl__", btnOpenIdLogin.Text) { Expires = DateTime.UtcNow.AddDays(14) };
                 Response.Cookies.Add(openIdCookie);
             }
         }

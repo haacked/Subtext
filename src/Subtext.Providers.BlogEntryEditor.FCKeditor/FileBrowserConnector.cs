@@ -484,7 +484,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                     XmlUtil.SetAttribute(oFileNode, "name",
                                          string.Format(CultureInfo.InvariantCulture, "{0}|{1}", entry.Title,
                                                        urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(Config.CurrentBlog)));
-                    XmlUtil.SetAttribute(oFileNode, "size", entry.DateModified.ToShortDateString());
+                    XmlUtil.SetAttribute(oFileNode, "size", entry.DateModifiedUtc.ToShortDateString());
                 }
             }
         }

@@ -29,14 +29,6 @@ namespace Subtext.Web.UI.Controls
 {
     public class MoreResultsLikeThis : BaseControl
     {
-        public ISearchEngineService SearchEngineService
-        {
-            get
-            {
-                return SubtextPage.SearchEngineService;
-            }
-        }
-
         public MoreResultsLikeThis()
         {
             RowCount = 5;

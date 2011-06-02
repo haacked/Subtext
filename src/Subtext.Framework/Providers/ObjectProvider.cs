@@ -32,7 +32,7 @@ namespace Subtext.Framework.Providers
     /// </summary>
     public abstract class ObjectProvider : ProviderBase
     {
-        private static readonly ObjectProvider Provider = new DatabaseObjectProvider();
+        private static readonly DatabaseObjectProvider _objectProvider = new DatabaseObjectProvider();
 
         /// <summary>
         /// Returns the currently configured ObjectProvider.
@@ -40,7 +40,7 @@ namespace Subtext.Framework.Providers
         /// <returns></returns>
         public static ObjectProvider Instance()
         {
-            return Provider;
+            return _objectProvider;
         }
 
         public abstract void ClearBlogContent(int blogId);
@@ -271,7 +271,7 @@ namespace Subtext.Framework.Providers
         /// </summary>
         /// <param name="feedbackItem">The feedback item.</param>
         /// <returns></returns>
-        public abstract bool Update(FeedbackItem feedbackItem);
+        public abstract bool UpdateInternal(FeedbackItem feedbackItem);
 
         public abstract bool SetEntryCategoryList(int entryId, IEnumerable<int> categoryIds);
 
@@ -327,23 +327,9 @@ namespace Subtext.Framework.Providers
         /// <param name="password">Password.</param>
         /// <param name="host"></param>
         /// <param name="subfolder"></param>
-        /// <returns></returns>
-        public abstract int CreateBlog(string title, string userName, string password, string host, string subfolder);
-
-        /// <summary>
-        /// Adds the initial blog configuration.  This is a convenience method for 
-        /// allowing a user with a freshly installed blog to immediately gain access 
-        /// to the admin section to edit the blog.
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="userName">Name of the user.</param>
-        /// <param name="password">Password.</param>
-        /// <param name="host"></param>
-        /// <param name="subfolder"></param>
         /// <param name="blogGroupId"></param>
         /// <returns>The id of the created blog.</returns>
-        public abstract int CreateBlog(string title, string userName, string password, string host, string subfolder,
-                                       int blogGroupId);
+        public abstract int CreateBlogInternal(string title, string userName, string password, string host, string subfolder, int blogGroupId);
 
         /// <summary>
         /// Updates the specified blog configuration.

@@ -18,6 +18,7 @@
 using System;
 using System.Globalization;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.UI;
 using Subtext.Framework;
@@ -25,6 +26,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.Web.Handlers;
 using Subtext.Web.Controls;
@@ -49,9 +51,9 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                if (SubtextPage != null)
+                if (SubtextDependencies != null)
                 {
-                    return SubtextPage.Url;
+                    return SubtextDependencies.Url;
                 }
                 return null;
             }
@@ -73,23 +75,34 @@ namespace Subtext.Web.UI.Controls
         {
             get
             {
-                SubtextPage subtextPage = SubtextPage;
-                if (subtextPage != null)
-                {
-                    return subtextPage.Blog;
-                }
-                return null;
+                return SubtextDependencies.Blog;
             }
         }
 
-        protected SubtextPage SubtextPage
+        public ISearchEngineService SearchEngineService
         {
-            get { return Page as SubtextPage; }
+            get
+            {
+                return (Page as SubtextPage).SearchEngineService;
+            }
+        }
+
+        protected ISubtextDependencies SubtextDependencies
+        {
+            get
+            {
+                var dependencies = Page as ISubtextDependencies;
+                if (dependencies == null)
+                {
+                    dependencies = DependencyResolver.Current.GetService<SubtextDependencies>();
+                }
+                return dependencies;
+            }
         }
 
         protected ISubtextContext SubtextContext
         {
-            get { return SubtextPage.SubtextContext; }
+            get { return SubtextDependencies.SubtextContext; }
         }
 
         protected ObjectProvider Repository

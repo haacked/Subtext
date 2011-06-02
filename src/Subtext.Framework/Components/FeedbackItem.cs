@@ -16,15 +16,10 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Net;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Properties;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
-using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Components
 {
@@ -38,7 +33,7 @@ namespace Subtext.Framework.Components
         private string _email;
         string _feedbackChecksumHash = string.Empty;
         private Entry _entry;
-        DateTime _parentDateCreated = NullValue.NullDateTime;
+        DateTime _parentDateCreatedUtc = NullValue.NullDateTime;
         string _parentEntryName;
         string _referrer;
         string _userAgent;
@@ -53,8 +48,8 @@ namespace Subtext.Framework.Components
             EntryId = NullValue.NullInt32;
             FeedbackType = type;
             Status = FeedbackStatusFlag.None;
-            DateCreated = NullValue.NullDateTime;
-            DateModified = NullValue.NullDateTime;
+            DateCreatedUtc = NullValue.NullDateTime;
+            DateModifiedUtc = NullValue.NullDateTime;
             Author = string.Empty;
         }
 
@@ -80,14 +75,14 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(_entry == null && EntryId != NullValue.NullInt32)
+                if (_entry == null && EntryId != NullValue.NullInt32)
                 {
                     _entry = new Entry(PostType.BlogPost)
                     {
                         Id = EntryId,
                         EntryName = _parentEntryName,
-                        DateCreated = _parentDateCreated,
-                        DateSyndicated = _parentDateSyndicated
+                        DateCreatedUtc = _parentDateCreatedUtc,
+                        DatePublishedUtc = _parentDatePublishedUtc,
                     };
                 }
                 return _entry;
@@ -95,7 +90,7 @@ namespace Subtext.Framework.Components
             set
             {
                 _entry = value;
-                if(value != null)
+                if (value != null)
                 {
                     EntryId = value.Id;
                 }
@@ -191,13 +186,22 @@ namespace Subtext.Framework.Components
         /// Gets or sets the date this item was created.
         /// </summary>
         /// <value></value>
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreatedUtc { get; set; }
+
+        public DateTime DateCreated
+        {
+            get
+            {
+                return Entry.Blog.TimeZone.FromUtc(DateCreatedUtc);
+            }
+        }
+
 
         /// <summary>
         /// Gets or sets the date this entry was last updated.
         /// </summary>
         /// <value></value>
-        public DateTime DateModified { get; set; }
+        public DateTime DateModifiedUtc { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this feedback is approved for display.
@@ -274,7 +278,7 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(String.IsNullOrEmpty(_feedbackChecksumHash))
+                if (String.IsNullOrEmpty(_feedbackChecksumHash))
                 {
                     _feedbackChecksumHash = string.Format("{0}.{1}", CalculateChecksum(Body), SecurityHelper.HashPassword(Body));
                 }
@@ -291,7 +295,7 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(_parentEntryName == null)
+                if (_parentEntryName == null)
                 {
                     _parentEntryName = Entry != null ? Entry.EntryName : string.Empty;
                 }
@@ -304,170 +308,43 @@ namespace Subtext.Framework.Components
         /// Gets or sets the parent entry date created.
         /// </summary>
         /// <value>The parent date created.</value>
-        public DateTime ParentDateCreated
+        public DateTime ParentDateCreatedUtc
         {
             get
             {
-                if(_parentDateCreated == NullValue.NullDateTime)
+                if (NullValue.IsNull(_parentDateCreatedUtc))
                 {
-                    _parentDateCreated = Entry != null ? Entry.DateCreated : DateTime.MinValue;
+                    _parentDateCreatedUtc = Entry != null ? Entry.DateCreatedUtc : DateTime.MinValue;
                 }
-                return _parentDateCreated;
+                return _parentDateCreatedUtc;
             }
-            set { _parentDateCreated = value; }
+            set { _parentDateCreatedUtc = value; }
         }
 
         /// <summary>
         /// Gets or sets the parent entry date created.
         /// </summary>
         /// <value>The parent date created.</value>
-        public DateTime ParentDateSyndicated
+        public DateTime ParentDatePublishedUtc
         {
             get
             {
-                if(_parentDateSyndicated == NullValue.NullDateTime)
+                if (NullValue.IsNull(_parentDatePublishedUtc))
                 {
-                    _parentDateSyndicated = Entry != null ? Entry.DateSyndicated : DateTime.MinValue;
+                    _parentDatePublishedUtc = Entry != null ? Entry.DatePublishedUtc : DateTime.MinValue.ToUniversalTime();
                 }
-                return _parentDateSyndicated;
+                return _parentDatePublishedUtc;
             }
-            set { _parentDateSyndicated = value; }
+            set { _parentDatePublishedUtc = value; }
         }
 
-        DateTime _parentDateSyndicated;
+        DateTime _parentDatePublishedUtc;
 
         /// <summary>
         /// Gets or sets the ID for this feedback item.
         /// </summary>
         /// <value>The feedback ID.</value>
         public int Id { get; set; }
-
-        /// <summary>
-        /// Gets the specified feedback by id.
-        /// </summary>
-        /// <param name="feedbackId">The feedback id.</param>
-        /// <returns></returns>
-        public static FeedbackItem Get(int feedbackId)
-        {
-            return ObjectProvider.Instance().GetFeedback(feedbackId);
-        }
-
-        /// <summary>
-        /// Gets the feedback counts for the various top level statuses.
-        /// </summary>
-        public static FeedbackCounts GetFeedbackCounts()
-        {
-            FeedbackCounts counts;
-            ObjectProvider.Instance().GetFeedbackCounts(out counts.ApprovedCount, out counts.NeedsModerationCount,
-                                                        out counts.FlaggedAsSpamCount, out counts.DeletedCount);
-            return counts;
-        }
-
-        /// <summary>
-        /// Returns the itemCount most recent active comments.
-        /// </summary>
-        /// <param name="itemCount"></param>
-        /// <returns></returns>
-        public static ICollection<FeedbackItem> GetRecentComments(int itemCount)
-        {
-            return ObjectProvider.Instance().GetPagedFeedback(0, itemCount, FeedbackStatusFlag.Approved,
-                                                              FeedbackStatusFlag.None, FeedbackType.Comment);
-        }
-
-        /// <summary>
-        /// Updates the specified entry in the data provider.
-        /// </summary>
-        /// <param name="feedbackItem">Entry.</param>
-        /// <returns></returns>
-        public static bool Update(FeedbackItem feedbackItem)
-        {
-            if(feedbackItem == null)
-            {
-                throw new ArgumentNullException("feedbackItem");
-            }
-
-            feedbackItem.DateModified = Config.CurrentBlog.TimeZone.Now;
-            return ObjectProvider.Instance().Update(feedbackItem);
-        }
-
-        /// <summary>
-        /// Approves the comment, and removes it from the SPAM folder or from the 
-        /// Trash folder.
-        /// </summary>
-        /// <param name="feedback"></param>
-        /// <param name="spamService"></param>
-        /// <returns></returns>
-        public static void Approve(FeedbackItem feedback, ICommentSpamService spamService)
-        {
-            if(feedback == null)
-            {
-                throw new ArgumentNullException("feedback");
-            }
-
-            feedback.SetStatus(FeedbackStatusFlag.Approved, true);
-            feedback.SetStatus(FeedbackStatusFlag.Deleted, false);
-            if(spamService != null)
-            {
-                spamService.SubmitGoodFeedback(feedback);
-            }
-
-            Update(feedback);
-        }
-
-        /// <summary>
-        /// Confirms the feedback as spam and moves it to the trash.
-        /// </summary>
-        /// <param name="feedback">The feedback.</param>
-        /// <param name="spamService"></param>
-        public static void ConfirmSpam(FeedbackItem feedback, ICommentSpamService spamService)
-        {
-            if(feedback == null)
-            {
-                throw new ArgumentNullException("feedback");
-            }
-
-            feedback.SetStatus(FeedbackStatusFlag.Approved, false);
-            feedback.SetStatus(FeedbackStatusFlag.ConfirmedSpam, true);
-
-            if(spamService != null)
-            {
-                spamService.SubmitGoodFeedback(feedback);
-            }
-
-            Update(feedback);
-        }
-
-        /// <summary>
-        /// Confirms the feedback as spam and moves it to the trash.
-        /// </summary>
-        /// <param name="feedback">The feedback.</param>
-        public static void Delete(FeedbackItem feedback)
-        {
-            if(feedback == null)
-            {
-                throw new ArgumentNullException("feedback");
-            }
-
-            feedback.SetStatus(FeedbackStatusFlag.Approved, false);
-            feedback.SetStatus(FeedbackStatusFlag.Deleted, true);
-
-            Update(feedback);
-        }
-
-
-        /// <summary>
-        /// Destroys all non-active emails that meet the status.
-        /// </summary>
-        /// <param name="feedbackStatus">The feedback.</param>
-        public static void Destroy(FeedbackStatusFlag feedbackStatus)
-        {
-            if((feedbackStatus & FeedbackStatusFlag.Approved) == FeedbackStatusFlag.Approved)
-            {
-                throw new InvalidOperationException(Resources.InvalidOperation_DestroyActiveComment);
-            }
-
-            ObjectProvider.Instance().DestroyFeedback(feedbackStatus);
-        }
 
         /// <summary>
         /// Checks to see if the specified status bit is set.
@@ -484,9 +361,9 @@ namespace Subtext.Framework.Components
         /// </summary>
         /// <param name="status"></param>
         /// <param name="setOn"></param>
-        protected void SetStatus(FeedbackStatusFlag status, bool setOn)
+        protected internal void SetStatus(FeedbackStatusFlag status, bool setOn)
         {
-            if(setOn)
+            if (setOn)
             {
                 Status = Status | status;
             }
@@ -505,12 +382,12 @@ namespace Subtext.Framework.Components
         /// <returns></returns>
         public static int CalculateChecksum(string text)
         {
-            if(text == null)
+            if (text == null)
             {
                 throw new ArgumentNullException("text");
             }
             int checksum = 0;
-            foreach(char c in text)
+            foreach (char c in text)
             {
                 checksum += c;
             }

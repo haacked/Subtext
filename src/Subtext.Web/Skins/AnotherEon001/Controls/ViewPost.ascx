@@ -12,7 +12,7 @@
 		<asp:Literal id="Body"  runat="server" />
 		<uc1:RelatedLinks id="RelatedLinks" runat="server" />
 		<p class="postfoot">
-			<a href="javascript:window.print();" class="printIcon"><span>Print</span></a> | posted on <asp:Literal id="PostDescription"  runat="server" /> | <uc1:PostCategoryList id="Categories" runat="server"></uc1:PostCategoryList>
+			<a href="javascript:window.print();" class="printIcon"><span>Print</span></a> | posted on <asp:Literal id="PostDescription" runat="server" /> | <uc1:PostCategoryList id="Categories" runat="server"></uc1:PostCategoryList>
 		</p>
 	</div>
 	<asp:Literal ID="PingBack" Runat="server" />

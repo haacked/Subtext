@@ -169,7 +169,7 @@ namespace Subtext.Web.UI.Controls
                 return;
             }
 
-            DateTime entryDate = _monthEntries.ElementAt(_currentDateIndex).DateCreated;
+            DateTime entryDate = _monthEntries.ElementAt(_currentDateIndex).DateCreatedUtc;
             DateTime calDate = e.Day.Date;
 
             if (IsSameDay(calDate, entryDate))
@@ -182,7 +182,7 @@ namespace Subtext.Web.UI.Controls
                 {
                     _currentDateIndex--;
                 } while (_currentDateIndex > -1 &&
-                        IsSameDay(e.Day.Date, _monthEntries.ElementAt(_currentDateIndex).DateCreated));
+                        IsSameDay(e.Day.Date, _monthEntries.ElementAt(_currentDateIndex).DateCreatedUtc));
             }
         }
 

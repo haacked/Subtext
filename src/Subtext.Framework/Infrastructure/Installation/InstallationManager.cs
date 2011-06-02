@@ -59,7 +59,7 @@ namespace Subtext.Framework.Infrastructure.Installation
             Entry article = CreateWelcomeArticle(blog, entryPublisher, adminUrlHelper);
             Entry entry = CreateWelcomeBlogPost(context, blog, entryPublisher, adminUrlHelper, article);
             CreateWelcomeComment(repository, adminUrlHelper, entry);
-            
+
         }
 
         private static void CreateWelcomeComment(ObjectProvider repository, AdminUrlHelper adminUrlHelper, Entry entry)
@@ -72,8 +72,6 @@ namespace Subtext.Framework.Infrastructure.Installation
                 Title = "re: Welcome to Subtext!",
                 Entry = entry,
                 Author = "Subtext",
-                DateCreated = DateTime.Now,
-                DateModified = DateTime.Now,
                 Approved = true,
                 Body = commentBody
             };
@@ -93,9 +91,8 @@ namespace Subtext.Framework.Infrastructure.Installation
                 BlogId = blog.Id,
                 Author = blog.Author,
                 Body = body,
-                DateCreated = DateTime.Now,
-                DateModified = DateTime.Now,
-                DateSyndicated = DateTime.Now,
+                DateCreatedUtc = DateTime.UtcNow,
+                DateModifiedUtc = DateTime.UtcNow,
                 IsActive = true,
                 IncludeInMainSyndication = true,
                 DisplayOnHomePage = true,
@@ -118,8 +115,8 @@ namespace Subtext.Framework.Infrastructure.Installation
                 BlogId = blog.Id,
                 Author = blog.Author,
                 Body = body,
-                DateCreated = DateTime.Now,
-                DateModified = DateTime.Now,
+                DateCreatedUtc = DateTime.UtcNow,
+                DateModifiedUtc = DateTime.UtcNow,
                 IsActive = true,
             };
 
@@ -131,18 +128,18 @@ namespace Subtext.Framework.Infrastructure.Installation
         {
             repository.CreateLinkCategory(new LinkCategory
             {
-                Title = "Programming", 
-                Description = "Blog posts related to programming", 
-                BlogId = blog.Id, 
-                IsActive = true, 
+                Title = "Programming",
+                Description = "Blog posts related to programming",
+                BlogId = blog.Id,
+                IsActive = true,
                 CategoryType = CategoryType.PostCollection,
             });
             repository.CreateLinkCategory(new LinkCategory
             {
-                Title = "Personal", 
-                Description = "Personal musings, random thoughts.", 
-                BlogId = blog.Id, 
-                IsActive = true, 
+                Title = "Personal",
+                Description = "Personal musings, random thoughts.",
+                BlogId = blog.Id,
+                IsActive = true,
                 CategoryType = CategoryType.PostCollection
             });
         }
@@ -164,24 +161,24 @@ namespace Subtext.Framework.Infrastructure.Installation
         /// </returns>
         public bool InstallationActionRequired(Version assemblyVersion, Exception unhandledException)
         {
-            if(unhandledException is HostDataDoesNotExistException)
+            if (unhandledException is HostDataDoesNotExistException)
             {
                 return true;
             }
 
-            if(IsInstallationException(unhandledException))
+            if (IsInstallationException(unhandledException))
             {
                 return true;
             }
 
             InstallationState status = GetInstallationStatus(assemblyVersion);
-            switch(status)
+            switch (status)
             {
                 case InstallationState.NeedsInstallation:
                 case InstallationState.NeedsUpgrade:
-                {
-                    return true;
-                }
+                    {
+                        return true;
+                    }
             }
 
             return false;
@@ -192,13 +189,13 @@ namespace Subtext.Framework.Infrastructure.Installation
             var tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             bool isSqlException = exception is SqlException;
 
-            if(isSqlException && tableRegex.IsMatch(exception.Message))
+            if (isSqlException && tableRegex.IsMatch(exception.Message))
             {
                 return true;
             }
 
             var spRegex = new Regex("'Could not find stored procedure '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            if(isSqlException && spRegex.IsMatch(exception.Message))
+            if (isSqlException && spRegex.IsMatch(exception.Message))
             {
                 return true;
             }
@@ -209,7 +206,7 @@ namespace Subtext.Framework.Infrastructure.Installation
         public virtual InstallationState GetInstallationStatus(Version currentAssemblyVersion)
         {
             object cachedInstallationState = Cache["NeedsInstallation"];
-            if(cachedInstallationState != null)
+            if (cachedInstallationState != null)
             {
                 return (InstallationState)cachedInstallationState;
             }
@@ -222,12 +219,12 @@ namespace Subtext.Framework.Infrastructure.Installation
         private InstallationState GetInstallationState(Version currentAssemblyVersion)
         {
             Version installationVersion = Installer.GetCurrentInstallationVersion();
-            if(installationVersion == null)
+            if (installationVersion == null)
             {
                 return InstallationState.NeedsInstallation;
             }
 
-            if(Installer.NeedsUpgrade(installationVersion, currentAssemblyVersion))
+            if (Installer.NeedsUpgrade(installationVersion, currentAssemblyVersion))
             {
                 return InstallationState.NeedsUpgrade;
             }
@@ -246,7 +243,7 @@ namespace Subtext.Framework.Infrastructure.Installation
         public void ResetInstallationStatusCache()
         {
             object cachedInstallationState = Cache["NeedsInstallation"];
-            if(cachedInstallationState != null)
+            if (cachedInstallationState != null)
             {
                 Cache.Remove("NeedsInstallation");
             }

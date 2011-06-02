@@ -92,8 +92,6 @@ namespace Subtext.Web.UI.ViewModels
             get { return Entry.FeedBackCount; }
         }
 
-        #region IEntryIdentity Members
-
         public string EntryName
         {
             get { return Entry.EntryName; }
@@ -104,6 +102,13 @@ namespace Subtext.Web.UI.ViewModels
             get { return Entry.DateSyndicated; }
         }
 
+        public DateTime DatePublishedUtc
+        {
+            get { return Entry.DatePublishedUtc; }
+            set { Entry.DatePublishedUtc = value; }
+        }
+
+
         public PostType PostType
         {
             get { return Entry.PostType; }
@@ -113,7 +118,5 @@ namespace Subtext.Web.UI.ViewModels
         {
             get { return Entry.Id; }
         }
-
-        #endregion
     }
 }

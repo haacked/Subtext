@@ -5,6 +5,7 @@ using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
@@ -34,18 +35,16 @@ namespace UnitTests.Subtext.Framework.Syndication
             //    Email = "Subtext@example.com",
             //    RFC3229DeltaEncodingEnabled = false,
             //};
-            int blogId = Config.CreateBlog("Test", "username", "password", hostName, string.Empty);
+            int blogId = new DatabaseObjectProvider().CreateBlog("Test", "username", "password", hostName, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, string.Empty);
+            BlogRequest.Current.Blog = new DatabaseObjectProvider().GetBlog(hostName, string.Empty);
             Blog blog = Config.CurrentBlog;
             blog.Host = hostName;
             blog.Email = "Subtext@example.com";
             blog.RFC3229DeltaEncodingEnabled = false;
 
-
-            DateTime dateCreated = DateTime.Now;
-            Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blog, "Author", "Best post EVER", "testbody",
-                                                                           null, dateCreated);
+            DateTime dateCreated = DateTime.UtcNow;
+            Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blog, "Author", "Best post EVER", "testbody", null, dateCreated);
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
 

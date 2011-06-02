@@ -56,7 +56,7 @@ namespace Subtext.Web.Controls.Captcha
             FontFamily = string.Empty;
             _text = text;
             _validRandomTextChars = DefaultValidRandomTextChars;
-            DateGenerated = DateTime.Now;
+            DateGenerated = DateTime.UtcNow;
             FontFamily = RandomFontFamily();
         }
 
@@ -173,7 +173,7 @@ namespace Subtext.Web.Controls.Captcha
             {
                 builder.Append(TextChars.Substring(Random.Next(length), 1));
             }
-            DateGenerated = DateTime.Now;
+            DateGenerated = DateTime.UtcNow;
             return builder.ToString();
         }
 

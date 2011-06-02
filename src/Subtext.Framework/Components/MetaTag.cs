@@ -43,7 +43,7 @@ namespace Subtext.Framework.Components
 
         public int? EntryId { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreatedUtc { get; set; }
 
         /// <summary>
         /// Validates that this MetaTag is Valid:
@@ -54,20 +54,20 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(string.IsNullOrEmpty(Content))
+                if (string.IsNullOrEmpty(Content))
                 {
                     ValidationMessage = "Meta Tag requires Content.";
                     return false;
                 }
 
                 // to be valid, a MetaTag requires etiher the Name or HttpEquiv attribute, but never both.
-                if(string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(HttpEquiv))
+                if (string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(HttpEquiv))
                 {
                     ValidationMessage = "Meta Tag requires either a Name or Http-Equiv value.";
                     return false;
                 }
 
-                if(!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(HttpEquiv))
+                if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(HttpEquiv))
                 {
                     ValidationMessage = "Meta Tag can not have both a Name and Http-Equiv value.";
                     return false;

@@ -33,10 +33,10 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var module = new AuthenticationModule();
-            
+
             // act
-            var authTicket  = module.GetFormsAuthenticationTicket(null);
-            
+            var authTicket = module.GetFormsAuthenticationTicket(null);
+
             // assert
             Assert.IsNull(authTicket);
         }
@@ -46,8 +46,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var module = new AuthenticationModule();
-            var badCookie = new HttpCookie(".ASPXAUTH.42") {Value = "STEOHsuthosaeuthoes234234sThisIsGarbage", Expires = DateTime.Now};
-            
+            var badCookie = new HttpCookie(".ASPXAUTH.42") { Value = "STEOHsuthosaeuthoes234234sThisIsGarbage", Expires = DateTime.UtcNow };
+
             // act
             var ticket = module.GetFormsAuthenticationTicket(badCookie);
 
@@ -60,8 +60,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         {
             // arrange
             var module = new AuthenticationModule();
-            var authCookie = new HttpCookie(".ASPXAUTH.42") {Value = null};
-            
+            var authCookie = new HttpCookie(".ASPXAUTH.42") { Value = null };
+
             // act
             var ticket = module.GetFormsAuthenticationTicket(authCookie);
 
@@ -75,12 +75,12 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             // arrange
             var module = new AuthenticationModule();
             const string roles = "Admins|HostAdmins|Users";
-            var ticket = new FormsAuthenticationTicket(1, ".ASPXAUTH.42", DateTime.Now, DateTime.Now.AddDays(-10), true,
+            var ticket = new FormsAuthenticationTicket(1, ".ASPXAUTH.42", DateTime.UtcNow, DateTime.UtcNow.AddDays(-10), true,
                                                        roles);
             Assert.IsTrue(ticket.Expired);
             string cookieValue = FormsAuthentication.Encrypt(ticket);
-            var authCookie = new HttpCookie(".ASPXAUTH.42") {Value = cookieValue};
-            
+            var authCookie = new HttpCookie(".ASPXAUTH.42") { Value = cookieValue };
+
             // act
             var authTicket = module.GetFormsAuthenticationTicket(authCookie);
 
@@ -127,8 +127,8 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             var ticket = new FormsAuthenticationTicket(1, ".ASPXAUTH.42", DateTime.Now, DateTime.Now.AddDays(60), true,
                                                        roles);
             string cookieValue = FormsAuthentication.Encrypt(ticket);
-            var authCookie = new HttpCookie(".ASPXAUTH.42") {Value = cookieValue};
-            var cookies = new HttpCookieCollection {authCookie};
+            var authCookie = new HttpCookie(".ASPXAUTH.42") { Value = cookieValue };
+            var cookies = new HttpCookieCollection { authCookie };
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Stub(c => c.User);
             httpContext.Setup(c => c.Request.Path).Returns("/");
@@ -136,7 +136,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             httpContext.Setup(c => c.Request.Cookies).Returns(cookies);
             httpContext.Setup(c => c.Response.Cookies).Returns(cookies);
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost"), false,
-                                              RequestLocation.Blog, "/") {Blog = new Blog {Id = 42}};
+                                              RequestLocation.Blog, "/") { Blog = new Blog { Id = 42 } };
 
             // act
             module.AuthenticateRequest(httpContext.Object, blogRequest);

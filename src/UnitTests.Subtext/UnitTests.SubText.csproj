@@ -45,6 +45,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
+    <RestorePackages>false</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -288,6 +290,7 @@
     <Compile Include="Framework\Components\EnclosureTests\EnclosureUpdateTests.cs" />
     <Compile Include="Framework\Components\EnclosureTests\EncosureDeleteTests.cs" />
     <Compile Include="Framework\Components\EnclosureTests\MimetypeDetectionTests.cs" />
+    <Compile Include="Framework\Components\EntryTests\EntryTests.cs" />
     <Compile Include="Framework\Components\EntryTests\FutureEntriesGetTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryCategoryTests.cs" />
     <Compile Include="Framework\Components\EntryTests\EntryDayGetTests.cs" />
@@ -326,6 +329,7 @@
     <Compile Include="Framework\Data\DataHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Data\FeedbackRepositoryTests.cs" />
     <Compile Include="Framework\Data\PagedCollectionRetrievalTests.cs" />
     <Compile Include="Framework\Data\RepositoryExtensionsTests.cs" />
     <Compile Include="Framework\Data\TransformerTests.cs" />
@@ -506,6 +510,7 @@
     <Compile Include="SubtextWeb\SitemapHandlerTests.cs" />
     <Compile Include="SubtextWeb\SubtextApplicationTests.cs" />
     <Compile Include="SubtextWeb\UI\Pages\SubtextMasterPageTests.cs" />
+    <Compile Include="SubtextWeb\UI\UIHelpersTests.cs" />
     <Compile Include="SubtextWeb\UI\ViewModels\EntryViewModelTests.cs" />
     <Compile Include="IntegrityTests.cs" />
     <Compile Include="TestCache.cs" />

@@ -299,11 +299,8 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetEntry_WithEntryNameAndEntryInCache_RetrievesFromCache()
         {
             // arrange
-            var entry = new Entry(PostType.BlogPost) { Id = 111, EntryName = "entry-slug", DateSyndicated = DateTime.Now.AddDays(-1) };
-            var timeZone = new Mock<ITimeZone>();
-            timeZone.Setup(tz => tz.Now).Returns(DateTime.Now);
+            var entry = new Entry(PostType.BlogPost) { Id = 111, EntryName = "entry-slug", DatePublishedUtc = DateTime.UtcNow.AddDays(-1) };
             var blog = new Mock<Blog>();
-            blog.Setup(b => b.TimeZone).Returns(timeZone.Object);
             blog.Object.Id = 1001;
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog).Returns(blog.Object);
@@ -321,11 +318,13 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetEntry_WithEntryNameAndEntryInCacheWithPublishDateInFuture_ReturnsNull()
         {
             // arrange
-            var entry = new Entry(PostType.BlogPost) { Id = 111, EntryName = "entry-slug", DateSyndicated = DateTime.Now.AddDays(2) };
-            var timeZone = new Mock<ITimeZone>();
-            timeZone.Setup(tz => tz.Now).Returns(DateTime.Now);
+            var entry = new Entry(PostType.BlogPost)
+            {
+                Id = 111,
+                EntryName = "entry-slug",
+                DatePublishedUtc = DateTime.UtcNow.AddDays(2)
+            };
             var blog = new Mock<Blog>();
-            blog.Setup(b => b.TimeZone).Returns(timeZone.Object);
             blog.Object.Id = 1001;
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Blog).Returns(blog.Object);
@@ -343,9 +342,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetEntry_WithEntryNameAndEntryNotInCacheAndHasPublishDateInFuture_ReturnsNull()
         {
             // arrange
-            var entry = new Entry(PostType.BlogPost) { Id = 111, EntryName = "entry-slug", DateSyndicated = DateTime.Now.AddDays(2) };
+            var entry = new Entry(PostType.BlogPost) { Id = 111, EntryName = "entry-slug", DatePublishedUtc = DateTime.UtcNow.AddDays(2) };
             var timeZone = new Mock<ITimeZone>();
-            timeZone.Setup(tz => tz.Now).Returns(DateTime.Now);
+            timeZone.Setup(tz => tz.Now).Returns(DateTime.UtcNow);
             var blog = new Mock<Blog>();
             blog.Setup(b => b.TimeZone).Returns(timeZone.Object);
             blog.Object.Id = 1001;
@@ -366,9 +365,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetEntry_WithEntryNameAndEntryNotInCache_RetrievesFromRepositoryAndInsertsInCache()
         {
             // arrange
-            var entry = new Entry(PostType.BlogPost) { Id = 111, EntryName = "entry-slug", DateSyndicated = DateTime.Now.AddDays(-1) };
+            var entry = new Entry(PostType.BlogPost) { Id = 111, EntryName = "entry-slug", DatePublishedUtc = DateTime.UtcNow.AddDays(-1) };
             var timeZone = new Mock<ITimeZone>();
-            timeZone.Setup(tz => tz.Now).Returns(DateTime.Now);
+            timeZone.Setup(tz => tz.Now).Returns(DateTime.UtcNow);
             var blog = new Mock<Blog>();
             blog.Setup(b => b.TimeZone).Returns(timeZone.Object);
             blog.Object.Id = 1001;

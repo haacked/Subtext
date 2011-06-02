@@ -13,17 +13,14 @@ namespace UnitTests.Subtext.Framework.Services
     [TestFixture]
     public class CommentServiceTests
     {
-        //TODO This test is RIDICULOUS! We need to refactor some code.
         [Test]
-        [Ignore("Need to refactor")]
-        public void CreateSetsDateCreatedToBlogTime()
+        public void CreateSetsDateCreated()
         {
             //arrange
             var blog = new Mock<Blog>();
-            DateTime dateCreated = DateTime.Now;
+            DateTime dateCreatedUtc = DateTime.UtcNow;
             blog.Object.Id = 1;
-            blog.Setup(b => b.TimeZone.Now).Returns(dateCreated);
-            var entry = new Entry(PostType.BlogPost, blog.Object) {Id = 123, BlogId = 1, CommentingClosed = false};
+            var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
@@ -33,14 +30,14 @@ namespace UnitTests.Subtext.Framework.Services
             context.SetupGet(c => c.Cache).Returns(new TestCache());
 
             var service = new CommentService(context.Object, null);
-            var comment = new FeedbackItem(FeedbackType.Comment)
-            {EntryId = 123, BlogId = 1, Body = "test", Title = "title"};
+            var comment = new FeedbackItem(FeedbackType.Comment) { EntryId = 123, BlogId = 1, Body = "test", Title = "title" };
 
             //act
             service.Create(comment, true/*runFilters*/);
 
             //assert
-            Assert.AreEqual(dateCreated, comment.DateCreated);
+            Assert.GreaterEqualThan(comment.DateCreatedUtc, dateCreatedUtc);
+            Assert.GreaterEqualThan(DateTime.UtcNow, comment.DateCreatedUtc);
         }
 
         [Test]
@@ -48,10 +45,9 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var blog = new Mock<Blog>();
-            DateTime dateCreated = DateTime.Now;
+            DateTime dateCreated = DateTime.UtcNow;
             blog.Object.Id = 1;
-            blog.Setup(b => b.TimeZone.Now).Returns(dateCreated);
-            var entry = new Entry(PostType.BlogPost, blog.Object) {Id = 123, BlogId = 1, CommentingClosed = false};
+            var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
@@ -67,16 +63,16 @@ namespace UnitTests.Subtext.Framework.Services
                 BlogId = 1,
                 Body = "test",
                 Title = "title",
-                DateCreated = dateCreated.AddDays(-2),
-                DateModified = dateCreated.AddDays(-1)
+                DateCreatedUtc = dateCreated.AddDays(-2),
+                DateModifiedUtc = dateCreated.AddDays(-1)
             };
 
             //act
             service.Create(comment, true/*runFilters*/);
 
             //assert
-            Assert.AreEqual(dateCreated.AddDays(-2), comment.DateCreated);
-            Assert.AreEqual(dateCreated.AddDays(-1), comment.DateModified);
+            Assert.AreEqual(dateCreated.AddDays(-2), comment.DateCreatedUtc);
+            Assert.AreEqual(dateCreated.AddDays(-1), comment.DateModifiedUtc);
         }
 
         [Test]
@@ -84,10 +80,9 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var blog = new Mock<Blog>();
-            DateTime dateCreated = DateTime.Now;
+            DateTime dateCreated = DateTime.UtcNow;
             blog.Object.Id = 1;
-            blog.Setup(b => b.TimeZone.Now).Returns(dateCreated);
-            var entry = new Entry(PostType.BlogPost, blog.Object) {Id = 123, BlogId = 1, CommentingClosed = false};
+            var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
@@ -110,8 +105,8 @@ namespace UnitTests.Subtext.Framework.Services
                 BlogId = 1,
                 Body = "test",
                 Title = "title",
-                DateCreated = dateCreated.AddDays(-2),
-                DateModified = dateCreated.AddDays(-1)
+                DateCreatedUtc = dateCreated.AddDays(-2),
+                DateModifiedUtc = dateCreated.AddDays(-1)
             };
 
             //act
@@ -128,9 +123,8 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var blog = new Mock<Blog>();
-            DateTime dateCreated = DateTime.Now;
+            DateTime dateCreated = DateTime.UtcNow;
             blog.Object.Id = 1;
-            blog.Setup(b => b.TimeZone.Now).Returns(dateCreated);
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
@@ -150,8 +144,8 @@ namespace UnitTests.Subtext.Framework.Services
                 BlogId = 1,
                 Body = "test",
                 Title = "title",
-                DateCreated = dateCreated.AddDays(-2),
-                DateModified = dateCreated.AddDays(-1)
+                DateCreatedUtc = dateCreated.AddDays(-2),
+                DateModifiedUtc = dateCreated.AddDays(-1)
             };
 
             //act
@@ -167,9 +161,8 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var blog = new Mock<Blog>();
-            DateTime dateCreated = DateTime.Now;
+            DateTime dateCreated = DateTime.UtcNow;
             blog.Object.Id = 1;
-            blog.Setup(b => b.TimeZone.Now).Returns(dateCreated);
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
@@ -186,8 +179,8 @@ namespace UnitTests.Subtext.Framework.Services
                 BlogId = 1,
                 Body = "test",
                 Title = "title",
-                DateCreated = dateCreated.AddDays(-2),
-                DateModified = dateCreated.AddDays(-1)
+                DateCreatedUtc = dateCreated.AddDays(-2),
+                DateModifiedUtc = dateCreated.AddDays(-1)
             };
 
             //act
@@ -202,7 +195,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             // arrange
             var context = new Mock<ISubtextContext>();
-            var feedback = new FeedbackItem(FeedbackType.Comment) {Approved = true, Deleted = false};
+            var feedback = new FeedbackItem(FeedbackType.Comment) { Approved = true, Deleted = false };
             context.Setup(c => c.Repository.GetFeedback(112)).Returns(feedback);
             var service = new CommentService(context.Object, null);
 

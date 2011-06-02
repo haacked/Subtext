@@ -108,7 +108,7 @@ namespace Subtext.Framework.Syndication
         /// <returns></returns>
         protected override DateTime GetPublishedDateUtc(Entry item)
         {
-            return Blog.TimeZone.ToUtc(item.DateSyndicated);
+            return item.DatePublishedUtc;
         }
 
         /// <summary>
@@ -153,9 +153,9 @@ namespace Subtext.Framework.Syndication
 
         protected override EnclosureItem GetEnclosureFromItem(Entry item)
         {
-            if(item.Enclosure != null && item.Enclosure.AddToFeed)
+            if (item.Enclosure != null && item.Enclosure.AddToFeed)
             {
-                var enc = new EnclosureItem {Url = item.Enclosure.Url, MimeType = item.Enclosure.MimeType, Size = item.Enclosure.Size};
+                var enc = new EnclosureItem { Url = item.Enclosure.Url, MimeType = item.Enclosure.MimeType, Size = item.Enclosure.Size };
                 return enc;
             }
             return null;

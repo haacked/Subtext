@@ -8,7 +8,6 @@ using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
 using UnitTests.Subtext.Framework.Util;
@@ -38,9 +37,9 @@ namespace UnitTests.Subtext.Framework.Syndication
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post",
                                                                            "Body of the post.");
             entry.EntryName = "titleofthepost";
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 
             var context = new Mock<ISubtextContext>();
             context.FakeSyndicationContext(blogInfo, "/", null);
@@ -99,18 +98,18 @@ namespace UnitTests.Subtext.Framework.Syndication
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blogInfo, "haacked", "title of the post",
                                                                            "Body of the post.");
             entry.EntryName = "titleofthepost";
-            entry.DateCreated =
-                entry.DateSyndicated =
-                entry.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreatedUtc =
+                entry.DatePublishedUtc =
+                entry.DateModifiedUtc = DateTime.ParseExact("2006/01/30 02:00", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             entry.Id = 1001;
 
             var comment = new FeedbackItem(FeedbackType.Comment);
             comment.Id = 1002;
-            comment.DateCreated =
-                comment.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            comment.DateCreatedUtc =
+                comment.DateModifiedUtc = DateTime.ParseExact("2006/02/01 08:00", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
             comment.Title = "re: titleofthepost";
             comment.ParentEntryName = entry.EntryName;
-            comment.ParentDateCreated = entry.DateCreated;
+            comment.ParentDateCreatedUtc = entry.DateCreatedUtc;
             comment.Body = "<strong>I rule!</strong>";
             comment.Author = "Jane Schmane";
             comment.Email = "jane@example.com";
@@ -177,7 +176,11 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             expected = string.Format(expected, VersionInfo.VersionDisplayText);
 
-            Assert.AreEqual(expected, writer.Xml);
+            // Act
+            string rss = writer.Xml;
+
+            // Assert
+            UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, rss);
         }
 
         [TearDown]
@@ -188,7 +191,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         [Test]
         public void Ctor_WithNullEntryCollection_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => 
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
                 new CommentRssWriter(new StringWriter(), null, new Entry(PostType.BlogPost),
                                  new Mock<ISubtextContext>().Object)
             );
@@ -197,7 +200,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         [Test]
         public void Ctor_WithNullEntry_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => 
+            UnitTestHelper.AssertThrowsArgumentNullException(() =>
                 new CommentRssWriter(new StringWriter(), new List<FeedbackItem>(), null, new Mock<ISubtextContext>().Object)
             );
         }

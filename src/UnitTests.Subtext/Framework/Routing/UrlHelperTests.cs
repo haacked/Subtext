@@ -21,13 +21,19 @@ namespace UnitTests.Subtext.Framework.Routing
             var routeData = new RouteData();
             routeData.Values.Add("subfolder", "subfolder");
             BlogUrlHelper helper = SetupUrlHelper("/", routeData);
-            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var dateCreated = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var datePublishedUtc = dateCreated;
+            var datePublished = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var blog = new Mock<Blog>();
+            blog.Setup(b => b.TimeZone.FromUtc(datePublishedUtc)).Returns(datePublished);
+
             var entry = new Entry(PostType.BlogPost)
             {
                 Id = 123,
-                DateCreated = dateCreated,
-                DateSyndicated = dateCreated,
-                EntryName = "post-slug"
+                DateCreatedUtc = datePublishedUtc.AddDays(-4),
+                DatePublishedUtc = datePublishedUtc,
+                EntryName = "post-slug",
+                Blog = blog.Object
             };
 
             //act
@@ -42,20 +48,25 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             BlogUrlHelper helper = SetupUrlHelper("/");
-            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var datePublishedUtc = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var datePublished = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var blog = new Mock<Blog>();
+            blog.Setup(b => b.TimeZone.FromUtc(datePublishedUtc)).Returns(datePublished);
+
             var entry = new Entry(PostType.BlogPost)
             {
                 Id = 123,
-                DateSyndicated = dateCreated,
-                DateCreated = dateCreated,
-                EntryName = "post-slug"
+                DatePublishedUtc = datePublishedUtc,
+                DateCreatedUtc = datePublishedUtc.AddDays(-4),
+                EntryName = "post-slug",
+                Blog = blog.Object
             };
 
             //act
             string url = helper.EntryUrl(entry);
 
             //assert
-            Assert.AreEqual("/archive/2008/01/23/post-slug.aspx", url);
+            Assert.AreEqual("/archive/2008/01/24/post-slug.aspx", url);
         }
 
         [Test]
@@ -63,35 +74,38 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             BlogUrlHelper helper = SetupUrlHelper("/");
-            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            DateTime dateSyndicated = DateTime.ParseExact("2008/02/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            DateTime datePublishedUtc = DateTime.ParseExact("2008/02/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            DateTime datePublished = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var blog = new Mock<Blog>();
+            blog.Setup(b => b.TimeZone.FromUtc(datePublishedUtc)).Returns(datePublished);
+
             var entry = new Entry(PostType.BlogPost)
             {
                 Id = 123,
-                DateCreated = dateCreated,
-                DateSyndicated = dateSyndicated,
-                EntryName = "post-slug"
+                DateCreatedUtc = datePublishedUtc.AddDays(-4),
+                DatePublishedUtc = datePublishedUtc,
+                EntryName = "post-slug",
+                Blog = blog.Object
             };
 
             //act
             string url = helper.EntryUrl(entry);
 
             //assert
-            Assert.AreEqual("/archive/2008/02/23/post-slug.aspx", url);
+            Assert.AreEqual("/archive/2008/01/24/post-slug.aspx", url);
         }
-
 
         [Test]
         public void EntryUrl_WithEntryWhichIsReallyAnArticle_ReturnsArticleLink()
         {
             //arrange
             BlogUrlHelper helper = SetupUrlHelper("/");
-            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            DateTime datePublished = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var entry = new Entry(PostType.BlogPost)
             {
                 Id = 123,
-                DateCreated = dateCreated,
-                DateSyndicated = dateCreated,
+                DateCreatedUtc = datePublished.AddDays(-4),
+                DatePublishedUtc = datePublished,
                 EntryName = "post-slug",
                 PostType = PostType.Story
             };
@@ -103,19 +117,23 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/articles/post-slug.aspx", url);
         }
 
-
         [Test]
         public void EntryUrl_WithEntryNotHavingEntryName_RendersVirtualPathWithId()
         {
             //arrange
             BlogUrlHelper helper = SetupUrlHelper("/");
-            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            DateTime datePublished = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            DateTime datePublishedUtc = DateTime.ParseExact("2008/01/22", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var blog = new Mock<Blog>();
+            blog.Setup(b => b.TimeZone.FromUtc(datePublishedUtc)).Returns(datePublished);
+
             var entry = new Entry(PostType.BlogPost)
             {
-                DateCreated = dateCreated,
-                DateSyndicated = dateCreated,
+                DateCreatedUtc = datePublished.AddDays(-4),
+                DatePublishedUtc = datePublishedUtc,
                 EntryName = string.Empty,
-                Id = 123
+                Id = 123,
+                Blog = blog.Object
             };
 
             //act
@@ -130,13 +148,18 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             BlogUrlHelper helper = SetupUrlHelper("/App");
-            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            DateTime datePublished = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            DateTime datePublishedUtc = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var blog = new Mock<Blog>();
+            blog.Setup(b => b.TimeZone.FromUtc(datePublishedUtc)).Returns(datePublished);
+
             var entry = new Entry(PostType.BlogPost)
             {
                 Id = 123,
-                DateCreated = dateCreated,
-                DateSyndicated = dateCreated,
-                EntryName = "post-slug"
+                DateCreatedUtc = datePublished.AddDays(-4),
+                DatePublishedUtc = datePublishedUtc,
+                EntryName = "post-slug",
+                Blog = blog.Object
             };
 
             //act
@@ -170,22 +193,26 @@ namespace UnitTests.Subtext.Framework.Routing
             UnitTestHelper.AssertThrows<ArgumentException>(() => helper.EntryUrl(new Entry(PostType.None)));
         }
 
-
         [Test]
         public void FeedbackUrl_WithEntryHavingEntryName_RendersVirtualPathWithFeedbackIdInFragment()
         {
             //arrange
             BlogUrlHelper helper = SetupUrlHelper("/");
-            DateTime dateCreated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var datePublished = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var datePublishedUtc = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var blog = new Mock<Blog>();
+            blog.Setup(b => b.TimeZone.FromUtc(datePublishedUtc)).Returns(datePublished);
+
             var comment = new FeedbackItem(FeedbackType.Comment)
             {
                 Id = 321,
                 Entry = new Entry(PostType.BlogPost)
                 {
                     Id = 123,
-                    DateCreated = dateCreated,
-                    DateSyndicated = dateCreated,
-                    EntryName = "post-slug"
+                    DateCreatedUtc = datePublished.AddDays(-4),
+                    DatePublishedUtc = datePublishedUtc,
+                    EntryName = "post-slug",
+                    Blog = blog.Object
                 }
             };
 
@@ -201,12 +228,12 @@ namespace UnitTests.Subtext.Framework.Routing
         {
             //arrange
             BlogUrlHelper helper = SetupUrlHelper("/");
-            DateTime dateSyndicated = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            var datePublishedUtc = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             var comment = new FeedbackItem(FeedbackType.Comment)
             {
                 Id = 321,
                 EntryId = 1234,
-                ParentDateSyndicated = dateSyndicated
+                ParentDatePublishedUtc = datePublishedUtc
             };
 
             //act
@@ -264,7 +291,7 @@ namespace UnitTests.Subtext.Framework.Routing
                 Entry = new Entry(PostType.BlogPost)
                 {
                     Id = NullValue.NullInt32,
-                    DateCreated = dateCreated,
+                    DateCreatedUtc = dateCreated,
                     EntryName = "post-slug"
                 }
             };

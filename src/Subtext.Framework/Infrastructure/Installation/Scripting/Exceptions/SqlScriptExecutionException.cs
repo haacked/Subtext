@@ -46,7 +46,8 @@ namespace Subtext.Scripting.Exceptions
         /// Initializes a new instance of the <see cref="SqlScriptExecutionException"/> class.
         /// </summary>
         /// <param name="message">The message.</param>
-        public SqlScriptExecutionException(string message) : base(message)
+        public SqlScriptExecutionException(string message)
+            : base(message)
         {
         }
 
@@ -55,7 +56,8 @@ namespace Subtext.Scripting.Exceptions
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
-        public SqlScriptExecutionException(string message, Exception innerException) : base(message, innerException)
+        public SqlScriptExecutionException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
 
@@ -65,7 +67,8 @@ namespace Subtext.Scripting.Exceptions
         /// <param name="message">The message.</param>
         /// <param name="script">The script.</param>
         /// <param name="returnValue">The return value.</param>
-        public SqlScriptExecutionException(string message, Script script, int returnValue) : base(message)
+        public SqlScriptExecutionException(string message, Script script, int returnValue)
+            : base(message)
         {
             _script = script;
             _returnValue = returnValue;
@@ -87,7 +90,8 @@ namespace Subtext.Scripting.Exceptions
 
         // Because this class is sealed, this constructor is private. 
         // if this class is not sealed, this constructor should be protected.
-        private SqlScriptExecutionException(SerializationInfo info, StreamingContext context) : base(info, context)
+        private SqlScriptExecutionException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
             _script = info.GetValue("Script", typeof(string)) as Script;
         }
@@ -118,7 +122,7 @@ namespace Subtext.Scripting.Exceptions
             get
             {
                 string message = base.Message;
-                if(Script != null)
+                if (Script != null)
                 {
                     message += string.Format(CultureInfo.InvariantCulture, "{0}ScriptName: {1}", Environment.NewLine,
                                              _script);
@@ -127,8 +131,6 @@ namespace Subtext.Scripting.Exceptions
                 return message;
             }
         }
-
-        #region ISerializable Members
 
         /// <summary>
         /// When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"/>
@@ -143,7 +145,5 @@ namespace Subtext.Scripting.Exceptions
             info.AddValue("Script", _script);
             GetObjectData(info, context);
         }
-
-        #endregion
     }
 }

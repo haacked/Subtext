@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.BlogMl
             bool categoryCreated = false;
             context.Setup(c => c.Repository.CreateLinkCategory(It.IsAny<LinkCategory>())).Callback(() => categoryCreated = true);
             var blog = new BlogMLBlog();
-            blog.Categories.Add(new BlogMLCategory {Title = "Category Title", ID = "123"});
+            blog.Categories.Add(new BlogMLCategory { Title = "Category Title", ID = "123" });
             var repository = new BlogImportRepository(context.Object, null, null, new BlogMLImportMapper());
 
             // act
@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.FromUtc(It.IsAny<DateTime>())).Returns(DateTime.Now);
+            context.Setup(c => c.Blog).Returns(new Blog());
             var entryPublisher = new Mock<IEntryPublisher>();
             entryPublisher.Setup(p => p.Publish(It.IsAny<Entry>())).Returns(310);
             var blog = new BlogMLBlog();
@@ -73,14 +73,14 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.FromUtc(It.IsAny<DateTime>())).Returns(DateTime.Now);
+            context.Setup(c => c.Blog).Returns(new Blog());
             context.Setup(c => c.Repository.Create(It.IsAny<Entry>(), It.IsAny<IEnumerable<int>>()));
             var transformation = new CompositeTextTransformation();
             var searchengine = new Mock<IIndexingService>();
             var entryPublisher = new EntryPublisher(context.Object, transformation, null, searchengine.Object);
             var keywordExpander = new KeywordExpander((IEnumerable<KeyWord>)null);
             transformation.Add(keywordExpander);
-            var blog = new BlogMLBlog() {Title = "MyBlog"};
+            var blog = new BlogMLBlog() { Title = "MyBlog" };
             var post = new BlogMLPost();
             var repository = new BlogImportRepository(context.Object, null, entryPublisher, new BlogMLImportMapper());
 
@@ -98,7 +98,7 @@ namespace UnitTests.Subtext.BlogMl
             var commentService = new Mock<ICommentService>();
             bool commentCreated = false;
             commentService.Setup(s => s.Create(It.IsAny<FeedbackItem>(), false/*runFilters*/)).Callback(() => commentCreated = true);
-            
+
             var repository = new BlogImportRepository(null, commentService.Object, null, new BlogMLImportMapper());
 
             // act
@@ -199,10 +199,9 @@ namespace UnitTests.Subtext.BlogMl
         public void SetExtendedProperties_WithKeyForCommentModeration_EnablesModeration()
         {
             // arrange
-            var extendedProperties = new BlogMLBlog.ExtendedPropertiesCollection
-            {new Pair<string, string>(BlogMLBlogExtendedProperties.CommentModeration, "true")};
+            var extendedProperties = new BlogMLBlog.ExtendedPropertiesCollection { new Pair<string, string>(BlogMLBlogExtendedProperties.CommentModeration, "true") };
             var context = new Mock<ISubtextContext>();
-            var blog = new Blog {ModerationEnabled = false};
+            var blog = new Blog { ModerationEnabled = false };
             context.Setup(c => c.Blog).Returns(blog);
             bool blogUpdated = false;
             context.Setup(c => c.Repository.UpdateBlog(blog)).Callback(() => blogUpdated = true);
@@ -220,8 +219,7 @@ namespace UnitTests.Subtext.BlogMl
         public void SetExtendedProperties_WithKeyForTrackbacksEnabled_EnablesTrackbacks()
         {
             // arrange
-            var extendedProperties = new BlogMLBlog.ExtendedPropertiesCollection
-            {new Pair<string, string>(BlogMLBlogExtendedProperties.EnableSendingTrackbacks, "true")};
+            var extendedProperties = new BlogMLBlog.ExtendedPropertiesCollection { new Pair<string, string>(BlogMLBlogExtendedProperties.EnableSendingTrackbacks, "true") };
             var context = new Mock<ISubtextContext>();
             var blog = new Blog { TrackbacksEnabled = false };
             context.Setup(c => c.Blog).Returns(blog);

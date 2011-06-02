@@ -41,7 +41,7 @@ namespace Subtext.Web
                                + "&subject=re:" + safeTitle
                                + "&body=----------%0A"
                                + "From: " + safeAuthor + " (" + Email + ")%0A"
-                               + "Sent: " + feedback.DateCreated.ToString().EncodeForMailTo() + "%0A"
+                               + "Sent: " + feedback.DateCreatedUtc.ToString().EncodeForMailTo() + "%0A"
                                + "Subject: " + safeTitle.Replace("+", " ") + "%0A%0A"
                                + safeBody;
             MailTo =

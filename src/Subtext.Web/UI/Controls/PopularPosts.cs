@@ -55,7 +55,7 @@ namespace Subtext.Web.UI.Controls
             }
 
             Response.Cookies[strCookieName].Value = filterTypeText;
-            Response.Cookies[strCookieName].Expires = Config.CurrentBlog.TimeZone.Now.AddYears(1);
+            Response.Cookies[strCookieName].Expires = DateTime.UtcNow.AddYears(1);
 
             if (!string.IsNullOrEmpty(filterTypeText))
             {

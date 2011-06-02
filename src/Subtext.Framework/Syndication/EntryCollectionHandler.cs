@@ -25,7 +25,8 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public abstract class EntryCollectionHandler<T> : BaseSyndicationHandler
     {
-        protected EntryCollectionHandler(ISubtextContext subtextContext) : base(subtextContext)
+        protected EntryCollectionHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
@@ -35,23 +36,23 @@ namespace Subtext.Framework.Syndication
         {
             string dt = LastModifiedHeader;
 
-            if(dt != null)
+            if (dt != null)
             {
                 ICollection<T> ec = GetFeedEntries();
 
-                if(ec != null && ec.Count > 0)
+                if (ec != null && ec.Count > 0)
                 {
                     //Get the first entry.
                     T entry = default(T);
                     //TODO: Probably change GetFeedEntries to return ICollection<Entry>
-                    foreach(T en in ec)
+                    foreach (T en in ec)
                     {
                         entry = en;
                         break;
                     }
                     return
-                        DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture),
-                                         ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
+                        DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime(),
+                                         GetItemCreatedDateUtc(entry)) == 0;
                 }
             }
             return false;
@@ -84,6 +85,6 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns></returns>
-        protected abstract DateTime GetItemCreatedDate(T item);
+        protected abstract DateTime GetItemCreatedDateUtc(T item);
     }
 }

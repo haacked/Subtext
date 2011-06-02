@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MbUnit.Framework;
 using Ninject;
 using Ninject.Syntax;
+using Subtext.Framework.Services;
 using Subtext.Web.App_Start;
 
 namespace UnitTests.Subtext.Framework.Infrastructure
@@ -39,7 +40,11 @@ namespace UnitTests.Subtext.Framework.Infrastructure
                 var type = typeof(T);
                 if (Types.Contains(type))
                 {
-                    throw new InvalidOperationException(String.Format("The type {0} is already registered!", type.FullName));
+                    // special case 
+                    if (type != typeof(ICommentSpamService))
+                    {
+                        throw new InvalidOperationException(String.Format("The type {0} is already registered!", type.FullName));
+                    }
                 }
                 Types.Add(type);
                 return _kernel.Bind<T>();

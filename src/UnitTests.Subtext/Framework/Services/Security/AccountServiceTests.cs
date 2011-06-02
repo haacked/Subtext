@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Services.Account
 
             // assert
             Assert.AreEqual(1, responseCookies.Count);
-            Assert.IsTrue(responseCookies[0].Expires < DateTime.Now);
+            Assert.IsTrue(responseCookies[0].Expires < DateTime.UtcNow);
         }
     }
 }

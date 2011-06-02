@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -31,7 +30,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
 
-            ICollection<BlogGroup> groups = Config.ListBlogGroups(true);
+            ICollection<BlogGroup> groups = Repository.ListBlogGroups(true);
             blogGroupRepeater.DataSource = groups;
             blogGroupRepeater.DataBind();
         }

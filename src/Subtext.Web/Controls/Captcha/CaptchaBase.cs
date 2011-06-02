@@ -132,7 +132,7 @@ namespace Subtext.Web.Controls.Captcha
         /// <returns></returns>
         protected virtual string EncryptAnswer(string answer)
         {
-            return EncryptString(answer + "|" + DateTime.Now.ToString("yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture));
+            return EncryptString(answer + "|" + DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture));
         }
 
         ///<summary>
@@ -245,7 +245,7 @@ namespace Subtext.Web.Controls.Captcha
             answerAndDate._answer = answerParts[0];
             answerAndDate._date = DateTime.ParseExact(answerParts[1], "yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture);
 
-            if (timeoutInSeconds != 0 && (DateTime.Now - answerAndDate._date).TotalSeconds >= timeoutInSeconds)
+            if (timeoutInSeconds != 0 && (DateTime.UtcNow - answerAndDate._date).TotalSeconds >= timeoutInSeconds)
             {
                 throw new CaptchaExpiredException(Resources.CaptchaExpired_WaitedTooLong);
             }

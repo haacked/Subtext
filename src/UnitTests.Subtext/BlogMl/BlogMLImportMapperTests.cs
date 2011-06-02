@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using BlogML;
 using BlogML.Xml;
 using MbUnit.Framework;
 using Moq;
-using Subtext.Framework.Components;
-using Subtext.ImportExport;
 using Subtext.Extensibility;
 using Subtext.Framework;
-using BlogML;
+using Subtext.Framework.Components;
+using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
 {
@@ -16,28 +16,26 @@ namespace UnitTests.Subtext.BlogMl
     public class BlogMLImportMapperTests
     {
         [Test]
-        public void ConvertBlogPost_WithSyndicatedDate_ConvertsDateToBlogTimezone()
+        public void ConvertBlogPost_WithDateModified_ReturnsItAsDatePublishedUtc()
         {
             // arrange
             DateTime utcNow = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
             var post = new BlogMLPost { Approved = true, DateModified = utcNow };
             var blog = new Mock<Blog>();
-            DateTime expected = DateTime.ParseExact("2009/08/15 05:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-            blog.Setup(b => b.TimeZone.FromUtc(utcNow)).Returns(expected);
-                var mapper = new BlogMLImportMapper();
+            var mapper = new BlogMLImportMapper();
 
             // act
             var entry = mapper.ConvertBlogPost(post, new BlogMLBlog(), blog.Object);
 
             // assert
-            Assert.AreEqual(expected, entry.DateSyndicated);
+            Assert.AreEqual(utcNow, entry.DatePublishedUtc);
         }
 
         [Test]
         public void ConvertBlogPost_WithApprovedPost_SetsAppropriatePublishPropertiesOfEntry()
         {
             // arrange
-            var post = new BlogMLPost {Approved = true};
+            var post = new BlogMLPost { Approved = true };
             var mapper = new BlogMLImportMapper();
 
             // act
@@ -55,12 +53,12 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var blog = new BlogMLBlog();
-            blog.Authors.Add(new BlogMLAuthor { ID = "111", Title = "Not-Haacked", Email = "spam-me@example.com"});
-            blog.Authors.Add(new BlogMLAuthor { ID = "222", Title = "Haacked", Email = "noneofyourbusiness@example.com"});
+            blog.Authors.Add(new BlogMLAuthor { ID = "111", Title = "Not-Haacked", Email = "spam-me@example.com" });
+            blog.Authors.Add(new BlogMLAuthor { ID = "222", Title = "Haacked", Email = "noneofyourbusiness@example.com" });
             var post = new BlogMLPost();
             post.Authors.Add("222");
             var mapper = new BlogMLImportMapper();
-            
+
             // act
             var entry = mapper.ConvertBlogPost(post, blog, null);
 
@@ -95,7 +93,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var blog = new BlogMLBlog();
-            blog.Categories.Add(new BlogMLCategory{ID="abc", Title = "Category A"});
+            blog.Categories.Add(new BlogMLCategory { ID = "abc", Title = "Category A" });
             blog.Categories.Add(new BlogMLCategory { ID = "def", Title = "Category B" });
             blog.Categories.Add(new BlogMLCategory { ID = "#@!", Title = "Category C" });
             var post = new BlogMLPost();
@@ -133,7 +131,7 @@ namespace UnitTests.Subtext.BlogMl
             // arrange
             var title = new string('a', 51);
             var blog = new BlogMLBlog();
-            blog.Authors.Add(new BlogMLAuthor{ID = "123", Title = title});
+            blog.Authors.Add(new BlogMLAuthor { ID = "123", Title = title });
             var post = new BlogMLPost();
             post.Authors.Add("123");
             var mapper = new BlogMLImportMapper();
@@ -163,7 +161,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertBlogPost_WithNullTitleNameButWithPostUrlContainingBlogSpotDotCom_UsesLastSegmentAsTitle()
         {
             // arrange
-            var post = new BlogMLPost {PostUrl = "http://example.blogspot.com/2003/07/the-last-segment.html"};
+            var post = new BlogMLPost { PostUrl = "http://example.blogspot.com/2003/07/the-last-segment.html" };
             var mapper = new BlogMLImportMapper();
 
             // act
@@ -205,7 +203,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertBlogPost_WithPostHavingExcerpt_SetsEntryDescription()
         {
             // arrange
-            var post = new BlogMLPost{ HasExcerpt = true, Excerpt = new BlogMLContent {Text = "This is a story about a 3 hour voyage"}};
+            var post = new BlogMLPost { HasExcerpt = true, Excerpt = new BlogMLContent { Text = "This is a story about a 3 hour voyage" } };
             var mapper = new BlogMLImportMapper();
 
             // act
@@ -276,7 +274,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertComment_WithUnapprovedComment_SetsFeedbackToTrash()
         {
             // arrange
-            var comment = new BlogMLComment { UserUrl = "not-valid-url", Approved = false};
+            var comment = new BlogMLComment { UserUrl = "not-valid-url", Approved = false };
             var mapper = new BlogMLImportMapper();
 
             // act
@@ -291,7 +289,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertComment_WithInvalidUserUrl_IgnoresUrl()
         {
             // arrange
-            var comment = new BlogMLComment { UserUrl= "not-valid-url" };
+            var comment = new BlogMLComment { UserUrl = "not-valid-url" };
             var mapper = new BlogMLImportMapper();
 
             // act
@@ -319,7 +317,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertTrackback_WithInvalidSourceUrl_IgnoresUrl()
         {
             // arrange
-            var trackback = new BlogMLTrackback {Url = "not-valid-url"};
+            var trackback = new BlogMLTrackback { Url = "not-valid-url" };
             var mapper = new BlogMLImportMapper();
 
             // act

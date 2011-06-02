@@ -221,7 +221,7 @@ namespace Subtext.Framework.Data
                 return null;
             }
             cachedEntry.Blog = blog;
-            return cachedEntry.DateSyndicated > blog.TimeZone.Now ? null : cachedEntry;
+            return cachedEntry.DatePublishedUtc > DateTimeOffset.UtcNow ? null : cachedEntry;
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace Subtext.Framework.Data
 
         public static void InsertDuration(this ICache cache, string key, object value, int duration, CacheDependency cacheDependency)
         {
-            cache.Insert(key, value, cacheDependency, DateTime.Now.AddSeconds(duration), TimeSpan.Zero, CacheItemPriority.Normal, null);
+            cache.Insert(key, value, cacheDependency, DateTime.UtcNow.AddSeconds(duration), TimeSpan.Zero, CacheItemPriority.Normal, null);
         }
 
         public static void InsertDurationSliding(this ICache cache, string key, object value, CacheDependency cacheDependency, int slidingExpiration)

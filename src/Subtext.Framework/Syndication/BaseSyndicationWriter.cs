@@ -33,11 +33,11 @@ namespace Subtext.Framework.Syndication
         /// Creates a new <see cref="BaseSyndicationWriter"/> instance.
         /// </summary>
         protected BaseSyndicationWriter(TextWriter writer, DateTime dateLastViewedFeedItemPublished,
-                                        bool useDeltaEncoding, ISubtextContext context) : base(writer)
+                                        bool useDeltaEncoding, ISubtextContext context)
+            : base(writer)
         {
-            LatestPublishDate = NullValue.NullDateTime;
-
-            DateLastViewedFeedItemPublished = dateLastViewedFeedItemPublished;
+            LatestPublishDateUtc = NullValue.NullDateTime;
+            DateLastViewedFeedItemPublishedUtc = dateLastViewedFeedItemPublished;
             _writer = writer;
             SubtextContext = context;
             Blog = context.Blog;
@@ -93,7 +93,7 @@ namespace Subtext.Framework.Syndication
         /// Gets the publish date of the latest syndicated item.
         /// </summary>
         /// <value></value>
-        public DateTime LatestPublishDate { get; protected set; }
+        public DateTime LatestPublishDateUtc { get; protected set; }
 
         /// <summary>
         /// Gets the publish date of the last syndicated feed item 
@@ -101,7 +101,7 @@ namespace Subtext.Framework.Syndication
         /// the ETag.
         /// </summary>
         /// <value></value>
-        public DateTime DateLastViewedFeedItemPublished { get; private set; }
+        public DateTime DateLastViewedFeedItemPublishedUtc { get; private set; }
 
         public bool UseAggBugs { get; set; }
 

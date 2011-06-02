@@ -55,22 +55,22 @@ namespace Subtext.Framework.Web.HttpModules
         static void ContextPostReleaseRequestState(object sender, EventArgs e)
         {
             var app = (HttpApplication)sender;
-            if(app.Request.Path.Contains("css.axd") || app.Request.Path.Contains("js.axd"))
+            if (app.Request.Path.Contains("css.axd") || app.Request.Path.Contains("js.axd"))
             {
-                if(IsEncodingAccepted(Gzip))
+                if (IsEncodingAccepted(Gzip))
                 {
                     app.Response.Filter = new GZipStream(app.Response.Filter, CompressionMode.Compress);
                     SetEncoding(Gzip);
                 }
-                else if(IsEncodingAccepted(Deflate))
+                else if (IsEncodingAccepted(Deflate))
                 {
                     app.Response.Filter = new DeflateStream(app.Response.Filter, CompressionMode.Compress);
                     SetEncoding(Deflate);
                 }
             }
-            else if(app.Request.Path.Contains("WebResource.axd"))
+            else if (app.Request.Path.Contains("WebResource.axd"))
             {
-                app.Response.Cache.SetExpires(DateTime.Now.AddDays(30));
+                app.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(30));
             }
         }
 

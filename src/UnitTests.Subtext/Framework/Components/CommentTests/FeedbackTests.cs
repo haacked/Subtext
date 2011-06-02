@@ -8,6 +8,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
@@ -51,13 +52,13 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void ConfirmSpamRemovesApprovedBitAndSetsDeletedBit()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
-
+            var repository = new DatabaseObjectProvider();
             FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                           FeedbackStatusFlag.Approved);
             Assert.IsTrue(comment.Approved, "should be approved");
 
-            FeedbackItem.ConfirmSpam(comment, null);
-            comment = FeedbackItem.Get(comment.Id);
+            repository.ConfirmSpam(comment, null);
+            comment = repository.Get(comment.Id);
             Assert.IsFalse(comment.Approved, "Should not be approved now.");
             Assert.IsTrue(comment.Deleted, "Should be moved to deleted folder now.");
         }
@@ -67,13 +68,12 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void DeleteCommentSetsDeletedBit()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
-
-            FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
-                                                                          FeedbackStatusFlag.Approved);
+            var repository = new DatabaseObjectProvider();
+            FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             Assert.IsTrue(comment.Approved, "should be approved");
 
-            FeedbackItem.Delete(comment);
-            comment = FeedbackItem.Get(comment.Id);
+            repository.Delete(comment);
+            comment = repository.Get(comment.Id);
             Assert.IsFalse(comment.Approved, "Should not be approved now.");
             Assert.IsTrue(comment.Deleted, "Should be moved to deleted folder now.");
         }
@@ -83,36 +83,36 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void DestroyCommentByStatusDestroysOnlyThatStatus()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
-
+            var repository = new DatabaseObjectProvider();
             CreateApprovedComments(3, entry);
             CreateFlaggedSpam(2, entry);
             CreateDeletedComments(3, entry);
 
             FeedbackItem newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                              FeedbackStatusFlag.Approved);
-            FeedbackItem.ConfirmSpam(newComment, null);
+            repository.ConfirmSpam(newComment, null);
             newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                 FeedbackStatusFlag.FlaggedAsSpam);
             Assert.IsFalse(newComment.Approved, "should not be approved");
-            FeedbackItem.Delete(newComment); //Move it to trash.
+            repository.Delete(newComment); //Move it to trash.
 
-            FeedbackCounts counts = FeedbackItem.GetFeedbackCounts();
+            FeedbackCounts counts = repository.GetFeedbackCounts();
             Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
             Assert.AreEqual(2, counts.FlaggedAsSpamCount, "Expected two items flagged as spam.");
             Assert.AreEqual(5, counts.DeletedCount, "Expected five in the trash");
 
-            FeedbackItem.Destroy(FeedbackStatusFlag.FlaggedAsSpam);
-            counts = FeedbackItem.GetFeedbackCounts();
+            repository.Destroy(FeedbackStatusFlag.FlaggedAsSpam);
+            counts = repository.GetFeedbackCounts();
             Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
             Assert.AreEqual(0, counts.FlaggedAsSpamCount, "Expected the items flagged as spam to be gone.");
             Assert.AreEqual(5, counts.DeletedCount, "Destroying all flagged items should not touch the trash bin.");
 
             CreateFlaggedSpam(3, entry);
-            counts = FeedbackItem.GetFeedbackCounts();
+            counts = repository.GetFeedbackCounts();
             Assert.AreEqual(3, counts.FlaggedAsSpamCount, "Expected three items flagged as spam.");
 
-            FeedbackItem.Destroy(FeedbackStatusFlag.Deleted);
-            counts = FeedbackItem.GetFeedbackCounts();
+            repository.Destroy(FeedbackStatusFlag.Deleted);
+            counts = repository.GetFeedbackCounts();
             Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
             Assert.AreEqual(3, counts.FlaggedAsSpamCount, "Expected three approved still");
             Assert.AreEqual(0, counts.DeletedCount, "Destroying all deleted items should not touch the flagged items.");
@@ -120,7 +120,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 
         private static void CreateComments(int count, Entry entry, FeedbackStatusFlag status)
         {
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, status);
             }
@@ -151,21 +151,21 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(0, info.CommentCount);
             Assert.AreEqual(0, info.PingTrackCount);
 
-            info = Config.GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore.
+            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore.
             Assert.AreEqual(0, info.CommentCount);
             Assert.AreEqual(0, info.PingTrackCount);
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
-            info = Config.GetBlog(info.Host, info.Subfolder);
+            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder);
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
-            info = Config.GetBlog(info.Host, info.Subfolder);
+            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder);
             Assert.AreEqual(2, info.CommentCount, "Blog CommentCount should be 2");
             Assert.AreEqual(2, info.PingTrackCount, "Blog Ping/Trackback count should be 2");
         }
@@ -182,7 +182,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 
             Entry entry2 = UnitTestHelper.CreateEntryInstanceForSyndication("johnny b goode", "foo-bar", "zaa zaa zoo.");
             UnitTestHelper.Create(entry2);
-            info = Config.GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore
+            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore
 
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
@@ -198,12 +198,12 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
-            info = Config.GetBlog(info.Host, info.Subfolder);
+            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder);
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
 
             ObjectProvider.Instance().DeleteEntry(entry.Id);
-            info = Config.GetBlog(info.Host, info.Subfolder);
+            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder);
 
             Assert.AreEqual(0, info.CommentCount, "Blog CommentCount should be 0");
             Assert.AreEqual(0, info.PingTrackCount, "Blog Ping/Trackback count should be 0");
@@ -213,7 +213,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void DestroyCommentCannotDestroyActiveComment()
         {
             // arrange
-            var comment = new FeedbackItem(FeedbackType.Comment) {Approved = true};
+            var comment = new FeedbackItem(FeedbackType.Comment) { Approved = true };
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository.GetFeedback(123)).Returns(comment);
             var service = new CommentService(context.Object, null);
@@ -227,7 +227,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void ApproveCommentRemovesDeletedAndConfirmedSpamBits()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
-
+            var repository = new DatabaseObjectProvider();
             FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                           FeedbackStatusFlag.ConfirmedSpam |
                                                                           FeedbackStatusFlag.Deleted);
@@ -235,8 +235,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.IsTrue(comment.Deleted, "should be deleted");
             Assert.IsTrue(comment.ConfirmedSpam, "should be confirmed spam");
 
-            FeedbackItem.Approve(comment, null);
-            comment = FeedbackItem.Get(comment.Id);
+            repository.Approve(comment, null);
+            comment = repository.Get(comment.Id);
             Assert.IsTrue(comment.Approved, "Should be approved now.");
             Assert.IsFalse(comment.Deleted, "Should not be deleted.");
             Assert.IsFalse(comment.ConfirmedSpam, "Should not be confirmed spam.");
@@ -251,23 +251,23 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void CanGetAllApprovedComments()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
-
+            var repository = new DatabaseObjectProvider();
             FeedbackItem commentOne = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                              FeedbackStatusFlag.Approved);
             FeedbackItem commentTwo = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                              FeedbackStatusFlag.ApprovedByModerator);
             FeedbackItem commentThree = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                                FeedbackStatusFlag.ConfirmedSpam);
-            FeedbackItem.ConfirmSpam(commentThree, null);
+            repository.ConfirmSpam(commentThree, null);
             FeedbackItem commentFour = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment,
                                                                               FeedbackStatusFlag.FalsePositive);
 
             //We expect three of the four.
-            IPagedCollection<FeedbackItem> feedback = ObjectProvider.Instance().GetPagedFeedback(0, 10,
-                                                                                                 FeedbackStatusFlag.
-                                                                                                     Approved,
-                                                                                                 FeedbackStatusFlag.None,
-                                                                                                 FeedbackType.Comment);
+            IPagedCollection<FeedbackItem> feedback = repository.GetPagedFeedback(0, 10,
+                                                                                FeedbackStatusFlag.
+                                                                                    Approved,
+                                                                                FeedbackStatusFlag.None,
+                                                                                FeedbackType.Comment);
             Assert.AreEqual(3, feedback.Count, "We expected three to match.");
 
             //Expect reverse order
@@ -281,6 +281,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void OnlyApprovedItemsContributeToEntryFeedbackCount()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
+            var repository = new DatabaseObjectProvider();
             int entryId = entry.Id;
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
@@ -293,18 +294,18 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(1, entry.FeedBackCount, "Expected one approved feedback entry.");
 
             comment.Approved = true;
-            FeedbackItem.Update(comment);
+            repository.Update(comment);
             entry = UnitTestHelper.GetEntry(entryId, PostConfig.None, false);
             Assert.AreEqual(2, entry.FeedBackCount,
                             "After approving the second comment, expected two approved feedback entry.");
 
             comment.Approved = false;
-            FeedbackItem.Update(comment);
+            repository.Update(comment);
             entry = UnitTestHelper.GetEntry(entryId, PostConfig.None, false);
             Assert.AreEqual(1, entry.FeedBackCount,
                             "After un-approving the second comment, expected one approved feedback entry.");
 
-            FeedbackItem.Delete(comment);
+            repository.Delete(comment);
             entry = UnitTestHelper.GetEntry(entryId, PostConfig.None, false);
             Assert.AreEqual(1, entry.FeedBackCount,
                             "After un-approving the second comment, expected one approved feedback entry.");
@@ -354,7 +355,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         [Test]
         public void ChecksumHashReturnsChecksumOfCommentBody()
         {
-            var comment = new FeedbackItem(FeedbackType.Comment) {Body = "Some Body"};
+            var comment = new FeedbackItem(FeedbackType.Comment) { Body = "Some Body" };
             Console.WriteLine(comment.ChecksumHash);
             Assert.AreEqual("834.5baPHSvKBNtABZePE+OpeQ==", comment.ChecksumHash);
         }
@@ -362,6 +363,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         static FeedbackItem CreateAndUpdateFeedbackWithExactStatus(Entry entry, FeedbackType type,
                                                                    FeedbackStatusFlag status)
         {
+            var repository = new DatabaseObjectProvider();
             var feedback = new FeedbackItem(type);
             feedback.Title = UnitTestHelper.GenerateUniqueString();
             feedback.Body = UnitTestHelper.GenerateUniqueString();
@@ -378,17 +380,17 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             var service = new CommentService(subtextContext.Object, null);
             int id = service.Create(feedback, true/*runFilters*/);
 
-            feedback = FeedbackItem.Get(id);
+            feedback = repository.Get(id);
             feedback.Status = status;
-            FeedbackItem.Update(feedback);
+            repository.Update(feedback);
 
-            return FeedbackItem.Get(id);
+            return repository.Get(id);
         }
 
         Entry SetupBlogForCommentsAndCreateEntry()
         {
-            Config.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
-            Blog info = Config.GetBlog(_hostName, string.Empty);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
+            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, string.Empty);
             BlogRequest.Current.Blog = info;
             info.Email = "test@example.com";
             info.Title = "You've been haacked";
@@ -417,7 +419,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         [Test]
         public void UpdateThrowsArgumentNull()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Update(null));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => new DatabaseObjectProvider().Update((FeedbackItem)null));
         }
 
         [Test]
@@ -427,7 +429,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             var service = new Mock<ICommentSpamService>().Object;
 
             // act, assert
-            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Approve(null, service));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => new DatabaseObjectProvider().Approve(null, service));
         }
 
         [Test]
@@ -437,7 +439,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             var service = new Mock<ICommentSpamService>().Object;
 
             // act, assert
-            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.ConfirmSpam(null, service));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => new DatabaseObjectProvider().ConfirmSpam(null, service));
         }
 
         [Test]
@@ -447,7 +449,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             var service = new Mock<ICommentSpamService>().Object;
 
             // act, assert
-            UnitTestHelper.AssertThrowsArgumentNullException(() => FeedbackItem.Delete(null));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => new DatabaseObjectProvider().Delete(null));
         }
     }
 }

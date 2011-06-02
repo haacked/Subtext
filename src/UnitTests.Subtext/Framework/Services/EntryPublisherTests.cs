@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Services
             UnitTestHelper.AssertThrowsArgumentNullException(
                 () =>
                 new EntryPublisher(null, EmptyTextTransformation.Instance,
-                                   new SlugGenerator(FriendlyUrlSettings.Settings),null));
+                                   new SlugGenerator(FriendlyUrlSettings.Settings), null));
         }
 
         [Test]
@@ -35,14 +35,13 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var transform = new Mock<ITextTransformation>();
             var searchengine = new Mock<IIndexingService>();
             transform.Setup(t => t.Transform(It.IsAny<string>())).Returns<string>(s => s + "t1");
             var publisher = new EntryPublisher(context.Object, transform.Object, null, searchengine.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "Test", Body = "test"};
-            entry.Blog = new Blog() {Title = "MyTestBlog"};
+            var entry = new Entry(PostType.BlogPost) { Title = "Test", Body = "test" };
+            entry.Blog = new Blog() { Title = "MyTestBlog" };
 
             //act
             publisher.Publish(entry);
@@ -55,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithEntryTitleButNoSlug_CreatesSlug()
         {
             //arrange
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test"};
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             var slugGenerator = new Mock<ISlugGenerator>();
             slugGenerator.Setup(g => g.GetSlugFromTitle(entry)).Returns("this-is-a-test");
@@ -63,7 +62,6 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             var searchengine = new Mock<IIndexingService>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var publisher = new EntryPublisher(context.Object, null, slugGenerator.Object, searchengine.Object);
 
@@ -78,14 +76,13 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithEntryTitleAndSlug_DoesNotOverideSlug()
         {
             //arrange
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test", EntryName = "testing"};
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", EntryName = "testing" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             var slugGenerator = new Mock<ISlugGenerator>();
             slugGenerator.Setup(g => g.GetSlugFromTitle(entry)).Returns("this-is-a-test");
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchengine = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, slugGenerator.Object, searchengine.Object);
@@ -106,11 +103,10 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null)).Callback<Entry, IEnumerable<int>>(
                 (e, i) => savedEntry = e);
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchengine = new Mock<IIndexingService>();
-            var publisher = new EntryPublisher(context.Object, null, null,searchengine.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test"};
+            var publisher = new EntryPublisher(context.Object, null, null, searchengine.Object);
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
 
             //act
@@ -121,56 +117,57 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void Publish_WithEntry_SetsDateCreatedToBlogCurrentTimeZoneTime()
+        public void Publish_WithEntry_SetsDateCreatedToUtc()
         {
             //arrange
-            DateTime currentTime = DateTime.Now;
+            DateTime currentTime = DateTime.UtcNow;
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(currentTime);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchengine = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, null, searchengine.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test"};
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", IsActive = false };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
 
             //act
             publisher.Publish(entry);
 
             //assert
-            Assert.AreEqual(currentTime, entry.DateCreated);
-            //cheating by shoving this extra assert here. MUAHAHAHA!!! ;)
-            Assert.IsTrue(NullValue.IsNull(entry.DateSyndicated));
+            Assert.IsTrue(entry.DateCreatedUtc >= currentTime);
+            Assert.IsTrue(entry.DateCreatedUtc <= DateTime.UtcNow);
+            //cheating by shoving these extra asserts here. MUAHAHAHA!!! ;)
+            Assert.IsTrue(entry.DatePublishedUtc.IsNull());
+            Assert.IsTrue(entry.DateSyndicated.IsNull());
         }
 
         [Test]
-        public void Publish_WithActiveEntryAndIncludeInSyndication_SetsDateSyndicatedToBlogCurrentTimeZoneTime()
+        public void Publish_WithActiveEntryAndIncludeInSyndication_SetsDatePublishedUtcToUtc()
         {
             //arrange
-            var currentTime = DateTime.Now;
+            var currentTime = DateTime.UtcNow;
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(currentTime);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchengine = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, null, searchengine.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test", IsActive = true, IncludeInMainSyndication = true};
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", IsActive = true, IncludeInMainSyndication = true };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
 
             //act
             publisher.Publish(entry);
 
             //assert
-            Assert.AreEqual(currentTime, entry.DateSyndicated);
+            Assert.IsTrue(entry.DatePublishedUtc >= currentTime);
+            Assert.IsTrue(entry.DatePublishedUtc <= DateTime.UtcNow);
         }
 
         [Test]
         public void Publish_WithEntryHavingCategories_CreatesEntryWithAssociatedCategoryIds()
         {
             //arrange
-            DateTime currentTime = DateTime.Now;
+            DateTime currentTime = DateTime.UtcNow;
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetLinkCategory("category1", true)).Returns(new LinkCategory(11, "category1"));
             repository.Setup(r => r.GetLinkCategory("category2", true)).Returns(new LinkCategory(22, "category2"));
@@ -179,11 +176,10 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.Create(It.IsAny<Entry>(), It.IsAny<IEnumerable<int>>())).Callback
                 <Entry, IEnumerable<int>>((e, ids) => categoryIds = ids);
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(currentTime);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchengine = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, null, searchengine.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test"};
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             entry.Categories.Add("category1");
             entry.Categories.Add("category2");
@@ -208,11 +204,10 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.SetEntryTagList(It.IsAny<int>(), It.IsAny<IEnumerable<string>>()))
                 .Callback<int, IEnumerable<string>>((i, t) => tagNames = t);
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchengine = new Mock<IIndexingService>();
-            var publisher = new EntryPublisher(context.Object, null, null,searchengine.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test", Body = ""};
+            var publisher = new EntryPublisher(context.Object, null, null, searchengine.Object);
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
 
             //act
@@ -228,17 +223,16 @@ namespace UnitTests.Subtext.Framework.Services
             //arrange
             var searchEngineService = new Mock<IIndexingService>();
             Entry searchEngineEntry = null;
-            searchEngineService.Setup(s => s.AddPost(It.IsAny<Entry>(),It.IsAny<IList<string>>()))
-                .Callback<Entry, IList<string>>((e,l) => searchEngineEntry = e);
+            searchEngineService.Setup(s => s.AddPost(It.IsAny<Entry>(), It.IsAny<IList<string>>()))
+                .Callback<Entry, IList<string>>((e, l) => searchEngineEntry = e);
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "", IsActive=true };
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "", IsActive = true };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
-            
+
 
             //act
             publisher.Publish(entry);
@@ -255,11 +249,10 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchEngineService = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test", Body = "Some <script></script> Body"};
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "Some <script></script> Body" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             Config.Settings.AllowScriptsInPosts = true;
 
@@ -277,7 +270,6 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchEngineService = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
@@ -293,10 +285,9 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchEngineService = new Mock<IIndexingService>();
-            var publisher = new EntryPublisher(context.Object, null, null,searchEngineService.Object);
+            var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
 
             //act, assert
             UnitTestHelper.AssertThrows<ArgumentException>(() => publisher.Publish(new Entry(PostType.None)));
@@ -311,11 +302,10 @@ namespace UnitTests.Subtext.Framework.Services
             exception.Setup(e => e.Message).Returns("pick a unique EntryName");
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null)).Throws(exception.Object);
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchEngineService = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test", EntryName = "test"};
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", EntryName = "test" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
 
             //act, assert
@@ -333,11 +323,10 @@ namespace UnitTests.Subtext.Framework.Services
             exception.Setup(e => e.Message).Returns("unknown");
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null)).Throws(exception.Object);
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchEngineService = new Mock<IIndexingService>();
-            var publisher = new EntryPublisher(context.Object, null, null,searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test", EntryName = "test"};
+            var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", EntryName = "test" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
 
             //act, assert
@@ -353,11 +342,10 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchEngineService = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test", Body = "Some <script></script> Body"};
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "Some <script></script> Body" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             Config.Settings.AllowScriptsInPosts = false;
 
@@ -374,11 +362,10 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchEngineService = new Mock<IIndexingService>();
-            var publisher = new EntryPublisher(context.Object, null, null,searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "this is a test<script></script>", Body = "Some Body"};
+            var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test<script></script>", Body = "Some Body" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             Config.Settings.AllowScriptsInPosts = false;
 
@@ -395,12 +382,10 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchEngineService = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost)
-            {Title = "stuff", EntryName = "<script></script>", Body = "Some Body"};
+            var entry = new Entry(PostType.BlogPost) { Title = "stuff", EntryName = "<script></script>", Body = "Some Body" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             Config.Settings.AllowScriptsInPosts = false;
 
@@ -417,12 +402,10 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var searchEngineService = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, null, null, searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost)
-            {Title = "this is a test", Body = "Whatever", Description = "Some <script></script> Body"};
+            var entry = new Entry(PostType.BlogPost) { Title = "this is a test", Body = "Whatever", Description = "Some <script></script> Body" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             Config.Settings.AllowScriptsInPosts = false;
 
@@ -439,13 +422,12 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var transform = new Mock<ITextTransformation>();
             transform.Setup(t => t.Transform(It.IsAny<string>())).Returns<string>(s => s);
             var searchEngineService = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, transform.Object, null, searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "Test", Body = "test", EntryName = "original-entry-name"};
+            var entry = new Entry(PostType.BlogPost) { Title = "Test", Body = "test", EntryName = "original-entry-name" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
 
             //act
@@ -462,13 +444,12 @@ namespace UnitTests.Subtext.Framework.Services
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
-            context.Setup(c => c.Blog.TimeZone.Now).Returns(DateTime.Now);
             context.Setup(c => c.Repository).Returns(repository.Object);
             var transform = new Mock<ITextTransformation>();
             transform.Setup(t => t.Transform(It.IsAny<string>())).Returns<string>(s => s);
             var searchEngineService = new Mock<IIndexingService>();
             var publisher = new EntryPublisher(context.Object, transform.Object, null, searchEngineService.Object);
-            var entry = new Entry(PostType.BlogPost) {Title = "Test", Body = "test", EntryName = "4321"};
+            var entry = new Entry(PostType.BlogPost) { Title = "Test", Body = "test", EntryName = "4321" };
             entry.Blog = new Blog() { Title = "MyTestBlog" };
 
             //act

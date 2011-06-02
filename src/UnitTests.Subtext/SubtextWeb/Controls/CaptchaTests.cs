@@ -1,7 +1,5 @@
 using System;
 using System.Globalization;
-using System.IO;
-using System.Text;
 using System.Web.UI;
 using MbUnit.Framework;
 using Subtext.Web.Controls.Captcha;
@@ -15,7 +13,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
         public void CanRoundTripCaptchaInfo()
         {
             DateTime date =
-                DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture),
+                DateTime.ParseExact(DateTime.UtcNow.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture),
                                     "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
 
             var info = new CaptchaInfo("My Test");

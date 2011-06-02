@@ -57,7 +57,7 @@ namespace Subtext.ImportExport
                 Title = blog.Title,
                 SubTitle = blog.SubTitle,
                 RootUrl = Url.BlogUrl().ToFullyQualifiedUrl(blog).ToString(),
-                DateCreated = blog.TimeZone.Now
+                DateCreated = blog.DateCreatedUtc
             };
 
             PopulateAuthors(blog, bmlBlog);
@@ -71,10 +71,10 @@ namespace Subtext.ImportExport
             var blogCategories = from category in categories
                                  select new BlogMLCategory
                                  {
-                                    Title = category.Title,
-                                    Approved = category.IsActive,
-                                    Description = category.Description,
-                                    ID = category.Id.ToString(CultureInfo.InvariantCulture),
+                                     Title = category.Title,
+                                     Approved = category.IsActive,
+                                     Description = category.Description,
+                                     ID = category.Id.ToString(CultureInfo.InvariantCulture),
                                  };
             return blogCategories;
         }
@@ -83,7 +83,7 @@ namespace Subtext.ImportExport
         {
             string postUrl = null;
             var entryVirtualPath = Url.EntryUrl(entry);
-            if(entryVirtualPath != null)
+            if (entryVirtualPath != null)
             {
                 postUrl = entryVirtualPath.ToFullyQualifiedUrl(Blog).ToString();
             }
@@ -96,26 +96,26 @@ namespace Subtext.ImportExport
                 Content = BlogMLContent.Create(entry.Body ?? string.Empty, ContentTypes.Base64),
                 HasExcerpt = entry.HasDescription,
                 Excerpt = BlogMLContent.Create(entry.Description ?? string.Empty, ContentTypes.Base64),
-                DateCreated = Blog.TimeZone.ToUtc(entry.DateCreated),
-                DateModified = Blog.TimeZone.ToUtc(entry.IsActive ? entry.DateSyndicated : entry.DateModified),
+                DateCreated = entry.DateCreatedUtc,
+                DateModified = entry.IsActive ? entry.DatePublishedUtc : entry.DateModifiedUtc,
                 Views = (uint)entry.WebCount
             };
 
-            if(entry.HasEntryName)
+            if (entry.HasEntryName)
             {
                 post.PostName = entry.EntryName;
             }
-            
+
             // When we support multiple authors, this will have to change
             post.Authors.Add(Blog.Id.ToString(CultureInfo.InvariantCulture));
             post.Attachments.AddRange(GetPostAttachments(entry.Body, embedAttachments).ToArray());
             var comments = (from c in entry.Comments where c.FeedbackType == FeedbackType.Comment select ConvertComment(c)).ToList();
-            if(comments.Count > 0)
+            if (comments.Count > 0)
             {
                 post.Comments.AddRange(comments);
             }
             var trackbacks = (from c in entry.Comments where c.FeedbackType == FeedbackType.PingTrack select ConvertTrackback(c)).ToList();
-            if(trackbacks.Count > 0)
+            if (trackbacks.Count > 0)
             {
                 post.Trackbacks.AddRange(trackbacks);
             }
@@ -126,13 +126,13 @@ namespace Subtext.ImportExport
         {
             IEnumerable<string> attachmentUrls = body.GetAttributeValues("img", "src");
 
-            foreach(string attachmentUrl in attachmentUrls)
+            foreach (string attachmentUrl in attachmentUrls)
             {
                 string blogHostUrl = ("http://" + Blog.Host + "/").ToLowerInvariant();
                 string attachmentUrlLowerCase = attachmentUrl.ToLowerInvariant();
                 // If the URL for the attachment is local then we'll want to build a new BlogMLAttachment 
                 // add add it to the list of attachments for this post.
-                if(!attachmentUrlLowerCase.StartsWith("http") || attachmentUrlLowerCase.StartsWith(blogHostUrl))
+                if (!attachmentUrlLowerCase.StartsWith("http") || attachmentUrlLowerCase.StartsWith(blogHostUrl))
                 {
                     yield return GetAttachment(blogHostUrl, attachmentUrl, attachmentUrlLowerCase, embedAttachments);
                 }
@@ -151,13 +151,13 @@ namespace Subtext.ImportExport
                 Url = attachmentUrl
             };
 
-            if(embed)
+            if (embed)
             {
                 try
                 {
                     SetAttachmentData(attachVirtualPath, attachment);
                 }
-                catch(FileNotFoundException e)
+                catch (FileNotFoundException e)
                 {
                     Log.Error("The attachment we wish to embed was not found", e);
                     attachment.Embedded = false;
@@ -170,9 +170,9 @@ namespace Subtext.ImportExport
         {
             string attachPhysicalPath = HttpUtility.UrlDecode(SubtextContext.HttpContext.Server.MapPath(attachVirtualPath));
 
-            using(FileStream attachStream = File.OpenRead(attachPhysicalPath))
+            using (FileStream attachStream = File.OpenRead(attachPhysicalPath))
             {
-                using(var reader = new BinaryReader(attachStream))
+                using (var reader = new BinaryReader(attachStream))
                 {
                     reader.BaseStream.Position = 0;
                     byte[] data = reader.ReadBytes((int)attachStream.Length);
@@ -211,8 +211,8 @@ namespace Subtext.ImportExport
                 Title = blog.Author,
                 Approved = true,
                 Email = blog.Email,
-                DateCreated = Blog.TimeZone.ToUtc(blog.LastUpdated),
-                DateModified = Blog.TimeZone.ToUtc(blog.LastUpdated)
+                DateCreated = blog.DateModifiedUtc,
+                DateModified = blog.DateModifiedUtc
             };
             bmlBlog.Authors.Add(bmlAuthor);
         }
@@ -220,11 +220,11 @@ namespace Subtext.ImportExport
 
         public BlogMLComment ConvertComment(FeedbackItem feedbackItem)
         {
-            if(feedbackItem == null)
+            if (feedbackItem == null)
             {
                 throw new ArgumentNullException("feedbackItem");
             }
-            if(feedbackItem.FeedbackType != FeedbackType.Comment)
+            if (feedbackItem.FeedbackType != FeedbackType.Comment)
             {
                 throw new ArgumentException(String.Format(Resources.ArgumentException_CommentTypeMismatch, feedbackItem.FeedbackType, FeedbackType.Comment), "feedbackItem");
             }
@@ -238,18 +238,18 @@ namespace Subtext.ImportExport
                 UserName = feedbackItem.Author,
                 Approved = feedbackItem.Approved,
                 Content = BlogMLContent.Create(feedbackItem.Body ?? string.Empty, ContentTypes.Base64),
-                DateCreated = Blog.TimeZone.ToUtc(feedbackItem.DateCreated),
-                DateModified = Blog.TimeZone.ToUtc(feedbackItem.DateModified)
+                DateCreated = feedbackItem.DateCreatedUtc,
+                DateModified = feedbackItem.DateModifiedUtc
             };
         }
 
         public BlogMLTrackback ConvertTrackback(FeedbackItem trackback)
         {
-            if(trackback == null)
+            if (trackback == null)
             {
                 throw new ArgumentNullException("trackback");
             }
-            if(trackback.FeedbackType != FeedbackType.PingTrack)
+            if (trackback.FeedbackType != FeedbackType.PingTrack)
             {
                 throw new ArgumentException(String.Format(Resources.ArgumentException_CommentTypeMismatch, trackback.FeedbackType, FeedbackType.PingTrack), "trackback");
             }
@@ -260,8 +260,8 @@ namespace Subtext.ImportExport
                 Url = trackback.SourceUrl != null ? trackback.SourceUrl.ToString() : null,
                 Title = trackback.Title,
                 Approved = trackback.Approved,
-                DateCreated = Blog.TimeZone.ToUtc(trackback.DateCreated),
-                DateModified = Blog.TimeZone.ToUtc(trackback.DateModified)
+                DateCreated = trackback.DateCreatedUtc,
+                DateModified = trackback.DateModifiedUtc
             };
         }
     }

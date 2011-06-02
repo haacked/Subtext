@@ -41,13 +41,14 @@ namespace Subtext.Framework.Tracking
     {
         static readonly Log Log = new Log();
 
-        public TrackBackHandler(ISubtextContext subtextContext) : base(subtextContext)
+        public TrackBackHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
         public override void ProcessRequest()
         {
-            if(!SubtextContext.Blog.TrackbacksEnabled)
+            if (!SubtextContext.Blog.TrackbacksEnabled)
             {
                 return;
             }
@@ -56,7 +57,7 @@ namespace Subtext.Framework.Tracking
             {
                 HandleTrackback(SubtextContext);
             }
-            catch(BaseCommentException e)
+            catch (BaseCommentException e)
             {
                 Log.Info("Comment exception occurred.", e);
             }
@@ -70,7 +71,7 @@ namespace Subtext.Framework.Tracking
             Entry entry;
 
             int? id = subtextContext.RequestContext.GetIdFromRequest();
-            if(id != null)
+            if (id != null)
             {
                 entry = subtextContext.Repository.GetEntry(id.Value, true /* activeOnly */, false
                     /* includeCategories */);
@@ -81,7 +82,7 @@ namespace Subtext.Framework.Tracking
                 entry = subtextContext.Repository.GetEntry(slug, true /* activeOnly */, false /* includeCategories */);
             }
 
-            if(entry == null)
+            if (entry == null)
             {
                 Log.Info(string.Format(CultureInfo.InvariantCulture, Resources.Log_CouldNotExtractEntryId,
                                        httpContext.Request.Path));
@@ -89,7 +90,7 @@ namespace Subtext.Framework.Tracking
                 return;
             }
 
-            if(httpContext.Request.HttpMethod == "POST")
+            if (httpContext.Request.HttpMethod == "POST")
             {
                 CreateTrackbackAndSendResponse(subtextContext, entry, entry.Id);
             }
@@ -101,7 +102,7 @@ namespace Subtext.Framework.Tracking
 
         private static void SendTrackbackRss(ISubtextContext context, Entry entry, int postId)
         {
-            var writer = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output) {Formatting = Formatting.Indented};
+            var writer = new XmlTextWriter(context.RequestContext.HttpContext.Response.Output) { Formatting = Formatting.Indented };
 
             string url = context.UrlHelper.TrackbacksUrl(postId).ToFullyQualifiedUrl(context.Blog).ToString();
 
@@ -131,13 +132,13 @@ namespace Subtext.Framework.Tracking
             string blogName = SafeParam(context, "blog_name");
 
             Uri url = urlText.ParseUri();
-            if(url == null)
+            if (url == null)
             {
                 SendTrackbackResponse(context, 1, Resources.TrackbackResponse_NoUrl);
                 return;
             }
 
-            if(entry == null ||
+            if (entry == null ||
                !IsSourceVerification(url,
                                      subtextContext.UrlHelper.EntryUrl(entry).ToFullyQualifiedUrl(subtextContext.Blog)))
             {
@@ -147,10 +148,10 @@ namespace Subtext.Framework.Tracking
                 return;
             }
 
-            var trackback = new Trackback(entryId, title, url, blogName, excerpt, Blog.TimeZone.Now);
+            var trackback = new Trackback(entryId, title, url, blogName, excerpt);
             ICommentSpamService feedbackService = null;
             Blog blog = subtextContext.Blog;
-            if(blog.FeedbackSpamServiceEnabled)
+            if (blog.FeedbackSpamServiceEnabled)
             {
                 feedbackService = new AkismetSpamService(blog.FeedbackSpamServiceKey, blog, null, Url);
             }
@@ -169,7 +170,7 @@ namespace Subtext.Framework.Tracking
             XmlElement er = d.CreateElement("error");
             root.AppendChild(er);
             er.AppendChild(d.CreateTextNode(errorNumber.ToString(CultureInfo.InvariantCulture)));
-            if(errorMessage.Length > 0)
+            if (errorMessage.Length > 0)
             {
                 XmlElement msg = d.CreateElement("message");
                 root.AppendChild(msg);
@@ -181,7 +182,7 @@ namespace Subtext.Framework.Tracking
 
         private static string SafeParam(HttpContextBase context, string pName)
         {
-            if(context.Request.Form[pName] != null)
+            if (context.Request.Form[pName] != null)
             {
                 return HtmlHelper.SafeFormat(context.Request.Form[pName], context.Server);
             }
@@ -193,7 +194,7 @@ namespace Subtext.Framework.Tracking
         private bool IsSourceVerification(Uri sourceUrl, Uri entryUrl)
         {
             EventHandler<SourceVerificationEventArgs> handler = SourceVerification;
-            if(handler != null)
+            if (handler != null)
             {
                 var args = new SourceVerificationEventArgs(sourceUrl, entryUrl);
                 handler(this, args);

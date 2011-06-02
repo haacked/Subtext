@@ -40,7 +40,7 @@ namespace Subtext.Web.Admin.Services.Ajax
         [JsonRpcMethod("addMetaTagForBlog")]
         public MetaTag AddMetaTagForBlog(string content, string name, string httpEquiv)
         {
-            var newTag = new MetaTag(content) { Name = name, HttpEquiv = httpEquiv, BlogId = Config.CurrentBlog.Id, DateCreated = DateTime.Now };
+            var newTag = new MetaTag(content) { Name = name, HttpEquiv = httpEquiv, BlogId = Config.CurrentBlog.Id, DateCreatedUtc = DateTime.UtcNow };
 
             MetaTags.Create(newTag);
 

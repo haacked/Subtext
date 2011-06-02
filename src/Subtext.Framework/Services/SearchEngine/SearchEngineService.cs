@@ -371,7 +371,7 @@ namespace Subtext.Framework.Services.SearchEngine
             {
                 float score = hits.scoreDocs[i].score * scoreNorm;
                 SearchEngineResult result = CreateSearchResult(searcher.Doc(hits.scoreDocs[i].doc), score);
-                if (idToFilter != result.EntryId && result.Score > minScore && result.PublishDate < DateTime.Now)
+                if (idToFilter != result.EntryId && result.Score > minScore && result.PublishDate < DateTime.UtcNow)
                 {
                     list.Add(result);
                     resultsAdded++;

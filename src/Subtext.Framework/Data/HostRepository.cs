@@ -145,7 +145,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<Entry> GetRecentEntries(string host, int? groupId, int rowCount)
         {
-            using (IDataReader reader = _procedures.GetRecentPosts(host, groupId, CurrentDateTime, rowCount))
+            using (IDataReader reader = _procedures.GetRecentPosts(host, groupId, CurrentDateTimeUtc, rowCount))
             {
                 return reader.ReadCollection(r => r.ReadEntry(new Entry(PostType.BlogPost), false /* buildLinks */, true /* includeBlog */));
             }

@@ -40,8 +40,6 @@ namespace Subtext.Infrastructure
 
         protected TimeZoneInfo ServerTimeZoneInfo { get; private set; }
 
-        #region ITimeZone Members
-
         public DateTime UtcNow
         {
             get { return _utcNowFactory(); }
@@ -64,7 +62,7 @@ namespace Subtext.Infrastructure
 
         public DateTime FromUtc(DateTime dateTime)
         {
-            if(dateTime.Kind != DateTimeKind.Utc)
+            if (dateTime.Kind != DateTimeKind.Utc)
             {
                 dateTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, DateTimeKind.Unspecified);
             }
@@ -91,6 +89,12 @@ namespace Subtext.Infrastructure
             return FromTimeZone(dateTime, sourceTimeZone) > Now;
         }
 
-        #endregion
+        public int Offset
+        {
+            get
+            {
+                return TimeZoneInfo.BaseUtcOffset.Hours;
+            }
+        }
     }
 }
