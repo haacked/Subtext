@@ -51,7 +51,7 @@ namespace Subtext.Framework.Syndication
 
         protected override void Build()
         {
-            if(!_isBuilt)
+            if (!_isBuilt)
             {
                 Build(DateLastViewedFeedItemPublishedUtc);
             }
@@ -63,7 +63,7 @@ namespace Subtext.Framework.Syndication
         /// <param name="dateLastViewedFeedItemPublished">Last id viewed.</param>
         protected override void Build(DateTime dateLastViewedFeedItemPublished)
         {
-            if(!_isBuilt)
+            if (!_isBuilt)
             {
                 StartDocument();
                 SetNamespaces();
@@ -113,7 +113,7 @@ namespace Subtext.Framework.Syndication
             WriteAttributeString("rel", "self");
             WriteAttributeString("type", "application/atom+xml");
             string currentUrl = link + "Atom.aspx";
-            if(HttpContext.Current.Request != null)
+            if (HttpContext.Current.Request != null)
             {
                 currentUrl = HttpContext.Current.Request.Url.ToString();
             }
@@ -158,12 +158,11 @@ namespace Subtext.Framework.Syndication
             ClientHasAllFeedItems = true;
             LatestPublishDateUtc = DateLastViewedFeedItemPublishedUtc;
 
-            foreach(Entry entry in Items)
+            foreach (Entry entry in Items)
             {
                 // We'll show every entry if RFC3229 is not enabled.
-                //TODO: This is wrong.  What if a post is not published 
-                // and then gets published later. It will not be displayed.
-                if(!UseDeltaEncoding || entry.DatePublishedUtc > DateLastViewedFeedItemPublishedUtc)
+                //TODO: This is wrong.  What if a post is not published and then gets published later. It will not be displayed.
+                if (!UseDeltaEncoding || entry.DatePublishedUtc > DateLastViewedFeedItemPublishedUtc)
                 {
                     WriteStartElement("entry");
                     EntryXml(entry, settings, Blog.TimeZone);
@@ -171,7 +170,7 @@ namespace Subtext.Framework.Syndication
                     ClientHasAllFeedItems = false;
 
                     //Update the latest publish date.
-                    if(entry.DateSyndicated > LatestPublishDateUtc)
+                    if (entry.DateSyndicated > LatestPublishDateUtc)
                     {
                         LatestPublishDateUtc = entry.DateSyndicated;
                     }
@@ -198,7 +197,7 @@ namespace Subtext.Framework.Syndication
             WriteElementString("published", W3Utcz(entry.DateCreatedUtc));
             WriteElementString("updated", W3Utcz(entry.DateModifiedUtc));
 
-            if(entry.HasDescription)
+            if (entry.HasDescription)
             {
                 WriteStartElement("summary");
                 //(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
@@ -225,7 +224,7 @@ namespace Subtext.Framework.Syndication
                 );
             WriteEndElement();
 
-            if(AllowComments && Blog.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
+            if (AllowComments && Blog.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
             {
                 //optional for CommentApi Post location
                 WriteElementString("wfw:comment", UrlHelper.CommentApiUrl(entry.Id));

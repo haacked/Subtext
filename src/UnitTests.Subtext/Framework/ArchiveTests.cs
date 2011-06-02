@@ -35,8 +35,6 @@ namespace UnitTests.Subtext.Framework
 
                 Assert.AreEqual(1, archiveCount.Count, "Expected one post in the archive.");
                 Assert.AreEqual(utcNow.Year, archiveCount.Date.Year);
-                Assert.AreEqual(null, archiveCount.Title);
-                Assert.AreEqual(0, archiveCount.Id);
                 return;
             }
         }
@@ -60,10 +58,6 @@ namespace UnitTests.Subtext.Framework
             foreach (ArchiveCount archiveCount in counts)
             {
                 Assert.AreEqual(1, archiveCount.Count, "Expected one post in the archive.");
-                archiveCount.Title = "Test";
-                Assert.AreEqual("Test", archiveCount.Title);
-                archiveCount.Id = 10;
-                Assert.AreEqual(10, archiveCount.Id);
                 return;
             }
         }

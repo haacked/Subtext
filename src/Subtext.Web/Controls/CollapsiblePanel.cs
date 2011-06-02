@@ -27,11 +27,7 @@ using Subtext.Framework.Web;
 
 namespace Subtext.Web.Controls
 {
-    // TODO: Designer, design-time enhancements
-    // TODO: Collapsible property, don't add link to ctls if false -- interaction with Collapsed tests?
-    // TODO: Properties should not have dependencies on each other; Setting one property should not 
-    // affect other properties
-
+    // TODO: Get rid of this.
     /// <summary>
     /// Various styles of collapsing this panel.
     /// </summary>

@@ -2296,7 +2296,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-/* TODO: This could be off due to UTC */
+/* Note: We convert UTC back to Blog Timezone */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 (
     @BlogId int = NULL,

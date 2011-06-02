@@ -930,7 +930,6 @@ namespace UnitTests.Subtext
                 new KeywordExpander(repository)
             };
 
-            //TODO: Maybe use a INinjectParameter to control this.
             var searchEngineService = new Mock<IIndexingService>().Object;
             var publisher = new EntryPublisher(context, transform, new SlugGenerator(FriendlyUrlSettings.Settings), searchEngineService);
             publisher.Publish(entry);

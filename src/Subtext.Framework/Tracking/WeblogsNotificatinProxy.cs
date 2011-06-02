@@ -45,7 +45,7 @@ namespace Subtext.Framework.Tracking
     /// Summary description for WeblogsNotificatinProxy.
     /// </summary>
     [XmlRpcUrl("http://rpc.weblogs.com/RPC2")]
-    public class WeblogsNotificatinProxy : XmlRpcClientProtocol
+    public class WeblogsNotificationProxy : XmlRpcClientProtocol
     {
         static readonly Log Log = new Log();
 
@@ -61,15 +61,15 @@ namespace Subtext.Framework.Tracking
             bool result = false;
             try
             {
-                XmlRpcStruct rpcstruct = Notifiy(name, url);
-                if(rpcstruct.ContainsKey("flerror"))
+                XmlRpcStruct rpcstruct = Notify(name, url);
+                if (rpcstruct.ContainsKey("flerror"))
                 {
                     //Weblogs.com return false if there is no error
                     //I want to return true, indicating a successful notification
                     result = !(bool)rpcstruct["flerror"];
-                    if(!result)
+                    if (!result)
                     {
-                        if(rpcstruct.ContainsKey("message"))
+                        if (rpcstruct.ContainsKey("message"))
                         {
                             _errorMessage = (string)rpcstruct["message"];
                         }
@@ -80,7 +80,7 @@ namespace Subtext.Framework.Tracking
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Warn("Error while Ping: " + ex.Message);
                 _errorMessage = "Error: " + ex.Message;
@@ -89,10 +89,9 @@ namespace Subtext.Framework.Tracking
         }
 
         [XmlRpcMethod("weblogUpdates.ping")]
-        public XmlRpcStruct Notifiy(string name, string url)
+        public XmlRpcStruct Notify(string name, string url)
         {
-            //TODO: IS this really supposed to be misspelled?
-            return (XmlRpcStruct)Invoke("Notifiy", new object[] {name, url});
+            return (XmlRpcStruct)Invoke("Notify", new object[] { name, url });
         }
     }
 }

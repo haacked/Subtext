@@ -46,7 +46,7 @@ namespace Subtext.Framework.Tracking
     /// <summary>
     /// Summary description for WeblogsNotificatinProxy.
     /// </summary>
-    public class PingBackNotificatinProxy : XmlRpcClientProtocol
+    public class PingBackNotificationProxy : XmlRpcClientProtocol
     {
         public string ErrorMessage
         {
@@ -55,18 +55,18 @@ namespace Subtext.Framework.Tracking
 
         public bool Ping(string pageText, Uri sourceUri, Uri targetUri)
         {
-            if(sourceUri == null)
+            if (sourceUri == null)
             {
                 throw new ArgumentNullException("sourceURI");
             }
 
-            if(targetUri == null)
+            if (targetUri == null)
             {
                 throw new ArgumentNullException("targetURI");
             }
 
             string pingbackUrl = GetPingBackUrl(pageText, sourceUri);
-            if(pingbackUrl != null)
+            if (pingbackUrl != null)
             {
                 Url = pingbackUrl;
                 Notify(sourceUri.ToString(), targetUri.ToString());
@@ -77,14 +77,14 @@ namespace Subtext.Framework.Tracking
 
         private static string GetPingBackUrl(string pageText, Uri postUrl)
         {
-            if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
+            if (!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
             {
-                if(pageText != null)
+                if (pageText != null)
                 {
                     const string pattern = "<link rel=\"pingback\" href=\"([^\"]+)\" ?/?>";
                     var regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
                     Match match = regex.Match(pageText);
-                    if(match.Success)
+                    if (match.Success)
                     {
                         return match.Result("$1");
                     }
@@ -96,7 +96,7 @@ namespace Subtext.Framework.Tracking
         [XmlRpcMethod("pingback.ping")]
         public void Notify(string sourceURI, string targetURI)
         {
-            Invoke("Notifiy", new object[] {sourceURI, targetURI});
+            Invoke("Notify", new object[] { sourceURI, targetURI });
         }
     }
 }

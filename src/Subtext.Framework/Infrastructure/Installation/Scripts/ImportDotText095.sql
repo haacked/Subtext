@@ -10,12 +10,6 @@ This script is written with the following assumptions:
     2) both DBs are on the same server and have the same user/pwd.
     3) i think there was something else?
 
-TODOs:
-	1) figure out how to take advantage of 2 seperate DB connections
-		possibly by using the USE <databaseName> keyword?
-	2) clean up this UGLY SQL and format it for readability.
-	3) I'm sure there's a lot more to be done...
-
 DECLARE @user_name varchar(30)
 SELECT @user_name = user_name()
 
