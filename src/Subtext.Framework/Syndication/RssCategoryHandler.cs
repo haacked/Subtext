@@ -82,7 +82,7 @@ namespace Subtext.Framework.Syndication
                 feed = new CachedFeed();
                 var cw = new CategoryWriter(new StringWriter(), _posts, Category,
                                             Url.CategoryUrl(Category).ToFullyQualifiedUrl(Blog), SubtextContext);
-                feed.LastModified = ConvertLastUpdatedDate(_posts.First().DateCreated);
+                feed.LastModifiedUtc = _posts.First().DateCreatedUtc;
                 feed.Xml = cw.Xml;
             }
             return feed;
@@ -93,9 +93,9 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns></returns>
-        protected override DateTime GetItemCreatedDate(Entry item)
+        protected override DateTime GetItemCreatedDateUtc(Entry item)
         {
-            return item.DateCreated;
+            return item.DateCreatedUtc;
         }
     }
 }

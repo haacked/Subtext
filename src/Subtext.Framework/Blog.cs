@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using Ninject;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
@@ -72,12 +71,9 @@ namespace Subtext.Framework
 
         public bool IsAggregateBlog { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the date that the blog's configuration 
-        /// was last updated.
-        /// </summary>
-        /// <value></value>
-        public DateTime LastUpdated { get; set; }
+        public DateTime DateModifiedUtc { get; set; }
+
+        public DateTime DateCreatedUtc { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the blog.  This is the 
@@ -714,41 +710,9 @@ namespace Subtext.Framework
             return host.RightAfter("www.", StringComparison.OrdinalIgnoreCase);
         }
 
-        /// <summary>
-        /// Gets the active blog count by host.
-        /// </summary>
-        /// <param name="host">The host.</param>
-        /// <returns></returns>
-        /// <param name="pageIndex">Zero based index of the page to retrieve.</param>
-        /// <param name="pageSize">Number of records to display on the page.</param>
-        /// <param name="flags">Configuration flags to filter blogs retrieved.</param>
-        public static IPagedCollection<Blog> GetBlogsByHost(string host, int pageIndex, int pageSize,
-                                                            ConfigurationFlags flags)
+        public IPagedCollection<BlogAlias> GetBlogAliases(ObjectProvider repository, int pageIndex, int pageSize)
         {
-            if (String.IsNullOrEmpty(host))
-            {
-                throw new ArgumentNullException("host");
-            }
-
-            return ObjectProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags);
-        }
-
-        public IPagedCollection<BlogAlias> GetBlogAliases(int pageIndex, int pageSize)
-        {
-            return ObjectProvider.Instance().GetPagedBlogDomainAlias(this, pageIndex, pageSize);
-        }
-
-        /// <summary>
-        /// Returns a <see cref="IList{T}"/> containing ACTIVE the <see cref="Blog"/> 
-        /// instances within the specified range.
-        /// </summary>
-        /// <param name="pageIndex">Page index.</param>
-        /// <param name="pageSize">Size of the page.</param>
-        /// <param name="flags"></param>
-        /// <returns></returns>
-        public static IPagedCollection<Blog> GetBlogs(int pageIndex, int pageSize, ConfigurationFlags flags)
-        {
-            return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
+            return repository.GetPagedBlogDomainAlias(this, pageIndex, pageSize);
         }
 
         /// <summary>
@@ -805,9 +769,5 @@ namespace Subtext.Framework
             return (Host ?? string.Empty).GetHashCode() ^ (Subfolder ?? string.Empty).GetHashCode() ^ Id.GetHashCode();
         }
 
-        public static void ClearBlogContent(int blogId)
-        {
-            ObjectProvider.Instance().ClearBlogContent(blogId);
-        }
     }
 }

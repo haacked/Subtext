@@ -211,7 +211,7 @@ namespace Subtext.Web.Admin.Pages
                 }
                 else
                 {
-                    category.Id = Links.CreateLinkCategory(category);
+                    category.Id = Repository.CreateLinkCategory(category);
                     Messages.ShowMessage(string.Format(CultureInfo.InvariantCulture, Resources.Message_CategoryAdded,
                                                        category.Title));
                 }

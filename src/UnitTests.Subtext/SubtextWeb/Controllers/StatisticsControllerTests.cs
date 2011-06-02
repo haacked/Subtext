@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
                 view => entryView = view);
             var headers = new NameValueCollection();
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(new Blog {Id = 99});
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 99 });
             subtextContext.Setup(c => c.HttpContext.Request.Headers).Returns(headers);
             var controller = new StatisticsController(subtextContext.Object, service.Object);
 
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
                 new InvalidOperationException("RecordAggregatorView should not be called"));
             var headers = new NameValueCollection();
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(new Blog {Id = 99});
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 99 });
             subtextContext.Setup(c => c.HttpContext.Request.Headers).Returns(headers);
             var controller = new StatisticsController(subtextContext.Object, service.Object);
 
@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var service = new Mock<IStatisticsService>();
             var headers = new NameValueCollection();
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(new Blog {Id = 99});
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 99 });
             subtextContext.Setup(c => c.HttpContext.Request.Headers).Returns(headers);
             var controller = new StatisticsController(subtextContext.Object, service.Object);
 

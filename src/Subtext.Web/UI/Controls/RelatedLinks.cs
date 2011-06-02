@@ -25,14 +25,6 @@ namespace Subtext.Web.UI.Controls
 {
     public class RelatedLinks : BaseControl
     {
-        public ISearchEngineService SearchEngineService
-        {
-            get
-            {
-                return SubtextPage.SearchEngineService;
-            }
-        }
-
         public RelatedLinks()
         {
             RowCount = 5;

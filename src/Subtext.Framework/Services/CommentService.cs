@@ -15,6 +15,7 @@
 
 #endregion
 
+using System;
 using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -44,7 +45,7 @@ namespace Subtext.Framework.Services
         public int Create(FeedbackItem comment, bool runFilters)
         {
             Entry entry = Cacher.GetEntry(comment.EntryId, SubtextContext);
-            if(entry != null && entry.CommentingClosed)
+            if (entry != null && entry.CommentingClosed)
             {
                 return NullValue.NullInt32;
             }
@@ -52,42 +53,31 @@ namespace Subtext.Framework.Services
             ISubtextContext context = SubtextContext;
             HttpContextBase httpContext = context.HttpContext;
 
-            if(httpContext != null && httpContext.Request != null)
+            if (httpContext != null && httpContext.Request != null)
             {
                 comment.UserAgent = httpContext.Request.UserAgent;
                 comment.IpAddress = HttpHelper.GetUserIpAddress(httpContext);
             }
 
-            if(runFilters)
+            if (runFilters)
             {
                 comment.FlaggedAsSpam = true; //We're going to start with this assumption.
             }
             comment.Author = HtmlHelper.SafeFormat(comment.Author, context.HttpContext.Server);
             comment.Body = HtmlHelper.ConvertUrlsToHyperLinks(HtmlHelper.ConvertToAllowedHtml(comment.Body));
             comment.Title = HtmlHelper.SafeFormat(comment.Title, context.HttpContext.Server);
-
-            // If we are creating this feedback item as part of an import, we want to 
-            // be sure to use the item's datetime, and not set it to the current time.
-            if(NullValue.NullDateTime.Equals(comment.DateCreated))
-            {
-                comment.DateCreated = context.Blog.TimeZone.Now;
-                comment.DateModified = comment.DateCreated;
-            }
-            else if(NullValue.NullDateTime.Equals(comment.DateModified))
-            {
-                comment.DateModified = comment.DateCreated;
-            }
-
             comment.Entry = entry;
+            comment.DateCreatedUtc = comment.DateCreatedUtc.IsNull() ? DateTime.UtcNow : comment.DateCreatedUtc;
+            comment.DateModifiedUtc = comment.DateModifiedUtc.IsNull() ? DateTime.UtcNow : comment.DateModifiedUtc;
 
-            if(runFilters)
+            if (runFilters)
             {
                 OnBeforeCreate(comment);
             }
-            
+
             comment.Id = Repository.Create(comment);
 
-            if(runFilters)
+            if (runFilters)
             {
                 OnAfterCreate(comment);
             }
@@ -97,7 +87,7 @@ namespace Subtext.Framework.Services
 
         protected virtual void OnBeforeCreate(FeedbackItem feedback)
         {
-            if(Filter != null)
+            if (Filter != null)
             {
                 Filter.FilterBeforePersist(feedback);
             }
@@ -105,7 +95,7 @@ namespace Subtext.Framework.Services
 
         protected virtual void OnAfterCreate(FeedbackItem feedback)
         {
-            if(Filter != null)
+            if (Filter != null)
             {
                 Filter.FilterAfterPersist(feedback);
             }

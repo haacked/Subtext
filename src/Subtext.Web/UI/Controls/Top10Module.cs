@@ -41,6 +41,7 @@ namespace Subtext.Web.UI.Controls
 
             foreach (EntrySummary entrySummary in entrySummaries)
             {
+                entrySummary.Blog = Blog;
                 string title = entrySummary.Title;
                 string myUrl = Url.EntryUrl(entrySummary);
 

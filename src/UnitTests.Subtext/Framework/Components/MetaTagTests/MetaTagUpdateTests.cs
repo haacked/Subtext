@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         {
             var blog = UnitTestHelper.CreateBlogAndSetupContext();
 
-            MetaTag tag = UnitTestHelper.BuildMetaTag(content, name, httpequiv, blog.Id, null, DateTime.Now);
+            MetaTag tag = UnitTestHelper.BuildMetaTag(content, name, httpequiv, blog.Id, null, DateTime.UtcNow);
             MetaTags.Create(tag);
 
             string randomStr = UnitTestHelper.GenerateUniqueString().Left(20);
@@ -64,7 +64,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             var blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             MetaTag tag = UnitTestHelper.BuildMetaTag("Nothing to see here.", "description", null, blog.Id, null,
-                                                      DateTime.Now);
+                                                      DateTime.UtcNow);
             MetaTags.Create(tag);
 
             tag.HttpEquiv = "cache-control";
@@ -82,8 +82,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         {
             var blog = UnitTestHelper.CreateBlogAndSetupContext();
 
-            MetaTag tag = UnitTestHelper.BuildMetaTag("Still nothing to see here.", null, "expires", blog.Id, null,
-                                                      DateTime.Now);
+            MetaTag tag = UnitTestHelper.BuildMetaTag("Still nothing to see here.", null, "expires", blog.Id, null, DateTime.UtcNow);
             MetaTags.Create(tag);
 
             tag.HttpEquiv = null;

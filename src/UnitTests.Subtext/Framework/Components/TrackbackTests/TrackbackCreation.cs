@@ -8,6 +8,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
@@ -30,25 +31,26 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
         public void CreateTrackbackSetsFeedbackTypeCorrectly()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
-            Blog blog = Config.GetBlog(hostname, string.Empty);
+            Blog blog = repository.GetBlog(hostname, string.Empty);
             BlogRequest.Current.Blog = blog;
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
             int parentId = UnitTestHelper.Create(entry);
 
-            var trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body", blog.TimeZone.Now);
+            var trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             subtextContext.Setup(c => c.Cache).Returns(new TestCache());
             subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
             var commentService = new CommentService(subtextContext.Object, null);
             int id = commentService.Create(trackback, true/*runFilters*/);
 
-            FeedbackItem loadedTrackback = FeedbackItem.Get(id);
+            FeedbackItem loadedTrackback = repository.Get(id);
             Assert.IsNotNull(loadedTrackback, "Was not able to load trackback from storage.");
             Assert.AreEqual(FeedbackType.PingTrack, loadedTrackback.FeedbackType, "Feedback should be a PingTrack");
         }
@@ -61,9 +63,9 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
         public void TrackbackShowsUpInFeedbackList()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, "blog");
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "blog");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
-            Blog blog = Config.GetBlog(hostname, "blog");
+            Blog blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, "blog");
             BlogRequest.Current.Blog = blog;
 
             Entry parentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("philsath aeuoa asoeuhtoensth",
@@ -74,7 +76,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
             ICollection<FeedbackItem> entries = ObjectProvider.Instance().GetFeedbackForEntry(parentEntry);
             Assert.AreEqual(0, entries.Count, "Did not expect any feedback yet.");
 
-            var trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body", blog.TimeZone.Now);
+            var trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
             Config.CurrentBlog.DuplicateCommentsEnabled = true;
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Cache).Returns(new TestCache());
@@ -83,7 +85,8 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
             subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
             var commentService = new CommentService(subtextContext.Object, null);
             int trackbackId = commentService.Create(trackback, true/*runFilters*/);
-            FeedbackItem.Approve(trackback, null);
+
+            new DatabaseObjectProvider().Approve(trackback, null);
 
             entries = ObjectProvider.Instance().GetFeedbackForEntry(parentEntry);
             Assert.AreEqual(1, entries.Count, "Expected a trackback.");

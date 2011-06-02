@@ -18,6 +18,7 @@
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Configuration
@@ -40,14 +41,14 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             string subfolder1 = UnitTestHelper.GenerateUniqueString();
             string subfolder2 = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("title", "username", "password", hostName, subfolder1);
-            Config.CreateBlog("title", "username", "password", hostName, subfolder2);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, subfolder1);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, subfolder2);
 
-            Blog info = Config.GetBlog(hostName, subfolder1);
+            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, subfolder1);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName & subfolder combination.");
             Assert.AreEqual(info.Subfolder, subfolder1, "Oops! Looks like we found the wrong Blog!");
 
-            info = Config.GetBlog(hostName, subfolder2);
+            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, subfolder2);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName & subfolder combination.");
             Assert.AreEqual(info.Subfolder, subfolder2, "Oops! Looks like we found the wrong Blog!");
         }
@@ -58,10 +59,10 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             string subfolder1 = UnitTestHelper.GenerateUniqueString();
             string subfolder2 = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("title", "username", "password", hostName, subfolder1);
-            Config.CreateBlog("title", "username", "password", hostName, subfolder2);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, subfolder1);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, subfolder2);
 
-            Blog info = Config.GetBlog(hostName, string.Empty);
+            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
             Assert.IsNull(info, "Hmm... Looks like found a blog using too generic of search criteria.");
         }
 
@@ -70,12 +71,13 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void SettingShowEmailAddressInRssFlagDoesntChangeOtherFlags()
         {
-            Config.CreateBlog("title", "username", "password", hostName, string.Empty);
-            Blog info = Config.GetBlog(hostName, string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", hostName, string.Empty);
+            Blog info = repository.GetBlog(hostName, string.Empty);
             bool test = info.IsAggregated;
             info.ShowEmailAddressInRss = false;
-            ObjectProvider.Instance().UpdateConfigData(info);
-            info = Config.GetBlog(hostName, string.Empty);
+            repository.UpdateConfigData(info);
+            info = repository.GetBlog(hostName, string.Empty);
 
             Assert.AreEqual(test, info.IsAggregated);
         }
@@ -85,13 +87,13 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogInfoLoadsOpenIDSettings()
         {
-            Config.CreateBlog("title", "username", "password", hostName, string.Empty);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, string.Empty);
 
-            Blog info = Config.GetBlog(hostName, string.Empty);
+            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
             info.OpenIdServer = "http://server.example.com/";
             info.OpenIdDelegate = "http://delegate.example.com/";
             ObjectProvider.Instance().UpdateConfigData(info);
-            info = Config.GetBlog(hostName, string.Empty);
+            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
 
             Assert.AreEqual("http://server.example.com/", info.OpenIdServer);
             Assert.AreEqual("http://delegate.example.com/", info.OpenIdDelegate);

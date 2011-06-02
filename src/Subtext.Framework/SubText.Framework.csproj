@@ -45,6 +45,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
+    <RestorePackages>false</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -218,9 +220,6 @@
     <Compile Include="..\VersionInfo.Designer.cs">
       <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
-    <Compile Include="Archives.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -255,6 +254,7 @@
     <Compile Include="Components\EntryView.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\FeedbackExtensions.cs" />
     <Compile Include="Components\FeedbackItem.cs" />
     <Compile Include="Components\HostStats.cs" />
     <Compile Include="Components\IEntryIdentity.cs" />
@@ -300,6 +300,7 @@
     <Compile Include="Configuration\ConfigurationFlag.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Configuration\DatabaseObjectRepository.cs" />
     <Compile Include="Configuration\FriendlyUrlSettings.cs" />
     <Compile Include="Configuration\FullTextSearchEngineSettings.cs" />
     <Compile Include="Configuration\MimeTypesMapper.cs" />
@@ -546,6 +547,7 @@
     <Compile Include="Services\Emoticons\Emoticon.cs" />
     <Compile Include="Services\Emoticons\EmoticonsFileSource.cs" />
     <Compile Include="Services\Emoticons\EmoticonsTransformation.cs" />
+    <Compile Include="Services\NullSpamService.cs" />
     <Compile Include="Services\SearchEngine\EntryExtensionMethods.cs" />
     <Compile Include="Services\SearchEngine\IIndexingService.cs" />
     <Compile Include="Services\SearchEngine\IndexingError.cs" />
@@ -582,6 +584,7 @@
     <Compile Include="Util\ThreadHelper.cs" />
     <Compile Include="Web\Handlers\BaseHttpHandler.cs" />
     <Compile Include="Web\Handlers\SubtextHttpHandler.cs" />
+    <Compile Include="Web\Handlers\SubtextDependencies.cs" />
     <Compile Include="Web\SubtextPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -752,6 +755,7 @@
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\WelcomePost.htm" />
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\WelcomeComment.htm" />
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\WelcomeArticle.htm" />
+    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.02.06.00.sql" />
     <Content Include="license.txt" />
     <Content Include="Infrastructure\Logging\LoggingConfigurationExample.xml" />
     <EmbeddedResource Include="Util\TimeZones.txt" />
@@ -772,7 +776,6 @@
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.02.02.00.sql" />
     <EmbeddedResource Include="Infrastructure\Installation\Scripts\StoredProcedures.sql" />
     <EmbeddedResource Include="Services\Email\Templates\CommentReceived.template" />
-    <EmbeddedResource Include="Infrastructure\Installation\Scripts\Installation.02.05.01.sql" />
     <None Include="packages.config" />
     <None Include="Web References\com.community-credit.www\affiliateservices.disco" />
     <None Include="app.config" />

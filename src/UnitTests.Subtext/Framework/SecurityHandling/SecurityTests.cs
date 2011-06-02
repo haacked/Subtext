@@ -47,12 +47,12 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "MyBlog");
 
             Config.Settings.UseHashedPasswords = true;
-            Config.CreateBlog("", "username", "thePassword", hostName, "MyBlog");
-            BlogRequest.Current.Blog = Config.GetBlog(hostName, "MyBlog");
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "thePassword", hostName, "MyBlog");
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, "MyBlog");
             string password = SecurityHelper.HashPassword("newPass");
 
             SecurityHelper.UpdatePassword("newPass");
-            Blog info = Config.GetBlog(hostName, "MyBlog");
+            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, "MyBlog");
             Assert.AreEqual(password, info.Password);
         }
 
@@ -63,7 +63,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
             const string password = "myPassword";
             const string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
             Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
-            var blog = new Blog {UserName = "username", Password = hashedPassword, IsPasswordHashed = true};
+            var blog = new Blog { UserName = "username", Password = hashedPassword, IsPasswordHashed = true };
 
             // act
             bool isValidPassword = SecurityHelper.IsValidPassword(blog, password);
@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
             const string password = "myPassword";
             const string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
             Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
-            var blog = new Blog {UserName = "username", Password = hashedPassword, IsPasswordHashed = true};
+            var blog = new Blog { UserName = "username", Password = hashedPassword, IsPasswordHashed = true };
 
             // act
             bool isValidPassword = SecurityHelper.IsValidPassword(blog, hashedPassword);
@@ -93,7 +93,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         {
             // arrange
             const string password = "myPassword";
-            var blog = new Blog {UserName = "username", Password = password, IsPasswordHashed = false};
+            var blog = new Blog { UserName = "username", Password = password, IsPasswordHashed = false };
 
             // act
             bool isValidPassword = SecurityHelper.IsValidPassword(blog, password);
@@ -110,10 +110,10 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         {
             const string lowercase = "password";
             const string uppercase = "Password";
-            UnitTestHelper.AssertAreNotEqual(SecurityHelper.HashPassword(lowercase),
+            Assert.AreNotEqual(SecurityHelper.HashPassword(lowercase),
                                              SecurityHelper.HashPassword(uppercase),
                                              "A lower cased and upper cased password should not be equivalent.");
-            UnitTestHelper.AssertAreNotEqual(SecurityHelper.HashPassword(lowercase),
+            Assert.AreNotEqual(SecurityHelper.HashPassword(lowercase),
                                              SecurityHelper.HashPassword(uppercase.ToUpper(CultureInfo.InvariantCulture)),
                                              "A lower cased and a completely upper cased password should not be equivalent.");
         }
@@ -130,7 +130,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
             Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
             Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
             string bitConvertedPassword = BitConverter.ToString(hashedBytes);
-            var blog = new Blog {UserName = "username", Password = bitConvertedPassword, IsPasswordHashed = true};
+            var blog = new Blog { UserName = "username", Password = bitConvertedPassword, IsPasswordHashed = true };
 
             // act
             bool isValid = SecurityHelper.IsValidPassword(blog, password);
@@ -154,7 +154,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
             request.Setup(r => r.Cookies).Returns(cookies);
 
             // act
-            HttpCookie cookie = request.Object.SelectAuthenticationCookie(new Blog {Id = 42});
+            HttpCookie cookie = request.Object.SelectAuthenticationCookie(new Blog { Id = 42 });
 
             // assert
             Assert.IsNotNull(cookie);
@@ -168,7 +168,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
             // arrange
             var request = new Mock<HttpRequestBase>();
             request.Setup(r => r.QueryString).Returns(new NameValueCollection());
-            var blog = new Blog {Id = 42};
+            var blog = new Blog { Id = 42 };
 
             // act
             string cookieName = request.Object.GetFullCookieName(blog);
@@ -210,9 +210,9 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
         {
             // arrange
             var request = new Mock<HttpRequestBase>();
-            var queryStringParams = new NameValueCollection {{"ReturnUrl", "/HostAdmin"}};
+            var queryStringParams = new NameValueCollection { { "ReturnUrl", "/HostAdmin" } };
             request.Setup(r => r.QueryString).Returns(queryStringParams);
-            var blog = new Blog {Id = 42};
+            var blog = new Blog { Id = 42 };
 
             // act
             string cookieName = request.Object.GetFullCookieName(blog, false);
@@ -247,7 +247,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(c => c.Request).Returns(request.Object);
             httpContext.Setup(c => c.Response.Cookies).Returns(cookies);
-            var blog = new Blog {UserName = "the-username", Password = "thePassword", IsPasswordHashed = false};
+            var blog = new Blog { UserName = "the-username", Password = "thePassword", IsPasswordHashed = false };
 
             // act
             bool authenticated = httpContext.Object.Authenticate(blog, "the-username", "thePassword", true);

@@ -20,6 +20,7 @@ using System.Web;
 using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Web.Handlers;
 
@@ -70,7 +71,7 @@ namespace Subtext.Web.Install
         protected override void OnLoad(EventArgs e)
         {
             InstallationState status = InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion);
-
+            var repository = new DatabaseObjectProvider();
             switch (status)
             {
                 case InstallationState.NeedsInstallation:
@@ -80,16 +81,17 @@ namespace Subtext.Web.Install
 
                 default:
                     HostInfo info = HostInfo.LoadHost(true /* suppressException */);
+                    int blogCount = repository.GetBlogCount();
 
                     if (info == null)
                     {
                         EnsureInstallStep("Step02_ConfigureHost.aspx");
                     }
-                    if (info != null && Config.BlogCount == 0)
+                    if (info != null && blogCount == 0)
                     {
                         EnsureInstallStep("Step03_CreateBlog.aspx");
                     }
-                    if (info != null && Config.BlogCount > 0)
+                    if (info != null && blogCount > 0)
                     {
                         EnsureInstallStep("InstallationComplete.aspx");
                     }

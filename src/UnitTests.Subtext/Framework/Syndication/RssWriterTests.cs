@@ -25,7 +25,6 @@ using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
@@ -62,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             Mock<HttpContextBase> httpContext = Mock.Get(subtextContext.Object.RequestContext.HttpContext);
             httpContext.Setup(h => h.Request.ApplicationPath).Returns(application);
 
-            var writer = new RssWriter(new StringWriter(), new List<Entry>(), DateTime.Now, false, subtextContext.Object);
+            var writer = new RssWriter(new StringWriter(), new List<Entry>(), DateTime.UtcNow, false, subtextContext.Object);
             Uri rssImageUrl = writer.GetRssImage();
             Assert.AreEqual(expected, rssImageUrl.ToString(), "not the expected url.");
         }
@@ -89,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
             var entries = new List<Entry>(CreateSomeEntries());
-            entries[0].Categories.AddRange(new[] {"Category1", "Category2"});
+            entries[0].Categories.AddRange(new[] { "Category1", "Category2" });
             entries[0].Email = "nobody@example.com";
             entries[2].Categories.Add("Category 3");
 
@@ -334,10 +333,10 @@ namespace UnitTests.Subtext.Framework.Syndication
             Assert.AreEqual(expected, writer.Xml);
 
             Assert.AreEqual(DateTime.ParseExact("06/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture),
-                            writer.DateLastViewedFeedItemPublished,
+                            writer.DateLastViewedFeedItemPublishedUtc,
                             "The Item ID Last Viewed (according to If-None-Since is wrong.");
             Assert.AreEqual(DateTime.ParseExact("07/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture),
-                            writer.LatestPublishDate, "The Latest Feed Item ID sent to the client is wrong.");
+                            writer.LatestPublishDateUtc, "The Latest Feed Item ID sent to the client is wrong.");
         }
 
         /// <summary>
@@ -493,14 +492,14 @@ namespace UnitTests.Subtext.Framework.Syndication
         {
             var entry = new Entry(PostType.BlogPost)
                             {
-                                DateCreated = dateCreated,
+                                DateCreatedUtc = dateCreated,
                                 Title = title,
                                 Author = "Phil Haack",
                                 Body = body,
                                 Id = id
                             };
-            entry.DateModified = entry.DateCreated;
-            entry.DateSyndicated = entry.DateCreated.AddMonths(1);
+            entry.DateModifiedUtc = entry.DateCreatedUtc;
+            entry.DatePublishedUtc = entry.DateCreatedUtc.ToUniversalTime().AddMonths(1);
 
             return entry;
         }

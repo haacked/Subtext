@@ -1,6 +1,17 @@
-#region Timezone code from DasBlog
+#region Disclaimer/Info
 
-/*This code was contributed by the DasBlog team */
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Subtext WebLog
+// 
+// Subtext is an open source weblog system that is a fork of the .TEXT
+// weblog system.
+//
+// For updated news and information please visit http://subtextproject.com/
+// Subtext is hosted at Google Code at http://code.google.com/p/subtext/
+// The development mailing list is at subtext@googlegroups.com 
+//
+// This project is licensed under the BSD license.  See the License.txt file for more information.
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endregion
 
@@ -20,13 +31,11 @@ namespace Subtext.Framework.Util
         {
             Type timeZoneType = typeof(TimeZones);
             var timeZones = new List<TimeZoneInfo>();
-            using(
-                var rs =
-                    new StreamReader(timeZoneType.Assembly.GetManifestResourceStream(timeZoneType.FullName + ".txt")))
+            using (var reader = new StreamReader(timeZoneType.Assembly.GetManifestResourceStream(timeZoneType.FullName + ".txt")))
             {
-                while(!rs.EndOfStream)
+                while (!reader.EndOfStream)
                 {
-                    timeZones.Add(TimeZoneInfo.FromSerializedString(rs.ReadLine()));
+                    timeZones.Add(TimeZoneInfo.FromSerializedString(reader.ReadLine()));
                 }
             }
             return new ReadOnlyCollection<TimeZoneInfo>(timeZones);

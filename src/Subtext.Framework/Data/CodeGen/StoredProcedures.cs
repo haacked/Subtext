@@ -29,7 +29,7 @@ using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Data {
 	public partial class StoredProcedures {
-		public IDataReader GetRecentImages(string host, int? groupId, int rowCount) {
+		public virtual IDataReader GetRecentImages(string host, int? groupId, int rowCount) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Host", host),		
 				DataHelper.MakeInParam("@GroupID", groupId),		
@@ -39,7 +39,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("DNW_GetRecentImages", p);
 		}
 		
-		public IDataReader GetRecentPosts(string host, int? groupId, DateTime currentDateTime, int? rowCount) {
+		public virtual IDataReader GetRecentPosts(string host, int? groupId, DateTime currentDateTime, int? rowCount) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Host", host),		
 				DataHelper.MakeInParam("@GroupID", groupId),		
@@ -50,7 +50,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("DNW_GetRecentPosts", p);
 		}
 		
-		public IDataReader Stats(string host, int? groupId) {
+		public virtual IDataReader Stats(string host, int? groupId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Host", host),		
 				DataHelper.MakeInParam("@GroupID", groupId),		
@@ -59,7 +59,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("DNW_Stats", p);
 		}
 		
-		public IDataReader TotalStats(string host, int? groupId) {
+		public virtual IDataReader TotalStats(string host, int? groupId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Host", host),		
 				DataHelper.MakeInParam("@GroupID", groupId),		
@@ -68,7 +68,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("DNW_Total_Stats", p);
 		}
 		
-		public bool AddLogEntry(DateTime date, int? blogId, string thread, string context, string level, string logger, string message, string exception, string url) {
+		public virtual bool AddLogEntry(DateTime date, int? blogId, string thread, string context, string level, string logger, string message, string exception, string url) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Date", date),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -85,7 +85,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_AddLogEntry", p);
 		}
 		
-		public bool ClearBlogContent(int blogId) {
+		public virtual bool ClearBlogContent(int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 			};
@@ -94,7 +94,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_ClearBlogContent", p);
 		}
 		
-		public int CreateDomainAlias(int blogId, string host, string application, bool? active) {
+		public virtual int CreateDomainAlias(int blogId, string host, string application, bool? active) {
 			var outParam0 = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -108,7 +108,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public bool DeleteBlogGroup(int id) {
+		public virtual bool DeleteBlogGroup(int id) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 			};
@@ -117,7 +117,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteBlogGroup", p);
 		}
 		
-		public bool DeleteCategory(int categoryId, int blogId) {
+		public virtual bool DeleteCategory(int categoryId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -127,7 +127,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteCategory", p);
 		}
 		
-		public bool DeleteDomainAlias(int id) {
+		public virtual bool DeleteDomainAlias(int id) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 			};
@@ -136,7 +136,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteDomainAlias", p);
 		}
 		
-		public bool DeleteEnclosure(int id) {
+		public virtual bool DeleteEnclosure(int id) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 			};
@@ -145,7 +145,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteEnclosure", p);
 		}
 		
-		public bool DeleteFeedback(int id, DateTime currentDateTime) {
+		public virtual bool DeleteFeedback(int id, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
@@ -155,7 +155,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteFeedback", p);
 		}
 		
-		public bool DeleteFeedbackByStatus(int blogId, int statusFlag) {
+		public virtual bool DeleteFeedbackByStatus(int blogId, int statusFlag) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@StatusFlag", statusFlag),		
@@ -165,7 +165,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteFeedbackByStatus", p);
 		}
 		
-		public bool DeleteImage(int blogId, int imageId) {
+		public virtual bool DeleteImage(int blogId, int imageId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@ImageID", imageId),		
@@ -175,7 +175,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteImage", p);
 		}
 		
-		public bool DeleteImageCategory(int categoryId, int blogId) {
+		public virtual bool DeleteImageCategory(int categoryId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -185,7 +185,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteImageCategory", p);
 		}
 		
-		public bool DeleteKeyWord(int keyWordId, int blogId) {
+		public virtual bool DeleteKeyWord(int keyWordId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@KeyWordID", keyWordId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -195,7 +195,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteKeyWord", p);
 		}
 		
-		public bool DeleteLink(int linkId, int blogId) {
+		public virtual bool DeleteLink(int linkId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@LinkID", linkId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -205,7 +205,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteLink", p);
 		}
 		
-		public bool DeleteLinksByPostID(int postId, int blogId) {
+		public virtual bool DeleteLinksByPostID(int postId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@PostID", postId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -215,7 +215,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteLinksByPostID", p);
 		}
 		
-		public bool DeleteMetaTag(int id) {
+		public virtual bool DeleteMetaTag(int id) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 			};
@@ -224,7 +224,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeleteMetaTag", p);
 		}
 		
-		public bool DeletePost(int id, DateTime currentDateTime) {
+		public virtual bool DeletePost(int id, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ID", id),		
 				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
@@ -234,7 +234,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_DeletePost", p);
 		}
 		
-		public IDataReader GetActiveCategoriesWithLinkCollection(int? blogId) {
+		public virtual IDataReader GetActiveCategoriesWithLinkCollection(int? blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 			};
@@ -242,7 +242,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetActiveCategoriesWithLinkCollection", p);
 		}
 		
-		public IDataReader GetBlogByDomainAlias(string host, string application, bool? strict) {
+		public virtual IDataReader GetBlogByDomainAlias(string host, string application, bool? strict) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Host", host),		
 				DataHelper.MakeInParam("@Application", application),		
@@ -252,7 +252,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetBlogByDomainAlias", p);
 		}
 		
-		public IDataReader GetBlogById(int blogId) {
+		public virtual IDataReader GetBlogById(int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 			};
@@ -260,7 +260,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetBlogById", p);
 		}
 		
-		public IDataReader GetBlogGroup(int id, bool active) {
+		public virtual IDataReader GetBlogGroup(int id, bool active) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 				DataHelper.MakeInParam("@Active", active),		
@@ -269,7 +269,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetBlogGroup", p);
 		}
 		
-		public IDataReader GetBlogKeyWords(int blogId) {
+		public virtual IDataReader GetBlogKeyWords(int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 			};
@@ -277,7 +277,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetBlogKeyWords", p);
 		}
 		
-		public IDataReader GetBlogStats(int blogId) {
+		public virtual IDataReader GetBlogStats(int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 			};
@@ -285,7 +285,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetBlogStats", p);
 		}
 		
-		public IDataReader GetCategory(string categoryName, int? categoryId, bool isActive, int? blogId, int? categoryType) {
+		public virtual IDataReader GetCategory(string categoryName, int? categoryId, bool isActive, int? blogId, int? categoryType) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@CategoryName", categoryName),		
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
@@ -297,7 +297,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetCategory", p);
 		}
 		
-		public IDataReader GetCommentByChecksumHash(string feedbackChecksumHash, int blogId) {
+		public virtual IDataReader GetCommentByChecksumHash(string feedbackChecksumHash, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@FeedbackChecksumHash", feedbackChecksumHash),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -306,7 +306,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetCommentByChecksumHash", p);
 		}
 		
-		public IDataReader GetConditionalEntries(int itemCount, int postType, int postConfig, int? blogId, bool includeCategories, DateTime currentDateTime) {
+		public virtual IDataReader GetConditionalEntries(int itemCount, int postType, int postConfig, int? blogId, bool includeCategories, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ItemCount", itemCount),		
 				DataHelper.MakeInParam("@PostType", postType),		
@@ -319,7 +319,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetConditionalEntries", p);
 		}
 		
-		public IDataReader GetConfig(string host, string application) {
+		public virtual IDataReader GetConfig(string host, string application) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Host", host),		
 				DataHelper.MakeInParam("@Application", application),		
@@ -328,7 +328,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetConfig", p);
 		}
 		
-		public IDataReader GetDomainAliasById(int id) {
+		public virtual IDataReader GetDomainAliasById(int id) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 			};
@@ -336,7 +336,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetDomainAliasById", p);
 		}
 		
-		public IDataReader GetEntries(int blogId, int? categoryId, int pageIndex, int postType, int pageSize) {
+		public virtual IDataReader GetEntries(int blogId, int? categoryId, int pageIndex, int postType, int pageSize) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
@@ -348,7 +348,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetEntries", p);
 		}
 		
-		public IDataReader GetEntriesByDayRange(DateTime startDate, DateTime stopDate, int postType, bool isActive, int blogId, DateTime currentDateTime) {
+		public virtual IDataReader GetEntriesByDayRange(DateTime startDate, DateTime stopDate, int postType, bool isActive, int blogId, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@StartDate", startDate),		
 				DataHelper.MakeInParam("@StopDate", stopDate),		
@@ -361,7 +361,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetEntriesByDayRange", p);
 		}
 		
-		public IDataReader GetEntriesForExport(int blogId, int pageIndex, int pageSize) {
+		public virtual IDataReader GetEntriesForExport(int blogId, int pageIndex, int pageSize) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@PageIndex", pageIndex),		
@@ -371,7 +371,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetEntriesForExport", p);
 		}
 		
-		public IDataReader GetEntryPreviousNext(int id, int postType, int blogId, DateTime currentDateTime) {
+		public virtual IDataReader GetEntryPreviousNext(int id, int postType, int blogId, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ID", id),		
 				DataHelper.MakeInParam("@PostType", postType),		
@@ -382,7 +382,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetEntry_PreviousNext", p);
 		}
 		
-		public IDataReader GetFeedback(int id) {
+		public virtual IDataReader GetFeedback(int id) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 			};
@@ -390,7 +390,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetFeedback", p);
 		}
 		
-		public IDataReader GetFeedbackCollection(int entryId) {
+		public virtual IDataReader GetFeedbackCollection(int entryId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@EntryId", entryId),		
 			};
@@ -398,7 +398,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetFeedbackCollection", p);
 		}
 		
-		public void GetFeedbackCountsByStatus(int blogId, out int approvedCount, out int needsModerationCount, out int flaggedSpam, out int deleted) {
+		public virtual void GetFeedbackCountsByStatus(int blogId, out int approvedCount, out int needsModerationCount, out int flaggedSpam, out int deleted) {
 			var outParam0 = DataHelper.MakeOutParam("@ApprovedCount", SqlDbType.Int, 4);
 			var outParam1 = DataHelper.MakeOutParam("@NeedsModerationCount", SqlDbType.Int, 4);
 			var outParam2 = DataHelper.MakeOutParam("@FlaggedSpam", SqlDbType.Int, 4);
@@ -418,11 +418,11 @@ namespace Subtext.Framework.Data {
 			deleted = (int)outParam3.Value;			
 		}
 		
-		public IDataReader GetHost() {
+		public virtual IDataReader GetHost() {
 			return GetReader("subtext_GetHost");
 		}
 		
-		public IDataReader GetImageCategory(int categoryId, bool isActive, int blogId) {
+		public virtual IDataReader GetImageCategory(int categoryId, bool isActive, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
 				DataHelper.MakeInParam("@IsActive", isActive),		
@@ -432,7 +432,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetImageCategory", p);
 		}
 		
-		public IDataReader GetKeyWord(int keyWordId, int blogId) {
+		public virtual IDataReader GetKeyWord(int keyWordId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@KeyWordID", keyWordId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -441,7 +441,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetKeyWord", p);
 		}
 		
-		public IDataReader GetLinkCollectionByPostID(int? postId, int blogId) {
+		public virtual IDataReader GetLinkCollectionByPostID(int? postId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@PostID", postId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -450,7 +450,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetLinkCollectionByPostID", p);
 		}
 		
-		public IDataReader GetLinksByCategoryID(int categoryId, int blogId) {
+		public virtual IDataReader GetLinksByCategoryID(int categoryId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -459,7 +459,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetLinksByCategoryID", p);
 		}
 		
-		public IDataReader GetMetaTags(int blogId, int? entryId, int pageIndex, int pageSize) {
+		public virtual IDataReader GetMetaTags(int blogId, int? entryId, int pageIndex, int pageSize) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@EntryId", entryId),		
@@ -470,7 +470,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetMetaTags", p);
 		}
 		
-		public IDataReader GetPageableBlogs(int pageIndex, int pageSize, string host, int configurationFlags) {
+		public virtual IDataReader GetPageableBlogs(int pageIndex, int pageSize, string host, int configurationFlags) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@PageIndex", pageIndex),		
 				DataHelper.MakeInParam("@PageSize", pageSize),		
@@ -481,7 +481,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPageableBlogs", p);
 		}
 		
-		public IDataReader GetPageableDomainAliases(int pageIndex, int pageSize, int blogId) {
+		public virtual IDataReader GetPageableDomainAliases(int pageIndex, int pageSize, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@PageIndex", pageIndex),		
 				DataHelper.MakeInParam("@PageSize", pageSize),		
@@ -491,7 +491,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPageableDomainAliases", p);
 		}
 		
-		public IDataReader GetPageableFeedback(int blogId, int pageIndex, int pageSize, int statusFlag, int? excludeFeedbackStatusMask, int? feedbackType) {
+		public virtual IDataReader GetPageableFeedback(int blogId, int pageIndex, int pageSize, int statusFlag, int? excludeFeedbackStatusMask, int? feedbackType) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@PageIndex", pageIndex),		
@@ -504,7 +504,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPageableFeedback", p);
 		}
 		
-		public IDataReader GetPageableKeyWords(int blogId, int pageIndex, int pageSize) {
+		public virtual IDataReader GetPageableKeyWords(int blogId, int pageIndex, int pageSize) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@PageIndex", pageIndex),		
@@ -514,7 +514,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPageableKeyWords", p);
 		}
 		
-		public IDataReader GetPageableLinks(int blogId, int? categoryId, int pageIndex, int pageSize) {
+		public virtual IDataReader GetPageableLinks(int blogId, int? categoryId, int pageIndex, int pageSize) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@CategoryId", categoryId),		
@@ -525,7 +525,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPageableLinks", p);
 		}
 		
-		public bool GetPageableLinksByCategoryID(int blogId, int? categoryId, int pageIndex, int pageSize, bool sortDesc) {
+		public virtual bool GetPageableLinksByCategoryID(int blogId, int? categoryId, int pageIndex, int pageSize, bool sortDesc) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
@@ -538,7 +538,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_GetPageableLinksByCategoryID", p);
 		}
 		
-		public IDataReader GetPageableLogEntries(int? blogId, int pageIndex, int pageSize) {
+		public virtual IDataReader GetPageableLogEntries(int? blogId, int pageIndex, int pageSize) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@PageIndex", pageIndex),		
@@ -548,7 +548,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPageableLogEntries", p);
 		}
 		
-		public IDataReader GetPageableReferrers(int blogId, int? entryId, int pageIndex, int pageSize) {
+		public virtual IDataReader GetPageableReferrers(int blogId, int? entryId, int pageIndex, int pageSize) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@EntryID", entryId),		
@@ -559,7 +559,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPageableReferrers", p);
 		}
 		
-		public IDataReader GetPopularPosts(int blogId, DateTime? minDate) {
+		public virtual IDataReader GetPopularPosts(int blogId, DateTime? minDate) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@MinDate", minDate),		
@@ -568,7 +568,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPopularPosts", p);
 		}
 		
-		public IDataReader GetPostsByCategoriesArchive(int? blogId) {
+		public virtual IDataReader GetPostsByCategoriesArchive(int? blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 			};
@@ -576,7 +576,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPostsByCategoriesArchive", p);
 		}
 		
-		public IDataReader GetPostsByCategoryID(int itemCount, int categoryId, bool isActive, int blogId, DateTime currentDateTime) {
+		public virtual IDataReader GetPostsByCategoryID(int itemCount, int categoryId, bool isActive, int blogId, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ItemCount", itemCount),		
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
@@ -588,17 +588,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPostsByCategoryID", p);
 		}
 		
-		public IDataReader GetPostsByDayRange(DateTime startDate, DateTime stopDate, int blogId) {
-			SqlParameter[] p = {
-				DataHelper.MakeInParam("@StartDate", startDate),		
-				DataHelper.MakeInParam("@StopDate", stopDate),		
-				DataHelper.MakeInParam("@BlogId", blogId),		
-			};
-			
-			return GetReader("subtext_GetPostsByDayRange", p);
-		}
-		
-		public IDataReader GetPostsByMonth(int month, int year, int? blogId, DateTime currentDateTime) {
+		public virtual IDataReader GetPostsByMonth(int month, int year, int? blogId, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Month", month),		
 				DataHelper.MakeInParam("@Year", year),		
@@ -609,7 +599,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPostsByMonth", p);
 		}
 		
-		public IDataReader GetPostsByMonthArchive(int? blogId, DateTime currentDateTime) {
+		public virtual IDataReader GetPostsByMonthArchive(int? blogId, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
@@ -618,7 +608,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPostsByMonthArchive", p);
 		}
 		
-		public IDataReader GetPostsByTag(int itemCount, string tag, int blogId, bool? isActive, DateTime currentDateTime) {
+		public virtual IDataReader GetPostsByTag(int itemCount, string tag, int blogId, bool? isActive, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ItemCount", itemCount),		
 				DataHelper.MakeInParam("@Tag", tag),		
@@ -630,7 +620,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPostsByTag", p);
 		}
 		
-		public IDataReader GetPostsByYearArchive(int blogId, DateTime currentDateTime) {
+		public virtual IDataReader GetPostsByYearArchive(int blogId, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
@@ -639,7 +629,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetPostsByYearArchive", p);
 		}
 		
-		public IDataReader GetRelatedEntries(int blogId, int entryId, int rowCount) {
+		public virtual IDataReader GetRelatedEntries(int blogId, int entryId, int rowCount) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@EntryID", entryId),		
@@ -649,7 +639,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetRelatedEntries", p);
 		}
 		
-		public IDataReader GetSingleEntry(int? id, string entryName, bool isActive, int? blogId, bool includeCategories) {
+		public virtual IDataReader GetSingleEntry(int? id, string entryName, bool isActive, int? blogId, bool includeCategories) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ID", id),		
 				DataHelper.MakeInParam("@EntryName", entryName),		
@@ -661,7 +651,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetSingleEntry", p);
 		}
 		
-		public IDataReader GetSingleImage(int imageId, bool isActive, int blogId) {
+		public virtual IDataReader GetSingleImage(int imageId, bool isActive, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ImageID", imageId),		
 				DataHelper.MakeInParam("@IsActive", isActive),		
@@ -671,7 +661,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetSingleImage", p);
 		}
 		
-		public IDataReader GetSingleLink(int linkId, int blogId) {
+		public virtual IDataReader GetSingleLink(int linkId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@LinkID", linkId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -680,7 +670,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetSingleLink", p);
 		}
 		
-		public IDataReader GetTopEntries(int blogId, int rowCount) {
+		public virtual IDataReader GetTopEntries(int blogId, int rowCount) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@RowCount", rowCount),		
@@ -689,7 +679,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetTopEntries", p);
 		}
 		
-		public IDataReader GetTopTags(int itemCount, int blogId) {
+		public virtual IDataReader GetTopTags(int itemCount, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ItemCount", itemCount),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -698,7 +688,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_GetTopTags", p);
 		}
 		
-		public int GetUrlID(string url) {
+		public virtual int GetUrlID(string url) {
 			var outParam0 = DataHelper.MakeOutParam("@UrlID", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Url", url),		
@@ -709,7 +699,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public int InsertBlogGroup(string title, bool active, int? displayOrder, string description) {
+		public virtual int InsertBlogGroup(string title, bool active, int? displayOrder, string description) {
 			var outParam0 = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -723,7 +713,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public int InsertCategory(string title, bool active, int blogId, int categoryType, string description) {
+		public virtual int InsertCategory(string title, bool active, int blogId, int categoryType, string description) {
 			var outParam0 = DataHelper.MakeOutParam("@CategoryID", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -738,7 +728,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public int InsertEnclosure(string title, string url, string mimeType, long size, bool addToFeed, bool showWithPost, int entryId) {
+		public virtual int InsertEnclosure(string title, string url, string mimeType, long size, bool addToFeed, bool showWithPost, int entryId) {
 			var outParam0 = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -755,7 +745,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public int InsertEntry(string title, string text, int postType, string author, string email, string description, int blogId, DateTime dateCreated, int postConfig, string entryName, DateTime? dateSyndicated, DateTime currentDateTime) {
+		public virtual int InsertEntry(string title, string text, int postType, string author, string email, string description, int blogId, DateTime dateCreatedUtc, int postConfig, string entryName, DateTime? datePublishedUtc) {
 			var outParam0 = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -765,11 +755,10 @@ namespace Subtext.Framework.Data {
 				DataHelper.MakeInParam("@Email", email),		
 				DataHelper.MakeInParam("@Description", description),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
-				DataHelper.MakeInParam("@DateCreated", dateCreated),		
+				DataHelper.MakeInParam("@DateCreatedUtc", dateCreatedUtc),		
 				DataHelper.MakeInParam("@PostConfig", postConfig),		
 				DataHelper.MakeInParam("@EntryName", entryName),		
-				DataHelper.MakeInParam("@DateSyndicated", dateSyndicated),		
-				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
+				DataHelper.MakeInParam("@DatePublishedUtc", datePublishedUtc),		
 				outParam0,
 			};
 			
@@ -777,7 +766,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public bool InsertEntryTagList(int entryId, int blogId, string tagList) {
+		public virtual bool InsertEntryTagList(int entryId, int blogId, string tagList) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@EntryId", entryId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -788,7 +777,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_InsertEntryTagList", p);
 		}
 		
-		public bool InsertEntryViewCount(int entryId, int blogId, bool isWeb) {
+		public virtual bool InsertEntryViewCount(int entryId, int blogId, bool isWeb) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@EntryID", entryId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -799,7 +788,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_InsertEntryViewCount", p);
 		}
 		
-		public int InsertFeedback(string title, string body, int blogId, int? entryId, string author, bool isBlogAuthor, string email, string url, int feedbackType, int statusFlag, bool commentAPI, string referrer, string ipAddress, string userAgent, string feedbackChecksumHash, DateTime dateCreated, DateTime? dateModified, DateTime currentDateTime) {
+		public virtual int InsertFeedback(string title, string body, int blogId, int? entryId, string author, bool isBlogAuthor, string email, string url, int feedbackType, int statusFlag, bool commentAPI, string referrer, string ipAddress, string userAgent, string feedbackChecksumHash, DateTime dateCreatedUtc, DateTime? dateModifiedUtc, DateTime currentDateTime) {
 			var outParam0 = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -817,8 +806,8 @@ namespace Subtext.Framework.Data {
 				DataHelper.MakeInParam("@IpAddress", ipAddress),		
 				DataHelper.MakeInParam("@UserAgent", userAgent),		
 				DataHelper.MakeInParam("@FeedbackChecksumHash", feedbackChecksumHash),		
-				DataHelper.MakeInParam("@DateCreated", dateCreated),		
-				DataHelper.MakeInParam("@DateModified", dateModified),		
+				DataHelper.MakeInParam("@DateCreatedUtc", dateCreatedUtc),		
+				DataHelper.MakeInParam("@DateModifiedUtc", dateModifiedUtc),		
 				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
 				outParam0,
 			};
@@ -827,7 +816,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public int InsertImage(string title, int categoryId, int width, int height, string file, bool active, int blogId, string url) {
+		public virtual int InsertImage(string title, int categoryId, int width, int height, string file, bool active, int blogId, string url) {
 			var outParam0 = DataHelper.MakeOutParam("@ImageID", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -845,7 +834,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public int InsertKeyWord(string word, string rel, string text, bool replaceFirstTimeOnly, bool openInNewWindow, bool caseSensitive, string url, string title, int blogId) {
+		public virtual int InsertKeyWord(string word, string rel, string text, bool replaceFirstTimeOnly, bool openInNewWindow, bool caseSensitive, string url, string title, int blogId) {
 			var outParam0 = DataHelper.MakeOutParam("@KeyWordID", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Word", word),		
@@ -864,7 +853,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public int InsertLink(string title, string url, string rss, bool active, bool newWindow, int categoryId, int? postId, int blogId, string rel) {
+		public virtual int InsertLink(string title, string url, string rss, bool active, bool newWindow, int categoryId, int? postId, int blogId, string rel) {
 			var outParam0 = DataHelper.MakeOutParam("@LinkID", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -883,7 +872,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public bool InsertLinkCategoryList(string categoryList, int postId, int blogId) {
+		public virtual bool InsertLinkCategoryList(string categoryList, int postId, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@CategoryList", categoryList),		
 				DataHelper.MakeInParam("@PostID", postId),		
@@ -894,7 +883,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_InsertLinkCategoryList", p);
 		}
 		
-		public int InsertMetaTag(string content, string name, string httpEquiv, int blogId, int? entryId, DateTime? dateCreated) {
+		public virtual int InsertMetaTag(string content, string name, string httpEquiv, int blogId, int? entryId, DateTime? dateCreatedUtc) {
 			var outParam0 = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Content", content),		
@@ -902,7 +891,7 @@ namespace Subtext.Framework.Data {
 				DataHelper.MakeInParam("@HttpEquiv", httpEquiv),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@EntryId", entryId),		
-				DataHelper.MakeInParam("@DateCreated", dateCreated),		
+				DataHelper.MakeInParam("@DateCreatedUtc", dateCreatedUtc),		
 				outParam0,
 			};
 			
@@ -910,7 +899,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public bool InsertReferral(int entryId, int blogId, string url) {
+		public virtual bool InsertReferral(int entryId, int blogId, string url) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@EntryID", entryId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -921,7 +910,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_InsertReferral", p);
 		}
 		
-		public IDataReader InsertViewStats(int blogId, int pageType, int postId, DateTime day, string url) {
+		public virtual IDataReader InsertViewStats(int blogId, int pageType, int postId, DateTime day, string url) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@PageType", pageType),		
@@ -933,7 +922,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_InsertViewStats", p);
 		}
 		
-		public IDataReader ListBlogGroups(bool active) {
+		public virtual IDataReader ListBlogGroups(bool active) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Active", active),		
 			};
@@ -941,7 +930,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_ListBlogGroups", p);
 		}
 		
-		public bool LogClear(int? blogId) {
+		public virtual bool LogClear(int? blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 			};
@@ -950,7 +939,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_LogClear", p);
 		}
 		
-		public IDataReader SearchEntries(int blogId, string searchStr, DateTime currentDateTime) {
+		public virtual IDataReader SearchEntries(int blogId, string searchStr, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@SearchStr", searchStr),		
@@ -960,7 +949,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_SearchEntries", p);
 		}
 		
-		public IDataReader StatsSummary(int blogId) {
+		public virtual IDataReader StatsSummary(int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 			};
@@ -968,7 +957,7 @@ namespace Subtext.Framework.Data {
 			return GetReader("subtext_StatsSummary", p);
 		}
 		
-		public bool TrackEntry(int entryId, int blogId, string url, bool isWeb) {
+		public virtual bool TrackEntry(int entryId, int blogId, string url, bool isWeb) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@EntryID", entryId),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -980,7 +969,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_TrackEntry", p);
 		}
 		
-		public bool UpdateBlogGroup(int id, string title, bool active, string description, int? displayOrder) {
+		public virtual bool UpdateBlogGroup(int id, string title, bool active, string description, int? displayOrder) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 				DataHelper.MakeInParam("@Title", title),		
@@ -993,7 +982,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateBlogGroup", p);
 		}
 		
-		public bool UpdateBlogStats(int blogId, DateTime currentDateTime) {
+		public virtual bool UpdateBlogStats(int blogId, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
@@ -1003,7 +992,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateBlogStats", p);
 		}
 		
-		public bool UpdateCategory(int categoryId, string title, bool active, int categoryType, string description, int blogId) {
+		public virtual bool UpdateCategory(int categoryId, string title, bool active, int categoryType, string description, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
 				DataHelper.MakeInParam("@Title", title),		
@@ -1017,7 +1006,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateCategory", p);
 		}
 		
-		public bool UpdateConfig(string userName, string password, string email, string title, string subTitle, string skin, string application, string host, string author, string language, string timeZoneId, int itemCount, int categoryListPostCount, string news, string trackingCode, DateTime? lastUpdated, string secondaryCss, string skinCssFile, int? flag, int blogId, string licenseUrl, int? daysTillCommentsClose, int? commentDelayInMinutes, int? numberOfRecentComments, int? recentCommentsLength, string akismetAPIKey, string feedBurnerName, int blogGroupId, string mobileSkin, string mobileSkinCssFile, string openIDUrl, string cardSpaceHash, string openIDServer, string openIDDelegate) {
+		public virtual bool UpdateConfig(string userName, string password, string email, string title, string subTitle, string skin, string application, string host, string author, string language, string timeZoneId, int timeZoneOffset, int itemCount, int categoryListPostCount, string news, string trackingCode, DateTime? dateModifiedUtc, string secondaryCss, string skinCssFile, int? flag, int blogId, string licenseUrl, int? daysTillCommentsClose, int? commentDelayInMinutes, int? numberOfRecentComments, int? recentCommentsLength, string akismetAPIKey, string feedBurnerName, int blogGroupId, string mobileSkin, string mobileSkinCssFile, string openIDUrl, string cardSpaceHash, string openIDServer, string openIDDelegate) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@UserName", userName),		
 				DataHelper.MakeInParam("@Password", password),		
@@ -1030,11 +1019,12 @@ namespace Subtext.Framework.Data {
 				DataHelper.MakeInParam("@Author", author),		
 				DataHelper.MakeInParam("@Language", language),		
 				DataHelper.MakeInParam("@TimeZoneId", timeZoneId),		
+				DataHelper.MakeInParam("@TimeZoneOffset", timeZoneOffset),		
 				DataHelper.MakeInParam("@ItemCount", itemCount),		
 				DataHelper.MakeInParam("@CategoryListPostCount", categoryListPostCount),		
 				DataHelper.MakeInParam("@News", news),		
 				DataHelper.MakeInParam("@TrackingCode", trackingCode),		
-				DataHelper.MakeInParam("@LastUpdated", lastUpdated),		
+				DataHelper.MakeInParam("@DateModifiedUtc", dateModifiedUtc),		
 				DataHelper.MakeInParam("@SecondaryCss", secondaryCss),		
 				DataHelper.MakeInParam("@SkinCssFile", skinCssFile),		
 				DataHelper.MakeInParam("@Flag", flag),		
@@ -1059,17 +1049,17 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateConfig", p);
 		}
 		
-		public bool UpdateConfigUpdateTime(int blogId, DateTime lastUpdated) {
+		public virtual bool UpdateConfigUpdateTime(int blogId, DateTime dateModifiedUtc) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
-				DataHelper.MakeInParam("@LastUpdated", lastUpdated),		
+				DataHelper.MakeInParam("@DateModifiedUtc", dateModifiedUtc),		
 			};
 			
 	
 			return NonQueryBool("subtext_UpdateConfigUpdateTime", p);
 		}
 		
-		public bool UpdateDomainAlias(int id, int blogId, string host, string application, bool? active) {
+		public virtual bool UpdateDomainAlias(int id, int blogId, string host, string application, bool? active) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -1082,7 +1072,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateDomainAlias", p);
 		}
 		
-		public bool UpdateEnclosure(string title, string url, string mimeType, long size, bool addToFeed, bool showWithPost, int entryId, int id) {
+		public virtual bool UpdateEnclosure(string title, string url, string mimeType, long size, bool addToFeed, bool showWithPost, int entryId, int id) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
 				DataHelper.MakeInParam("@Url", url),		
@@ -1098,7 +1088,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateEnclosure", p);
 		}
 		
-		public bool UpdateEntry(int id, string title, string text, int postType, string author, string email, string description, DateTime? dateUpdated, int postConfig, string entryName, DateTime? dateSyndicated, int blogId, DateTime currentDateTime) {
+		public virtual bool UpdateEntry(int id, string title, string text, int postType, string author, string email, string description, DateTime dateModifiedUtc, int postConfig, string entryName, DateTime? datePublishedUtc, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ID", id),		
 				DataHelper.MakeInParam("@Title", title),		
@@ -1107,19 +1097,18 @@ namespace Subtext.Framework.Data {
 				DataHelper.MakeInParam("@Author", author),		
 				DataHelper.MakeInParam("@Email", email),		
 				DataHelper.MakeInParam("@Description", description),		
-				DataHelper.MakeInParam("@DateUpdated", dateUpdated),		
+				DataHelper.MakeInParam("@DateModifiedUtc", dateModifiedUtc),		
 				DataHelper.MakeInParam("@PostConfig", postConfig),		
 				DataHelper.MakeInParam("@EntryName", entryName),		
-				DataHelper.MakeInParam("@DateSyndicated", dateSyndicated),		
+				DataHelper.MakeInParam("@DatePublishedUtc", datePublishedUtc),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
-				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
 			};
 			
 	
 			return NonQueryBool("subtext_UpdateEntry", p);
 		}
 		
-		public bool UpdateFeedback(int id, string title, string body, string author, string email, string url, int statusFlag, string feedbackChecksumHash, DateTime dateModified, DateTime currentDateTime) {
+		public virtual bool UpdateFeedback(int id, string title, string body, string author, string email, string url, int statusFlag, string feedbackChecksumHash, DateTime dateModifiedUtc) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@ID", id),		
 				DataHelper.MakeInParam("@Title", title),		
@@ -1129,15 +1118,14 @@ namespace Subtext.Framework.Data {
 				DataHelper.MakeInParam("@Url", url),		
 				DataHelper.MakeInParam("@StatusFlag", statusFlag),		
 				DataHelper.MakeInParam("@FeedbackChecksumHash", feedbackChecksumHash),		
-				DataHelper.MakeInParam("@DateModified", dateModified),		
-				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
+				DataHelper.MakeInParam("@DateModifiedUtc", dateModifiedUtc),		
 			};
 			
 	
 			return NonQueryBool("subtext_UpdateFeedback", p);
 		}
 		
-		public bool UpdateFeedbackCount(int blogId, int entryId, DateTime currentDateTime) {
+		public virtual bool UpdateFeedbackCount(int blogId, int entryId, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@EntryId", entryId),		
@@ -1148,7 +1136,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateFeedbackCount", p);
 		}
 		
-		public bool UpdateFeedbackStats(int blogId, DateTime currentDateTime) {
+		public virtual bool UpdateFeedbackStats(int blogId, DateTime currentDateTime) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@BlogId", blogId),		
 				DataHelper.MakeInParam("@CurrentDateTime", currentDateTime),		
@@ -1158,7 +1146,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateFeedbackStats", p);
 		}
 		
-		public bool UpdateHost(string hostUserName, string email, string password, string salt) {
+		public virtual bool UpdateHost(string hostUserName, string email, string password, string salt) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@HostUserName", hostUserName),		
 				DataHelper.MakeInParam("@Email", email),		
@@ -1170,7 +1158,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateHost", p);
 		}
 		
-		public bool UpdateImage(string title, int categoryId, int width, int height, string file, bool active, int blogId, int imageId, string url) {
+		public virtual bool UpdateImage(string title, int categoryId, int width, int height, string file, bool active, int blogId, int imageId, string url) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
 				DataHelper.MakeInParam("@CategoryID", categoryId),		
@@ -1187,7 +1175,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateImage", p);
 		}
 		
-		public bool UpdateKeyWord(int keyWordId, string word, string rel, string text, bool replaceFirstTimeOnly, bool openInNewWindow, bool caseSensitive, string url, string title, int blogId) {
+		public virtual bool UpdateKeyWord(int keyWordId, string word, string rel, string text, bool replaceFirstTimeOnly, bool openInNewWindow, bool caseSensitive, string url, string title, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@KeyWordID", keyWordId),		
 				DataHelper.MakeInParam("@Word", word),		
@@ -1205,7 +1193,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateKeyWord", p);
 		}
 		
-		public bool UpdateLink(int linkId, string title, string url, string rss, bool active, bool newWindow, int categoryId, string rel, int blogId) {
+		public virtual bool UpdateLink(int linkId, string title, string url, string rss, bool active, bool newWindow, int categoryId, string rel, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@LinkID", linkId),		
 				DataHelper.MakeInParam("@Title", title),		
@@ -1222,7 +1210,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateLink", p);
 		}
 		
-		public bool UpdateMetaTag(int id, string content, string name, string httpEquiv, int blogId, int? entryId) {
+		public virtual bool UpdateMetaTag(int id, string content, string name, string httpEquiv, int blogId, int? entryId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Id", id),		
 				DataHelper.MakeInParam("@Content", content),		
@@ -1236,7 +1224,7 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_UpdateMetaTag", p);
 		}
 		
-		public int UTILITYAddBlog(string title, string userName, string password, string email, string host, string application, int flag, int blogGroupId) {
+		public virtual int UTILITYAddBlog(string title, string userName, string password, string email, string host, string application, int flag, int blogGroupId, DateTime? dateCreatedUtc) {
 			var outParam0 = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Title", title),		
@@ -1247,6 +1235,7 @@ namespace Subtext.Framework.Data {
 				DataHelper.MakeInParam("@Application", application),		
 				DataHelper.MakeInParam("@Flag", flag),		
 				DataHelper.MakeInParam("@BlogGroupId", blogGroupId),		
+				DataHelper.MakeInParam("@DateCreatedUtc", dateCreatedUtc),		
 				outParam0,
 			};
 			
@@ -1254,11 +1243,11 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public IDataReader UtilityGetUnHashedPasswords() {
+		public virtual IDataReader UtilityGetUnHashedPasswords() {
 			return GetReader("subtext_Utility_GetUnHashedPasswords");
 		}
 		
-		public bool UtilityUpdateToHashedPassword(string password, int blogId) {
+		public virtual bool UtilityUpdateToHashedPassword(string password, int blogId) {
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Password", password),		
 				DataHelper.MakeInParam("@BlogId", blogId),		
@@ -1268,13 +1257,13 @@ namespace Subtext.Framework.Data {
 			return NonQueryBool("subtext_Utility_UpdateToHashedPassword", p);
 		}
 		
-		public int? VersionAdd(int major, int minor, int build, DateTime? dateCreated) {
+		public virtual int? VersionAdd(int major, int minor, int build, DateTime? dateCreatedUtc) {
 			var outParam0 = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
 			SqlParameter[] p = {
 				DataHelper.MakeInParam("@Major", major),		
 				DataHelper.MakeInParam("@Minor", minor),		
 				DataHelper.MakeInParam("@Build", build),		
-				DataHelper.MakeInParam("@DateCreated", dateCreated),		
+				DataHelper.MakeInParam("@DateCreatedUtc", dateCreatedUtc),		
 				outParam0,
 			};
 			
@@ -1285,7 +1274,7 @@ namespace Subtext.Framework.Data {
 			return (int)outParam0.Value;
 		}
 		
-		public IDataReader VersionGetCurrent() {
+		public virtual IDataReader VersionGetCurrent() {
 			return GetReader("subtext_VersionGetCurrent");
 		}
 		

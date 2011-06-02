@@ -113,10 +113,10 @@ namespace Subtext.Web
 
                 string baselink = string.Format(baseUrl, entry.Blog.Host, entry.Blog.Subfolder);
                 string link = string.Format(CultureInfo.InvariantCulture, baselink + "archive/{0:yyyy/MM/dd}/{1}.aspx",
-                                            entry.DateCreated, entry.EntryName);
+                                            entry.DateCreatedUtc, entry.EntryName);
                 writer.WriteElementString("link", link);
 
-                DateTime entryTime = entry.DateCreated;
+                DateTime entryTime = entry.DateCreatedUtc;
 
                 writer.WriteElementString("pubDate", entry.Blog.TimeZone.ToUtc(entryTime).ToString("r"));
                 writer.WriteStartElement("guid");

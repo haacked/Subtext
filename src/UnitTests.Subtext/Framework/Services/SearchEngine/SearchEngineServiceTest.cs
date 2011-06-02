@@ -46,7 +46,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
                 );
@@ -59,7 +59,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title another",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
             );
@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                         Tags = "Title",
                         BlogName = "MyTestBlog",
                         IsPublished = true,
-                        PublishDate = DateTime.Now,
+                        PublishDate = DateTime.UtcNow,
                         EntryName = null
                     }
                 );
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                     Tags = "Title",
                     BlogName = "MyTestBlog",
                     IsPublished = true,
-                    PublishDate = DateTime.Now,
+                    PublishDate = DateTime.UtcNow,
                     EntryName = "this-is-the-title"
                 }
             );
@@ -122,7 +122,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
             );
@@ -135,7 +135,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
             );
@@ -159,7 +159,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
             );
@@ -182,7 +182,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
                 );
@@ -196,7 +196,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title another",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
             );
@@ -217,7 +217,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
                 );
@@ -231,7 +231,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title another",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
             );
@@ -245,7 +245,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = "Title another",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             }
             );
@@ -269,7 +269,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                                     Tags = ".net, mvc, post",
                                     BlogName = "MyTestBlog",
                                     IsPublished = true,
-                                    PublishDate = DateTime.Now,
+                                    PublishDate = DateTime.UtcNow,
                                     EntryName = "this-is-the-title"
                                 }
                 );
@@ -293,7 +293,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                     Tags = ".net, mvc, post",
                     BlogName = "MyTestBlog",
                     IsPublished = true,
-                    PublishDate = DateTime.Now,
+                    PublishDate = DateTime.UtcNow,
                     EntryName = "this-is-the-title"
                 }
                 );
@@ -319,7 +319,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                     Tags = ".net, mvc, post",
                     BlogName = "MyTestBlog",
                     IsPublished = true,
-                    PublishDate = DateTime.Now,
+                    PublishDate = DateTime.UtcNow,
                     EntryName = "this-is-the-title"
                 }
                 );
@@ -344,7 +344,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                     Tags = ".net, mvc, post",
                     BlogName = "MyTestBlog",
                     IsPublished = true,
-                    PublishDate = DateTime.Now,
+                    PublishDate = DateTime.UtcNow,
                     EntryName = "this-is-the-title"
                 }
                 );
@@ -358,7 +358,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = ".net, mvc, post",
                 BlogName = "MyTestBlog",
                 IsPublished = false,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             });
 
@@ -380,7 +380,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                     Tags = ".net, mvc, post",
                     BlogName = "MyTestBlog",
                     IsPublished = true,
-                    PublishDate = DateTime.Now,
+                    PublishDate = DateTime.UtcNow,
                     EntryName = "this-is-the-title"
                 }
                 );
@@ -394,7 +394,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 Tags = ".net, mvc, post",
                 BlogName = "MyTestBlog",
                 IsPublished = true,
-                PublishDate = DateTime.Now.AddDays(1),
+                PublishDate = DateTime.UtcNow.AddDays(1),
                 EntryName = "this-is-the-title"
             });
 
@@ -417,7 +417,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                     BlogName = "MyTestBlog",
                     BlogId = 1,
                     IsPublished = true,
-                    PublishDate = DateTime.Now,
+                    PublishDate = DateTime.UtcNow,
                     EntryName = "this-is-the-title"
                 }
                 );
@@ -432,7 +432,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                 BlogName = "MyTestBlog",
                 BlogId = 2,
                 IsPublished = true,
-                PublishDate = DateTime.Now,
+                PublishDate = DateTime.UtcNow,
                 EntryName = "this-is-the-title"
             });
 
@@ -455,7 +455,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
                     BlogName = "MyTestBlog",
                     BlogId = 1,
                     IsPublished = true,
-                    PublishDate = DateTime.Now,
+                    PublishDate = DateTime.UtcNow,
                     EntryName = "this-is-the-title"
                 }
                 );

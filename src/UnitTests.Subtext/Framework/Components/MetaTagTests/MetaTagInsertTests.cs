@@ -40,13 +40,13 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             blog = UnitTestHelper.CreateBlogAndSetupContext();
 
             int? entryId = null;
-            if(withEntry)
+            if (withEntry)
             {
                 Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Steven Harman", "My Post", "Foo Bar Zaa!");
                 entryId = UnitTestHelper.Create(e);
             }
 
-            MetaTag mt = UnitTestHelper.BuildMetaTag(content, name, httpEquiv, blog.Id, entryId, DateTime.Now);
+            MetaTag mt = UnitTestHelper.BuildMetaTag(content, name, httpEquiv, blog.Id, entryId, DateTime.UtcNow);
 
             // make sure there are no meta-tags for this blog in the data store
             ICollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
@@ -68,7 +68,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             Assert.AreEqual(mt.HttpEquiv, newTag.HttpEquiv, "Wrong http-equiv attriubte");
             Assert.AreEqual(mt.BlogId, newTag.BlogId, "Wrong blogId");
             Assert.AreEqual(mt.EntryId, newTag.EntryId, "Wrong entryId");
-            Assert.AreEqual(mt.DateCreated.Date, newTag.DateCreated.Date, "Wrong created date");
+            Assert.AreEqual(mt.DateCreatedUtc.Date, newTag.DateCreatedUtc.Date, "Wrong created date");
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [Test]
         public void Create_WithInvalidMetaTag_ThrowsArgumentException()
         {
-            UnitTestHelper.AssertThrows<ArgumentException>(() => MetaTags.Create(new MetaTag {Content = null}));
+            UnitTestHelper.AssertThrows<ArgumentException>(() => MetaTags.Create(new MetaTag { Content = null }));
         }
 
         [Test]

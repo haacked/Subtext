@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertBlog_WithSubtextBlog_ReturnsCorrespondingBlogMLBlog()
         {
             // arrange
-            var blog = new Blog {Title = "Test Blog Title", SubTitle = "Test Blog Subtitle", Author = "Charles Dickens", Host = "example.com", ModerationEnabled = true};
+            var blog = new Blog { Title = "Test Blog Title", SubTitle = "Test Blog Subtitle", Author = "Charles Dickens", Host = "example.com", ModerationEnabled = true };
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(blog);
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertCategories_WithBlogCategories_ConvertsToBLogMLCategories()
         {
             // arrange
-            var categories = new List<LinkCategory> {new LinkCategory(1, "Category Uno"), new LinkCategory(2, "Category Dos")};
+            var categories = new List<LinkCategory> { new LinkCategory(1, "Category Uno"), new LinkCategory(2, "Category Dos") };
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "example.com" });
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
@@ -63,7 +63,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertEntry_WithEntry_ConvertsToBLogMLPosts()
         {
             // arrange
-            var entry = new EntryStatsView{ Title = "Test Entry"};
+            var entry = new EntryStatsView { Title = "Test Entry" };
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "example.com" });
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
@@ -102,13 +102,11 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertEntry_WithInActiveEntry_SetsDateModifiedToDateModified()
         {
             // arrange
-            DateTime dateModified = DateTime.ParseExact("2009/08/15 05:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-            DateTime dateModifiedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
-            var entry = new EntryStatsView { Title = "Test Entry", DateModified = dateModified, IsActive = false };
+            DateTime dateModifiedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal).ToUniversalTime();
+            var entry = new EntryStatsView { Title = "Test Entry", DateModifiedUtc = dateModifiedUtc, IsActive = false };
             var subtextContext = new Mock<ISubtextContext>();
             var blog = new Mock<Blog>();
             blog.Object.Host = "example.com";
-            blog.Setup(b => b.TimeZone.ToUtc(dateModified)).Returns(dateModifiedUtc);
             subtextContext.Setup(c => c.Blog).Returns(blog.Object);
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
             subtextContext.Setup(c => c.UrlHelper.EntryUrl(It.IsAny<IEntryIdentity>())).Returns("/irrelevant");
@@ -122,16 +120,15 @@ namespace UnitTests.Subtext.BlogMl
         }
 
         [Test]
-        public void ConvertEntry_WithActiveEntry_SetsDateModifiedToDateSyndicated()
+        public void ConvertEntry_WithActiveEntry_SetsDateModifiedToDatePublishedUtc()
         {
             // arrange
-            DateTime dateSyndicated = DateTime.ParseExact("2009/08/15 05:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-            DateTime dateSyndicatedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
-            var entry = new EntryStatsView { Title = "Test Entry", DateSyndicated = dateSyndicated, IsActive = true};
+            DateTime dateCreatedUtc = DateTime.ParseExact("2009/08/15 05:00 PM -05:00", "yyyy/MM/dd hh:mm tt zzz", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
+            DateTime datePublishedUtc = DateTime.ParseExact("2009/08/15 05:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal).ToUniversalTime();
+            var entry = new EntryStatsView { Title = "Test Entry", DatePublishedUtc = datePublishedUtc, IsActive = true, DateCreatedUtc = dateCreatedUtc };
             var subtextContext = new Mock<ISubtextContext>();
             var blog = new Mock<Blog>();
             blog.Object.Host = "example.com";
-            blog.Setup(b => b.TimeZone.ToUtc(dateSyndicated)).Returns(dateSyndicatedUtc);
             subtextContext.Setup(c => c.Blog).Returns(blog.Object);
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
             subtextContext.Setup(c => c.UrlHelper.EntryUrl(It.IsAny<IEntryIdentity>())).Returns("/irrelevant");
@@ -141,20 +138,18 @@ namespace UnitTests.Subtext.BlogMl
             var post = converter.ConvertEntry(entry, false /*embedAttachments*/);
 
             // assert
-            Assert.AreEqual(dateSyndicatedUtc, post.DateModified);
+            Assert.AreEqual(datePublishedUtc, post.DateModified);
         }
 
         [Test]
         public void ConvertEntry_WithActiveEntry_SetsDateCreatedToLocalDateTime()
         {
             // arrange
-            DateTime dateCreated = DateTime.ParseExact("2009/08/15 05:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-            DateTime dateCreatedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
-            var entry = new EntryStatsView { Title = "Test Entry", DateCreated = dateCreated, IsActive = true };
+            DateTime dateCreatedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal).ToUniversalTime();
+            var entry = new EntryStatsView { Title = "Test Entry", DateCreatedUtc = dateCreatedUtc, IsActive = true };
             var subtextContext = new Mock<ISubtextContext>();
             var blog = new Mock<Blog>();
             blog.Object.Host = "example.com";
-            blog.Setup(b => b.TimeZone.ToUtc(dateCreated)).Returns(dateCreatedUtc);
             subtextContext.Setup(c => c.Blog).Returns(blog.Object);
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
             subtextContext.Setup(c => c.UrlHelper.EntryUrl(It.IsAny<IEntryIdentity>())).Returns("/irrelevant");
@@ -168,14 +163,13 @@ namespace UnitTests.Subtext.BlogMl
         }
 
         [Test]
-        public void ConvertEntry_WithEntryHavingNoDateSyndicated_DoesNotThrowNullReferenceException()
+        public void ConvertEntry_WithEntryHavingNoDatePublished_DoesNotThrowNullReferenceException()
         {
             // arrange
-            var entry = new EntryStatsView { Title = "Test Entry", DateCreated = DateTime.Now, IsActive = true };
+            var entry = new EntryStatsView { Title = "Test Entry", DateCreatedUtc = DateTime.UtcNow, IsActive = true };
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.UrlHelper.EntryUrl(It.IsAny<IEntryIdentity>(), It.IsAny<Blog>())).Returns((VirtualPath)null);
             var blog = new Mock<Blog>();
-            blog.Setup(b => b.TimeZone.ToUtc(It.IsAny<DateTime>())).Returns(DateTime.Now);
             blog.Object.Host = "example.com";
             subtextContext.Setup(c => c.Blog).Returns(blog.Object);
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
@@ -230,7 +224,7 @@ namespace UnitTests.Subtext.BlogMl
             // arrange
             var entry = new EntryStatsView { EntryName = "my-cool-post" };
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id=321, Host = "foo.example.com" });
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Id = 321, Host = "foo.example.com" });
             subtextContext.Setup(c => c.UrlHelper.BlogUrl()).Returns("/");
             subtextContext.Setup(c => c.UrlHelper.EntryUrl(It.IsAny<IEntryIdentity>())).Returns("/my-cool-post.aspx");
             var converter = new BlogMLExportMapper(subtextContext.Object);
@@ -334,7 +328,8 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertComment_WithFeedBackItem_ConvertsToBlogMlComment()
         {
             // arrange
-            var feedback = new FeedbackItem(FeedbackType.Comment) {
+            var feedback = new FeedbackItem(FeedbackType.Comment)
+            {
                 Id = 213,
                 Body = "<p><![CDATA[First!]]></p>",
             };
@@ -385,14 +380,12 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertComment_WithDateCreated_ConvertsToUtc()
         {
             // arrange
-            DateTime dateCreated = DateTime.ParseExact("2009/08/15 05:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-            DateTime dateCreatedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+            DateTime dateCreatedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal).ToUniversalTime();
             var feedback = new FeedbackItem(FeedbackType.Comment)
             {
-                DateCreated = dateCreated,
+                DateCreatedUtc = dateCreatedUtc,
             };
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog.TimeZone.ToUtc(dateCreated)).Returns(dateCreatedUtc);
             var converter = new BlogMLExportMapper(subtextContext.Object);
 
             // act
@@ -406,14 +399,12 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertComment_WithDateModified_ConvertsToUtc()
         {
             // arrange
-            DateTime dateModified = DateTime.ParseExact("2009/08/15 05:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-            DateTime dateModifiedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+            DateTime dateModifiedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal).ToUniversalTime();
             var feedback = new FeedbackItem(FeedbackType.Comment)
             {
-                DateModified = dateModified,
+                DateModifiedUtc = dateModifiedUtc,
             };
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog.TimeZone.ToUtc(dateModified)).Returns(dateModifiedUtc);
             var converter = new BlogMLExportMapper(subtextContext.Object);
 
             // act
@@ -450,8 +441,7 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertTrackback_WithDateCreated_ConvertsDateCreatedToUtc()
         {
             // arrange
-            DateTime dateCreated = DateTime.ParseExact("2009/08/15 05:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-            DateTime dateCreatedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+            DateTime dateCreatedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal).ToUniversalTime();
 
             var feedback = new FeedbackItem(FeedbackType.PingTrack)
             {
@@ -462,11 +452,10 @@ namespace UnitTests.Subtext.BlogMl
                 Email = "test@example.com",
                 SourceUrl = new Uri("http://subtextproject.com/"),
                 Body = "<p>First!</p>",
-                DateCreated = dateCreated,
-                DateModified = dateCreated
+                DateCreatedUtc = dateCreatedUtc,
+                DateModifiedUtc = dateCreatedUtc
             };
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog.TimeZone.ToUtc(dateCreated)).Returns(dateCreatedUtc);
             var converter = new BlogMLExportMapper(subtextContext.Object);
 
             // act
@@ -480,10 +469,8 @@ namespace UnitTests.Subtext.BlogMl
         public void ConvertTrackback_WithDateModified_ConvertsDateModifiedToUtc()
         {
             // arrange
-            DateTime dateModified = DateTime.ParseExact("2009/08/15 05:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-            DateTime dateModifiedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
-            
-            var dateCreated = DateTime.Now.AddDays(-1);
+            DateTime dateModifiedUtc = DateTime.ParseExact("2009/08/15 11:00 PM", "yyyy/MM/dd hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal).ToUniversalTime();
+            var dateCreatedUtc = DateTime.UtcNow.AddDays(-1);
             var feedback = new FeedbackItem(FeedbackType.PingTrack)
             {
                 Id = 213,
@@ -493,11 +480,10 @@ namespace UnitTests.Subtext.BlogMl
                 Email = "test@example.com",
                 SourceUrl = new Uri("http://subtextproject.com/"),
                 Body = "<p>First!</p>",
-                DateCreated = dateCreated,
-                DateModified = dateModified
+                DateCreatedUtc = dateCreatedUtc,
+                DateModifiedUtc = dateModifiedUtc
             };
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog.TimeZone.ToUtc(dateModified)).Returns(dateModifiedUtc);
             var converter = new BlogMLExportMapper(subtextContext.Object);
 
             // act
@@ -563,7 +549,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Blog).Returns(new Blog {Host = "test.example.com"});
+            subtextContext.Setup(c => c.Blog).Returns(new Blog { Host = "test.example.com" });
             subtextContext.Setup(c => c.UrlHelper.AppRoot()).Returns("/");
             var converter = new BlogMLExportMapper(subtextContext.Object);
 

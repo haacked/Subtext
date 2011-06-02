@@ -16,52 +16,14 @@
 #endregion
 
 using System.Web;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Routing;
 
 namespace Subtext.Framework.Web.Handlers
 {
-    public abstract class SubtextHttpHandler : ISubtextHandler
+    public abstract class SubtextHttpHandler : SubtextDependencies, IHttpHandler
     {
-        AdminUrlHelper _adminUrlHelper;
-
         protected SubtextHttpHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
-            SubtextContext = subtextContext;
-        }
-
-        public Blog Blog
-        {
-            get { return SubtextContext.Blog; }
-        }
-
-        public BlogUrlHelper Url
-        {
-            get { return SubtextContext.UrlHelper; }
-        }
-
-        public ObjectProvider Repository
-        {
-            get { return SubtextContext.Repository; }
-        }
-
-        public AdminUrlHelper AdminUrl
-        {
-            get
-            {
-                if(_adminUrlHelper == null)
-                {
-                    _adminUrlHelper = new AdminUrlHelper(Url);
-                }
-                return _adminUrlHelper;
-            }
-        }
-
-        public ISubtextContext SubtextContext { get; protected set; }
-
-        public bool IsReusable
-        {
-            get { return false; }
         }
 
         public void ProcessRequest(HttpContext context)
@@ -70,5 +32,10 @@ namespace Subtext.Framework.Web.Handlers
         }
 
         public abstract void ProcessRequest();
+
+        public bool IsReusable
+        {
+            get { return false; }
+        }
     }
 }

@@ -122,7 +122,7 @@ namespace Subtext.Web.Admin.Feedback
 
         public void BindCounts()
         {
-            _counts = FeedbackItem.GetFeedbackCounts();
+            _counts = Repository.GetFeedbackCounts();
         }
     }
 }

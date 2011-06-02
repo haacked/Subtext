@@ -1,5 +1,5 @@
 using MbUnit.Framework;
-using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
@@ -10,14 +10,14 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CanListBlogGroups()
         {
-            Assert.Greater(Config.ListBlogGroups(true).Count, 0, "Expected at least one blog group");
+            Assert.Greater(new DatabaseObjectProvider().ListBlogGroups(true).Count, 0, "Expected at least one blog group");
         }
 
         [Test]
         [RollBack2]
         public void CanGetBlogGroup()
         {
-            Assert.IsNotNull(Config.GetBlogGroup(1, true), "Expected the default blog group");
+            Assert.IsNotNull(new DatabaseObjectProvider().GetBlogGroup(1, true), "Expected the default blog group");
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Subtext.Framework.Components
         /// <param name="author">The author.</param>
         /// <param name="body">The body.</param>
         /// <param name="dateCreated">The date created.</param>
-        public Trackback(int entryId, string title, Uri sourceUrl, string author, string body, DateTime dateCreated)
+        public Trackback(int entryId, string title, Uri sourceUrl, string author, string body)
             : base(FeedbackType.PingTrack)
         {
             EntryId = entryId;
@@ -45,7 +45,7 @@ namespace Subtext.Framework.Components
             Body = body;
 
             Approved = true;
-            DateCreated = DateModified = dateCreated;
+            DateCreatedUtc = DateModifiedUtc = DateTime.UtcNow;
         }
     }
 }

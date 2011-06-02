@@ -18,7 +18,7 @@
 using System;
 using System.Linq;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
+using Subtext.Framework;
 using Subtext.Framework.Util;
 
 namespace Subtext.Web.UI.Controls

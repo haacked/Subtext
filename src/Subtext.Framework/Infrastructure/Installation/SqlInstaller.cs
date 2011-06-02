@@ -37,16 +37,16 @@ namespace Subtext.Framework.Infrastructure.Installation
 
         public void Install(Version assemblyVersion)
         {
-            using(var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using(SqlTransaction transaction = connection.BeginTransaction())
+                using (SqlTransaction transaction = connection.BeginTransaction())
                 {
                     try
                     {
                         ReadOnlyCollection<string> scripts = ListInstallationScripts(GetCurrentInstallationVersion(),
                                                                                      VersionInfo.CurrentAssemblyVersion);
-                        foreach(string scriptName in scripts)
+                        foreach (string scriptName in scripts)
                         {
                             ScriptHelper.ExecuteScript(scriptName, transaction, DBUser);
                         }
@@ -55,7 +55,7 @@ namespace Subtext.Framework.Infrastructure.Installation
                         UpdateInstallationVersionNumber(assemblyVersion, transaction);
                         transaction.Commit();
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         transaction.Rollback();
                         throw;
@@ -70,16 +70,16 @@ namespace Subtext.Framework.Infrastructure.Installation
         /// <returns></returns>
         public void Upgrade(Version currentAssemblyVersion)
         {
-            using(var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using(SqlTransaction transaction = connection.BeginTransaction())
+                using (SqlTransaction transaction = connection.BeginTransaction())
                 {
                     try
                     {
                         Version installationVersion = GetCurrentInstallationVersion() ?? new Version(1, 0, 0, 0);
                         ReadOnlyCollection<string> scripts = ListInstallationScripts(installationVersion, currentAssemblyVersion);
-                        foreach(string scriptName in scripts)
+                        foreach (string scriptName in scripts)
                         {
                             ScriptHelper.ExecuteScript(scriptName, transaction, DBUser);
                         }
@@ -88,7 +88,7 @@ namespace Subtext.Framework.Infrastructure.Installation
                         UpdateInstallationVersionNumber(currentAssemblyVersion, transaction);
                         transaction.Commit();
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         transaction.Rollback();
                         throw;
@@ -110,15 +110,15 @@ namespace Subtext.Framework.Infrastructure.Installation
             Assembly assembly = Assembly.GetExecutingAssembly();
             string[] resourceNames = assembly.GetManifestResourceNames();
             var collection = new List<string>();
-            foreach(string resourceName in resourceNames)
+            foreach (string resourceName in resourceNames)
             {
                 InstallationScriptInfo scriptInfo = InstallationScriptInfo.Parse(resourceName);
-                if(scriptInfo == null)
+                if (scriptInfo == null)
                 {
                     continue;
                 }
 
-                if((minVersionExclusive == null || scriptInfo.Version > minVersionExclusive)
+                if ((minVersionExclusive == null || scriptInfo.Version > minVersionExclusive)
                    && (maxVersionInclusive == null || scriptInfo.Version <= maxVersionInclusive))
                 {
                     collection.Add(scriptInfo.ScriptName);
@@ -140,7 +140,7 @@ namespace Subtext.Framework.Infrastructure.Installation
         public static void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
         {
             var procedures = new StoredProcedures(transaction);
-            procedures.VersionAdd(newVersion.Major, newVersion.Minor, newVersion.Build, DateTime.Now);
+            procedures.VersionAdd(newVersion.Major, newVersion.Minor, newVersion.Build, DateTime.UtcNow);
         }
 
         /// <summary>
@@ -154,9 +154,9 @@ namespace Subtext.Framework.Infrastructure.Installation
             var procedures = new StoredProcedures(_connectionString);
             try
             {
-                using(var reader = procedures.VersionGetCurrent())
+                using (var reader = procedures.VersionGetCurrent())
                 {
-                    if(reader.Read())
+                    if (reader.Read())
                     {
                         var version = new Version((int)reader["Major"], (int)reader["Minor"], (int)reader["Build"]);
                         reader.Close();
@@ -164,9 +164,9 @@ namespace Subtext.Framework.Infrastructure.Installation
                     }
                 }
             }
-            catch(SqlException exception)
+            catch (SqlException exception)
             {
-                if(exception.Number != (int)SqlErrorMessage.CouldNotFindStoredProcedure)
+                if (exception.Number != (int)SqlErrorMessage.CouldNotFindStoredProcedure)
                 {
                     throw;
                 }
@@ -183,12 +183,12 @@ namespace Subtext.Framework.Infrastructure.Installation
         /// </value>
         public bool NeedsUpgrade(Version installationVersion, Version currentAssemblyVersion)
         {
-            if(installationVersion >= currentAssemblyVersion)
+            if (installationVersion >= currentAssemblyVersion)
             {
                 return false;
             }
 
-            if(installationVersion == null)
+            if (installationVersion == null)
             {
                 //This is the base version.  We need to hardcode this 
                 //because Subtext 1.0 didn't write the assembly version 

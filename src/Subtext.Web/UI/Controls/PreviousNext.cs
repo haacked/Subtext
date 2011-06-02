@@ -51,6 +51,11 @@ namespace Subtext.Web.UI.Controls
                 MainLink.NavigateUrl = Url.BlogUrl();
                 var entries = Cacher.GetPreviousNextEntry(entry.Id, PostType.BlogPost, SubtextContext);
 
+                foreach (var navEntry in entries)
+                {
+                    navEntry.Blog = Blog;
+                }
+
                 //Remember, the NEXT entry is the MORE RECENT entry.
                 switch (entries.Count)
                 {
@@ -60,7 +65,6 @@ namespace Subtext.Web.UI.Controls
                             if (PrevLink != null)
                             {
                                 PrevLink.Visible = false;
-
                             }
                             if (NextLink != null)
                             {

@@ -43,15 +43,14 @@ namespace Subtext.Web.Controllers
                 StatisticsService.RecordAggregatorView(entryView);
             }
 
-            return new CacheableFileContentResult(AggregatorOnePixelBlankGif, "image/gif", DateTime.Now,
-                                                  HttpCacheability.Public);
+            return new CacheableFileContentResult(AggregatorOnePixelBlankGif, "image/gif", DateTime.UtcNow, HttpCacheability.Public);
         }
 
         private static bool CachedVersionIsOkay(HttpRequestBase request)
         {
             //Get header value
             DateTime dt = HttpHelper.GetIfModifiedSinceDateUtc(request);
-            if (dt == NullValue.NullDateTime)
+            if (NullValue.IsNull(dt))
             {
                 return false;
             }

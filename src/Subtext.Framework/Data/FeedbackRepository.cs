@@ -92,7 +92,7 @@ namespace Subtext.Framework.Data
 
         public override void DestroyFeedback(int id)
         {
-            _procedures.DeleteFeedback(id, CurrentDateTime);
+            _procedures.DeleteFeedback(id, CurrentDateTimeUtc);
         }
 
         public override void DestroyFeedback(FeedbackStatusFlag status)
@@ -103,15 +103,23 @@ namespace Subtext.Framework.Data
         public override int Create(FeedbackItem feedbackItem)
         {
             if (feedbackItem == null)
+            {
                 throw new ArgumentNullException("feedbackItem");
-
+            }
             string ipAddress = null;
             if (feedbackItem.IpAddress != null)
+            {
                 ipAddress = feedbackItem.IpAddress.ToString();
+            }
 
             string sourceUrl = null;
             if (feedbackItem.SourceUrl != null)
+            {
                 sourceUrl = feedbackItem.SourceUrl.ToString();
+            }
+
+            feedbackItem.DateCreatedUtc = feedbackItem.DateCreatedUtc.IsNull() ? DateTime.UtcNow : feedbackItem.DateCreatedUtc;
+            feedbackItem.DateModifiedUtc = feedbackItem.DateModifiedUtc.IsNull() ? DateTime.UtcNow : feedbackItem.DateModifiedUtc;
 
             return _procedures.InsertFeedback(feedbackItem.Title,
                 feedbackItem.Body,
@@ -128,9 +136,9 @@ namespace Subtext.Framework.Data
                 ipAddress,
                 feedbackItem.UserAgent,
                 feedbackItem.ChecksumHash,
-                feedbackItem.DateCreated,
-                feedbackItem.DateModified,
-                CurrentDateTime);
+                feedbackItem.DateCreatedUtc,
+                feedbackItem.DateModifiedUtc,
+                CurrentDateTimeUtc);
         }
 
         /// <summary>
@@ -138,7 +146,7 @@ namespace Subtext.Framework.Data
         /// </summary>
         /// <param name="feedbackItem">The feedback item.</param>
         /// <returns></returns>
-        public override bool Update(FeedbackItem feedbackItem)
+        public override bool UpdateInternal(FeedbackItem feedbackItem)
         {
             string sourceUrl = null;
             if (feedbackItem.SourceUrl != null)
@@ -152,8 +160,7 @@ namespace Subtext.Framework.Data
                 sourceUrl,
                 (int)feedbackItem.Status,
                 feedbackItem.ChecksumHash,
-                CurrentDateTime,
-                CurrentDateTime);
+                CurrentDateTimeUtc);
         }
     }
 }

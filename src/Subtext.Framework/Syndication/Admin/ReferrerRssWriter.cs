@@ -37,7 +37,7 @@ namespace Subtext.Framework.Syndication.Admin
 
         protected override ICollection<string> GetCategoriesFromItem(Referrer item)
         {
-            var strings = new List<string> {item.PostTitle, new Uri(item.ReferrerUrl).Host};
+            var strings = new List<string> { item.PostTitle, new Uri(item.ReferrerUrl).Host };
             return strings;
         }
 

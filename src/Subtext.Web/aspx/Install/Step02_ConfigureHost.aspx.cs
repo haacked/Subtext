@@ -37,7 +37,7 @@ namespace Subtext.Web.Install
             //We need to make sure that the form is ONLY displayed 
             //if there really is no Host record.
             hostForm.Visible = true;
-            if (Config.BlogCount == 0)
+            if (Repository.GetBlogCount() == 0)
             {
                 ltlMessage.Text =
                     "<p>"
@@ -70,7 +70,7 @@ namespace Subtext.Web.Install
                 // Create the HostInfo record.
                 if (HostInfo.CreateHost(userName, password, email))
                 {
-                    if (Config.BlogCount == 0)
+                    if (Repository.GetBlogCount() == 0)
                     {
                         //Changed the following method to public so all authentication tickets are handled by the same code.
                         SubtextContext.HttpContext.SetAuthenticationTicket(Blog, "HostAdmin", false, "HostAdmin");

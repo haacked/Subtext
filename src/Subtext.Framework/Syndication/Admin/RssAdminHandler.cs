@@ -37,7 +37,8 @@ namespace Subtext.Framework.Syndication.Admin
         string _rssType = "";
         string _title = "";
 
-        public RssAdminHandler(ISubtextContext subtextContext) : base(subtextContext)
+        public RssAdminHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
@@ -51,26 +52,26 @@ namespace Subtext.Framework.Syndication.Admin
             get
             {
                 IList feed = GetFeedEntriesSimple();
-                if(feed is ICollection<FeedbackItem>)
+                if (feed is ICollection<FeedbackItem>)
                 {
                     //TODO: Test the admin feeds
-                    var entry = new Entry(PostType.None) {Title = _title, Body = string.Empty};
+                    var entry = new Entry(PostType.None) { Title = _title, Body = string.Empty };
 
                     var feedback = (ICollection<FeedbackItem>)feed;
                     return new CommentRssWriter(new StringWriter(), feedback, entry, SubtextContext);
                 }
-                if(feed is ICollection<Referrer>)
+                if (feed is ICollection<Referrer>)
                 {
                     var referrers = (ICollection<Referrer>)feed;
                     DateTime lastReferrer = NullValue.NullDateTime;
-                    if(referrers.Count > 0)
+                    if (referrers.Count > 0)
                     {
                         lastReferrer = referrers.First().LastReferDate;
                     }
                     return new ReferrerRssWriter(new StringWriter(), referrers, lastReferrer, UseDeltaEncoding,
                                                  SubtextContext);
                 }
-                if(feed is ICollection<LogEntry>)
+                if (feed is ICollection<LogEntry>)
                 {
                     var entries = (ICollection<LogEntry>)feed;
                     return new LogRssWriter(new StringWriter(), entries, UseDeltaEncoding, SubtextContext);
@@ -88,24 +89,24 @@ namespace Subtext.Framework.Syndication.Admin
         {
             string dt = LastModifiedHeader;
 
-            if(dt != null)
+            if (dt != null)
             {
                 IList ec = GetFeedEntriesSimple();
 
-                if(ec != null && ec.Count > 0)
+                if (ec != null && ec.Count > 0)
                 {
                     //Get the first entry.
                     object entry = default(object);
-                    
+
                     //TODO: Probably change GetFeedEntries to return ICollection<Entry>
-                    foreach(object en in ec)
+                    foreach (object en in ec)
                     {
                         entry = en;
                         break;
                     }
                     return
                         DateTime.Compare(DateTime.Parse(dt, CultureInfo.InvariantCulture),
-                                         ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
+                                         GetItemCreatedDateUtc(entry)) == 0;
                 }
             }
             return false;
@@ -113,28 +114,28 @@ namespace Subtext.Framework.Syndication.Admin
 
         protected void SetOptions()
         {
-            if(!Int32.TryParse(HttpContext.Request.QueryString["Count"], out _count))
+            if (!Int32.TryParse(HttpContext.Request.QueryString["Count"], out _count))
             {
                 _count = Config.Settings.ItemCount;
             }
 
             //TODO: Use route data instead.
-            if(Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ModeratedCommentRss", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ModeratedCommentRss", RegexOptions.IgnoreCase))
             {
                 _title = "Comments requiring your approval.";
-                _filters = new[] {"NeedsModeration"};
+                _filters = new[] { "NeedsModeration" };
                 _rssType = "Comment";
                 return;
             }
 
-            if(Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ReferrersRss", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ReferrersRss", RegexOptions.IgnoreCase))
             {
                 _title = "Referrals";
                 _rssType = "Referral";
                 return;
             }
 
-            if(Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ErrorsRss", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(HttpContext.Request.Url.PathAndQuery, "ErrorsRss", RegexOptions.IgnoreCase))
             {
                 _title = "Errors";
                 _rssType = "Log";
@@ -145,7 +146,7 @@ namespace Subtext.Framework.Syndication.Admin
             _rssType = HttpContext.Request.QueryString["Type"];
 
             string qryFilters = HttpContext.Request.QueryString["Filter"];
-            _filters = String.IsNullOrEmpty(qryFilters) ? new string[] {} : qryFilters.Split('+');
+            _filters = String.IsNullOrEmpty(qryFilters) ? new string[] { } : qryFilters.Split('+');
         }
 
         protected override void ProcessFeed()
@@ -161,21 +162,21 @@ namespace Subtext.Framework.Syndication.Admin
 
         protected IList GetFeedEntriesSimple()
         {
-            if(String.IsNullOrEmpty(_rssType))
+            if (String.IsNullOrEmpty(_rssType))
             {
                 throw new InvalidOperationException("rssType is empty or null");
             }
 
             ObjectProvider repository = ObjectProvider.Instance();
 
-            switch(_rssType)
+            switch (_rssType)
             {
                 case "Comment":
                     FeedbackStatusFlag flags = FeedbackStatusFlag.None;
 
-                    foreach(string filter in _filters)
+                    foreach (string filter in _filters)
                     {
-                        if(Enum.IsDefined(typeof(FeedbackStatusFlag), filter))
+                        if (Enum.IsDefined(typeof(FeedbackStatusFlag), filter))
                         {
                             flags |= (FeedbackStatusFlag)Enum.Parse(typeof(FeedbackStatusFlag), filter, true);
                         }
@@ -198,21 +199,21 @@ namespace Subtext.Framework.Syndication.Admin
             return null;
         }
 
-        protected override DateTime GetItemCreatedDate(object item)
+        protected override DateTime GetItemCreatedDateUtc(object item)
         {
-            if(item is FeedbackItem)
+            if (item is FeedbackItem)
             {
-                return ((FeedbackItem)item).DateCreated;
+                return ((FeedbackItem)item).DateCreatedUtc;
             }
-            if(item is Referrer)
+            if (item is Referrer)
             {
                 return ((Referrer)item).LastReferDate;
             }
-            if(item is LogEntry)
+            if (item is LogEntry)
             {
                 return ((LogEntry)item).Date;
             }
-            return DateTime.Now;
+            return DateTime.UtcNow;
         }
     }
 }

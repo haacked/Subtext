@@ -70,7 +70,7 @@ namespace Subtext.Framework.Tracking
         [XmlRpcMethod("pingback.ping", Description = "Pingback server implementation")]
         public string pingBack(string sourceURI, string targetURI)
         {
-            if(!Blog.TrackbacksEnabled)
+            if (!Blog.TrackbacksEnabled)
             {
                 return "Pingbacks are not enabled for this site.";
             }
@@ -79,7 +79,7 @@ namespace Subtext.Framework.Tracking
 
             // GetPostIDFromUrl returns the postID
             int? id = SubtextContext.RequestContext.GetIdFromRequest();
-            if(id == null)
+            if (id == null)
             {
                 throw new XmlRpcFaultException(33, Resources.XmlRcpFault_DidNotLinkToPermalink);
             }
@@ -88,7 +88,7 @@ namespace Subtext.Framework.Tracking
             Uri targetUrl = targetURI.ParseUri();
 
             // does the sourceURI actually contain the permalink ?
-            if(sourceUrl == null || targetUrl == null ||
+            if (sourceUrl == null || targetUrl == null ||
                !Verifier.SourceContainsTarget(sourceUrl, targetUrl, out pageTitle))
             {
                 throw new XmlRpcFaultException(17, Resources.XmlRcpFault_InvalidLink);
@@ -97,10 +97,9 @@ namespace Subtext.Framework.Tracking
             //PTR = Pingback - TrackBack - Referral
             var trackback = new Trackback(id.Value, HtmlHelper.SafeFormat(pageTitle, SubtextContext.HttpContext.Server),
                                           new Uri(sourceURI), string.Empty,
-                                          HtmlHelper.SafeFormat(pageTitle, SubtextContext.HttpContext.Server),
-                                          Blog.TimeZone.Now);
+                                          HtmlHelper.SafeFormat(pageTitle, SubtextContext.HttpContext.Server));
             ICommentSpamService feedbackService = null;
-            if(Blog.FeedbackSpamServiceEnabled)
+            if (Blog.FeedbackSpamServiceEnabled)
             {
                 feedbackService = new AkismetSpamService(Blog.FeedbackSpamServiceKey, Blog, null, Url);
             }

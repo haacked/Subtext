@@ -55,9 +55,9 @@ namespace Subtext.Framework
             return ObjectProvider.Instance().CreateLink(link);
         }
 
-        public static int CreateLinkCategory(LinkCategory lc)
+        public static int CreateLinkCategory(this ObjectProvider repository, LinkCategory lc)
         {
-            lc.Id = ObjectProvider.Instance().CreateLinkCategory(lc);
+            lc.Id = repository.CreateLinkCategory(lc);
             return lc.Id;
         }
 

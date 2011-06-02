@@ -20,8 +20,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using Subtext.Extensibility;
+using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Data;
 
 namespace Subtext.Web.UI.Controls
 {

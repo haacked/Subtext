@@ -94,7 +94,7 @@
                         <span title="<%# Author.IpAddress %>"><%# Author.Name %></span> <%# Author.MailTo %> <%# Author.UrlLink %>
                     </td>
                     <td>
-                        <%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
+                        <%# Eval("DateCreated", "{0:yyyy/M/d h:mm tt}")%>
                     </td>
                     <td class="undoable">
                         <ul class="horizontal">

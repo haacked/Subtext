@@ -15,13 +15,16 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 
-namespace Subtext.Framework.Data
+namespace Subtext.Framework
 {
     public static class RepositoryExtensions
     {
@@ -47,5 +50,38 @@ namespace Subtext.Framework.Data
                 yield return new EntryDay(group.Key, group.ToList());
             }
         }
+
+        /// <summary>
+        /// Gets the active blog count by host.
+        /// </summary>
+        /// <param name="host">The host.</param>
+        /// <returns></returns>
+        /// <param name="pageIndex">Zero based index of the page to retrieve.</param>
+        /// <param name="pageSize">Number of records to display on the page.</param>
+        /// <param name="flags">Configuration flags to filter blogs retrieved.</param>
+        public static IPagedCollection<Blog> GetBlogsByHost(this ObjectProvider repository, string host, int pageIndex, int pageSize,
+                                                            ConfigurationFlags flags)
+        {
+            if (String.IsNullOrEmpty(host))
+            {
+                throw new ArgumentNullException("host");
+            }
+
+            return repository.GetPagedBlogs(host, pageIndex, pageSize, flags);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="IList{T}"/> containing ACTIVE the <see cref="Blog"/> 
+        /// instances within the specified range.
+        /// </summary>
+        /// <param name="pageIndex">Page index.</param>
+        /// <param name="pageSize">Size of the page.</param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        public static IPagedCollection<Blog> GetBlogs(this ObjectProvider repository, int pageIndex, int pageSize, ConfigurationFlags flags)
+        {
+            return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
+        }
+
     }
 }

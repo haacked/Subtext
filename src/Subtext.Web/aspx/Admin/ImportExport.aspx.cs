@@ -97,7 +97,7 @@ namespace Subtext.Web.Admin.Pages
                 chkClearContent.Visible = false;
                 btnClearContent.Visible = false;
 
-                Blog.ClearBlogContent(Config.CurrentBlog.Id);
+                Repository.ClearBlogContent(Config.CurrentBlog.Id);
                 msgpnlClearContent.ShowMessage(Resources.ImportExport_ContentObliterated);
             }
             else

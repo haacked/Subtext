@@ -44,7 +44,7 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         protected override void Build()
         {
-            Build(DateLastViewedFeedItemPublished);
+            Build(DateLastViewedFeedItemPublishedUtc);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Subtext.Framework.Syndication
         /// <param name="dateLastViewedFeedItemPublished">Last id viewed.</param>
         protected override void Build(DateTime dateLastViewedFeedItemPublished)
         {
-            if(!_isBuilt)
+            if (!_isBuilt)
             {
                 StartDocument();
                 SetNamespaces();
@@ -79,7 +79,7 @@ namespace Subtext.Framework.Syndication
             // Copyright notice
             WriteAttributeString("xmlns:copyright", "http://blogs.law.harvard.edu/tech/rss");
 
-            if(!string.IsNullOrEmpty(Blog.LicenseUrl))
+            if (!string.IsNullOrEmpty(Blog.LicenseUrl))
             {
                 // Used to specify a license. Does not have to be a creative commons license.
                 // see http://backend.userland.com/creativeCommonsRssModule
@@ -175,7 +175,7 @@ namespace Subtext.Framework.Syndication
             //TODO: Implement this element.
             WriteElementString("copyright", copyright);
 
-            if(!string.IsNullOrEmpty(authorEmail)
+            if (!string.IsNullOrEmpty(authorEmail)
                && authorEmail.IndexOf("@") > 0
                && authorEmail.IndexOf(".") > 0
                && (Blog.ShowEmailAddressInRss))
@@ -186,12 +186,12 @@ namespace Subtext.Framework.Syndication
             //TODO: <category>One or more categories</category>
             WriteElementString("generator", VersionInfo.VersionDisplayText);
 
-            if(!string.IsNullOrEmpty(cclicense))
+            if (!string.IsNullOrEmpty(cclicense))
             {
                 WriteElementString("creativeCommons:license", cclicense);
             }
 
-            if(image != null)
+            if (image != null)
             {
                 image.WriteToXmlWriter(this);
             }
@@ -206,11 +206,11 @@ namespace Subtext.Framework.Syndication
         {
             BlogConfigurationSettings settings = Config.Settings;
             ClientHasAllFeedItems = true;
-            LatestPublishDate = DateLastViewedFeedItemPublished;
+            LatestPublishDateUtc = DateLastViewedFeedItemPublishedUtc;
 
-            foreach(T entry in Items)
+            foreach (T entry in Items)
             {
-                if(UseDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublished)
+                if (UseDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublishedUtc)
                 {
                     // Since Entries are ordered by DatePublished descending, as soon 
                     // as we encounter one that is smaller than or equal to 
@@ -225,9 +225,9 @@ namespace Subtext.Framework.Syndication
                 WriteStartElement("item");
                 EntryXml(entry, settings);
                 WriteEndElement();
-                if(GetSyndicationDate(entry) > LatestPublishDate)
+                if (GetSyndicationDate(entry) > LatestPublishDateUtc)
                 {
-                    LatestPublishDate = GetSyndicationDate(entry);
+                    LatestPublishDateUtc = GetSyndicationDate(entry);
                 }
 
                 ClientHasAllFeedItems = false;
@@ -248,9 +248,9 @@ namespace Subtext.Framework.Syndication
             WriteElementString("title", GetTitleFromItem(item));
 
             ICollection<string> categories = GetCategoriesFromItem(item);
-            if(categories != null)
+            if (categories != null)
             {
-                foreach(string category in categories)
+                foreach (string category in categories)
                 {
                     WriteElementString("category", category);
                 }
@@ -274,7 +274,7 @@ namespace Subtext.Framework.Syndication
                 );
 
             string author = GetAuthorFromItem(item);
-            if(!String.IsNullOrEmpty(author))
+            if (!String.IsNullOrEmpty(author))
             {
                 WriteElementString("dc:creator", author);
             }
@@ -282,9 +282,9 @@ namespace Subtext.Framework.Syndication
             WriteElementString("guid", GetGuid(item));
             WriteElementString("pubDate", GetPublishedDateUtc(item).ToString("r", CultureInfo.InvariantCulture));
 
-            if(ItemCouldContainComments(item))
+            if (ItemCouldContainComments(item))
             {
-                if(AllowComments && Blog.CommentsEnabled && ItemAllowsComments(item) && !CommentsClosedOnItem(item))
+                if (AllowComments && Blog.CommentsEnabled && ItemAllowsComments(item) && !CommentsClosedOnItem(item))
                 {
                     // Comment API (http://wellformedweb.org/story/9)
                     WriteElementString("wfw:comment", GetCommentApiUrl(item));
@@ -292,21 +292,21 @@ namespace Subtext.Framework.Syndication
 
                 WriteElementString("comments", fullUrl + "#feedback");
 
-                if(GetFeedbackCount(item) > 0)
+                if (GetFeedbackCount(item) > 0)
                 {
                     WriteElementString("slash:comments", GetFeedbackCount(item).ToString(CultureInfo.InvariantCulture));
                 }
 
                 WriteElementString("wfw:commentRss", GetCommentRssUrl(item));
 
-                if(Blog.TrackbacksEnabled)
+                if (Blog.TrackbacksEnabled)
                 {
                     WriteElementString("trackback:ping", GetTrackBackUrl(item));
                 }
             }
 
             EnclosureItem encItem = GetEnclosureFromItem(item);
-            if(encItem != null)
+            if (encItem != null)
             {
                 WriteStartElement("enclosure");
                 WriteAttributeString("url", encItem.Url);

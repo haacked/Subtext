@@ -111,6 +111,10 @@ namespace Subtext.Web.App_Start
                 .WithConstructorArgument("apiKey", c => c.Kernel.Get<Blog>().FeedbackSpamServiceKey)
                 .WithConstructorArgument("akismetClient", c => null);
 
+            kernel.Bind<ICommentSpamService>().To<NullSpamService>()
+                .When(r => String.IsNullOrEmpty(r.ParentContext.Kernel.Get<Blog>().FeedbackSpamServiceKey))
+                .InRequestScope();
+
             var indexingSettings = FullTextSearchEngineSettings.Settings;
 
             if (indexingSettings.IsEnabled)

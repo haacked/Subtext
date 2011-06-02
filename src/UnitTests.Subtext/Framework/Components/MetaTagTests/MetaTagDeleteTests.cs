@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 
             MetaTag tag =
                 UnitTestHelper.BuildMetaTag("Steve Harman likes to delete stuff!", "description", null, blog.Id, null,
-                                            DateTime.Now);
+                                            DateTime.UtcNow);
             MetaTags.Create(tag);
             Assert.AreEqual(1, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count,
                             "Should be one (1) MetaTag for this blog.");
@@ -55,7 +55,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
                                                                  "Giddy, giddy, goo!");
             UnitTestHelper.Create(entry);
 
-            MetaTag tag = UnitTestHelper.BuildMetaTag("Foo, bar, zaa?", "author", null, blog.Id, entry.Id, DateTime.Now);
+            MetaTag tag = UnitTestHelper.BuildMetaTag("Foo, bar, zaa?", "author", null, blog.Id, entry.Id, DateTime.UtcNow);
             MetaTags.Create(tag);
 
             Assert.AreEqual(1, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count,

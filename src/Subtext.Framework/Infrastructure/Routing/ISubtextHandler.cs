@@ -15,13 +15,12 @@
 
 #endregion
 
-using System.Web;
 using Ninject;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Routing
 {
-    public interface ISubtextHandler : IHttpHandler
+    public interface ISubtextDependencies
     {
         [Inject]
         ISubtextContext SubtextContext { get; }
@@ -31,5 +30,7 @@ namespace Subtext.Framework.Routing
         ObjectProvider Repository { get; }
 
         AdminUrlHelper AdminUrl { get; }
+
+        Blog Blog { get; }
     }
 }

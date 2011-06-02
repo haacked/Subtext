@@ -23,7 +23,7 @@ using Subtext.Framework.Services.SearchEngine;
 
 namespace Subtext.Framework.Web.Handlers
 {
-    public class SubtextPage : Page, ISubtextHandler
+    public class SubtextPage : Page, ISubtextDependencies
     {
         AdminUrlHelper _adminUrlHelper;
 

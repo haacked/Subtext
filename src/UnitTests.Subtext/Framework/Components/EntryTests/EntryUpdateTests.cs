@@ -21,8 +21,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [RollBack2]
         public void CanDeleteEntry()
         {
-            Config.CreateBlog("", "username", "password", _hostName, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, string.Empty);
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
             UnitTestHelper.Create(entry);
@@ -41,22 +41,22 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         /// </summary>
         [Test]
         [RollBack2]
-        public void SettingDateSyndicatedToNullRemovesItemFromSyndication()
+        public void SettingDatePublishedUtcToNullRemovesItemFromSyndication()
         {
             //arrange
-            Config.CreateBlog("", "username", "password", _hostName, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(_hostName, string.Empty);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, string.Empty);
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
             UnitTestHelper.Create(entry);
 
             Assert.IsTrue(entry.IncludeInMainSyndication,
                           "Failed to setup this test properly.  This entry should be included in the main syndication.");
-            Assert.IsFalse(NullValue.IsNull(entry.DateSyndicated),
+            Assert.IsFalse(entry.DatePublishedUtc.IsNull(),
                            "Failed to setup this test properly. DateSyndicated should be null.");
 
             //act
-            entry.DateSyndicated = NullValue.NullDateTime;
+            entry.DatePublishedUtc = NullValue.NullDateTime;
 
             //assert
             Assert.IsFalse(entry.IncludeInMainSyndication,
@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             //save it
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
             UnitTestHelper.Update(entry, subtextContext.Object);
             Entry savedEntry = UnitTestHelper.GetEntry(entry.Id, PostConfig.None, false);
 

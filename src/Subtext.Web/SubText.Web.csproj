@@ -19,6 +19,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\src\</SolutionDir>
+    <RestorePackages>false</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -875,8 +877,7 @@
     <Compile Include="UI\Pages\SubTextMasterPage.designer.cs">
       <DependentUpon>SubTextMasterPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UIData.cs" />
-    <Compile Include="UI\UIText.cs" />
+    <Compile Include="UI\UIHelpers.cs" />
     <Compile Include="UI\ViewModels\CommentViewModel.cs" />
     <Compile Include="UI\ViewModels\EntryViewModel.cs" />
     <Compile Include="UI\ViewModels\LinkCategoryLink.cs" />
@@ -921,7 +922,6 @@
     <Content Include="Skins\Aggregate\White\Controls\AggBlogStats.ascx" />
     <Content Include="Skins\Aggregate\White\Controls\AggPinnedPost.ascx" />
     <Content Include="Skins\Aggregate\White\Controls\AggRecentImages.ascx" />
-    <Content Include="Skins\Aggregate\White\Controls\AggRecentPosts.ascx" />
     <Content Include="Skins\Aggregate\White\Controls\AggSyndication.ascx" />
     <Content Include="Skins\Aggregate\White\PageTemplate.ascx" />
     <Content Include="Skins\Aggregate\White\style.css" />
@@ -1542,7 +1542,6 @@
     <Content Include="Skins\Aggregate\Simple\Controls\AggBlogStats.ascx" />
     <Content Include="Skins\Aggregate\Simple\Controls\AggPinnedPost.ascx" />
     <Content Include="Skins\Aggregate\Simple\Controls\AggRecentImages.ascx" />
-    <Content Include="Skins\Aggregate\Simple\Controls\AggRecentPosts.ascx" />
     <Content Include="Skins\Aggregate\Simple\Controls\AggSyndication.ascx" />
     <Content Include="Skins\Aggregate\Simple\PageTemplate.ascx" />
     <Content Include="Skins\Aggregate\Simple\style.css" />

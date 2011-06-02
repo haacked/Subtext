@@ -22,9 +22,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Providers;
+using Subtext.Web.Admin.WebUI.Controls;
 using Subtext.Web.Properties;
 
 namespace Subtext.Web.HostAdmin.UserControls
@@ -32,15 +31,11 @@ namespace Subtext.Web.HostAdmin.UserControls
     /// <summary>
     ///	User control used to create, edit and delete Blog Groups.
     /// </summary>
-    public partial class GroupsEditor : UserControl
+    public partial class GroupsEditor : BaseUserControl
     {
         const string VSKEY_GROUPID = "VS_GROUPID";
 
-        #region Declared Controls
-
         protected Button btnAddNewGroup = new Button();
-
-        #endregion
 
         /// <summary>
         /// Gets or sets the group id.
@@ -110,7 +105,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             pnlResults.Visible = true;
             pnlEdit.Visible = false;
 
-            ICollection<BlogGroup> groups = Config.ListBlogGroups(!chkShowInactive.Checked);
+            ICollection<BlogGroup> groups = Repository.ListBlogGroups(!chkShowInactive.Checked);
 
             if (groups.Count > 0)
             {
@@ -135,7 +130,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             if (!CreatingGroup)
             {
-                BlogGroup group = ObjectProvider.Instance().GetBlogGroup(GroupId, false);
+                BlogGroup group = Repository.GetBlogGroup(GroupId, false);
                 if (group != null)
                 {
                     txtTitle.Text = group.Title;
@@ -198,7 +193,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         private void DeleteGroup()
         {
-            if (ObjectProvider.Instance().DeleteBlogGroup(GroupId))
+            if (Repository.DeleteBlogGroup(GroupId))
             {
                 BindList();
             }
@@ -248,7 +243,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                 DisplayOrder = displayOrder,
             };
 
-            if (ObjectProvider.Instance().InsertBlogGroup(blogGroup) > 0)
+            if (Repository.InsertBlogGroup(blogGroup) > 0)
             {
                 messagePanel.ShowMessage(Resources.GroupsEditor_BlogGroupCreated);
             }
@@ -277,7 +272,7 @@ namespace Subtext.Web.HostAdmin.UserControls
             };
 
 
-            if (ObjectProvider.Instance().UpdateBlogGroup(blogGroup))
+            if (Repository.UpdateBlogGroup(blogGroup))
             {
                 messagePanel.ShowMessage(Resources.GroupsEditor_BlogGroupSaved);
             }
@@ -303,7 +298,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         {
             try
             {
-                BlogGroup group = Config.GetBlogGroup(GroupId, false);
+                BlogGroup group = Repository.GetBlogGroup(GroupId, false);
                 var blogGroup = new BlogGroup
                 {
                     Id = GroupId,
@@ -313,7 +308,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                     DisplayOrder = group.DisplayOrder,
                 };
 
-                ObjectProvider.Instance().UpdateBlogGroup(blogGroup);
+                Repository.UpdateBlogGroup(blogGroup);
             }
             catch (BaseBlogConfigurationException e)
             {

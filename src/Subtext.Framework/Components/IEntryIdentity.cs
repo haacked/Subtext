@@ -23,6 +23,7 @@ namespace Subtext.Extensibility.Interfaces
     {
         string EntryName { get; }
         DateTime DateSyndicated { get; }
+        DateTime DatePublishedUtc { get; }
         PostType PostType { get; }
     }
 }

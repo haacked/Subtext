@@ -44,7 +44,7 @@ namespace Subtext.Framework.Data
     {
         public static IEnumerable<T> ReadEnumerable<T>(this IDataReader reader, Func<IDataReader, T> map)
         {
-            while(reader.Read())
+            while (reader.Read())
             {
                 yield return map(reader);
             }
@@ -69,19 +69,19 @@ namespace Subtext.Framework.Data
         public static T ReadObject<T>(this IDataReader reader, T item, params string[] exclusionList)
         {
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(item);
-            foreach(PropertyDescriptor property in properties)
+            foreach (PropertyDescriptor property in properties)
             {
-                if(property.IsReadOnly)
+                if (property.IsReadOnly)
                 {
                     continue;
                 }
 
-                if(!property.PropertyType.IsReadablePropertyType())
+                if (!property.PropertyType.IsReadablePropertyType())
                 {
                     continue;
                 }
 
-                if(exclusionList != null && exclusionList.IsExcluded(property.Name))
+                if (exclusionList != null && exclusionList.IsExcluded(property.Name))
                 {
                     continue;
                 }
@@ -91,19 +91,25 @@ namespace Subtext.Framework.Data
                 try
                 {
                     object value = reader[property.Name];
-                    if(value != DBNull.Value)
+                    if (value != DBNull.Value)
                     {
-                        if(property.PropertyType != typeof(Uri))
+                        if (value != null && value.GetType() == typeof(DateTime) && property != null && property.Name != null && property.Name.EndsWith("Utc", StringComparison.OrdinalIgnoreCase))
                         {
-                            property.SetValue(item, value);    
+                            property.SetValue(item, new DateTime(((DateTime)value).Ticks, DateTimeKind.Utc));
+                            continue;
+                        }
+
+                        if (property.PropertyType != typeof(Uri))
+                        {
+                            property.SetValue(item, value);
                         }
                         else
                         {
                             var url = value as string;
-                            if(!String.IsNullOrEmpty(url))
+                            if (!String.IsNullOrEmpty(url))
                             {
                                 Uri uri;
-                                if(Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri))
+                                if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out uri))
                                 {
                                     property.SetValue(item, uri);
                                 }
@@ -111,15 +117,21 @@ namespace Subtext.Framework.Data
                         }
                     }
                 }
-                catch(IndexOutOfRangeException)
+                catch (IndexOutOfRangeException)
                 {
-                    if(typeof(T) != typeof(HostInfo))
+                    if (typeof(T) != typeof(HostInfo))
                     {
                         throw;
                     }
                 }
             }
             return item;
+        }
+
+        public static DateTime ReadDateTimeUtc(this IDataReader reader, string columnName)
+        {
+            var dateTime = reader.ReadValue<DateTime>(columnName);
+            return new DateTime(dateTime.Ticks, DateTimeKind.Utc);
         }
 
         public static T ReadValue<T>(this IDataReader reader, string columnName)
@@ -137,17 +149,17 @@ namespace Subtext.Framework.Data
             try
             {
                 object value = reader[columnName];
-                if(value != null && value != DBNull.Value)
+                if (value != null && value != DBNull.Value)
                 {
                     return map(value);
                 }
                 return defaultValue;
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 return defaultValue;
             }
-            catch(IndexOutOfRangeException)
+            catch (IndexOutOfRangeException)
             {
                 return defaultValue;
             }
@@ -159,7 +171,7 @@ namespace Subtext.Framework.Data
         /// </summary>
         public static int? NullIfMinValue(this int value)
         {
-            if(NullValue.IsNull(value))
+            if (value.IsNull())
             {
                 return null;
             }
@@ -168,7 +180,7 @@ namespace Subtext.Framework.Data
 
         public static DateTime? NullIfEmpty(this DateTime dateTime)
         {
-            if(NullValue.IsNull(dateTime))
+            if (dateTime.IsNull())
             {
                 return null;
             }
@@ -192,10 +204,12 @@ namespace Subtext.Framework.Data
             return reader.ReadEntryCollection<Entry, List<Entry>>(r => r.ReadEnumerable(innerReader => innerReader.ReadEntry(buildLinks)).ToList());
         }
 
-        internal static TCollection ReadEntryCollection<TEntry, TCollection>(this IDataReader reader, Func<IDataReader, TCollection> collectionFunc) where TCollection : ICollection<TEntry> where TEntry : Entry
+        internal static TCollection ReadEntryCollection<TEntry, TCollection>(this IDataReader reader, Func<IDataReader, TCollection> collectionFunc)
+            where TCollection : ICollection<TEntry>
+            where TEntry : Entry
         {
             var entries = collectionFunc(reader);
-            if(entries.Count > 0 && reader.NextResult())
+            if (entries.Count > 0 && reader.NextResult())
             {
                 var categories = reader.ReadEnumerable(r => new { EntryId = r.ReadValue<int>("PostId"), Title = r.ReadValue<string>("Title") });
                 entries.Accumulate(categories, entry => entry.Id, category => category.EntryId, (entry, category) => entry.Categories.Add(category.Title));
@@ -218,7 +232,7 @@ namespace Subtext.Framework.Data
         {
             var entry = new EntryStatsView
             {
-                BlogId = reader.ReadValue("BlogId",0),
+                BlogId = reader.ReadValue("BlogId", 0),
                 PostType = ((PostType)reader.ReadValue<int>("PostType")),
                 WebCount = reader.ReadValue("WebCount", 0),
                 AggCount = reader.ReadValue("AggCount", 0),
@@ -226,8 +240,8 @@ namespace Subtext.Framework.Data
                 AggLastUpdated = reader.ReadValue<DateTime>("AggLastUpdated"),
                 Author = reader.ReadValue<string>("Author"),
                 Email = reader.ReadValue<string>("Email"),
-                DateCreated = reader.ReadValue<DateTime>("DateCreated"),
-                DateModified = reader.ReadValue<DateTime>("DateUpdated"),
+                DateCreatedUtc = reader.ReadDateTimeUtc("DateCreatedUtc"),
+                DateModifiedUtc = reader.ReadDateTimeUtc("DateUpdatedUtc"),
                 Id = reader.ReadValue<int>("ID"),
                 Description = reader.ReadValue<string>("Description"),
                 EntryName = reader.ReadValue<string>("EntryName"),
@@ -235,7 +249,7 @@ namespace Subtext.Framework.Data
                 Body = reader.ReadValue<string>("Text"),
                 Title = reader.ReadValue<string>("Title"),
                 PostConfig = (PostConfig)(reader.ReadValue<int>("PostConfig")),
-                DateSyndicated = reader.ReadValue<DateTime>("DateSyndicated")
+                DatePublishedUtc = reader.ReadDateTimeUtc("DatePublishedUtc")
             };
 
             return entry;
@@ -254,7 +268,7 @@ namespace Subtext.Framework.Data
         public static Entry ReadEntryWithCategories(IDataReader reader)
         {
             Entry entry = reader.ReadEntry();
-            if(reader.NextResult())
+            if (reader.NextResult())
             {
                 entry.Categories.AddRange(reader.ReadEnumerable(r => r.ReadValue<string>("Title")).Distinct(StringComparer.Ordinal));
             }
@@ -269,7 +283,7 @@ namespace Subtext.Framework.Data
             return feedbackItem;
         }
 
-        internal static FeedbackItem ReadFeedbackItem(this IDataReader reader)
+        public static FeedbackItem ReadFeedbackItem(this IDataReader reader)
         {
             var feedbackItem = new FeedbackItem((FeedbackType)reader.ReadValue<int>("FeedbackType"));
             ReadFeedbackItem(reader, feedbackItem);
@@ -293,11 +307,11 @@ namespace Subtext.Framework.Data
             feedbackItem.IpAddress = reader.ReadIpAddress("IpAddress");
             feedbackItem.UserAgent = reader.ReadValue<string>("UserAgent");
             feedbackItem.ChecksumHash = reader.ReadValue<string>("FeedbackChecksumHash");
-            feedbackItem.DateCreated = reader.ReadValue<DateTime>("DateCreated");
-            feedbackItem.DateModified = reader.ReadValue<DateTime>("DateModified");
+            feedbackItem.DateCreatedUtc = reader.ReadDateTimeUtc("DateCreatedUtc");
+            feedbackItem.DateModifiedUtc = reader.ReadDateTimeUtc("DateModifiedUtc");
             feedbackItem.ParentEntryName = reader.ReadValue<string>("ParentEntryName");
-            feedbackItem.ParentDateCreated = reader.ReadValue<DateTime>("ParentEntryCreateDate");
-            feedbackItem.ParentDateSyndicated = reader.ReadValue<DateTime>("ParentEntryDateSyndicated");
+            feedbackItem.ParentDateCreatedUtc = reader.ReadDateTimeUtc("ParentEntryCreateDateUtc");
+            feedbackItem.ParentDatePublishedUtc = reader.ReadDateTimeUtc("ParentEntryDatePublishedUtc");
         }
 
         public static Entry ReadEntry(this IDataReader reader, bool buildLinks)
@@ -316,8 +330,8 @@ namespace Subtext.Framework.Data
         {
             entry.Author = reader.ReadValue<string>("Author");
             entry.Email = reader.ReadValue<string>("Email");
-            entry.DateCreated = reader.ReadValue<DateTime>("DateCreated");
-            entry.DateModified = reader.ReadValue<DateTime>("DateUpdated");
+            entry.DateCreatedUtc = reader.ReadDateTimeUtc("DateCreatedUtc");
+            entry.DateModifiedUtc = reader.ReadDateTimeUtc("DateModifiedUtc");
 
             entry.Id = reader.ReadValue<int>("ID");
             entry.Description = reader.ReadValue<string>("Description");
@@ -327,15 +341,15 @@ namespace Subtext.Framework.Data
             entry.Body = reader.ReadValue<string>("Text");
             entry.Title = reader.ReadValue<string>("Title");
             entry.PostConfig = (PostConfig)(reader.ReadValue("PostConfig", (int)PostConfig.None));
-            entry.DateSyndicated = reader.ReadValue<DateTime>("DateSyndicated");
+            entry.DatePublishedUtc = reader.ReadDateTimeUtc("DatePublishedUtc");
 
             var withEnclosure = reader.ReadValue<bool>("EnclosureEnabled");
-            if(withEnclosure)
+            if (withEnclosure)
             {
                 entry.Enclosure = ReadEnclosure(reader);
             }
 
-            if(includeBlog)
+            if (includeBlog)
             {
                 entry.Blog = ReadBlog(reader);
             }
@@ -368,7 +382,8 @@ namespace Subtext.Framework.Data
                 PingTrackCount = reader.ReadValue<int>(prefix + "PingTrackCount"),
                 News = reader.ReadValue<string>(prefix + "News"),
                 TrackingCode = reader.ReadValue<string>(prefix + "TrackingCode"),
-                LastUpdated = reader.ReadValue(prefix + "LastUpdated", new DateTime(2003, 1, 1)),
+                DateCreatedUtc = reader.ReadDateTimeUtc(prefix + "DateCreatedUtc"),
+                DateModifiedUtc = reader.ReadDateTimeUtc(prefix + "DateModifiedUtc"),
                 Host = reader.ReadValue<string>(prefix + "Host"),
                 Subfolder = reader.ReadValue<string>(prefix + "Application"),
                 Flag = (ConfigurationFlags)(reader.ReadValue<int>(prefix + "Flag")),
@@ -397,6 +412,7 @@ namespace Subtext.Framework.Data
                 BlogGroupId = reader.ReadValue<int>(prefix + "BlogGroupId"),
                 BlogGroupTitle = reader.ReadValue<string>(prefix + "BlogGroupTitle")
             };
+
             return info;
         }
 
@@ -404,7 +420,7 @@ namespace Subtext.Framework.Data
         {
             const string dateformat = "{0:00}/{1:00}/{2:0000}";
             var acc = new Collection<ArchiveCount>();
-            while(reader.Read())
+            while (reader.Read())
             {
                 var ac = new ArchiveCount();
                 string dt = string.Format(CultureInfo.InvariantCulture,
@@ -414,9 +430,7 @@ namespace Subtext.Framework.Data
                                           reader.ReadValue<int>("Year"));
                 // FIX: BUG SF1423271 Archives Links
                 DateTime parsedDate;
-                if(
-                    !DateTime.TryParseExact(dt, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal,
-                                            out parsedDate))
+                if (!DateTime.TryParseExact(dt, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out parsedDate))
                 {
                     break;
                 }
@@ -439,11 +453,11 @@ namespace Subtext.Framework.Data
         {
             var image = reader.ReadObject<Image>("CategoryTitle", "LocalDirectoryPath");
 
-            if(includeBlog)
+            if (includeBlog)
             {
                 image.Blog = reader.ReadBlog("Blog.");
             }
-            if(includeCategory)
+            if (includeCategory)
             {
                 image.CategoryTitle = reader.ReadValue<string>("Category.Title");
             }
@@ -453,7 +467,7 @@ namespace Subtext.Framework.Data
         public static IDictionary<string, int> ReadTags(IDataReader reader)
         {
             var tags = new SortedDictionary<string, int>();
-            while(reader.Read())
+            while (reader.Read())
             {
                 tags.Add(
                     reader.ReadValue<string>("Name"),
@@ -474,11 +488,11 @@ namespace Subtext.Framework.Data
                               t == typeof(string) ||
                               t == typeof(Uri);
 
-            if(!isReadable)
+            if (!isReadable)
             {
                 //Maybe it's a nullable.
                 Type underlyingType = Nullable.GetUnderlyingType(t);
-                if(underlyingType != null)
+                if (underlyingType != null)
                 {
                     return IsReadablePropertyType(underlyingType);
                 }
@@ -530,7 +544,7 @@ namespace Subtext.Framework.Data
             SqlParameter param = size > 0 ? new SqlParameter(paramName, dbType, size) : new SqlParameter(paramName, dbType);
 
             param.Direction = direction;
-            if(!(direction == ParameterDirection.Output && value == null))
+            if (!(direction == ParameterDirection.Output && value == null))
             {
                 param.Value = value;
             }
@@ -542,8 +556,8 @@ namespace Subtext.Framework.Data
         public static ICollection<LinkCategory> ReadLinkCategories(this IDataReader reader, bool includeLinks)
         {
             var categories = reader.ReadEnumerable(r => r.ReadLinkCategory()).ToList();
-            
-            if(includeLinks && reader.NextResult())
+
+            if (includeLinks && reader.NextResult())
             {
                 var links = reader.ReadEnumerable(r => r.ReadObject<Link>());
                 categories.Accumulate(links, category => category.Id, link => link.CategoryId, (category, link) => category.Links.Add(link));
@@ -555,11 +569,11 @@ namespace Subtext.Framework.Data
         public static LinkCategory ReadLinkCategory(this IDataReader reader)
         {
             var lc = new LinkCategory(reader.ReadValue<int>("CategoryId"), reader.ReadValue<string>("Title")) { IsActive = (bool)reader["Active"] };
-            if(reader["CategoryType"] != DBNull.Value)
+            if (reader["CategoryType"] != DBNull.Value)
             {
                 lc.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
             }
-            if(reader["Description"] != DBNull.Value)
+            if (reader["Description"] != DBNull.Value)
             {
                 lc.Description = reader.ReadValue<string>("Description");
             }

@@ -105,7 +105,7 @@ namespace Subtext.Framework
         /// installed.
         /// </summary>
         /// <value></value>
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreatedUtc { get; set; }
 
         public bool BlogAggregationEnabled { get; set; }
 

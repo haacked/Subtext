@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -30,6 +31,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MbUnit.Framework;
+using Microsoft.ApplicationBlocks.Data;
 using Moq;
 using Ninject;
 using Ninject.Activation;
@@ -40,6 +42,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Emoticons;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
@@ -360,7 +363,11 @@ namespace UnitTests.Subtext
                     Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, expectedCharDisplay, (int)expectedChar,
                                       expectedCharText, (int)originalChar);
                 }
-                Assert.AreEqual(expected, result, "Strings are not equal starting at character {0}", unequalPos);
+                int snippetLength = 40;
+                string sourceSnippet = result.Substring(unequalPos, Math.Min(snippetLength, expected.Length - unequalPos));
+                string expectedSnippet = expected.Substring(unequalPos, Math.Min(snippetLength, expected.Length - unequalPos));
+
+                Assert.AreEqual(expectedSnippet, sourceSnippet, "Strings are not equal starting at character {0}.", unequalPos);
             }
         }
 
@@ -371,17 +378,29 @@ namespace UnitTests.Subtext
 
         public static Entry CreateEntryInstanceForSyndication(Blog blog, string author, string title, string body)
         {
-            return CreateEntryInstanceForSyndication(blog, author, title, body, null, DateTime.Now);
+            return CreateEntryInstanceForSyndication(blog, author, title, body, null, DateTime.UtcNow, DateTime.UtcNow);
         }
 
         public static Entry CreateEntryInstanceForSyndication(string author, string title, string body, string entryName,
-                                                              DateTime dateCreated)
+                                                              DateTime dateCreatedUtc)
         {
-            return CreateEntryInstanceForSyndication(Config.CurrentBlog, author, title, body, entryName, dateCreated);
+            return CreateEntryInstanceForSyndication(Config.CurrentBlog, author, title, body, entryName, dateCreatedUtc);
+        }
+
+        public static Entry CreateEntryInstanceForSyndication(string author, string title, string body, string entryName,
+                                                              DateTime dateCreatedUtc, DateTime datePublishedUtc)
+        {
+            return CreateEntryInstanceForSyndication(Config.CurrentBlog, author, title, body, entryName, dateCreatedUtc, datePublishedUtc);
         }
 
         public static Entry CreateEntryInstanceForSyndication(Blog blog, string author, string title, string body,
-                                                              string entryName, DateTime dateCreated)
+                                                              string entryName, DateTime dateCreatedUtc)
+        {
+            return CreateEntryInstanceForSyndication(blog, author, title, body, entryName, dateCreatedUtc, NullValue.NullDateTime);
+        }
+
+        public static Entry CreateEntryInstanceForSyndication(Blog blog, string author, string title, string body,
+                                                              string entryName, DateTime dateCreatedUtc, DateTime datePublishedUtc)
         {
             var entry = new Entry(PostType.BlogPost);
             if (entryName != null)
@@ -389,11 +408,20 @@ namespace UnitTests.Subtext
                 entry.EntryName = entryName;
             }
             entry.BlogId = blog.Id;
-            if (dateCreated != NullValue.NullDateTime)
+            if (dateCreatedUtc != NullValue.NullDateTime)
             {
-                entry.DateCreated = dateCreated;
-                entry.DateModified = entry.DateCreated;
-                entry.DateSyndicated = entry.DateCreated;
+                if (dateCreatedUtc.Kind != DateTimeKind.Utc)
+                {
+                    throw new InvalidOperationException("DateCreated must be UTC");
+                }
+                if (!datePublishedUtc.IsNull() && datePublishedUtc.Kind != DateTimeKind.Utc)
+                {
+                    throw new InvalidOperationException("DatePublished must be UTC");
+                }
+
+                entry.DateCreatedUtc = dateCreatedUtc;
+                entry.DateModifiedUtc = entry.DateCreatedUtc;
+                entry.DatePublishedUtc = datePublishedUtc;
             }
             entry.Title = title;
             entry.Author = author;
@@ -404,6 +432,13 @@ namespace UnitTests.Subtext
             entry.AllowComments = true;
             entry.IncludeInMainSyndication = true;
 
+            return entry;
+        }
+
+        public static Entry CreateAndSaveEntryForSyndication(string author, string title, string body, string entryName, DateTime dateCreatedUtc, DateTime datePublishedUtc)
+        {
+            var entry = UnitTestHelper.CreateEntryInstanceForSyndication(author, title, body, entryName, dateCreatedUtc, datePublishedUtc);
+            UnitTestHelper.Create(entry);
             return entry;
         }
 
@@ -441,7 +476,7 @@ namespace UnitTests.Subtext
                 CategoryType = CategoryType.PostCollection,
                 IsActive = true
             };
-            return Links.CreateLinkCategory(category);
+            return new DatabaseObjectProvider().CreateLinkCategory(category);
         }
 
         /// <summary>
@@ -460,7 +495,7 @@ namespace UnitTests.Subtext
                 CategoryType = categoryType,
                 IsActive = true
             };
-            return Links.CreateLinkCategory(category);
+            return new DatabaseObjectProvider().CreateLinkCategory(category);
         }
 
         /// <summary>
@@ -483,12 +518,13 @@ namespace UnitTests.Subtext
             return (T)o;
         }
 
-        public static Blog CreateBlogAndSetupContext()
+        public static Blog CreateBlogAndSetupContext(string hostName = null, string subfolder = "")
         {
-            string hostName = GenerateUniqueString();
-            Config.CreateBlog("Just A Test Blog", "test", "test", hostName, string.Empty /* subfolder */);
-            Blog blog = Config.GetBlog(hostName, string.Empty);
-            SetHttpContextWithBlogRequest(hostName, string.Empty);
+            hostName = hostName ?? GenerateUniqueString();
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("Just A Test Blog", "test", "test", hostName, subfolder /* subfolder */);
+            Blog blog = repository.GetBlog(hostName, subfolder);
+            SetHttpContextWithBlogRequest(hostName, subfolder);
             BlogRequest.Current.Blog = blog;
             Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
 
@@ -505,13 +541,18 @@ namespace UnitTests.Subtext
         {
             var alias = new BlogAlias { BlogId = info.Id, Host = host, Subfolder = subfolder, IsActive = active };
 
-            Config.AddBlogAlias(alias);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias);
             return alias;
         }
 
         public static MetaTag BuildMetaTag(string content, string name, string httpEquiv, int blogId, int? entryId,
                                            DateTime created)
         {
+            if (created.Kind != DateTimeKind.Utc)
+            {
+                throw new ArgumentException("The create date must me UTC", "created");
+            }
+
             var mt = new MetaTag { Name = name, HttpEquiv = httpEquiv, Content = content, BlogId = blogId };
 
             if (entryId.HasValue)
@@ -519,7 +560,7 @@ namespace UnitTests.Subtext
                 mt.EntryId = entryId.Value;
             }
 
-            mt.DateCreated = created;
+            mt.DateCreatedUtc = created;
 
             return mt;
         }
@@ -543,7 +584,7 @@ namespace UnitTests.Subtext
                     (i % 2 == 1) ? GenerateUniqueString().Left(25) : null,
                     blog.Id,
                     entryId,
-                    DateTime.Now);
+                    DateTime.UtcNow);
 
                 tags.Add(aTag);
             }
@@ -600,7 +641,7 @@ namespace UnitTests.Subtext
                     }
                     else if (property.PropertyType == typeof(DateTime))
                     {
-                        valueToSet = DateTime.Now;
+                        valueToSet = DateTime.UtcNow;
                     }
                     else if (property.PropertyType == typeof(Uri))
                     {
@@ -780,8 +821,8 @@ namespace UnitTests.Subtext
 
             HttpContext.Current = null;
             //I wish this returned the blog it created.
-            Config.CreateBlog("Unit Test Blog", userName, password, host, subfolder);
-            Blog blog = Config.GetBlog(host, subfolder);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("Unit Test Blog", userName, password, host, subfolder);
+            Blog blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(host, subfolder);
 
             var sb = new StringBuilder();
             TextWriter output = new StringWriter(sb);
@@ -809,7 +850,7 @@ namespace UnitTests.Subtext
             Routes.RegisterRoutes(subtextRoutes);
             var urlHelper = new BlogUrlHelper(requestContext, routes);
             var subtextContext = new SubtextContext(Config.CurrentBlog, requestContext, urlHelper,
-                                                    ObjectProvider.Instance(), requestContext.HttpContext.User,
+                                                    new DatabaseObjectProvider(), requestContext.HttpContext.User,
                                                     new SubtextCache(requestContext.HttpContext.Cache), serviceLocator);
             IEntryPublisher entryPublisher = CreateEntryPublisher(subtextContext, searchEngineService);
             int id = entryPublisher.Publish(entry);
@@ -881,7 +922,7 @@ namespace UnitTests.Subtext
                 throw new ArgumentNullException("entry");
             }
 
-            ObjectProvider repository = ObjectProvider.Instance();
+            ObjectProvider repository = new DatabaseObjectProvider();
             var transform = new CompositeTextTransformation
             {
                 new XhtmlConverter(),
@@ -898,10 +939,8 @@ namespace UnitTests.Subtext
         public static Entry GetEntry(int entryId, PostConfig postConfig, bool includeCategories)
         {
             bool isActive = ((postConfig & PostConfig.IsActive) == PostConfig.IsActive);
-            return ObjectProvider.Instance().GetEntry(entryId, isActive, includeCategories);
+            return new DatabaseObjectProvider().GetEntry(entryId, isActive, includeCategories);
         }
-
-        #region ...Assert.AreNotEqual replacements...
 
         public static ArgumentNullException AssertThrowsArgumentNullException(this Action action)
         {
@@ -922,16 +961,6 @@ namespace UnitTests.Subtext
         }
 
         /// <summary>
-        /// Asserts that the two values are not equal.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="compare">The compare.</param>
-        public static void AssertAreNotEqual(int first, int compare)
-        {
-            AssertAreNotEqual(first, compare, "");
-        }
-
-        /// <summary>
         /// Makes sure we can read app settings
         /// </summary>
         public static void AssertAppSettings()
@@ -939,38 +968,27 @@ namespace UnitTests.Subtext
             Assert.AreEqual("UnitTestValue", ConfigurationManager.AppSettings["UnitTestKey"], "Cannot read app settings");
         }
 
-        /// <summary>
-        /// Asserts that the two values are not equal.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="compare">The compare.</param>
-        /// <param name="message"></param>
-        public static void AssertAreNotEqual(int first, int compare, string message)
+        public static void WriteTableToOutput(string tableName)
         {
-            Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
-        }
+            string sql = String.Format("SELECT * FROM {0}", tableName);
+            Console.WriteLine("Table: " + tableName);
+            using (var dataset = SqlHelper.ExecuteDataset(Config.ConnectionString, CommandType.Text, sql))
+            {
+                foreach (DataColumn column in dataset.Tables[0].Columns)
+                {
+                    Console.Write(column.ColumnName + "\t");
+                }
+                Console.WriteLine();
 
-        /// <summary>
-        /// Asserts that the two values are not equal.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="compare">The compare.</param>
-        public static void AssertAreNotEqual(string first, string compare)
-        {
-            AssertAreNotEqual(first, compare, "");
+                foreach (DataRow row in dataset.Tables[0].Rows)
+                {
+                    foreach (DataColumn column in dataset.Tables[0].Columns)
+                    {
+                        Console.Write(row[column] + "\t");
+                    }
+                    Console.WriteLine();
+                }
+            }
         }
-
-        /// <summary>
-        /// Asserts that the two values are not equal.
-        /// </summary>
-        /// <param name="first">The first.</param>
-        /// <param name="compare">The compare.</param>
-        /// <param name="message"></param>
-        public static void AssertAreNotEqual(string first, string compare, string message)
-        {
-            Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
-        }
-
-        #endregion
     }
 }

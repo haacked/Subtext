@@ -124,7 +124,6 @@ namespace Subtext.Framework
                 //Just setting Approved = true would not reset any other bits in the flag that may be set.
                 feedbackItem.Status = FeedbackStatusFlag.Approved;
             }
-            feedbackItem.DateModified = Blog.TimeZone.Now;
             SubtextContext.Repository.Update(feedbackItem);
         }
 
@@ -134,7 +133,6 @@ namespace Subtext.Framework
         {
             feedbackItem.FlaggedAsSpam = true;
             feedbackItem.Approved = false;
-            feedbackItem.DateModified = Blog.TimeZone.Now;
             SubtextContext.Repository.Update(feedbackItem);
         }
 
@@ -156,8 +154,8 @@ namespace Subtext.Framework
             }
 
             //Add to cache.
-            Cache.Insert(FilterCacheKey + feedbackItem.IpAddress, string.Empty, null,
-                         DateTime.Now.AddMinutes(Blog.CommentDelayInMinutes), TimeSpan.Zero);
+            Cache.Insert(FilterCacheKey + feedbackItem.IpAddress, string.Empty, null, DateTime.UtcNow.AddMinutes(Blog.CommentDelayInMinutes), TimeSpan.Zero);
+
             return true;
         }
 

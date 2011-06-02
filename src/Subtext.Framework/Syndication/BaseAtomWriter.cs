@@ -53,7 +53,7 @@ namespace Subtext.Framework.Syndication
         {
             if(!_isBuilt)
             {
-                Build(DateLastViewedFeedItemPublished);
+                Build(DateLastViewedFeedItemPublishedUtc);
             }
         }
 
@@ -148,7 +148,7 @@ namespace Subtext.Framework.Syndication
             WriteEndElement();
 
             //(Duncanma 11/13/2005, changing modified to updated for 1.0 feed)
-            WriteElementString("updated", W3Utcz(Blog.LastUpdated));
+            WriteElementString("updated", W3Utcz(Blog.DateModifiedUtc));
         }
 
         private void WriteEntries()
@@ -156,14 +156,14 @@ namespace Subtext.Framework.Syndication
             BlogConfigurationSettings settings = Config.Settings;
 
             ClientHasAllFeedItems = true;
-            LatestPublishDate = DateLastViewedFeedItemPublished;
+            LatestPublishDateUtc = DateLastViewedFeedItemPublishedUtc;
 
             foreach(Entry entry in Items)
             {
                 // We'll show every entry if RFC3229 is not enabled.
                 //TODO: This is wrong.  What if a post is not published 
                 // and then gets published later. It will not be displayed.
-                if(!UseDeltaEncoding || entry.DateSyndicated > DateLastViewedFeedItemPublished)
+                if(!UseDeltaEncoding || entry.DatePublishedUtc > DateLastViewedFeedItemPublishedUtc)
                 {
                     WriteStartElement("entry");
                     EntryXml(entry, settings, Blog.TimeZone);
@@ -171,9 +171,9 @@ namespace Subtext.Framework.Syndication
                     ClientHasAllFeedItems = false;
 
                     //Update the latest publish date.
-                    if(entry.DateSyndicated > LatestPublishDate)
+                    if(entry.DateSyndicated > LatestPublishDateUtc)
                     {
-                        LatestPublishDate = entry.DateSyndicated;
+                        LatestPublishDateUtc = entry.DateSyndicated;
                     }
                 }
             }
@@ -195,8 +195,8 @@ namespace Subtext.Framework.Syndication
             //(Duncanma 11/13/2005, hiding created, change issued to
             //published and modified to updated for 1.0 feed)
             //this.WriteElementString("created",W3Utcz(entry.DateCreated));
-            WriteElementString("published", W3Utcz(entry.DateCreated));
-            WriteElementString("updated", W3Utcz(entry.DateModified));
+            WriteElementString("published", W3Utcz(entry.DateCreatedUtc));
+            WriteElementString("updated", W3Utcz(entry.DateModifiedUtc));
 
             if(entry.HasDescription)
             {

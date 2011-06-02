@@ -14,10 +14,10 @@ namespace UnitTests.Subtext.Framework.ActionResults
         public void CtorSetsLastModified()
         {
             // arrange
-            DateTime dateTime = DateTime.Now;
+            DateTime dateTime = DateTime.UtcNow;
 
             // act
-            var result = new CacheableFileContentResult(new byte[] {}, "image/gif", dateTime, HttpCacheability.Public);
+            var result = new CacheableFileContentResult(new byte[] { }, "image/gif", dateTime, HttpCacheability.Public);
 
             // assert
             Assert.AreEqual(dateTime, result.LastModified);
@@ -27,8 +27,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
         public void CtorSetsCacheability()
         {
             // arrange, act
-            var result = new CacheableFileContentResult(new byte[] {}, "image/gif", DateTime.Now,
-                                                        HttpCacheability.Server);
+            var result = new CacheableFileContentResult(new byte[] { }, "image/gif", DateTime.UtcNow, HttpCacheability.Server);
 
             // assert
             Assert.AreEqual(HttpCacheability.Server, result.Cacheability);
@@ -38,8 +37,8 @@ namespace UnitTests.Subtext.Framework.ActionResults
         public void ExecuteResultSetsCacheLastModified()
         {
             // arrange
-            DateTime dateTime = DateTime.Now;
-            var result = new CacheableFileContentResult(new byte[] {}, "image/gif", dateTime, HttpCacheability.Server);
+            DateTime dateTime = DateTime.UtcNow;
+            var result = new CacheableFileContentResult(new byte[] { }, "image/gif", dateTime, HttpCacheability.Server);
             var httpContext = new Mock<HttpContextBase>();
             DateTime lastModified = DateTime.MinValue;
             httpContext.Setup(h => h.Response.Cache.SetLastModified(It.IsAny<DateTime>())).Callback<DateTime>(
@@ -59,8 +58,8 @@ namespace UnitTests.Subtext.Framework.ActionResults
         public void ExecuteResultSetsCacheCacheability()
         {
             // arrange
-            DateTime dateTime = DateTime.Now;
-            var result = new CacheableFileContentResult(new byte[] {}, "image/gif", dateTime, HttpCacheability.Public);
+            DateTime dateTime = DateTime.UtcNow;
+            var result = new CacheableFileContentResult(new byte[] { }, "image/gif", dateTime, HttpCacheability.Public);
             var httpContext = new Mock<HttpContextBase>();
             HttpCacheability cacheability = HttpCacheability.NoCache;
             httpContext.Setup(h => h.Response.Cache.SetCacheability(It.IsAny<HttpCacheability>())).Callback
@@ -80,8 +79,8 @@ namespace UnitTests.Subtext.Framework.ActionResults
         public void ExecuteResultWritesBytesToResponse()
         {
             // arrange
-            DateTime dateTime = DateTime.Now;
-            var result = new CacheableFileContentResult(new byte[] {1, 2, 3, 2, 1}, "image/gif", dateTime,
+            DateTime dateTime = DateTime.UtcNow;
+            var result = new CacheableFileContentResult(new byte[] { 1, 2, 3, 2, 1 }, "image/gif", dateTime,
                                                         HttpCacheability.Server);
             var httpContext = new Mock<HttpContextBase>();
             DateTime lastModified = DateTime.MinValue;
@@ -97,7 +96,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             result.ExecuteResult(controllerContext);
 
             // assert
-            Assert.AreEqual(new byte[] {1, 2, 3, 2, 1}, writtenBytes);
+            Assert.AreEqual(new byte[] { 1, 2, 3, 2, 1 }, writtenBytes);
         }
     }
 }

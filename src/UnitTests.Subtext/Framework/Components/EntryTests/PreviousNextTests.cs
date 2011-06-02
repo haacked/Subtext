@@ -43,16 +43,16 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         public void GetPreviousAndNextEntriesReturnsPreviousWhenNoNextExists()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, string.Empty);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
 
             Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                    UnitTestHelper.GenerateUniqueString(),
-                                                                                   DateTime.Now.AddDays(-1));
+                                                                                   DateTime.UtcNow.AddDays(-1));
             Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                   UnitTestHelper.GenerateUniqueString(),
-                                                                                  DateTime.Now);
+                                                                                  DateTime.UtcNow);
 
             int previousId = UnitTestHelper.Create(previousEntry);
             int currentId = UnitTestHelper.Create(currentEntry);
@@ -71,16 +71,16 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         public void GetPreviousAndNextEntriesReturnsNextWhenNoPreviousExists()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, string.Empty);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
 
             Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                   UnitTestHelper.GenerateUniqueString(),
-                                                                                  DateTime.Now.AddDays(-1));
+                                                                                  DateTime.UtcNow.AddDays(-1));
             Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                UnitTestHelper.GenerateUniqueString(),
-                                                                               DateTime.Now);
+                                                                               DateTime.UtcNow);
 
             int currentId = UnitTestHelper.Create(currentEntry);
             int nextId = UnitTestHelper.Create(nextEntry);
@@ -99,19 +99,19 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         public void GetPreviousAndNextEntriesReturnsBoth()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, string.Empty);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
 
             Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                    UnitTestHelper.GenerateUniqueString(),
-                                                                                   DateTime.Now.AddDays(-2));
+                                                                                   DateTime.UtcNow.AddDays(-2));
             Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                   UnitTestHelper.GenerateUniqueString(),
-                                                                                  DateTime.Now.AddDays(-1));
+                                                                                  DateTime.UtcNow.AddDays(-1));
             Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                UnitTestHelper.GenerateUniqueString(),
-                                                                               DateTime.Now);
+                                                                               DateTime.UtcNow);
 
             int previousId = UnitTestHelper.Create(previousEntry);
             Thread.Sleep(100);
@@ -136,25 +136,25 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         public void GetPreviousAndNextEntriesReturnsCorrectEntries()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, string.Empty);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
 
             Entry firstEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                 UnitTestHelper.GenerateUniqueString(),
-                                                                                DateTime.Now.AddDays(-3));
+                                                                                DateTime.UtcNow.AddDays(-3));
             Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                    UnitTestHelper.GenerateUniqueString(),
-                                                                                   DateTime.Now.AddDays(-2));
+                                                                                   DateTime.UtcNow.AddDays(-2));
             Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                   UnitTestHelper.GenerateUniqueString(),
-                                                                                  DateTime.Now.AddDays(-1));
+                                                                                  DateTime.UtcNow.AddDays(-1));
             Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                UnitTestHelper.GenerateUniqueString(),
-                                                                               DateTime.Now);
+                                                                               DateTime.UtcNow);
             Entry lastEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                UnitTestHelper.GenerateUniqueString(),
-                                                                               DateTime.Now.AddDays(1));
+                                                                               DateTime.UtcNow.AddDays(1));
 
             Thread.Sleep(100);
             int previousId = UnitTestHelper.Create(previousEntry);
@@ -180,9 +180,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         public void GetPreviousAndNextBasedOnSyndicationDateNotEntryId()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            Config.CreateBlog("", "username", "password", hostname, string.Empty);
+            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = Config.GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
 
             Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
             Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
@@ -201,7 +201,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             previousEntry.IsActive = true;
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Setup(c => c.Repository).Returns(ObjectProvider.Instance());
+            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
             UnitTestHelper.Update(previousEntry, subtextContext.Object);
             Thread.Sleep(100);
             currentEntry.IsActive = true;

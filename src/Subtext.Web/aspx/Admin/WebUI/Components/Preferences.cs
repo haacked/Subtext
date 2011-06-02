@@ -125,7 +125,7 @@ namespace Subtext.Web.Admin
 
         static DateTime CookieExpiry
         {
-            get { return DateTime.Now.AddMonths(COOKIE_EXPIRY_MONTHS); }
+            get { return DateTime.UtcNow.AddMonths(COOKIE_EXPIRY_MONTHS); }
         }
 
         public static string GetFeedbackItemFilter(FeedbackStatusFlag currentView)

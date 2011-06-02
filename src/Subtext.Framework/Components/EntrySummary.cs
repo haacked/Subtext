@@ -31,11 +31,25 @@ namespace Subtext.Framework.Components
 
         public string EntryName { get; set; }
 
-        public DateTime DateSyndicated { get; set; }
+        public DateTime DatePublishedUtc { get; set; }
+
+        public DateTime DateSyndicated
+        {
+            get
+            {
+                if (Blog == null)
+                {
+                    return DatePublishedUtc;
+                }
+                return Blog.TimeZone.FromUtc(DatePublishedUtc);
+            }
+        }
 
         public PostType PostType
         {
             get { return PostType.BlogPost; }
         }
+
+        public Blog Blog { get; set; }
     }
 }

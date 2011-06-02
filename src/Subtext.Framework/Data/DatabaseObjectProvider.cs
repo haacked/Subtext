@@ -35,43 +35,67 @@ namespace Subtext.Framework.Data
     /// </summary>
     public partial class DatabaseObjectProvider : ObjectProvider
     {
-        readonly StoredProcedures _procedures = new StoredProcedures(Config.ConnectionString);
+        StoredProcedures _procedures;
+        Func<int> _blogId;
+        public DatabaseObjectProvider()
+        {
+            _procedures = new StoredProcedures(Config.ConnectionString);
+            _blogId = new Func<int>(() => BlogRequest.Current.IsHostAdminRequest ? NullValue.NullInt32 : BlogRequest.Current.Blog.Id);
+        }
 
-        public int BlogId
+        public DatabaseObjectProvider(int blogId, StoredProcedures procedures)
+        {
+            _procedures = procedures;
+            _blogId = new Func<int>(() => blogId);
+        }
+
+        protected int BlogId
         {
             get
             {
-                //Fix this up...
-                return BlogRequest.Current.IsHostAdminRequest ? NullValue.NullInt32 : BlogRequest.Current.Blog.Id;
+                return _blogId();
             }
         }
 
-        public DateTime CurrentDateTime
+        public DateTime CurrentDateTimeUtc
         {
-            get { return BlogRequest.Current.Blog.TimeZone.Now; }
+            get { return DateTime.UtcNow; }
         }
 
-        private static void ValidateEntry(Entry e)
+        private static void ValidateEntry(Entry entry)
         {
+            if (!entry.DateCreatedUtc.IsNull() && entry.DateCreatedUtc.Kind != DateTimeKind.Utc)
+            {
+                throw new InvalidOperationException("Date Created must be UTC");
+            }
+            if (!entry.DateModifiedUtc.IsNull() && entry.DateModifiedUtc.Kind != DateTimeKind.Utc)
+            {
+                throw new InvalidOperationException("Date modified must be UTC");
+            }
+            if (!entry.DatePublishedUtc.IsNull() && entry.DatePublishedUtc.Kind != DateTimeKind.Utc)
+            {
+                throw new InvalidOperationException("Date published must be UTC");
+            }
+
             //TODO: The following doesn't belong here. It's verification code.
-            if(!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Body))
+            if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(entry.Body))
             {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //Never allow scripts in the title.
-            if(HtmlHelper.HasIllegalContent(e.Title))
+            if (HtmlHelper.HasIllegalContent(entry.Title))
             {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
-            if(!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(e.Description))
+            if (!Config.Settings.AllowScriptsInPosts && HtmlHelper.HasIllegalContent(entry.Description))
             {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
 
             //never allow scripts in the url.
-            if(HtmlHelper.HasIllegalContent(e.EntryName))
+            if (HtmlHelper.HasIllegalContent(entry.EntryName))
             {
                 throw new IllegalPostCharactersException(Resources.IllegalPostCharacters);
             }
@@ -86,7 +110,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<LinkCategory> GetActiveCategories()
         {
-            using(IDataReader reader = _procedures.GetActiveCategoriesWithLinkCollection(BlogId.NullIfMinValue()))
+            using (IDataReader reader = _procedures.GetActiveCategoriesWithLinkCollection(BlogId.NullIfMinValue()))
             {
                 return reader.ReadLinkCategories(true);
             }
@@ -94,7 +118,7 @@ namespace Subtext.Framework.Data
 
         public override IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
         {
-            using(
+            using (
                 IDataReader reader = _procedures.GetPageableReferrers(BlogId, entryId.NullIfMinValue(), pageIndex,
                                                                       pageSize))
             {
@@ -104,12 +128,16 @@ namespace Subtext.Framework.Data
 
         public override int Create(MetaTag metaTag)
         {
+            if (metaTag.DateCreatedUtc.Kind != DateTimeKind.Utc)
+            {
+                throw new InvalidOperationException("Metadata Create date must be UTC");
+            }
             return _procedures.InsertMetaTag(metaTag.Content,
                                              metaTag.Name.NullIfEmpty(),
                                              metaTag.HttpEquiv.NullIfEmpty(),
                                              BlogId,
                                              metaTag.EntryId,
-                                             metaTag.DateCreated);
+                                             metaTag.DateCreatedUtc);
         }
 
         public override bool Update(MetaTag metaTag)
@@ -124,7 +152,7 @@ namespace Subtext.Framework.Data
 
         public override IPagedCollection<MetaTag> GetMetaTagsForBlog(Blog blog, int pageIndex, int pageSize)
         {
-            using(IDataReader reader = _procedures.GetMetaTags(blog.Id, null, pageIndex, pageSize))
+            using (IDataReader reader = _procedures.GetMetaTags(blog.Id, null, pageIndex, pageSize))
             {
                 return reader.ReadPagedCollection(r => r.ReadObject<MetaTag>());
             }
@@ -132,7 +160,7 @@ namespace Subtext.Framework.Data
 
         public override IPagedCollection<MetaTag> GetMetaTagsForEntry(Entry entry, int pageIndex, int pageSize)
         {
-            using(IDataReader reader = _procedures.GetMetaTags(entry.BlogId, entry.Id, pageIndex, pageSize))
+            using (IDataReader reader = _procedures.GetMetaTags(entry.BlogId, entry.Id, pageIndex, pageSize))
             {
                 return reader.ReadPagedCollection(r => r.ReadObject<MetaTag>());
             }
@@ -173,10 +201,10 @@ namespace Subtext.Framework.Data
 
         public override KeyWord GetKeyWord(int keyWordId)
         {
-            using(IDataReader reader = _procedures.GetKeyWord(keyWordId, BlogId))
+            using (IDataReader reader = _procedures.GetKeyWord(keyWordId, BlogId))
             {
                 KeyWord kw = null;
-                while(reader.Read())
+                while (reader.Read())
                 {
                     kw = reader.ReadObject<KeyWord>();
                     break;
@@ -187,7 +215,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<KeyWord> GetKeyWords()
         {
-            using(IDataReader reader = _procedures.GetBlogKeyWords(BlogId))
+            using (IDataReader reader = _procedures.GetBlogKeyWords(BlogId))
             {
                 return reader.ReadCollection<KeyWord>();
             }
@@ -195,7 +223,7 @@ namespace Subtext.Framework.Data
 
         public override IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
         {
-            using(IDataReader reader = _procedures.GetPageableKeyWords(BlogId, pageIndex, pageSize))
+            using (IDataReader reader = _procedures.GetPageableKeyWords(BlogId, pageIndex, pageSize))
             {
                 return reader.ReadPagedCollection(r => r.ReadObject<KeyWord>());
             }
@@ -235,16 +263,16 @@ namespace Subtext.Framework.Data
 
         public override ImageCollection GetImagesByCategoryId(int categoryId, bool activeOnly)
         {
-            using(IDataReader reader = _procedures.GetImageCategory(categoryId, activeOnly, BlogId))
+            using (IDataReader reader = _procedures.GetImageCategory(categoryId, activeOnly, BlogId))
             {
                 var ic = new ImageCollection();
-                while(reader.Read())
+                while (reader.Read())
                 {
                     ic.Category = reader.ReadLinkCategory();
                     break;
                 }
                 reader.NextResult();
-                while(reader.Read())
+                while (reader.Read())
                 {
                     ic.Add(reader.ReadImage());
                 }
@@ -254,10 +282,10 @@ namespace Subtext.Framework.Data
 
         public override Image GetImage(int imageId, bool activeOnly)
         {
-            using(IDataReader reader = _procedures.GetSingleImage(imageId, activeOnly, BlogId))
+            using (IDataReader reader = _procedures.GetSingleImage(imageId, activeOnly, BlogId))
             {
                 Image image = null;
-                while(reader.Read())
+                while (reader.Read())
                 {
                     image = reader.ReadImage();
                 }

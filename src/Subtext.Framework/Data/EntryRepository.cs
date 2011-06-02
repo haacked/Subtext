@@ -61,7 +61,7 @@ namespace Subtext.Framework.Data
                 (int)postConfig,
                 BlogId,
                 includeCategories,
-                CurrentDateTime))
+                CurrentDateTimeUtc))
             {
                 return reader.ReadEntryCollection();
             }
@@ -69,7 +69,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<Entry> GetEntriesByCategory(int itemCount, int categoryId, bool activeOnly)
         {
-            using (IDataReader reader = _procedures.GetPostsByCategoryID(itemCount, categoryId, activeOnly, BlogId, CurrentDateTime))
+            using (IDataReader reader = _procedures.GetPostsByCategoryID(itemCount, categoryId, activeOnly, BlogId, CurrentDateTimeUtc))
             {
                 return reader.ReadEntryCollection();
             }
@@ -77,7 +77,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<Entry> GetEntriesByTag(int itemCount, string tagName)
         {
-            using (IDataReader reader = _procedures.GetPostsByTag(itemCount, tagName, BlogId, true, CurrentDateTime))
+            using (IDataReader reader = _procedures.GetPostsByTag(itemCount, tagName, BlogId, true, CurrentDateTimeUtc))
             {
                 return reader.ReadEntryCollection();
             }
@@ -88,15 +88,15 @@ namespace Subtext.Framework.Data
             DateTime? minDate = null;
             if (filter == DateFilter.LastMonth)
             {
-                minDate = CurrentDateTime.AddMonths(-1);
+                minDate = CurrentDateTimeUtc.AddMonths(-1);
             }
             else if (filter == DateFilter.LastWeek)
             {
-                minDate = CurrentDateTime.AddDays(-7);
+                minDate = CurrentDateTimeUtc.AddDays(-7);
             }
             else if (filter == DateFilter.LastYear)
             {
-                minDate = CurrentDateTime.AddYears(-1);
+                minDate = CurrentDateTimeUtc.AddYears(-1);
             }
 
             using (IDataReader reader = _procedures.GetPopularPosts(BlogId, minDate))
@@ -134,7 +134,7 @@ namespace Subtext.Framework.Data
 
         public override EntryDay GetEntryDay(DateTime dateTime)
         {
-            using (IDataReader reader = _procedures.GetEntriesByDayRange(dateTime.Date, dateTime.Date.AddDays(1), (int)PostType.BlogPost, true, BlogId, CurrentDateTime))
+            using (IDataReader reader = _procedures.GetEntriesByDayRange(dateTime.Date, dateTime.Date.AddDays(1), (int)PostType.BlogPost, true, BlogId, CurrentDateTimeUtc))
             {
                 var entryDay = new EntryDay(dateTime);
                 while (reader.Read())
@@ -153,7 +153,7 @@ namespace Subtext.Framework.Data
         /// <param name="postType"></param>
         public override ICollection<EntrySummary> GetPreviousAndNextEntries(int entryId, PostType postType)
         {
-            using (IDataReader reader = _procedures.GetEntryPreviousNext(entryId, (int)postType, BlogId, CurrentDateTime))
+            using (IDataReader reader = _procedures.GetEntryPreviousNext(entryId, (int)postType, BlogId, CurrentDateTimeUtc))
             {
                 return reader.ReadCollection<EntrySummary>();
             }
@@ -167,7 +167,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override ICollection<Entry> GetPostsByMonth(int month, int year)
         {
-            using (IDataReader reader = _procedures.GetPostsByMonth(month, year, BlogId, CurrentDateTime))
+            using (IDataReader reader = _procedures.GetPostsByMonth(month, year, BlogId, CurrentDateTimeUtc))
             {
                 return reader.ReadEntryCollection();
             }
@@ -184,7 +184,7 @@ namespace Subtext.Framework.Data
                 max = start;
             }
 
-            using (IDataReader reader = _procedures.GetEntriesByDayRange(min, max, (int)postType, activeOnly, BlogId, CurrentDateTime))
+            using (IDataReader reader = _procedures.GetEntriesByDayRange(min, max, (int)postType, activeOnly, BlogId, CurrentDateTimeUtc))
             {
                 return reader.ReadEntryCollection();
             }
@@ -238,7 +238,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         public override bool DeleteEntry(int entryId)
         {
-            return _procedures.DeletePost(entryId, CurrentDateTime);
+            return _procedures.DeletePost(entryId, CurrentDateTimeUtc);
         }
 
         /// <summary>
@@ -252,6 +252,8 @@ namespace Subtext.Framework.Data
         {
             ValidateEntry(entry);
 
+            entry.DateCreatedUtc = entry.DateCreatedUtc.IsNull() ? CurrentDateTimeUtc : entry.DateCreatedUtc;
+
             entry.Id = _procedures.InsertEntry(entry.Title
                 , entry.Body.NullIfEmpty()
                 , (int)entry.PostType
@@ -259,11 +261,10 @@ namespace Subtext.Framework.Data
                 , entry.Email.NullIfEmpty()
                 , entry.Description.NullIfEmpty()
                 , BlogId
-                , entry.DateCreated
+                , entry.DateCreatedUtc
                 , (int)entry.PostConfig
                 , entry.EntryName.NullIfEmpty()
-                , entry.DateSyndicated.NullIfEmpty()
-                , CurrentDateTime);
+                , entry.DatePublishedUtc.NullIfEmpty());
 
             if (categoryIds != null)
             {
@@ -272,7 +273,7 @@ namespace Subtext.Framework.Data
 
             if (entry.Id > -1)
             {
-                Config.CurrentBlog.LastUpdated = entry.DateCreated;
+                Config.CurrentBlog.DateModifiedUtc = entry.DateCreatedUtc;
             }
 
             return entry.Id;
@@ -330,10 +331,12 @@ namespace Subtext.Framework.Data
         {
             ValidateEntry(entry);
 
-            if (entry.IsActive && NullValue.IsNull(entry.DateSyndicated))
+            if (entry.IsActive && entry.DatePublishedUtc.IsNull())
             {
-                entry.DateSyndicated = CurrentDateTime;
+                entry.DatePublishedUtc = CurrentDateTimeUtc;
             }
+
+            entry.DateModifiedUtc = entry.DateModifiedUtc.IsNull() ? CurrentDateTimeUtc : entry.DateModifiedUtc;
 
             bool updated = _procedures.UpdateEntry(
                 entry.Id
@@ -343,12 +346,11 @@ namespace Subtext.Framework.Data
                 , entry.Author.NullIfEmpty()
                 , entry.Email.NullIfEmpty()
                 , entry.Description.NullIfEmpty()
-                , entry.DateModified
+                , entry.DateModifiedUtc
                 , (int)entry.PostConfig
                 , entry.EntryName.NullIfEmpty()
-                , entry.DateSyndicated.NullIfEmpty()
-                , BlogId
-                , CurrentDateTime);
+                , entry.DatePublishedUtc.NullIfEmpty()
+                , BlogId);
 
             if (!updated)
             {
@@ -364,7 +366,7 @@ namespace Subtext.Framework.Data
             {
                 if (entry.Id > -1)
                 {
-                    Config.CurrentBlog.LastUpdated = entry.DateModified;
+                    Config.CurrentBlog.DateModifiedUtc = entry.DateModifiedUtc;
                 }
             }
             return true;
@@ -372,7 +374,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<ArchiveCount> GetPostCountsByMonth()
         {
-            using (IDataReader reader = _procedures.GetPostsByMonthArchive(BlogId, CurrentDateTime))
+            using (IDataReader reader = _procedures.GetPostsByMonthArchive(BlogId, CurrentDateTimeUtc))
             {
                 ICollection<ArchiveCount> acc = DataHelper.ReadArchiveCount(reader);
                 return acc;
@@ -381,7 +383,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<ArchiveCount> GetPostCountsByYear()
         {
-            using (IDataReader reader = _procedures.GetPostsByYearArchive(BlogId, CurrentDateTime))
+            using (IDataReader reader = _procedures.GetPostsByYearArchive(BlogId, CurrentDateTimeUtc))
             {
                 ICollection<ArchiveCount> acc = DataHelper.ReadArchiveCount(reader);
                 return acc;

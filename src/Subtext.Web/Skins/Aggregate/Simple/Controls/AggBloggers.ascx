@@ -19,7 +19,7 @@
                     </div>
                     <div>
                         <%= blog.PostCount%>,
-                        <%= blog.LastUpdated.ToString("MM/dd/yyyy h:mm tt", System.Globalization.CultureInfo.CurrentCulture)%>
+                        <%= blog.DateModifiedUtc.ToLocalTime().ToString("MM/dd/yyyy h:mm tt", System.Globalization.CultureInfo.CurrentCulture)%>
                     </div>
                 </li>
                 <% } %>

@@ -166,7 +166,7 @@ namespace Subtext.Web.Admin.UserControls
             }
 
             txbTitle.Text = entry.Title;
-            if (!NullValue.IsNull(entry.DateSyndicated) && entry.DateSyndicated > Config.CurrentBlog.TimeZone.Now)
+            if (!entry.DatePublishedUtc.IsNull() && entry.DatePublishedUtc > DateTime.UtcNow)
             {
                 txtPostDate.Text = entry.DateSyndicated.ToString(CultureInfo.CurrentCulture);
             }
@@ -390,15 +390,15 @@ namespace Subtext.Web.Admin.UserControls
                     entry.Categories.Clear();
                     ReplaceSelectedCategoryNames(entry.Categories);
 
-                    if (!NullValue.IsNull(postDate))
+                    if (!postDate.IsNull())
                     {
-                        entry.DateSyndicated = postDate;
+                        entry.DatePublishedUtc = Blog.TimeZone.ToUtc(postDate);
                     }
 
                     if (PostId != null)
                     {
                         successMessage = Constants.RES_SUCCESSEDIT;
-                        entry.DateModified = Config.CurrentBlog.TimeZone.Now;
+                        entry.DateModifiedUtc = DateTime.UtcNow;
                         entry.Id = PostId.Value;
 
                         var entryPublisher = SubtextContext.ServiceLocator.GetService<IEntryPublisher>();

@@ -58,7 +58,7 @@ namespace Subtext.Web.Install
 
             //Since the password is stored as a hash, let's not hash it again.
             const bool passwordAlreadyHashed = true;
-            int blogId = Config.CreateBlog("TEMPORARY BLOG NAME", hostInfo.HostUserName, hostInfo.Password,
+            int blogId = Repository.CreateBlog("TEMPORARY BLOG NAME", hostInfo.HostUserName, hostInfo.Password,
                                            Request.Url.Host, string.Empty, passwordAlreadyHashed);
             if (blogId > -1)
             {

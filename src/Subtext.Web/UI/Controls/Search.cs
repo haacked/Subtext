@@ -31,15 +31,6 @@ namespace Subtext.Web.UI.Controls
             MaxResultsCount = 100;
         }
 
-        public ISearchEngineService SearchEngineService
-        {
-            get
-            {
-                return SubtextPage.SearchEngineService;
-            }
-        }
-
-
         public int MaxResultsCount { get; set; }
 
         public void btnSearch_Click(object sender, EventArgs e)

@@ -178,8 +178,10 @@ namespace Subtext.Web.UI.Controls
                     var postDate = (Literal)(e.Item.FindControl("PostDate"));
                     if (postDate != null)
                     {
-                        postDate.Text = feedbackItem.DateCreated.ToShortDateString() + " " +
-                                        feedbackItem.DateCreated.ToShortTimeString();
+                        var dateCreated = feedbackItem.DateCreated;
+
+                        postDate.Text = dateCreated.ToShortDateString() + " " +
+                                        dateCreated.ToShortTimeString();
                     }
 
                     var post = e.Item.FindControl("PostText") as Literal;
@@ -210,7 +212,7 @@ namespace Subtext.Web.UI.Controls
                             }
                             else
                             {
-                                ip = string.Format("{0} {1}", DateTime.Now.Millisecond, DateTime.Now.Second);
+                                ip = string.Format("{0} {1}", DateTime.UtcNow.Millisecond, DateTime.UtcNow.Second);
                             }
 
                             //This allows a host-wide setting of the default gravatar image.

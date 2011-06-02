@@ -22,6 +22,7 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework
@@ -37,19 +38,19 @@ namespace UnitTests.Subtext.Framework
         public void CanGetCategoriesByPostId()
         {
             UnitTestHelper.SetupBlog();
-
+            var repository = new DatabaseObjectProvider();
             int category1Id =
-                Links.CreateLinkCategory(CreateCategory("Post Category 1", "Cody roolz!", CategoryType.PostCollection,
+                repository.CreateLinkCategory(CreateCategory("Post Category 1", "Cody roolz!", CategoryType.PostCollection,
                                                         true));
             int category2Id =
-                Links.CreateLinkCategory(CreateCategory("Post Category 2", "Cody roolz again!",
+                repository.CreateLinkCategory(CreateCategory("Post Category 2", "Cody roolz again!",
                                                         CategoryType.PostCollection, true));
-            Links.CreateLinkCategory(CreateCategory("Post Category 3", "Cody roolz and again!",
+            repository.CreateLinkCategory(CreateCategory("Post Category 3", "Cody roolz and again!",
                                                     CategoryType.PostCollection, true));
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
             int entryId = UnitTestHelper.Create(entry);
-            ObjectProvider.Instance().SetEntryCategoryList(entryId, new[] { category1Id, category2Id });
+            repository.SetEntryCategoryList(entryId, new[] { category1Id, category2Id });
 
             ICollection<LinkCategory> categories = Links.GetLinkCategoriesByPostId(entryId);
             Assert.AreEqual(2, categories.Count, "Expected two of the three categories");
@@ -65,13 +66,13 @@ namespace UnitTests.Subtext.Framework
         public void CanGetActiveCategories()
         {
             UnitTestHelper.SetupBlog();
-
-            int[] categoryIds = CreateSomeLinkCategories();
+            var repository = new DatabaseObjectProvider();
+            int[] categoryIds = CreateSomeLinkCategories(repository);
             CreateLink("Link one", categoryIds[0], null);
             CreateLink("Link two", categoryIds[0], null);
             CreateLink("Link one-two", categoryIds[1], null);
 
-            ICollection<LinkCategory> linkCollections = ObjectProvider.Instance().GetActiveCategories();
+            ICollection<LinkCategory> linkCollections = repository.GetActiveCategories();
 
             //Test ordering by title
             Assert.AreEqual("Google Blogs", linkCollections.First().Title);
@@ -87,16 +88,17 @@ namespace UnitTests.Subtext.Framework
         public void CanUpdateLink()
         {
             UnitTestHelper.SetupBlog();
+            var repository = new DatabaseObjectProvider();
             // Create the categories
-            CreateSomeLinkCategories();
+            CreateSomeLinkCategories(repository);
 
             int categoryId =
-                Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
+                repository.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
                                                         CategoryType.LinkCollection, true));
             Link link = CreateLink("Test", categoryId, null);
             int linkId = link.Id;
 
-            Link loaded = ObjectProvider.Instance().GetLink(linkId);
+            Link loaded = repository.GetLink(linkId);
             Assert.AreEqual("Test", loaded.Title);
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "test");
@@ -105,8 +107,8 @@ namespace UnitTests.Subtext.Framework
             link.PostId = entry.Id;
             link.Title = "Another title";
             link.NewWindow = true;
-            ObjectProvider.Instance().UpdateLink(link);
-            loaded = ObjectProvider.Instance().GetLink(linkId);
+            repository.UpdateLink(link);
+            loaded = repository.GetLink(linkId);
             Assert.AreEqual("Another title", loaded.Title);
             Assert.IsTrue(loaded.NewWindow);
             Assert.AreEqual(entry.Id, loaded.PostId);
@@ -117,9 +119,9 @@ namespace UnitTests.Subtext.Framework
         public void CanCreateAndDeleteLink()
         {
             UnitTestHelper.SetupBlog();
-
+            var repository = new DatabaseObjectProvider();
             int categoryId =
-                Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
+                repository.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
                                                         CategoryType.LinkCollection, true));
 
             Link link = CreateLink("Title", categoryId, null);
@@ -132,7 +134,7 @@ namespace UnitTests.Subtext.Framework
 
             Links.DeleteLink(linkId);
 
-            Assert.IsNull(ObjectProvider.Instance().GetLink(linkId));
+            Assert.IsNull(repository.GetLink(linkId));
         }
 
         [Test]
@@ -140,13 +142,14 @@ namespace UnitTests.Subtext.Framework
         public void CanCreateAndDeleteLinkCategory()
         {
             UnitTestHelper.SetupBlog();
+            var repository = new DatabaseObjectProvider();
 
             // Create some categories
             int categoryId =
-                Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
+                repository.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
                                                         CategoryType.LinkCollection, true));
 
-            LinkCategory category = ObjectProvider.Instance().GetLinkCategory(categoryId, true);
+            LinkCategory category = repository.GetLinkCategory(categoryId, true);
             Assert.AreEqual(Config.CurrentBlog.Id, category.BlogId);
             Assert.AreEqual("My Favorite Feeds", category.Title);
             Assert.AreEqual("Some of my favorite RSS feeds", category.Description);
@@ -158,7 +161,7 @@ namespace UnitTests.Subtext.Framework
             Assert.IsNotNull(category);
 
             Links.DeleteLinkCategory(categoryId);
-            Assert.IsNull(ObjectProvider.Instance().GetLinkCategory(categoryId, true));
+            Assert.IsNull(repository.GetLinkCategory(categoryId, true));
         }
 
         /// <summary>
@@ -169,30 +172,30 @@ namespace UnitTests.Subtext.Framework
         public void CreateLinkCategoryAssignsUniqueCatIDs()
         {
             UnitTestHelper.SetupBlog();
-
+            var repository = new DatabaseObjectProvider();
             // Create some categories
-            CreateSomeLinkCategories();
+            CreateSomeLinkCategories(repository);
             ICollection<LinkCategory> linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection,
                                                                                    ActiveFilter.None);
 
             LinkCategory first = null;
             LinkCategory second = null;
             LinkCategory third = null;
-            foreach(LinkCategory linkCategory in linkCategoryCollection)
+            foreach (LinkCategory linkCategory in linkCategoryCollection)
             {
-                if(first == null)
+                if (first == null)
                 {
                     first = linkCategory;
                     continue;
                 }
 
-                if(second == null)
+                if (second == null)
                 {
                     second = linkCategory;
                     continue;
                 }
 
-                if(third == null)
+                if (third == null)
                 {
                     third = linkCategory;
                     continue;
@@ -200,9 +203,9 @@ namespace UnitTests.Subtext.Framework
             }
 
             // Ensure the CategoryIDs are unique
-            UnitTestHelper.AssertAreNotEqual(first.Id, second.Id);
-            UnitTestHelper.AssertAreNotEqual(first.Id, third.Id);
-            UnitTestHelper.AssertAreNotEqual(second.Id, third.Id);
+            Assert.AreNotEqual(first.Id, second.Id);
+            Assert.AreNotEqual(first.Id, third.Id);
+            Assert.AreNotEqual(second.Id, third.Id);
         }
 
         [Test]
@@ -210,7 +213,8 @@ namespace UnitTests.Subtext.Framework
         public void CanGetPostCollectionCategories()
         {
             UnitTestHelper.SetupBlog();
-            CreateSomePostCategories();
+            var repository = new DatabaseObjectProvider();
+            CreateSomePostCategories(repository);
 
             // Retrieve the categories, grab the first one and update it
             ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.PostCollection,
@@ -226,16 +230,16 @@ namespace UnitTests.Subtext.Framework
         public void UpdateLinkCategoryIsFine()
         {
             UnitTestHelper.SetupBlog();
-
+            var repository = new DatabaseObjectProvider();
             // Create the categories
-            CreateSomeLinkCategories();
+            CreateSomeLinkCategories(repository);
 
             // Retrieve the categories, grab the first one and update it
             ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection,
                                                                                ActiveFilter.None);
             Assert.Greater(originalCategories.Count, 0, "Expected some categories in there.");
             LinkCategory linkCat = null;
-            foreach(LinkCategory linkCategory in originalCategories)
+            foreach (LinkCategory linkCategory in originalCategories)
             {
                 linkCat = linkCategory;
                 break;
@@ -243,15 +247,15 @@ namespace UnitTests.Subtext.Framework
             LinkCategory originalCategory = linkCat;
             originalCategory.Description = "New Description";
             originalCategory.IsActive = false;
-            bool updated = ObjectProvider.Instance().UpdateLinkCategory(originalCategory);
+            bool updated = repository.UpdateLinkCategory(originalCategory);
 
             // Retrieve the categories and find the one we updated
             ICollection<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection,
                                                                               ActiveFilter.None);
             LinkCategory updatedCategory = null;
-            foreach(LinkCategory lc in updatedCategories)
+            foreach (LinkCategory lc in updatedCategories)
             {
-                if(lc.Id == originalCategory.Id)
+                if (lc.Id == originalCategory.Id)
                 {
                     updatedCategory = lc;
                 }
@@ -264,32 +268,32 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(false, updatedCategory.IsActive);
         }
 
-        static int[] CreateSomeLinkCategories()
+        static int[] CreateSomeLinkCategories(ObjectProvider repository)
         {
             var categoryIds = new int[3];
             categoryIds[0] =
-                Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
+                repository.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
                                                         CategoryType.LinkCollection, true));
             categoryIds[1] =
-                Links.CreateLinkCategory(CreateCategory("Google Blogs", "My favorite Google blogs",
+                repository.CreateLinkCategory(CreateCategory("Google Blogs", "My favorite Google blogs",
                                                         CategoryType.LinkCollection, true));
             categoryIds[2] =
-                Links.CreateLinkCategory(CreateCategory("Microsoft Blogs", "My favorite Microsoft blogs",
+                repository.CreateLinkCategory(CreateCategory("Microsoft Blogs", "My favorite Microsoft blogs",
                                                         CategoryType.LinkCollection, false));
             return categoryIds;
         }
 
-        static int[] CreateSomePostCategories()
+        static int[] CreateSomePostCategories(ObjectProvider repository)
         {
             var categoryIds = new int[3];
             categoryIds[0] =
-                Links.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
+                repository.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
                                                         CategoryType.PostCollection, true));
             categoryIds[1] =
-                Links.CreateLinkCategory(CreateCategory("Google Blogs", "My favorite Google blogs",
+                repository.CreateLinkCategory(CreateCategory("Google Blogs", "My favorite Google blogs",
                                                         CategoryType.PostCollection, true));
             categoryIds[2] =
-                Links.CreateLinkCategory(CreateCategory("Microsoft Blogs", "My favorite Microsoft blogs",
+                repository.CreateLinkCategory(CreateCategory("Microsoft Blogs", "My favorite Microsoft blogs",
                                                         CategoryType.PostCollection, false));
             return categoryIds;
         }
@@ -310,12 +314,12 @@ namespace UnitTests.Subtext.Framework
             var link = new Link();
             link.IsActive = true;
             link.BlogId = Config.CurrentBlog.Id;
-            if(categoryId != null)
+            if (categoryId != null)
             {
                 link.CategoryId = (int)categoryId;
             }
             link.Title = title;
-            if(postId != null)
+            if (postId != null)
             {
                 link.PostId = (int)postId;
             }

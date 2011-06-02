@@ -167,7 +167,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
         private void BindGroups()
         {
-            ddlGroups.DataSource = Config.ListBlogGroups(false);
+            ddlGroups.DataSource = Repository.ListBlogGroups(false);
             ddlGroups.DataBind();
         }
 
@@ -180,7 +180,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                                                  ? ConfigurationFlags.None
                                                  : ConfigurationFlags.IsActive;
 
-            IPagedCollection<Blog> blogs = Blog.GetBlogs(_pageIndex, resultsPager.PageSize, configFlags);
+            IPagedCollection<Blog> blogs = Repository.GetBlogs(_pageIndex, resultsPager.PageSize, configFlags);
 
             if (blogs.Count > 0)
             {
@@ -220,7 +220,7 @@ namespace Subtext.Web.HostAdmin.UserControls
                 txtUsername.Text = blog.UserName;
                 txtPassword.Text = txtPasswordConfirm.Text = string.Empty;
                 txtTitle.Text = blog.Title;
-                IPagedCollection<BlogAlias> aliases = blog.GetBlogAliases(0, int.MaxValue);
+                IPagedCollection<BlogAlias> aliases = blog.GetBlogAliases(Repository, 0, int.MaxValue);
                 blogAliasListRepeater.DataSource = aliases;
                 blogAliasListRepeater.DataBind();
                 ddlGroups.Items.FindByValue(blog.BlogGroupId.ToString()).Selected = true;
@@ -338,7 +338,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         void SaveNewBlog()
         {
             if (
-                Config.CreateBlog(txtTitle.Text, txtUsername.Text, txtPassword.Text, txtHost.Text, txtApplication.Text,
+                Repository.CreateBlog(txtTitle.Text, txtUsername.Text, txtPassword.Text, txtHost.Text, txtApplication.Text,
                                   Int32.Parse(ddlGroups.SelectedValue)) > 0)
             {
                 messagePanel.ShowMessage(Resources.BlogsEditor_BlogCreated);
@@ -487,7 +487,7 @@ namespace Subtext.Web.HostAdmin.UserControls
         protected void OnItemCommand(object sender, EventArgs e)
         {
             var args = (CommandEventArgs)e;
-            BlogAlias alias = Config.GetBlogAlias(Convert.ToInt32(args.CommandArgument));
+            BlogAlias alias = Repository.GetBlogAlias(Convert.ToInt32(args.CommandArgument));
             if (args.CommandName == "EditAlias")
             {
                 AliasId = alias.Id;
@@ -497,13 +497,13 @@ namespace Subtext.Web.HostAdmin.UserControls
                 txtAliasApplication.Text = alias.Subfolder;
                 cbAliasActive.Checked = alias.IsActive;
 
-                Config.UpdateBlogAlias(alias);
+                Repository.UpdateBlogAlias(alias);
             }
 
             if (args.CommandName == "DeleteAlias")
             {
                 AliasId = NullValue.NullInt32;
-                Config.DeleteBlogAlias(alias);
+                Repository.DeleteBlogAlias(alias);
                 BindEdit();
                 SetAliasEdit(false);
             }
@@ -524,11 +524,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             if (AliasId == NullValue.NullInt32)
             {
-                Config.AddBlogAlias(alias);
+                Repository.AddBlogAlias(alias);
             }
             else
             {
-                Config.UpdateBlogAlias(alias);
+                Repository.UpdateBlogAlias(alias);
             }
 
             AliasId = NullValue.NullInt32;

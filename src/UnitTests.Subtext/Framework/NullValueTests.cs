@@ -11,27 +11,15 @@ namespace UnitTests.Subtext.Framework
     public class NullValueTests
     {
         [Test]
-        public void IsNullReturnsTrueForNullDouble()
-        {
-            Assert.IsTrue(NullValue.IsNull(double.NaN));
-        }
-
-        [Test]
-        public void IsNullReturnsTrueForNullGuid()
-        {
-            Assert.IsTrue(NullValue.IsNull(Guid.Empty));
-        }
-
-        [Test]
         public void IsNullReturnsTrueForNullInt()
         {
-            Assert.IsTrue(NullValue.IsNull(int.MinValue));
+            Assert.IsTrue(int.MinValue.IsNull());
         }
 
         [Test]
         public void IsNullReturnsTrueForNullDateTime()
         {
-            Assert.IsTrue(NullValue.IsNull(DateTime.MinValue));
+            Assert.IsTrue(DateTime.MinValue.IsNull());
         }
     }
 }

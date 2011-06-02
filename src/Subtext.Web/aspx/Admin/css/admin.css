@@ -5,11 +5,11 @@ html, body, form
 
 body
 {
-	background: #fff;
-	color: #333;
-	font-family: "trebuchet ms", "lucida grande", verdana, arial, geneva, lucida, sans-serif;
-	font-size: small;
-	line-height: 1.2em;
+    background: #fff;
+    color: #333;
+    font-family: "trebuchet ms", "lucida grande", verdana, arial, geneva, lucida, sans-serif;
+    font-size: small;
+    line-height: 1.2em;
 }
 
 #container 
@@ -21,11 +21,11 @@ body
 
 #login-status 
 {
-	font-size: .9em;
-	padding: 4px 10px;
-	text-align: right;
-	background-color: #000;
-	color: #bbb;
+    font-size: .9em;
+    padding: 4px 10px;
+    text-align: right;
+    background-color: #000;
+    color: #bbb;
 }
 
 #login-status strong 
@@ -56,45 +56,45 @@ body
 
 #logo
 {
-	background: transparent url(../../../images/SubtextLogo.png);
-	width: 261px;
-	height: 85px;
-	display: block;
-	margin: 10px 0 5px 10px;
-	float: left;
-	position: absolute;
-	top: -8px;
+    background: transparent url(../../../images/SubtextLogo.png);
+    width: 261px;
+    height: 85px;
+    display: block;
+    margin: 10px 0 5px 10px;
+    float: left;
+    position: absolute;
+    top: -8px;
 }
 
 * html #logo
 {
-	background: none;
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../../images/SubtextLogo.png", sizingMethod="crop");
+    background: none;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../../images/SubtextLogo.png", sizingMethod="crop");
 }
 
 #logo a
 {
-	width: 261px;
-	height: 85px;
-	display: block;
-	margin: 0;
-	padding: 0;
+    width: 261px;
+    height: 85px;
+    display: block;
+    margin: 0;
+    padding: 0;
 }
 
 #logo a span
 {
-	display: none;
+    display: none;
 }
 
 h1 
 {
-	font-size: 1.7em;
-	padding-left: 5px;
+    font-size: 1.7em;
+    padding-left: 5px;
 }
 
 h2 
 {
-	font-size: 1.7em;
+    font-size: 1.7em;
 }
 
 h1, h2 
@@ -115,220 +115,220 @@ html>body,
 html>body td, 
 html>body th 
 {
-	font-size: small;
+    font-size: small;
 }
 
 div.Pager  
 {
-	padding-bottom: 4px;
-	margin-bottom: 8px;
-	margin-right: 10px;
-	float: right;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    margin-right: 10px;
+    float: right;
 }
 
 div.Pager div 
 {
-	float: left;
-	margin: 1px 2px 1px 2px;
+    float: left;
+    margin: 1px 2px 1px 2px;
 }
 
 div.Pager a:link, 
 div.Pager a:visited  
 {
-	font-weight: normal;
-	padding: 0px 2px 0px 2px;
-	margin: 1px 2px 1px 2px;
-	float: left;
-	display: block;
-	clear: none;
+    font-weight: normal;
+    padding: 0px 2px 0px 2px;
+    margin: 1px 2px 1px 2px;
+    float: left;
+    display: block;
+    clear: none;
 }
 
 div.Pager a.Current:link, 
 div.Pager a.Current:visited  
 {
-	font-weight: bold;
-	border-top: 1px solid #BBBBBB;
-	border-bottom: 1px solid #BBBBBB;
-	margin: 0px 2px 0px 2px;
+    font-weight: bold;
+    border-top: 1px solid #BBBBBB;
+    border-bottom: 1px solid #BBBBBB;
+    margin: 0px 2px 0px 2px;
 }
 
 a:link, a:visited 
 {
-	color: #002C99;
-	font-weight: bold;
-	text-decoration: none;
-	background: inherit;
+    color: #002C99;
+    font-weight: bold;
+    text-decoration: none;
+    background: inherit;
 }
 
 a:hover 
 {
-	color: #CC0066;
-	text-decoration: underline;
+    color: #CC0066;
+    text-decoration: underline;
 }
 
 a.Button:link,
 a.Button:visited 
 {
-	display: block;
-	float: left;
-	padding: 2px 8px;
-	background: #6B86B3;
-	border: 1px solid #333333;
-	text-transform: uppercase;
-	margin-right: 8px;
-	color: #FFFFFF;
-	font-size: 95%;
-	font-weight: bold;
-	width: 70px;
-	text-align: center;
+    display: block;
+    float: left;
+    padding: 2px 8px;
+    background: #6B86B3;
+    border: 1px solid #333333;
+    text-transform: uppercase;
+    margin-right: 8px;
+    color: #FFFFFF;
+    font-size: 95%;
+    font-weight: bold;
+    width: 70px;
+    text-align: center;
 }
 
 a.RightButton:link,
 a.RightButton:visited 
 {
-	display: block;
-	float: right;
-	padding: 2px 8px;
-	background: #6B86B3;
-	border: 1px solid #333333;
-	text-transform: uppercase;
-	margin-right: 8px;
-	color: #FFFFFF;
-	font-size: 95%;
-	font-weight: bold;
-	width: 70px;
-	text-align: center;
+    display: block;
+    float: right;
+    padding: 2px 8px;
+    background: #6B86B3;
+    border: 1px solid #333333;
+    text-transform: uppercase;
+    margin-right: 8px;
+    color: #FFFFFF;
+    font-size: 95%;
+    font-weight: bold;
+    width: 70px;
+    text-align: center;
 }
 
 html>body a.Button 
 {
-	width: auto;
-	min-width: 70px;
+    width: auto;
+    min-width: 70px;
 }
 
 a.Button:hover 
 {
-	color: #CC0066;
-	text-decoration: underline;
-	background: #FFFFFF;
+    color: #CC0066;
+    text-decoration: underline;
+    background: #FFFFFF;
 }
 
 a.Thumbnail 
 {
-	float: left;
-	display: block;
-	margin: 12px 12px 12px 0px;
-	color: inherit;
-	background-color: #FFF;	
-	border: 1px solid #CCC;
+    float: left;
+    display: block;
+    margin: 12px 12px 12px 0px;
+    color: inherit;
+    background-color: #FFF;	
+    border: 1px solid #CCC;
 }
 
 a.Thumbnail:hover 
 {
-	color: inherit;
-	background-color: #FFECF5;
+    color: inherit;
+    background-color: #FFECF5;
 }
 
 a.Thumbnail IMG 
 {
-	margin: 12px;
-	border: 1px solid #999;	
+    margin: 12px;
+    border: 1px solid #999;	
 }
 
 p.ThumbnailTitle 
 {
-	font-size: 160%;
-	float: left;
-	padding-top: 48px;
-	margin-left: 13%;
+    font-size: 160%;
+    float: left;
+    padding-top: 48px;
+    margin-left: 13%;
 }
 
 p.ThumbnailTitle span 
 {
-	font-size: 60%;
+    font-size: 60%;
 }
 
 p.InlineSubtitle 
 {
-	border-bottom: 1px solid #CCC;
-	font-size: 120%;
-	font-weight: bold;
-	text-transform: uppercase;
-	padding-top: 12px;
+    border-bottom: 1px solid #CCC;
+    font-size: 120%;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-top: 12px;
 }
 
 a.ButtonInline:link,
 a.ButtonInline:visited 
 {
-	display: block;
-	clear: none;
-	padding: 2px 8px;
-	background: #6B86B3;
-	border: 1px solid #333333;
-	margin-right: 8px;
-	color: #FFFFFF;
-	font-size: 90%;
-	font-weight: bold;
-	width: 100px;
-	text-align: center;
+    display: block;
+    clear: none;
+    padding: 2px 8px;
+    background: #6B86B3;
+    border: 1px solid #333333;
+    margin-right: 8px;
+    color: #FFFFFF;
+    font-size: 90%;
+    font-weight: bold;
+    width: 100px;
+    text-align: center;
 }
 
 html>body a.ButtonInline:link,
 html>body a.ButtonInline:visited 
 {
-	float: left;
-	margin-left: 4px;
+    float: left;
+    margin-left: 4px;
 }
 
 a.ButtonInline:hover 
 {
-	color: #CC0066;
-	text-decoration: underline;
-	background: #FFFFFF;
+    color: #CC0066;
+    text-decoration: underline;
+    background: #FFFFFF;
 }
 
 div.Action 
 {
-	color: #333333;
-	border-bottom: 1px dashed #999;
-	margin-bottom: 8px;
-	padding: 8px 12px 0px 12px;
-	background: #EEEEEE;
+    color: #333333;
+    border-bottom: 1px dashed #999;
+    margin-bottom: 8px;
+    padding: 8px 12px 0px 12px;
+    background: #EEEEEE;
 }
 
 div.Dialog 
 {
-	margin-left: auto;
-	margin-right: auto;
-	width: 300px;
-	border: 1px solid #AAAAAA;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    border: 1px solid #AAAAAA;
 }
 
 div.DialogTitle 
 {
-	font-size: 105%;
-	border-bottom: 1px dashed #999;
-	font-weight: bold;
-	color: #333333;
-	width: auto;
-	padding: 2px 12px;
-	clear: left;
-	background: #E5E5E5;
+    font-size: 105%;
+    border-bottom: 1px dashed #999;
+    font-weight: bold;
+    color: #333333;
+    width: auto;
+    padding: 2px 12px;
+    clear: left;
+    background: #E5E5E5;
 }
 
 div.DialogBody 
 {
-	color: #333333;
-	background: #EEEEEE;
-	padding: 12px 12px 2px 12px;
+    color: #333333;
+    background: #EEEEEE;
+    padding: 12px 12px 2px 12px;
 }
 
 #sidebar 
 {
-	width: 160px;
-	float: left;
-	font-size: .9em;
-	margin-left: -170px;
+    width: 160px;
+    float: left;
+    font-size: .9em;
+    margin-left: -170px;
 }
 
 #sidebar ul 
@@ -339,9 +339,9 @@ div.DialogBody
 
 #sidebar ul li a.active
 {
-	font-weight: bold;
-	font-size: larger;
-	text-decoration: none;
+    font-weight: bold;
+    font-size: larger;
+    text-decoration: none;
 }
 
 #content 
@@ -364,7 +364,7 @@ div.DialogBody
 
 #content div.Edit p  
 {
-	margin: 0px 0px 10px 0px;
+    margin: 0px 0px 10px 0px;
 }
 
 body.admin input.textbox
@@ -398,158 +398,158 @@ div#content #enclosure-editor input.othertype
 }
 
 div.Edit a.Toggle {
-	margin: 1px 0px;
-	float: right;
+    margin: 1px 0px;
+    float: right;
 }
 
 div.ImageList {
-	padding-left: 12px;
-	padding-bottom: 18%;
+    padding-left: 12px;
+    padding-bottom: 18%;
 }
 
 div.ImageThumbnail {
-	float: left;
-	margin-top: 12px;
-	margin-right: 12px;
-	color: #333333;
-	background: #F5F5F5;
-	border: 1px solid #ddd;
-	width: 144px;
-	height: 180px;
-	text-align: center;
-	vertical-align: bottom;
-	overflow: hidden;
+    float: left;
+    margin-top: 12px;
+    margin-right: 12px;
+    color: #333333;
+    background: #F5F5F5;
+    border: 1px solid #ddd;
+    width: 144px;
+    height: 180px;
+    text-align: center;
+    vertical-align: bottom;
+    overflow: hidden;
 }
 
 div.ImageThumbnail IMG {
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-	border: 1px solid #999;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border: 1px solid #999;
 }
 
 div.ImageThumbnail div.ImageThumbnailImage {
-	margin-top: 12px;
-	margin-bottom: 8px;
+    margin-top: 12px;
+    margin-bottom: 8px;
 }
 
 div.ImageThumbnail div.ImageThumbnailTitle {
-	font-size: 83%;
-	margin: 0px 12px 8px 12px;
+    font-size: 83%;
+    margin: 0px 12px 8px 12px;
 }
 
 iframe {
-	border: 1px solid #999;
+    border: 1px solid #999;
 }
 
 div#content div.Edit p.Label,
 div.MessagePanel {
-	color: #333333;
-	background: #EEEEEE;
-	border: 1px dashed #ccc;
-	padding: 12px;
-	font-weight: bold;
+    color: #333333;
+    background: #EEEEEE;
+    border: 1px dashed #ccc;
+    padding: 12px;
+    font-weight: bold;
 }
 
 div.ErrorPanel {
-	color: #660033;
-	background: #FFFFCC;
-	border: 1px dashed #DBDB64;
-	padding: 12px;
-	font-weight: bold;
+    color: #660033;
+    background: #FFFFCC;
+    border: 1px dashed #DBDB64;
+    padding: 12px;
+    font-weight: bold;
 }
 
 div.ErrorPanel img,
 div.MessagePanel img {
-	float: left;
+    float: left;
 }
 
 div.ErrorPanel DIV,
 div.MessagePanel DIV {
-	margin-top: 8px;
-	margin-bottom: 8px;
-	margin-left: 44px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-left: 44px;
 }
 
 div#content div.Edit p.ValueLabel {
-	font-weight: bold;
-	color: #000;
-	margin: 2px 0px 8px 0px;
-	background: inherit;
+    font-weight: bold;
+    color: #000;
+    margin: 2px 0px 8px 0px;
+    background: inherit;
 }
 
 div, ul {
-	border: 0;
+    border: 0;
 }
 
 img {
-	border: 0;
+    border: 0;
 }
 
 span.BreadcrumbLabel {
-	color: #666699;
-	background: inherit;
+    color: #666699;
+    background: inherit;
 }
 
 table.listing 
 {
     width: 100%;
-	border-bottom: 3px solid #6B86B3;
-	margin-bottom: 8px;
+    border-bottom: 3px solid #6B86B3;
+    margin-bottom: 8px;
 }
 
 div.CollapsibleHeader 
 {
-	color: #333333;
-	background: #cacbcd;
-	border-bottom: 1px dashed #999;
-	border-top: 1px solid #999999;
-	font-size: 120%;
-	font-weight: bold;
-	text-transform: uppercase;
-	padding: 2px 12px;
-	margin: 12px 0px 0px 0px;
+    color: #333333;
+    background: #cacbcd;
+    border-bottom: 1px dashed #999;
+    border-top: 1px solid #999999;
+    font-size: 120%;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 2px 12px;
+    margin: 12px 0px 0px 0px;
 }
 
 div.CollapsibleTitle {
-	font-size: 105%;
-	background: #CACBCD;
-	border-top: 1px solid #aaa;
-	border-bottom: 1px dashed #999;
-	font-weight: bold;
-	color: #333333;
-	width: auto;
-	padding: 2px 12px;
-	margin: 12px 0px 0px 0px;
-	clear: left;
+    font-size: 105%;
+    background: #CACBCD;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px dashed #999;
+    font-weight: bold;
+    color: #333333;
+    width: auto;
+    padding: 2px 12px;
+    margin: 12px 0px 0px 0px;
+    clear: left;
 }
 
 table.listing td
 {
-	border-bottom: solid 1px #e6e6e6;
+    border-bottom: solid 1px #e6e6e6;
 }
 
 table.listing td, 
 table.listing th,
 table.listing caption, 
 h2 {
-	padding: 4px 12px 4px 12px;
-	text-align: left;
+    padding: 4px 12px 4px 12px;
+    text-align: left;
 }
 
 table.listing th,
 table.listing td.Header,
 table.listing tr.Header td {
-	font-weight: bold;
-	color: inherit;
-	border-bottom: 1px solid #6B86B3;
-	background: #FFFFFF;
+    font-weight: bold;
+    color: inherit;
+    border-bottom: 1px solid #6B86B3;
+    background: #FFFFFF;
 }
 
 table.listing tr.alt, table.listing tr.even
 {
-	color: inherit;
-	background: #fff;
+    color: inherit;
+    background: #fff;
 }
 
 #breadcrumb {
@@ -559,17 +559,17 @@ table.listing tr.alt, table.listing tr.even
 /*--------- {Used to highlight table listings} ------------*/
 table.highlightTable tr.highlight.even td
 {
-	background: #fefeee;
+    background: #fefeee;
 }
 
 table.highlightTable tr.highlight.odd td
 {
-	background: #f6f6d5;
+    background: #f6f6d5;
 }
 
 .gridHeader
 {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #tabs 
@@ -609,15 +609,15 @@ body.Links li#LinksTab,
 body.Galleries li.galleryTab,
 body.Stats li#StatsTab,
 body.Options li#OptionsTab {
-	background-color: #fff;
-	-moz-border-radius-topleft: 4px;
-	-khtml-border-top-left-radius: 4px;
-	-webkit-border-top-left-radius: 4px;
-	border-top-left-radius: 4px;
-	-moz-border-radius-topright: 4px;
-	-khtml-border-top-right-radius: 4px;
-	-webkit-border-top-right-radius: 4px;
-	border-top-right-radius: 4px;
+    background-color: #fff;
+    -moz-border-radius-topleft: 4px;
+    -khtml-border-top-left-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    -khtml-border-top-right-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 body.dashboard li#dashboardTab a,
@@ -628,7 +628,7 @@ body.Links li#LinksTab a,
 body.Galleries #tabs li.galleryTab a,
 body.Stats li#StatsTab a,
 body.Options li#OptionsTab a {
-	color: #000;
+    color: #000;
 }
 
 #main {
@@ -638,108 +638,108 @@ body.Options li#OptionsTab a {
 
 .error
 {
-	color: #c00;
+    color: #c00;
 }
 
 div.errorPage
 {
-	padding: 4px; 
-	border: 1px solid #CCC; 
-	width: 500px;
-	background: #fff;
+    padding: 4px; 
+    border: 1px solid #CCC; 
+    width: 500px;
+    background: #fff;
 }
 
 div.errorPage h2
 {
-	color: #660033;
-	background: #FFFFCC;
-	border: 1px dashed #DBDB64;
+    color: #660033;
+    background: #FFFFCC;
+    border: 1px dashed #DBDB64;
 }
 
 div.errorPage div
 {
-	padding: 4px; 
-	background: #eee;
-	margin-top: 24px; 
-	margin-bottom: 48px;
-	border: 1px solid #CCC; 
+    padding: 4px; 
+    background: #eee;
+    margin-top: 24px; 
+    margin-bottom: 48px;
+    border: 1px solid #CCC; 
 }
 
 div.errorPage strong
 {
-	margin: 0;
+    margin: 0;
 }
 
 /* Feedback table */
 #feedback th
 {
-	color: #004;
-	vertical-align: baseline;
-	padding: 5px;
+    color: #004;
+    vertical-align: baseline;
+    padding: 5px;
 }
 
 #feedback td
 {
-	padding: 4px;
+    padding: 4px;
 }
 
 #feedback th.icons, #feedback td.icons
 {
-	text-align: right;
-	margin: 0;
-	padding: 0;
+    text-align: right;
+    margin: 0;
+    padding: 0;
 }
 
 #feedback td img
 {
-	width: 16px;
-	height: 17px;
-	display: inline;
-	margin-left: 4px;
-	vertical-align: bottom;
-	margin-top: 2px;
+    width: 16px;
+    height: 17px;
+    display: inline;
+    margin-left: 4px;
+    vertical-align: bottom;
+    margin-top: 2px;
 }
 
 #feedback td img.email
 {
-	width: 16px;
-	height: 17px;
+    width: 16px;
+    height: 17px;
 }
 
 #feedback tr.heading td 
 {
-	border-bottom: solid 1px #efefef;
-	white-space: nowrap;
+    border-bottom: solid 1px #efefef;
+    white-space: nowrap;
 }
 
 #feedback tr.body td
 {
-	padding-bottom: 8px;
-	border-top: solid 1px #eee;
-	border-bottom: solid 1px #d0d0d0;
+    padding-bottom: 8px;
+    border-top: solid 1px #eee;
+    border-bottom: solid 1px #d0d0d0;
 }
 
 body #feedback tr.heading.undoable td 
 {
-	border-bottom: none;
+    border-bottom: none;
 }
 
 body #feedback tr.body.undoable td
 {
-	border-top: none;
-	border-left: none;
-	border-bottom: solid 1px #ccc;
+    border-top: none;
+    border-left: none;
+    border-bottom: solid 1px #ccc;
 }
 
 body #feedback tr.body.undoable td:first-child
 {
-	border-left: solid 2px #ccc;
+    border-left: solid 2px #ccc;
 }
 
 #feedback-filter
 {
-	float: right;
-	margin: 1px 10px 0 0;
+    float: right;
+    margin: 1px 10px 0 0;
 }
 
 #feedback-filter select
@@ -749,11 +749,11 @@ body #feedback tr.body.undoable td:first-child
 
 a.active
 {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 fieldset {
-	margin: 4px 0 8px 0;
+    margin: 4px 0 8px 0;
 }
 
 fieldset select {
@@ -763,9 +763,9 @@ fieldset select {
 
 div.options, fieldset.options
 {
-	width: 350px; 
-	float: left;
-	margin-right: 10px;
+    width: 350px; 
+    float: left;
+    margin-right: 10px;
 }
 
 div.options label {
@@ -774,17 +774,17 @@ div.options label {
 
 div.wide, fieldset.wide
 {
-	width: 460px;
+    width: 460px;
 }
 
 #editPost .textbox
 {
-	width: 697px;
+    width: 697px;
 }
 
 fieldset select.timezonelist
 {
-	font-size: .8em;	
+    font-size: .8em;	
 }
 
 .clear { clear: both; }
@@ -801,23 +801,23 @@ fieldset select.timezonelist
 #dynamic-table tr.new,
 #dynamic-table tr.updated
 {
-	font-weight:bold;
-	background-color: #FFFF66;
+    font-weight:bold;
+    background-color: #FFFF66;
 }
 
 #dynamic-table th,
 #dynamic-table td
 {
-	width:24%;
+    width:24%;
 }
 
 #dynamic-content button
 {
     border: none;
-	margin-right: .5em;
-	padding-right: 20px;
-	color: #00c;
-	cursor: pointer;
+    margin-right: .5em;
+    padding-right: 20px;
+    color: #00c;
+    cursor: pointer;
 }
 
 #dynamic-content button:hover
@@ -828,17 +828,17 @@ fieldset select.timezonelist
 
 #dynamic-content .dynamic-add
 {
-	background: transparent url(../../../Images/icons/tag_blue_add.png) no-repeat scroll right center;
+    background: transparent url(../../../Images/icons/tag_blue_add.png) no-repeat scroll right center;
 }
 
 #dynamic-content .dynamic-edit
 {
-	background: transparent url(../../../Images/icons/tag_blue_edit.png) no-repeat scroll right center;
+    background: transparent url(../../../Images/icons/tag_blue_edit.png) no-repeat scroll right center;
 }
 
 #dynamic-content .dynamic-delete
 {
-	background: transparent url(../../../Images/icons/tag_blue_delete.png) no-repeat scroll right center;
+    background: transparent url(../../../Images/icons/tag_blue_delete.png) no-repeat scroll right center;
 }
 
 #dynamic-content .dynamic-save
@@ -848,12 +848,12 @@ fieldset select.timezonelist
 
 #dynamic-content .dynamic-cancel
 {
-	background: transparent url(../../../Images/icons/cross.png) no-repeat scroll right center;
+    background: transparent url(../../../Images/icons/cross.png) no-repeat scroll right center;
 }
 
 div.button-row
 {
-	clear: both;
+    clear: both;
 }
 
 div.button-div 
@@ -864,71 +864,71 @@ div.button-div
 /*-------------{table styles}--------------*/
 table tr.header
 {
-	background-color: #ffc;
+    background-color: #ffc;
 }
 
 table.log
 {
-	border: solid 1px #ddd;
+    border: solid 1px #ddd;
 }
 
 table.log .pre-header input, table.log .pre-header label
 {
-	float: left;
+    float: left;
 }
 
 table.log .pre-header input.button
 {
-	float: right;
+    float: right;
 }
 
 table.log th.logger
 {
-	width: 200px;
+    width: 200px;
 }
 
 table.log tr
 {
-	vertical-align: top;
+    vertical-align: top;
 }
 
 table.log td, table.log th
 {
-	font-size: .8em;
-	padding: 5px;
-	text-align: left;
+    font-size: .8em;
+    padding: 5px;
+    text-align: left;
 }
 
 table.log td, table.log th
 {
-	border: solid 1px #eee;
+    border: solid 1px #eee;
 }
 
 table.log td.date
 {
-	font-size: smaller;
+    font-size: smaller;
 }
 
 table tr.alt
 {
-	color: inherit;
-	background: #ffffef;
+    color: inherit;
+    background: #ffffef;
 }
 
 table tr
 {
-	color: inherit;
-	background: #fff;
+    color: inherit;
+    background: #fff;
 }
 
 table tr.selected
 {
-	background-color: #e7f4fe;
+    background-color: #e7f4fe;
 }
 
 table.users-table td, table.users-table th
 {
-	font-size: 1.1em;
+    font-size: 1.1em;
 }
 
 select.wide-dropdown
@@ -948,23 +948,23 @@ select.number
 
 #configure-form textarea.textarea
 {
-	width: 708px;
-	float: left;
-	margin-bottom: 10px;
+    width: 708px;
+    float: left;
+    margin-bottom: 10px;
 }
 
 #configure-form .options div
 {
-	margin-top: 4px;
-	padding: 5px 0;	
+    margin-top: 4px;
+    padding: 5px 0;	
 }
 
 #configure-form .options div label
 {
-	font-size: 1.2em;
-	font-weight: normal;
-	font-family: calibri, verdana, Arial, helvetica;
-	margin-left: 6px;
+    font-size: 1.2em;
+    font-weight: normal;
+    font-family: calibri, verdana, Arial, helvetica;
+    margin-left: 6px;
 }
 
 #configure-form .options div label, 
@@ -972,9 +972,9 @@ select.number
 #configure-form .options div a, 
 #configure-form .options span.checkbox
 {
-	float: none;
-	clear: none;
-	display: inline;
+    float: none;
+    clear: none;
+    display: inline;
 }
 
 #stylesheetTest {
@@ -1076,22 +1076,22 @@ body #entry-editor table.checkbox label
 
 .xfnListOption
 {
-	display: inline !important;
-	width: 80%;
+    display: inline !important;
+    width: 80%;
 }
 
 .xfnTitleCol
 {
-	width: 90px !important;
-	float: left;
+    width: 90px !important;
+    float: left;
 }
 
 #xfnRelations
 {
-	background-color: #E4E9F3;
-	padding: 10px;
-	margin: 10px 0 0 0;
-	-moz-border-radius: 10px;
+    background-color: #E4E9F3;
+    padding: 10px;
+    margin: 10px 0 0 0;
+    -moz-border-radius: 10px;
 }
 
 #skin-selector hr {
@@ -1136,104 +1136,104 @@ div.skin-selection label {
 
 div.preferences div
 {
-	margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 div.preferences div label 
 {
-	font-size: 1.2em;
-	padding-left: 4px;
-	width: 300px;
-	display: inline-block;
+    font-size: 1.2em;
+    padding-left: 4px;
+    width: 300px;
+    display: inline-block;
 }
 
 div.actions 
 {
-	margin-top: 8px;
-	margin-bottom: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 div.actions ul li a, ul.categoriesList li a, ul.folders li a
 {
-	font-size: 1.4em;
-	font-weight: normal;
-	font-family: Calibri;
-	line-height: 1.2em;
+    font-size: 1.4em;
+    font-weight: normal;
+    font-family: Calibri;
+    line-height: 1.2em;
 }
 
 :focus {
-	 outline: thin dotted invert;
+     outline: thin dotted invert;
 }
 
 .example 
 {
-	font-style: italic;
+    font-style: italic;
 }
 
 .explanation
 {
-	margin: 0 0 10px 0;
-	width: 600px;
+    margin: 0 0 10px 0;
+    width: 600px;
 }
 
 div.notice 
 {
-	display: none;
-	text-indent: 15px;
-	font-weight: bold;
-	font-size: 1.5em;
-	color: #040;
-	padding: 10px;
+    display: none;
+    text-indent: 15px;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #040;
+    padding: 10px;
 }
 
 div.notice.success
 {
-	background: #e8ffe0 url(../../../images/icons/accept.png) no-repeat scroll 5px center;
-	border: 1px solid #a0dc11;
+    background: #e8ffe0 url(../../../images/icons/accept.png) no-repeat scroll 5px center;
+    border: 1px solid #a0dc11;
 }
 
 div.notice.error
 {
-	border:1px solid #ff5757;
-	color: #600;
-	background: #feefee url(../../../images/icons/exclamation.png) no-repeat scroll 5px center;
+    border:1px solid #ff5757;
+    color: #600;
+    background: #feefee url(../../../images/icons/exclamation.png) no-repeat scroll 5px center;
 }
 
 div.notice.warn,
 div.notice.info
 {
-	border:1px solid #b2b347;
-	background: #ffff66 url(../../../images/icons/error.png) no-repeat scroll left center;
+    border:1px solid #b2b347;
+    background: #ffff66 url(../../../images/icons/error.png) no-repeat scroll left center;
 }
 
 
 .skinOption div.notice 
 {
-	position: absolute; 
-	top: 0; 
-	left: 0;
-	height: 20px;
-	width: 345px;
+    position: absolute; 
+    top: 0; 
+    left: 0;
+    height: 20px;
+    width: 345px;
 }
 
 .skinOption input 
 {
-	margin-left: -26px;	
+    margin-left: -26px;	
 }
 
 /* Undo */
 tr.undoable 
 {
-	display: none;
+    display: none;
 }
 
 tr.undoable td, tr.undoable td:hover
 {
-	border-top: solid 2px #bbb;
-	border-left: solid 2px #ccc;
-	border-bottom: solid 1px #ccc;
-	background-color: #e0e0e0;
-	color: #777;
+    border-top: solid 2px #bbb;
+    border-left: solid 2px #ccc;
+    border-bottom: solid 1px #ccc;
+    background-color: #e0e0e0;
+    color: #777;
 }
 
 .undoable .summary 
@@ -1243,89 +1243,96 @@ tr.undoable td, tr.undoable td:hover
 
 .undoable .undo, .undoable .undo:hover 
 {
-	padding: 8px;
+    padding: 8px;
     border-left: none;	
 }
 
 .undoable strong.subject
 {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 .undoable ul.horizontal 
 {
-	margin-right: 5px;
+    margin-right: 5px;
 }
 
 .undoable ul.horizontal li 
 {
-	border-left: solid 1px #444;
-	padding-left: 8px;
-	padding-left: 2px;
+    border-left: solid 1px #444;
+    padding-left: 8px;
+    padding-left: 2px;
 }
 
 .undoable ul.horizontal li:first-child
 {
-	border-left: none;
+    border-left: none;
 }
 
-.undoable a, .actions a, .undo a, .categoriesList a
+.undoable a, .actions a, .undo a, .categoriesList a, .folders li a
 {
-	-moz-border-radius: 4px;
-	-khtml-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	padding: 4px 4px 4px 18px;
-	border: solid 1px transparent;
+    -moz-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 4px 4px 4px 22px;
+    border: solid 1px transparent;
 }
 
-.undoable a:hover, .actions a:hover, .undo a:hover, .categoriesList a:hover
+.undoable a:hover, .actions a:hover, .undo a:hover, .folders li a:hover, .categoriesList a:hover
 {
-	border-top: solid 1px #ddd;
-	border-right: solid 1px #aaa;
-	border-bottom: solid 1px #aaa;
-	border-left: solid 1px #ddd;
-	background-color: #eee;
+    border-top: solid 1px #ddd;
+    border-right: solid 1px #aaa;
+    border-bottom: solid 1px #aaa;
+    border-left: solid 1px #ddd;
+    background-color: #eee;
 }
 
-.actions a, .categoriesList a
+#sidebar .actions a, .categoriesList a, .folders li a
 {
-    padding: 2px 5px;
+    padding: 1px 8px;
+    margin-left: 4px;
     display: block;
+}
+
+.folders li span.count 
+{
+    text-decoration: none;
+    color: #000;
 }
 
 a.Deleted 
 {
-	background: transparent url(../../../images/icons/cross.png) no-repeat center left;
+    background: transparent url(../../../images/icons/cross.png) no-repeat center left 4px;
 }
-
 a.destroy
+
 {
-	background: transparent url(../../../images/icons/exclamation-red.png) no-repeat center left;
+    background: transparent url(../../../images/icons/exclamation-red.png) no-repeat center left 4px;
 }
 
 a.FlaggedAsSpam 
 {
-	background: transparent url(../../../images/icons/spam_16x16.png) no-repeat center left;
+    background: transparent url(../../../images/icons/spam_16x16.png) no-repeat center left 4px;
 }
 
 a.Approved 
 {
-	background: transparent url(../../../images/icons/tick-circle.png) no-repeat center left;
+    background: transparent url(../../../images/icons/tick-circle.png) no-repeat center left 4px;
 }
 
 .undo a 
 {
-	background: transparent url(../../../images/icons/eraser.png) no-repeat center left;
+    background: transparent url(../../../images/icons/eraser.png) no-repeat center left 4px;
 }
 
 a.edit
 {
-	background: transparent url(../../../images/icons/edit.gif) no-repeat center left;
+    background: transparent url(../../../images/icons/edit.gif) no-repeat center left 4px;
 }
 
 a.reply
 {
-	background: transparent url(../../../images/icons/mail-reply.png) no-repeat center left;
+    background: transparent url(../../../images/icons/mail-reply.png) no-repeat center left 4px;
 }
 
 table.author-details

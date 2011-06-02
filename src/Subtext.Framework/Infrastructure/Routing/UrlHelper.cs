@@ -112,7 +112,7 @@ namespace Subtext.Framework.Routing
                 throw new ArgumentException(Resources.Argument_EntryMustHaveValidPostType, "entry");
             }
 
-            if (NullValue.IsNull(entry.Id))
+            if (entry.Id.IsNull())
             {
                 return null;
             }

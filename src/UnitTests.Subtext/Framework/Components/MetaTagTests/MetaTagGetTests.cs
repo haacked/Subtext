@@ -58,8 +58,8 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         {
             blog = UnitTestHelper.CreateBlogAndSetupContext();
 
-            InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.Now, blog.Id, null);
-            InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, null);
+            InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.UtcNow, blog.Id, null);
+            InsertNewMetaTag("no-cache", null, "cache-control", DateTime.UtcNow, blog.Id, null);
 
             ICollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
 
@@ -76,14 +76,14 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
                                                                        "Steve is still rockin it... or is he?");
             UnitTestHelper.Create(e);
 
-            InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.Now, blog.Id, null);
-            InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, null);
+            InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.UtcNow, blog.Id, null);
+            InsertNewMetaTag("no-cache", null, "cache-control", DateTime.UtcNow, blog.Id, null);
 
             // insert a few entry specific tags
-            InsertNewMetaTag("Yet Another MetaTag", "author", null, DateTime.Now, blog.Id, e.Id);
-            InsertNewMetaTag("One more for good measure", "description", null, DateTime.Now, blog.Id, e.Id);
-            InsertNewMetaTag("no-cache", null, "cache-control", DateTime.Now, blog.Id, e.Id);
-            InsertNewMetaTag("Mon, 22 Jul 2022 11:12:01 GMT", null, "expires", DateTime.Now, blog.Id, e.Id);
+            InsertNewMetaTag("Yet Another MetaTag", "author", null, DateTime.UtcNow, blog.Id, e.Id);
+            InsertNewMetaTag("One more for good measure", "description", null, DateTime.UtcNow, blog.Id, e.Id);
+            InsertNewMetaTag("no-cache", null, "cache-control", DateTime.UtcNow, blog.Id, e.Id);
+            InsertNewMetaTag("Mon, 22 Jul 2022 11:12:01 GMT", null, "expires", DateTime.UtcNow, blog.Id, e.Id);
 
             ICollection<MetaTag> tags = MetaTags.GetMetaTagsForEntry(e, 0, 100);
 
@@ -97,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             metaTag.Content = content;
             metaTag.Name = nameValue;
             metaTag.HttpEquiv = httpEquivValue;
-            metaTag.DateCreated = created;
+            metaTag.DateCreatedUtc = created;
             metaTag.BlogId = blogId;
             metaTag.EntryId = entryId;
             ObjectProvider.Instance().Create(metaTag);

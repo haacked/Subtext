@@ -5,8 +5,8 @@ using System.Linq;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Extensibility;
+using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Data
@@ -14,16 +14,16 @@ namespace UnitTests.Subtext.Framework.Data
     [TestFixture]
     public class RepositoryExtensionsTests
     {
-        [Test]
+        [Test] //TODO Review
         public void GroupByDayUsingDateCreated_WithEntriesOnMultipleDays_GroupsEntriesByDay()
         {
             // arrange
             var entries = new List<Entry>
             {
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/23 12:34", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="First Entry"},
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/23 09:54", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="Second Entry"},
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Third Entry"},
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/25", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Fourth Entry"}
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/23 12:34", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="First Entry"},
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/23 09:54", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="Second Entry"},
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Third Entry"},
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/25", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Fourth Entry"}
             };
 
             // act
@@ -47,10 +47,10 @@ namespace UnitTests.Subtext.Framework.Data
             // arrange
             var entries = new List<Entry>
             {
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/23 12:34", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="First Entry"},
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/23 09:54", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="Second Entry"},
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Third Entry"},
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/25", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Fourth Entry"}
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/23 12:34", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="First Entry"},
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/23 09:54", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="Second Entry"},
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Third Entry"},
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/25", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Fourth Entry"}
             };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntries(10, PostType.BlogPost, PostConfig.None, false)).Returns(entries);
@@ -70,16 +70,16 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual("Fourth Entry", thirdDay[0].Title);
         }
 
-        [Test]
+        [Test] //todo review
         public void GetBlogPostsByCategoryGroupedByDay_GroupsPostsByDateCreated()
         {
             // arrange
             var entries = new List<Entry>
             {
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/23 12:34", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="First Entry"},
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/23 09:54", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="Second Entry"},
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Third Entry"},
-                new Entry(PostType.BlogPost) {DateSyndicated = DateTime.ParseExact("2008/01/25", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Fourth Entry"}
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/23 12:34", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="First Entry"},
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/23 09:54", "yyyy/MM/dd hh:mm", CultureInfo.InvariantCulture), Title="Second Entry"},
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Third Entry"},
+                new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/25", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Fourth Entry"}
             };
             var repository = new Mock<ObjectProvider>();
             repository.Setup(r => r.GetEntriesByCategory(10, 1, true)).Returns(entries);

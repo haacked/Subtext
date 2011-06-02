@@ -114,6 +114,16 @@ namespace Subtext.Framework.UI.Skinning
                 var control = Container.LoadControl(controlPath);
                 return new SkinControlLoadResult(controlPath, control, null);
             }
+            catch (HttpParseException hpe)
+            {
+                var control = GetErrorControl(new SkinControlLoadException(Resources.SkinControlLoadException_Message, controlPath, hpe));
+                return new SkinControlLoadResult(controlPath, control, null);
+            }
+            catch (HttpCompileException hce)
+            {
+                var control = GetErrorControl(new SkinControlLoadException(Resources.SkinControlLoadException_Message, controlPath, hce));
+                return new SkinControlLoadResult(controlPath, control, null);
+            }
             catch (Exception e)
             {
                 return new SkinControlLoadResult(controlPath, null, e);

@@ -24,16 +24,19 @@ using Subtext.Framework.Routing;
 
 namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 {
-    public class Uploader : FredCK.FCKeditorV2.Uploader, ISubtextHandler
+    public class Uploader : FredCK.FCKeditorV2.Uploader, ISubtextDependencies
     {
-        #region ISubtextHandler Members
-
         [Inject]
         public ISubtextContext SubtextContext { get; set; }
 
         public BlogUrlHelper Url
         {
             get { return SubtextContext.UrlHelper; }
+        }
+
+        public Blog Blog
+        {
+            get { return SubtextContext.Blog; }
         }
 
         public ObjectProvider Repository
@@ -45,8 +48,6 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
         {
             get { return new AdminUrlHelper(Url); }
         }
-
-        #endregion
 
         protected override void OnInit(EventArgs e)
         {

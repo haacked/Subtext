@@ -126,14 +126,11 @@ namespace Subtext.Framework.XmlRpc
                 entry.PostType = PostType.BlogPost;
 
                 //User trying to change future dating.
-                if (publish && post.dateCreated != null &&
-                   Blog.TimeZone.IsInFuture(post.dateCreated.Value, TimeZoneInfo.Utc))
+                if (publish && post.dateCreated != null && post.dateCreated > DateTime.UtcNow)
                 {
-                    entry.DateSyndicated = post.dateCreated.Value;
+                    entry.DatePublishedUtc = post.dateCreated.Value;
                 }
                 entry.IsActive = publish;
-
-                entry.DateModified = Blog.TimeZone.Now;
 
                 EntryPublisher.Publish(entry);
 
@@ -177,7 +174,7 @@ namespace Subtext.Framework.XmlRpc
                 link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
                 description = entry.Body,
                 excerpt = entry.Description ?? string.Empty,
-                dateCreated = entry.DateCreated,
+                dateCreated = entry.DateCreatedUtc,
                 postid = entry.Id,
                 title = entry.Title,
                 permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
@@ -213,7 +210,7 @@ namespace Subtext.Framework.XmlRpc
             IEnumerable<Post> posts = from entry in entries
                                       select new Post
                                       {
-                                          dateCreated = entry.DateCreated,
+                                          dateCreated = entry.DateCreatedUtc,
                                           description = entry.Body,
                                           excerpt = entry.Description,
                                           link = Url.EntryUrl(entry),
@@ -329,7 +326,7 @@ namespace Subtext.Framework.XmlRpc
                 Description = category.name
             };
 
-            newCategory.Id = Links.CreateLinkCategory(newCategory);
+            newCategory.Id = Repository.CreateLinkCategory(newCategory);
 
             return newCategory.Id;
         }
@@ -367,7 +364,6 @@ namespace Subtext.Framework.XmlRpc
                     entry.EntryName = content.wp_slug;
                 }
 
-                entry.DateModified = Blog.TimeZone.Now;
                 EntryPublisher.Publish(entry);
             }
             return Convert.ToInt32(page_id, CultureInfo.InvariantCulture);
@@ -381,7 +377,7 @@ namespace Subtext.Framework.XmlRpc
             IEnumerable<Post> posts = from entry in entries
                                       select new Post
                                       {
-                                          dateCreated = entry.DateCreated,
+                                          dateCreated = entry.DateCreatedUtc,
                                           description = entry.Body,
                                           excerpt = entry.Description ?? string.Empty,
                                           link = Url.EntryUrl(entry),
@@ -415,7 +411,7 @@ namespace Subtext.Framework.XmlRpc
                 link = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
                 description = entry.Body,
                 excerpt = entry.Description ?? string.Empty,
-                dateCreated = entry.DateCreated,
+                dateCreated = entry.DateCreatedUtc,
                 postid = entry.Id,
                 title = entry.Title,
                 permalink = Url.EntryUrl(entry).ToFullyQualifiedUrl(Blog).ToString(),
@@ -481,14 +477,11 @@ namespace Subtext.Framework.XmlRpc
             entry.AllowComments = true;
             entry.DisplayOnHomePage = true;
 
-            DateTime dateTimeInPost = post.dateCreated != null ? post.dateCreated.Value : DateTime.UtcNow;
-            // Store in the blog's timezone
-            dateTimeInPost = Blog.TimeZone.FromUtc(dateTimeInPost);
+            DateTime dateTimeInPostUtc = post.dateCreated != null ? post.dateCreated.Value : DateTime.UtcNow;
 
-            entry.DateCreated = entry.DateModified = Blog.TimeZone.Now;
             if (publish)
             {
-                entry.DateSyndicated = dateTimeInPost;
+                entry.DatePublishedUtc = dateTimeInPostUtc;
             }
 
             entry.IncludeInMainSyndication = true;

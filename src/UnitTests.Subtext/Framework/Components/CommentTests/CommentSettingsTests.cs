@@ -1,6 +1,7 @@
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
@@ -13,9 +14,10 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         {
             // arrange
             var service = new Mock<ICommentSpamService>().Object;
+
             // act, assert
             UnitTestHelper.AssertThrowsArgumentNullException(() =>
-                FeedbackItem.Approve(null, service));
+                new DatabaseObjectProvider().Approve(null, service));
         }
     }
 }
