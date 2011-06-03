@@ -19,6 +19,7 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Properties;
@@ -32,7 +33,50 @@ namespace Subtext.Framework
     /// </summary>
     public sealed class HostInfo
     {
-        private static HostInfo _instance;
+        private static Lazy<HostInfo> _instance = new Lazy<HostInfo>(EnsureHostInfo);
+
+        private static HostInfo EnsureHostInfo()
+        {
+            var repository = DependencyResolver.Current.GetService<ObjectProvider>();
+            var hostInfo = LoadHostInfoFromDatabase(repository, suppressException: true);
+            if (hostInfo != null)
+            {
+                hostInfo.BlogAggregationEnabled =
+                        String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true",
+                                      StringComparison.OrdinalIgnoreCase);
+                if (hostInfo.BlogAggregationEnabled)
+                {
+                    hostInfo.Initialize();
+                }
+            }
+            if (hostInfo == null)
+            {
+                _instance = new Lazy<HostInfo>(EnsureHostInfo);
+            }
+            return null;
+        }
+
+        public static HostInfo LoadHostInfoFromDatabase(ObjectProvider repository, bool suppressException)
+        {
+            try
+            {
+                return repository.LoadHostInfo(new HostInfo());
+            }
+            catch (SqlException e)
+            {
+                // LoadHostInfo now executes the stored proc subtext_GetHost, instead of checking the table subtext_Host 
+                if (e.Message.IndexOf("Invalid object name 'subtext_Host'") >= 0
+                    || e.Message.IndexOf("Could not find stored procedure 'subtext_GetHost'") >= 0)
+                {
+                    if (suppressException)
+                    {
+                        return null;
+                    }
+                    throw new HostDataDoesNotExistException();
+                }
+                throw;
+            }
+        }
 
         /// <summary>
         /// Returns an instance of <see cref="HostInfo"/> used to 
@@ -43,39 +87,7 @@ namespace Subtext.Framework
         {
             get
             {
-                // no lock singleton.
-                HostInfo instance = _instance;
-                if (instance == null)
-                {
-                    instance = LoadHost(true);
-                    // the next line might overwrite a HostInfo created by another thread,
-                    // but if it does, it'll only happen once and it's not so bad. I'll measure it to be sure. 
-                    // -phil Jan 18, 2009
-                    _instance = instance;
-                }
-                return _instance;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the HostInfo table exists.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if host info table exists; otherwise, <c>false</c>.
-        /// </value>
-        public static bool HostInfoTableExists
-        {
-            get
-            {
-                try
-                {
-                    LoadHost(false);
-                    return true;
-                }
-                catch (HostDataDoesNotExistException)
-                {
-                    return false;
-                }
+                return _instance.Value;
             }
         }
 
@@ -112,55 +124,15 @@ namespace Subtext.Framework
         public Blog AggregateBlog { get; set; }
 
         /// <summary>
-        /// Loads the host from the Object Provider. This is provided for 
-        /// those cases when we really need to hit the data strore. Calling this
-        /// method will also reload the HostInfo.Instance from the data store.
-        /// </summary>
-        /// <param name="suppressException">If true, won't throw an exception.</param>
-        /// <returns></returns>
-        public static HostInfo LoadHost(bool suppressException)
-        {
-            try
-            {
-                _instance = ObjectProvider.Instance().LoadHostInfo(new HostInfo());
-                if (_instance != null)
-                {
-                    _instance.BlogAggregationEnabled =
-                        String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true",
-                                      StringComparison.OrdinalIgnoreCase);
-                    if (_instance.BlogAggregationEnabled)
-                    {
-                        InitAggregateBlog(_instance);
-                    }
-                }
-                return _instance;
-            }
-            catch (SqlException e)
-            {
-                // LoadHostInfo now executes the stored proc subtext_GetHost, instead of checking the table subtext_Host 
-                if (e.Message.IndexOf("Invalid object name 'subtext_Host'") >= 0 ||
-                   e.Message.IndexOf("Could not find stored procedure 'subtext_GetHost'") >= 0)
-                {
-                    if (suppressException)
-                    {
-                        return null;
-                    }
-                    throw new HostDataDoesNotExistException();
-                }
-                throw;
-            }
-        }
-
-        /// <summary>
         /// Updates the host in the persistent store.
         /// </summary>
         /// <param name="host">Host.</param>
         /// <returns></returns>
-        public static bool UpdateHost(HostInfo host)
+        public static bool UpdateHost(ObjectProvider repository, HostInfo host)
         {
-            if (ObjectProvider.Instance().UpdateHost(host))
+            if (repository.UpdateHost(host))
             {
-                _instance = host;
+                _instance = new Lazy<HostInfo>(() => host);
                 return true;
             }
             return false;
@@ -170,7 +142,7 @@ namespace Subtext.Framework
         /// Creates the host in the persistent store.
         /// </summary>
         /// <returns></returns>
-        public static bool CreateHost(string hostUserName, string hostPassword, string email)
+        public static bool CreateHost(ObjectProvider repository, string hostUserName, string hostPassword, string email)
         {
             if (Instance != null)
             {
@@ -180,8 +152,8 @@ namespace Subtext.Framework
             var host = new HostInfo { HostUserName = hostUserName, Email = email };
 
             SetHostPassword(host, hostPassword);
-            _instance = host;
-            return UpdateHost(host);
+            _instance = new Lazy<HostInfo>(() => host);
+            return repository.UpdateHost(host);
         }
 
         public static void SetHostPassword(HostInfo host, string newPassword)
@@ -198,7 +170,7 @@ namespace Subtext.Framework
             }
         }
 
-        private static void InitAggregateBlog(HostInfo hostInfo)
+        private void Initialize()
         {
             string aggregateHost = ConfigurationManager.AppSettings["AggregateUrl"];
             if (aggregateHost == null)
@@ -225,11 +197,8 @@ namespace Subtext.Framework
             };
             //TODO: blog.MobileSkin = ...
 
-            if (hostInfo != null)
-            {
-                blog.UserName = hostInfo.HostUserName;
-                hostInfo.AggregateBlog = blog;
-            }
+            blog.UserName = HostUserName;
+            AggregateBlog = blog;
         }
 
         public static SkinConfig GetAggregateSkin()

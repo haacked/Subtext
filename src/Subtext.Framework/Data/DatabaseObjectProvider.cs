@@ -171,20 +171,37 @@ namespace Subtext.Framework.Data
             return _procedures.DeleteMetaTag(metaTagId);
         }
 
-        public override int Create(Enclosure enclosure)
+        public override void Create(Enclosure enclosure)
         {
-            return _procedures.InsertEnclosure(enclosure.Title ?? string.Empty,
+            if (enclosure == null)
+            {
+                throw new ArgumentNullException("enclosure");
+            }
+            if (!enclosure.IsValid)
+            {
+                throw new ArgumentException(enclosure.ValidationMessage);
+            }
+            int enclosureId = _procedures.InsertEnclosure(enclosure.Title ?? string.Empty,
                                                enclosure.Url,
                                                enclosure.MimeType,
                                                enclosure.Size,
                                                enclosure.AddToFeed,
                                                enclosure.ShowWithPost,
                                                enclosure.EntryId);
+            enclosure.Id = enclosureId;
         }
 
-        public override bool Update(Enclosure enclosure)
+        public override void Update(Enclosure enclosure)
         {
-            return _procedures.UpdateEnclosure(enclosure.Title,
+            if (enclosure == null)
+            {
+                throw new ArgumentNullException("enclosure");
+            }
+            if (!enclosure.IsValid)
+            {
+                throw new ArgumentException(enclosure.ValidationMessage);
+            }
+            _procedures.UpdateEnclosure(enclosure.Title,
                                                enclosure.Url,
                                                enclosure.MimeType,
                                                enclosure.Size,
@@ -194,9 +211,9 @@ namespace Subtext.Framework.Data
                                                enclosure.Id);
         }
 
-        public override bool DeleteEnclosure(int enclosureId)
+        public override void DeleteEnclosure(int enclosureId)
         {
-            return _procedures.DeleteEnclosure(enclosureId);
+            _procedures.DeleteEnclosure(enclosureId);
         }
 
         public override KeyWord GetKeyWord(int keyWordId)

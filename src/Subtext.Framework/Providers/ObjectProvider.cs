@@ -400,10 +400,10 @@ namespace Subtext.Framework.Providers
         /// </summary>
         /// <param name="enclosure"></param>
         /// <returns>Id of the enclosure created</returns>
-        public abstract int Create(Enclosure enclosure);
+        public abstract void Create(Enclosure enclosure);
 
-        public abstract bool Update(Enclosure metaTag);
-        public abstract bool DeleteEnclosure(int enclosureId);
+        public abstract void Update(Enclosure metaTag);
+        public abstract void DeleteEnclosure(int enclosureId);
 
         public abstract KeyWord GetKeyWord(int id);
         public abstract ICollection<KeyWord> GetKeyWords();

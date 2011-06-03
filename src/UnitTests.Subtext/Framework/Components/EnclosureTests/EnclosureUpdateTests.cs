@@ -19,7 +19,6 @@ using System;
 using MbUnit.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
@@ -35,6 +34,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         public void CanUpdateEnclosure(string title, string url, string mimetype, long size, bool addToFeed,
                                        bool showWithPost)
         {
+            // Arrange
             UnitTestHelper.SetupBlog(string.Empty);
             var repository = new DatabaseObjectProvider();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
@@ -57,10 +57,11 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             int randomSize = new Random().Next(10, 100);
             enc.Size = size + randomSize;
 
-            Assert.IsTrue(repository.Update(enc), "Should have updated the Enclosure");
+            // Act
+            repository.Update(enc);
 
-            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, true, false);
-
+            // Assert
+            Entry newEntry = repository.GetEntry(entryId, true, false);
             UnitTestHelper.AssertEnclosures(enc, newEntry.Enclosure);
         }
 

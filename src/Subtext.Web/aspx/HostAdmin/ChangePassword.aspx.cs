@@ -40,7 +40,7 @@ namespace Subtext.Web.HostAdmin
             if (Page.IsValid)
             {
                 HostInfo.SetHostPassword(HostInfo.Instance, txtNewPassword.Text);
-                HostInfo.UpdateHost(HostInfo.Instance);
+                HostInfo.UpdateHost(Repository, HostInfo.Instance);
                 lblSuccess.Visible = true;
             }
         }
@@ -49,7 +49,7 @@ namespace Subtext.Web.HostAdmin
         {
             emailChangedLabel.Visible = true;
             HostInfo.Instance.Email = txtEmail.Text;
-            HostInfo.UpdateHost(HostInfo.Instance);
+            HostInfo.UpdateHost(Repository, HostInfo.Instance);
         }
 
         private void ValidatePassword(object source, ServerValidateEventArgs args)

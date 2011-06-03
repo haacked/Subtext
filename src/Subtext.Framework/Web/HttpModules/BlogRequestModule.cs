@@ -20,12 +20,14 @@ using System.Web;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 
-namespace Subtext.Framework.Web.HttpModules {
+namespace Subtext.Framework.Web.HttpModules
+{
     /// <summary>
     /// Examines incoming http requests and adds Subtext specific as well as blog 
     /// specific information to the context.
     /// </summary>
-    public class BlogRequestModule : IHttpModule {
+    public class BlogRequestModule : IHttpModule
+    {
         public BlogRequestModule()
             : this(new BlogLookupService(ObjectProvider.Instance(), HostInfo.Instance))
         {

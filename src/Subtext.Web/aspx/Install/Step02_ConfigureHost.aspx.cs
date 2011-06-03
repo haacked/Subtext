@@ -68,7 +68,7 @@ namespace Subtext.Web.Install
                 string email = txtEmail.Text;
 
                 // Create the HostInfo record.
-                if (HostInfo.CreateHost(userName, password, email))
+                if (HostInfo.CreateHost(Repository, userName, password, email))
                 {
                     if (Repository.GetBlogCount() == 0)
                     {

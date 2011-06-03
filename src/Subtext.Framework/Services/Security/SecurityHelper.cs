@@ -176,6 +176,7 @@ namespace Subtext.Framework.Security
         /// <returns></returns>
         public static bool AuthenticateHostAdmin(string username, string password, bool persist)
         {
+            var repository = ObjectProvider.Instance();
             if (!String.Equals(username, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
@@ -439,9 +440,10 @@ namespace Subtext.Framework.Security
 
         public static void UpdateHostAdminPassword(string password)
         {
+            var repository = ObjectProvider.Instance();
             HostInfo hostInfo = HostInfo.Instance;
             hostInfo.Password = Config.Settings.UseHashedPasswords ? HashPassword(password, HostInfo.Instance.Salt) : password;
-            HostInfo.UpdateHost(hostInfo);
+            HostInfo.UpdateHost(ObjectProvider.Instance(), hostInfo);
         }
 
         public static string ResetHostAdminPassword()

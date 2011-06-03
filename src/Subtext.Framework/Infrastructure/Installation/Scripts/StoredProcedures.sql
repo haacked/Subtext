@@ -3836,7 +3836,7 @@ Updates the Host information.
 */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateHost]
     @HostUserName NVARCHAR(64)
-    , @Email NVARCHAR(256)
+    , @Email NVARCHAR(256) = NULL
     , @Password NVARCHAR(32)
     , @Salt NVARCHAR(32)
 AS
