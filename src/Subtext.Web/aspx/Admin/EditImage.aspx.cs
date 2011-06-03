@@ -161,7 +161,7 @@ namespace Subtext.Web.Admin.Pages
 
                 try
                 {
-                    Images.UpdateImage(_image);
+                    Repository.Update(_image);
 
                     // would need to also move files for this to work here. should happen
                     // in the provider though.
@@ -190,7 +190,7 @@ namespace Subtext.Web.Admin.Pages
                     _image.FileName = Path.GetFileName(ImageFile.PostedFile.FileName);
                     _image.Url = Url.ImageGalleryDirectoryUrl(Blog, _image.CategoryID);
                     _image.LocalDirectoryPath = Url.GalleryDirectoryPath(Blog, _image.CategoryID);
-                    Images.Update(_image, ImageFile.PostedFile.GetFileStream());
+                    Repository.Update(_image, ImageFile.PostedFile.GetFileStream());
 
                     Messages.ShowMessage(Resources.EditGalleries_ImageUpdated);
                     BindImage();

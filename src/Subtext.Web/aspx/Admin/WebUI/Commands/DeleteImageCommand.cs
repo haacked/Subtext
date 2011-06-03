@@ -20,18 +20,19 @@ using System.Globalization;
 using System.IO;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.Commands
 {
     [Serializable]
     public class DeleteImageCommand : DeleteTitledTargetCommand
     {
-        public DeleteImageCommand(Image image, string galleryDirectoryPath)
-            : this(galleryDirectoryPath, image, "Image " + image.ImageID.ToString(CultureInfo.InvariantCulture))
+        public DeleteImageCommand(ObjectProvider repository, Image image, string galleryDirectoryPath)
+            : this(repository, galleryDirectoryPath, image, "Image " + image.ImageID.ToString(CultureInfo.InvariantCulture))
         {
         }
 
-        public DeleteImageCommand(string galleryDirectoryPath, Image image, string imageTitle)
+        public DeleteImageCommand(ObjectProvider repository, string galleryDirectoryPath, Image image, string imageTitle)
         {
             GalleryDirectoryPath = galleryDirectoryPath;
             _targetName = "Image";
@@ -39,6 +40,7 @@ namespace Subtext.Web.Admin.Commands
             Image = image;
         }
 
+        protected ObjectProvider Repository { get; private set; }
         public string GalleryDirectoryPath { get; private set; }
         public Image Image { get; private set; }
 
@@ -53,7 +55,7 @@ namespace Subtext.Web.Admin.Commands
                 // data without exception. I'll do the files locally until we decide to really
                 // do the framework class
 
-                Images.DeleteImage(currentImage);
+                Repository.Delete(currentImage);
 
 
                 // now delete the associated files if they exist

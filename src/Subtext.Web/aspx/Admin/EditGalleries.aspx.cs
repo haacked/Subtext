@@ -100,7 +100,7 @@ namespace Subtext.Web.Admin.Pages
         {
             CategoryId = galleryId;
             LinkCategory selectedGallery = SubtextContext.Repository.GetLinkCategory(galleryId, false);
-            ICollection<Image> imageList = Images.GetImagesByCategoryId(galleryId, false);
+            ICollection<Image> imageList = Repository.GetImagesByCategory(galleryId, false);
 
             plhImageHeader.Controls.Clear();
             if (selectedGallery != null)
@@ -278,13 +278,13 @@ namespace Subtext.Web.Admin.Pages
                         // If it exists, update it
                         if (File.Exists(image.OriginalFilePath))
                         {
-                            Images.Update(image, fileData);
+                            Repository.Update(image, fileData);
                             updatedFiles.Add(entry.FileName);
                         }
                         else
                         {
                             // Attempt insertion as a new image
-                            int imageId = Images.InsertImage(image, fileData);
+                            int imageId = Repository.Insert(image, fileData);
                             if (imageId > 0)
                             {
                                 goodFiles.Add(entry.FileName);
@@ -392,7 +392,7 @@ namespace Subtext.Web.Admin.Pages
                         return;
                     }
 
-                    int imageId = Images.InsertImage(image, ImageFile.PostedFile.GetFileStream());
+                    int imageId = Repository.Insert(image, ImageFile.PostedFile.GetFileStream());
                     if (imageId > 0)
                     {
                         Messages.ShowMessage(Resources.EditGalleries_ImageAdded);
@@ -419,7 +419,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void DeleteGallery(int categoryId, string categoryTitle)
         {
-            var command = new DeleteGalleryCommand(SubtextContext.HttpContext.Server, Url.ImageGalleryDirectoryUrl(Blog, categoryId), categoryId,
+            var command = new DeleteGalleryCommand(Repository, SubtextContext.HttpContext.Server, Url.ImageGalleryDirectoryUrl(Blog, categoryId), categoryId,
                                                    categoryTitle)
             {
                 ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Gallery '{0}' deleted",
@@ -435,7 +435,7 @@ namespace Subtext.Web.Admin.Pages
 
             string galleryDirectoryPath = SubtextContext.HttpContext.Server.MapPath(Url.ImageGalleryDirectoryUrl(Blog, image.CategoryID));
 
-            var command = new DeleteImageCommand(image, galleryDirectoryPath)
+            var command = new DeleteImageCommand(Repository, image, galleryDirectoryPath)
             {
                 ExecuteSuccessMessage = string.Format(CultureInfo.CurrentCulture, "Image '{0}' deleted",
                                                       image.OriginalFile)
