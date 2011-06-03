@@ -16,26 +16,29 @@
 #endregion
 
 using System;
-using Subtext.Framework;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.Commands
 {
     [Serializable]
     public sealed class DeleteLinkCommand : DeleteTitledTargetCommand
     {
-        public DeleteLinkCommand(int linkId, string linkTitle)
+        public DeleteLinkCommand(ObjectProvider repository, int linkId, string linkTitle)
         {
             AutoRedirect = true;
             _targetName = "Link";
             _targetID = linkId;
             itemTitle = linkTitle;
+            Repository = repository;
         }
+
+        public ObjectProvider Repository { get; private set; }
 
         public override string Execute()
         {
             try
             {
-                Links.DeleteLink(_targetID);
+                Repository.DeleteLink(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
             catch (Exception ex)

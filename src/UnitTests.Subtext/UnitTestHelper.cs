@@ -442,7 +442,7 @@ namespace UnitTests.Subtext
             return entry;
         }
 
-        public static Link CreateLinkInDb(int categoryId, string title, int? entryId, string rel)
+        public static Link CreateLinkInDb(ObjectProvider repository, int categoryId, string title, int? entryId, string rel)
         {
             var link = new Link
             {
@@ -457,7 +457,7 @@ namespace UnitTests.Subtext
             {
                 link.PostId = (int)entryId;
             }
-            link.Id = Links.CreateLink(link);
+            link.Id = repository.CreateLink(link);
             return link;
         }
 

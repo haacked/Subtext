@@ -223,12 +223,12 @@ namespace Subtext.Web.UI.Controls
             }
         }
 
-        private static void BindPostCategories(RepeaterItemEventArgs e, IIdentifiable entry)
+        private void BindPostCategories(RepeaterItemEventArgs e, IIdentifiable entry)
         {
             var postCategories = (PostCategoryList)e.Item.FindControl("Categories");
             if (postCategories != null)
             {
-                postCategories.LinkCategories = Links.GetLinkCategoriesByPostId(entry.Id);
+                postCategories.LinkCategories = Repository.GetLinkCategoriesByPostId(entry.Id);
                 postCategories.DataBind();
             }
         }

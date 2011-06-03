@@ -437,11 +437,11 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 
         #region Post Type Handler
 
-        private static void GetCategories(XmlNode connectorNode, string currentFolder)
+        private void GetCategories(XmlNode connectorNode, string currentFolder)
         {
             if (currentFolder.Equals("/"))
             {
-                ICollection<LinkCategory> catList = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+                ICollection<LinkCategory> catList = Repository.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 
                 // Create the "Folders" node.
                 XmlNode oFoldersNode = XmlUtil.AppendElement(connectorNode, "Folders");

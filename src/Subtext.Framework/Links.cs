@@ -26,16 +26,16 @@ namespace Subtext.Framework
     /// </summary>
     public static class Links
     {
-        public static ICollection<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
+        public static ICollection<LinkCategory> GetCategories(this ObjectProvider repository, CategoryType catType, ActiveFilter status)
         {
-            return ObjectProvider.Instance().GetCategories(catType, status == ActiveFilter.ActiveOnly);
+            return repository.GetCategories(catType, status == ActiveFilter.ActiveOnly);
         }
 
-        public static ICollection<LinkCategory> GetLinkCategoriesByPostId(int postId)
+        public static ICollection<LinkCategory> GetLinkCategoriesByPostId(this ObjectProvider repository, int postId)
         {
-            var links = new List<Link>(ObjectProvider.Instance().GetLinkCollectionByPostId(postId));
+            var links = new List<Link>(repository.GetLinkCollectionByPostId(postId));
             ICollection<LinkCategory> postCategories =
-                ObjectProvider.Instance().GetCategories(CategoryType.PostCollection, true /* activeOnly */);
+                repository.GetCategories(CategoryType.PostCollection, true /* activeOnly */);
             var categories = new LinkCategory[postCategories.Count];
             postCategories.CopyTo(categories, 0);
 
@@ -48,27 +48,6 @@ namespace Subtext.Framework
                 }
             }
             return postCategories;
-        }
-
-        public static int CreateLink(Link link)
-        {
-            return ObjectProvider.Instance().CreateLink(link);
-        }
-
-        public static int CreateLinkCategory(this ObjectProvider repository, LinkCategory lc)
-        {
-            lc.Id = repository.CreateLinkCategory(lc);
-            return lc.Id;
-        }
-
-        public static bool DeleteLinkCategory(int categoryId)
-        {
-            return ObjectProvider.Instance().DeleteLinkCategory(categoryId);
-        }
-
-        public static bool DeleteLink(int linkId)
-        {
-            return ObjectProvider.Instance().DeleteLink(linkId);
         }
     }
 
