@@ -37,7 +37,7 @@ namespace Subtext.Web.UI.Controls
 
         protected ICollection<LinkCategory> GetArchiveCategories(Blog blog)
         {
-            return new List<LinkCategory> { UIHelpers.Links(CategoryType.StoryCollection, blog, Url) };
+            return new List<LinkCategory> { Repository.Links(CategoryType.StoryCollection, blog, Url) };
         }
     }
 }
