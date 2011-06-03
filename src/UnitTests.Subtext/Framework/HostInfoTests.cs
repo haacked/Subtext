@@ -16,28 +16,56 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Web.Mvc;
 using MbUnit.Framework;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework
 {
     [TestFixture]
     public class HostInfoTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            DependencyResolver.SetResolver(new TestDependencyResolver());
+        }
+
+        private class TestDependencyResolver : IDependencyResolver
+        {
+            public object GetService(Type serviceType)
+            {
+                if (serviceType == typeof(ObjectProvider))
+                {
+                    return new DatabaseObjectProvider();
+                }
+                return null;
+            }
+
+            public IEnumerable<object> GetServices(Type serviceType)
+            {
+                return null;
+            }
+        }
+
         [Test]
         [RollBack2]
         public void CanLoadHost()
         {
+            var repository = new DatabaseObjectProvider();
             SqlHelper.ExecuteNonQuery(Config.ConnectionString, CommandType.Text, "DELETE subtext_Host");
 
-            HostInfo.LoadHost(false);
+            HostInfo.LoadHostInfoFromDatabase(repository, suppressException: false);
 
             Assert.IsNull(HostInfo.Instance, "HostInfo should be Null");
 
-            HostInfo.CreateHost("test", "test", "email@example.com");
+            HostInfo.CreateHost(repository, "test", "test", "email@example.com");
 
             Assert.IsNotNull(HostInfo.Instance, "Host should not be null.");
         }
@@ -46,6 +74,7 @@ namespace UnitTests.Subtext.Framework
         [RollBack2]
         public void CanUpdateHost()
         {
+            var repository = new DatabaseObjectProvider();
             EnsureHost();
             HostInfo host = HostInfo.Instance;
             Assert.IsNotNull(host, "Host should not be null.");
@@ -54,9 +83,9 @@ namespace UnitTests.Subtext.Framework
             host.Password = "password2";
             host.Salt = "salt2";
 
-            HostInfo.UpdateHost(host);
+            HostInfo.UpdateHost(repository, host);
 
-            host = HostInfo.LoadHost(false);
+            host = HostInfo.LoadHostInfoFromDatabase(repository, false);
             Assert.AreEqual("test2", host.HostUserName, "Username wasn't changed.");
         }
 
@@ -65,6 +94,7 @@ namespace UnitTests.Subtext.Framework
         public void CanCorrectlyStored()
         {
             //init
+            var repository = new DatabaseObjectProvider();
             EnsureHost();
             HostInfo host = HostInfo.Instance;
             Assert.IsNotNull(host, "Host should not be null.");
@@ -73,10 +103,10 @@ namespace UnitTests.Subtext.Framework
             host.Password = "password3";
             host.Salt = "salt3";
 
-            HostInfo.UpdateHost(host);
+            HostInfo.UpdateHost(repository, host);
 
             //act
-            host = HostInfo.LoadHost(false);
+            host = HostInfo.LoadHostInfoFromDatabase(repository, false);
 
             //post
             Assert.AreEqual("test3", host.HostUserName, "User name has not been correctly stored.");
@@ -88,13 +118,14 @@ namespace UnitTests.Subtext.Framework
         {
             try
             {
-                HostInfo host = HostInfo.LoadHost(true);
-                if(host == null)
+                var repository = new DatabaseObjectProvider();
+                HostInfo host = HostInfo.LoadHostInfoFromDatabase(repository, true);
+                if (host == null)
                 {
-                    HostInfo.CreateHost("test", "test", "test@example.com");
+                    HostInfo.CreateHost(repository, "test", "test", "test@example.com");
                 }
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 //Ignore.
             }

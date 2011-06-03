@@ -80,7 +80,7 @@ namespace Subtext.Web.Install
                     break;
 
                 default:
-                    HostInfo info = HostInfo.LoadHost(true /* suppressException */);
+                    HostInfo info = HostInfo.LoadHostInfoFromDatabase(repository, true /* suppressException */);
                     int blogCount = repository.GetBlogCount();
 
                     if (info == null)

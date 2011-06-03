@@ -82,6 +82,5 @@ namespace Subtext.Framework
         {
             return repository.GetPagedBlogs(null, pageIndex, pageSize, flags);
         }
-
     }
 }

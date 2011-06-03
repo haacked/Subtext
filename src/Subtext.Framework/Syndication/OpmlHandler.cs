@@ -23,7 +23,8 @@ namespace Subtext.Framework.Syndication
 {
     public class OpmlHandler : SubtextHttpHandler
     {
-        public OpmlHandler(ISubtextContext subtextContext, OpmlWriter writer) : base(subtextContext)
+        public OpmlHandler(ISubtextContext subtextContext, OpmlWriter writer)
+            : base(subtextContext)
         {
             OpmlWriter = writer;
         }
@@ -41,12 +42,12 @@ namespace Subtext.Framework.Syndication
             response.ContentType = "text/xml";
 
             IEnumerable<Blog> blogs = null;
-            if(!hostInfo.BlogAggregationEnabled)
+            if (!hostInfo.BlogAggregationEnabled)
             {
                 Blog blog = SubtextContext.Blog;
-                if(blog != null)
+                if (blog != null)
                 {
-                    blogs = new[] {blog};
+                    blogs = new[] { blog };
                 }
             }
             else
@@ -62,10 +63,10 @@ namespace Subtext.Framework.Syndication
         {
             int? groupId = null;
             string groupIdText = request.QueryString["GroupID"];
-            if(groupIdText != null)
+            if (groupIdText != null)
             {
                 int parsedGroupId;
-                if(int.TryParse(groupIdText, out parsedGroupId))
+                if (int.TryParse(groupIdText, out parsedGroupId))
                 {
                     groupId = parsedGroupId;
                 }

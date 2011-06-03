@@ -42,7 +42,7 @@ namespace Subtext.Framework.Services
             {
                 if (_host == null)
                 {
-                    _host = HostInfo.LoadHost(true);
+                    _host = HostInfo.Instance;
                 }
                 return _host;
             }

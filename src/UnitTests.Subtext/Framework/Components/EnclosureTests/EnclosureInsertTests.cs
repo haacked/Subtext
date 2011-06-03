@@ -74,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
         [Test]
         [RollBack2]
-        public void EntryWithNoenclosureHasNullAsEnclosure()
+        public void EntryWithNoEnclosureHasNullAsEnclosure()
         {
             UnitTestHelper.SetupBlog();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
