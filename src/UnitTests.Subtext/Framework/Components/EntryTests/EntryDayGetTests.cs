@@ -27,6 +27,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -36,10 +37,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [SetUp]
         public void Setup()
         {
+            var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
+            repository.CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, string.Empty);
         }
 
         [Test]
@@ -47,6 +49,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetSingleDayReturnsDayWithEnclosure()
         {
             //Create some entries.
+            var repository = new DatabaseObjectProvider();
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
             Thread.Sleep(100);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
@@ -61,10 +64,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //Get EntryDay
-            EntryDay entries = ObjectProvider.Instance().GetEntryDay(DateTime.UtcNow);
+            EntryDay entries = repository.GetEntryDay(DateTime.UtcNow);
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
@@ -190,14 +193,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsTrue(entryZero.DateCreatedUtc < entryOne.DateCreatedUtc);
             Assert.IsTrue(entryOne.DateCreatedUtc < entryTwo.DateCreatedUtc);
             Assert.IsTrue(entryTwo.DateCreatedUtc < entryThree.DateCreatedUtc);
+            var repository = new DatabaseObjectProvider();
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.IsActive).ToList();
+            ICollection<EntryDay> entryList = repository.GetBlogPostsForHomePage(10, PostConfig.IsActive).ToList();
 
             Collection<Entry> entries = entryList.First();
             //Test outcome
@@ -235,11 +239,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryOne);
             UnitTestHelper.Create(entryTwo);
             UnitTestHelper.Create(entryThree);
+            var repository = new DatabaseObjectProvider();
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //Get EntryDay
             ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.DisplayOnHomepage | PostConfig.IsActive).ToList();
@@ -293,14 +298,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryOne);
             UnitTestHelper.Create(entryTwo);
             UnitTestHelper.Create(entryThree);
+            var repository = new DatabaseObjectProvider();
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsByCategoryGroupedByDay(10, categoryId).ToList();
+            ICollection<EntryDay> entryList = repository.GetBlogPostsByCategoryGroupedByDay(10, categoryId).ToList();
 
             var days = new EntryDay[2];
             entryList.CopyTo(days, 0);
@@ -338,11 +344,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryOne);
             UnitTestHelper.Create(entryTwo);
             UnitTestHelper.Create(entryThree);
+            var repository = new DatabaseObjectProvider();
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //Get EntryDay
             //ICollection<EntryDay> entryList = Entries.GetPostsByMonth(DateTime.UtcNow.Month, DateTime.Now.Year);

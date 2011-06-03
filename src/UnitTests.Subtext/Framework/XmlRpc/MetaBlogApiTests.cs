@@ -8,6 +8,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
@@ -447,11 +448,12 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;
+            var repository = new DatabaseObjectProvider();
 
             FrameworkEnclosure enc =
                 UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
                                               enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
             Assert.AreEqual(4, posts.Length, "Expected 4 posts");
@@ -474,10 +476,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         public void GetPages_WithNumberOfPosts_ReturnsPostsInPages()
         {
             //arrange
+            var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "");
+            repository.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, "");
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<BlogUrlHelper>();
@@ -485,7 +488,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
@@ -548,7 +551,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             FrameworkEnclosure enc =
                 UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
                                               enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //act
             posts = api.getPages(Config.CurrentBlog.Id.ToString(), "username", "password", 2);
@@ -569,10 +572,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         public void GetPost_WithEntryId_ReturnsPostWithCorrectEntryUrl()
         {
             //arrange
+            var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "");
+            repository.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, "");
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<BlogUrlHelper>();
@@ -580,7 +584,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
@@ -607,7 +611,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             FrameworkEnclosure enc =
                 UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
                                               enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //act
             Post post = api.getPost(entryId.ToString(), "username", "password");
@@ -627,10 +631,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         public void GetPage_ReturnsPostWithhCorrectEntrUrl()
         {
             //arrange
+            var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "");
+            repository.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, "");
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             var urlHelper = new Mock<BlogUrlHelper>();
@@ -638,7 +643,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
             //TODO: FIX!!!
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             subtextContext.Setup(c => c.ServiceLocator).Returns(new Mock<IDependencyResolver>().Object);
             subtextContext.Setup(c => c.UrlHelper).Returns(urlHelper.Object);
 
@@ -662,10 +667,11 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;
 
+
             FrameworkEnclosure enc =
                 UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
                                               enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //act
             Post post = api.getPage(Config.CurrentBlog.Id.ToString(), entryId.ToString(), "username", "password");

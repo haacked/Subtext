@@ -23,7 +23,7 @@ namespace Subtext.Framework
 {
     public static class Enclosures
     {
-        public static int Create(Enclosure enclosure)
+        public static int Create(this ObjectProvider repository, Enclosure enclosure)
         {
             if (enclosure == null)
             {
@@ -35,7 +35,7 @@ namespace Subtext.Framework
                 throw new ArgumentException(enclosure.ValidationMessage);
             }
 
-            enclosure.Id = ObjectProvider.Instance().Create(enclosure);
+            enclosure.Id = repository.Create(enclosure);
 
             return enclosure.Id;
         }

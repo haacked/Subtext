@@ -17,8 +17,8 @@
 
 using System;
 using MbUnit.Framework;
-using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
@@ -38,14 +38,15 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
                                        bool showWithPost, string errMsg)
         {
             UnitTestHelper.SetupBlog();
+            var repository = new DatabaseObjectProvider();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
                                                                        "Listen to my great podcast");
             int entryId = UnitTestHelper.Create(e);
             Enclosure enc = UnitTestHelper.BuildEnclosure(title, url, mimetype, entryId, size, addToFeed, showWithPost);
 
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
-            Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, true, false);
+            Entry newEntry = repository.GetEntry(entryId, true, false);
 
             Assert.IsNotNull(newEntry.Enclosure, errMsg);
 
@@ -55,18 +56,20 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         [Test]
         public void Create_WithNullEnclosure_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => Enclosures.Create(null));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Create((Enclosure)null));
         }
 
         [Test]
         public void Create_WithInvalidEntry_ThrowsArgumentException()
         {
             // arrange
-            var enclosure = new Enclosure{ EntryId = 0};
+            var repository = new DatabaseObjectProvider();
+            var enclosure = new Enclosure { EntryId = 0 };
 
             // act, assert
             Assert.IsFalse(enclosure.IsValid);
-            UnitTestHelper.AssertThrows<ArgumentException>(() => Enclosures.Create(enclosure));
+            UnitTestHelper.AssertThrows<ArgumentException>(() => repository.Create(enclosure));
         }
 
         [Test]
@@ -82,5 +85,5 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 
             Assert.IsNull(newEntry.Enclosure, "enclosure must be null");
         }
-   }
+    }
 }

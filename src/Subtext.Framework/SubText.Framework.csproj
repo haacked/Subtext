@@ -357,7 +357,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DictionaryExtensions.cs" />
-    <Compile Include="Enclosures.cs" />
     <Compile Include="Entries.cs">
       <SubType>Code</SubType>
     </Compile>

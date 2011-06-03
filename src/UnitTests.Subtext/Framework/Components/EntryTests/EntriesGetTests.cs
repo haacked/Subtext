@@ -21,7 +21,6 @@ using System.Linq;
 using System.Threading;
 using MbUnit.Framework;
 using Subtext.Extensibility;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
@@ -36,10 +35,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         [SetUp]
         public void Setup()
         {
+            var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "");
+            repository.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "", "");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, string.Empty);
         }
 
         [Test]
@@ -71,13 +71,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryZero);
             UnitTestHelper.Create(entryOne);
             UnitTestHelper.Create(entryTwo);
+            var repository = new DatabaseObjectProvider();
 
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //Get Entries
-            ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(3, PostType.BlogPost, PostConfig.IsActive, true);
+            ICollection<Entry> entries = repository.GetEntries(3, PostType.BlogPost, PostConfig.IsActive, true);
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");
@@ -106,18 +107,18 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
             UnitTestHelper.Create(entryZero);
             UnitTestHelper.Create(entryOne);
-
+            var repository = new DatabaseObjectProvider();
 
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             var tags = new List<string>(new[] { "Tag1", "Tag2" });
             new DatabaseObjectProvider().SetEntryTagList(entryZero.Id, tags);
             new DatabaseObjectProvider().SetEntryTagList(entryOne.Id, tags);
 
 
-            ICollection<Entry> entries = ObjectProvider.Instance().GetEntriesByTag(3, "Tag1");
+            ICollection<Entry> entries = repository.GetEntriesByTag(3, "Tag1");
 
             //Test outcome
             Assert.AreEqual(2, entries.Count, "Should have retrieved two entries.");
@@ -155,14 +156,15 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryZero);
             UnitTestHelper.Create(entryOne);
             UnitTestHelper.Create(entryTwo);
+            var repository = new DatabaseObjectProvider();
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //Get Entries
-            ICollection<Entry> entries = ObjectProvider.Instance().GetEntriesByCategory(3, categoryId, true);
+            ICollection<Entry> entries = repository.GetEntriesByCategory(3, categoryId, true);
 
 
             //Test outcome
@@ -195,11 +197,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryZero);
             UnitTestHelper.Create(entryOne);
             UnitTestHelper.Create(entryTwo);
+            var repository = new DatabaseObjectProvider();
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
 
             //Get Entries
@@ -237,11 +240,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryZero);
             UnitTestHelper.Create(entryOne);
             UnitTestHelper.Create(entryTwo);
+            var repository = new DatabaseObjectProvider();
 
             //Add Enclosure
             Enclosure enc = UnitTestHelper.BuildEnclosure("Nothing to see here.", "httP://blablabla.com", "audio/mp3",
                                                           entryZero.Id, 12345678, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             //Get Entries
             ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByMonth(DateTime.UtcNow.Month, DateTime.UtcNow.Year);
