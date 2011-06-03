@@ -17,8 +17,8 @@
 
 using System;
 using MbUnit.Framework;
-using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
@@ -36,17 +36,18 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
                                        bool showWithPost)
         {
             UnitTestHelper.SetupBlog(string.Empty);
+            var repository = new DatabaseObjectProvider();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Simone Chiaretta", "Post for testing Enclosures",
                                                                        "Listen to my great podcast");
             int entryId = UnitTestHelper.Create(e);
             Enclosure enc = UnitTestHelper.BuildEnclosure(title, url, mimetype, entryId, size, addToFeed, showWithPost);
 
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             string randomStr = UnitTestHelper.GenerateUniqueString().Left(20);
             enc.Url = url + randomStr;
 
-            if(!string.IsNullOrEmpty(title))
+            if (!string.IsNullOrEmpty(title))
             {
                 enc.Title = title + randomStr;
             }
@@ -56,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             int randomSize = new Random().Next(10, 100);
             enc.Size = size + randomSize;
 
-            Assert.IsTrue(Enclosures.Update(enc), "Should have updated the Enclosure");
+            Assert.IsTrue(repository.Update(enc), "Should have updated the Enclosure");
 
             Entry newEntry = ObjectProvider.Instance().GetEntry(entryId, true, false);
 
@@ -67,18 +68,20 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
         public void Update_WithInvalidEnclosure_ThrowsArgumentException()
         {
             // arrange
-            var enclosure = new Enclosure {EntryId = 0};
+            var enclosure = new Enclosure { EntryId = 0 };
+            var repository = new DatabaseObjectProvider();
 
             // act, assert
             Assert.IsFalse(enclosure.IsValid);
-            var exception = UnitTestHelper.AssertThrows<ArgumentException>(() => Enclosures.Update(enclosure));
+            var exception = UnitTestHelper.AssertThrows<ArgumentException>(() => repository.Update(enclosure));
             Assert.AreEqual(enclosure.ValidationMessage, exception.Message);
         }
 
         [Test]
         public void Update_WithNullEnclosure_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => Enclosures.Update(null));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Update((Enclosure)null));
         }
     }
 }

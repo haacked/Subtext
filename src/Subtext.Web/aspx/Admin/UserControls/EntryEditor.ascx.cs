@@ -406,16 +406,16 @@ namespace Subtext.Web.Admin.UserControls
 
                         if (entry.Enclosure == null && enclosureId != 0)
                         {
-                            Enclosures.Delete(enclosureId);
+                            Repository.DeleteEnclosure(enclosureId);
                         }
                         else if (entry.Enclosure != null && entry.Enclosure.Id != 0)
                         {
-                            Enclosures.Update(entry.Enclosure);
+                            Repository.Update(entry.Enclosure);
                         }
                         else if (entry.Enclosure != null && entry.Enclosure.Id == 0)
                         {
                             entry.Enclosure.EntryId = entry.Id;
-                            Enclosures.Create(entry.Enclosure);
+                            Repository.Create(entry.Enclosure);
                         }
 
                         UpdateCategories();
@@ -429,7 +429,7 @@ namespace Subtext.Web.Admin.UserControls
                         if (entry.Enclosure != null)
                         {
                             entry.Enclosure.EntryId = PostId.Value;
-                            Enclosures.Create(entry.Enclosure);
+                            Repository.Create(entry.Enclosure);
                         }
 
                         UpdateCategories();

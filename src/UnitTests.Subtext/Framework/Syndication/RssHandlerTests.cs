@@ -92,16 +92,17 @@ namespace UnitTests.Subtext.Framework.Syndication
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;
+            var repository = new DatabaseObjectProvider();
 
             Enclosure enc =
                 UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
                                               enclosureUrl, enclosureMimeType, entryId, enclosureSize, true, true);
-            Enclosures.Create(enc);
+            repository.Create(enc);
 
             var subtextContext = new Mock<ISubtextContext>();
             string rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");
