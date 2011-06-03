@@ -80,7 +80,7 @@ namespace Subtext.Framework
         /// <returns></returns>
         public static IPagedCollection<Blog> GetBlogs(this ObjectProvider repository, int pageIndex, int pageSize, ConfigurationFlags flags)
         {
-            return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
+            return repository.GetPagedBlogs(null, pageIndex, pageSize, flags);
         }
 
     }

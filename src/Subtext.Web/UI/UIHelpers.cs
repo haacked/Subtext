@@ -84,18 +84,18 @@ namespace Subtext.Web.UI
             return text;
         }
 
-        public static LinkCategory Links(CategoryType catType, Blog blog, BlogUrlHelper urlHelper)
+        public static LinkCategory Links(this ObjectProvider repository, CategoryType catType, Blog blog, BlogUrlHelper urlHelper)
         {
             switch (catType)
             {
                 case CategoryType.PostCollection:
-                    return Transformer.BuildLinks(UIHelpers.PostCollection, CategoryType.PostCollection, blog, urlHelper);
+                    return repository.BuildLinks(UIHelpers.PostCollection, CategoryType.PostCollection, blog, urlHelper);
 
                 case CategoryType.ImageCollection:
-                    return Transformer.BuildLinks(UIHelpers.ImageCollection, CategoryType.ImageCollection, blog, urlHelper);
+                    return repository.BuildLinks(UIHelpers.ImageCollection, CategoryType.ImageCollection, blog, urlHelper);
 
                 case CategoryType.StoryCollection:
-                    return Transformer.BuildLinks(UIHelpers.ArticleCollection, CategoryType.StoryCollection, blog, urlHelper);
+                    return repository.BuildLinks(UIHelpers.ArticleCollection, CategoryType.StoryCollection, blog, urlHelper);
 
                 default:
                     Debug.Fail(String.Format(CultureInfo.InvariantCulture,
