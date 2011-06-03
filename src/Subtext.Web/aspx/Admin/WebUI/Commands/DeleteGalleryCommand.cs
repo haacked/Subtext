@@ -72,7 +72,7 @@ namespace Subtext.Web.Admin.Commands
                 }
 
                 // finally, delete the gallery (category) itself from the data provider
-                Links.DeleteLinkCategory(_targetID);
+                Repository.DeleteLinkCategory(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
             catch (Exception ex)

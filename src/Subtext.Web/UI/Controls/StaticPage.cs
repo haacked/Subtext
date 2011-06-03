@@ -36,7 +36,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
             var lcc = new List<LinkCategory>();
-            lcc.AddRange(Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.ActiveOnly));
+            lcc.AddRange(Repository.GetCategories(CategoryType.LinkCollection, ActiveFilter.ActiveOnly));
             CatList.DataSource = lcc;
             CatList.DataBind();
         }

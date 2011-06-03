@@ -81,7 +81,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void BindImage()
         {
-            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection,
+            ICollection<LinkCategory> selectionList = Repository.GetCategories(CategoryType.ImageCollection,
                                                                           ActiveFilter.None);
             if (selectionList.Count > 0)
             {

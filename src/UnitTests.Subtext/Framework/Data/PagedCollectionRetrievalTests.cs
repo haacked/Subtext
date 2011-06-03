@@ -349,19 +349,21 @@ namespace UnitTests.Subtext.Framework.Data
             //Create a couple links that should be ignored because postId is not null.
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "title", "in great shape");
             int entryId = UnitTestHelper.Create(entry);
-            UnitTestHelper.CreateLinkInDb(_categoryId, "A Forgettable Link", entryId, String.Empty);
-            UnitTestHelper.CreateLinkInDb(_categoryId, "Another Forgettable Link", entryId, String.Empty);
-            UnitTestHelper.CreateLinkInDb(_categoryId, "Another Forgettable Link", entryId, String.Empty);
+            UnitTestHelper.CreateLinkInDb(repository, _categoryId, "A Forgettable Link", entryId, String.Empty);
+            UnitTestHelper.CreateLinkInDb(repository, _categoryId, "Another Forgettable Link", entryId, String.Empty);
+            UnitTestHelper.CreateLinkInDb(repository, _categoryId, "Another Forgettable Link", entryId, String.Empty);
         }
 
         public void Create(int index)
         {
-            UnitTestHelper.CreateLinkInDb(_categoryId, "A Link To Remember Part " + index, null, String.Empty);
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.CreateLinkInDb(repository, _categoryId, "A Link To Remember Part " + index, null, String.Empty);
         }
 
         public IPagedCollection<Link> GetPagedItems(int pageIndex, int pageSize)
         {
-            return ObjectProvider.Instance().GetPagedLinks(_categoryId, pageIndex, pageSize, true);
+            var repository = new DatabaseObjectProvider();
+            return repository.GetPagedLinks(_categoryId, pageIndex, pageSize, true);
         }
 
         public int GetCount(IPagedCollection<Link> collection)

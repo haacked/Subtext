@@ -40,7 +40,7 @@ namespace Subtext.Web.UI.Controls
         {
             base.OnLoad(e);
             var lcc = new List<LinkCategory>();
-            lcc.AddRange(Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None));
+            lcc.AddRange(Repository.GetCategories(CategoryType.PostCollection, ActiveFilter.None));
             lcc.Add(Repository.Links(CategoryType.PostCollection, SubtextContext.Blog, Url));
             CatList.DataSource = lcc;
             CatList.DataBind();

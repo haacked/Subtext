@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.Framework
             int entryId = UnitTestHelper.Create(entry);
             repository.SetEntryCategoryList(entryId, new[] { category1Id, category2Id });
 
-            ICollection<LinkCategory> categories = Links.GetLinkCategoriesByPostId(entryId);
+            ICollection<LinkCategory> categories = repository.GetLinkCategoriesByPostId(entryId);
             Assert.AreEqual(2, categories.Count, "Expected two of the three categories");
 
             Assert.AreEqual(category1Id, categories.First().Id);
@@ -68,9 +68,9 @@ namespace UnitTests.Subtext.Framework
             UnitTestHelper.SetupBlog();
             var repository = new DatabaseObjectProvider();
             int[] categoryIds = CreateSomeLinkCategories(repository);
-            CreateLink("Link one", categoryIds[0], null);
-            CreateLink("Link two", categoryIds[0], null);
-            CreateLink("Link one-two", categoryIds[1], null);
+            CreateLink(repository, "Link one", categoryIds[0], null);
+            CreateLink(repository, "Link two", categoryIds[0], null);
+            CreateLink(repository, "Link one-two", categoryIds[1], null);
 
             ICollection<LinkCategory> linkCollections = repository.GetActiveCategories();
 
@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.Framework
             int categoryId =
                 repository.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
                                                         CategoryType.LinkCollection, true));
-            Link link = CreateLink("Test", categoryId, null);
+            Link link = CreateLink(repository, "Test", categoryId, null);
             int linkId = link.Id;
 
             Link loaded = repository.GetLink(linkId);
@@ -124,15 +124,15 @@ namespace UnitTests.Subtext.Framework
                 repository.CreateLinkCategory(CreateCategory("My Favorite Feeds", "Some of my favorite RSS feeds",
                                                         CategoryType.LinkCollection, true));
 
-            Link link = CreateLink("Title", categoryId, null);
+            Link link = CreateLink(repository, "Title", categoryId, null);
             int linkId = link.Id;
 
-            Link loaded = ObjectProvider.Instance().GetLink(linkId);
+            Link loaded = repository.GetLink(linkId);
             Assert.AreEqual("Title", loaded.Title);
             Assert.AreEqual(NullValue.NullInt32, loaded.PostId);
             Assert.AreEqual(Config.CurrentBlog.Id, loaded.BlogId);
 
-            Links.DeleteLink(linkId);
+            repository.DeleteLink(linkId);
 
             Assert.IsNull(repository.GetLink(linkId));
         }
@@ -160,7 +160,7 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(CategoryType.LinkCollection, category.CategoryType);
             Assert.IsNotNull(category);
 
-            Links.DeleteLinkCategory(categoryId);
+            repository.DeleteLinkCategory(categoryId);
             Assert.IsNull(repository.GetLinkCategory(categoryId, true));
         }
 
@@ -175,7 +175,7 @@ namespace UnitTests.Subtext.Framework
             var repository = new DatabaseObjectProvider();
             // Create some categories
             CreateSomeLinkCategories(repository);
-            ICollection<LinkCategory> linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection,
+            ICollection<LinkCategory> linkCategoryCollection = repository.GetCategories(CategoryType.LinkCollection,
                                                                                    ActiveFilter.None);
 
             LinkCategory first = null;
@@ -217,7 +217,7 @@ namespace UnitTests.Subtext.Framework
             CreateSomePostCategories(repository);
 
             // Retrieve the categories, grab the first one and update it
-            ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.PostCollection,
+            ICollection<LinkCategory> originalCategories = repository.GetCategories(CategoryType.PostCollection,
                                                                                ActiveFilter.None);
             Assert.IsTrue(originalCategories.Count > 0);
         }
@@ -235,7 +235,7 @@ namespace UnitTests.Subtext.Framework
             CreateSomeLinkCategories(repository);
 
             // Retrieve the categories, grab the first one and update it
-            ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection,
+            ICollection<LinkCategory> originalCategories = repository.GetCategories(CategoryType.LinkCollection,
                                                                                ActiveFilter.None);
             Assert.Greater(originalCategories.Count, 0, "Expected some categories in there.");
             LinkCategory linkCat = null;
@@ -250,7 +250,7 @@ namespace UnitTests.Subtext.Framework
             bool updated = repository.UpdateLinkCategory(originalCategory);
 
             // Retrieve the categories and find the one we updated
-            ICollection<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection,
+            ICollection<LinkCategory> updatedCategories = repository.GetCategories(CategoryType.LinkCollection,
                                                                               ActiveFilter.None);
             LinkCategory updatedCategory = null;
             foreach (LinkCategory lc in updatedCategories)
@@ -309,7 +309,7 @@ namespace UnitTests.Subtext.Framework
             return linkCategory;
         }
 
-        static Link CreateLink(string title, int? categoryId, int? postId)
+        static Link CreateLink(ObjectProvider repository, string title, int? categoryId, int? postId)
         {
             var link = new Link();
             link.IsActive = true;
@@ -323,7 +323,7 @@ namespace UnitTests.Subtext.Framework
             {
                 link.PostId = (int)postId;
             }
-            int linkId = Links.CreateLink(link);
+            int linkId = repository.CreateLink(link);
             Assert.AreEqual(linkId, link.Id);
             return link;
         }

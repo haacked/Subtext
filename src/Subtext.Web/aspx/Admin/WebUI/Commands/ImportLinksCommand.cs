@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.Commands
 {
@@ -39,12 +40,15 @@ namespace Subtext.Web.Admin.Commands
             _cancelFailureMessage = "Could not cancel link import. Details: {0}";
         }
 
-        public ImportLinksCommand(OpmlItemCollection links, int catID)
+        public ImportLinksCommand(ObjectProvider repository, OpmlItemCollection links, int catID)
             : this()
         {
             _linksToImport = links;
             _categoryID = catID;
+            Repository = repository;
         }
+
+        public ObjectProvider Repository { get; private set; }
 
         public override string PromptMessage
         {
@@ -112,7 +116,7 @@ namespace Subtext.Web.Admin.Commands
             // this isn't a valid collision test really
             if (!_allLinks.Contains(newLink))
             {
-                Links.CreateLink(newLink);
+                Repository.CreateLink(newLink);
             }
         }
     }

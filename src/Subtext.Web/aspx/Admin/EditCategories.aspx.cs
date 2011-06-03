@@ -143,7 +143,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void ConfirmDelete(int categoryID, string categoryTitle)
         {
-            var command = new DeleteCategoryCommand(categoryID, categoryTitle)
+            var command = new DeleteCategoryCommand(Repository, categoryID, categoryTitle)
             {
                 ExecuteSuccessMessage = string.Format(CultureInfo.InvariantCulture, "Category \"{0}\" was deleted.",
                                                       categoryTitle)

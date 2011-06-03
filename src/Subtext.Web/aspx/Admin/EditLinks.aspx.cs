@@ -172,7 +172,7 @@ namespace Subtext.Web.Admin.Pages
 
         public void BindLinkCategories()
         {
-            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
+            ICollection<LinkCategory> selectionList = Repository.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
             if (selectionList != null && selectionList.Count != 0)
             {
                 ddlCategories.DataSource = selectionList;
@@ -263,7 +263,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void ConfirmDelete(int linkID, string linkTitle)
         {
-            var command = new DeleteLinkCommand(linkID, linkTitle)
+            var command = new DeleteLinkCommand(Repository, linkID, linkTitle)
             {
                 ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Link '{0}' deleted", linkTitle)
             };
@@ -279,7 +279,7 @@ namespace Subtext.Web.Admin.Pages
 
                 if (importedLinks.Count > 0)
                 {
-                    var command = new ImportLinksCommand(importedLinks,
+                    var command = new ImportLinksCommand(Repository, importedLinks,
                                                          Int32.Parse(ddlImportExportCategories.SelectedItem.Value));
                     Messages.ShowMessage(command.Execute());
                 }

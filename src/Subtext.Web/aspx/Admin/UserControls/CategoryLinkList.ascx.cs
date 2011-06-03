@@ -83,7 +83,7 @@ namespace Subtext.Web.Admin.UserControls
                     baseUrl = "articles/default.aspx";
                 }
 
-                ICollection<LinkCategory> categories = Links.GetCategories(CategoryType, ActiveFilter.None);
+                ICollection<LinkCategory> categories = Repository.GetCategories(CategoryType, ActiveFilter.None);
                 foreach (LinkCategory current in categories)
                 {
                     string url = string.Format(CultureInfo.InvariantCulture, "{0}?{1}={2}&{3}={4}",
