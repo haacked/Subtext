@@ -449,7 +449,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             var service = new Mock<ICommentSpamService>().Object;
 
             // act, assert
-            UnitTestHelper.AssertThrowsArgumentNullException(() => new DatabaseObjectProvider().Delete(null));
+            UnitTestHelper.AssertThrowsArgumentNullException(() => new DatabaseObjectProvider().Delete((FeedbackItem)null));
         }
     }
 }

@@ -21,6 +21,7 @@ using System.IO;
 using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.Commands
 {
@@ -31,12 +32,19 @@ namespace Subtext.Web.Admin.Commands
     {
         HttpServerUtilityBase _server;
 
-        public DeleteGalleryCommand(HttpServerUtilityBase server, string galleryDirectoryPath, int galleryId, string galleryTitle)
+        public DeleteGalleryCommand(ObjectProvider repository, HttpServerUtilityBase server, string galleryDirectoryPath, int galleryId, string galleryTitle)
         {
             _server = server;
             _targetID = galleryId;
             itemTitle = galleryTitle;
             GalleryDirectoryPath = galleryDirectoryPath;
+            Repository = repository;
+        }
+
+        protected ObjectProvider Repository
+        {
+            get;
+            private set;
         }
 
         public string GalleryDirectoryPath { get; private set; }
@@ -45,7 +53,7 @@ namespace Subtext.Web.Admin.Commands
         {
             try
             {
-                ICollection<Image> imageList = Images.GetImagesByCategoryId(_targetID, false);
+                ICollection<Image> imageList = Repository.GetImagesByCategory(_targetID, false);
 
                 // delete the folder
                 string galleryFolder = _server.MapPath(GalleryDirectoryPath);
@@ -59,7 +67,7 @@ namespace Subtext.Web.Admin.Commands
                     // delete from data provider
                     foreach (Image currentImage in imageList)
                     {
-                        Images.DeleteImage(currentImage);
+                        Repository.Delete(currentImage);
                     }
                 }
 

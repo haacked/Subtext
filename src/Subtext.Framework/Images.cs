@@ -91,9 +91,9 @@ namespace Subtext.Framework
             }
         }
 
-        public static ImageCollection GetImagesByCategoryId(int categoryId, bool activeOnly)
+        public static ImageCollection GetImagesByCategory(this ObjectProvider repository, int categoryId, bool activeOnly)
         {
-            return ObjectProvider.Instance().GetImagesByCategoryId(categoryId, activeOnly);
+            return repository.GetImagesByCategoryId(categoryId, activeOnly);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Subtext.Framework
         /// <param name="image">The image.</param>
         /// <param name="buffer">The buffer.</param>
         /// <returns></returns>
-        public static int InsertImage(Image image, byte[] buffer)
+        public static int Insert(this ObjectProvider repository, Image image, byte[] buffer)
         {
             if (image == null)
             {
@@ -112,7 +112,7 @@ namespace Subtext.Framework
             if (!File.Exists(image.OriginalFilePath) && SaveImage(buffer, image.OriginalFilePath))
             {
                 MakeAlbumImages(image);
-                return ObjectProvider.Instance().InsertImage(image);
+                return repository.InsertImage(image);
             }
             return NullValue.NullInt32;
         }
@@ -121,17 +121,17 @@ namespace Subtext.Framework
         /// Updates the image.
         /// </summary>
         /// <param name="image">The image.</param>
-        public static void UpdateImage(Image image)
+        public static void Update(this ObjectProvider repository, Image image)
         {
             if (image == null)
             {
                 throw new ArgumentNullException("image");
             }
-            ObjectProvider.Instance().UpdateImage(image);
+            repository.UpdateImage(image);
         }
 
         // added
-        public static void Update(Image image, byte[] buffer)
+        public static void Update(this ObjectProvider repository, Image image, byte[] buffer)
         {
             if (image == null)
             {
@@ -146,18 +146,18 @@ namespace Subtext.Framework
             if (SaveImage(buffer, image.OriginalFilePath))
             {
                 MakeAlbumImages(image);
-                UpdateImage(image);
+                repository.Update(image);
             }
         }
 
-        public static void DeleteImage(Image image)
+        public static void Delete(this ObjectProvider repository, Image image)
         {
             if (image == null)
             {
                 throw new ArgumentNullException("image");
             }
 
-            ObjectProvider.Instance().DeleteImage(image.ImageID);
+            repository.DeleteImage(image.ImageID);
         }
     }
 }
