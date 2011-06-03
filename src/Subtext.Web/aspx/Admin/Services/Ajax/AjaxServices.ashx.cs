@@ -19,15 +19,26 @@ using System;
 using System.Security;
 using Jayrock.JsonRpc;
 using Jayrock.JsonRpc.Web;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.Services.Ajax
 {
     //NOTE: This uses Jayrock for Ajax services. Please see http://jayrock.berlios.de/ for more info   
     public class AjaxServices : JsonRpcHandler
     {
+        public AjaxServices(ObjectProvider repository)
+        {
+            Repository = repository;
+        }
+
+        public ObjectProvider Repository
+        {
+            get;
+            private set;
+        }
+
         public override void ProcessRequest()
         {
             if (!User.IsInRole("Admins"))
@@ -42,7 +53,7 @@ namespace Subtext.Web.Admin.Services.Ajax
         {
             var newTag = new MetaTag(content) { Name = name, HttpEquiv = httpEquiv, BlogId = Config.CurrentBlog.Id, DateCreatedUtc = DateTime.UtcNow };
 
-            MetaTags.Create(newTag);
+            Repository.Create(newTag);
 
             return newTag;
         }
@@ -51,7 +62,7 @@ namespace Subtext.Web.Admin.Services.Ajax
         public MetaTag UpdateMetaTag(MetaTag updatedTag)
         {
             updatedTag.BlogId = Config.CurrentBlog.Id;
-            MetaTags.Update(updatedTag);
+            Repository.Update(updatedTag);
 
             return updatedTag;
         }
@@ -59,7 +70,7 @@ namespace Subtext.Web.Admin.Services.Ajax
         [JsonRpcMethod("deleteMetaTag")]
         public bool DeleteMetaTag(int id)
         {
-            return MetaTags.Delete(id);
+            return Repository.DeleteMetaTag(id);
         }
 
         [JsonRpcMethod("detectMimeType")]

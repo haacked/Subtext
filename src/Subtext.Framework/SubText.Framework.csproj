@@ -513,7 +513,6 @@
     <Compile Include="Infrastructure\Logging\LoggingProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MetaTags.cs" />
     <Compile Include="NamespaceDocumentation.cs">
       <SubType>Code</SubType>
     </Compile>

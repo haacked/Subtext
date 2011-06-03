@@ -40,10 +40,6 @@ namespace Subtext.Framework.Services
         {
             get
             {
-                if (_host == null)
-                {
-                    _host = HostInfo.Instance;
-                }
                 return _host;
             }
         }

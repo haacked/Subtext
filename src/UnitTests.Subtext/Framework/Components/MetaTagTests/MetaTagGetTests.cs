@@ -21,6 +21,7 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
@@ -33,8 +34,9 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [RollBack2]
         public void GetReturnsZeroWhenNoMetaTagsExistForBlog()
         {
+            var repository = new DatabaseObjectProvider();
             blog = UnitTestHelper.CreateBlogAndSetupContext();
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count,
+            Assert.AreEqual(0, repository.GetMetaTagsForBlog(blog, 0, 100).Count,
                             "Shouldn't have found any MetaTags for this blog.");
         }
 
@@ -43,12 +45,16 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         public void GetReturnsZeroWhenNoMetaTagsExistForEntry()
         {
             blog = UnitTestHelper.CreateBlogAndSetupContext();
+            var repository = new DatabaseObjectProvider();
 
             Entry e =
                 UnitTestHelper.CreateEntryInstanceForSyndication("Steve Harman", "Loves Subtexting!", "Roses are red...");
+            
+            // Act
             UnitTestHelper.Create(e);
 
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForEntry(e, 0, 100).Count,
+            // Assert
+            Assert.AreEqual(0, repository.GetMetaTagsForEntry(e, 0, 100).Count,
                             "Shouldn't have found any MetaTags for this entry.");
         }
 
@@ -57,11 +63,11 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         public void CanGetMetaTagsForBlog()
         {
             blog = UnitTestHelper.CreateBlogAndSetupContext();
-
+            var repository = new DatabaseObjectProvider();
             InsertNewMetaTag("Adding description meta tag", "description", null, DateTime.UtcNow, blog.Id, null);
             InsertNewMetaTag("no-cache", null, "cache-control", DateTime.UtcNow, blog.Id, null);
 
-            ICollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
+            ICollection<MetaTag> tags = repository.GetMetaTagsForBlog(blog, 0, 100);
 
             Assert.AreEqual(2, tags.Count, "Should be two tags for this blog.");
         }
@@ -71,7 +77,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         public void CanGetMetaTagsForEntry()
         {
             blog = UnitTestHelper.CreateBlogAndSetupContext();
-
+            var repository = new DatabaseObjectProvider();
             Entry e = UnitTestHelper.CreateEntryInstanceForSyndication("Steve-o", "Bar",
                                                                        "Steve is still rockin it... or is he?");
             UnitTestHelper.Create(e);
@@ -85,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             InsertNewMetaTag("no-cache", null, "cache-control", DateTime.UtcNow, blog.Id, e.Id);
             InsertNewMetaTag("Mon, 22 Jul 2022 11:12:01 GMT", null, "expires", DateTime.UtcNow, blog.Id, e.Id);
 
-            ICollection<MetaTag> tags = MetaTags.GetMetaTagsForEntry(e, 0, 100);
+            ICollection<MetaTag> tags = repository.GetMetaTagsForEntry(e, 0, 100);
 
             Assert.AreEqual(4, tags.Count, "Should have found 4 MetaTags for this entry.");
         }

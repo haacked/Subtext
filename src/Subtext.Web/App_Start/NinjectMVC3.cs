@@ -102,6 +102,7 @@ namespace Subtext.Web.App_Start
                     };
                 return transform;
             }).InRequestScope();
+            kernel.Bind<IBlogLookupService>().To<BlogLookupService>().InSingletonScope();
             kernel.Bind<ICommentService>().To<CommentService>().InRequestScope();
             kernel.Bind<ICommentFilter>().To<CommentFilter>().InRequestScope();
             kernel.Bind<IStatisticsService>().To<StatisticsService>().InRequestScope();
@@ -127,11 +128,12 @@ namespace Subtext.Web.App_Start
                     .WithConstructorArgument("stopSet", indexingSettings.StopWords);
             }
 
-            LoadCoreDependencies(kernel);
-            LoadGenericDependencies(kernel);
+            BindCoreDependencies(kernel);
+            BindGenericDependencies(kernel);
+            BindHttpModules(kernel);
         }
 
-        private static void LoadCoreDependencies(IKernel kernel)
+        private static void BindCoreDependencies(IKernel kernel)
         {
             BindBlogMLDependencies(kernel);
 
@@ -168,7 +170,7 @@ namespace Subtext.Web.App_Start
             }
         }
 
-        private static void LoadGenericDependencies(IKernel kernel)
+        private static void BindGenericDependencies(IKernel kernel)
         {
             kernel.Bind<NameValueCollection>().ToMethod(c => ConfigurationManager.AppSettings).When(c => c.Target.Name == "appSettings").InRequestScope();
         }
@@ -182,5 +184,13 @@ namespace Subtext.Web.App_Start
             kernel.Bind<IBlogMLSource>().To<BlogMLSource>().InRequestScope();
         }
 
+        private static void BindHttpModules(IKernel kernel)
+        {
+            kernel.Bind<IHttpModule>().To<BlogRequestModule>();
+            kernel.Bind<IHttpModule>().To<FormToBasicAuthenticationModule>();
+            kernel.Bind<IHttpModule>().To<AuthenticationModule>();
+            kernel.Bind<IHttpModule>().To<InstallationCheckModule>();
+            kernel.Bind<IHttpModule>().To<CompressionModule>();
+        }
     }
 }

@@ -17,7 +17,6 @@
 
 using System;
 using System.Web;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Web.HttpModules
@@ -28,11 +27,6 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class BlogRequestModule : IHttpModule
     {
-        public BlogRequestModule()
-            : this(new BlogLookupService(ObjectProvider.Instance(), HostInfo.Instance))
-        {
-        }
-
         public BlogRequestModule(IBlogLookupService blogLookup)
         {
             BlogLookup = blogLookup;

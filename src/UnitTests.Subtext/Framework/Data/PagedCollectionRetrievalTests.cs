@@ -421,15 +421,16 @@ namespace UnitTests.Subtext.Framework.Data
 
     internal class MetaTagCollectionTester : IPagedCollectionTester<MetaTag>
     {
+        DatabaseObjectProvider repository = new DatabaseObjectProvider();
         public void Create(int index)
         {
             var tag = new MetaTag("test" + index) { DateCreatedUtc = DateTime.UtcNow, Name = "foo", BlogId = Config.CurrentBlog.Id };
-            MetaTags.Create(tag);
+            repository.Create(tag);
         }
 
         public IPagedCollection<MetaTag> GetPagedItems(int pageIndex, int pageSize)
         {
-            return MetaTags.GetMetaTagsForBlog(Config.CurrentBlog, pageIndex, pageSize);
+            return repository.GetMetaTagsForBlog(Config.CurrentBlog, pageIndex, pageSize);
         }
 
         public int GetCount(IPagedCollection<MetaTag> collection)
