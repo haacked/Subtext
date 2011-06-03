@@ -21,6 +21,7 @@ using System.Linq;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
@@ -38,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         public void CanInsertNewMetaTag(string content, string name, string httpEquiv, bool withEntry, string errMsg)
         {
             blog = UnitTestHelper.CreateBlogAndSetupContext();
-
+            var repository = new DatabaseObjectProvider();
             int? entryId = null;
             if (withEntry)
             {
@@ -49,13 +50,13 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             MetaTag mt = UnitTestHelper.BuildMetaTag(content, name, httpEquiv, blog.Id, entryId, DateTime.UtcNow);
 
             // make sure there are no meta-tags for this blog in the data store
-            ICollection<MetaTag> tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
+            ICollection<MetaTag> tags = repository.GetMetaTagsForBlog(blog, 0, 100);
             Assert.AreEqual(0, tags.Count, "Should be zero MetaTags.");
 
             // add the meta-tag to the data store
-            int tagId = MetaTags.Create(mt);
+            int tagId = repository.Create(mt);
 
-            tags = MetaTags.GetMetaTagsForBlog(blog, 0, 100);
+            tags = repository.GetMetaTagsForBlog(blog, 0, 100);
 
             Assert.AreEqual(1, tags.Count, errMsg);
 
@@ -74,19 +75,22 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         [Test]
         public void Create_WithNullMetaTag_ThrowsArgumentNullException()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => MetaTags.Create(null));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Create((MetaTag)null));
         }
 
         [Test]
         public void Create_WithInvalidMetaTag_ThrowsArgumentException()
         {
-            UnitTestHelper.AssertThrows<ArgumentException>(() => MetaTags.Create(new MetaTag { Content = null }));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrows<ArgumentException>(() => repository.Create(new MetaTag { Content = null }));
         }
 
         [Test]
         public void CanNotInsertNullMetaTag()
         {
-            UnitTestHelper.AssertThrowsArgumentNullException(() => MetaTags.Create(null));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Create((MetaTag)null));
         }
     }
 }

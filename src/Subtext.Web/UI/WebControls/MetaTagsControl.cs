@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Routing;
 
 namespace Subtext.Web.UI.WebControls
 {
@@ -19,7 +20,8 @@ namespace Subtext.Web.UI.WebControls
 
         protected override void Render(HtmlTextWriter writer)
         {
-            IPagedCollection<MetaTag> blogMetaTags = MetaTags.GetMetaTagsForBlog(Blog, 0, int.MaxValue);
+            var parent = Parent.Page as ISubtextDependencies;
+            IPagedCollection<MetaTag> blogMetaTags = parent.Repository.GetMetaTagsForBlog(Blog, 0, int.MaxValue);
             foreach (MetaTag tag in blogMetaTags)
             {
                 var htmlMetaTag = new HtmlMeta { Content = tag.Content };

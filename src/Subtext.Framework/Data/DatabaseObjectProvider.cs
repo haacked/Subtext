@@ -128,20 +128,40 @@ namespace Subtext.Framework.Data
 
         public override int Create(MetaTag metaTag)
         {
+            if (metaTag == null)
+            {
+                throw new ArgumentNullException("metaTag");
+            }
+
+            if (!metaTag.IsValid)
+            {
+                throw new ArgumentException(metaTag.ValidationMessage);
+            }
             if (metaTag.DateCreatedUtc.Kind != DateTimeKind.Utc)
             {
                 throw new InvalidOperationException("Metadata Create date must be UTC");
             }
-            return _procedures.InsertMetaTag(metaTag.Content,
+            metaTag.Id = _procedures.InsertMetaTag(metaTag.Content,
                                              metaTag.Name.NullIfEmpty(),
                                              metaTag.HttpEquiv.NullIfEmpty(),
                                              BlogId,
                                              metaTag.EntryId,
                                              metaTag.DateCreatedUtc);
+            return metaTag.Id;
         }
 
         public override bool Update(MetaTag metaTag)
         {
+            if (metaTag == null)
+            {
+                throw new ArgumentNullException("metaTag");
+            }
+
+            if (!metaTag.IsValid)
+            {
+                throw new ArgumentException(metaTag.ValidationMessage);
+            }
+
             return _procedures.UpdateMetaTag(metaTag.Id,
                                              metaTag.Content,
                                              metaTag.Name.NullIfEmpty(),

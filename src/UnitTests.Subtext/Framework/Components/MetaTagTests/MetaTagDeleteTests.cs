@@ -19,6 +19,7 @@ using System;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
@@ -30,18 +31,18 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         public void CanDeleteBlogMetaTag()
         {
             var blog = UnitTestHelper.CreateBlogAndSetupContext();
-
+            var repository = new DatabaseObjectProvider();
             MetaTag tag =
                 UnitTestHelper.BuildMetaTag("Steve Harman likes to delete stuff!", "description", null, blog.Id, null,
                                             DateTime.UtcNow);
-            MetaTags.Create(tag);
-            Assert.AreEqual(1, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count,
+            repository.Create(tag);
+            Assert.AreEqual(1, repository.GetMetaTagsForBlog(blog, 0, 100).Count,
                             "Should be one (1) MetaTag for this blog.");
 
             // Now let's remove it from the data store
-            Assert.IsTrue(MetaTags.Delete(tag.Id), "Deleting the MetaTag failed.");
+            Assert.IsTrue(repository.DeleteMetaTag(tag.Id), "Deleting the MetaTag failed.");
 
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count,
+            Assert.AreEqual(0, repository.GetMetaTagsForBlog(blog, 0, 100).Count,
                             "Should be zero (0) MetaTags for this blog.");
         }
 
@@ -50,25 +51,26 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         public void CanDeleteEntryMetaTag()
         {
             var blog = UnitTestHelper.CreateBlogAndSetupContext();
+            var repository = new DatabaseObjectProvider();
             Entry entry =
                 UnitTestHelper.CreateEntryInstanceForSyndication("Steven Harman", "Sweet arse entry!",
                                                                  "Giddy, giddy, goo!");
             UnitTestHelper.Create(entry);
 
             MetaTag tag = UnitTestHelper.BuildMetaTag("Foo, bar, zaa?", "author", null, blog.Id, entry.Id, DateTime.UtcNow);
-            MetaTags.Create(tag);
+            repository.Create(tag);
 
-            Assert.AreEqual(1, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count,
+            Assert.AreEqual(1, repository.GetMetaTagsForBlog(blog, 0, 100).Count,
                             "Should be one (1) MetaTag for this blog.");
-            Assert.AreEqual(1, MetaTags.GetMetaTagsForEntry(entry, 0, 100).Count,
+            Assert.AreEqual(1, repository.GetMetaTagsForEntry(entry, 0, 100).Count,
                             "Should be one (1) MetaTag for this entry.");
 
             // Now let's remove it from the data store
-            Assert.IsTrue(MetaTags.Delete(tag.Id), "Deleting the MetaTag failed.");
+            Assert.IsTrue(repository.DeleteMetaTag(tag.Id), "Deleting the MetaTag failed.");
 
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForBlog(blog, 0, 100).Count,
+            Assert.AreEqual(0, repository.GetMetaTagsForBlog(blog, 0, 100).Count,
                             "Should be zero (0) MetaTags for this blog.");
-            Assert.AreEqual(0, MetaTags.GetMetaTagsForEntry(entry, 0, 100).Count,
+            Assert.AreEqual(0, repository.GetMetaTagsForEntry(entry, 0, 100).Count,
                             "Should be zero (0) MetaTag for this entry.");
         }
     }

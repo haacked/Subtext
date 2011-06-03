@@ -17,7 +17,6 @@
 
 using System;
 using System.Web;
-using System.Web.Mvc;
 using Subtext.Framework.Infrastructure.Installation;
 
 namespace Subtext.Framework.Web.HttpModules
@@ -27,17 +26,15 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class InstallationCheckModule : IHttpModule
     {
-        public InstallationCheckModule()
-            : this(null)
-        {
-        }
+        private HostInfo _hostInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InstallationCheckModule"/> class.
         /// </summary>
-        public InstallationCheckModule(IInstallationManager installationManager)
+        public InstallationCheckModule(IInstallationManager installationManager, HostInfo hostInfo)
         {
-            InstallationManager = installationManager ?? DependencyResolver.Current.GetService<IInstallationManager>();
+            InstallationManager = installationManager;
+            _hostInfo = hostInfo;
         }
 
         public IInstallationManager InstallationManager { get; private set; }
@@ -70,12 +67,12 @@ namespace Subtext.Framework.Web.HttpModules
         private void HandleInstallationUpdates(object sender, EventArgs e)
         {
             var context = new HttpContextWrapper(((HttpApplication)sender).Context);
-            HandleInstallationStatus(context, BlogRequest.Current, HostInfo.Instance);
+            HandleInstallationStatus(context, BlogRequest.Current);
         }
 
-        public void HandleInstallationStatus(HttpContextBase context, BlogRequest blogRequest, HostInfo hostInfo)
+        public void HandleInstallationStatus(HttpContextBase context, BlogRequest blogRequest)
         {
-            string redirectUrl = GetInstallationRedirectUrl(blogRequest, hostInfo);
+            string redirectUrl = GetInstallationRedirectUrl(blogRequest);
             if (!String.IsNullOrEmpty(redirectUrl))
             {
                 context.Response.Redirect(redirectUrl);
@@ -85,7 +82,7 @@ namespace Subtext.Framework.Web.HttpModules
         /// <summary>
         /// Checks the installation status and redirects if necessary.
         /// </summary>
-        public string GetInstallationRedirectUrl(BlogRequest blogRequest, HostInfo hostInfo)
+        public string GetInstallationRedirectUrl(BlogRequest blogRequest)
         {
             const string installUrl = "~/install/default.aspx";
 
@@ -95,14 +92,14 @@ namespace Subtext.Framework.Web.HttpModules
                 return null;
             }
 
-            if (hostInfo == null && blogRequest.RequestLocation != RequestLocation.Installation)
+            if (_hostInfo == null && blogRequest.RequestLocation != RequestLocation.Installation)
             {
                 return installUrl;
             }
 
             // Want to redirect to install if installation is required, 
             // or if we're missing a HostInfo record.
-            if ((InstallationManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, null) || hostInfo == null))
+            if ((InstallationManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, null) || _hostInfo == null))
             {
                 InstallationState state = InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion);
                 if (state == InstallationState.NeedsInstallation

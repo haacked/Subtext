@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using MbUnit.Framework;
 using Ninject;
 using Ninject.Syntax;
@@ -41,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Infrastructure
                 if (Types.Contains(type))
                 {
                     // special case 
-                    if (type != typeof(ICommentSpamService))
+                    if (type != typeof(ICommentSpamService) && type != typeof(IHttpModule))
                     {
                         throw new InvalidOperationException(String.Format("The type {0} is already registered!", type.FullName));
                     }
