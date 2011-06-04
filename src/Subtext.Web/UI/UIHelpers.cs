@@ -120,7 +120,7 @@ namespace Subtext.Web.UI
         /// </summary>
         public static LinkCategory BuildMonthLinks(this ObjectProvider repository, string title, BlogUrlHelper urlHelper, Blog blog)
         {
-            ICollection<ArchiveCount> archiveCounts = ObjectProvider.Instance().GetPostCountsByMonth();
+            ICollection<ArchiveCount> archiveCounts = repository.GetPostCountsByMonth();
             return archiveCounts.MergeIntoLinkCategory(title, urlHelper, blog);
         }
 

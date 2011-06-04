@@ -33,6 +33,15 @@ namespace Subtext.Framework.Web.HttpModules
         /// </summary>
         public InstallationCheckModule(IInstallationManager installationManager, Lazy<HostInfo> hostInfo)
         {
+            if (installationManager == null)
+            {
+                throw new ArgumentNullException("installationManager");
+            }
+            if (hostInfo == null)
+            {
+                throw new ArgumentNullException("hostInfo");
+            }
+
             InstallationManager = installationManager;
             _hostInfo = hostInfo;
         }

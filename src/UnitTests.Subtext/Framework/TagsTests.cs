@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
-using System;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -27,7 +28,7 @@ namespace UnitTests.Subtext.Framework
         [Test]
         public void GetTopTagsThrowsArgumentExceptionForNegativeValues()
         {
-            UnitTestHelper.AssertThrows<ArgumentException>(() =>ObjectProvider.Instance().GetMostUsedTags(-1));
+            UnitTestHelper.AssertThrows<ArgumentException>(() => ObjectProvider.Instance().GetMostUsedTags(-1));
         }
 
         [Test]
@@ -35,10 +36,10 @@ namespace UnitTests.Subtext.Framework
         public void GetGetTopTags()
         {
             UnitTestHelper.SetupBlog();
-
+            var repository = new DatabaseObjectProvider();
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "the title for this post", "test");
             UnitTestHelper.Create(entry);
-            Tags.SetTagsOnEntry(entry.Id, new List<string>(new[] {"tag1", "tag2", "tag3"}));
+            repository.SetEntryTagList(entry.Id, new List<string>(new[] { "tag1", "tag2", "tag3" }));
 
             entry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "the title for this post",
                                                                      @"<a href=""http://blah/tag3/"" rel=""tag"">test</a>");

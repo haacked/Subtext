@@ -55,7 +55,6 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Web.Handlers;
 
@@ -465,8 +464,8 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             else
             {
                 string categoryName = currentFolder.Substring(1, currentFolder.Length - 2);
-                LinkCategory cat = ObjectProvider.Instance().GetLinkCategory(categoryName, false);
-                posts = Repository.GetEntries(PostType.BlogPost, cat.Id, 0, 1000);
+                LinkCategory category = Repository.GetLinkCategory(categoryName, false);
+                posts = Repository.GetEntries(PostType.BlogPost, category.Id, 0, 1000);
             }
 
             // Create the "Files" node.

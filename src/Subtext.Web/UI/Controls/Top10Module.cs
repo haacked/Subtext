@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -37,7 +36,7 @@ namespace Subtext.Web.UI.Controls
             int blogId = Blog.Id >= 1 ? Blog.Id : 0;
             var myLastItems = new List<PositionTopItems>();
 
-            ICollection<EntrySummary> entrySummaries = ObjectProvider.Instance().GetTopEntrySummaries(blogId, 10);
+            ICollection<EntrySummary> entrySummaries = Repository.GetTopEntrySummaries(blogId, 10);
 
             foreach (EntrySummary entrySummary in entrySummaries)
             {

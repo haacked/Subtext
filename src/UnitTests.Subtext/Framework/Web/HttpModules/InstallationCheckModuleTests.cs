@@ -14,7 +14,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void GetInstallationRedirectUrl_ForStaticFiles_ReturnsNull()
         {
             // arrange
-            var module = new InstallationCheckModule(new Mock<IInstallationManager>().Object, null);
+            var module = new InstallationCheckModule(new Mock<IInstallationManager>().Object, new Lazy<HostInfo>(() => null));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/whatever/foo.jpg"),
                                               true, RequestLocation.Blog, "/");
             // act
@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         public void GetInstallationRedirectUrl_WhenHostInfoNull_ReturnsInstallDirectory()
         {
             // arrange
-            var module = new InstallationCheckModule(new Mock<IInstallationManager>().Object, null);
+            var module = new InstallationCheckModule(new Mock<IInstallationManager>().Object, new Lazy<HostInfo>(() => null));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/foo.aspx"), true,
                                               RequestLocation.Blog, "/");
 
@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             // arrange
             var installManager = new Mock<IInstallationManager>();
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(false);
-            var module = new InstallationCheckModule(installManager.Object, null);
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => null));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.Installation, "/");
 

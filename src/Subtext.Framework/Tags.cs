@@ -34,16 +34,6 @@ namespace Subtext.Framework
     public static class Tags
     {
         /// <summary>
-        /// Sets the tags on entry.
-        /// </summary>
-        /// <param name="entryId">The entry id.</param>
-        /// <param name="tags">The tags.</param>
-        public static void SetTagsOnEntry(int entryId, ICollection<string> tags)
-        {
-            ObjectProvider.Instance().SetEntryTagList(entryId, tags);
-        }
-
-        /// <summary>
         /// Gets the top tags.
         /// </summary>
         public static ICollection<Tag> GetMostUsedTags(this ObjectProvider repository, int itemCount)
