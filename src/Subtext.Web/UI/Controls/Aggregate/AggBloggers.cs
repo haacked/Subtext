@@ -40,7 +40,7 @@ namespace Subtext.Web.UI.Controls
         protected override void OnLoad(EventArgs e)
         {
             BlogGroupId = GetGroupIdFromQueryString();
-            Blogs = Repository.GetBlogsByGroup(HostInfo.Instance.AggregateBlog.Host, BlogGroupId);
+            Blogs = Repository.GetBlogsByGroup(HostInfo.AggregateBlog.Host, BlogGroupId);
 
             if (ShowGroups)
             {

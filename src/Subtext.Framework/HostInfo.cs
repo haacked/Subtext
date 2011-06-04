@@ -31,29 +31,39 @@ namespace Subtext.Framework
     /// <summary>
     /// Represents the system, and its settings, that hosts the blogs within this Subtext installation.
     /// </summary>
-    public sealed class HostInfo
+    public class HostInfo
     {
         private static Lazy<HostInfo> _instance = new Lazy<HostInfo>(EnsureHostInfo);
+
+        public HostInfo()
+        {
+            BlogAggregationEnabled =
+                String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true",
+                          StringComparison.OrdinalIgnoreCase);
+            if (BlogAggregationEnabled)
+            {
+                Initialize();
+            }
+        }
+
+        public static HostInfo Instance
+        {
+            get
+            {
+                return _instance.Value;
+            }
+        }
 
         private static HostInfo EnsureHostInfo()
         {
             var repository = DependencyResolver.Current.GetService<ObjectProvider>();
             var hostInfo = LoadHostInfoFromDatabase(repository, suppressException: true);
-            if (hostInfo != null)
-            {
-                hostInfo.BlogAggregationEnabled =
-                        String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true",
-                                      StringComparison.OrdinalIgnoreCase);
-                if (hostInfo.BlogAggregationEnabled)
-                {
-                    hostInfo.Initialize();
-                }
-            }
             if (hostInfo == null)
             {
                 _instance = new Lazy<HostInfo>(EnsureHostInfo);
+                return null;
             }
-            return null;
+            return hostInfo;
         }
 
         public static HostInfo LoadHostInfoFromDatabase(ObjectProvider repository, bool suppressException)
@@ -79,23 +89,10 @@ namespace Subtext.Framework
         }
 
         /// <summary>
-        /// Returns an instance of <see cref="HostInfo"/> used to 
-        /// describe this installation of Subtext.
-        /// </summary>
-        /// <returns></returns>
-        public static HostInfo Instance
-        {
-            get
-            {
-                return _instance.Value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the name of the host user.
         /// </summary>
         /// <value></value>
-        public string HostUserName { get; set; }
+        public virtual string HostUserName { get; set; }
 
         public string Email { get; set; }
 
@@ -144,7 +141,7 @@ namespace Subtext.Framework
         /// <returns></returns>
         public static bool CreateHost(ObjectProvider repository, string hostUserName, string hostPassword, string email)
         {
-            if (Instance != null)
+            if (_instance.Value != null)
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_HostRecordAlreadyExists);
             }

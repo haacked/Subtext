@@ -54,7 +54,7 @@ namespace Subtext.Web
         {
             int? groupId = GetGroupIdFromQueryString();
 
-            var hostInfo = HostInfo.Instance;
+            var hostInfo = HostInfo;
 
             if (hostInfo.AggregateBlog == null)
             {

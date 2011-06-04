@@ -26,27 +26,27 @@ namespace Subtext.Framework.Services
 {
     public class BlogLookupService : IBlogLookupService
     {
-        HostInfo _host;
+        Lazy<HostInfo> _hostInfo;
 
-        public BlogLookupService(ObjectProvider repository, HostInfo host)
+        public BlogLookupService(ObjectProvider repository, Lazy<HostInfo> hostInfo)
         {
             Repository = repository;
-            _host = host;
+            _hostInfo = hostInfo;
         }
 
         protected ObjectProvider Repository { get; private set; }
 
-        protected HostInfo Host
+        protected HostInfo HostInfo
         {
             get
             {
-                return _host;
+                return _hostInfo.Value;
             }
         }
 
         public BlogLookupResult Lookup(BlogRequest blogRequest)
         {
-            if (Host == null)
+            if (HostInfo == null)
             {
                 return new BlogLookupResult(null, null);
             }
@@ -67,13 +67,13 @@ namespace Subtext.Framework.Services
 
             IPagedCollection<Blog> pagedBlogs = Repository.GetPagedBlogs(null, 0, 10, ConfigurationFlags.None);
             int totalBlogCount = pagedBlogs.MaxItems;
-            if (Host.BlogAggregationEnabled && totalBlogCount > 0)
+            if (HostInfo.BlogAggregationEnabled && totalBlogCount > 0)
             {
                 if (!String.IsNullOrEmpty(blogRequest.Subfolder))
                 {
                     return null;
                 }
-                return new BlogLookupResult(Host.AggregateBlog, null);
+                return new BlogLookupResult(HostInfo.AggregateBlog, null);
             }
 
             if (totalBlogCount == 1)

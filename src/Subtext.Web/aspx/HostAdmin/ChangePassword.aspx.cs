@@ -30,7 +30,7 @@ namespace Subtext.Web.HostAdmin
     {
         protected override void OnLoad(EventArgs e)
         {
-            txtEmail.Text = HostInfo.Instance.Email;
+            txtEmail.Text = Host.Email;
             lblSuccess.Visible = false;
             emailChangedLabel.Visible = false;
         }
@@ -39,8 +39,8 @@ namespace Subtext.Web.HostAdmin
         {
             if (Page.IsValid)
             {
-                HostInfo.SetHostPassword(HostInfo.Instance, txtNewPassword.Text);
-                HostInfo.UpdateHost(Repository, HostInfo.Instance);
+                HostInfo.SetHostPassword(Host, txtNewPassword.Text);
+                HostInfo.UpdateHost(Repository, Host);
                 lblSuccess.Visible = true;
             }
         }
@@ -48,8 +48,8 @@ namespace Subtext.Web.HostAdmin
         protected void OnChangeEmailButtonClick(object sender, EventArgs e)
         {
             emailChangedLabel.Visible = true;
-            HostInfo.Instance.Email = txtEmail.Text;
-            HostInfo.UpdateHost(Repository, HostInfo.Instance);
+            Host.Email = txtEmail.Text;
+            HostInfo.UpdateHost(Repository, Host);
         }
 
         private void ValidatePassword(object source, ServerValidateEventArgs args)
@@ -57,10 +57,10 @@ namespace Subtext.Web.HostAdmin
             string password = txtCurrentPassword.Text;
             if (Config.Settings.UseHashedPasswords)
             {
-                password = SecurityHelper.HashPassword(password, HostInfo.Instance.Salt);
+                password = SecurityHelper.HashPassword(password, Host.Salt);
             }
 
-            args.IsValid = password == HostInfo.Instance.Password;
+            args.IsValid = password == Host.Password;
         }
 
         override protected void OnInit(EventArgs e)

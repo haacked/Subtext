@@ -17,7 +17,6 @@
 
 using System;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
@@ -35,7 +34,7 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
 
             int? groupId = GetGroupIdFromQueryString();
-            HostStats stats = Repository.GetTotalBlogStats(HostInfo.Instance.AggregateBlog.Host, groupId);
+            HostStats stats = Repository.GetTotalBlogStats(Page.HostInfo.AggregateBlog.Host, groupId);
             if (stats != null)
             {
                 BlogCount.Text = stats.BlogCount.ToString();

@@ -37,7 +37,7 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
             int? groupId = GetGroupIdFromQueryString();
 
-            ICollection<Image> images = Repository.GetImages(HostInfo.Instance.AggregateBlog.Host, groupId, Count);
+            ICollection<Image> images = Repository.GetImages(HostInfo.AggregateBlog.Host, groupId, Count);
             recentImagesRepeater.DataSource = images;
             recentImagesRepeater.DataBind();
         }

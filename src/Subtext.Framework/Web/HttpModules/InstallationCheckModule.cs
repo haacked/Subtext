@@ -26,12 +26,12 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class InstallationCheckModule : IHttpModule
     {
-        private HostInfo _hostInfo;
+        private Lazy<HostInfo> _hostInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InstallationCheckModule"/> class.
         /// </summary>
-        public InstallationCheckModule(IInstallationManager installationManager, HostInfo hostInfo)
+        public InstallationCheckModule(IInstallationManager installationManager, Lazy<HostInfo> hostInfo)
         {
             InstallationManager = installationManager;
             _hostInfo = hostInfo;
@@ -92,14 +92,14 @@ namespace Subtext.Framework.Web.HttpModules
                 return null;
             }
 
-            if (_hostInfo == null && blogRequest.RequestLocation != RequestLocation.Installation)
+            if (_hostInfo.Value == null && blogRequest.RequestLocation != RequestLocation.Installation)
             {
                 return installUrl;
             }
 
             // Want to redirect to install if installation is required, 
             // or if we're missing a HostInfo record.
-            if ((InstallationManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, null) || _hostInfo == null))
+            if ((InstallationManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, null) || _hostInfo.Value == null))
             {
                 InstallationState state = InstallationManager.GetInstallationStatus(VersionInfo.CurrentAssemblyVersion);
                 if (state == InstallationState.NeedsInstallation

@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             // arrange
             var installManager = new Mock<IInstallationManager>();
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
-            var module = new InstallationCheckModule(installManager.Object, new HostInfo());
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => new HostInfo()));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.Installation, "/");
 
@@ -81,7 +81,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
                 InstallationState.NeedsInstallation);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
-            var module = new InstallationCheckModule(installManager.Object, new HostInfo());
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => new HostInfo()));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.HostAdmin, "/");
 
@@ -102,7 +102,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
                 InstallationState.NeedsInstallation);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
-            var module = new InstallationCheckModule(installManager.Object, new HostInfo());
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => new HostInfo()));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.Blog, "/");
 
@@ -123,7 +123,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
                 InstallationState.NeedsInstallation);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
-            var module = new InstallationCheckModule(installManager.Object, new HostInfo());
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => new HostInfo()));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.LoginPage, "/");
 
@@ -142,7 +142,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
                 InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
-            var module = new InstallationCheckModule(installManager.Object, new HostInfo());
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => new HostInfo()));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.LoginPage, "/");
 
@@ -161,7 +161,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
                 InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
-            var module = new InstallationCheckModule(installManager.Object, new HostInfo());
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => new HostInfo()));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.Upgrade, "/");
 
@@ -180,7 +180,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
                 InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
-            var module = new InstallationCheckModule(installManager.Object, new HostInfo());
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => new HostInfo()));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.SystemMessages, "/");
 
@@ -199,7 +199,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
                 InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
-            var module = new InstallationCheckModule(installManager.Object, new HostInfo());
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => new HostInfo()));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.HostAdmin, "/");
 
@@ -218,7 +218,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             installManager.Setup(m => m.GetInstallationStatus(It.IsAny<Version>())).Returns(
                 InstallationState.NeedsUpgrade);
             installManager.Setup(m => m.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
-            var module = new InstallationCheckModule(installManager.Object, new HostInfo());
+            var module = new InstallationCheckModule(installManager.Object, new Lazy<HostInfo>(() => new HostInfo()));
             var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost/Install/foo.aspx"),
                                               true, RequestLocation.Blog, "/");
 
