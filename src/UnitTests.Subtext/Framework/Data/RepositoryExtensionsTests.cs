@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.Framework.Data
                 new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Third Entry"},
                 new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/25", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Fourth Entry"}
             };
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntries(10, PostType.BlogPost, PostConfig.None, false)).Returns(entries);
 
             // act
@@ -81,7 +81,7 @@ namespace UnitTests.Subtext.Framework.Data
                 new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/24", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Third Entry"},
                 new Entry(PostType.BlogPost) {DatePublishedUtc = DateTime.ParseExact("2008/01/25", "yyyy/MM/dd", CultureInfo.InvariantCulture), Title="Fourth Entry"}
             };
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntriesByCategory(10, 1, true)).Returns(entries);
 
             // act

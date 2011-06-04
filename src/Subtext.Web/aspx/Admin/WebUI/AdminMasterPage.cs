@@ -45,7 +45,7 @@ namespace Subtext.Web.Admin.WebUI
             get { return SubtextPage.Blog; }
         }
 
-        public ObjectProvider Repository
+        public ObjectRepository Repository
         {
             get { return SubtextPage.Repository; }
         }

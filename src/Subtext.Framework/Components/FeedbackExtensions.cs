@@ -14,7 +14,7 @@ namespace Subtext.Framework.Components
         /// </summary>
         /// <param name="feedbackId">The feedback id.</param>
         /// <returns></returns>
-        public static FeedbackItem Get(this ObjectProvider repository, int feedbackId)
+        public static FeedbackItem Get(this ObjectRepository repository, int feedbackId)
         {
             return repository.GetFeedback(feedbackId);
         }
@@ -22,7 +22,7 @@ namespace Subtext.Framework.Components
         /// <summary>
         /// Gets the feedback counts for the various top level statuses.
         /// </summary>
-        public static FeedbackCounts GetFeedbackCounts(this ObjectProvider repository)
+        public static FeedbackCounts GetFeedbackCounts(this ObjectRepository repository)
         {
             FeedbackCounts counts;
             repository.GetFeedbackCounts(out counts.ApprovedCount, out counts.NeedsModerationCount,
@@ -35,7 +35,7 @@ namespace Subtext.Framework.Components
         /// </summary>
         /// <param name="itemCount"></param>
         /// <returns></returns>
-        public static ICollection<FeedbackItem> GetRecentComments(this ObjectProvider repository, int itemCount)
+        public static ICollection<FeedbackItem> GetRecentComments(this ObjectRepository repository, int itemCount)
         {
             return repository.GetPagedFeedback(0, itemCount, FeedbackStatusFlag.Approved,
                                                               FeedbackStatusFlag.None, FeedbackType.Comment);
@@ -46,7 +46,7 @@ namespace Subtext.Framework.Components
         /// </summary>
         /// <param name="feedbackItem">Entry.</param>
         /// <returns></returns>
-        public static bool Update(this ObjectProvider repository, FeedbackItem feedbackItem)
+        public static bool Update(this ObjectRepository repository, FeedbackItem feedbackItem)
         {
             if (feedbackItem == null)
             {
@@ -63,7 +63,7 @@ namespace Subtext.Framework.Components
         /// <param name="feedback"></param>
         /// <param name="spamService"></param>
         /// <returns></returns>
-        public static void Approve(this ObjectProvider repository, FeedbackItem feedback, ICommentSpamService spamService)
+        public static void Approve(this ObjectRepository repository, FeedbackItem feedback, ICommentSpamService spamService)
         {
             if (feedback == null)
             {
@@ -85,7 +85,7 @@ namespace Subtext.Framework.Components
         /// </summary>
         /// <param name="feedback">The feedback.</param>
         /// <param name="spamService"></param>
-        public static void ConfirmSpam(this ObjectProvider repository, FeedbackItem feedback, ICommentSpamService spamService)
+        public static void ConfirmSpam(this ObjectRepository repository, FeedbackItem feedback, ICommentSpamService spamService)
         {
             if (feedback == null)
             {
@@ -107,7 +107,7 @@ namespace Subtext.Framework.Components
         /// Confirms the feedback as spam and moves it to the trash.
         /// </summary>
         /// <param name="feedback">The feedback.</param>
-        public static void Delete(this ObjectProvider repository, FeedbackItem feedback)
+        public static void Delete(this ObjectRepository repository, FeedbackItem feedback)
         {
             if (feedback == null)
             {
@@ -125,7 +125,7 @@ namespace Subtext.Framework.Components
         /// Destroys all non-active emails that meet the status.
         /// </summary>
         /// <param name="feedbackStatus">The feedback.</param>
-        public static void Destroy(this ObjectProvider repository, FeedbackStatusFlag feedbackStatus)
+        public static void Destroy(this ObjectRepository repository, FeedbackStatusFlag feedbackStatus)
         {
             if ((feedbackStatus & FeedbackStatusFlag.Approved) == FeedbackStatusFlag.Approved)
             {

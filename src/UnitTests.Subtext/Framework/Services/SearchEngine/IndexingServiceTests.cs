@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         public void RebuildIndex_LoadEntriesFromRepository()
         {
             var context = new Mock<ISubtextContext>();
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntries(PostType.BlogPost, null, It.IsAny<int>(), It.IsAny<int>())).Returns(
                 new PagedCollection<EntryStatsView>());
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         public void RebuildIndex_AddsDataToIndex()
         {
             var context = new Mock<ISubtextContext>();
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntries(PostType.BlogPost, null, It.IsAny<int>(), It.IsAny<int>())).Returns(
                 BuildFakeCollection());
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         public void RebuildIndex_WithEntryNotPublished_DoesntAddsDataToIndex()
         {
             var context = new Mock<ISubtextContext>();
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntries(PostType.BlogPost, null, It.IsAny<int>(), It.IsAny<int>())).Returns(
                 BuildFakeCollectionNotPublished());
             context.Setup(c => c.Repository).Returns(repository.Object);

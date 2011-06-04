@@ -27,12 +27,12 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public class DeleteImageCommand : DeleteTitledTargetCommand
     {
-        public DeleteImageCommand(ObjectProvider repository, Image image, string galleryDirectoryPath)
+        public DeleteImageCommand(ObjectRepository repository, Image image, string galleryDirectoryPath)
             : this(repository, galleryDirectoryPath, image, "Image " + image.ImageID.ToString(CultureInfo.InvariantCulture))
         {
         }
 
-        public DeleteImageCommand(ObjectProvider repository, string galleryDirectoryPath, Image image, string imageTitle)
+        public DeleteImageCommand(ObjectRepository repository, string galleryDirectoryPath, Image image, string imageTitle)
         {
             GalleryDirectoryPath = galleryDirectoryPath;
             _targetName = "Image";
@@ -40,7 +40,7 @@ namespace Subtext.Web.Admin.Commands
             Image = image;
         }
 
-        protected ObjectProvider Repository { get; private set; }
+        protected ObjectRepository Repository { get; private set; }
         public string GalleryDirectoryPath { get; private set; }
         public Image Image { get; private set; }
 

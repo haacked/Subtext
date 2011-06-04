@@ -84,7 +84,7 @@ namespace Subtext.Web.UI
             return text;
         }
 
-        public static LinkCategory Links(this ObjectProvider repository, CategoryType catType, Blog blog, BlogUrlHelper urlHelper)
+        public static LinkCategory Links(this ObjectRepository repository, CategoryType catType, Blog blog, BlogUrlHelper urlHelper)
         {
             switch (catType)
             {
@@ -109,7 +109,7 @@ namespace Subtext.Web.UI
         /// A LinkCategory is a common item to databind to a web control.
         /// </summary>
         /// <returns></returns>
-        public static LinkCategory ArchiveMonth(this ObjectProvider repository, BlogUrlHelper urlHelper, Blog blog)
+        public static LinkCategory ArchiveMonth(this ObjectRepository repository, BlogUrlHelper urlHelper, Blog blog)
         {
             return repository.BuildMonthLinks(UIHelpers.Archives, urlHelper, blog);
         }
@@ -118,7 +118,7 @@ namespace Subtext.Web.UI
         /// Will convert ArchiveCountCollection method from Archives.GetPostsByMonthArchive()
         /// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
         /// </summary>
-        public static LinkCategory BuildMonthLinks(this ObjectProvider repository, string title, BlogUrlHelper urlHelper, Blog blog)
+        public static LinkCategory BuildMonthLinks(this ObjectRepository repository, string title, BlogUrlHelper urlHelper, Blog blog)
         {
             ICollection<ArchiveCount> archiveCounts = repository.GetPostCountsByMonth();
             return archiveCounts.MergeIntoLinkCategory(title, urlHelper, blog);

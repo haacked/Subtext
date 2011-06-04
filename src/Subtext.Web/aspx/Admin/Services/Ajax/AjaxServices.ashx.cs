@@ -28,12 +28,12 @@ namespace Subtext.Web.Admin.Services.Ajax
     //NOTE: This uses Jayrock for Ajax services. Please see http://jayrock.berlios.de/ for more info   
     public class AjaxServices : JsonRpcHandler
     {
-        public AjaxServices(ObjectProvider repository)
+        public AjaxServices(ObjectRepository repository)
         {
             Repository = repository;
         }
 
-        public ObjectProvider Repository
+        public ObjectRepository Repository
         {
             get;
             private set;

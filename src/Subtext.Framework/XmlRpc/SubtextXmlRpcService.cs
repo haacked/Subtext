@@ -41,7 +41,7 @@ namespace Subtext.Framework.XmlRpc
             get { return SubtextContext.UrlHelper; }
         }
 
-        protected ObjectProvider Repository
+        protected ObjectRepository Repository
         {
             get { return SubtextContext.Repository; }
         }

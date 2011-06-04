@@ -442,7 +442,7 @@ namespace UnitTests.Subtext
             return entry;
         }
 
-        public static Link CreateLinkInDb(ObjectProvider repository, int categoryId, string title, int? entryId, string rel)
+        public static Link CreateLinkInDb(ObjectRepository repository, int categoryId, string title, int? entryId, string rel)
         {
             var link = new Link
             {
@@ -923,7 +923,7 @@ namespace UnitTests.Subtext
                 throw new ArgumentNullException("entry");
             }
 
-            ObjectProvider repository = new DatabaseObjectProvider();
+            ObjectRepository repository = new DatabaseObjectProvider();
             var transform = new CompositeTextTransformation
             {
                 new XhtmlConverter(),

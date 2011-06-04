@@ -31,7 +31,7 @@ namespace Subtext.Framework
     /// <summary>
     /// Represents an instance of a blog.  This was formerly known as the BlogConfig class. 
     /// We are attempting to distinguish this from settings stored in web.config. This class 
-    /// is persisted via a <see cref="ObjectProvider"/>.
+    /// is persisted via a <see cref="ObjectRepository"/>.
     /// </summary>
     [Serializable]
     public class Blog
@@ -710,7 +710,7 @@ namespace Subtext.Framework
             return host.RightAfter("www.", StringComparison.OrdinalIgnoreCase);
         }
 
-        public IPagedCollection<BlogAlias> GetBlogAliases(ObjectProvider repository, int pageIndex, int pageSize)
+        public IPagedCollection<BlogAlias> GetBlogAliases(ObjectRepository repository, int pageIndex, int pageSize)
         {
             return repository.GetPagedBlogDomainAlias(this, pageIndex, pageSize);
         }

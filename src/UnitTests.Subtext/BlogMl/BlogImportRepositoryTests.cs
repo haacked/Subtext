@@ -180,7 +180,7 @@ namespace UnitTests.Subtext.BlogMl
         {
             // arrange
             var blog = new Blog();
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
             context.Setup(c => c.Blog).Returns(blog);

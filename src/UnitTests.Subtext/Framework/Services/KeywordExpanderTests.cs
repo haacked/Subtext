@@ -273,7 +273,7 @@ namespace UnitTests.Subtext.Framework.Services
                     Url = "http://example.com/",
                 }
             };
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetKeyWords()).Returns(keywords);
 
             //act

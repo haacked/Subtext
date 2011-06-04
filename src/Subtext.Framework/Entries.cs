@@ -30,7 +30,7 @@ namespace Subtext.Framework
     /// </summary>
     public static class Entries
     {
-        public static void RebuildAllTags(this ObjectProvider repository)
+        public static void RebuildAllTags(this ObjectRepository repository)
         {
             foreach (var day in repository.GetBlogPostsForHomePage(0, PostConfig.None))
             {
@@ -44,7 +44,7 @@ namespace Subtext.Framework
         /// <summary>
         /// Gets the main syndicated entries.
         /// </summary>
-        public static ICollection<Entry> GetMainSyndicationEntries(this ObjectProvider repository, int itemCount)
+        public static ICollection<Entry> GetMainSyndicationEntries(this ObjectRepository repository, int itemCount)
         {
             return repository.GetEntries(itemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive, true /* includeCategories */);
         }

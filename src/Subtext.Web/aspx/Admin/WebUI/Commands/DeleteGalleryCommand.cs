@@ -32,7 +32,7 @@ namespace Subtext.Web.Admin.Commands
     {
         HttpServerUtilityBase _server;
 
-        public DeleteGalleryCommand(ObjectProvider repository, HttpServerUtilityBase server, string galleryDirectoryPath, int galleryId, string galleryTitle)
+        public DeleteGalleryCommand(ObjectRepository repository, HttpServerUtilityBase server, string galleryDirectoryPath, int galleryId, string galleryTitle)
         {
             _server = server;
             _targetID = galleryId;
@@ -41,7 +41,7 @@ namespace Subtext.Web.Admin.Commands
             Repository = repository;
         }
 
-        protected ObjectProvider Repository
+        protected ObjectRepository Repository
         {
             get;
             private set;

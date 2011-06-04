@@ -36,7 +36,7 @@ namespace Subtext.Framework
         /// <summary>
         /// Gets the top tags.
         /// </summary>
-        public static ICollection<Tag> GetMostUsedTags(this ObjectProvider repository, int itemCount)
+        public static ICollection<Tag> GetMostUsedTags(this ObjectRepository repository, int itemCount)
         {
             if (itemCount < 0)
             {

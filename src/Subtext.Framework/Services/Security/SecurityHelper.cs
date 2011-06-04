@@ -440,13 +440,13 @@ namespace Subtext.Framework.Security
             repository.UpdateConfigData(info);
         }
 
-        public static void UpdateHostAdminPassword(this ObjectProvider repository, HostInfo hostInfo, string password)
+        public static void UpdateHostAdminPassword(this ObjectRepository repository, HostInfo hostInfo, string password)
         {
             hostInfo.Password = Config.Settings.UseHashedPasswords ? HashPassword(password, hostInfo.Salt) : password;
             HostInfo.UpdateHost(repository, hostInfo);
         }
 
-        public static string ResetHostAdminPassword(this ObjectProvider repository, HostInfo hostInfo)
+        public static string ResetHostAdminPassword(this ObjectRepository repository, HostInfo hostInfo)
         {
             string password = RandomPassword();
             repository.UpdateHostAdminPassword(hostInfo, password);

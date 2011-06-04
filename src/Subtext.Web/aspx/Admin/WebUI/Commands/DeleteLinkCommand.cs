@@ -23,7 +23,7 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public sealed class DeleteLinkCommand : DeleteTitledTargetCommand
     {
-        public DeleteLinkCommand(ObjectProvider repository, int linkId, string linkTitle)
+        public DeleteLinkCommand(ObjectRepository repository, int linkId, string linkTitle)
         {
             AutoRedirect = true;
             _targetName = "Link";
@@ -32,7 +32,7 @@ namespace Subtext.Web.Admin.Commands
             Repository = repository;
         }
 
-        public ObjectProvider Repository { get; private set; }
+        public ObjectRepository Repository { get; private set; }
 
         public override string Execute()
         {

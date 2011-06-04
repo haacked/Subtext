@@ -27,7 +27,7 @@ namespace Subtext.Framework.Routing
 
         BlogUrlHelper Url { get; }
 
-        ObjectProvider Repository { get; }
+        ObjectRepository Repository { get; }
 
         AdminUrlHelper AdminUrl { get; }
 

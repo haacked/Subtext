@@ -40,7 +40,7 @@ namespace Subtext.Web.Admin.Commands
             _cancelFailureMessage = "Could not cancel link import. Details: {0}";
         }
 
-        public ImportLinksCommand(ObjectProvider repository, OpmlItemCollection links, int catID)
+        public ImportLinksCommand(ObjectRepository repository, OpmlItemCollection links, int catID)
             : this()
         {
             _linksToImport = links;
@@ -48,7 +48,7 @@ namespace Subtext.Web.Admin.Commands
             Repository = repository;
         }
 
-        public ObjectProvider Repository { get; private set; }
+        public ObjectRepository Repository { get; private set; }
 
         public override string PromptMessage
         {

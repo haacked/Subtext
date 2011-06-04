@@ -29,12 +29,12 @@ namespace Subtext.Framework.Services
     /// </summary>
     public class KeywordExpander : ITextTransformation
     {
-        public KeywordExpander(ObjectProvider repository)
+        public KeywordExpander(ObjectRepository repository)
         {
             _repository = repository;
         }
 
-        readonly ObjectProvider _repository;
+        readonly ObjectRepository _repository;
 
         public KeywordExpander(IEnumerable<KeyWord> keyWords)
         {

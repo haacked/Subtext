@@ -27,7 +27,7 @@ namespace Subtext.ImportExport
     public class BlogImportSetup : IDisposable
     {
         Action _revertAction;
-        public BlogImportSetup(Blog blog, ObjectProvider repository)
+        public BlogImportSetup(Blog blog, ObjectRepository repository)
         {
             Blog = blog;
             Repository = repository;
@@ -39,7 +39,7 @@ namespace Subtext.ImportExport
             get; private set;
         }
 
-        public ObjectProvider Repository
+        public ObjectRepository Repository
         {
             get; private set;
         }

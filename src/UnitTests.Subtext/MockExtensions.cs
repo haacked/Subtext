@@ -25,7 +25,7 @@ namespace UnitTests.Subtext
         }
 
         public static StringWriter FakeSitemapHandlerRequest(this Mock<ISubtextContext> subtextContext,
-                                                             Mock<ObjectProvider> repository)
+                                                             Mock<ObjectRepository> repository)
         {
             subtextContext.Setup(c => c.Repository).Returns(repository.Object);
             StringWriter writer = subtextContext.FakeSubtextContextRequest(new Blog { Host = "localhost" }, "/sitemap.xml",
@@ -127,14 +127,14 @@ namespace UnitTests.Subtext
         }
 
         public static Mock<ISubtextContext> SetupRepository(this Mock<ISubtextContext> context,
-                                                            Mock<ObjectProvider> repository)
+                                                            Mock<ObjectRepository> repository)
         {
             context.Setup(c => c.Repository).Returns(repository.Object);
             return context;
         }
 
         public static Mock<ISubtextContext> SetupRepository(this Mock<ISubtextContext> context,
-                                                            ObjectProvider repository)
+                                                            ObjectRepository repository)
         {
             context.Setup(c => c.Repository).Returns(repository);
             return context;

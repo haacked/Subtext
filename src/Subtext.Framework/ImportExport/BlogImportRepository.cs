@@ -37,7 +37,7 @@ namespace Subtext.ImportExport
             Mapper = mapper;
         }
 
-        protected ObjectProvider Repository
+        protected ObjectRepository Repository
         {
             get { return SubtextContext.Repository; }
         }

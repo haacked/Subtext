@@ -23,9 +23,9 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public sealed class DeleteKeyWordCommand : DeleteTitledTargetCommand
     {
-        ObjectProvider _repository;
+        ObjectRepository _repository;
 
-        public DeleteKeyWordCommand(ObjectProvider repository, int keyWordId, string word)
+        public DeleteKeyWordCommand(ObjectRepository repository, int keyWordId, string word)
         {
             AutoRedirect = true;
             _targetName = "KeyWord";

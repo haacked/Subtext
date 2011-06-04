@@ -91,7 +91,7 @@ namespace Subtext.Framework
             }
         }
 
-        public static ImageCollection GetImagesByCategory(this ObjectProvider repository, int categoryId, bool activeOnly)
+        public static ImageCollection GetImagesByCategory(this ObjectRepository repository, int categoryId, bool activeOnly)
         {
             return repository.GetImagesByCategoryId(categoryId, activeOnly);
         }
@@ -102,7 +102,7 @@ namespace Subtext.Framework
         /// <param name="image">The image.</param>
         /// <param name="buffer">The buffer.</param>
         /// <returns></returns>
-        public static int Insert(this ObjectProvider repository, Image image, byte[] buffer)
+        public static int Insert(this ObjectRepository repository, Image image, byte[] buffer)
         {
             if (image == null)
             {
@@ -121,7 +121,7 @@ namespace Subtext.Framework
         /// Updates the image.
         /// </summary>
         /// <param name="image">The image.</param>
-        public static void Update(this ObjectProvider repository, Image image)
+        public static void Update(this ObjectRepository repository, Image image)
         {
             if (image == null)
             {
@@ -131,7 +131,7 @@ namespace Subtext.Framework
         }
 
         // added
-        public static void Update(this ObjectProvider repository, Image image, byte[] buffer)
+        public static void Update(this ObjectRepository repository, Image image, byte[] buffer)
         {
             if (image == null)
             {
@@ -150,7 +150,7 @@ namespace Subtext.Framework
             }
         }
 
-        public static void Delete(this ObjectProvider repository, Image image)
+        public static void Delete(this ObjectRepository repository, Image image)
         {
             if (image == null)
             {

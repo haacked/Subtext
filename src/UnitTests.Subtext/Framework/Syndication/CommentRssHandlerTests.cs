@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             DateTime dateCreated = DateTime.UtcNow;
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication(blog, "Author", "Best post EVER", "testbody", null, dateCreated);
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
 
             int id = UnitTestHelper.Create(entry); //persist to db.

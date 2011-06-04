@@ -28,7 +28,7 @@ namespace Subtext.Framework
     public interface ISubtextContext
     {
         Blog Blog { get; }
-        ObjectProvider Repository { get; }
+        ObjectRepository Repository { get; }
         RequestContext RequestContext { get; }
         HttpContextBase HttpContext { get; }
         BlogUrlHelper UrlHelper { get; }
