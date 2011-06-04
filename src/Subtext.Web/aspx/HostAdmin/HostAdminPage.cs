@@ -17,12 +17,17 @@
 
 using System;
 using System.Web.Security;
+using Ninject;
+using Subtext.Framework;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.HostAdmin
 {
     public class HostAdminPage : SubtextPage
     {
+        [Inject]
+        public HostInfo Host { get; set; }
+
         protected override void OnInit(EventArgs e)
         {
             if (!User.IsInRole("HostAdmins"))

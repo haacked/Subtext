@@ -59,7 +59,6 @@ namespace Subtext.Framework.Infrastructure.Installation
             Entry article = CreateWelcomeArticle(blog, entryPublisher, adminUrlHelper);
             Entry entry = CreateWelcomeBlogPost(context, blog, entryPublisher, adminUrlHelper, article);
             CreateWelcomeComment(repository, adminUrlHelper, entry);
-
         }
 
         private static void CreateWelcomeComment(ObjectProvider repository, AdminUrlHelper adminUrlHelper, Entry entry)

@@ -40,7 +40,7 @@ namespace Subtext.Web.UI.Controls
         {
             int? groupId = GetGroupIdFromQueryString();
 
-            ICollection<Entry> entries = Repository.GetRecentEntries(HostInfo.Instance.AggregateBlog.Host, groupId,
+            ICollection<Entry> entries = Repository.GetRecentEntries(HostInfo.AggregateBlog.Host, groupId,
                                                                      Count);
             RecentPosts.DataSource = entries;
             RecentPosts.DataBind();

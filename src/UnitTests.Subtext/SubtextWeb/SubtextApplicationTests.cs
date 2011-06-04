@@ -314,6 +314,26 @@ namespace UnitTests.Subtext.SubtextWeb
         }
 
         [Test]
+        public void HandleRequestLocationException_WithNullBlogRequest_RedirectsToInstallDefault()
+        {
+            // arrange
+            var response = new Mock<HttpResponseBase>();
+            string redirectLocation = null;
+            response.Setup(r => r.Redirect(It.IsAny<string>(), true)).Callback<string, bool>(
+                (s, endRequest) => redirectLocation = s);
+            var blogRequest = new BlogRequest("", "", new Uri("http://haacked.com/"), false);
+            var installationManager = new Mock<IInstallationManager>();
+            installationManager.Setup(i => i.InstallationActionRequired(It.IsAny<Version>(), null)).Returns(true);
+
+            // act
+            bool handled = SubtextApplication.HandleRequestLocationException(null, null, installationManager.Object, response.Object);
+
+            // assert
+            Assert.AreEqual("~/install/default.aspx", redirectLocation);
+            Assert.IsTrue(handled);
+        }
+
+        [Test]
         public void HandleRequestLocationException_WithInstallationActionRequired_RedirectsToInstallDefault()
         {
             // arrange

@@ -15,12 +15,17 @@
 
 #endregion
 
+using Ninject;
+using Subtext.Framework;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.UI.Controls
 {
     public class AggregatePage : SubtextPage
     {
+        [Inject]
+        public HostInfo HostInfo { get; set; }
+
         public int? GetGroupIdFromQueryString()
         {
             int? groupId = null;

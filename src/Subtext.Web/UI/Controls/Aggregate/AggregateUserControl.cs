@@ -27,6 +27,14 @@ namespace Subtext.Web.UI.Controls
             get { return base.Page as AggregatePage; }
         }
 
+        protected HostInfo HostInfo
+        {
+            get
+            {
+                return Page.HostInfo;
+            }
+        }
+
         protected string AggregateUrl
         {
             get { return Url.AppRoot(); }

@@ -894,7 +894,7 @@
     <Compile Include="UI\WebControls\MetaTagsControl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Subtext2.5.mdf" />
+    <Content Include="App_Data\Subtext2.6.mdf" />
     <Content Include="emoticons.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

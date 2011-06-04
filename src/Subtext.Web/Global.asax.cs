@@ -304,8 +304,8 @@ namespace Subtext.Web
 
         public static bool HandleRequestLocationException(Exception exception, BlogRequest blogRequest, IInstallationManager installManager, HttpResponseBase response)
         {
-            if (blogRequest.RequestLocation != RequestLocation.Installation &&
-               blogRequest.RequestLocation != RequestLocation.Upgrade)
+            if (blogRequest == null || (blogRequest.RequestLocation != RequestLocation.Installation &&
+               blogRequest.RequestLocation != RequestLocation.Upgrade))
             {
                 if (installManager.InstallationActionRequired(VersionInfo.CurrentAssemblyVersion, exception))
                 {

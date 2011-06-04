@@ -19,6 +19,8 @@ using System;
 using System.Web;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using log4net;
+using Ninject;
+using Subtext.Framework;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
 using Subtext.Framework.Text;
@@ -34,6 +36,9 @@ namespace Subtext.Web.Pages
     {
         private readonly static ILog Log = new Log();
         private static readonly string LoginFailedMessage = Resources.Login_Failed + "<br />";
+
+        [Inject]
+        public HostInfo HostInfo { get; set; }
 
         protected override void OnLoad(EventArgs e)
         {
@@ -116,7 +121,7 @@ namespace Subtext.Web.Pages
 
         private bool AuthenticateHostAdmin()
         {
-            return SecurityHelper.AuthenticateHostAdmin(tbUserName.Text, tbPassword.Text, chkRememberMe.Checked);
+            return HostInfo.AuthenticateHostAdmin(tbUserName.Text, tbPassword.Text, chkRememberMe.Checked);
         }
     }
 }

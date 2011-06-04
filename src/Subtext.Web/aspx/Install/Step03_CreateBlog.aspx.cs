@@ -41,6 +41,13 @@ namespace Subtext.Web.Install
             set;
         }
 
+        [Inject]
+        protected HostInfo HostInfo
+        {
+            get;
+            set;
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             btnQuickCreate.Attributes["onclick"] = "this.disabled=true;"
@@ -51,7 +58,7 @@ namespace Subtext.Web.Install
 
         protected void btnQuickCreate_Click(object sender, EventArgs e)
         {
-            var hostInfo = HostInfo.Instance;
+            var hostInfo = HostInfo;
 
             // Create the blog_config record using default values 
             // and the specified user info

@@ -25,10 +25,10 @@ namespace UnitTests.Subtext.Framework.Syndication
             context.SetupUrlHelper(new Mock<BlogUrlHelper>());
             var writer = new Mock<OpmlWriter>();
             writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<BlogUrlHelper>()));
-            var handler = new OpmlHandler(context.Object, writer.Object);
+            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(() => new HostInfo()));
 
             //act
-            handler.ProcessRequest(new HostInfo());
+            handler.ProcessRequest();
 
             //assert
             Assert.AreEqual("text/xml", context.Object.HttpContext.Response.ContentType);
@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         public void OpmlHandler_WithRequestForAggregateBlog_GetsGroupIdFromQueryString()
         {
             //arrange
-            var queryString = new NameValueCollection {{"GroupID", "310"}};
+            var queryString = new NameValueCollection { { "GroupID", "310" } };
 
             var context = new Mock<ISubtextContext>();
             context.Stub(c => c.HttpContext.Response.ContentType);
@@ -54,11 +54,11 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             var writer = new Mock<OpmlWriter>();
             writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<BlogUrlHelper>()));
-            var handler = new OpmlHandler(context.Object, writer.Object);
-            var hostInfo = new HostInfo {BlogAggregationEnabled = true, AggregateBlog = new Blog()};
+            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(() => new HostInfo()));
+            var hostInfo = new HostInfo { BlogAggregationEnabled = true, AggregateBlog = new Blog() };
 
             //act
-            handler.ProcessRequest(hostInfo);
+            handler.ProcessRequest();
 
             //assert
             Assert.AreEqual(310, parsedGroupId.Value);

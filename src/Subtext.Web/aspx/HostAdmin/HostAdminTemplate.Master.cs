@@ -10,6 +10,26 @@ namespace Subtext.Web.HostAdmin
     /// </summary>
     public partial class HostAdminTemplate : MasterPage
     {
+        protected HostInfo Host
+        {
+            get
+            {
+                if (HostAdminPage != null)
+                {
+                    return HostAdminPage.Host;
+                }
+                return null;
+            }
+        }
+
+        protected HostAdminPage HostAdminPage
+        {
+            get
+            {
+                return Page as HostAdminPage;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -17,9 +37,9 @@ namespace Subtext.Web.HostAdmin
                 DataBind();
             }
 
-            if (hostAdminName != null && HostInfo.Instance != null)
+            if (hostAdminName != null && Host != null)
             {
-                hostAdminName.Text = HostInfo.Instance.HostUserName;
+                hostAdminName.Text = Host.HostUserName;
             }
         }
 
@@ -37,7 +57,7 @@ namespace Subtext.Web.HostAdmin
 
         public BlogUrlHelper Url
         {
-            get { return (Page as HostAdminPage).Url; }
+            get { return HostAdminPage.Url; }
         }
     }
 }

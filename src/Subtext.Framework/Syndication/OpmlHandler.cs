@@ -15,6 +15,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Web;
 using Subtext.Framework.Web.Handlers;
@@ -23,26 +24,24 @@ namespace Subtext.Framework.Syndication
 {
     public class OpmlHandler : SubtextHttpHandler
     {
-        public OpmlHandler(ISubtextContext subtextContext, OpmlWriter writer)
+        Lazy<HostInfo> _hostInfo;
+
+        public OpmlHandler(ISubtextContext subtextContext, OpmlWriter writer, Lazy<HostInfo> hostInfo)
             : base(subtextContext)
         {
             OpmlWriter = writer;
+            _hostInfo = hostInfo;
         }
 
         protected OpmlWriter OpmlWriter { get; private set; }
 
         public override void ProcessRequest()
         {
-            ProcessRequest(HostInfo.Instance);
-        }
-
-        public virtual void ProcessRequest(HostInfo hostInfo)
-        {
             HttpResponseBase response = SubtextContext.HttpContext.Response;
             response.ContentType = "text/xml";
 
             IEnumerable<Blog> blogs = null;
-            if (!hostInfo.BlogAggregationEnabled)
+            if (!_hostInfo.Value.BlogAggregationEnabled)
             {
                 Blog blog = SubtextContext.Blog;
                 if (blog != null)

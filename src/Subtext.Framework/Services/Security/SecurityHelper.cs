@@ -174,20 +174,20 @@ namespace Subtext.Framework.Security
         /// <param name="password">The password.</param>
         /// <param name="persist">if set to <c>true</c> [persist].</param>
         /// <returns></returns>
-        public static bool AuthenticateHostAdmin(string username, string password, bool persist)
+        public static bool AuthenticateHostAdmin(this HostInfo host, string username, string password, bool persist)
         {
             var repository = ObjectProvider.Instance();
-            if (!String.Equals(username, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
+            if (!String.Equals(username, host.HostUserName, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
 
             if (Config.Settings.UseHashedPasswords)
             {
-                password = HashPassword(password, HostInfo.Instance.Salt);
+                password = HashPassword(password, host.Salt);
             }
 
-            if (!String.Equals(HostInfo.Instance.Password, password, StringComparison.InvariantCultureIgnoreCase))
+            if (!String.Equals(host.Password, password, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
@@ -438,18 +438,16 @@ namespace Subtext.Framework.Security
             ObjectProvider.Instance().UpdateConfigData(info);
         }
 
-        public static void UpdateHostAdminPassword(string password)
+        public static void UpdateHostAdminPassword(this ObjectProvider repository, HostInfo hostInfo, string password)
         {
-            var repository = ObjectProvider.Instance();
-            HostInfo hostInfo = HostInfo.Instance;
-            hostInfo.Password = Config.Settings.UseHashedPasswords ? HashPassword(password, HostInfo.Instance.Salt) : password;
-            HostInfo.UpdateHost(ObjectProvider.Instance(), hostInfo);
+            hostInfo.Password = Config.Settings.UseHashedPasswords ? HashPassword(password, hostInfo.Salt) : password;
+            HostInfo.UpdateHost(repository, hostInfo);
         }
 
-        public static string ResetHostAdminPassword()
+        public static string ResetHostAdminPassword(this ObjectProvider repository, HostInfo hostInfo)
         {
             string password = RandomPassword();
-            UpdateHostAdminPassword(password);
+            repository.UpdateHostAdminPassword(hostInfo, password);
             return password;
         }
 
