@@ -123,7 +123,6 @@ namespace Subtext.Framework.Security
         /// <returns></returns>
         public static bool AuthenticateHostAdmin(this HostInfo host, string username, string password, bool persist)
         {
-            var repository = new DatabaseObjectProvider();
             if (!String.Equals(username, host.HostUserName, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
