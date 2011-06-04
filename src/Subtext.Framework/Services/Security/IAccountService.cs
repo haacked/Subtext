@@ -19,6 +19,7 @@ namespace Subtext.Framework.Services.Account
 {
     public interface IAccountService
     {
-        void Logout(ISubtextContext context);
+        void Logout();
+        void UpdatePassword(string password);
     }
 }

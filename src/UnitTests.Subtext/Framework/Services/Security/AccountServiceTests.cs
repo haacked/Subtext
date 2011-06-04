@@ -19,12 +19,12 @@ namespace UnitTests.Subtext.Framework.Services.Account
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.HttpContext.Request.QueryString).Returns(new NameValueCollection());
             context.Setup(c => c.HttpContext.Response.Cookies).Returns(responseCookies);
-            var service = new AccountService();
+            var service = new AccountService(context.Object);
 
             // act
             try
             {
-                service.Logout(context.Object);
+                service.Logout();
             }
             catch // Exception thrown due to call to FormsAuthentication.SignOut();
             {

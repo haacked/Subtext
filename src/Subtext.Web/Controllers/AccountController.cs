@@ -16,20 +16,20 @@
 #endregion
 
 using System.Web.Mvc;
-using Subtext.Framework;
+using Subtext.Framework.Routing;
 using Subtext.Framework.Services.Account;
 
 namespace Subtext.Web.Controllers
 {
     public class AccountController : Controller
     {
-        public AccountController(ISubtextContext context, IAccountService service)
+        public AccountController(BlogUrlHelper urlHelper, IAccountService service)
         {
-            SubtextContext = context;
+            BlogUrlHelper = urlHelper;
             AccountService = service;
         }
 
-        protected ISubtextContext SubtextContext
+        protected BlogUrlHelper BlogUrlHelper
         {
             get;
             set;
@@ -43,8 +43,8 @@ namespace Subtext.Web.Controllers
 
         public ActionResult Logout()
         {
-            AccountService.Logout(SubtextContext);
-            return Redirect(SubtextContext.UrlHelper.BlogUrl());
+            AccountService.Logout();
+            return Redirect(BlogUrlHelper.BlogUrl());
         }
     }
 }

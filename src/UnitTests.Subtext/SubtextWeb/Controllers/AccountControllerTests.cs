@@ -17,14 +17,14 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.UrlHelper.BlogUrl()).Returns("/blog");
             var accountService = new Mock<IAccountService>();
-            accountService.Setup(s => s.Logout(context.Object));
-            var controller = new AccountController(context.Object, accountService.Object);
+            accountService.Setup(s => s.Logout());
+            var controller = new AccountController(context.Object.UrlHelper, accountService.Object);
 
             // act
             var result = controller.Logout() as RedirectResult;
 
             // assert
-            accountService.Verify(s => s.Logout(context.Object));
+            accountService.Verify(s => s.Logout());
             Assert.AreEqual("/blog", result.Url);
         }
     }

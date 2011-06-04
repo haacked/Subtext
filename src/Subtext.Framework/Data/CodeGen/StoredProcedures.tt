@@ -16,7 +16,7 @@
 <#@ import namespace="System.Data.Common" #>
 <#@ import namespace="System.Text" #>
 <#
-const string databaseName = "Subtext2.5";
+const string databaseName = "Subtext2.6";
 string databasePath = Path.GetFullPath(Host.ResolvePath(@"..\..\..\Subtext.Web\App_Data\" + databaseName + ".mdf"));
 string ConnectionString = @"Server=.\SQLEXPRESS;AttachDbFilename=" + databasePath + ";Database=" + databaseName + ";Trusted_Connection=Yes;";
 //string ConnectionString = @"Server=localhost;Database=" + databaseName + ";Trusted_Connection=True;";

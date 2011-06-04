@@ -19,6 +19,7 @@ using System;
 using System.Web;
 using System.Web.Security;
 using log4net;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
 
@@ -26,18 +27,29 @@ namespace Subtext.Framework.Services.Account
 {
     public class AccountService : IAccountService
     {
+        public AccountService(ISubtextContext context)
+        {
+            SubtextContext = context;
+        }
+
+        protected ISubtextContext SubtextContext
+        {
+            get;
+            private set;
+        }
+
         private readonly static ILog Log = new Log();
 
-        public void Logout(ISubtextContext context)
+        public void Logout()
         {
-            var request = context.HttpContext.Request;
-            var response = context.HttpContext.Response;
-            var authCookie = new HttpCookie(request.GetFullCookieName(context.Blog)) { Expires = DateTime.UtcNow.AddYears(-30) };
+            var request = SubtextContext.HttpContext.Request;
+            var response = SubtextContext.HttpContext.Response;
+            var authCookie = new HttpCookie(request.GetFullCookieName(SubtextContext.Blog)) { Expires = DateTime.UtcNow.AddYears(-30) };
             response.Cookies.Add(authCookie);
 
             if (Log.IsDebugEnabled)
             {
-                string username = context.HttpContext.User.Identity.Name;
+                string username = SubtextContext.HttpContext.User.Identity.Name;
                 if (Log.IsDebugEnabled)
                 {
                     Log.Debug("Logging out " + username);
@@ -46,6 +58,15 @@ namespace Subtext.Framework.Services.Account
             }
 
             FormsAuthentication.SignOut();
+        }
+
+
+        public void UpdatePassword(string password)
+        {
+            var blog = SubtextContext.Blog;
+            blog.Password = blog.IsPasswordHashed ? SecurityHelper.HashPassword(password) : password;
+            //Save new password.
+            SubtextContext.Repository.UpdateConfigData(blog);
         }
     }
 }
