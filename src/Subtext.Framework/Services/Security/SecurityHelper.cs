@@ -28,6 +28,7 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Security
 {
@@ -176,7 +177,7 @@ namespace Subtext.Framework.Security
         /// <returns></returns>
         public static bool AuthenticateHostAdmin(this HostInfo host, string username, string password, bool persist)
         {
-            var repository = ObjectProvider.Instance();
+            var repository = new DatabaseObjectProvider();
             if (!String.Equals(username, host.HostUserName, StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
@@ -432,10 +433,11 @@ namespace Subtext.Framework.Security
         /// <param name="password">Supplied Password</param>
         public static void UpdatePassword(string password)
         {
+            var repository = new DatabaseObjectProvider();
             Blog info = Config.CurrentBlog;
             info.Password = Config.CurrentBlog.IsPasswordHashed ? HashPassword(password) : password;
             //Save new password.
-            ObjectProvider.Instance().UpdateConfigData(info);
+            repository.UpdateConfigData(info);
         }
 
         public static void UpdateHostAdminPassword(this ObjectProvider repository, HostInfo hostInfo, string password)

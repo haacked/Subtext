@@ -21,7 +21,6 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.Configuration
@@ -45,9 +44,9 @@ namespace UnitTests.Subtext.Framework.Configuration
         {
             const string password = "MyPassword";
             string hashedPassword = SecurityHelper.HashPassword(password);
-
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", password, _hostName, "MyBlog1");
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, "MyBlog1");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", password, _hostName, "MyBlog1");
+            Blog info = repository.GetBlog(_hostName, "MyBlog1");
             Assert.IsNotNull(info, "We tried to get blog at " + _hostName + "/MyBlog1 but it was null");
 
             Config.Settings.UseHashedPasswords = true;
@@ -63,14 +62,15 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void ModifyingBlogShouldNotChangePassword()
         {
+            var repository = new DatabaseObjectProvider();
             Config.Settings.UseHashedPasswords = true;
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "thePassword", _hostName, "MyBlog1");
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
+            repository.CreateBlog("", "username", "thePassword", _hostName, "MyBlog1");
+            Blog info = repository.GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
             string password = info.Password;
             info.LicenseUrl = "http://subtextproject.com/";
-            ObjectProvider.Instance().UpdateConfigData(info);
+            repository.UpdateConfigData(info);
 
-            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
+            info = repository.GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
             Assert.AreEqual(password, info.Password);
         }
 
@@ -82,10 +82,11 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CreatingBlogWithDuplicateHostNameRequiresSubfolderName()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, "MyBlog1");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", _hostName, "MyBlog1");
 
 
-            UnitTestHelper.AssertThrows<BlogRequiresSubfolderException>(() => new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, string.Empty));
+            UnitTestHelper.AssertThrows<BlogRequiresSubfolderException>(() => repository.CreateBlog("", "username", "password", _hostName, string.Empty));
         }
 
         /// <summary>
@@ -95,13 +96,14 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CreatingMultipleBlogs_WithDistinctProperties_DoesNotThrowException()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", UnitTestHelper.GenerateUniqueString(), string.Empty);
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", "www2." + UnitTestHelper.GenerateUniqueString(),
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", UnitTestHelper.GenerateUniqueString(), string.Empty);
+            repository.CreateBlog("title", "username", "password", "www2." + UnitTestHelper.GenerateUniqueString(),
                               string.Empty);
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", UnitTestHelper.GenerateUniqueString(), string.Empty);
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, "Blog1");
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, "Blog2");
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, "Blog3");
+            repository.CreateBlog("title", "username", "password", UnitTestHelper.GenerateUniqueString(), string.Empty);
+            repository.CreateBlog("title", "username", "password", _hostName, "Blog1");
+            repository.CreateBlog("title", "username", "password", _hostName, "Blog2");
+            repository.CreateBlog("title", "username", "password", _hostName, "Blog3");
         }
 
         /// <summary>
@@ -112,9 +114,10 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CreateBlogCannotCreateOneWithDuplicateHostAndNoSubfolder()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", _hostName, string.Empty);
 
-            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username2", "password2", _hostName, string.Empty));
+            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => repository.CreateBlog("title", "username2", "password2", _hostName, string.Empty));
         }
 
         /// <summary>
@@ -125,11 +128,12 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CreateBlogCannotCreateBlogWithHostThatIsDuplicateOfAnotherBlogAlias()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, string.Empty);
-            var alias = new BlogAlias { Host = "example.com", IsActive = true, BlogId = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, string.Empty).Id };
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", _hostName, string.Empty);
+            var alias = new BlogAlias { Host = "example.com", IsActive = true, BlogId = repository.GetBlog(_hostName, string.Empty).Id };
+            repository.AddBlogAlias(alias);
 
-            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username2", "password2", "example.com", string.Empty));
+            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => repository.CreateBlog("title", "username2", "password2", "example.com", string.Empty));
         }
 
         /// <summary>
@@ -140,11 +144,12 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CreateBlogCannotAddAliasThatIsDuplicateOfAnotherBlog()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, string.Empty);
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username2", "password2", "example.com", string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", _hostName, string.Empty);
+            repository.CreateBlog("title", "username2", "password2", "example.com", string.Empty);
 
-            var alias = new BlogAlias { Host = "example.com", IsActive = true, BlogId = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, string.Empty).Id };
-            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias));
+            var alias = new BlogAlias { Host = "example.com", IsActive = true, BlogId = repository.GetBlog(_hostName, string.Empty).Id };
+            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => repository.AddBlogAlias(alias));
         }
 
         /// <summary>
@@ -169,13 +174,14 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void UpdateBlogCannotConflictWithDuplicateHostAndSubfolder()
         {
+            var repository = new DatabaseObjectProvider();
             string secondHost = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, "MyBlog");
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username2", "password2", secondHost, "MyBlog");
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(secondHost, "MyBlog");
+            repository.CreateBlog("title", "username", "password", _hostName, "MyBlog");
+            repository.CreateBlog("title", "username2", "password2", secondHost, "MyBlog");
+            Blog info = repository.GetBlog(secondHost, "MyBlog");
             info.Host = _hostName;
 
-            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => ObjectProvider.Instance().UpdateConfigData(info));
+            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => repository.UpdateConfigData(info));
         }
 
         /// <summary>
@@ -186,13 +192,14 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void UpdateBlogCannotConflictWithDuplicateHost()
         {
+            var repository = new DatabaseObjectProvider();
             string anotherHost = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, string.Empty);
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username2", "password2", anotherHost, string.Empty);
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(anotherHost, string.Empty);
+            repository.CreateBlog("title", "username", "password", _hostName, string.Empty);
+            repository.CreateBlog("title", "username2", "password2", anotherHost, string.Empty);
+            Blog info = repository.GetBlog(anotherHost, string.Empty);
             info.Host = _hostName;
 
-            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => ObjectProvider.Instance().UpdateConfigData(info));
+            UnitTestHelper.AssertThrows<BlogDuplicationException>(() => repository.UpdateConfigData(info));
         }
 
         /// <summary>
@@ -213,9 +220,10 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CreateBlogCannotHideAnotherBlog()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", _hostName, string.Empty);
 
-            UnitTestHelper.AssertThrows<BlogHiddenException>(() => new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, "MyBlog"));
+            UnitTestHelper.AssertThrows<BlogHiddenException>(() => repository.CreateBlog("title", "username", "password", _hostName, "MyBlog"));
         }
 
         /// <summary>
@@ -236,12 +244,13 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void UpdatingBlogCannotHideAnotherBlog()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", "www.mydomain.com", string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", "www.mydomain.com", string.Empty);
 
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog("www.mydomain.com", string.Empty);
+            Blog info = repository.GetBlog("www.mydomain.com", string.Empty);
             info.Host = "mydomain.com";
             info.Subfolder = "MyBlog";
-            ObjectProvider.Instance().UpdateConfigData(info);
+            repository.UpdateConfigData(info);
         }
 
         /// <summary>
@@ -252,15 +261,16 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void UpdatingBlogWithDuplicateHostNameRequiresSubfolderName()
         {
+            var repository = new DatabaseObjectProvider();
             string anotherHost = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, "MyBlog1");
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", anotherHost, string.Empty);
+            repository.CreateBlog("title", "username", "password", _hostName, "MyBlog1");
+            repository.CreateBlog("title", "username", "password", anotherHost, string.Empty);
 
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(anotherHost, string.Empty);
+            Blog info = repository.GetBlog(anotherHost, string.Empty);
             info.Host = _hostName;
             info.Subfolder = string.Empty;
 
-            UnitTestHelper.AssertThrows<BlogRequiresSubfolderException>(() => ObjectProvider.Instance().UpdateConfigData(info));
+            UnitTestHelper.AssertThrows<BlogRequiresSubfolderException>(() => repository.UpdateConfigData(info));
         }
 
         /// <summary>
@@ -271,21 +281,23 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void UpdatingBlogIsFine()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, string.Empty);
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", _hostName, string.Empty);
+            Blog info = repository.GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
             info.Author = "Phil";
-            ObjectProvider.Instance().UpdateConfigData(info); //Make sure no exception is thrown.
+            repository.UpdateConfigData(info); //Make sure no exception is thrown.
         }
 
         [Test]
         [RollBack2]
         public void CanUpdateMobileSkin()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", _hostName, string.Empty);
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", _hostName, string.Empty);
+            Blog info = repository.GetBlog(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
             info.MobileSkin = new SkinConfig { TemplateFolder = "Mobile", SkinStyleSheet = "Mobile.css" };
-            ObjectProvider.Instance().UpdateConfigData(info);
-            Blog blog = ObjectProvider.Instance().GetBlogById(info.Id);
+            repository.UpdateConfigData(info);
+            Blog blog = repository.GetBlogById(info.Id);
             Assert.AreEqual("Mobile", blog.MobileSkin.TemplateFolder);
             Assert.AreEqual("Mobile.css", blog.MobileSkin.SkinStyleSheet);
         }
@@ -360,7 +372,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CannotCreateBlogWithSubfolderNameBin()
         {
-            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "blah", "blah", _hostName, "bin"));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => repository.CreateBlog("title", "blah", "blah", _hostName, "bin"));
         }
 
         /// <summary>
@@ -370,11 +383,12 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CannotRenameBlogToHaveSubfolderNameBin()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "blah", "blah", _hostName, "Anything");
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, "Anything");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "blah", "blah", _hostName, "Anything");
+            Blog info = repository.GetBlog(_hostName, "Anything");
             info.Subfolder = "bin";
 
-            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => ObjectProvider.Instance().UpdateConfigData(info));
+            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => repository.UpdateConfigData(info));
         }
 
         /// <summary>
@@ -384,7 +398,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CannotCreateBlogWithSubfolderNameArchive()
         {
-            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "blah", "blah", _hostName, "archive"));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => repository.CreateBlog("title", "blah", "blah", _hostName, "archive"));
         }
 
         /// <summary>
@@ -394,7 +409,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CannotCreateBlogWithSubfolderNameEndingWithDot()
         {
-            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "blah", "blah", _hostName, "archive."));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => repository.CreateBlog("title", "blah", "blah", _hostName, "archive."));
         }
 
         /// <summary>
@@ -404,7 +420,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CannotCreateBlogWithSubfolderNameWithInvalidCharacters()
         {
-            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "blah", "blah", _hostName, "My!Blog"));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrows<InvalidSubfolderNameException>(() => repository.CreateBlog("title", "blah", "blah", _hostName, "My!Blog"));
         }
     }
 }

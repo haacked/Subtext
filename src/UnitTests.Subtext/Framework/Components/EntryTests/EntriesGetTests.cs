@@ -207,7 +207,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
             //Get Entries
             var beginningOfMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
-            ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
+            ICollection<Entry> entries = repository.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
                                                                     PostType.BlogPost, true);
 
 
@@ -248,7 +248,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             repository.Create(enc);
 
             //Get Entries
-            ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByMonth(DateTime.UtcNow.Month, DateTime.UtcNow.Year);
+            ICollection<Entry> entries = repository.GetPostsByMonth(DateTime.UtcNow.Month, DateTime.UtcNow.Year);
 
             //Test outcome
             Assert.AreEqual(3, entries.Count, "Expected to find three entries.");

@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Components
             var repository = new DatabaseObjectProvider();
             repository.CreateBlogInternal("title", "blah", "blah", host, string.Empty, 1);
             UnitTestHelper.SetHttpContextWithBlogRequest(host, string.Empty);
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(host, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(host, string.Empty);
             var view = new EntryStatsView();
             UnitTestHelper.AssertSimpleProperties(view);
         }

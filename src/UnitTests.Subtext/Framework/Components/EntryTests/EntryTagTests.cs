@@ -26,7 +26,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entry);
             var tags = new List<string>(new[] { "Tag1", "Tag2" });
             new DatabaseObjectProvider().SetEntryTagList(entry.Id, tags);
-            ICollection<Entry> entries = ObjectProvider.Instance().GetEntriesByTag(1, "Tag1");
+            ICollection<Entry> entries = repository.GetEntriesByTag(1, "Tag1");
             Assert.AreEqual(0, entries.Count, "Should not retrieve draft entry.");
         }
 

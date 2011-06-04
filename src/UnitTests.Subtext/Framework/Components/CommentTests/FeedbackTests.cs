@@ -9,7 +9,6 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
 
@@ -145,27 +144,28 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         [RollBack2]
         public void CreateFeedbackSetsBlogStatsCorrectly()
         {
+            var repository = new DatabaseObjectProvider();
             Entry entry = SetupBlogForCommentsAndCreateEntry();
             Blog info = Config.CurrentBlog;
 
             Assert.AreEqual(0, info.CommentCount);
             Assert.AreEqual(0, info.PingTrackCount);
 
-            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore.
+            info = repository.GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore.
             Assert.AreEqual(0, info.CommentCount);
             Assert.AreEqual(0, info.PingTrackCount);
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
-            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder);
+            info = repository.GetBlog(info.Host, info.Subfolder);
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
-            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder);
+            info = repository.GetBlog(info.Host, info.Subfolder);
             Assert.AreEqual(2, info.CommentCount, "Blog CommentCount should be 2");
             Assert.AreEqual(2, info.PingTrackCount, "Blog Ping/Trackback count should be 2");
         }
@@ -174,6 +174,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         [RollBack2]
         public void CreateEntryDoesNotResetBlogStats()
         {
+            var repository = new DatabaseObjectProvider();
             Entry entry = SetupBlogForCommentsAndCreateEntry();
             Blog info = Config.CurrentBlog;
 
@@ -182,7 +183,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 
             Entry entry2 = UnitTestHelper.CreateEntryInstanceForSyndication("johnny b goode", "foo-bar", "zaa zaa zoo.");
             UnitTestHelper.Create(entry2);
-            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore
+            info = repository.GetBlog(info.Host, info.Subfolder); // pull back the updated info from the datastore
 
             Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
@@ -192,21 +193,22 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         [RollBack2]
         public void DeleteEntrySetsBlogStats()
         {
-            Entry entry = SetupBlogForCommentsAndCreateEntry();
+            var repository = new DatabaseObjectProvider();
+            Entry entry = SetupBlogForCommentsAndCreateEntry(repository);
             Blog info = Config.CurrentBlog;
 
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.PingTrack, FeedbackStatusFlag.Approved);
 
-            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder);
-            Assert.AreEqual(1, info.CommentCount, "Blog CommentCount should be 1");
-            Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
+            Blog blog = repository.GetBlog(info.Host, info.Subfolder);
+            Assert.AreEqual(1, blog.CommentCount, "Blog CommentCount should be 1");
+            Assert.AreEqual(1, blog.PingTrackCount, "Blog Ping/Trackback count should be 1");
 
-            ObjectProvider.Instance().DeleteEntry(entry.Id);
-            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(info.Host, info.Subfolder);
+            repository.DeleteEntry(entry.Id);
+            blog = repository.GetBlog(info.Host, info.Subfolder);
 
-            Assert.AreEqual(0, info.CommentCount, "Blog CommentCount should be 0");
-            Assert.AreEqual(0, info.PingTrackCount, "Blog Ping/Trackback count should be 0");
+            Assert.AreEqual(0, blog.CommentCount, "Blog CommentCount should be 0");
+            Assert.AreEqual(0, blog.PingTrackCount, "Blog Ping/Trackback count should be 0");
         }
 
         [Test]
@@ -323,7 +325,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         public void CanGetItemsFlaggedAsSpam()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
-
+            var repository = new DatabaseObjectProvider();
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FalsePositive);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
             CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.ConfirmedSpam);
@@ -334,7 +336,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
                                                                               FeedbackStatusFlag.NeedsModeration);
 
             //We expect 2 of the four.
-            IPagedCollection<FeedbackItem> feedback = ObjectProvider.Instance().GetPagedFeedback(0, 10,
+            IPagedCollection<FeedbackItem> feedback = repository.GetPagedFeedback(0, 10,
                                                                                                  FeedbackStatusFlag.
                                                                                                      FlaggedAsSpam,
                                                                                                  FeedbackStatusFlag.
@@ -373,7 +375,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Cache).Returns(new TestCache());
             subtextContext.SetupBlog(Config.CurrentBlog);
-            subtextContext.SetupRepository(ObjectProvider.Instance());
+            subtextContext.SetupRepository(repository);
             subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
             subtextContext.Setup(c => c.HttpContext).Returns(new HttpContextWrapper(HttpContext.Current));
 
@@ -387,17 +389,18 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             return repository.Get(id);
         }
 
-        Entry SetupBlogForCommentsAndCreateEntry()
+        Entry SetupBlogForCommentsAndCreateEntry(DatabaseObjectProvider repository = null)
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, string.Empty);
+            repository = repository ?? new DatabaseObjectProvider();
+            repository.CreateBlog(string.Empty, "username", "password", _hostName, string.Empty);
+            Blog info = repository.GetBlog(_hostName, string.Empty);
             BlogRequest.Current.Blog = info;
             info.Email = "test@example.com";
             info.Title = "You've been haacked";
             info.CommentsEnabled = true;
             info.ModerationEnabled = false;
 
-            ObjectProvider.Instance().UpdateConfigData(info);
+            repository.UpdateConfigData(info);
 
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("blah", "blah", "blah");
             UnitTestHelper.Create(entry);

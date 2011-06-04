@@ -24,7 +24,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
+using Subtext.Framework.Data;
 using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTestsi
@@ -43,9 +43,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         public void GetPreviousAndNextEntriesReturnsPreviousWhenNoNextExists()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, string.Empty);
 
             Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                    UnitTestHelper.GenerateUniqueString(),
@@ -57,7 +58,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             int previousId = UnitTestHelper.Create(previousEntry);
             int currentId = UnitTestHelper.Create(currentEntry);
 
-            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
+            var entries = repository.GetPreviousAndNextEntries(currentId,
                                                                                              PostType.BlogPost);
             Assert.AreEqual(1, entries.Count, "Since there is no next entry, should return only 1");
             Assert.AreEqual(previousId, entries.First().Id, "The previous entry does not match expectations.");
@@ -70,10 +71,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         [RollBack2]
         public void GetPreviousAndNextEntriesReturnsNextWhenNoPreviousExists()
         {
+            var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
+            repository.CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, string.Empty);
 
             Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                   UnitTestHelper.GenerateUniqueString(),
@@ -85,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             int currentId = UnitTestHelper.Create(currentEntry);
             int nextId = UnitTestHelper.Create(nextEntry);
 
-            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
+            var entries = repository.GetPreviousAndNextEntries(currentId,
                                                                                              PostType.BlogPost);
             Assert.AreEqual(1, entries.Count, "Since there is no previous entry, should return only next");
             Assert.AreEqual(nextId, entries.First().Id, "The next entry does not match expectations.");
@@ -98,10 +100,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         [RollBack2]
         public void GetPreviousAndNextEntriesReturnsBoth()
         {
+            var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
+            repository.CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, string.Empty);
 
             Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                    UnitTestHelper.GenerateUniqueString(),
@@ -119,7 +122,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             Thread.Sleep(100);
             int nextId = UnitTestHelper.Create(nextEntry);
 
-            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId,
+            var entries = repository.GetPreviousAndNextEntries(currentId,
                                                                                              PostType.BlogPost);
             Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
 
@@ -135,10 +138,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         [RollBack2]
         public void GetPreviousAndNextEntriesReturnsCorrectEntries()
         {
+            var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
+            repository.CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, string.Empty);
 
             Entry firstEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body",
                                                                                 UnitTestHelper.GenerateUniqueString(),
@@ -164,7 +168,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             int nextId = UnitTestHelper.Create(nextEntry);
             Thread.Sleep(100);
 
-            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
+            var entries = repository.GetPreviousAndNextEntries(currentId, PostType.BlogPost);
             Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
 
             //The more recent one is next because of desceding sort.
@@ -179,10 +183,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         [RollBack2]
         public void GetPreviousAndNextBasedOnSyndicationDateNotEntryId()
         {
+            var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, string.Empty);
+            repository.CreateBlog("", "username", "password", hostname, string.Empty);
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, string.Empty);
 
             Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
             Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
@@ -201,7 +206,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
             previousEntry.IsActive = true;
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Blog).Returns(Config.CurrentBlog);
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             UnitTestHelper.Update(previousEntry, subtextContext.Object);
             Thread.Sleep(100);
             currentEntry.IsActive = true;
@@ -212,7 +217,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
 
             Assert.IsTrue(previousId > currentId, "Ids are out of order.");
 
-            var entries = ObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
+            var entries = repository.GetPreviousAndNextEntries(currentId, PostType.BlogPost);
             Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
             //The first should be next because of descending sort.
             Assert.AreEqual(nextId, entries.First().Id, "The next entry does not match expectations.");

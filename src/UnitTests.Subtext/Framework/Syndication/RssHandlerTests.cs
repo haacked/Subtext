@@ -29,11 +29,12 @@ namespace UnitTests.Subtext.Framework.Syndication
         [RollBack2]
         public void RssWriterProducesValidFeedFromDatabase()
         {
+            var repository = new DatabaseObjectProvider();
             string hostName = UnitTestHelper.GenerateUniqueHostname();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("Test", "username", "password", hostName, string.Empty);
+            repository.CreateBlog("Test", "username", "password", hostName, string.Empty);
 
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostName, string.Empty);
 
             Config.CurrentBlog.Email = "Subtext@example.com";
             Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
@@ -49,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             string rssOutput = null;
             var subtextContext = new Mock<ISubtextContext>();
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
@@ -76,10 +77,11 @@ namespace UnitTests.Subtext.Framework.Syndication
         public void RssWriterProducesValidFeedWithEnclosureFromDatabase()
         {
             string hostName = UnitTestHelper.GenerateUniqueString() + ".com";
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("Test", "username", "password", hostName, string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("Test", "username", "password", hostName, string.Empty);
 
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostName, string.Empty);
             Config.CurrentBlog.Email = "Subtext@example.com";
             Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
@@ -92,7 +94,6 @@ namespace UnitTests.Subtext.Framework.Syndication
             string enclosureUrl = "http://perseus.franklins.net/hanselminutes_0107.mp3";
             string enclosureMimeType = "audio/mp3";
             long enclosureSize = 26707573;
-            var repository = new DatabaseObjectProvider();
 
             Enclosure enc =
                 UnitTestHelper.BuildEnclosure("<Digital Photography Explained (for Geeks) with Aaron Hockley/>",
@@ -327,10 +328,11 @@ namespace UnitTests.Subtext.Framework.Syndication
         public void RssHandlerHandlesDoesNotSyndicateFuturePosts()
         {
             // Arrange
+            var repository = new DatabaseObjectProvider();
             string hostName = UnitTestHelper.GenerateUniqueHostname();
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostName, string.Empty);
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
+            repository.CreateBlog("", "username", "password", hostName, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostName, string.Empty);
 
             //Create two entries, but only include one in main syndication.
             UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test",
@@ -345,7 +347,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             string rssOutput = null;
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/whatever");
@@ -394,7 +396,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             //SimulatedHttpRequest workerRequest = UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
             //workerRequest.Headers.Add("Accept-Encoding", "gzip");
-            //new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostName, string.Empty);
+            //repository.CreateBlog("", "username", "password", hostName, string.Empty);
             //Config.CurrentBlog.UseSyndicationCompression = true;
 
             //UnitTestHelper.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));

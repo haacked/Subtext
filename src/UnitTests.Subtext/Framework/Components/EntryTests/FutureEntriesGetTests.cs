@@ -23,7 +23,6 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Web.HttpModules;
 using UnitTests.Subtext.Framework.Util;
 
@@ -36,9 +35,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void Setup()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", hostname, "");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", hostname, "");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "", "");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostname, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostname, string.Empty);
             Config.CurrentBlog.TimeZoneId = TimeZonesTest.HawaiiTimeZoneId;
         }
 
@@ -47,6 +47,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetRecentEntries_WithFuturePosts_OnlyReturnsPastPosts()
         {
             // Arrange
+            var repository = new DatabaseObjectProvider();
             DateTime utcNow = DateTime.UtcNow.AddDays(-2);
             var blog1 = UnitTestHelper.CreateBlogAndSetupContext(null, "subfolder1");
             var entryOne = UnitTestHelper.CreateAndSaveEntryForSyndication("me", "blog1-entry-one", "body-zero", null, utcNow, utcNow);
@@ -59,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.WriteTableToOutput("subtext_Config");
             UnitTestHelper.WriteTableToOutput("subtext_Content");
             // Act
-            ICollection<Entry> entries = ObjectProvider.Instance().GetRecentEntries(null, null, 10);
+            ICollection<Entry> entries = repository.GetRecentEntries(null, null, 10);
 
             // Assert (reverse ordering)
             Assert.AreEqual(3, entries.Count);
@@ -73,6 +74,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetRecentPostsDoesNotIncludeFuturePosts()
         {
             // Arrange
+            var repository = new DatabaseObjectProvider();
             DateTime utcNow = DateTime.UtcNow.AddMinutes(-5);
             //Create some entries.
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null, utcNow);
@@ -85,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
 
             // Act
-            ICollection<Entry> entries = ObjectProvider.Instance().GetEntries(3, PostType.BlogPost, PostConfig.IsActive, true);
+            ICollection<Entry> entries = repository.GetEntries(3, PostType.BlogPost, PostConfig.IsActive, true);
 
             // Assert
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
@@ -99,6 +101,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetEntriesByTagDoesNotIncludeFuturePosts()
         {
             // Arrange
+            var repository = new DatabaseObjectProvider();
             DateTime now = DateTime.UtcNow;
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null, now);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null, now.AddMinutes(1));
@@ -116,7 +119,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             new DatabaseObjectProvider().SetEntryTagList(entryTwo.Id, tags);
 
             // Act
-            ICollection<Entry> entries = ObjectProvider.Instance().GetEntriesByTag(3, "Tag1");
+            ICollection<Entry> entries = repository.GetEntriesByTag(3, "Tag1");
 
             // Assert
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
@@ -130,6 +133,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetEntriesByCategoryDoesNotIncludeFuturePosts()
         {
             // Arrange
+            var repository = new DatabaseObjectProvider();
             DateTime now = DateTime.UtcNow.AddMinutes(-5);
             int blogId = Config.CurrentBlog.Id;
             int categoryId = UnitTestHelper.CreateCategory(blogId, "Test Category");
@@ -149,7 +153,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 
             // Act
-            ICollection<Entry> entries = ObjectProvider.Instance().GetEntriesByCategory(3, categoryId, true);
+            ICollection<Entry> entries = repository.GetEntriesByCategory(3, categoryId, true);
 
             // Assert
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
@@ -163,6 +167,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetPostsByDayRangeDoesNotIncludeFuturePosts()
         {
             // Arrange
+            var repository = new DatabaseObjectProvider();
             DateTime now = DateTime.UtcNow.AddMinutes(-5);
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null, now);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null, now.AddMinutes(1));
@@ -175,7 +180,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
             // Act
             var beginningOfMonth = new DateTime(now.Year, now.Month, 1);
-            ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
+            ICollection<Entry> entries = repository.GetPostsByDayRange(beginningOfMonth, beginningOfMonth.AddMonths(1),
                                                                     PostType.BlogPost, true);
 
             // Assert
@@ -190,6 +195,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetPostCollectionByMonthDoesNotIncludeFuturePosts()
         {
             // Arrange
+            var repository = new DatabaseObjectProvider();
             DateTime now = DateTime.UtcNow.AddMinutes(-5);
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null, now);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null, now.AddMinutes(1));
@@ -201,7 +207,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.Create(entryTwo);
 
             // Act
-            ICollection<Entry> entries = ObjectProvider.Instance().GetPostsByMonth(now.Month, now.Year);
+            ICollection<Entry> entries = repository.GetPostsByMonth(now.Month, now.Year);
 
             // Assert
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");

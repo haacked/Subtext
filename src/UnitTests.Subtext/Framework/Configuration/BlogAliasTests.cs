@@ -3,7 +3,6 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
@@ -14,12 +13,18 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CreateBlogAlias()
         {
+            // Arrange
             Blog blog = UnitTestHelper.CreateBlogAndSetupContext();
+            var repository = new DatabaseObjectProvider();
             var alias = new BlogAlias();
             alias.BlogId = blog.Id;
             alias.Host = UnitTestHelper.GenerateUniqueString();
             alias.Subfolder = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias);
+
+            // Act
+            repository.AddBlogAlias(alias);
+
+            // Assert
             Assert.AreNotEqual(alias.Id, NullValue.NullInt32);
         }
 
@@ -27,11 +32,12 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogByAliasNoSubfolder()
         {
+            var repository = new DatabaseObjectProvider();
             Blog blog = UnitTestHelper.CreateBlogAndSetupContext();
             BlogAlias alias = UnitTestHelper.CreateBlogAlias(blog, UnitTestHelper.GenerateUniqueString(), "");
 
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias);
-            Blog testBlog = ObjectProvider.Instance().GetBlogByDomainAlias(alias.Host, alias.Subfolder, false);
+            repository.AddBlogAlias(alias);
+            Blog testBlog = repository.GetBlogByDomainAlias(alias.Host, alias.Subfolder, false);
             Assert.AreEqual(blog.Id, testBlog.Id, "Found the wrong blog.");
         }
 
@@ -39,17 +45,18 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogByAliasWithSubfolders()
         {
+            var repository = new DatabaseObjectProvider();
             Blog blog1 = UnitTestHelper.CreateBlogAndSetupContext();
             Blog blog2 = UnitTestHelper.CreateBlogAndSetupContext();
             string host = UnitTestHelper.GenerateUniqueString();
             BlogAlias alias1 = UnitTestHelper.CreateBlogAlias(blog1, host, UnitTestHelper.GenerateUniqueString());
             BlogAlias alias2 = UnitTestHelper.CreateBlogAlias(blog2, host, UnitTestHelper.GenerateUniqueString());
 
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias1);
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias2);
+            repository.AddBlogAlias(alias1);
+            repository.AddBlogAlias(alias2);
 
-            Blog testBlog1 = ObjectProvider.Instance().GetBlogByDomainAlias(alias1.Host, alias1.Subfolder, false);
-            Blog testBlog2 = ObjectProvider.Instance().GetBlogByDomainAlias(alias2.Host, alias2.Subfolder, false);
+            Blog testBlog1 = repository.GetBlogByDomainAlias(alias1.Host, alias1.Subfolder, false);
+            Blog testBlog2 = repository.GetBlogByDomainAlias(alias2.Host, alias2.Subfolder, false);
 
             Assert.AreEqual(blog1.Id, testBlog1.Id, "Found the wrong blog.");
             Assert.AreEqual(blog2.Id, testBlog2.Id, "Found the wrong blog.");
@@ -59,12 +66,13 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CheckThatAliasChecksSubfolderIfBlogOnSameHost()
         {
+            var repository = new DatabaseObjectProvider();
             Blog blog = UnitTestHelper.CreateBlogAndSetupContext();
             BlogAlias alias = UnitTestHelper.CreateBlogAlias(blog, blog.Host, UnitTestHelper.GenerateUniqueString());
 
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias);
+            repository.AddBlogAlias(alias);
 
-            Blog testBlog = ObjectProvider.Instance().GetBlogByDomainAlias(blog.Host, "", false);
+            Blog testBlog = repository.GetBlogByDomainAlias(blog.Host, "", false);
             Assert.IsNull(testBlog, "Should not have found a blog, alias is on same host.");
         }
 
@@ -72,13 +80,14 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogAliasById()
         {
+            var repository = new DatabaseObjectProvider();
             Blog blog = UnitTestHelper.CreateBlogAndSetupContext();
             BlogAlias alias = UnitTestHelper.CreateBlogAlias(blog, UnitTestHelper.GenerateUniqueString(),
                                                              UnitTestHelper.GenerateUniqueString());
 
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias);
+            repository.AddBlogAlias(alias);
 
-            BlogAlias testAlias = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlogAlias(alias.Id);
+            BlogAlias testAlias = repository.GetBlogAlias(alias.Id);
 
             Assert.AreEqual(alias.Id, testAlias.Id, "Found the wrong alias.");
         }
@@ -87,6 +96,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogAliasByBlog()
         {
+            var repository = new DatabaseObjectProvider();
             string host = UnitTestHelper.GenerateUniqueString();
             Blog blog1 = UnitTestHelper.CreateBlogAndSetupContext();
             Blog blog2 = UnitTestHelper.CreateBlogAndSetupContext();
@@ -99,8 +109,8 @@ namespace UnitTests.Subtext.Framework.Configuration
             alias2.Host = host;
             alias2.Subfolder = UnitTestHelper.GenerateUniqueString();
 
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias1);
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias2);
+            repository.AddBlogAlias(alias1);
+            repository.AddBlogAlias(alias2);
 
             IPagedCollection<BlogAlias> aliases = blog1.GetBlogAliases(new DatabaseObjectProvider(), 0, 10);
             Assert.AreEqual(1, aliases.Count);
@@ -113,8 +123,8 @@ namespace UnitTests.Subtext.Framework.Configuration
         public void CheckBlogNotReturnedWithoutAlias()
         {
             UnitTestHelper.CreateBlogAndSetupContext();
-
-            Blog testBlog = ObjectProvider.Instance().GetBlogByDomainAlias(UnitTestHelper.GenerateUniqueString(),
+            var repository = new DatabaseObjectProvider();
+            Blog testBlog = repository.GetBlogByDomainAlias(UnitTestHelper.GenerateUniqueString(),
                                                                            UnitTestHelper.GenerateUniqueString(), false);
 
             Assert.IsNull(testBlog);
@@ -124,11 +134,12 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void CheckBlogNotReturnedWithInactiveAlias()
         {
+            var repository = new DatabaseObjectProvider();
             Blog blog = UnitTestHelper.CreateBlogAndSetupContext();
             BlogAlias alias = UnitTestHelper.CreateBlogAlias(blog, UnitTestHelper.GenerateUniqueString(), "", false);
 
-            BlogAlias testAlias = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlogAlias(alias.Id);
-            Blog testBlog = ObjectProvider.Instance().GetBlogByDomainAlias(alias.Host, alias.Subfolder, false);
+            BlogAlias testAlias = repository.GetBlogAlias(alias.Id);
+            Blog testBlog = repository.GetBlogByDomainAlias(alias.Host, alias.Subfolder, false);
 
             Assert.AreNotEqual(NullValue.NullInt32, alias.Id, "Alias was not saved.");
             Assert.AreEqual(alias.Id, testAlias.Id, "The test alias is not the alias saved.");
@@ -140,19 +151,20 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void UpdateBlogAlias()
         {
+            var repository = new DatabaseObjectProvider();
             Blog blog = UnitTestHelper.CreateBlogAndSetupContext();
             string host1 = UnitTestHelper.GenerateUniqueString();
             string host2 = UnitTestHelper.GenerateUniqueString();
 
             BlogAlias alias = UnitTestHelper.CreateBlogAlias(blog, host1, "");
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias);
+            repository.AddBlogAlias(alias);
 
-            BlogAlias testAlias = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlogAlias(alias.Id);
+            BlogAlias testAlias = repository.GetBlogAlias(alias.Id);
             testAlias.Host = host2;
 
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().UpdateBlogAlias(testAlias);
+            repository.UpdateBlogAlias(testAlias);
 
-            BlogAlias testAlias2 = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlogAlias(alias.Id);
+            BlogAlias testAlias2 = repository.GetBlogAlias(alias.Id);
 
             Assert.AreEqual(alias.Id, testAlias.Id, "Did not retrieve the correct alias.");
             Assert.AreEqual(alias.Id, testAlias2.Id, "Did not retrieve the correct alias.");

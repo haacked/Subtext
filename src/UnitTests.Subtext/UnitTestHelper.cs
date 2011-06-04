@@ -540,8 +540,8 @@ namespace UnitTests.Subtext
         public static BlogAlias CreateBlogAlias(Blog info, string host, string subfolder, bool active)
         {
             var alias = new BlogAlias { BlogId = info.Id, Host = host, Subfolder = subfolder, IsActive = active };
-
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().AddBlogAlias(alias);
+            var repository = new DatabaseObjectProvider();
+            repository.AddBlogAlias(alias);
             return alias;
         }
 
@@ -817,12 +817,13 @@ namespace UnitTests.Subtext
         internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port,
                                                           string page, string userName, string password)
         {
+            var repository = new DatabaseObjectProvider();
             string host = GenerateUniqueString();
 
             HttpContext.Current = null;
             //I wish this returned the blog it created.
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("Unit Test Blog", userName, password, host, subfolder);
-            Blog blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(host, subfolder);
+            repository.CreateBlog("Unit Test Blog", userName, password, host, subfolder);
+            Blog blog = repository.GetBlog(host, subfolder);
 
             var sb = new StringBuilder();
             TextWriter output = new StringWriter(sb);
