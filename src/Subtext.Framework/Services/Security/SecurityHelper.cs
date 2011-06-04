@@ -28,7 +28,6 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
-using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Security
 {
@@ -49,25 +48,6 @@ namespace Subtext.Framework.Security
         public static bool IsHostAdministrator(this IPrincipal user)
         {
             return user.IsInRole("HostAdmins");
-        }
-
-        /// <summary>
-        /// If true, then the user is connecting to the blog via "localhost" 
-        /// on the same server as this is installed.  In other words, we're 
-        /// pretty sure the user is a developer.
-        /// </summary>
-        public static bool UserIsConnectingLocally
-        {
-            get
-            {
-                var httpContext = new HttpContextWrapper(HttpContext.Current);
-                return String.Equals(httpContext.Request.Url.Host, "localhost",
-                                     StringComparison.InvariantCultureIgnoreCase)
-                       &&
-                       HttpHelper.GetUserIpAddress(httpContext).ToString() ==
-                       HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"]
-                       && HttpHelper.GetUserIpAddress(httpContext).ToString() == "127.0.0.1";
-            }
         }
 
         /// <summary>
