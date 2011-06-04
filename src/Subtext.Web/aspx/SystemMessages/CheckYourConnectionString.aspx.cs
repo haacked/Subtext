@@ -17,7 +17,6 @@
 
 using System;
 using System.Web.UI;
-using Subtext.Framework.Security;
 
 namespace Subtext.Web
 {
@@ -31,7 +30,7 @@ namespace Subtext.Web
         protected void Page_Load(object sender, EventArgs e)
         {
             // Remote users do not get the extra information.
-            if (SecurityHelper.UserIsConnectingLocally)
+            if (Request.IsLocal)
             {
                 plcDiagnosticInfo.Visible = true;
 
