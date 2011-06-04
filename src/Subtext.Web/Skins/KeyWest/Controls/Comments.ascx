@@ -18,7 +18,7 @@
 					<asp:Literal id="PostText" Runat="server" />
 				</div>
 				<asp:HyperLink Runat="server" ID="EditCommentTextLink" /> 
-				<% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+				<% if(Request.IsAuthenticated && User.IsAdministrator()) {%>
 				    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
 				    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
 				<% } %>

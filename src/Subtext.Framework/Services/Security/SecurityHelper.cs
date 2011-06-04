@@ -24,11 +24,11 @@ using System.Web;
 using System.Web.Security;
 using log4net;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
-using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Security
 {
@@ -40,49 +40,15 @@ namespace Subtext.Framework.Security
         private readonly static ILog Log = new Log();
 
         /// <summary>
-        /// Gets a value indicating whether the current 
-        /// user is the admin for the current blog.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if [is admin]; otherwise, <c>false</c>.
-        /// </value>
-        public static bool IsAdmin
-        {
-            get { return IsInRole("Admins"); }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether the current user is a 
         /// Host Admin for the entire installation.
         /// </summary>
         /// <value>
         /// 	<c>true</c> if [is host admin]; otherwise, <c>false</c>.
         /// </value>
-        public static bool IsHostAdmin
+        public static bool IsHostAdministrator(this IPrincipal user)
         {
-            get { return IsInRole("HostAdmins"); }
-        }
-
-        /// <summary>
-        /// Gets the name of the current user.
-        /// </summary>
-        /// <value></value>
-        public static string CurrentUserName
-        {
-            get
-            {
-                if (HttpContext.Current.Request.IsAuthenticated)
-                {
-                    try
-                    {
-                        return HttpContext.Current.User.Identity.Name;
-                    }
-                    catch
-                    {
-                    }
-                }
-                return null;
-            }
+            return user.IsInRole("HostAdmins");
         }
 
         /// <summary>

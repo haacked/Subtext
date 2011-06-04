@@ -34,7 +34,7 @@ namespace Subtext.Web.UI.Controls
 
         private void Page_Load(object sender, EventArgs e)
         {
-            if (SecurityHelper.IsAdmin)
+            if (User.IsAdministrator())
             {
                 Controls.Clear();
                 Visible = false;

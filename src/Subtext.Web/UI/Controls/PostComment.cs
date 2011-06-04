@@ -292,7 +292,7 @@ namespace Subtext.Web.UI.Controls
             feedbackItem.Title = tbTitle.Text;
             feedbackItem.EntryId = currentEntry.Id;
             feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(SubtextContext.HttpContext);
-            feedbackItem.IsBlogAuthor = SecurityHelper.IsAdmin;
+            feedbackItem.IsBlogAuthor = User.IsAdministrator();
             return feedbackItem;
         }
 
@@ -305,12 +305,12 @@ namespace Subtext.Web.UI.Controls
 
             if (tbEmail != null)
             {
-                tbEmail.Text = SecurityHelper.IsAdmin ? Blog.Email : string.Empty;
+                tbEmail.Text = User.IsAdministrator() ? Blog.Email : string.Empty;
             }
 
             if (tbName != null)
             {
-                tbName.Text = SecurityHelper.IsAdmin ? Blog.UserName : string.Empty;
+                tbName.Text = User.IsAdministrator() ? Blog.UserName : string.Empty;
             }
 
             if (tbTitle != null)
@@ -320,7 +320,7 @@ namespace Subtext.Web.UI.Controls
 
             if (tbUrl != null)
             {
-                tbUrl.Text = SecurityHelper.IsAdmin ? Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() : string.Empty;
+                tbUrl.Text = User.IsAdministrator() ? Url.BlogUrl().ToFullyQualifiedUrl(Blog).ToString() : string.Empty;
             }
 
             HttpCookie user = Request.Cookies["CommentUser"];
@@ -375,7 +375,7 @@ namespace Subtext.Web.UI.Controls
             }
 
             //Captcha should not be given to admin.
-            if (!SecurityHelper.IsAdmin)
+            if (!User.IsAdministrator())
             {
                 int btnIndex = Controls.IndexOf(btnSubmit);
                 if (btnIndex < 0)

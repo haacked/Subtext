@@ -9,7 +9,7 @@
 			<div class="target comment<%# AuthorCssClass %>">
 				<h3><asp:HyperLink Runat="server" ID="EditCommentImgLink" /><asp:Literal Runat="server" ID="Title" /></h3>
 				<span class="commentInfo">left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /> 
-				    <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+				    <% if(Request.IsAuthenticated && User.IsAdministrator()) {%>
 					    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
 					    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
 					<% } %>

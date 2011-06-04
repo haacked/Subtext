@@ -17,6 +17,7 @@
 
 using System;
 using System.Globalization;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -108,6 +109,11 @@ namespace Subtext.Web.UI.Controls
         protected ObjectRepository Repository
         {
             get { return SubtextContext.Repository; }
+        }
+
+        protected IPrincipal User
+        {
+            get { return SubtextContext.User; }
         }
 
         protected virtual string ControlCacheKey

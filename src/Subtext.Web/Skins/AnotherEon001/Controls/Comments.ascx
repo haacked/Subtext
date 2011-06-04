@@ -13,7 +13,7 @@
 				<asp:Literal id="PostText" Runat="server" />
 				<div class="postfoot">
 					<asp:Literal id="PostDate" Runat = "server" /> | <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> 
-					<% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+					<% if(Request.IsAuthenticated && User.IsAdministrator()) {%>
 					    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
 					    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
 					<% } %>

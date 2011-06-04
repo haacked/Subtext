@@ -52,7 +52,7 @@ namespace Subtext.Framework.Web.HttpModules
 
         public void HandleEndRequest(HttpContextBase context)
         {
-            if(!String.IsNullOrEmpty(SecurityHelper.CurrentUserName)
+            if (!String.IsNullOrEmpty(context.User.Identity.Name)
                || context.Request.IsStaticFileRequest()
                || !(context.Response.StatusCode == 302
                     &&
@@ -62,13 +62,13 @@ namespace Subtext.Framework.Web.HttpModules
                 return;
             }
 
-            if(!Regex.IsMatch(context.Request.Path, @"Rss\.axd"))
+            if (!Regex.IsMatch(context.Request.Path, @"Rss\.axd"))
             {
                 return;
             }
 
             string authHeader = context.Request.Headers["Authorization"];
-            if(String.IsNullOrEmpty(authHeader))
+            if (String.IsNullOrEmpty(authHeader))
             {
                 SendAuthRequest(context);
             }
@@ -82,25 +82,25 @@ namespace Subtext.Framework.Web.HttpModules
             context.Response.AddHeader("WWW-Authenticate",
                                        String.Format(CultureInfo.InvariantCulture, "Basic realm=\"{0}\"",
                                                      Config.CurrentBlog.Title));
-//			context.ApplicationInstance.CompleteRequest();
+            //			context.ApplicationInstance.CompleteRequest();
         }
 
         public void AuthenticateRequest(Blog blog, HttpContextBase context)
         {
             string authHeader = context.Request.Headers["Authorization"];
-            if(String.IsNullOrEmpty(authHeader))
+            if (String.IsNullOrEmpty(authHeader))
             {
                 return;
             }
 
-            if(authHeader.IndexOf("Basic ") == 0)
+            if (authHeader.IndexOf("Basic ") == 0)
             {
                 byte[] bytes = Convert.FromBase64String(authHeader.Remove(0, 6));
 
                 string authString = Encoding.Default.GetString(bytes);
                 string[] usernamepassword = authString.Split(':');
 
-                if(context.Authenticate(blog, usernamepassword[0], usernamepassword[1], false))
+                if (context.Authenticate(blog, usernamepassword[0], usernamepassword[1], false))
                 {
                     context.User = new GenericPrincipal(new GenericIdentity(usernamepassword[0]), null);
                 }

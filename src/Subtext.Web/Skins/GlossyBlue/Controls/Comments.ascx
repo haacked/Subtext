@@ -12,7 +12,7 @@
 				    </h4>
 				    <asp:Literal id="PostText" Runat="server" />
 				    <span class="commentInfo"><asp:Literal id="PostDate" Runat="server" /> | <cite><asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /></cite></span>
-				    <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+				    <% if(Request.IsAuthenticated && User.IsAdministrator()) {%>
 					    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
 					    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
 					<% } %>

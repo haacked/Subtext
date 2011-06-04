@@ -362,7 +362,7 @@ namespace Subtext.Framework.Syndication
         /// </summary>
         public override void ProcessRequest()
         {
-            if ((RequiresAdminRole && !SecurityHelper.IsAdmin) || (RequiresHostAdminRole && !SecurityHelper.IsHostAdmin))
+            if ((RequiresAdminRole && !SubtextContext.User.IsAdministrator()) || (RequiresHostAdminRole && !SubtextContext.User.IsHostAdministrator()))
             {
                 FormsAuthentication.RedirectToLoginPage();
                 return;
