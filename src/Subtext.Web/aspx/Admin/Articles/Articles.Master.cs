@@ -20,7 +20,6 @@ using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
-using Subtext.Framework.Providers;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Properties;
 
@@ -58,9 +57,9 @@ namespace Subtext.Web.Admin.Articles
             AdminMasterPage.AddToActions(lkbRebuildTags);
         }
 
-        private static void OnRebuildTagsClick(object sender, EventArgs e)
+        private void OnRebuildTagsClick(object sender, EventArgs e)
         {
-            ObjectProvider.Instance().RebuildAllTags();
+            AdminMasterPage.Repository.RebuildAllTags();
         }
     }
 }

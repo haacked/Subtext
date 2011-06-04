@@ -23,19 +23,22 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public sealed class DeleteKeyWordCommand : DeleteTitledTargetCommand
     {
-        public DeleteKeyWordCommand(int keyWordId, string word)
+        ObjectProvider _repository;
+
+        public DeleteKeyWordCommand(ObjectProvider repository, int keyWordId, string word)
         {
             AutoRedirect = true;
             _targetName = "KeyWord";
             _targetID = keyWordId;
             itemTitle = word;
+            _repository = repository;
         }
 
         public override string Execute()
         {
             try
             {
-                ObjectProvider.Instance().DeleteKeyWord(_targetID);
+                _repository.DeleteKeyWord(_targetID);
                 return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
             }
             catch (Exception ex)

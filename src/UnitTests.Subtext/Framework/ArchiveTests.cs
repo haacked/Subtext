@@ -5,7 +5,6 @@ using MbUnit.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -44,7 +43,7 @@ namespace UnitTests.Subtext.Framework
         public void CanGetPostsByCategoryArchive()
         {
             UnitTestHelper.SetupBlog();
-            var repository = ObjectProvider.Instance();
+            var repository = new DatabaseObjectProvider();
             ICollection<ArchiveCount> counts = repository.GetPostCountsByCategory();
             Assert.AreEqual(0, counts.Count);
 

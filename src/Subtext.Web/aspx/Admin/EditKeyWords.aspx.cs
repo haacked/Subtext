@@ -192,7 +192,7 @@ namespace Subtext.Web.Admin.Pages
 
         private void ConfirmDelete(int keywordId, string keyword)
         {
-            var command = new DeleteKeyWordCommand(keywordId, keyword)
+            var command = new DeleteKeyWordCommand(Repository, keywordId, keyword)
             {
                 ExecuteSuccessMessage = String.Format(CultureInfo.CurrentCulture, "Keyword '{0}' deleted", keyword)
             };

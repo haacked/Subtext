@@ -26,7 +26,6 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Syndication.Admin
 {
@@ -167,8 +166,6 @@ namespace Subtext.Framework.Syndication.Admin
                 throw new InvalidOperationException("rssType is empty or null");
             }
 
-            ObjectProvider repository = ObjectProvider.Instance();
-
             switch (_rssType)
             {
                 case "Comment":
@@ -181,14 +178,14 @@ namespace Subtext.Framework.Syndication.Admin
                             flags |= (FeedbackStatusFlag)Enum.Parse(typeof(FeedbackStatusFlag), filter, true);
                         }
                     }
-                    ICollection<FeedbackItem> moderatedFeedback = repository.GetPagedFeedback(0, _count, flags,
+                    ICollection<FeedbackItem> moderatedFeedback = Repository.GetPagedFeedback(0, _count, flags,
                                                                                               FeedbackStatusFlag.None,
                                                                                               FeedbackType.None);
                     return (IList)moderatedFeedback;
 
                 case "Referral":
                     //TODO: Fix!
-                    ICollection<Referrer> referrers = repository.GetPagedReferrers(0, _count, NullValue.NullInt32);
+                    ICollection<Referrer> referrers = Repository.GetPagedReferrers(0, _count, NullValue.NullInt32);
                     return (IList)referrers;
 
                 case "Log":
