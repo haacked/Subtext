@@ -450,7 +450,7 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetEntryFromRequest_WithEntryHavingEntryNameButIdInRouteDataMatchingEntryInRepository_RedirectsToUrlWithSlug()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
 
             var entry = new Entry(PostType.BlogPost) { Id = 123, EntryName = "testing-slug", Title = "Testing 123" };
             repository.Setup(r => r.GetEntry(123, true, true)).Returns(entry);

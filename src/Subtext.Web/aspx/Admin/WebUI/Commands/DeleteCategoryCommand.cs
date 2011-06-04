@@ -23,7 +23,7 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public class DeleteCategoryCommand : DeleteTitledTargetCommand
     {
-        public DeleteCategoryCommand(ObjectProvider repository, int categoryID, string categoryTitle)
+        public DeleteCategoryCommand(ObjectRepository repository, int categoryID, string categoryTitle)
         {
             _targetName = "Category";
             _targetID = categoryID;
@@ -31,7 +31,7 @@ namespace Subtext.Web.Admin.Commands
             Repository = repository;
         }
 
-        public ObjectProvider Repository { get; private set; }
+        public ObjectRepository Repository { get; private set; }
 
         public override string Execute()
         {

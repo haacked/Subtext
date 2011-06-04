@@ -28,7 +28,7 @@ namespace Subtext.Framework
 {
     public class SubtextContext : ISubtextContext
     {
-        public SubtextContext(Blog blog, RequestContext requestContext, BlogUrlHelper urlHelper, ObjectProvider repository,
+        public SubtextContext(Blog blog, RequestContext requestContext, BlogUrlHelper urlHelper, ObjectRepository repository,
                               IPrincipal user, ICache cache, IDependencyResolver serviceLocator)
         {
             Blog = blog;
@@ -51,7 +51,7 @@ namespace Subtext.Framework
 
         public BlogUrlHelper UrlHelper { get; private set; }
 
-        public ObjectProvider Repository { get; private set; }
+        public ObjectRepository Repository { get; private set; }
 
         public IPrincipal User { get; private set; }
 

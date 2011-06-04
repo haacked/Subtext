@@ -147,7 +147,7 @@ namespace Subtext.Web.App_Start
             kernel.Bind<ISlugGenerator>().To<SlugGenerator>().InRequestScope();
             kernel.Bind<IPrincipal>().ToMethod(context => context.Kernel.Get<RequestContext>().HttpContext.User).InRequestScope();
             kernel.Bind<Blog>().ToMethod(c => BlogRequest.Current.Blog).When(r => BlogRequest.Current.Blog != null).InRequestScope();
-            kernel.Bind<ObjectProvider>().ToMethod(c => new DatabaseObjectProvider()).InRequestScope();
+            kernel.Bind<ObjectRepository>().ToMethod(c => new DatabaseObjectProvider()).InRequestScope();
             kernel.Bind<ICache>().To<SubtextCache>().InRequestScope();
             kernel.Bind<Cache>().ToMethod(c => HttpContext.Current.Cache).InRequestScope();
             kernel.Bind<OpmlWriter>().To<OpmlWriter>().InRequestScope();

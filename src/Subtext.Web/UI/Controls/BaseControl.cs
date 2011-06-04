@@ -105,7 +105,7 @@ namespace Subtext.Web.UI.Controls
             get { return SubtextDependencies.SubtextContext; }
         }
 
-        protected ObjectProvider Repository
+        protected ObjectRepository Repository
         {
             get { return SubtextContext.Repository; }
         }

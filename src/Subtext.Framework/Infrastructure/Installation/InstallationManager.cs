@@ -61,7 +61,7 @@ namespace Subtext.Framework.Infrastructure.Installation
             CreateWelcomeComment(repository, adminUrlHelper, entry);
         }
 
-        private static void CreateWelcomeComment(ObjectProvider repository, AdminUrlHelper adminUrlHelper, Entry entry)
+        private static void CreateWelcomeComment(ObjectRepository repository, AdminUrlHelper adminUrlHelper, Entry entry)
         {
             string commentBody = ScriptHelper.UnpackEmbeddedScriptAsString("WelcomeComment.htm");
             string feedbackUrl = adminUrlHelper.FeedbackList();
@@ -123,7 +123,7 @@ namespace Subtext.Framework.Infrastructure.Installation
             return article;
         }
 
-        private static void CreateWelcomeCategories(ObjectProvider repository, Blog blog)
+        private static void CreateWelcomeCategories(ObjectRepository repository, Blog blog)
         {
             repository.CreateLinkCategory(new LinkCategory
             {

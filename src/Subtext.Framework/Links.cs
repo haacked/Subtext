@@ -26,12 +26,12 @@ namespace Subtext.Framework
     /// </summary>
     public static class Links
     {
-        public static ICollection<LinkCategory> GetCategories(this ObjectProvider repository, CategoryType catType, ActiveFilter status)
+        public static ICollection<LinkCategory> GetCategories(this ObjectRepository repository, CategoryType catType, ActiveFilter status)
         {
             return repository.GetCategories(catType, status == ActiveFilter.ActiveOnly);
         }
 
-        public static ICollection<LinkCategory> GetLinkCategoriesByPostId(this ObjectProvider repository, int postId)
+        public static ICollection<LinkCategory> GetLinkCategoriesByPostId(this ObjectRepository repository, int postId)
         {
             var links = new List<Link>(repository.GetLinkCollectionByPostId(postId));
             ICollection<LinkCategory> postCategories =

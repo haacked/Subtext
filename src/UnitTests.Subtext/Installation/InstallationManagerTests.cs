@@ -152,7 +152,7 @@ namespace UnitTests.Subtext.InstallationTests
         {
             // arrange
             var installationManager = new InstallationManager(new Mock<IInstaller>().Object, null);
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             var entryPublisher = new Mock<IEntryPublisher>();
             Entry entry = null;
             entryPublisher.Setup(p => p.Publish(It.Is<Entry>(e => e.PostType == PostType.BlogPost))).Callback<Entry>(e => entry = e);
@@ -185,7 +185,7 @@ namespace UnitTests.Subtext.InstallationTests
         {
             // arrange
             var installationManager = new InstallationManager(new Mock<IInstaller>().Object, null);
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             var entryPublisher = new Mock<IEntryPublisher>();
             Entry article = null;
             entryPublisher.Setup(p => p.Publish(It.Is<Entry>(e => e.PostType == PostType.Story))).Callback<Entry>(e => article = e);
@@ -210,7 +210,7 @@ namespace UnitTests.Subtext.InstallationTests
         {
             // arrange
             var installationManager = new InstallationManager(new Mock<IInstaller>().Object, null);
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             var entryPublisher = new Mock<IEntryPublisher>();
             var urlHelper = new Mock<BlogUrlHelper>();
             urlHelper.Setup(u => u.AdminUrl("feedback")).Returns("/admin/feedback/default.aspx");

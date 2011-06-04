@@ -30,10 +30,10 @@ using Subtext.Framework.Web.HttpModules;
 namespace Subtext.Framework.Data
 {
     /// <summary>
-    /// Concrete implementation of <see cref="ObjectProvider"/>. This 
+    /// Concrete implementation of <see cref="ObjectRepository"/>. This 
     /// provides objects persisted to a database.
     /// </summary>
-    public partial class DatabaseObjectProvider : ObjectProvider
+    public partial class DatabaseObjectProvider : ObjectRepository
     {
         StoredProcedures _procedures;
         Func<int> _blogId;

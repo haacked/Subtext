@@ -46,7 +46,7 @@ namespace Subtext.Framework.Services
         }
 
         [Inject]
-        public SlugGenerator(FriendlyUrlSettings slugSettings, ObjectProvider repository)
+        public SlugGenerator(FriendlyUrlSettings slugSettings, ObjectRepository repository)
         {
             SlugSettings = slugSettings ?? DefaultSettings;
             Repository = repository;
@@ -54,7 +54,7 @@ namespace Subtext.Framework.Services
 
         public FriendlyUrlSettings SlugSettings { get; private set; }
 
-        protected ObjectProvider Repository { get; private set; }
+        protected ObjectRepository Repository { get; private set; }
 
         #region ISlugGenerator Members
 

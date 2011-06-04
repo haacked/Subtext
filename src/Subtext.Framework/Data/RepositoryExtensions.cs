@@ -28,12 +28,12 @@ namespace Subtext.Framework
 {
     public static class RepositoryExtensions
     {
-        public static IEnumerable<EntryDay> GetBlogPostsByCategoryGroupedByDay(this ObjectProvider repository, int itemCount, int categoryId)
+        public static IEnumerable<EntryDay> GetBlogPostsByCategoryGroupedByDay(this ObjectRepository repository, int itemCount, int categoryId)
         {
             return repository.GetEntriesByCategory(itemCount, categoryId, true /*activeOnly*/).GroupByDayUsingDateSyndicated();
         }
 
-        public static IEnumerable<EntryDay> GetBlogPostsForHomePage(this ObjectProvider repository, int itemCount, PostConfig postConfig)
+        public static IEnumerable<EntryDay> GetBlogPostsForHomePage(this ObjectRepository repository, int itemCount, PostConfig postConfig)
         {
             return repository.GetEntries(itemCount, PostType.BlogPost, postConfig, false /*includeCategories*/).GroupByDayUsingDateSyndicated();
         }
@@ -59,7 +59,7 @@ namespace Subtext.Framework
         /// <param name="pageIndex">Zero based index of the page to retrieve.</param>
         /// <param name="pageSize">Number of records to display on the page.</param>
         /// <param name="flags">Configuration flags to filter blogs retrieved.</param>
-        public static IPagedCollection<Blog> GetBlogsByHost(this ObjectProvider repository, string host, int pageIndex, int pageSize,
+        public static IPagedCollection<Blog> GetBlogsByHost(this ObjectRepository repository, string host, int pageIndex, int pageSize,
                                                             ConfigurationFlags flags)
         {
             if (String.IsNullOrEmpty(host))
@@ -78,7 +78,7 @@ namespace Subtext.Framework
         /// <param name="pageSize">Size of the page.</param>
         /// <param name="flags"></param>
         /// <returns></returns>
-        public static IPagedCollection<Blog> GetBlogs(this ObjectProvider repository, int pageIndex, int pageSize, ConfigurationFlags flags)
+        public static IPagedCollection<Blog> GetBlogs(this ObjectRepository repository, int pageIndex, int pageSize, ConfigurationFlags flags)
         {
             return repository.GetPagedBlogs(null, pageIndex, pageSize, flags);
         }

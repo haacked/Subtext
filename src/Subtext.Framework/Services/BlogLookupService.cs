@@ -28,13 +28,13 @@ namespace Subtext.Framework.Services
     {
         Lazy<HostInfo> _hostInfo;
 
-        public BlogLookupService(ObjectProvider repository, Lazy<HostInfo> hostInfo)
+        public BlogLookupService(ObjectRepository repository, Lazy<HostInfo> hostInfo)
         {
             Repository = repository;
             _hostInfo = hostInfo;
         }
 
-        protected ObjectProvider Repository { get; private set; }
+        protected ObjectRepository Repository { get; private set; }
 
         protected HostInfo HostInfo
         {

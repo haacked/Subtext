@@ -39,7 +39,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             get { return SubtextContext.Blog; }
         }
 
-        public ObjectProvider Repository
+        public ObjectRepository Repository
         {
             get { return SubtextContext.Repository; }
         }

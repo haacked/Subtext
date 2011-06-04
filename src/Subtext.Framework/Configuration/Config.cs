@@ -129,7 +129,7 @@ namespace Subtext.Framework.Configuration
         /// Gets the total blog count in the system, active or not.
         /// </summary>
         /// <value></value>
-        public static int GetBlogCount(this ObjectProvider repository)
+        public static int GetBlogCount(this ObjectRepository repository)
         {
             IPagedCollection<Blog> blogs = repository.GetBlogs(1, 1, ConfigurationFlags.None);
             return blogs.MaxItems;
@@ -163,7 +163,7 @@ namespace Subtext.Framework.Configuration
         /// Until Subtext supports multiple blogs again (if ever), 
         /// this will always return the same instance.
         /// </remarks>
-        public static Blog GetBlog(this ObjectProvider repository, string hostName, string subfolder)
+        public static Blog GetBlog(this ObjectRepository repository, string hostName, string subfolder)
         {
             hostName = Blog.StripPortFromHost(hostName);
             return repository.GetBlog(hostName, subfolder);
@@ -180,7 +180,7 @@ namespace Subtext.Framework.Configuration
         /// <param name="subfolder"></param>
         /// <param name="host"></param>
         /// <returns></returns>
-        public static int CreateBlog(this ObjectProvider repository, string title, string userName, string password, string host, string subfolder)
+        public static int CreateBlog(this ObjectRepository repository, string title, string userName, string password, string host, string subfolder)
         {
             return repository.CreateBlog(title, userName, password, host, subfolder, blogGroupId: 1, passwordAlreadyHashed: false);
         }
@@ -197,7 +197,7 @@ namespace Subtext.Framework.Configuration
         /// <param name="groupId"></param>
         /// <param name="host"></param>
         /// <returns></returns>
-        public static int CreateBlog(this ObjectProvider repository, string title, string userName, string password, string host, string subfolder, int groupId)
+        public static int CreateBlog(this ObjectRepository repository, string title, string userName, string password, string host, string subfolder, int groupId)
         {
             return repository.CreateBlog(title, userName, password, host, subfolder, groupId, passwordAlreadyHashed: false);
         }
@@ -215,7 +215,7 @@ namespace Subtext.Framework.Configuration
         /// <param name="host"></param>
         /// <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
         /// <returns></returns>
-        public static int CreateBlog(this ObjectProvider repository, string title, string userName, string password, string host, string subfolder,
+        public static int CreateBlog(this ObjectRepository repository, string title, string userName, string password, string host, string subfolder,
                                      bool passwordAlreadyHashed)
         {
             return repository.CreateBlog(title, userName, password, host, subfolder, blogGroupId: 1, passwordAlreadyHashed: passwordAlreadyHashed);
@@ -234,7 +234,7 @@ namespace Subtext.Framework.Configuration
         /// <param name="blogGroupId"></param>
         /// <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
         /// <returns></returns>
-        public static int CreateBlog(this ObjectProvider repository, string title, string userName, string password, string host, string subfolder,
+        public static int CreateBlog(this ObjectRepository repository, string title, string userName, string password, string host, string subfolder,
                                      int blogGroupId, bool passwordAlreadyHashed)
         {
             if (subfolder != null && subfolder.EndsWith("."))
@@ -297,7 +297,7 @@ namespace Subtext.Framework.Configuration
         /// Updates the database with the configuration data within 
         /// the specified <see cref="Blog"/> instance.
         /// </summary>
-        public static void UpdateConfigData(this ObjectProvider repository, Blog info)
+        public static void UpdateConfigData(this ObjectRepository repository, Blog info)
         {
             //Check for duplicate
             Blog potentialDuplicate = repository.GetBlog(info.Host, info.Subfolder);
@@ -391,7 +391,7 @@ namespace Subtext.Framework.Configuration
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns></returns>
-        public static bool AddBlogAlias(this ObjectProvider repository, BlogAlias alias)
+        public static bool AddBlogAlias(this ObjectRepository repository, BlogAlias alias)
         {
             return repository.CreateBlogAlias(alias);
         }
@@ -401,7 +401,7 @@ namespace Subtext.Framework.Configuration
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns></returns>
-        public static bool UpdateBlogAlias(this ObjectProvider repository, BlogAlias alias)
+        public static bool UpdateBlogAlias(this ObjectRepository repository, BlogAlias alias)
         {
             return repository.UpdateBlogAlias(alias);
         }
@@ -411,7 +411,7 @@ namespace Subtext.Framework.Configuration
         /// </summary>
         /// <param name="alias">The alias.</param>
         /// <returns></returns>
-        public static bool DeleteBlogAlias(this ObjectProvider repository, BlogAlias alias)
+        public static bool DeleteBlogAlias(this ObjectRepository repository, BlogAlias alias)
         {
             return repository.DeleteBlogAlias(alias);
         }
@@ -421,7 +421,7 @@ namespace Subtext.Framework.Configuration
         /// </summary>
         /// <param name="id">The id.</param>
         /// <returns></returns>
-        public static BlogAlias GetBlogAlias(this ObjectProvider repository, int id)
+        public static BlogAlias GetBlogAlias(this ObjectRepository repository, int id)
         {
             return repository.GetBlogAliasById(id);
         }
@@ -432,7 +432,7 @@ namespace Subtext.Framework.Configuration
         /// <param name="id">The id.</param>
         /// <param name="activeOnly">if set to <c>true</c> [active only].</param>
         /// <returns></returns>
-        public static BlogGroup GetBlogGroup(this ObjectProvider repository, int id, bool activeOnly)
+        public static BlogGroup GetBlogGroup(this ObjectRepository repository, int id, bool activeOnly)
         {
             return repository.GetBlogGroup(id, activeOnly);
         }
@@ -442,12 +442,12 @@ namespace Subtext.Framework.Configuration
         /// </summary>
         /// <param name="activeOnly">if set to <c>true</c> [active only].</param>
         /// <returns></returns>
-        public static ICollection<BlogGroup> ListBlogGroups(this ObjectProvider repository, bool activeOnly)
+        public static ICollection<BlogGroup> ListBlogGroups(this ObjectRepository repository, bool activeOnly)
         {
             return repository.ListBlogGroups(activeOnly);
         }
 
-        public static void ClearBlogContent(this ObjectProvider repository, int blogId)
+        public static void ClearBlogContent(this ObjectRepository repository, int blogId)
         {
             repository.ClearBlogContent(blogId);
         }

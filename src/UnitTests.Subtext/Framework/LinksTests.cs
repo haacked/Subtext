@@ -268,7 +268,7 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(false, updatedCategory.IsActive);
         }
 
-        static int[] CreateSomeLinkCategories(ObjectProvider repository)
+        static int[] CreateSomeLinkCategories(ObjectRepository repository)
         {
             var categoryIds = new int[3];
             categoryIds[0] =
@@ -283,7 +283,7 @@ namespace UnitTests.Subtext.Framework
             return categoryIds;
         }
 
-        static int[] CreateSomePostCategories(ObjectProvider repository)
+        static int[] CreateSomePostCategories(ObjectRepository repository)
         {
             var categoryIds = new int[3];
             categoryIds[0] =
@@ -309,7 +309,7 @@ namespace UnitTests.Subtext.Framework
             return linkCategory;
         }
 
-        static Link CreateLink(ObjectProvider repository, string title, int? categoryId, int? postId)
+        static Link CreateLink(ObjectRepository repository, string title, int? categoryId, int? postId)
         {
             var link = new Link();
             link.IsActive = true;

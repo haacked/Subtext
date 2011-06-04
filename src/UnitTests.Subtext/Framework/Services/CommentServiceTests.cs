@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Services
             DateTime dateCreatedUtc = DateTime.UtcNow;
             blog.Object.Id = 1;
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
             context.SetupGet(c => c.Repository).Returns(repository.Object);
@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.Framework.Services
             DateTime dateCreated = DateTime.UtcNow;
             blog.Object.Id = 1;
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
             context.SetupGet(c => c.Repository).Returns(repository.Object);
@@ -83,7 +83,7 @@ namespace UnitTests.Subtext.Framework.Services
             DateTime dateCreated = DateTime.UtcNow;
             blog.Object.Id = 1;
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
             context.SetupGet(c => c.Repository).Returns(repository.Object);
@@ -126,7 +126,7 @@ namespace UnitTests.Subtext.Framework.Services
             DateTime dateCreated = DateTime.UtcNow;
             blog.Object.Id = 1;
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
             context.SetupGet(c => c.Repository).Returns(repository.Object);
@@ -164,7 +164,7 @@ namespace UnitTests.Subtext.Framework.Services
             DateTime dateCreated = DateTime.UtcNow;
             blog.Object.Id = 1;
             var entry = new Entry(PostType.BlogPost, blog.Object) { Id = 123, BlogId = 1, CommentingClosed = false };
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry(It.IsAny<int>(), true, true)).Returns(entry);
             var context = new Mock<ISubtextContext>();
             context.SetupGet(c => c.Repository).Returns(repository.Object);

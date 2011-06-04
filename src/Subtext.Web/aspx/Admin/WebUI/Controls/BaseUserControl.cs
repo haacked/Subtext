@@ -54,7 +54,7 @@ namespace Subtext.Web.Admin.WebUI.Controls
             }
         }
 
-        public ObjectProvider Repository
+        public ObjectRepository Repository
         {
             get
             {
@@ -66,6 +66,6 @@ namespace Subtext.Web.Admin.WebUI.Controls
             }
         }
 
-        ObjectProvider _repository;
+        ObjectRepository _repository;
     }
 }

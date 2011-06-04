@@ -33,7 +33,7 @@ namespace Subtext.Framework.Services.SearchEngine
             SearchEngineService = searchEngine;
         }
 
-        protected ObjectProvider Repository
+        protected ObjectRepository Repository
         {
             get { return SubtextContext.Repository; }
         }

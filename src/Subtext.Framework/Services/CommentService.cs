@@ -35,7 +35,7 @@ namespace Subtext.Framework.Services
 
         protected ISubtextContext SubtextContext { get; private set; }
 
-        protected ObjectProvider Repository
+        protected ObjectRepository Repository
         {
             get { return SubtextContext.Repository; }
         }

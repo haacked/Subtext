@@ -18,7 +18,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Request_WithMatchingHost_ReturnsCorrespondingBlog()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog { Host = "example.com" });
             var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
 
@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Request_WithNonMatchingHostButAlternativeHostMatches_ReturnsAlternativeHost()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog { Host = "www.example.com" });
             var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
 
@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Request_MatchingActiveAlias_RedirectsToPrimary()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("blog.example.com", It.IsAny<string>())).Returns(new Blog { Host = "www.example.com" });
             var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
 
@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Request_MatchingActiveAliasWithSubfolder_RedirectsToPrimaryWithoutSubfolder()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("blog.example.com", "sub")).Returns(new Blog { Host = "www.example.com", Subfolder = "" });
             var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
 
@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Request_MatchingActiveAliasWithoutSubfolder_RedirectsToPrimaryWithSubfolder()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("blog.example.com", string.Empty)).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
             var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
 
@@ -106,7 +106,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Request_MatchingActiveAliasWithSubfolder_RedirectsToPrimaryWithDifferentSubfolder()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("blog.example.com", "notsub")).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
             repository.Setup(r => r.GetBlogByDomainAlias("blog.example.com", "notsub", It.IsAny<bool>())).Returns(
                 new Blog { Host = "www.example.com", Subfolder = "sub" });
@@ -126,7 +126,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Request_NotMatchingAnyBlog_ReturnsNull()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             var pagedCollection = new Mock<IPagedCollection<Blog>>();
             pagedCollection.Setup(p => p.MaxItems).Returns(0);
@@ -147,7 +147,7 @@ namespace UnitTests.Subtext.Framework.Services
             ()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             var onlyBlog = new Blog { Host = "example.com", Subfolder = "not-sub" };
             var pagedCollection = new PagedCollection<Blog> { onlyBlog };
@@ -170,7 +170,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void RequestWithSubfolderNotMatchingAnyBlog_ButWithAggregateBlogsEnabledAndMoreThanOneActiveBlogsInTheSystem_ReturnsNull()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             var blog1 = new Blog { Host = "example.com", Subfolder = "not-sub" };
             var blog2 = new Blog { Host = "example.com", Subfolder = "not-sub-2" };
@@ -206,7 +206,7 @@ namespace UnitTests.Subtext.Framework.Services
             var pagedCollection = new PagedCollection<Blog> { onlyBlog };
             pagedCollection.MaxItems = 1;
 
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", "sub")).Returns((Blog)null);
             repository.Setup(r => r.GetBlog("example.com", "not-sub")).Returns(onlyBlog);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
@@ -237,7 +237,7 @@ namespace UnitTests.Subtext.Framework.Services
             var pagedCollection = new PagedCollection<Blog> { onlyBlog };
             pagedCollection.MaxItems = 1;
 
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection);
@@ -271,7 +271,7 @@ namespace UnitTests.Subtext.Framework.Services
             var pagedCollection = new PagedCollection<Blog> { onlyBlog };
             pagedCollection.MaxItems = 1;
 
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection);

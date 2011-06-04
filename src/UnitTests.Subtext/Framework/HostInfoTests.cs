@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework
         {
             public object GetService(Type serviceType)
             {
-                if (serviceType == typeof(ObjectProvider))
+                if (serviceType == typeof(ObjectRepository))
                 {
                     return new DatabaseObjectProvider();
                 }

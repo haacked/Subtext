@@ -287,7 +287,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void ConvertTitleToSlug_WithSlugMatchingExistingEntry_AppendsAgainToSlug()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry("foo-bar", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Again", false, false)).Returns((Entry)null);
             var generator = new SlugGenerator(null, repository.Object);
@@ -304,7 +304,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void ConvertTitleToSlug_WithSlugMatchingTwoExistingEntries_AppendsAgainToSlug()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry("foo-bar", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Again", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Yet-Again", false, false)).Returns((Entry)null);
@@ -322,7 +322,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void ConvertTitleToSlug_WithSlugMatchingThreeExistingEntries_AppendsUniqueSuffixToSlug()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry("foo-bar", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Again", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Yet-Again", false, false)).Returns(new Entry(PostType.BlogPost));
@@ -341,7 +341,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void ConvertTitleToSlug_WithSlugMatchingFourExistingEntries_AppendsUniqueSuffixToSlug()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry("foo-bar", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Again", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Yet-Again", false, false)).Returns(new Entry(PostType.BlogPost));
@@ -361,7 +361,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void ConvertTitleToSlug_WithSlugMatchingFiveExistingEntries_AppendsUniqueSuffixToSlug()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry("foo-bar", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Again", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Yet-Again", false, false)).Returns(new Entry(PostType.BlogPost));
@@ -382,7 +382,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void ConvertTitleToSlug_WithSlugMatchingSixExistingEntries_AppendsUniqueSuffixToSlug()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry("foo-bar", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Again", false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-Yet-Again", false, false)).Returns(new Entry(PostType.BlogPost));
@@ -404,7 +404,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void ConvertTitleToSlug_WithSlugAndAllPrefixesMatchingExistingEntries_ThrowsException()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetEntry(It.IsAny<string>(), false, false)).Returns(new Entry(PostType.BlogPost));
             repository.Setup(r => r.GetEntry("foo-bar-again", false, false)).Returns((Entry)null);
             var generator = new SlugGenerator(null, repository.Object);

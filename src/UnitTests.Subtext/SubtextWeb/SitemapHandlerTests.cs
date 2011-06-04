@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.SubtextWeb
             var entries = new List<Entry>();
             entries.Add(new Entry(PostType.BlogPost)
             {Id = 123, DateModifiedUtc = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture)});
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetPostCountsByMonth()).Returns(new List<ArchiveCount>());
             repository.Setup(
                 r => r.GetEntries(It.IsAny<int>(), PostType.BlogPost, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns
@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.SubtextWeb
             var entries = new List<Entry>();
             entries.Add(new Entry(PostType.Story)
             {Id = 321, DateModifiedUtc = DateTime.ParseExact("2008/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture)});
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetPostCountsByMonth()).Returns(new List<ArchiveCount>());
             repository.Setup(
                 r => r.GetEntries(It.IsAny<int>(), PostType.BlogPost, It.IsAny<PostConfig>(), It.IsAny<bool>())).Returns

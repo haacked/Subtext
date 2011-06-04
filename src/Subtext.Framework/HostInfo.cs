@@ -56,7 +56,7 @@ namespace Subtext.Framework
 
         private static HostInfo EnsureHostInfo()
         {
-            var repository = DependencyResolver.Current.GetService<ObjectProvider>();
+            var repository = DependencyResolver.Current.GetService<ObjectRepository>();
             var hostInfo = LoadHostInfoFromDatabase(repository, suppressException: true);
             if (hostInfo == null)
             {
@@ -66,7 +66,7 @@ namespace Subtext.Framework
             return hostInfo;
         }
 
-        public static HostInfo LoadHostInfoFromDatabase(ObjectProvider repository, bool suppressException)
+        public static HostInfo LoadHostInfoFromDatabase(ObjectRepository repository, bool suppressException)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace Subtext.Framework
         /// </summary>
         /// <param name="host">Host.</param>
         /// <returns></returns>
-        public static bool UpdateHost(ObjectProvider repository, HostInfo host)
+        public static bool UpdateHost(ObjectRepository repository, HostInfo host)
         {
             if (repository.UpdateHost(host))
             {
@@ -139,7 +139,7 @@ namespace Subtext.Framework
         /// Creates the host in the persistent store.
         /// </summary>
         /// <returns></returns>
-        public static bool CreateHost(ObjectProvider repository, string hostUserName, string hostPassword, string email)
+        public static bool CreateHost(ObjectRepository repository, string hostUserName, string hostPassword, string email)
         {
             if (_instance.Value != null)
             {

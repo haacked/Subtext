@@ -18,7 +18,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Configuration.Provider;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
@@ -29,7 +28,7 @@ namespace Subtext.Framework.Providers
     /// <summary>
     /// This is the API for interacting with the data in Subtext. This is essentially the repository.
     /// </summary>
-    public abstract class ObjectProvider : ProviderBase
+    public abstract class ObjectRepository
     {
         public abstract void ClearBlogContent(int blogId);
 

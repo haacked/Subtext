@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         public void OpmlHandler_WithRequest_SetsContentTypeToXml()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlogsByGroup("http://subtextproject.com/", 1)).Returns(new Blog[] { new Blog { } });
             var queryString = new NameValueCollection();
             queryString.Add("GroupID", "1");
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             context.Setup(c => c.HttpContext.Request.QueryString).Returns(queryString);
             context.Setup(c => c.HttpContext.Request.Url).Returns(new Uri("http://example.com/"));
             context.SetupUrlHelper(new Mock<BlogUrlHelper>());
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             int? parsedGroupId = null;
             repository.Setup(r => r.GetBlogsByGroup("example.com", It.IsAny<int?>())).Callback<string, int?>(
                 (host, groupId) => parsedGroupId = groupId);

@@ -24,7 +24,7 @@ namespace Subtext.Web.Admin.Commands
     [Serializable]
     public class DeletePostCommand : DeleteTargetCommand
     {
-        public DeletePostCommand(ObjectProvider repository, int postID, ISearchEngineService searchEngineService)
+        public DeletePostCommand(ObjectRepository repository, int postID, ISearchEngineService searchEngineService)
         {
             _targetName = "Post";
             _targetID = postID;
@@ -32,7 +32,7 @@ namespace Subtext.Web.Admin.Commands
             SearchEngine = searchEngineService;
         }
 
-        public ObjectProvider Repository { get; private set; }
+        public ObjectRepository Repository { get; private set; }
         public ISearchEngineService SearchEngine { get; private set; }
 
         public override string Execute()

@@ -43,7 +43,7 @@ namespace Subtext.Framework.Web.Handlers
             get { return SubtextContext.UrlHelper; }
         }
 
-        public ObjectProvider Repository
+        public ObjectRepository Repository
         {
             get { return SubtextContext.Repository; }
         }

@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithTransformations_RunsTransformationAgainstEntryBody()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -58,7 +58,7 @@ namespace UnitTests.Subtext.Framework.Services
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             var slugGenerator = new Mock<ISlugGenerator>();
             slugGenerator.Setup(g => g.GetSlugFromTitle(entry)).Returns("this-is-a-test");
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             var searchengine = new Mock<IIndexingService>();
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Services
             entry.Blog = new Blog() { Title = "MyTestBlog" };
             var slugGenerator = new Mock<ISlugGenerator>();
             slugGenerator.Setup(g => g.GetSlugFromTitle(entry)).Returns("this-is-a-test");
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             Entry savedEntry = null;
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null)).Callback<Entry, IEnumerable<int>>(
                 (e, i) => savedEntry = e);
             var context = new Mock<ISubtextContext>();
@@ -121,7 +121,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             DateTime currentTime = DateTime.UtcNow;
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -146,7 +146,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             var currentTime = DateTime.UtcNow;
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -168,7 +168,7 @@ namespace UnitTests.Subtext.Framework.Services
         {
             //arrange
             DateTime currentTime = DateTime.UtcNow;
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetLinkCategory("category1", true)).Returns(new LinkCategory(11, "category1"));
             repository.Setup(r => r.GetLinkCategory("category2", true)).Returns(new LinkCategory(22, "category2"));
             repository.Setup(r => r.GetLinkCategory("category3", true)).Returns(new LinkCategory(33, "category3"));
@@ -198,7 +198,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithEntryBodyHavingTags_SetsEntryTags()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             IEnumerable<string> tagNames = null;
             repository.Setup(r => r.SetEntryTagList(It.IsAny<int>(), It.IsAny<IEnumerable<string>>()))
@@ -225,7 +225,7 @@ namespace UnitTests.Subtext.Framework.Services
             Entry searchEngineEntry = null;
             searchEngineService.Setup(s => s.AddPost(It.IsAny<Entry>(), It.IsAny<IList<string>>()))
                 .Callback<Entry, IList<string>>((e, l) => searchEngineEntry = e);
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -246,7 +246,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithScriptTagsAllowed_AllowsScriptTagInBody()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -267,7 +267,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithNullEntry_ThrowsArgumentNullException()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -282,7 +282,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithEntryHavingPostTypeNone_ThrowsArgumentException()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -297,7 +297,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithDuplicateEntryName_ThrowsException()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             var exception = new Mock<DbException>();
             exception.Setup(e => e.Message).Returns("pick a unique EntryName");
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null)).Throws(exception.Object);
@@ -318,7 +318,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithRepositoryThrowingException_PropagatesException()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             var exception = new Mock<DbException>();
             exception.Setup(e => e.Message).Returns("unknown");
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null)).Throws(exception.Object);
@@ -339,7 +339,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithScriptTagInBody_ThrowsException()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -359,7 +359,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithScriptTagInTitle_ThrowsException()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -379,7 +379,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithScriptTagInSlug_ThrowsException()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -399,7 +399,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithScriptTagInDescription_ThrowsException()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -419,7 +419,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithEntryHavingValidEntryName_DoesNotChangeEntryName()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
@@ -441,7 +441,7 @@ namespace UnitTests.Subtext.Framework.Services
         public void Publish_WithEntryHavingNumericIntegerEntryName_PrependsNUnderscore()
         {
             //arrange
-            var repository = new Mock<ObjectProvider>();
+            var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.Create(It.IsAny<Entry>(), null));
             var context = new Mock<ISubtextContext>();
             context.Setup(c => c.Repository).Returns(repository.Object);
