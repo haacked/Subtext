@@ -14,7 +14,7 @@
 				Posted by <asp:hyperlink runat="server" id="NameLink" /> on <asp:literal id="PostDate" runat="server" />
 			</div>
 			<span class="adminLink">
-            <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+            <% if(Request.IsAuthenticated && User.IsAdministrator()) {%>
                 <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
                 | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
             <% } %>

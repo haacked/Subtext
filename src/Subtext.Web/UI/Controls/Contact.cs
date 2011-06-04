@@ -94,7 +94,7 @@ namespace Subtext.Web.UI.Controls
 
             EnsureEmailRequired();
             //Captcha should not be given to admin.
-            if (!SecurityHelper.IsAdmin)
+            if (User.IsAdministrator())
             {
                 int btnIndex = Controls.IndexOf(btnSend);
                 AddCaptchaIfNecessary(ref captcha, ref invisibleCaptchaValidator, btnIndex);

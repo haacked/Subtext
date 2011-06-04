@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using MbUnit.Framework;
 using Moq;
 using SubtextUpgrader;
@@ -13,7 +10,72 @@ namespace SubtextUpgraderTests
     public class SkinUpgraderTests
     {
         [Test]
-        public  void Ctor_FileWithOldAssembly_ReplateWithNewOne()
+        public void GetUpgradedSkinFileContents_WithCallToSecurityHelperIsAdmin_ReplacesWithUserIsAdministrator()
+        {
+            // Arrange
+            string content = "<% if(Request.IsAuthenticated && User.IsAdministrator()) {%>";
+
+            // Act
+            var result = SkinUpgrader.GetUpgradedSkinFileContents(content);
+
+            // Assert
+            Assert.AreEqual("<% if(Request.IsAuthenticated && User.IsAdministrator()) {%>", result);
+        }
+
+        [Test]
+        public void GetUpgradedSkinFileContents_WithParethesisAroundCallToSecurityHelperIsAdmin_ReplacesWithUserIsAdministrator()
+        {
+            // Arrange
+            string content = "(User.IsAdministrator()) {%>";
+
+            // Act
+            var result = SkinUpgrader.GetUpgradedSkinFileContents(content);
+
+            // Assert
+            Assert.AreEqual("(User.IsAdministrator()) {%>", result);
+        }
+
+        [Test]
+        public void GetUpgradedSkinFileContents_WithChainedCallToSecurityHelperIsAdmin_ReplacesWithUserIsAdministrator()
+        {
+            // Arrange
+            string content = "(User.IsAdministrator().ToString()) {%>";
+
+            // Act
+            var result = SkinUpgrader.GetUpgradedSkinFileContents(content);
+
+            // Assert
+            Assert.AreEqual("(User.IsAdministrator().ToString()) {%>", result);
+        }
+
+        [Test]
+        public void GetUpgradedSkinFileContents_WithSubstringSecurityHelperIsAdmin_DoesNotReplaceWithUserIsAdministrator()
+        {
+            // Arrange
+            string content = "(User.IsAdministrator()istrator) {%>";
+
+            // Act
+            var result = SkinUpgrader.GetUpgradedSkinFileContents(content);
+
+            // Assert
+            Assert.AreEqual("(User.IsAdministrator()istrator) {%>", result);
+        }
+
+        [Test]
+        public void GetUpgradedSkinFileContents_WithEndSubstringSecurityHelperIsAdmin_DoesNotReplaceWithUserIsAdministrator()
+        {
+            // Arrange
+            string content = "(AUser.IsAdministrator()) {%>";
+
+            // Act
+            var result = SkinUpgrader.GetUpgradedSkinFileContents(content);
+
+            // Assert
+            Assert.AreEqual("(AUser.IsAdministrator()) {%>", result);
+        }
+
+        [Test]
+        public void Ctor_FileWithOldAssembly_ReplateWithNewOne()
         {
             //arrange
             var upgrader = new SkinUpgrader(GetSourceDirectory());
@@ -61,7 +123,7 @@ namespace SubtextUpgraderTests
             var sourceDirectory = new Mock<IDirectory>();
             var subDirectory = new Mock<IDirectory>();
             subDirectory.Setup(s => s.GetFiles()).Returns(files);
-            var directories = new List<IDirectory> {subDirectory.Object};
+            var directories = new List<IDirectory> { subDirectory.Object };
             sourceDirectory.Setup(s => s.GetDirectories()).Returns(directories);
             var upgrader = new SkinUpgrader(sourceDirectory.Object);
 
@@ -80,7 +142,7 @@ namespace SubtextUpgraderTests
         [TearDown]
         public void TearDown()
         {
-            if(File.Exists("PageTemplate.ascx"))
+            if (File.Exists("PageTemplate.ascx"))
             {
                 File.Delete("PageTemplate.ascx");
             }

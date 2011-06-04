@@ -109,7 +109,7 @@ namespace Subtext.Web
         {
             if (custom == "Blogger")
             {
-                return string.Format("{0}:{1}", Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), SecurityHelper.IsAdmin);
+                return string.Format("{0}:{1}", Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), User.IsAdministrator());
             }
 
             return base.GetVaryByCustomString(context, custom);

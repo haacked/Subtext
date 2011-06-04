@@ -52,7 +52,7 @@ namespace Subtext.Web.UI.Controls
 
         public bool IsEditEnabled
         {
-            get { return Request.IsAuthenticated && SecurityHelper.IsAdmin; }
+            get { return Request.IsAuthenticated && User.IsAdministrator(); }
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Subtext.Web.UI.Controls
                         }
                     }
 
-                    if (Request.IsAuthenticated && SecurityHelper.IsAdmin)
+                    if (Request.IsAuthenticated && User.IsAdministrator())
                     {
                         var editCommentTextLink = (HyperLink)(e.Item.FindControl("EditCommentTextLink"));
                         if (editCommentTextLink != null)

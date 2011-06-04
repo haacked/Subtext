@@ -319,7 +319,7 @@ namespace Subtext.Web.UI.Controls
         {
             if (link != null)
             {
-                if (SecurityHelper.IsAdmin)
+                if (User.IsAdministrator())
                 {
                     link.Visible = true;
                     link.NavigateUrl = editUrl;

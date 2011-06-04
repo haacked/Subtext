@@ -33,7 +33,16 @@ namespace SubtextUpgrader
                 if (file.Name.EndsWith(".aspx", StringComparison.CurrentCultureIgnoreCase)
                     || file.Name.EndsWith(".ascx", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    ReplaceLegacyControlTags(file);
+                    var contents = file.Contents;
+                    string newContent = GetUpgradedSkinFileContents(contents);
+                    if (contents != newContent)
+                    {
+                        using (var stream = new StreamWriter(file.OpenWrite()))
+                        {
+                            stream.Write(newContent);
+                            stream.Close();
+                        }
+                    }
                 }
             }
             foreach (var dir in directory.GetDirectories())
@@ -42,10 +51,21 @@ namespace SubtextUpgrader
             }
         }
 
-        private static void ReplaceLegacyControlTags(IFile file)
+        public static string GetUpgradedSkinFileContents(string content)
         {
-            var contents = file.Contents;
+            string newContent = ReplaceLegacyControlTags(content);
+            newContent = ReplaceDeprecatedSecurityHelperCalls(newContent);
+            return newContent;
+        }
 
+        private static string ReplaceDeprecatedSecurityHelperCalls(string content)
+        {
+            var regex = new Regex(@"(?<![a-zA-Z])User.IsAdministrator()(?![a-zA-Z])", RegexOptions.Compiled);
+            return regex.Replace(content, "User.IsAdministrator()");
+        }
+
+        private static string ReplaceLegacyControlTags(string contents)
+        {
             var regex = new Regex
                 (@"(<%@\s*?Register\s+?TagPrefix="")(.+?)(""\s+?Namespace="".+?""\s+?Assembly="")(Subtext.Web.Controls)(""\s*?%>)"
                 , RegexOptions.IgnoreCase | RegexOptions.Multiline
@@ -67,13 +87,7 @@ namespace SubtextUpgrader
 
                 return sb.ToString();
             });
-
-            if (contents != newContent)
-            {
-                var stream = new StreamWriter(file.OpenWrite());
-                stream.Write(newContent);
-                stream.Close();
-            }
+            return newContent;
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Subtext.Web.UI.Controls
 
                 if (Admin != null)
                 {
-                    if (Request.IsAuthenticated && SecurityHelper.IsAdmin)
+                    if (Request.IsAuthenticated && User.IsAdministrator())
                     {
                         Admin.Text = "Admin";
                         Admin.NavigateUrl = AdminUrl.Home();

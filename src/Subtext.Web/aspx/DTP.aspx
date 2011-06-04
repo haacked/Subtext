@@ -25,7 +25,7 @@
         <asp:Literal ID="openIDServer" runat="server" />
         <asp:Literal ID="openIDDelegate" runat="server" />
         
-        <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) { %>
+        <% if(Request.IsAuthenticated && User.IsAdministrator()) { %>
             <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/aspx/admin/js/jquery.undoable.js") %>"></script>
             <script type="text/javascript">
                 $(function() {

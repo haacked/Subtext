@@ -18,7 +18,7 @@
 	            </div>
 	            <div class="comment-date">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
                 <span class="adminLink">
-			        <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+			        <% if(Request.IsAuthenticated && User.IsAdministrator()) {%>
 	                    <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
 	                    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
 	                <% } %>
@@ -39,7 +39,7 @@
 	            </div>
 	            <div class="comment-date">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
                 <span class="adminLink">
-			        <% if(Request.IsAuthenticated && SecurityHelper.IsAdmin) {%>
+			        <% if(Request.IsAuthenticated && User.IsAdministrator()) {%>
 	                    <strong class="undoable"><a href="#<%#Comment.Id %>" class="Deleted">Remove Comment</a></strong>
 	                    | <strong class="undoable"><a href="#<%#Comment.Id %>" class="FlaggedAsSpam">Flag as Spam</a></strong>
 	                <% } %>
