@@ -10,6 +10,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
@@ -27,10 +28,11 @@ namespace UnitTests.Subtext.Framework.Syndication
         public void AtomWriterProducesValidFeedFromDatabase()
         {
             string hostName = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("Test", "username", "password", hostName, string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("Test", "username", "password", hostName, string.Empty);
 
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
+            BlogRequest.Current.Blog = repository.GetBlog(hostName, string.Empty);
             Config.CurrentBlog.Email = "Subtext@example.com";
             Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
@@ -42,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             var subtextContext = new Mock<ISubtextContext>();
             string rssOutput = null;
             subtextContext.FakeSyndicationContext(Config.CurrentBlog, "/", s => rssOutput = s);
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.BlogUrl()).Returns("/");
             urlHelper.Setup(u => u.EntryUrl(It.IsAny<Entry>())).Returns("/archive/2008/01/23/testtitle.aspx");

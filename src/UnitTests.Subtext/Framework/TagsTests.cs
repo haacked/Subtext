@@ -5,7 +5,6 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -28,7 +27,8 @@ namespace UnitTests.Subtext.Framework
         [Test]
         public void GetTopTagsThrowsArgumentExceptionForNegativeValues()
         {
-            UnitTestHelper.AssertThrows<ArgumentException>(() => ObjectProvider.Instance().GetMostUsedTags(-1));
+            var repository = new DatabaseObjectProvider();
+            UnitTestHelper.AssertThrows<ArgumentException>(() => repository.GetMostUsedTags(-1));
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework
                                                                      @"<a href=""http://blah/tag3/"" rel=""tag"">test</a>");
             UnitTestHelper.Create(entry);
 
-            ICollection<Tag> topTags = ObjectProvider.Instance().GetMostUsedTags(1);
+            ICollection<Tag> topTags = repository.GetMostUsedTags(1);
             Assert.AreEqual("tag3", topTags.First().TagName);
         }
     }

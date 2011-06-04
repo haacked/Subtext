@@ -19,7 +19,6 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
@@ -39,16 +38,17 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogInfoFindsBlogWithUniqueHostAndSubfolder()
         {
+            var repository = new DatabaseObjectProvider();
             string subfolder1 = UnitTestHelper.GenerateUniqueString();
             string subfolder2 = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, subfolder1);
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, subfolder2);
+            repository.CreateBlog("title", "username", "password", hostName, subfolder1);
+            repository.CreateBlog("title", "username", "password", hostName, subfolder2);
 
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, subfolder1);
+            Blog info = repository.GetBlog(hostName, subfolder1);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName & subfolder combination.");
             Assert.AreEqual(info.Subfolder, subfolder1, "Oops! Looks like we found the wrong Blog!");
 
-            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, subfolder2);
+            info = repository.GetBlog(hostName, subfolder2);
             Assert.IsNotNull(info, "Could not find the blog with the unique hostName & subfolder combination.");
             Assert.AreEqual(info.Subfolder, subfolder2, "Oops! Looks like we found the wrong Blog!");
         }
@@ -57,12 +57,13 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogInfoDoesNotFindBlogWithWrongSubfolderInMultiBlogSystem()
         {
+            var repository = new DatabaseObjectProvider();
             string subfolder1 = UnitTestHelper.GenerateUniqueString();
             string subfolder2 = UnitTestHelper.GenerateUniqueString();
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, subfolder1);
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, subfolder2);
+            repository.CreateBlog("title", "username", "password", hostName, subfolder1);
+            repository.CreateBlog("title", "username", "password", hostName, subfolder2);
 
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
+            Blog info = repository.GetBlog(hostName, string.Empty);
             Assert.IsNull(info, "Hmm... Looks like found a blog using too generic of search criteria.");
         }
 
@@ -87,13 +88,14 @@ namespace UnitTests.Subtext.Framework.Configuration
         [RollBack2]
         public void GetBlogInfoLoadsOpenIDSettings()
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("title", "username", "password", hostName, string.Empty);
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("title", "username", "password", hostName, string.Empty);
 
-            Blog info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
+            Blog info = repository.GetBlog(hostName, string.Empty);
             info.OpenIdServer = "http://server.example.com/";
             info.OpenIdDelegate = "http://delegate.example.com/";
-            ObjectProvider.Instance().UpdateConfigData(info);
-            info = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(hostName, string.Empty);
+            repository.UpdateConfigData(info);
+            info = repository.GetBlog(hostName, string.Empty);
 
             Assert.AreEqual("http://server.example.com/", info.OpenIdServer);
             Assert.AreEqual("http://delegate.example.com/", info.OpenIdDelegate);

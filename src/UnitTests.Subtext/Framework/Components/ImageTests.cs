@@ -4,6 +4,7 @@ using MbUnit.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components
 {
@@ -16,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Components
         {
             //arrange
             UnitTestHelper.SetupBlog();
-            ObjectProvider provider = ObjectProvider.Instance();
+            var repository = new DatabaseObjectProvider();
             var category = new LinkCategory
             {
                 BlogId = Config.CurrentBlog.Id,
@@ -24,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Components
                 IsActive = true,
                 Title = "Whatever"
             };
-            int categoryId = provider.CreateLinkCategory(category);
+            int categoryId = repository.CreateLinkCategory(category);
 
             var image = new Image
             {
@@ -36,10 +37,10 @@ namespace UnitTests.Subtext.Framework.Components
                 Width = 10,
                 IsActive = true,
             };
-            int imageId = provider.InsertImage(image);
+            int imageId = repository.InsertImage(image);
 
             //act
-            ICollection<Image> images = provider.GetImages(Config.CurrentBlog.Host, null, 10);
+            ICollection<Image> images = repository.GetImages(Config.CurrentBlog.Host, null, 10);
 
             //assert
             Assert.AreEqual(1, images.Count);

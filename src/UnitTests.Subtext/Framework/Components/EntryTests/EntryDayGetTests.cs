@@ -25,9 +25,8 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
-using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Data;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -88,6 +87,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetBlogPostsReturnsAllPostsIfPostConfigNoneSpecified()
         {
             // Create four entries.
+            var repository = new DatabaseObjectProvider();
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
             entryZero.IsActive = entryZero.IncludeInMainSyndication = true;
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
@@ -114,7 +114,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsTrue(entryThree.DatePublishedUtc > DateTime.UtcNow);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.None).ToList();
+            ICollection<EntryDay> entryList = repository.GetBlogPostsForHomePage(10, PostConfig.None).ToList();
 
             //Test outcome
             Assert.AreEqual(3, entryList.Count);
@@ -138,6 +138,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         public void GetBlogPostsReturnsActiveOnlyAndNoneInFuture()
         {
             //Create some entries.
+            var repository = new DatabaseObjectProvider();
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero");
             entryZero.IsActive = entryZero.IncludeInMainSyndication = true;
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one");
@@ -162,7 +163,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.IsTrue(entryThree.DatePublishedUtc > DateTime.UtcNow);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.IsActive).ToList();
+            ICollection<EntryDay> entryList = repository.GetBlogPostsForHomePage(10, PostConfig.IsActive).ToList();
 
             //Test outcome
             Assert.AreEqual(2, entryList.Count);
@@ -247,7 +248,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             repository.Create(enc);
 
             //Get EntryDay
-            ICollection<EntryDay> entryList = ObjectProvider.Instance().GetBlogPostsForHomePage(10, PostConfig.DisplayOnHomepage | PostConfig.IsActive).ToList();
+            ICollection<EntryDay> entryList = repository.GetBlogPostsForHomePage(10, PostConfig.DisplayOnHomepage | PostConfig.IsActive).ToList();
 
             var days = new EntryDay[2];
             entryList.CopyTo(days, 0);

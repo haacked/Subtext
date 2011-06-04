@@ -12,7 +12,6 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
 
@@ -38,8 +37,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                          int itemsCountOnLastPage)
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, "blog");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, "blog");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = repository.GetBlog(_hostName, "blog");
             AssertPagedCollection(new PagedEntryCollectionTester(), expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
 
@@ -58,8 +58,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedEntriesByCategoryHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                                    int itemsCountOnLastPage)
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, "blog");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, "blog");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = repository.GetBlog(_hostName, "blog");
             AssertPagedCollection(new PagedEntryByCategoryCollectionTester(), expectedPageCount, itemsCountOnLastPage,
                                   pageSize, total);
         }
@@ -80,8 +81,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedFeedbackHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                           int itemsCountOnLastPage)
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, "blog");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, "blog");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = repository.GetBlog(_hostName, "blog");
             AssertPagedCollection(new FeedbackCollectionTester(), expectedPageCount, itemsCountOnLastPage, pageSize,
                                   total);
         }
@@ -96,8 +98,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedLinksHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                        int itemsCountOnLastPage)
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, "blog");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, "blog");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = repository.GetBlog(_hostName, "blog");
             var tester = new LinkCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
@@ -112,8 +115,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedLogEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                             int itemsCountOnLastPage)
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, "blog");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, "blog");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = repository.GetBlog(_hostName, "blog");
             var tester = new LogEntryCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
@@ -128,8 +132,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedMetaTagsHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                           int itemsCountOnLastPage)
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, "blog");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, "blog");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = repository.GetBlog(_hostName, "blog");
             var tester = new MetaTagCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
@@ -144,8 +149,9 @@ namespace UnitTests.Subtext.Framework.Data
         public void GetPagedKeywordsHandlesPagingProperly(int total, int pageSize, int expectedPageCount,
                                                           int itemsCountOnLastPage)
         {
-            new global::Subtext.Framework.Data.DatabaseObjectProvider().CreateBlog("", "username", "password", _hostName, "blog");
-            BlogRequest.Current.Blog = new global::Subtext.Framework.Data.DatabaseObjectProvider().GetBlog(_hostName, "blog");
+            var repository = new DatabaseObjectProvider();
+            repository.CreateBlog("", "username", "password", _hostName, "blog");
+            BlogRequest.Current.Blog = repository.GetBlog(_hostName, "blog");
             var tester = new KeyWordCollectionTester();
             AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
         }
@@ -230,7 +236,8 @@ namespace UnitTests.Subtext.Framework.Data
 
         public IPagedCollection<EntryStatsView> GetPagedItems(int pageIndex, int pageSize)
         {
-            return ObjectProvider.Instance().GetEntries(PostType.BlogPost, null, pageIndex, pageSize);
+            var repository = new DatabaseObjectProvider();
+            return repository.GetEntries(PostType.BlogPost, null, pageIndex, pageSize);
         }
 
         public int GetCount(IPagedCollection<EntryStatsView> collection)
@@ -260,7 +267,8 @@ namespace UnitTests.Subtext.Framework.Data
 
         public IPagedCollection<EntryStatsView> GetPagedItems(int pageIndex, int pageSize)
         {
-            return ObjectProvider.Instance().GetEntries(PostType.BlogPost, _categoryId, pageIndex, pageSize);
+            var repository = new DatabaseObjectProvider();
+            return repository.GetEntries(PostType.BlogPost, _categoryId, pageIndex, pageSize);
         }
 
         public int GetCount(IPagedCollection<EntryStatsView> collection)
@@ -273,6 +281,7 @@ namespace UnitTests.Subtext.Framework.Data
     {
         public void Create(int index)
         {
+            DatabaseObjectProvider repository = new DatabaseObjectProvider();
             var feedbackItem = new FeedbackItem(FeedbackType.Comment)
             {
                 Author = "Phil",
@@ -284,17 +293,17 @@ namespace UnitTests.Subtext.Framework.Data
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.Setup(c => c.Cache).Returns(new TestCache());
             subtextContext.SetupBlog(BlogRequest.Current.Blog);
-            subtextContext.SetupRepository(ObjectProvider.Instance());
+            subtextContext.SetupRepository(repository);
             subtextContext.Setup(c => c.HttpContext.Items).Returns(new Hashtable());
             var commentService = new CommentService(subtextContext.Object, null);
             commentService.Create(feedbackItem, true /*runFilters*/);
-            var repository = new DatabaseObjectProvider();
             repository.Approve(feedbackItem, null);
         }
 
         public IPagedCollection<FeedbackItem> GetPagedItems(int pageIndex, int pageSize)
         {
-            return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, FeedbackStatusFlag.Approved,
+            var repository = new DatabaseObjectProvider();
+            return repository.GetPagedFeedback(pageIndex, pageSize, FeedbackStatusFlag.Approved,
                                                               FeedbackStatusFlag.None, FeedbackType.None);
         }
 
@@ -376,6 +385,7 @@ namespace UnitTests.Subtext.Framework.Data
     {
         public void Create(int index)
         {
+            var repository = new DatabaseObjectProvider();
             var keyword = new KeyWord
             {
                 BlogId = Config.CurrentBlog.Id,
@@ -385,12 +395,13 @@ namespace UnitTests.Subtext.Framework.Data
                 Rel = "Rel" + index,
                 Url = "http://localhost/"
             };
-            ObjectProvider.Instance().InsertKeyWord(keyword);
+            repository.InsertKeyWord(keyword);
         }
 
         public IPagedCollection<KeyWord> GetPagedItems(int pageIndex, int pageSize)
         {
-            return ObjectProvider.Instance().GetPagedKeyWords(pageIndex, pageSize);
+            var repository = new DatabaseObjectProvider();
+            return repository.GetPagedKeyWords(pageIndex, pageSize);
         }
 
         public int GetCount(IPagedCollection<KeyWord> collection)

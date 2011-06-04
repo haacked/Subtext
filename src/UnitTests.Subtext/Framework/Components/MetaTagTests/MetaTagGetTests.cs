@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
@@ -49,7 +48,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 
             Entry e =
                 UnitTestHelper.CreateEntryInstanceForSyndication("Steve Harman", "Loves Subtexting!", "Roses are red...");
-            
+
             // Act
             UnitTestHelper.Create(e);
 
@@ -99,6 +98,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
         private static void InsertNewMetaTag(string content, string nameValue, string httpEquivValue, DateTime created,
                                              int blogId, int? entryId)
         {
+            var repository = new DatabaseObjectProvider();
             var metaTag = new MetaTag();
             metaTag.Content = content;
             metaTag.Name = nameValue;
@@ -106,7 +106,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             metaTag.DateCreatedUtc = created;
             metaTag.BlogId = blogId;
             metaTag.EntryId = entryId;
-            ObjectProvider.Instance().Create(metaTag);
+            repository.Create(metaTag);
         }
     }
 }

@@ -23,7 +23,6 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Providers
 {
@@ -32,17 +31,6 @@ namespace Subtext.Framework.Providers
     /// </summary>
     public abstract class ObjectProvider : ProviderBase
     {
-        private static readonly DatabaseObjectProvider _objectProvider = new DatabaseObjectProvider();
-
-        /// <summary>
-        /// Returns the currently configured ObjectProvider.
-        /// </summary>
-        /// <returns></returns>
-        public static ObjectProvider Instance()
-        {
-            return _objectProvider;
-        }
-
         public abstract void ClearBlogContent(int blogId);
 
         /// <summary>

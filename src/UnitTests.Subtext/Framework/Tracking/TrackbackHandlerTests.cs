@@ -10,7 +10,7 @@ using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
+using Subtext.Framework.Data;
 using Subtext.Framework.Routing;
 using Subtext.Framework.Tracking;
 
@@ -56,6 +56,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         {
             //arrange
             UnitTestHelper.SetupBlog();
+            var repository = new DatabaseObjectProvider();
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "this is the title", "body");
             entry.DateCreatedUtc =
                 entry.DatePublishedUtc =
@@ -67,7 +68,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 
             var subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
@@ -90,11 +91,12 @@ namespace UnitTests.Subtext.Framework.Tracking
         {
             //arrange
             UnitTestHelper.SetupBlog();
+            var repository = new DatabaseObjectProvider();
             Blog blog = Config.CurrentBlog;
             blog.TrackbacksEnabled = true;
             var subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", int.MaxValue.ToString());
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
@@ -117,11 +119,12 @@ namespace UnitTests.Subtext.Framework.Tracking
         {
             //arrange
             UnitTestHelper.SetupBlog();
+            var repository = new DatabaseObjectProvider();
             Blog blog = Config.CurrentBlog;
             blog.TrackbacksEnabled = true;
             var subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
             urlHelper.Setup(u => u.TrackbacksUrl(It.IsAny<int>())).Returns("/whatever/trackback");
             subtextContext.SetupBlog(blog);
@@ -143,6 +146,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         public void ProcessRequest_WithValidTrackback_CreatesTracbackRecordInDatabase()
         {
             //arrange
+            var repository = new DatabaseObjectProvider();
             UnitTestHelper.SetupBlog();
             Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "this is the title", "body");
             entry.DateCreatedUtc =
@@ -153,7 +157,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             blog.TrackbacksEnabled = true;
             var subtextContext = new Mock<ISubtextContext>();
             StringWriter writer = subtextContext.FakeSubtextContextRequest(blog, "/trackbackhandler", "/", string.Empty);
-            subtextContext.Setup(c => c.Repository).Returns(new global::Subtext.Framework.Data.DatabaseObjectProvider());
+            subtextContext.Setup(c => c.Repository).Returns(repository);
             subtextContext.Object.RequestContext.RouteData.Values.Add("id", id.ToString());
             subtextContext.SetupBlog(blog);
             var handler = new TrackBackHandler(subtextContext.Object);
@@ -176,7 +180,7 @@ namespace UnitTests.Subtext.Framework.Tracking
             handler.ProcessRequest();
 
             //assert
-            ICollection<FeedbackItem> trackbacks = ObjectProvider.Instance().GetFeedbackForEntry(entry);
+            ICollection<FeedbackItem> trackbacks = repository.GetFeedbackForEntry(entry);
             Assert.AreEqual(1, trackbacks.Count, "We expect to see the one feedback we just created.");
             Assert.AreEqual("this is the title", trackbacks.First().Title);
         }

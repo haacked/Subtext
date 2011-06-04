@@ -19,7 +19,14 @@ namespace UnitTests.Subtext.Framework.Syndication
         public void OpmlHandler_WithRequest_SetsContentTypeToXml()
         {
             //arrange
+            var repository = new Mock<ObjectProvider>();
+            repository.Setup(r => r.GetBlogsByGroup("http://subtextproject.com/", 1)).Returns(new Blog[] { new Blog { } });
+            var queryString = new NameValueCollection();
+            queryString.Add("GroupID", "1");
             var context = new Mock<ISubtextContext>();
+            context.Setup(c => c.Repository).Returns(repository.Object);
+            context.Setup(c => c.HttpContext.Request.Url).Returns(new Uri("http://subtextproject.com/"));
+            context.Setup(c => c.HttpContext.Request.QueryString).Returns(queryString);
             context.Stub(c => c.HttpContext.Response.ContentType);
             context.Setup(c => c.HttpContext.Response.Output).Returns(new StringWriter());
             context.SetupUrlHelper(new Mock<BlogUrlHelper>());
