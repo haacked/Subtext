@@ -12,14 +12,14 @@
 		<div>
 			<h3>InstaBlogger - Instant </h3>
 			<p>
-			You&#8217;re one click away from unleashing your creativity on the 
-			world with your bad blogging self.
+			    You&#8217;re one click away from unleashing your creativity on the 
+			    world with your bad blogging self.
 			<p>
-			Click the button below to instantly create your blog.
+			    Click the button below to instantly create your blog.
 			</p>
 			<p>
-			You can manage blogs via the <asp:HyperLink runat="server" ID="hostAdminlink" NavigateUrl="Host Admin Tool" />. However, if you plan on only 
-			having one blog, then click on the quick create button.
+			    You can manage blogs via the <asp:HyperLink runat="server" ID="hostAdminlink" Text="Host Admin Tool" />. However, if you plan on only 
+			    having one blog, then click on the quick create button.
 			</p>
 		    <asp:Button id="btnQuickCreate" runat="server" Text="Create!" CssClass="big-button" onclick="btnQuickCreate_Click" />
 		</div>
