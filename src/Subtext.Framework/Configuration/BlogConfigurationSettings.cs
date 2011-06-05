@@ -110,13 +110,13 @@ namespace Subtext.Framework.Configuration
         {
             get
             {
-                if(String.IsNullOrEmpty(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"]))
+                if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"]))
                 {
                     return true;
                 }
 
                 bool enabled;
-                if(bool.TryParse(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"], out enabled))
+                if (bool.TryParse(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"], out enabled))
                 {
                     return enabled;
                 }
@@ -135,7 +135,7 @@ namespace Subtext.Framework.Configuration
         {
             get
             {
-                if(_allowedHtmlTags == null)
+                if (_allowedHtmlTags == null)
                 {
                     _allowedHtmlTags = ((NameValueCollection)(ConfigurationManager.GetSection("AllowableCommentHtml")));
                 }

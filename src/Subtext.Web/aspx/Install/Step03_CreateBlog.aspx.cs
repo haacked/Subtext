@@ -62,6 +62,7 @@ namespace Subtext.Web.Install
             btnQuickCreate.Attributes["onclick"] = "this.disabled=true;"
                                                    +
                                                    ClientScript.GetPostBackEventReference(btnQuickCreate, "");
+            hostAdminlink.NavigateUrl = Url.HostAdminUrl("default.aspx");
             base.OnLoad(e);
         }
 
@@ -74,8 +75,11 @@ namespace Subtext.Web.Install
 
             //Since the password is stored as a hash, let's not hash it again.
             const bool passwordAlreadyHashed = true;
+
+            string subfolder = HostInfo.BlogAggregationEnabled ? "blog" : "";
+
             int blogId = Repository.CreateBlog("TEMPORARY BLOG NAME", hostInfo.HostUserName, hostInfo.Password,
-                                           Request.Url.Host, string.Empty, passwordAlreadyHashed);
+                                           Request.Url.Host, subfolder, passwordAlreadyHashed);
             if (blogId > -1)
             {
                 var blog = Repository.GetBlogById(blogId);
