@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web {
-    
-    
-    public partial class AggDefault {
-        
+namespace Subtext.Web
+{
+
+
+    public partial class AggDefault
+    {
+
         /// <summary>
         /// title control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal title;
-        
+
         /// <summary>
         /// Style control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal Style;
-        
+
         /// <summary>
         /// Form1 control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
-        
+
         /// <summary>
         /// MPContainer control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.UI.WebControls.MasterPage MPContainer;
-        
+
         /// <summary>
         /// MPMain control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace Subtext.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.UI.WebControls.ContentRegion MPMain;
-        
+
         /// <summary>
         /// CenterBodyControl control.
         /// </summary>
