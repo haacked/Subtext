@@ -41,8 +41,17 @@ namespace Subtext.Web.Install
             set;
         }
 
-        [Inject]
+
         protected HostInfo HostInfo
+        {
+            get
+            {
+                return Host.Value;
+            }
+        }
+
+        [Inject]
+        public Lazy<HostInfo> Host
         {
             get;
             set;

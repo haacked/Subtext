@@ -52,7 +52,7 @@ namespace Subtext.Framework.Web.Handlers
         {
             get
             {
-                if(_adminUrlHelper == null)
+                if (_adminUrlHelper == null)
                 {
                     _adminUrlHelper = new AdminUrlHelper(Url);
                 }

@@ -76,7 +76,7 @@ namespace Subtext.Web
             //TODO: This is hard-coded to look in the simple skin for aggregate blogs. We should change this later.
             string aggregateSkin = HostInfo.GetAggregateSkin().TemplateFolder;
             Style.Text = string.Format(style, apppath, "Skins/" + aggregateSkin + "/Style.css") + Environment.NewLine +
-                         string.Format(style, apppath, "Scripts/jquery.lightbox-0.5.css");
+                         string.Format(style, apppath, "css/lightbox.css");
         }
     }
 }
