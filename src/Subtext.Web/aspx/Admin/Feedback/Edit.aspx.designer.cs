@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web.Admin.Feedback {
-    
-    
-    public partial class EditPage {
-        
+namespace Subtext.Web.Admin.Feedback
+{
+
+
+    public partial class EditPage
+    {
+
         /// <summary>
         /// Messages control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        
+
         /// <summary>
         /// Edit control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder Edit;
-        
+
         /// <summary>
         /// hlAuthorEmail control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink hlAuthorEmail;
-        
+
         /// <summary>
         /// lblName control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblName;
-        
+
         /// <summary>
         /// lblEmail control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEmail;
-        
+
         /// <summary>
         /// hlEntryLink control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink hlEntryLink;
-        
+
         /// <summary>
         /// valTitleRequired control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator valTitleRequired;
-        
+
         /// <summary>
         /// txbTitle control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbTitle;
-        
+
         /// <summary>
         /// valtxbWebsite control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CustomValidator valtxbWebsite;
-        
+
         /// <summary>
         /// txbWebsite control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txbWebsite;
-        
+
         /// <summary>
         /// valtbBodyRequired control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator valtbBodyRequired;
-        
+
         /// <summary>
         /// richTextEditor control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace Subtext.Web.Admin.Feedback {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Subtext.Web.Controls.RichTextEditor richTextEditor;
-        
+
         /// <summary>
         /// lkbPost control.
         /// </summary>
