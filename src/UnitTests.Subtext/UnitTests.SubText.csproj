@@ -366,6 +366,7 @@
     <Compile Include="Framework\Routing\PageRouteTests.cs" />
     <Compile Include="Framework\Routing\UrlHelperTests.cs" />
     <Compile Include="Framework\Routing\VirtualPathTests.cs" />
+    <Compile Include="Framework\SecurityHandling\AccountServiceTests.cs" />
     <Compile Include="Framework\SecurityHandling\SecurityTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -449,6 +450,7 @@
     <Compile Include="Framework\Web\HttpModules\AuthenticationModuleTests.cs" />
     <Compile Include="Framework\Web\HttpModules\BlogRequestModuleTests.cs" />
     <Compile Include="Framework\Web\HttpModules\BlogRequestTests.cs" />
+    <Compile Include="Framework\Web\HttpModules\FormToBasicAuthenticationModuleTests.cs" />
     <Compile Include="Framework\Web\HttpModules\InstallationCheckModuleTests.cs" />
     <Compile Include="Framework\Web\RsdHandlerTests.cs" />
     <Compile Include="Framework\Web\SubtextPageTests.cs" />

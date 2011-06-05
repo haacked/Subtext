@@ -26,7 +26,15 @@ namespace Subtext.Web.HostAdmin
     public class HostAdminPage : SubtextPage
     {
         [Inject]
-        public HostInfo Host { get; set; }
+        public Lazy<HostInfo> Host { get; set; }
+
+        public HostInfo HostInfo
+        {
+            get
+            {
+                return Host.Value;
+            }
+        }
 
         protected override void OnInit(EventArgs e)
         {

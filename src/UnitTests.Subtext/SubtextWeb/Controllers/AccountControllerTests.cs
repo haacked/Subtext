@@ -2,7 +2,7 @@
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
-using Subtext.Framework.Services.Account;
+using Subtext.Framework.Security;
 using Subtext.Web.Controllers;
 
 namespace UnitTests.Subtext.SubtextWeb.Controllers

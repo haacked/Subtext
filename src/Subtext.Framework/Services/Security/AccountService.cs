@@ -16,14 +16,13 @@
 #endregion
 
 using System;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Security;
 using log4net;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Security;
 
-namespace Subtext.Framework.Services.Account
+namespace Subtext.Framework.Security
 {
     public class AccountService : IAccountService
     {
@@ -61,12 +60,37 @@ namespace Subtext.Framework.Services.Account
         }
 
 
-        public void UpdatePassword(string password)
+        public virtual void UpdatePassword(string password)
         {
+            if (String.IsNullOrEmpty(password))
+            {
+                throw new ArgumentNullException("password");
+            }
             var blog = SubtextContext.Blog;
             blog.Password = blog.IsPasswordHashed ? SecurityHelper.HashPassword(password) : password;
-            //Save new password.
-            SubtextContext.Repository.UpdateConfigData(blog);
+            SubtextContext.Repository.UpdateBlog(blog);
+        }
+
+        public string ResetPassword()
+        {
+            string password = GenerateRandomPassword();
+            UpdatePassword(password);
+            return password;
+        }
+
+        private string GenerateRandomPassword()
+        {
+            byte[] data = new byte[16];
+            using (var provider = new RNGCryptoServiceProvider())
+            {
+                provider.GetBytes(data);
+                return Convert.ToBase64String(data);
+            }
+        }
+
+        protected bool IsValidPassword(string password, string storedPassword, bool hashed, string salt)
+        {
+            return storedPassword == (hashed ? SecurityHelper.HashPassword(password, salt) : password);
         }
     }
 }

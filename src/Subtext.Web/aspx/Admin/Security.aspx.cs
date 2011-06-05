@@ -17,6 +17,7 @@
 
 using System;
 using System.Web.UI.WebControls;
+using Ninject;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
 using Subtext.Web.Properties;
@@ -30,6 +31,9 @@ namespace Subtext.Web.Admin.Pages
     {
         protected Label Message;
         protected ValidationSummary ValidationSummary1;
+
+        [Inject]
+        public IAccountService AccountService { get; set; }
 
         protected override void BindLocalUI()
         {
@@ -61,7 +65,7 @@ namespace Subtext.Web.Admin.Pages
                 {
                     if (tbPassword.Text == tbPasswordConfirm.Text)
                     {
-                        SecurityHelper.UpdatePassword(tbPassword.Text);
+                        AccountService.UpdatePassword(tbPassword.Text);
 
                         Messages.ShowMessage(Resources.Security_PasswordUpdated);
                     }

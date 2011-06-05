@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Web.UI;
+using Ninject;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -11,6 +12,9 @@ namespace Subtext.Web.Skins._System
 {
     public partial class ForgotPassword : MasterPage
     {
+        [Inject]
+        public IAccountService AccountService { get; set; }
+
         protected override void OnLoad(EventArgs e)
         {
             defaultInstructions.Visible = true;
@@ -50,7 +54,7 @@ namespace Subtext.Web.Skins._System
                 Message.Visible = true;
                 FailureText.Visible = false;
 
-                string newPassword = SecurityHelper.ResetPassword();
+                string newPassword = AccountService.ResetPassword();
                 EmailProvider.Instance().Send(currentBlog.Email, currentBlog.Email, Resources.ForgotPassword_NewPassword
                                               ,
                                               String.Format(CultureInfo.InvariantCulture,

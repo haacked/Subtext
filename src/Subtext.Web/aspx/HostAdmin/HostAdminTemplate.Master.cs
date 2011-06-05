@@ -16,7 +16,7 @@ namespace Subtext.Web.HostAdmin
             {
                 if (HostAdminPage != null)
                 {
-                    return HostAdminPage.Host;
+                    return HostAdminPage.HostInfo;
                 }
                 return null;
             }

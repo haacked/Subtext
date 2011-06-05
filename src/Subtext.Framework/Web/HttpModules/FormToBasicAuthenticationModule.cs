@@ -52,12 +52,9 @@ namespace Subtext.Framework.Web.HttpModules
 
         public void HandleEndRequest(HttpContextBase context)
         {
-            if (!String.IsNullOrEmpty(context.User.Identity.Name)
-               || context.Request.IsStaticFileRequest()
-               || !(context.Response.StatusCode == 302
-                    &&
-                    context.Response.RedirectLocation.IndexOf(FormsAuthentication.LoginUrl,
-                                                              StringComparison.OrdinalIgnoreCase) == 0))
+            if (context.User != null && !String.IsNullOrEmpty(context.User.Identity.Name)
+                   || context.Request.IsStaticFileRequest()
+                   || !RedirectingToLoginPage(context.Response))
             {
                 return;
             }
@@ -74,6 +71,12 @@ namespace Subtext.Framework.Web.HttpModules
             }
         }
 
+        private bool RedirectingToLoginPage(HttpResponseBase response)
+        {
+            return response.StatusCode == 302 &&
+                    response.RedirectLocation.StartsWith(FormsAuthentication.LoginUrl, StringComparison.OrdinalIgnoreCase);
+        }
+
         private static void SendAuthRequest(HttpContextBase context)
         {
             Debug.WriteLine("Auth");
@@ -82,7 +85,7 @@ namespace Subtext.Framework.Web.HttpModules
             context.Response.AddHeader("WWW-Authenticate",
                                        String.Format(CultureInfo.InvariantCulture, "Basic realm=\"{0}\"",
                                                      Config.CurrentBlog.Title));
-            //			context.ApplicationInstance.CompleteRequest();
+            context.ApplicationInstance.CompleteRequest();
         }
 
         public void AuthenticateRequest(Blog blog, HttpContextBase context)
@@ -93,7 +96,7 @@ namespace Subtext.Framework.Web.HttpModules
                 return;
             }
 
-            if (authHeader.IndexOf("Basic ") == 0)
+            if (authHeader.StartsWith("Basic ", StringComparison.OrdinalIgnoreCase))
             {
                 byte[] bytes = Convert.FromBase64String(authHeader.Remove(0, 6));
 

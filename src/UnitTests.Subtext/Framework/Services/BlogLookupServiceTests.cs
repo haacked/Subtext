@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Extensibility.Interfaces;
@@ -14,13 +15,18 @@ namespace UnitTests.Subtext.Framework.Services
     [TestFixture]
     public class BlogLookupServiceTests
     {
+        private static HostInfo CreateHostInfo()
+        {
+            return new HostInfo(new NameValueCollection());
+        }
+
         [Test]
         public void Request_WithMatchingHost_ReturnsCorrespondingBlog()
         {
             //arrange
             var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog { Host = "example.com" });
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(CreateHostInfo));
 
             //act
             BlogLookupResult result =
@@ -37,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Services
             //arrange
             var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns(new Blog { Host = "www.example.com" });
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(CreateHostInfo));
 
             //act
             BlogLookupResult result =
@@ -54,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Services
             //arrange
             var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("blog.example.com", It.IsAny<string>())).Returns(new Blog { Host = "www.example.com" });
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(CreateHostInfo));
 
             //act
             BlogLookupResult result =
@@ -72,7 +78,7 @@ namespace UnitTests.Subtext.Framework.Services
             //arrange
             var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("blog.example.com", "sub")).Returns(new Blog { Host = "www.example.com", Subfolder = "" });
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(CreateHostInfo));
 
             //act
             BlogLookupResult result =
@@ -90,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Services
             //arrange
             var repository = new Mock<ObjectRepository>();
             repository.Setup(r => r.GetBlog("blog.example.com", string.Empty)).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(CreateHostInfo));
 
             //act
             BlogLookupResult result =
@@ -110,7 +116,7 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetBlog("blog.example.com", "notsub")).Returns(new Blog { Host = "www.example.com", Subfolder = "sub" });
             repository.Setup(r => r.GetBlogByDomainAlias("blog.example.com", "notsub", It.IsAny<bool>())).Returns(
                 new Blog { Host = "www.example.com", Subfolder = "sub" });
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo()));
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(CreateHostInfo));
 
             //act
             BlogLookupResult result =
@@ -132,7 +138,9 @@ namespace UnitTests.Subtext.Framework.Services
             pagedCollection.Setup(p => p.MaxItems).Returns(0);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection.Object);
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo { BlogAggregationEnabled = false }));
+            var appSettings = new NameValueCollection();
+            appSettings.Add("AggregateEnabled", "false");
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo(appSettings)));
 
             //act
             BlogLookupResult result =
@@ -143,8 +151,7 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void RequestNotMatchingAnyBlog_ButWithAggregateBlogsEnabledAndActiveBlogsInTheSystem_ReturnsAggregateBlog
-            ()
+        public void RequestNotMatchingAnyBlog_ButWithAggregateBlogsEnabledAndActiveBlogsInTheSystem_ReturnsAggregateBlog()
         {
             //arrange
             var repository = new Mock<ObjectRepository>();
@@ -154,16 +161,18 @@ namespace UnitTests.Subtext.Framework.Services
             pagedCollection.MaxItems = 1;
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection);
-            var aggregateBlog = new Blog();
+            var appSettings = new NameValueCollection();
+            appSettings.Add("AggregateEnabled", "true");
+            var hostInfo = new HostInfo(appSettings);
             var service = new BlogLookupService(repository.Object,
-                                                new Lazy<HostInfo>(() => new HostInfo { BlogAggregationEnabled = true, AggregateBlog = aggregateBlog }));
+                                                new Lazy<HostInfo>(() => hostInfo));
             var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false);
 
             //act
             BlogLookupResult result = service.Lookup(blogRequest);
 
             //assert
-            Assert.AreSame(aggregateBlog, result.Blog);
+            Assert.AreSame(hostInfo.AggregateBlog, result.Blog);
         }
 
         [Test]
@@ -178,9 +187,11 @@ namespace UnitTests.Subtext.Framework.Services
             pagedCollection.MaxItems = 2;
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection);
-            var aggregateBlog = new Blog();
+            var appSettings = new NameValueCollection();
+            appSettings.Add("AggregateEnabled", "true");
+            var hostInfo = new HostInfo(appSettings);
             var service = new BlogLookupService(repository.Object,
-                                                new Lazy<HostInfo>(() => new HostInfo { BlogAggregationEnabled = true, AggregateBlog = aggregateBlog }));
+                                                new Lazy<HostInfo>(() => hostInfo));
             var blogRequest = new BlogRequest("example.com", "blog1234", new Uri("http://example.com/foo/bar"), false);
 
             //act
@@ -211,7 +222,10 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetBlog("example.com", "not-sub")).Returns(onlyBlog);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection);
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo { BlogAggregationEnabled = false }));
+            var appSettings = new NameValueCollection();
+            appSettings.Add("AggregateEnabled", "false");
+            var hostInfo = new HostInfo(appSettings);
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => hostInfo));
             var blogRequest = new BlogRequest("example.com", "sub", new Uri("http://example.com/Subtext.Web/sub/bar"),
                                               false, RequestLocation.Blog, "/Subtext.Web");
 
@@ -241,7 +255,10 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection);
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo { BlogAggregationEnabled = false }));
+            var appSettings = new NameValueCollection();
+            appSettings.Add("AggregateEnabled", "false");
+            var hostInfo = new HostInfo(appSettings);
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => hostInfo));
             var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false);
 
             //act
@@ -275,7 +292,10 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Setup(r => r.GetBlog("example.com", It.IsAny<string>())).Returns((Blog)null);
             repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
                 pagedCollection);
-            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => new HostInfo { BlogAggregationEnabled = false }));
+            var appSettings = new NameValueCollection();
+            appSettings.Add("AggregateEnabled", "false");
+            var hostInfo = new HostInfo(appSettings);
+            var service = new BlogLookupService(repository.Object, new Lazy<HostInfo>(() => hostInfo));
             var blogRequest = new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false);
 
             //act

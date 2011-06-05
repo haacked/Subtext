@@ -4,9 +4,9 @@ using System.Web;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
-using Subtext.Framework.Services.Account;
+using Subtext.Framework.Security;
 
-namespace UnitTests.Subtext.Framework.Services.Account
+namespace UnitTests.Subtext.Framework.Security
 {
     [TestFixture]
     public class AccountServiceTests
