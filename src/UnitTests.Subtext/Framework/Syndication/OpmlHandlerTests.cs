@@ -15,6 +15,10 @@ namespace UnitTests.Subtext.Framework.Syndication
     [TestFixture]
     public class OpmlHandlerTests
     {
+        private static HostInfo CreateHostInfo()
+        {
+            return new HostInfo(new NameValueCollection());
+        }
         [Test]
         public void OpmlHandler_WithRequest_SetsContentTypeToXml()
         {
@@ -32,7 +36,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             context.SetupUrlHelper(new Mock<BlogUrlHelper>());
             var writer = new Mock<OpmlWriter>();
             writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<BlogUrlHelper>()));
-            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(() => new HostInfo()));
+            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(CreateHostInfo));
 
             //act
             handler.ProcessRequest();
@@ -61,8 +65,10 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             var writer = new Mock<OpmlWriter>();
             writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<BlogUrlHelper>()));
-            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(() => new HostInfo()));
-            var hostInfo = new HostInfo { BlogAggregationEnabled = true, AggregateBlog = new Blog() };
+            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(CreateHostInfo));
+            var appSettings = new NameValueCollection();
+            appSettings.Add("AggregateEnabled", "true");
+            var hostInfo = new HostInfo(appSettings);
 
             //act
             handler.ProcessRequest();

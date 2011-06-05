@@ -24,9 +24,7 @@ using System.Web;
 using System.Web.Security;
 using log4net;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Security
@@ -188,7 +186,7 @@ namespace Subtext.Framework.Security
         /// <returns></returns>
         public static string GetFullCookieName(this HttpRequestBase request, Blog blog)
         {
-            return request.GetFullCookieName(blog, (blog == null || blog.IsAggregateBlog)/*forceHostAdmin*/);
+            return request.GetFullCookieName(blog, forceHostAdmin: (blog == null || blog.IsAggregateBlog));
         }
 
         public static string GetFullCookieName(this HttpRequestBase request, Blog blog, bool forceHostAdmin)
@@ -355,56 +353,6 @@ namespace Subtext.Framework.Security
             }
 
             return String.Equals(password, storedPassword, StringComparison.Ordinal);
-        }
-
-        /// <summary>
-        /// When we Encrypt/Hash the password, we can not un-Encrypt/Hash the password. If user's need to retrieve this value, all we can
-        /// do is reset the passowrd to a new value and send it.
-        /// </summary>
-        /// <returns>A New Password</returns>
-        public static string ResetPassword()
-        {
-            string password = RandomPassword();
-
-            UpdatePassword(password);
-
-            return password;
-        }
-
-        /// <summary>
-        /// Updates the current users password to the supplied value. 
-        /// Handles hashing (or not hashing of the password)
-        /// </summary>
-        /// <param name="password">Supplied Password</param>
-        public static void UpdatePassword(string password)
-        {
-            var repository = new DatabaseObjectProvider();
-            Blog info = Config.CurrentBlog;
-            info.Password = Config.CurrentBlog.IsPasswordHashed ? HashPassword(password) : password;
-            //Save new password.
-            repository.UpdateConfigData(info);
-        }
-
-        public static void UpdateHostAdminPassword(this ObjectRepository repository, HostInfo hostInfo, string password)
-        {
-            hostInfo.Password = Config.Settings.UseHashedPasswords ? HashPassword(password, hostInfo.Salt) : password;
-            HostInfo.UpdateHost(repository, hostInfo);
-        }
-
-        public static string ResetHostAdminPassword(this ObjectRepository repository, HostInfo hostInfo)
-        {
-            string password = RandomPassword();
-            repository.UpdateHostAdminPassword(hostInfo, password);
-            return password;
-        }
-
-        /// <summary>
-        /// Generates a "Random Enough" password. :)
-        /// </summary>
-        /// <returns></returns>
-        public static string RandomPassword()
-        {
-            return Guid.NewGuid().ToString().Substring(0, 8);
         }
 
         public static bool IsAdministrator(this IPrincipal user)

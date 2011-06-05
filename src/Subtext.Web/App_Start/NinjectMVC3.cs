@@ -39,8 +39,8 @@ using Subtext.Framework.Emoticons;
 using Subtext.Framework.Infrastructure.Installation;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Security;
 using Subtext.Framework.Services;
-using Subtext.Framework.Services.Account;
 using Subtext.Framework.Services.SearchEngine;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Web.HttpModules;
@@ -156,7 +156,7 @@ namespace Subtext.Web.App_Start
             kernel.Bind<IInstallationManager>().To<InstallationManager>();
             kernel.Bind<IInstaller>().ToMethod(context => new SqlInstaller(Config.ConnectionString));
             kernel.Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
-            kernel.Bind<HostInfo>().ToMethod(c => HostInfo.Instance).InSingletonScope();
+            kernel.Bind<Lazy<HostInfo>>().ToMethod(c => new Lazy<HostInfo>(() => HostInfo.Instance)).InSingletonScope();
 
             var indexingSettings = FullTextSearchEngineSettings.Settings;
             if (indexingSettings.IsEnabled)

@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using Subtext.Extensibility;
@@ -45,7 +46,7 @@ namespace Subtext.Framework.Data
             {
                 //When upgrading, this may occur because the old version of the 
                 //database schema doesn't know about new properties.
-                return new HostInfo();
+                return new HostInfo(ConfigurationManager.AppSettings);
             }
             return null;
         }

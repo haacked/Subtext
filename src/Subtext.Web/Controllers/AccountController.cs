@@ -17,7 +17,7 @@
 
 using System.Web.Mvc;
 using Subtext.Framework.Routing;
-using Subtext.Framework.Services.Account;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.Controllers
 {

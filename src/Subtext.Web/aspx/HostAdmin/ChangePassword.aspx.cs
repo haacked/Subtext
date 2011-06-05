@@ -17,8 +17,8 @@
 
 using System;
 using System.Web.UI.WebControls;
+using Ninject;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
 
 namespace Subtext.Web.HostAdmin
@@ -28,9 +28,12 @@ namespace Subtext.Web.HostAdmin
     /// </summary>
     public partial class ChangePassword : HostAdminPage
     {
+        [Inject]
+        public HostAccountService HostAccountService { get; set; }
+
         protected override void OnLoad(EventArgs e)
         {
-            txtEmail.Text = Host.Email;
+            txtEmail.Text = HostInfo.Email;
             lblSuccess.Visible = false;
             emailChangedLabel.Visible = false;
         }
@@ -39,8 +42,7 @@ namespace Subtext.Web.HostAdmin
         {
             if (Page.IsValid)
             {
-                HostInfo.SetHostPassword(Host, txtNewPassword.Text);
-                HostInfo.UpdateHost(Repository, Host);
+                HostAccountService.UpdatePassword(txtNewPassword.Text);
                 lblSuccess.Visible = true;
             }
         }
@@ -48,19 +50,14 @@ namespace Subtext.Web.HostAdmin
         protected void OnChangeEmailButtonClick(object sender, EventArgs e)
         {
             emailChangedLabel.Visible = true;
-            Host.Email = txtEmail.Text;
-            HostInfo.UpdateHost(Repository, Host);
+            HostInfo.Email = txtEmail.Text;
+            HostInfo.UpdateHost(Repository, HostInfo);
         }
 
         private void ValidatePassword(object source, ServerValidateEventArgs args)
         {
             string password = txtCurrentPassword.Text;
-            if (Config.Settings.UseHashedPasswords)
-            {
-                password = SecurityHelper.HashPassword(password, Host.Salt);
-            }
-
-            args.IsValid = password == Host.Password;
+            args.IsValid = HostAccountService.IsValidPassword(txtCurrentPassword.Text);
         }
 
         override protected void OnInit(EventArgs e)

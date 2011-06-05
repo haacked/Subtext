@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
@@ -35,10 +36,10 @@ namespace Subtext.Framework
     {
         private static Lazy<HostInfo> _instance = new Lazy<HostInfo>(EnsureHostInfo);
 
-        public HostInfo()
+        public HostInfo(NameValueCollection appSettings)
         {
             BlogAggregationEnabled =
-                String.Equals(ConfigurationManager.AppSettings["AggregateEnabled"], "true",
+                String.Equals(appSettings["AggregateEnabled"], "true",
                           StringComparison.OrdinalIgnoreCase);
             if (BlogAggregationEnabled)
             {
@@ -70,7 +71,7 @@ namespace Subtext.Framework
         {
             try
             {
-                return repository.LoadHostInfo(new HostInfo());
+                return repository.LoadHostInfo(new HostInfo(ConfigurationManager.AppSettings));
             }
             catch (SqlException e)
             {
@@ -116,7 +117,7 @@ namespace Subtext.Framework
         /// <value></value>
         public DateTime DateCreatedUtc { get; set; }
 
-        public bool BlogAggregationEnabled { get; set; }
+        public bool BlogAggregationEnabled { get; private set; }
 
         public Blog AggregateBlog { get; set; }
 
@@ -146,7 +147,7 @@ namespace Subtext.Framework
                 throw new InvalidOperationException(Resources.InvalidOperation_HostRecordAlreadyExists);
             }
 
-            var host = new HostInfo { HostUserName = hostUserName, Email = email };
+            var host = new HostInfo(ConfigurationManager.AppSettings) { HostUserName = hostUserName, Email = email };
 
             SetHostPassword(host, hostPassword);
             _instance = new Lazy<HostInfo>(() => host);

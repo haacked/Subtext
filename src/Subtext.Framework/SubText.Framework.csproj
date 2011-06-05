@@ -557,6 +557,7 @@
     <Compile Include="Services\SearchEngine\SearchEngineResult.cs" />
     <Compile Include="Services\SearchEngine\SearchEngineService.cs" />
     <Compile Include="Services\Security\AccountService.cs" />
+    <Compile Include="Services\Security\HostAccountService.cs" />
     <Compile Include="Services\Security\IAccountService.cs" />
     <Compile Include="Services\Security\SecurityHelper.cs" />
     <Compile Include="Services\SlugGenerator.cs" />

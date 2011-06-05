@@ -60,6 +60,11 @@ namespace UnitTests.Subtext
     /// </summary>
     public static class UnitTestHelper
     {
+        internal static HostInfo CreateHostInfo()
+        {
+            return new HostInfo(new NameValueCollection());
+        }
+
         /// <summary>
         /// Unpacks an embedded resource into the specified directory. The resource name should 
         /// be everything after 'UnitTests.Subtext.Resources.'.

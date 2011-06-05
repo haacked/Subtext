@@ -15,11 +15,12 @@
 
 #endregion
 
-namespace Subtext.Framework.Services.Account
+namespace Subtext.Framework.Security
 {
     public interface IAccountService
     {
         void Logout();
         void UpdatePassword(string password);
+        string ResetPassword();
     }
 }

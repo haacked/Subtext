@@ -37,8 +37,13 @@ namespace Subtext.Web.Pages
         private readonly static ILog Log = new Log();
         private static readonly string LoginFailedMessage = Resources.Login_Failed + "<br />";
 
+        public HostInfo HostInfo
+        {
+            get { return Host.Value; }
+        }
+
         [Inject]
-        public HostInfo HostInfo { get; set; }
+        public Lazy<HostInfo> Host { get; set; }
 
         protected override void OnLoad(EventArgs e)
         {

@@ -24,10 +24,7 @@ using System.Web;
 using MbUnit.Framework;
 using Moq;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
-using Subtext.Framework.Web.HttpModules;
-using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.SecurityHandling
 {
@@ -37,27 +34,6 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
     [TestFixture]
     public class SecurityTests
     {
-        /// <summary>
-        /// Makes sure that the UpdatePassword method hashes the password.
-        /// </summary>
-        [Test]
-        [RollBack2]
-        public void UpdatePasswordHashesPassword()
-        {
-            string hostName = UnitTestHelper.GenerateUniqueString();
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "MyBlog");
-
-            Config.Settings.UseHashedPasswords = true;
-            var repository = new DatabaseObjectProvider();
-            repository.CreateBlog("", "username", "thePassword", hostName, "MyBlog");
-            BlogRequest.Current.Blog = repository.GetBlog(hostName, "MyBlog");
-            string password = SecurityHelper.HashPassword("newPass");
-
-            SecurityHelper.UpdatePassword("newPass");
-            Blog info = repository.GetBlog(hostName, "MyBlog");
-            Assert.AreEqual(password, info.Password);
-        }
-
         [Test]
         public void IsValidPassword_WithBlogHavingHashedPasswordMatchingGivenClearTextPassword_ReturnsTrue()
         {
