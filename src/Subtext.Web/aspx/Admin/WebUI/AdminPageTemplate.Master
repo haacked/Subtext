@@ -5,6 +5,7 @@
 <head runat="server">
     <title>Subtext - Admin</title>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/aspx/Admin/js/jquery-impromptu.3.1.min.js") %>"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.form.js") %>" ></script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.hotkeys.min.js") %>" ></script>
@@ -24,6 +25,8 @@
     <link type="text/css" rel="stylesheet" runat="server" href="~/Skins/_System/forms.css" />
     <link type="text/css" rel="stylesheet" runat="server" href="~/aspx/Admin/css/helptip.css" />
     <link type="text/css" rel="stylesheet" runat="server" href="~/aspx/Admin/css/admin.css" />
+    <link type="text/css" rel="stylesheet" runat="server" href="~/aspx/Admin/css/impromptu.css" />
+    
     <!--[if lt IE 7]>
     <link type="text/css" rel="stylesheet" runat="server" href="~/aspx/Admin/css/ie6admin.css" />
     <![endif]-->

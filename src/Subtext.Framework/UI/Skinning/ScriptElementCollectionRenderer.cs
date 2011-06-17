@@ -40,7 +40,7 @@ namespace Subtext.Framework.UI.Skinning
             get
             {
                 var templates = _templates;
-                if(templates == null)
+                if (templates == null)
                 {
                     templates = _skinEngine.GetSkinTemplates(false /* mobile */);
                     _templates = templates;
@@ -67,11 +67,11 @@ namespace Subtext.Framework.UI.Skinning
 
         private static string GetScriptSourcePath(string skinPath, Script script)
         {
-            if(script.Src.StartsWith("~"))
+            if (script.Src.StartsWith("~"))
             {
                 return HttpHelper.ExpandTildePath(script.Src);
             }
-            if(script.Src.StartsWith("/") || script.Src.StartsWith("http://") || script.Src.StartsWith("https://"))
+            if (script.Src.StartsWith("/") || script.Src.StartsWith("http://") || script.Src.StartsWith("https://"))
             {
                 return script.Src;
             }
@@ -90,7 +90,7 @@ namespace Subtext.Framework.UI.Skinning
         }
 
         /// <summary>
-        /// Renders the script element collection for thes kin key.
+        /// Renders the script element collection for the skin key.
         /// </summary>
         /// <param name="skinKey">The skin key.</param>
         /// <returns></returns>
@@ -98,17 +98,17 @@ namespace Subtext.Framework.UI.Skinning
         {
             var result = new StringBuilder();
 
-            SkinTemplate skinTemplate = Templates.ItemOrNull(skinKey);
-            if(skinTemplate != null && skinTemplate.Scripts != null)
+            SkinTemplate skinTemplate = Templates.GetValueOrDefault(skinKey);
+            if (skinTemplate != null && skinTemplate.Scripts != null)
             {
                 string skinPath = GetSkinPath(skinTemplate.TemplateFolder);
-                if(CanScriptsBeMerged(skinTemplate))
+                if (CanScriptsBeMerged(skinTemplate))
                 {
                     result.Append(RenderScriptElement(string.Format("{0}js.axd?name={1}", skinPath, skinKey)));
                 }
                 else
                 {
-                    foreach(Script script in skinTemplate.Scripts)
+                    foreach (Script script in skinTemplate.Scripts)
                     {
                         result.Append(RenderScriptElement(skinPath, script));
                     }
@@ -119,7 +119,7 @@ namespace Subtext.Framework.UI.Skinning
 
         public ScriptMergeMode GetScriptMergeMode(string skinName)
         {
-            SkinTemplate skinTemplate = Templates.ItemOrNull(skinName);
+            SkinTemplate skinTemplate = Templates.GetValueOrDefault(skinName);
             return skinTemplate.ScriptMergeMode;
         }
 
@@ -127,16 +127,16 @@ namespace Subtext.Framework.UI.Skinning
         {
             var scripts = new List<string>();
 
-            SkinTemplate skinTemplate = Templates.ItemOrNull(skinName);
+            SkinTemplate skinTemplate = Templates.GetValueOrDefault(skinName);
 
-            if(skinTemplate != null && skinTemplate.Scripts != null)
+            if (skinTemplate != null && skinTemplate.Scripts != null)
             {
-                if(CanScriptsBeMerged(skinTemplate))
+                if (CanScriptsBeMerged(skinTemplate))
                 {
                     string skinPath = CreateStylePath(skinTemplate.TemplateFolder);
-                    foreach(Script script in skinTemplate.Scripts)
+                    foreach (Script script in skinTemplate.Scripts)
                     {
-                        if(script.Src.StartsWith("~"))
+                        if (script.Src.StartsWith("~"))
                         {
                             scripts.Add(HttpHelper.ExpandTildePath(script.Src));
                         }
@@ -159,21 +159,21 @@ namespace Subtext.Framework.UI.Skinning
 
         public static bool CanScriptsBeMerged(SkinTemplate template)
         {
-            if(!template.MergeScripts)
+            if (!template.MergeScripts)
             {
                 return false;
             }
-            if(template.Scripts == null)
+            if (template.Scripts == null)
             {
                 return false;
             }
-            foreach(Script script in template.Scripts)
+            foreach (Script script in template.Scripts)
             {
-                if(script.Src.Contains("?"))
+                if (script.Src.Contains("?"))
                 {
                     return false;
                 }
-                if(IsScriptRemote(script))
+                if (IsScriptRemote(script))
                 {
                     return false;
                 }
@@ -183,7 +183,7 @@ namespace Subtext.Framework.UI.Skinning
 
         private static bool IsScriptRemote(Script script)
         {
-            if(script.Src.StartsWith("http://") || script.Src.StartsWith("https://"))
+            if (script.Src.StartsWith("http://") || script.Src.StartsWith("https://"))
             {
                 return true;
             }

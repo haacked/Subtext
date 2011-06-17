@@ -163,6 +163,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="NuGet.Core, Version=1.3.20419.9005, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NuGet.Core.1.3.20419.9005\lib\net40\NuGet.Core.dll</HintPath>
+    </Reference>
     <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SgmlReaderDll.dll</HintPath>
@@ -546,6 +550,10 @@
     <Compile Include="Services\Emoticons\Emoticon.cs" />
     <Compile Include="Services\Emoticons\EmoticonsFileSource.cs" />
     <Compile Include="Services\Emoticons\EmoticonsTransformation.cs" />
+    <Compile Include="Services\NuGet\PackageInstallationState.cs" />
+    <Compile Include="Services\NuGet\SubtextPackagePathResolver.cs" />
+    <Compile Include="Services\NuGet\WebProjectManager.cs" />
+    <Compile Include="Services\NuGet\WebProjectSystem.cs" />
     <Compile Include="Services\NullSpamService.cs" />
     <Compile Include="Services\SearchEngine\EntryExtensionMethods.cs" />
     <Compile Include="Services\SearchEngine\IIndexingService.cs" />

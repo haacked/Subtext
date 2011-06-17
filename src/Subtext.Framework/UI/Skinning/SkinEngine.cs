@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security;
-using System.Web;
 using System.Web.Hosting;
 using System.Xml.Serialization;
 using Subtext.Framework.Util;
@@ -33,7 +32,8 @@ namespace Subtext.Framework.UI.Skinning
         IDictionary<string, SkinTemplate> _mobileTemplates;
         IDictionary<string, SkinTemplate> _templates;
 
-        public SkinEngine() : this(HostingEnvironment.VirtualPathProvider)
+        public SkinEngine()
+            : this(HostingEnvironment.VirtualPathProvider)
         {
         }
 
@@ -44,10 +44,10 @@ namespace Subtext.Framework.UI.Skinning
 
         protected VirtualPathProvider VirtualPathProvider { get; private set; }
 
-        public IDictionary<string, SkinTemplate> GetSkinTemplates(bool mobile)
+        public IDictionary<string, SkinTemplate> GetSkinTemplates(bool mobileOnly)
         {
-            IDictionary<string, SkinTemplate> allTemplates = mobile ? _mobileTemplates : _templates;
-            if(allTemplates == null)
+            IDictionary<string, SkinTemplate> allTemplates = mobileOnly ? _mobileTemplates : _templates;
+            if (allTemplates == null)
             {
                 IEnumerable<SkinTemplate> allTemplateConfigs;
                 try
@@ -62,15 +62,7 @@ namespace Subtext.Framework.UI.Skinning
                         from template in templates
                         select template;
 
-                    // The ToDictionary call has to be inside each try/catch block
-                    // because it's the ToDictionary that actually executes the code
-                    // that causes the SecurityException to be thrown. (IEnumerable
-                    // is deferred until the enumeration happens). As such, you'll
-                    // see this duplicated below in the catch block.
-                    allTemplates = (from template in allTemplateConfigs
-                                    where ((template.MobileSupport > MobileSupport.None && mobile)
-                                           || (template.MobileSupport < MobileSupport.MobileOnly && !mobile))
-                                    select template).ToDictionary(t => t.SkinKey, StringComparer.OrdinalIgnoreCase);
+                    allTemplates = GetSkinTemplateFromConfigs(allTemplateConfigs, mobileOnly);
 
                 }
                 catch (SecurityException)
@@ -89,13 +81,10 @@ namespace Subtext.Framework.UI.Skinning
                         from template in templates
                         select template;
 
-                    allTemplates = (from template in allTemplateConfigs
-                                    where ((template.MobileSupport > MobileSupport.None && mobile)
-                                           || (template.MobileSupport < MobileSupport.MobileOnly && !mobile))
-                                    select template).ToDictionary(t => t.SkinKey, StringComparer.OrdinalIgnoreCase);
+                    allTemplates = GetSkinTemplateFromConfigs(allTemplateConfigs, mobileOnly);
                 }
 
-                if(!mobile)
+                if (!mobileOnly)
                 {
                     _templates = allTemplates;
                 }
@@ -107,17 +96,31 @@ namespace Subtext.Framework.UI.Skinning
             return allTemplates;
         }
 
+        public IDictionary<string, IEnumerable<SkinTemplate>> GetSkinTemplatesGroupedByFolder(bool mobileOnly)
+        {
+            var skins = GetSkinTemplates(mobileOnly).Values;
+            return skins.GroupBy(s => s.TemplateFolder).ToDictionary(s => s.First().TemplateFolder, v => v.AsEnumerable(), StringComparer.OrdinalIgnoreCase);
+        }
+
+        private static IDictionary<string, SkinTemplate> GetSkinTemplateFromConfigs(IEnumerable<SkinTemplate> skinTemplates, bool mobileOnly)
+        {
+            return (from template in skinTemplates
+                    where ((template.MobileSupport > MobileSupport.None && mobileOnly)
+                           || (template.MobileSupport < MobileSupport.MobileOnly && !mobileOnly))
+                    select template).ToDictionary(t => t.SkinKey, StringComparer.OrdinalIgnoreCase);
+        }
+
         private IEnumerable<SkinTemplate> GetSkinTemplatesFromDir(VirtualFileBase virtualDirectory)
         {
             string skinConfigPath = string.Format("{0}/{1}/skin.config", RootSkinsVirtualPath, virtualDirectory.Name);
 
-            if(VirtualPathProvider.FileExists(skinConfigPath))
+            if (VirtualPathProvider.FileExists(skinConfigPath))
             {
                 IEnumerable<SkinTemplate> deserializedTemplates = GetSkinTemplates(VirtualPathProvider, skinConfigPath);
                 deserializedTemplates.ForEach(t => t.TemplateFolder = virtualDirectory.Name);
                 return deserializedTemplates;
             }
-            return new[] {new SkinTemplate {Name = virtualDirectory.Name, TemplateFolder = virtualDirectory.Name}};
+            return new[] { new SkinTemplate { Name = virtualDirectory.Name, TemplateFolder = virtualDirectory.Name } };
         }
 
         private IEnumerable<SkinTemplate> GetSkinTemplatesFromDir(DirectoryInfo directory)
@@ -137,7 +140,7 @@ namespace Subtext.Framework.UI.Skinning
         {
             VirtualFile virtualConfigFile = virtualPathProvider.GetFile(path);
 
-            using(Stream configStream = virtualConfigFile.Open())
+            using (Stream configStream = virtualConfigFile.Open())
             {
                 var templates = SerializationHelper.Load<SkinTemplates>(configStream);
                 return templates.Templates;

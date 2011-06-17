@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         {
             //arrange
             var directories = new List<VirtualDirectory>();
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 var skinDir = new Mock<VirtualDirectory>("~/skins/skin" + i);
                 skinDir.Setup(d => d.Name).Returns("Skin" + i);
@@ -29,7 +29,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             var skins = new SkinEngine(vpp.Object);
 
             //act
-            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(false /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(mobileOnly: false);
 
             //assert
             Assert.AreEqual(3, skinTemplates.Count);
@@ -55,7 +55,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             var skins = new SkinEngine(vpp.Object);
 
             //act
-            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(false /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(mobileOnly: false);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -92,7 +92,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             var skins = new SkinEngine(vpp.Object);
 
             //act
-            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(false /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(mobileOnly: false);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -105,7 +105,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
         [Test]
-        public void GetSkinTemplates_WithMobileSpecified_ReturnsSkinWithMobileSupportSetToMobileOnly()
+        public void GetSkinTemplates_WithMobileOnlyTrue_ReturnsSkinWithMobileSupportSetToMobileOnly()
         {
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
@@ -134,7 +134,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             var skins = new SkinEngine(vpp.Object);
 
             //act
-            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(true /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(mobileOnly: true);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -143,7 +143,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
         [Test]
-        public void GetSkinTemplates_WithMobileSpecified_ReturnsSkinWithMobileSupportSetToSupported()
+        public void GetSkinTemplates_WithMobileOnlyTrue_ReturnsSkinWithMobileSupportSetToSupported()
         {
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
@@ -172,7 +172,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             var skins = new SkinEngine(vpp.Object);
 
             //act
-            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(true /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(mobileOnly: true);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -181,7 +181,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
         [Test]
-        public void GetSkinTemplates_WithMobileNotSpecified_ReturnsSkinWithMobileSupportSetToSupported()
+        public void GetSkinTemplates_WithMobileOnlyFalse_ReturnsSkinWithMobileSupportSetToSupported()
         {
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
@@ -210,7 +210,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             var skins = new SkinEngine(vpp.Object);
 
             //act
-            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(false /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(mobileOnly: false);
 
             //assert
             Assert.AreEqual(1, skinTemplates.Count);
@@ -219,7 +219,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
         [Test]
-        public void GetSkinTemplates_WithMobileSpecified_DoesNotReturnSkinThatDoesNotSupportMobile()
+        public void GetSkinTemplates_WithMobileOnlyTrue_DoesNotReturnSkinThatDoesNotSupportMobile()
         {
             //arrange
             var virtualFile = new Mock<VirtualFile>("~/skins/skin1/skin.config");
@@ -248,7 +248,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             var skins = new SkinEngine(vpp.Object);
 
             //act
-            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(true /* mobile */);
+            IDictionary<string, SkinTemplate> skinTemplates = skins.GetSkinTemplates(mobileOnly: true);
 
             //assert
             Assert.AreEqual(0, skinTemplates.Count);

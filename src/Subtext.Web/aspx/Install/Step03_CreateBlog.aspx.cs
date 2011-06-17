@@ -68,7 +68,7 @@ namespace Subtext.Web.Install
 
         protected void btnQuickCreate_Click(object sender, EventArgs e)
         {
-            var hostInfo = HostInfo;
+            var hostInfo = HostInfo ?? HostInfo.LoadHostInfoFromDatabase(Repository, true);
 
             // Create the blog_config record using default values 
             // and the specified user info
@@ -76,7 +76,7 @@ namespace Subtext.Web.Install
             //Since the password is stored as a hash, let's not hash it again.
             const bool passwordAlreadyHashed = true;
 
-            string subfolder = HostInfo.BlogAggregationEnabled ? "blog" : "";
+            string subfolder = hostInfo.BlogAggregationEnabled ? "blog" : "";
 
             int blogId = Repository.CreateBlog("TEMPORARY BLOG NAME", hostInfo.HostUserName, hostInfo.Password,
                                            Request.Url.Host, subfolder, passwordAlreadyHashed);

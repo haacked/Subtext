@@ -51,6 +51,7 @@ public static class Routes
                            , new[] { "viewpost", "comments", "postcomment" });
 
         routes.MapRoot();
+        routes.MapRoute("skins-admin", "admin/skins/{action}/{id}", new { controller = "skins", id = UrlParameter.Optional });
         routes.MapRoute("comments-admin", "admin/comments/{action}.ashx", new { controller = "comment" });
         routes.Ignore("{resource}.axd/{*pathInfo}");
         routes.Ignore("skins/{*pathInfo}");
@@ -134,5 +135,6 @@ public static class Routes
         routes.Add("identicon", new Route("images/services/IdenticonHandler.ashx", new MvcRouteHandler()) { Defaults = new RouteValueDictionary(new { controller = "identicon", action = "image" }) });
         routes.Add("captcha", new Route("images/services/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(routes.ServiceLocator)));
         routes.Add("logout", new SubtextRoute("account/logout.ashx", new MvcRouteHandler()) { Defaults = new RouteValueDictionary(new { controller = "account", action = "logout" }) });
+
     }
 }

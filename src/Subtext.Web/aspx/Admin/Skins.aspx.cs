@@ -3,55 +3,128 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Web.Script.Serialization;
+using NuGet;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Services.NuGet;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.Web;
 using Subtext.Web.Admin.Pages;
-using Subtext.Web.Properties;
+using Subtext.Web.aspx.Admin.ViewModels;
 
 namespace Subtext.Web.Admin
 {
     public partial class Skins : AdminOptionsPage
     {
         private ICollection<SkinTemplate> _mobileSkins;
-        private IEnumerable<SkinTemplate> _skins;
+        private Dictionary<string, PackageInstallationState> _installedSkinPackages = new Dictionary<string, PackageInstallationState>(StringComparer.OrdinalIgnoreCase);
 
-        protected override void OnLoad(EventArgs e)
-        {
-            if (String.IsNullOrEmpty(Request.Form["SkinKey"]))
-            {
-                BindLocalUI();
-            }
-            else
-            {
-                OnSaveSkinClicked();
-            }
-            base.OnLoad(e);
-        }
-
-        protected IEnumerable<SkinTemplate> SkinTemplates
+        WebProjectManager _nuGetService = null;
+        protected WebProjectManager NuGetService
         {
             get
             {
-                if (_skins == null)
+                if (_nuGetService == null)
                 {
-                    var skinEngine = new SkinEngine();
-                    var skins = from skin in skinEngine.GetSkinTemplates(false /* mobile */).Values
-                                where skin.SkinKey != "AGGREGATE"
-                                orderby skin.Name
-                                select skin;
-                    foreach (SkinTemplate template in skins)
-                    {
-                        if (template.MobileSupport == MobileSupport.Supported)
-                        {
-                            template.Name += Resources.Skins_MobileReady;
-                        }
-                    }
-                    _skins = skins;
+                    string packageSource = "http://bit.ly/subtextnuget";
+                    string siteRoot = Request.MapPath("~/");
+
+                    _nuGetService = new WebProjectManager(packageSource, siteRoot);
                 }
-                return _skins;
+                return _nuGetService;
             }
+        }
+
+        IEnumerable<IPackage> _availablePackages = null;
+        protected IEnumerable<IPackage> AvailablePackages
+        {
+            get
+            {
+                if (_availablePackages == null)
+                {
+                    _availablePackages = (from p in NuGetService.SourceRepository.GetPackages()
+                                          select p).ToList();
+                }
+                return _availablePackages;
+            }
+        }
+
+        protected string Json(object value)
+        {
+            return new JavaScriptSerializer().Serialize(value);
+        }
+
+        IEnumerable<PackageViewModel> _installedPackages;
+        protected IEnumerable<PackageViewModel> InstalledPackages
+        {
+            get
+            {
+                if (_installedPackages == null)
+                {
+                    _installedPackages = GetPackagesFromSkinTemplates(mobileOnly: false);
+                }
+                return _installedPackages;
+            }
+        }
+
+        IEnumerable<PackageViewModel> _mobilePackages;
+        protected IEnumerable<PackageViewModel> MobilePackages
+        {
+            get
+            {
+                if (_mobilePackages == null)
+                {
+                    _mobilePackages = GetPackagesFromSkinTemplates(mobileOnly: true);
+                }
+                return _mobilePackages;
+            }
+        }
+
+        private IEnumerable<PackageViewModel> GetPackagesFromSkinTemplates(bool mobileOnly)
+        {
+            var packages = NuGetService.LocalRepository.GetPackages();
+
+            var skinEngine = new SkinEngine();
+            var skins = skinEngine.GetSkinTemplatesGroupedByFolder(mobileOnly: mobileOnly);
+
+
+            return from p in packages
+                   where skins.ContainsKey(p.Id)
+                   select new PackageViewModel(p, skins, GetSkinIconImage, mobileOnly);
+        }
+
+        protected SkinViewModel SelectedSkin
+        {
+            get
+            {
+                return GetSkinFromSkinKey(Blog.Skin.SkinKey, mobileOnly: false);
+            }
+        }
+
+        protected SkinViewModel SelectedMobileSkin
+        {
+            get
+            {
+                return GetSkinFromSkinKey(Blog.MobileSkin.SkinKey, mobileOnly: true);
+            }
+        }
+
+        private SkinViewModel GetSkinFromSkinKey(string skinKey, bool mobileOnly)
+        {
+            var skinEngine = new SkinEngine();
+            var skins = skinEngine.GetSkinTemplates(mobileOnly: mobileOnly);
+            var skinTemplate = skins.GetValueOrDefault(skinKey);
+            return new SkinViewModel { name = skinTemplate.Name, icon = GetSkinIconImage(skinTemplate), skinKey = skinTemplate.SkinKey, mobile = mobileOnly };
+        }
+
+        private IPackage GetInstalledPackage(WebProjectManager projectManager, string packageId)
+        {
+            var installed = projectManager.GetInstalledPackages(packageId).Where(p => p.Id == packageId);
+
+            var installedPackages = installed.ToList();
+            var package = installedPackages.FirstOrDefault();
+            return package;
         }
 
         protected ICollection<SkinTemplate> MobileSkinTemplates
@@ -69,52 +142,8 @@ namespace Subtext.Web.Admin
             }
         }
 
-        protected override void BindLocalUI()
+        protected string GetSkinIconImage(SkinTemplate skin)
         {
-            skinRepeater.DataSource = SkinTemplates;
-            mobileSkinRepeater.DataSource = MobileSkinTemplates;
-            DataBind();
-        }
-
-        protected SkinTemplate EvalSkin(object o)
-        {
-            return o as SkinTemplate;
-        }
-
-        protected string GetSkinClientId(object o)
-        {
-            return (o as SkinTemplate).SkinKey.Replace(".", "_");
-        }
-
-        protected string EvalChecked(object o)
-        {
-            if (IsSelectedSkin(o))
-            {
-                return "checked=\"checked\"";
-            }
-            return string.Empty;
-        }
-
-        protected string EvalSelected(object o)
-        {
-            if (IsSelectedSkin(o))
-            {
-                return " selected";
-            }
-            return string.Empty;
-        }
-
-        private bool IsSelectedSkin(object o)
-        {
-            string currentSkin = (o as SkinTemplate).SkinKey;
-            string blogSkin = SubtextContext.Blog.Skin.SkinKey;
-            return String.Equals(currentSkin, blogSkin, StringComparison.OrdinalIgnoreCase);
-        }
-
-        protected string GetSkinIconImage(object o)
-        {
-            var skin = o as SkinTemplate;
-
             var imageUrls = new[]
             {
                 string.Format(CultureInfo.InvariantCulture, "~/skins/{0}/SkinIcon.png", skin.TemplateFolder),
@@ -132,7 +161,7 @@ namespace Subtext.Web.Admin
             Blog blog = SubtextContext.Blog;
             var skinEngine = new SkinEngine();
             SkinTemplate skinTemplate =
-                skinEngine.GetSkinTemplates(false /* mobile */).ItemOrNull(Request.Form["SkinKey"]);
+                skinEngine.GetSkinTemplates(false /* mobile */).GetValueOrDefault(Request.Form["SkinKey"]);
             blog.Skin.TemplateFolder = skinTemplate.TemplateFolder;
             blog.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
             Repository.UpdateConfigData(blog);
