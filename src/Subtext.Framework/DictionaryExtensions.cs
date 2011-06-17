@@ -4,7 +4,7 @@ namespace Subtext.Framework
 {
     public static class DictionaryExtensions
     {
-        public static TValue ItemOrNull<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
             TValue value;
             if (!dictionary.TryGetValue(key, out value))

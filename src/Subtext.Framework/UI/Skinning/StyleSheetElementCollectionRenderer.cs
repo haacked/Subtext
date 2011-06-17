@@ -158,7 +158,7 @@ namespace Subtext.Framework.UI.Skinning
 
         public string RenderStyleElementCollection(string skinName)
         {
-            SkinTemplate skinTemplate = Templates.ItemOrNull(skinName);
+            SkinTemplate skinTemplate = Templates.GetValueOrDefault(skinName);
             return RenderStyleElementCollection(skinName, skinTemplate);
         }
 
@@ -263,7 +263,7 @@ namespace Subtext.Framework.UI.Skinning
             bool normalCss = false;
             var styles = new List<StyleDefinition>();
 
-            SkinTemplate skinTemplate = Templates.ItemOrNull(skinName);
+            SkinTemplate skinTemplate = Templates.GetValueOrDefault(skinName);
 
             if((string.IsNullOrEmpty(media)) && string.IsNullOrEmpty(title) && string.IsNullOrEmpty(conditional))
             {

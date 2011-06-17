@@ -57,7 +57,7 @@ namespace Subtext.Framework.Configuration
         /// </summary>
         public bool HasStyleSheet
         {
-            get { return SkinStyleSheet != null && SkinStyleSheet.Trim().Length > 0; }
+            get { return !String.IsNullOrWhiteSpace(SkinStyleSheet); }
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Subtext.Framework.Configuration
         {
             get
             {
-                if(HasStyleSheet)
+                if (HasStyleSheet)
                 {
                     return string.Format("{0}-{1}", TemplateFolder, SkinStyleSheet);
                 }
@@ -89,7 +89,7 @@ namespace Subtext.Framework.Configuration
         /// <returns></returns>
         static SkinConfig CreateDefaultSkin()
         {
-            var defaultSkin = new SkinConfig {TemplateFolder = "RedBook", SkinStyleSheet = "Blue.css"};
+            var defaultSkin = new SkinConfig { TemplateFolder = "RedBook", SkinStyleSheet = "Blue.css" };
             return defaultSkin;
         }
 
@@ -105,10 +105,10 @@ namespace Subtext.Framework.Configuration
             bool isMobile = capabilities.Mobile;
 
             SkinConfig skin;
-            if(isMobile)
+            if (isMobile)
             {
                 skin = blog.MobileSkin;
-                if(skin.TemplateFolder != null)
+                if (skin.TemplateFolder != null)
                 {
                     return skin;
                 }
@@ -116,7 +116,7 @@ namespace Subtext.Framework.Configuration
 
             skin = blog.Skin;
 
-            if(skin.TemplateFolder == null)
+            if (skin.TemplateFolder == null)
             {
                 skin = DefaultSkin;
             }

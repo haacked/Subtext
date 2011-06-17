@@ -515,6 +515,13 @@ namespace Subtext.Framework.Routing
             return GetUrl("admin", path, routeValues);
         }
 
+        public virtual VirtualPath SkinController(string action)
+        {
+            var routeValues = new RouteValueDictionary();
+            routeValues.Add("action", action);
+            return GetVirtualPath("skins-admin", routeValues);
+        }
+
         private VirtualPath GetUrl(string directory, string path, RouteValueDictionary routeValues)
         {
             routeValues = routeValues ?? new RouteValueDictionary();

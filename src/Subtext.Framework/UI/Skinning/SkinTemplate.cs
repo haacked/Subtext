@@ -27,7 +27,7 @@ namespace Subtext.Framework.UI.Skinning
     [Serializable]
     public class SkinTemplate
     {
-        public static readonly SkinTemplate Empty = new SkinTemplate {Name = "None"};
+        public static readonly SkinTemplate Empty = new SkinTemplate { Name = "None" };
 
         public SkinTemplate()
         {

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Lightz</id>
+    <version>1.0</version>
+    <authors>Phil Haack</authors>
+    <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
+    <projectUrl>http://subtextproject.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Subtext default skin</description>
+  </metadata>
+  <files>
+    <file src="Lightz\**\*.*" target="Content\Skins\Lightz" />
+  </files>
+</package>
