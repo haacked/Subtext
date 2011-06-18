@@ -354,7 +354,7 @@ namespace UnitTests.Subtext
                 return original;
             }
 
-            int searchIndex = original.IndexOf(search, 0, StringComparison.InvariantCultureIgnoreCase);
+            int searchIndex = original.IndexOf(search, 0, StringComparison.OrdinalIgnoreCase);
 
             if (searchIndex < 0)
             {

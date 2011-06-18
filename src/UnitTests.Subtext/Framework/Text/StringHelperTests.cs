@@ -91,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Text
 
         [RowTest]
         [Row("BLAH Tast", "a", 6, StringComparison.Ordinal)]
-        [Row("BLAH Tast", "a", 2, StringComparison.InvariantCultureIgnoreCase)]
+        [Row("BLAH Tast", "a", 2, StringComparison.OrdinalIgnoreCase)]
         public void IndexOfHandlesCaseSensitivity(string source, string search, int expectedIndex,
                                                   StringComparison comparison)
         {
@@ -101,7 +101,7 @@ namespace UnitTests.Subtext.Framework.Text
 
         [RowTest]
         [Row("Blah/Default.aspx", "Default.aspx", "Blah/", StringComparison.Ordinal)]
-        [Row("Blah/Default.aspx", "default.aspx", "Blah/", StringComparison.InvariantCultureIgnoreCase)]
+        [Row("Blah/Default.aspx", "default.aspx", "Blah/", StringComparison.OrdinalIgnoreCase)]
         [Row("Blah/Default.aspx", "default.aspx", "Blah/Default.aspx", StringComparison.Ordinal)]
         public void LeftBeforeOfHandlesCaseSensitivity(string source, string search, string expected,
                                                        StringComparison comparison)

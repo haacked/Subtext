@@ -43,22 +43,11 @@ namespace Subtext.Framework.Security
         {
             var request = SubtextContext.HttpContext.Request;
             var response = SubtextContext.HttpContext.Response;
-            var authCookie = new HttpCookie(request.GetFullCookieName(SubtextContext.Blog)) { Expires = DateTime.UtcNow.AddYears(-30) };
+            var cookieName = request.GetFullCookieName(SubtextContext.Blog);
+            var authCookie = new HttpCookie(cookieName) { Expires = DateTime.UtcNow.AddYears(-30) };
             response.Cookies.Add(authCookie);
-
-            if (Log.IsDebugEnabled)
-            {
-                string username = SubtextContext.HttpContext.User.Identity.Name;
-                if (Log.IsDebugEnabled)
-                {
-                    Log.Debug("Logging out " + username);
-                    Log.Debug("the code MUST call a redirect after this");
-                }
-            }
-
             FormsAuthentication.SignOut();
         }
-
 
         public virtual void UpdatePassword(string password)
         {

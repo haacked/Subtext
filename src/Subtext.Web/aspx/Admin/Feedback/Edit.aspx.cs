@@ -20,7 +20,7 @@ namespace Subtext.Web.Admin.Feedback
             get
             {
                 string returnText = Request.QueryString["return-to-post"] ?? "false";
-                return String.Equals(returnText, "true", StringComparison.InvariantCultureIgnoreCase);
+                return String.Equals(returnText, "true", StringComparison.OrdinalIgnoreCase);
             }
         }
 

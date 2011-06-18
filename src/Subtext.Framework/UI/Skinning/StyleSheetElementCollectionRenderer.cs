@@ -301,10 +301,10 @@ namespace Subtext.Framework.UI.Skinning
                             {
                                 tmpMedia = null;
                             }
-                            if(string.Compare(media, tmpMedia, StringComparison.InvariantCultureIgnoreCase) == 0 &&
-                               string.Compare(title, style.Title, StringComparison.InvariantCultureIgnoreCase) == 0 &&
+                            if(string.Compare(media, tmpMedia, StringComparison.OrdinalIgnoreCase) == 0 &&
+                               string.Compare(title, style.Title, StringComparison.OrdinalIgnoreCase) == 0 &&
                                string.Compare(conditional, style.Conditional,
-                                              StringComparison.InvariantCultureIgnoreCase) == 0)
+                                              StringComparison.OrdinalIgnoreCase) == 0)
                             {
                                 string tmpHref;
                                 if(style.Href.StartsWith("~"))

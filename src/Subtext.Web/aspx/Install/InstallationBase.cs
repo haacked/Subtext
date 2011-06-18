@@ -130,7 +130,7 @@ namespace Subtext.Web.Install
 
         static bool IsOnPage(string page)
         {
-            return HttpContext.Current.Request.Path.IndexOf(page, StringComparison.InvariantCultureIgnoreCase) >= 0;
+            return HttpContext.Current.Request.Path.IndexOf(page, StringComparison.OrdinalIgnoreCase) >= 0;
         }
     }
 }

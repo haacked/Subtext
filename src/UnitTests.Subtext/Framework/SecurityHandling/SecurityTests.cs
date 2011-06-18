@@ -117,6 +117,27 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
             Assert.IsTrue(isValid);
         }
 
+        /// <summary>
+        /// Want to make sure that we still understand the old 
+        /// bitconverter created password.
+        /// </summary>
+        [Test]
+        public void ValidateHostAdminPassword_WithValidUsernameAndPasswordCombo_ReturnsTrue()
+        {
+            // arrange
+            const string password = "myPassword";
+            Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
+            Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
+            string hashedPassword = Convert.ToBase64String(hashedBytes);
+            var hostInfo = new HostInfo(new NameValueCollection()) { HostUserName = "user", Password = hashedPassword };
+
+            // act
+            bool isValid = hostInfo.ValidateHostAdminPassword("user", "myPassword");
+
+            // assert
+            Assert.IsTrue(isValid);
+        }
+
         [Test]
         public void SelectAuthenticationCookie_WithCookieNameMatchingBlog_ReturnsThatCookie()
         {

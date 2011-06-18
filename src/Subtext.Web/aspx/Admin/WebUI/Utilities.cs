@@ -46,7 +46,7 @@ namespace Subtext.Web.Admin
                     string relativePath = path.Substring(1, path.Length - 1);
                     string appPath = HttpContext.Current.Request.ApplicationPath;
 
-                    if (relativePath.StartsWith(ADMIN_DEFAULT, StringComparison.InvariantCultureIgnoreCase))
+                    if (relativePath.StartsWith(ADMIN_DEFAULT, StringComparison.OrdinalIgnoreCase))
                     {
                         relativePath = relativePath.Replace(ADMIN_DEFAULT,
                                                             "admin");

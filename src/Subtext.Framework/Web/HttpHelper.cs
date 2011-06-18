@@ -415,7 +415,7 @@ namespace Subtext.Framework.Web
             }
 
             string key = request.QueryString.Keys[0];
-            if (key != null && key.Equals("referrer", StringComparison.InvariantCultureIgnoreCase))
+            if (key != null && key.Equals("referrer", StringComparison.OrdinalIgnoreCase))
                 return null;
 
 

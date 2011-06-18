@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Text
             "This is a comment <em>That forgets to close the <em> tag.</em></em>")]
         public void StripsNonAllowedHtml(string text, string expected)
         {
-            var allowedTags = new NameValueCollection(StringComparer.InvariantCultureIgnoreCase);
+            var allowedTags = new NameValueCollection(StringComparer.OrdinalIgnoreCase);
             allowedTags.Add("a", "href,title");
             allowedTags.Add("strong", "");
             allowedTags.Add("em", "");
@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.Framework.Text
         [Test]
         public void ClosesOpenTags()
         {
-            var allowedTags = new NameValueCollection(StringComparer.InvariantCultureIgnoreCase);
+            var allowedTags = new NameValueCollection(StringComparer.OrdinalIgnoreCase);
             allowedTags.Add("u", "");
             string result = HtmlHelper.ConvertToAllowedHtml(allowedTags,
                                                             "This is <u>Underlined. But I forgot to close it.");
