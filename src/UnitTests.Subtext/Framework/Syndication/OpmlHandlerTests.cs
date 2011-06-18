@@ -19,6 +19,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         {
             return new HostInfo(new NameValueCollection());
         }
+
         [Test]
         public void OpmlHandler_WithRequest_SetsContentTypeToXml()
         {
@@ -62,13 +63,13 @@ namespace UnitTests.Subtext.Framework.Syndication
             repository.Setup(r => r.GetBlogsByGroup("example.com", It.IsAny<int?>())).Callback<string, int?>(
                 (host, groupId) => parsedGroupId = groupId);
             context.SetupRepository(repository);
-
             var writer = new Mock<OpmlWriter>();
             writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<BlogUrlHelper>()));
-            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(CreateHostInfo));
+
             var appSettings = new NameValueCollection();
             appSettings.Add("AggregateEnabled", "true");
             var hostInfo = new HostInfo(appSettings);
+            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(() => hostInfo));
 
             //act
             handler.ProcessRequest();
