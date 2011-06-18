@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Web;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using log4net;
@@ -23,7 +24,6 @@ using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
-using Subtext.Framework.Text;
 using Subtext.Framework.Web.Handlers;
 using Subtext.Web.Properties;
 
@@ -61,25 +61,48 @@ namespace Subtext.Web.Pages
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             string returnUrl = Request.QueryString["ReturnURL"];
-            if (Blog == null ||
-               (returnUrl != null && returnUrl.Contains("HostAdmin", StringComparison.OrdinalIgnoreCase)))
+            string username = tbUserName.Text;
+            string password = tbPassword.Text;
+            bool persist = chkRememberMe.Checked;
+
+            bool isAdmin = false;
+
+            var blog = Blog;
+            if (blog == null || blog.Password == null)
             {
-                if (!AuthenticateHostAdmin())
-                {
-                    Log.Warn("HostAdmin login failure for " + tbUserName.Text);
-                    Message.Text = LoginFailedMessage;
-                    return;
-                }
-                ReturnToUrl("~/HostAdmin/Default.aspx");
+                blog = null;
+            }
+
+            if (blog != null)
+            {
+                isAdmin = blog.IsValidUser(username, password);
+                returnUrl = String.IsNullOrEmpty(returnUrl) ? (string)AdminUrl.Home() : returnUrl;
+            }
+            else
+            {
+                returnUrl = String.IsNullOrEmpty(returnUrl) ? "~/HostAdmin/Default.aspx" : returnUrl;
+            }
+
+            bool isHostAdmin = HostInfo.ValidateHostAdminPassword(username, password);
+
+            if (!isAdmin && !isHostAdmin)
+            {
+                Message.Text = LoginFailedMessage;
                 return;
             }
-            if (SubtextContext.HttpContext.Authenticate(Blog, tbUserName.Text, tbPassword.Text, chkRememberMe.Checked))
+
+            var roles = new string[2];
+            if (isAdmin)
             {
-                ReturnToUrl(AdminUrl.Home());
-                return;
+                roles[0] = "Admins";
             }
-            Log.Warn("Admin login failure for " + tbUserName.Text);
-            Message.Text = LoginFailedMessage;
+            if (isHostAdmin)
+            {
+                roles[1] = "HostAdmins";
+            }
+
+            SubtextContext.HttpContext.SetAuthenticationTicket(blog, username, persist, roles.Where(s => s != null).ToArray());
+            ReturnToUrl(returnUrl);
         }
 
         protected void btnOpenIdLogin_LoggingIn(object sender, OpenIdEventArgs e)

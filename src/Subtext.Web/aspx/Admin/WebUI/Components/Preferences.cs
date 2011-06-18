@@ -66,7 +66,7 @@ namespace Subtext.Web.Admin
                 HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_EXPAND_ADVANCED];
                 if (null != cookie)
                 {
-                    return String.Equals(cookie.Value, "true", StringComparison.InvariantCultureIgnoreCase)
+                    return String.Equals(cookie.Value, "true", StringComparison.OrdinalIgnoreCase)
                                ? true
                                : false;
                 }
@@ -85,7 +85,7 @@ namespace Subtext.Web.Admin
                 HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_CREATE_ISACTIVE];
                 if (null != cookie)
                 {
-                    return String.Equals(cookie.Value, "true", StringComparison.InvariantCultureIgnoreCase)
+                    return String.Equals(cookie.Value, "true", StringComparison.OrdinalIgnoreCase)
                                ? true
                                : false;
                 }
@@ -108,7 +108,7 @@ namespace Subtext.Web.Admin
                 HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_USE_PLAIN_HTML_EDITOR];
                 if (null != cookie)
                 {
-                    return String.Equals(cookie.Value, "true", StringComparison.InvariantCultureIgnoreCase)
+                    return String.Equals(cookie.Value, "true", StringComparison.OrdinalIgnoreCase)
                                ? true
                                : false;
                 }

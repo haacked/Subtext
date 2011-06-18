@@ -309,10 +309,10 @@ namespace Subtext.Framework.Text
             {
                 return false;
             }
-            if (s.IndexOf("<script", StringComparison.InvariantCultureIgnoreCase) > -1
-               || s.IndexOf("&#60script", StringComparison.InvariantCultureIgnoreCase) > -1
-               || s.IndexOf("&60script", StringComparison.InvariantCultureIgnoreCase) > -1
-               || s.IndexOf("%60script", StringComparison.InvariantCultureIgnoreCase) > -1)
+            if (s.IndexOf("<script", StringComparison.OrdinalIgnoreCase) > -1
+               || s.IndexOf("&#60script", StringComparison.OrdinalIgnoreCase) > -1
+               || s.IndexOf("&60script", StringComparison.OrdinalIgnoreCase) > -1
+               || s.IndexOf("%60script", StringComparison.OrdinalIgnoreCase) > -1)
             {
                 return true;
             }
@@ -510,7 +510,7 @@ namespace Subtext.Framework.Text
                 return null;
             }
 
-            if (!text.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase))
+            if (!text.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
             {
                 text = string.Format("http://{0}", text);
             }
@@ -639,7 +639,7 @@ namespace Subtext.Framework.Text
                 {
                     foreach (string allowedAttr in allowedAttrs)
                     {
-                        if (String.Equals(allowedAttr.Trim(), attributeName, StringComparison.InvariantCultureIgnoreCase))
+                        if (String.Equals(allowedAttr.Trim(), attributeName, StringComparison.OrdinalIgnoreCase))
                         {
                             // found an allowed attribute, so get the attribute value
                             string attrValue = attributes[attributeName];
@@ -817,7 +817,7 @@ namespace Subtext.Framework.Text
                 if (urlMatch.Success)
                 {
                     string urlStr = urlMatch.Groups["url"].Value;
-                    if (urlStr.EndsWith("/default.aspx", StringComparison.InvariantCultureIgnoreCase))
+                    if (urlStr.EndsWith("/default.aspx", StringComparison.OrdinalIgnoreCase))
                     {
                         urlStr = urlStr.Substring(0, urlStr.Length - 13);
                     }

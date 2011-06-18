@@ -112,16 +112,9 @@ namespace Subtext.Framework.Security
             return true;
         }
 
-        /// <summary>
-        /// Authenticates the host admin.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <param name="password">The password.</param>
-        /// <param name="persist">if set to <c>true</c> [persist].</param>
-        /// <returns></returns>
-        public static bool AuthenticateHostAdmin(this HostInfo host, string username, string password, bool persist)
+        public static bool ValidateHostAdminPassword(this HostInfo host, string username, string password)
         {
-            if (!String.Equals(username, host.HostUserName, StringComparison.InvariantCultureIgnoreCase))
+            if (!String.Equals(username, host.HostUserName, StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
@@ -131,7 +124,19 @@ namespace Subtext.Framework.Security
                 password = HashPassword(password, host.Salt);
             }
 
-            if (!String.Equals(host.Password, password, StringComparison.InvariantCultureIgnoreCase))
+            return String.Equals(host.Password, password, StringComparison.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Authenticates the host admin.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="persist">if set to <c>true</c> [persist].</param>
+        /// <returns></returns>
+        public static bool AuthenticateHostAdmin(this HostInfo host, string username, string password, bool persist)
+        {
+            if (!host.ValidateHostAdminPassword(username, password))
             {
                 return false;
             }
@@ -310,7 +315,7 @@ namespace Subtext.Framework.Security
         /// <summary>
         /// Validates if the supplied credentials match the current blog
         /// </summary>
-        public static bool IsValidUser(Blog blog, string username, string password)
+        public static bool IsValidUser(this Blog blog, string username, string password)
         {
             if (String.Equals(username, blog.UserName, StringComparison.OrdinalIgnoreCase))
             {
