@@ -29,7 +29,6 @@ using Subtext.Framework.Security;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
-using Subtext.Identicon;
 using Subtext.Web.Controls;
 using Subtext.Web.UI.ViewModels;
 using Image = System.Web.UI.WebControls.Image;
@@ -202,9 +201,6 @@ namespace Subtext.Web.UI.Controls
                         var gravatarImage = e.Item.FindControl("GravatarImg") as Image;
                         if (gravatarImage != null)
                         {
-                            //This allows per-skin configuration of the default gravatar image.
-                            string defaultGravatarImage = gravatarImage.Attributes["PlaceHolderImage"];
-
                             string ip;
                             if (feedbackItem.IpAddress != null)
                             {
@@ -215,37 +211,10 @@ namespace Subtext.Web.UI.Controls
                                 ip = string.Format("{0} {1}", DateTime.UtcNow.Millisecond, DateTime.UtcNow.Second);
                             }
 
-                            //This allows a host-wide setting of the default gravatar image.
-                            string gravatarUrl = null;
-                            if (!String.IsNullOrEmpty(feedbackItem.Email))
-                            {
-                                if (!String.IsNullOrEmpty(defaultGravatarImage))
-                                {
-                                    string host = Request.Url.Host;
-                                    string scheme = Request.Url.Scheme;
-                                    string port = Request.Url.Port == 80 ? string.Empty : string.Format(":{0}", Request.Url.Port);
-                                    string defaultImagePath = HttpHelper.ExpandTildePath(defaultGravatarImage);
-                                    defaultGravatarImage = string.Format(CultureInfo.InvariantCulture, "{0}://{1}{2}{3}",
-                                                                         scheme, host, port, defaultImagePath);
-                                    defaultGravatarImage = HttpUtility.UrlEncode(defaultGravatarImage);
-                                }
-                                gravatarUrl = _gravatarService.GenerateUrl(feedbackItem.Email, defaultGravatarImage);
-                            }
-                            if (!String.IsNullOrEmpty(gravatarUrl))
-                            {
-                                gravatarImage.Attributes.Remove("PlaceHolderImage");
-                                if (gravatarUrl.Length != 0)
-                                {
-                                    gravatarImage.ImageUrl = gravatarUrl;
-                                    gravatarImage.Visible = true;
-                                }
-                            }
-                            else
-                            {
-                                string identiconUrl = Url.IdenticonUrl(IdenticonUtil.Code(ip));
-                                gravatarImage.ImageUrl = identiconUrl;
-                                gravatarImage.Visible = true;
-                            }
+                            string gravatarUrl = gravatarUrl = _gravatarService.GenerateUrl(feedbackItem.Email);
+                            gravatarImage.Attributes.Remove("PlaceHolderImage");
+                            gravatarImage.ImageUrl = gravatarUrl;
+                            gravatarImage.Visible = true;
                         }
                     }
 

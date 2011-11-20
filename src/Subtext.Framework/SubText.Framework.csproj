@@ -537,12 +537,8 @@
     <Compile Include="Providers\SearchResult.cs" />
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\EntryPublisher.cs" />
-    <Compile Include="Services\GravatarEmailFormat.cs" />
     <Compile Include="Services\GravatarService.cs" />
     <Compile Include="Services\ICommentService.cs" />
-    <Compile Include="Services\Identicon\IdenticonRenderer.cs" />
-    <Compile Include="Services\Identicon\IdenticonResult.cs" />
-    <Compile Include="Services\Identicon\IdenticonUtil.cs" />
     <Compile Include="Services\IEntryPublisher.cs" />
     <Compile Include="Services\ISlugGenerator.cs" />
     <Compile Include="Services\IStatisticsService.cs" />

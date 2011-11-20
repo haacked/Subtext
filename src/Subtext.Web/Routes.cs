@@ -132,7 +132,6 @@ public static class Routes
         routes.MapXmlRpcHandler<PingBackService>("services/pingback/{id}.aspx", new { id = @"\d+" });
         routes.MapXmlRpcHandler<MetaWeblog>("metaweblogapi", "services/metablogapi.aspx", null);
 
-        routes.Add("identicon", new Route("images/services/IdenticonHandler.ashx", new MvcRouteHandler()) { Defaults = new RouteValueDictionary(new { controller = "identicon", action = "image" }) });
         routes.Add("captcha", new Route("images/services/CaptchaImage.ashx", new HttpRouteHandler<CaptchaImageHandler>(routes.ServiceLocator)));
         routes.Add("logout", new SubtextRoute("account/logout.ashx", new MvcRouteHandler()) { Defaults = new RouteValueDictionary(new { controller = "account", action = "logout" }) });
 
