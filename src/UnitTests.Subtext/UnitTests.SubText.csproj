@@ -376,8 +376,6 @@
     <Compile Include="Framework\Services\CompositeTextTransformationTests.cs" />
     <Compile Include="Framework\Services\EntryPublisherTests.cs" />
     <Compile Include="Framework\Services\GravatarServiceTests.cs" />
-    <Compile Include="Framework\Services\Identicon\IdenticonResultTests.cs" />
-    <Compile Include="Framework\Services\Identicon\IdenticonUtilTests.cs" />
     <Compile Include="Framework\Services\Security\AccountServiceTests.cs" />
     <Compile Include="Framework\Services\SearchEngine\EntryExtensionMethodsTest.cs" />
     <Compile Include="Framework\Services\SearchEngine\IndexingServiceTests.cs" />
@@ -488,7 +486,6 @@
     <Compile Include="SubtextWeb\Controllers\AccountControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\Admin\EntryControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\ExportControllerTests.cs" />
-    <Compile Include="SubtextWeb\Controllers\IdenticonControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\ManifestControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\StatisticsControllerTests.cs" />
     <Compile Include="SubtextWeb\Controllers\CommentApiControllerTests.cs" />

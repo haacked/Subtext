@@ -14,14 +14,14 @@ namespace UnitTests.Subtext.SubtextWeb.Infrastructure
         {
             // arrange
             var serviceLocator = new Mock<IDependencyResolver>();
-            serviceLocator.Setup(l => l.GetService(typeof(IdenticonController))).Returns(new IdenticonController());
+            serviceLocator.Setup(l => l.GetService(typeof(CommentApiController))).Returns(new CommentApiController(null, null));
             var factory = new SubtextControllerActivator(serviceLocator.Object);
 
             // act
-            var controller = factory.Create(null, typeof(IdenticonController));
+            var controller = factory.Create(null, typeof(CommentApiController));
 
             // assert
-            Assert.AreEqual(typeof(IdenticonController), controller.GetType());
+            Assert.AreEqual(typeof(CommentApiController), controller.GetType());
         }
 
         [Test]
@@ -29,11 +29,11 @@ namespace UnitTests.Subtext.SubtextWeb.Infrastructure
         {
             // arrange
             var serviceLocator = new Mock<IDependencyResolver>();
-            serviceLocator.Setup(l => l.GetService(typeof(IdenticonController))).Returns(new IdenticonController());
+            serviceLocator.Setup(l => l.GetService(typeof(CommentApiController))).Returns(new CommentApiController(null, null));
             var factory = new SubtextControllerActivator(serviceLocator.Object);
 
             // act
-            var controller = factory.Create(null, typeof(IdenticonController)) as Controller;
+            var controller = factory.Create(null, typeof(CommentApiController)) as Controller;
 
             // assert
             Assert.AreEqual(typeof(EmptyTempDataProvider), controller.TempDataProvider.GetType());

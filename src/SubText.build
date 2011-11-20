@@ -14,7 +14,7 @@
         <property name="source.dir" value="${root.dir}\src" />
 
         <!-- BEGIN Properties to customize -->
-        <property name="solution.name" value="SubtextSolution.sln" />
+        <property name="solution.name" value="Subtext.sln" />
         <property name="test.assembly.dir" value="${source.dir}\UnitTests.Subtext\bin\Debug" />
         <property name="test.assembly.dll" value="UnitTests.Subtext.dll" />
         <!-- END Properties to customize -->

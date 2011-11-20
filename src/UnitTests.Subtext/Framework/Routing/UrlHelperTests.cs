@@ -314,47 +314,6 @@ namespace UnitTests.Subtext.Framework.Routing
         }
 
         [Test]
-        public void IdenticonUrl_WithAppPathWithoutSubfolder_ReturnsRootedUrl()
-        {
-            //arrange
-            BlogUrlHelper helper = SetupUrlHelper("/Subtext.Web");
-
-            //act
-            string url = helper.IdenticonUrl(123);
-
-            //assert
-            Assert.AreEqual("/Subtext.Web/images/services/IdenticonHandler.ashx?code=123", url);
-        }
-
-        [Test]
-        public void IdenticonUrl_WithEmptyAppPathWithoutSubfolder_ReturnsRootedUrl()
-        {
-            //arrange
-            BlogUrlHelper helper = SetupUrlHelper("/");
-
-            //act
-            string url = helper.IdenticonUrl(123);
-
-            //assert
-            Assert.AreEqual("/images/services/IdenticonHandler.ashx?code=123", url);
-        }
-
-        [Test]
-        public void IdenticonUrl_WithEmptyPathWithSubfolder_IgnoresSubfolderInUrl()
-        {
-            //arrange
-            var routeData = new RouteData();
-            routeData.Values.Add("subfolder", "foobar");
-            BlogUrlHelper helper = SetupUrlHelper("/", routeData);
-
-            //act
-            string url = helper.IdenticonUrl(123);
-
-            //assert
-            Assert.AreEqual("/images/services/IdenticonHandler.ashx?code=123", url);
-        }
-
-        [Test]
         public void ImageUrl_WithoutBlogWithAppPathWithoutSubfolderAndImage_ReturnsRootedImageUrl()
         {
             //arrange

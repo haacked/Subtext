@@ -614,11 +614,6 @@ namespace Subtext.Framework.Routing
             return GetVirtualPath("tag-cloud", null);
         }
 
-        public virtual VirtualPath IdenticonUrl(int code)
-        {
-            return GetVirtualPath("identicon", new RouteValueDictionary { { "code", code } });
-        }
-
         private static RouteValueDictionary GetRouteValuesWithSubfolder(string subfolder)
         {
             if (String.IsNullOrEmpty(subfolder))
