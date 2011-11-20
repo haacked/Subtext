@@ -494,6 +494,7 @@
     <Compile Include="Services\Email\NamedFormatTextTemplate.cs" />
     <Compile Include="Services\Email\SystemMailProvider.cs" />
     <Compile Include="Services\EmptyTextTransformation.cs" />
+    <Compile Include="Services\LazyNotNull.cs" />
     <Compile Include="Services\ICommentFilter.cs" />
     <Compile Include="Images.cs">
       <SubType>Code</SubType>

@@ -41,7 +41,6 @@ namespace Subtext.Web.Install
             set;
         }
 
-
         protected HostInfo HostInfo
         {
             get
@@ -51,7 +50,7 @@ namespace Subtext.Web.Install
         }
 
         [Inject]
-        public Lazy<HostInfo> Host
+        public LazyNotNull<HostInfo> Host
         {
             get;
             set;

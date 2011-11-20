@@ -15,18 +15,18 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Web;
+using Subtext.Framework.Services;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Framework.Syndication
 {
     public class OpmlHandler : SubtextHttpHandler
     {
-        Lazy<HostInfo> _hostInfo;
+        LazyNotNull<HostInfo> _hostInfo;
 
-        public OpmlHandler(ISubtextContext subtextContext, OpmlWriter writer, Lazy<HostInfo> hostInfo)
+        public OpmlHandler(ISubtextContext subtextContext, OpmlWriter writer, LazyNotNull<HostInfo> hostInfo)
             : base(subtextContext)
         {
             OpmlWriter = writer;

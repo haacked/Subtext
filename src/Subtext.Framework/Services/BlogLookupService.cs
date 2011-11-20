@@ -26,9 +26,9 @@ namespace Subtext.Framework.Services
 {
     public class BlogLookupService : IBlogLookupService
     {
-        Lazy<HostInfo> _hostInfo;
+        LazyNotNull<HostInfo> _hostInfo;
 
-        public BlogLookupService(ObjectRepository repository, Lazy<HostInfo> hostInfo)
+        public BlogLookupService(ObjectRepository repository, LazyNotNull<HostInfo> hostInfo)
         {
             Repository = repository;
             _hostInfo = hostInfo;

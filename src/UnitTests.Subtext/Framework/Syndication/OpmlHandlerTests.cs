@@ -8,6 +8,7 @@ using Moq.Stub;
 using Subtext.Framework;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Routing;
+using Subtext.Framework.Services;
 using Subtext.Framework.Syndication;
 
 namespace UnitTests.Subtext.Framework.Syndication
@@ -37,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             context.SetupUrlHelper(new Mock<BlogUrlHelper>());
             var writer = new Mock<OpmlWriter>();
             writer.Setup(w => w.Write(It.IsAny<IEnumerable<Blog>>(), It.IsAny<TextWriter>(), It.IsAny<BlogUrlHelper>()));
-            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(CreateHostInfo));
+            var handler = new OpmlHandler(context.Object, writer.Object, new LazyNotNull<HostInfo>(CreateHostInfo));
 
             //act
             handler.ProcessRequest();
@@ -69,7 +70,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             var appSettings = new NameValueCollection();
             appSettings.Add("AggregateEnabled", "true");
             var hostInfo = new HostInfo(appSettings);
-            var handler = new OpmlHandler(context.Object, writer.Object, new Lazy<HostInfo>(() => hostInfo));
+            var handler = new OpmlHandler(context.Object, writer.Object, new LazyNotNull<HostInfo>(() => hostInfo));
 
             //act
             handler.ProcessRequest();

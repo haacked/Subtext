@@ -15,9 +15,9 @@
 
 #endregion
 
-using System;
 using Ninject;
 using Subtext.Framework;
+using Subtext.Framework.Services;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.UI.Controls
@@ -30,7 +30,7 @@ namespace Subtext.Web.UI.Controls
         }
 
         [Inject]
-        public Lazy<HostInfo> Host { get; set; }
+        public LazyNotNull<HostInfo> Host { get; set; }
 
         public int? GetGroupIdFromQueryString()
         {

@@ -24,6 +24,7 @@ using Ninject;
 using Subtext.Framework;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
+using Subtext.Framework.Services;
 using Subtext.Framework.Web.Handlers;
 using Subtext.Web.Properties;
 
@@ -43,7 +44,7 @@ namespace Subtext.Web.Pages
         }
 
         [Inject]
-        public Lazy<HostInfo> Host { get; set; }
+        public LazyNotNull<HostInfo> Host { get; set; }
 
         protected override void OnLoad(EventArgs e)
         {
