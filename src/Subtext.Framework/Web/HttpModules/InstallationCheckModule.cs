@@ -18,6 +18,7 @@
 using System;
 using System.Web;
 using Subtext.Framework.Infrastructure.Installation;
+using Subtext.Framework.Services;
 
 namespace Subtext.Framework.Web.HttpModules
 {
@@ -26,12 +27,12 @@ namespace Subtext.Framework.Web.HttpModules
     /// </summary>
     public class InstallationCheckModule : IHttpModule
     {
-        private Lazy<HostInfo> _hostInfo;
+        private LazyNotNull<HostInfo> _hostInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InstallationCheckModule"/> class.
         /// </summary>
-        public InstallationCheckModule(IInstallationManager installationManager, Lazy<HostInfo> hostInfo)
+        public InstallationCheckModule(IInstallationManager installationManager, LazyNotNull<HostInfo> hostInfo)
         {
             if (installationManager == null)
             {

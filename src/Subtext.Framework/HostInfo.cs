@@ -26,6 +26,7 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
+using Subtext.Framework.Services;
 
 namespace Subtext.Framework
 {
@@ -34,7 +35,7 @@ namespace Subtext.Framework
     /// </summary>
     public class HostInfo
     {
-        private static Lazy<HostInfo> _instance = new Lazy<HostInfo>(EnsureHostInfo);
+        private static LazyNotNull<HostInfo> _instance = new LazyNotNull<HostInfo>(EnsureHostInfo);
 
         public HostInfo(NameValueCollection appSettings)
         {
@@ -59,11 +60,6 @@ namespace Subtext.Framework
         {
             var repository = DependencyResolver.Current.GetService<ObjectRepository>();
             var hostInfo = LoadHostInfoFromDatabase(repository, suppressException: true);
-            if (hostInfo == null)
-            {
-                _instance = new Lazy<HostInfo>(EnsureHostInfo);
-                return null;
-            }
             return hostInfo;
         }
 
@@ -130,7 +126,6 @@ namespace Subtext.Framework
         {
             if (repository.UpdateHost(host))
             {
-                _instance = new Lazy<HostInfo>(() => host);
                 return true;
             }
             return false;
@@ -150,7 +145,6 @@ namespace Subtext.Framework
             var host = new HostInfo(ConfigurationManager.AppSettings) { HostUserName = hostUserName, Email = email };
 
             SetHostPassword(host, hostPassword);
-            _instance = new Lazy<HostInfo>(() => host);
             return repository.UpdateHost(host);
         }
 

@@ -19,6 +19,7 @@ using System;
 using System.Web.Security;
 using Ninject;
 using Subtext.Framework;
+using Subtext.Framework.Services;
 using Subtext.Framework.Web.Handlers;
 
 namespace Subtext.Web.HostAdmin
@@ -26,7 +27,7 @@ namespace Subtext.Web.HostAdmin
     public class HostAdminPage : SubtextPage
     {
         [Inject]
-        public Lazy<HostInfo> Host { get; set; }
+        public LazyNotNull<HostInfo> Host { get; set; }
 
         public HostInfo HostInfo
         {

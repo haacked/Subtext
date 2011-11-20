@@ -120,7 +120,7 @@ namespace Subtext.Framework.Configuration
                     return null;
                 }
 
-                Blog currentBlog = BlogRequest.Current.Blog;
+                Blog currentBlog = blogRequest.Blog;
                 return currentBlog;
             }
         }

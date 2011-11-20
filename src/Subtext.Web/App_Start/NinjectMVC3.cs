@@ -156,7 +156,7 @@ namespace Subtext.Web.App_Start
             kernel.Bind<IInstallationManager>().To<InstallationManager>();
             kernel.Bind<IInstaller>().ToMethod(context => new SqlInstaller(Config.ConnectionString));
             kernel.Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
-            kernel.Bind<Lazy<HostInfo>>().ToMethod(c => new Lazy<HostInfo>(() => HostInfo.Instance)).InSingletonScope();
+            kernel.Bind<LazyNotNull<HostInfo>>().ToMethod(context => new LazyNotNull<HostInfo>(() => HostInfo.Instance));
 
             var indexingSettings = FullTextSearchEngineSettings.Settings;
             if (indexingSettings.IsEnabled)
