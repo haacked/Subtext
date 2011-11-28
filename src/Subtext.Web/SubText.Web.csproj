@@ -159,113 +159,96 @@
     </Compile>
     <Compile Include="aspx\Admin\Articles\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Articles\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Articles\Edit.aspx.cs">
       <DependentUpon>Edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Articles\Edit.aspx.designer.cs">
       <DependentUpon>Edit.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Comments.aspx.cs">
       <DependentUpon>Comments.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Comments.aspx.designer.cs">
       <DependentUpon>Comments.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Configure.aspx.cs">
       <DependentUpon>Configure.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Configure.aspx.designer.cs">
       <DependentUpon>Configure.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Credits.aspx.cs">
       <DependentUpon>Credits.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Credits.aspx.designer.cs">
       <DependentUpon>Credits.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Customize.aspx.cs">
       <DependentUpon>Customize.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Customize.aspx.designer.cs">
       <DependentUpon>Customize.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\EditArticles.aspx.cs">
       <DependentUpon>EditArticles.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\EditArticles.aspx.designer.cs">
       <DependentUpon>EditArticles.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\EditCategories.aspx.cs">
       <DependentUpon>EditCategories.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\EditCategories.aspx.designer.cs">
       <DependentUpon>EditCategories.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\EditGalleries.aspx.cs">
       <DependentUpon>EditGalleries.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\EditGalleries.aspx.designer.cs">
       <DependentUpon>EditGalleries.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\EditImage.aspx.cs">
       <DependentUpon>EditImage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\EditImage.aspx.designer.cs">
       <DependentUpon>EditImage.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\EditKeyWords.aspx.cs">
       <DependentUpon>EditKeyWords.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\EditKeyWords.aspx.designer.cs">
       <DependentUpon>EditKeyWords.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\EditLinks.aspx.cs">
       <DependentUpon>EditLinks.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\EditLinks.aspx.designer.cs">
       <DependentUpon>EditLinks.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\ErrorLog.aspx.cs">
       <DependentUpon>ErrorLog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\ErrorLog.aspx.designer.cs">
       <DependentUpon>ErrorLog.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Export.aspx.cs">
       <DependentUpon>Export.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Feedback\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Feedback\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Feedback\Edit.aspx.cs">
       <DependentUpon>Edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Feedback\Edit.aspx.designer.cs">
       <DependentUpon>Edit.aspx</DependentUpon>
@@ -281,35 +264,30 @@
     <Compile Include="aspx\Admin\Feedback\FeedbackState.cs" />
     <Compile Include="aspx\Admin\FullTextSearch.aspx.cs">
       <DependentUpon>FullTextSearch.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\FullTextSearch.aspx.designer.cs">
       <DependentUpon>FullTextSearch.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\ImportExport.aspx.cs">
       <DependentUpon>ImportExport.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\ImportExport.aspx.designer.cs">
       <DependentUpon>ImportExport.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Options.aspx.cs">
       <DependentUpon>Options.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Options.aspx.designer.cs">
       <DependentUpon>Options.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Posts\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Posts\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Posts\Edit.aspx.cs">
       <DependentUpon>Edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Posts\Edit.aspx.designer.cs">
       <DependentUpon>Edit.aspx</DependentUpon>
@@ -323,28 +301,24 @@
     </Compile>
     <Compile Include="aspx\Admin\Preferences.aspx.cs">
       <DependentUpon>Preferences.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Preferences.aspx.designer.cs">
       <DependentUpon>Preferences.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Referrers.aspx.cs">
       <DependentUpon>Referrers.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Referrers.aspx.designer.cs">
       <DependentUpon>Referrers.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\RssFeeds.aspx.cs">
       <DependentUpon>RssFeeds.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\RssFeeds.aspx.designer.cs">
       <DependentUpon>RssFeeds.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Security.aspx.cs">
       <DependentUpon>Security.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Security.aspx.designer.cs">
       <DependentUpon>Security.aspx</DependentUpon>
@@ -362,21 +336,18 @@
     </Compile>
     <Compile Include="aspx\Admin\Statistics.aspx.cs">
       <DependentUpon>Statistics.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Statistics.aspx.designer.cs">
       <DependentUpon>Statistics.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\StatsView.aspx.cs">
       <DependentUpon>StatsView.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\StatsView.aspx.designer.cs">
       <DependentUpon>StatsView.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Admin\Syndication.aspx.cs">
       <DependentUpon>Syndication.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Admin\Syndication.aspx.designer.cs">
       <DependentUpon>Syndication.aspx</DependentUpon>
@@ -407,9 +378,7 @@
     <Compile Include="aspx\Admin\WebUI\AdminMasterPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="aspx\Admin\WebUI\AdminPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="aspx\Admin\WebUI\AdminPage.cs" />
     <Compile Include="aspx\Admin\WebUI\AdminPageTemplate.Master.cs">
       <DependentUpon>AdminPageTemplate.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -433,9 +402,7 @@
     <Compile Include="aspx\Admin\WebUI\Components\PageLocation.cs" />
     <Compile Include="aspx\Admin\WebUI\Components\Preferences.cs" />
     <Compile Include="aspx\Admin\WebUI\Components\SiteMap.cs" />
-    <Compile Include="aspx\Admin\WebUI\ConfirmationPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="aspx\Admin\WebUI\ConfirmationPage.cs" />
     <Compile Include="aspx\Admin\WebUI\Controls\AdvancedPanel.cs" />
     <Compile Include="aspx\Admin\WebUI\Controls\BaseUserControl.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -445,13 +412,10 @@
     <Compile Include="aspx\Admin\WebUI\Controls\HeaderLink.cs" />
     <Compile Include="aspx\Admin\WebUI\Controls\LinkList.cs" />
     <Compile Include="aspx\Admin\WebUI\Controls\MessagePanel.cs" />
-    <Compile Include="aspx\Admin\WebUI\StatsPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="aspx\Admin\WebUI\StatsPage.cs" />
     <Compile Include="aspx\Admin\WebUI\Utilities.cs" />
     <Compile Include="aspx\AggDefault.aspx.cs">
       <DependentUpon>AggDefault.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\AggDefault.aspx.designer.cs">
       <DependentUpon>AggDefault.aspx</DependentUpon>
@@ -465,21 +429,17 @@
     </Compile>
     <Compile Include="aspx\HostAdmin\ChangePassword.aspx.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\HostAdmin\ChangePassword.aspx.designer.cs">
       <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\HostAdmin\ErrorLog.aspx.cs">
       <DependentUpon>ErrorLog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\HostAdmin\ErrorLog.aspx.designer.cs">
       <DependentUpon>ErrorLog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\HostAdmin\HostAdminPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="aspx\HostAdmin\HostAdminPage.cs" />
     <Compile Include="aspx\HostAdmin\HostAdminTemplate.Master.cs">
       <DependentUpon>HostAdminTemplate.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -489,21 +449,18 @@
     </Compile>
     <Compile Include="aspx\HostAdmin\Queue.aspx.cs">
       <DependentUpon>Queue.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\HostAdmin\Queue.aspx.designer.cs">
       <DependentUpon>Queue.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\HostAdmin\Upgrade\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\HostAdmin\Upgrade\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\HostAdmin\Upgrade\UpgradeComplete.aspx.cs">
       <DependentUpon>UpgradeComplete.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\HostAdmin\Upgrade\UpgradeComplete.aspx.designer.cs">
       <DependentUpon>UpgradeComplete.aspx</DependentUpon>
@@ -524,24 +481,19 @@
     </Compile>
     <Compile Include="aspx\Install\BlogNotConfiguredError.aspx.cs">
       <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Install\BlogNotConfiguredError.aspx.designer.cs">
       <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Install\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Install\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="aspx\Install\InstallationBase.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="aspx\Install\InstallationBase.cs" />
     <Compile Include="aspx\Install\InstallationComplete.aspx.cs">
       <DependentUpon>InstallationComplete.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Install\InstallationComplete.aspx.designer.cs">
       <DependentUpon>InstallationComplete.aspx</DependentUpon>
@@ -555,38 +507,32 @@
     </Compile>
     <Compile Include="aspx\Install\Step02_ConfigureHost.aspx.cs">
       <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Install\Step02_ConfigureHost.aspx.designer.cs">
       <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\Install\Step03_CreateBlog.aspx.cs">
       <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Install\Step03_CreateBlog.aspx.designer.cs">
       <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>
     <Compile Include="aspx\MainFeed.aspx.cs">
       <DependentUpon>MainFeed.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Providers\BlogEntryEditor\FTB\ftb.imagegallery.aspx.cs">
       <DependentUpon>ftb.imagegallery.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\Providers\BlogEntryEditor\FTB\FtbBlogEntryEditorProvider.cs" />
     <Compile Include="aspx\Providers\BlogEntryEditor\PlainText\PlainTextBlogEntryEditorProvider.cs" />
     <Compile Include="aspx\SystemMessages\BlogNotActive.aspx.cs">
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\SystemMessages\BlogNotActive.aspx.designer.cs">
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
@@ -614,7 +560,6 @@
     </Compile>
     <Compile Include="aspx\SystemMessages\Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\SystemMessages\Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
@@ -635,7 +580,6 @@
     </Compile>
     <Compile Include="aspx\SystemMessages\UpgradeInProgress.aspx.cs">
       <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="aspx\SystemMessages\UpgradeInProgress.aspx.designer.cs">
       <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
@@ -721,9 +665,7 @@
     <Compile Include="UI\Controls\Aggregate\AggRecentPosts.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UI\Controls\Aggregate\AggregatePage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="UI\Controls\Aggregate\AggregatePage.cs" />
     <Compile Include="UI\Controls\Aggregate\AggregateUserControl.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -885,9 +827,7 @@
     </Compile>
     <Compile Include="UI\Globals.cs" />
     <Compile Include="UI\Handlers\BlogSecondaryCssHandler.cs" />
-    <Compile Include="UI\Pages\SubTextMasterPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
+    <Compile Include="UI\Pages\SubTextMasterPage.cs" />
     <Compile Include="UI\Pages\SubTextMasterPage.designer.cs">
       <DependentUpon>SubTextMasterPage.cs</DependentUpon>
     </Compile>

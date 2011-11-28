@@ -115,6 +115,10 @@ namespace Subtext.Web.Admin
             var skinEngine = new SkinEngine();
             var skins = skinEngine.GetSkinTemplates(mobileOnly: mobileOnly);
             var skinTemplate = skins.GetValueOrDefault(skinKey);
+            if (skinTemplate == null)
+            {
+                skinTemplate = skins.First().Value;
+            }
             return new SkinViewModel { name = skinTemplate.Name, icon = GetSkinIconImage(skinTemplate), skinKey = skinTemplate.SkinKey, mobile = mobileOnly };
         }
 
