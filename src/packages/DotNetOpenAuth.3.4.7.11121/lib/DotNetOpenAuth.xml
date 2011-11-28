@@ -548,6 +548,20 @@
             The name of the attribute that controls whether messaging rules are strictly followed.
             </summary>
     </member>
+    <member name="F:DotNetOpenAuth.Configuration.MessagingElement.DefaultMaximumIndirectMessageUrlLength">
+      <summary>
+            The default value for the <see cref="P:DotNetOpenAuth.Configuration.MessagingElement.MaximumIndirectMessageUrlLength" /> property.
+            </summary>
+      <value>
+            2KB, recommended by OpenID group
+            </value>
+    </member>
+    <member name="F:DotNetOpenAuth.Configuration.MessagingElement.MaximumIndirectMessageUrlLengthConfigName">
+      <summary>
+            The name of the attribute that controls the maximum length of a URL before it is converted
+            to a POST payload.
+            </summary>
+    </member>
     <member name="P:DotNetOpenAuth.Configuration.MessagingElement.MaximumMessageLifetime">
       <summary>
             Gets the actual maximum message lifetime that a program should allow.
@@ -609,6 +623,15 @@
             Gets or sets the configuration for the <see cref="T:DotNetOpenAuth.Messaging.UntrustedWebRequestHandler" /> class.
             </summary>
       <value>The untrusted web request.</value>
+    </member>
+    <member name="P:DotNetOpenAuth.Configuration.MessagingElement.MaximumIndirectMessageUrlLength">
+      <summary>
+            Gets or sets the maximum allowable size for a 301 Redirect response before we send
+            a 200 OK response with a scripted form POST with the parameters instead
+            in order to ensure successfully sending a large payload to another server
+            that might have a maximum allowable size restriction on its GET request.
+            </summary>
+      <value>The default value is 2048.</value>
     </member>
     <member name="T:DotNetOpenAuth.Configuration.OAuthConsumerElement">
       <summary>
@@ -1107,6 +1130,11 @@
             Gets the name of the @protectDownlevelReplayAttacks attribute.
             </summary>
     </member>
+    <member name="F:DotNetOpenAuth.Configuration.OpenIdRelyingPartySecuritySettingsElement.TrustedProvidersElementName">
+      <summary>
+            The name of the &lt;trustedProviders&gt; sub-element.
+            </summary>
+    </member>
     <member name="M:DotNetOpenAuth.Configuration.OpenIdRelyingPartySecuritySettingsElement.#ctor">
       <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.Configuration.OpenIdRelyingPartySecuritySettingsElement" /> class.
@@ -1215,6 +1243,11 @@
             to protect users against replay attacks when interoperating with OpenID 1.1 Providers.
             </summary>
     </member>
+    <member name="P:DotNetOpenAuth.Configuration.OpenIdRelyingPartySecuritySettingsElement.TrustedProviders">
+      <summary>
+            Gets or sets the set of trusted OpenID Provider Endpoints.
+            </summary>
+    </member>
     <member name="T:DotNetOpenAuth.Configuration.ReportingElement">
       <summary>
             Represents the &lt;reporting&gt; element in the host's .config file.
@@ -1308,6 +1341,76 @@
       <summary>
             Gets or sets a value indicating whether to include the cultures requested by the user agent
             on pages that host DotNetOpenAuth components.
+            </summary>
+    </member>
+    <member name="T:DotNetOpenAuth.Configuration.TrustedProviderConfigurationCollection">
+      <summary>
+            A configuration collection of trusted OP Endpoints.
+            </summary>
+    </member>
+    <member name="F:DotNetOpenAuth.Configuration.TrustedProviderConfigurationCollection.RejectAssertionsFromUntrustedProvidersConfigName">
+      <summary>
+            The name of the "rejectAssertionsFromUntrustedProviders" element.
+            </summary>
+    </member>
+    <member name="M:DotNetOpenAuth.Configuration.TrustedProviderConfigurationCollection.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.Configuration.TrustedProviderConfigurationCollection" /> class.
+            </summary>
+    </member>
+    <member name="M:DotNetOpenAuth.Configuration.TrustedProviderConfigurationCollection.#ctor(System.Collections.Generic.IEnumerable{DotNetOpenAuth.Configuration.TrustedProviderEndpointConfigurationElement})">
+      <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.Configuration.TrustedProviderConfigurationCollection" /> class.
+            </summary>
+      <param name="elements">The elements to initialize the collection with.</param>
+      <requires exception="T:System.ArgumentNullException">elements != null</requires>
+      <exception cref="T:System.ArgumentNullException">elements == null</exception>
+    </member>
+    <member name="M:DotNetOpenAuth.Configuration.TrustedProviderConfigurationCollection.CreateNewElement">
+      <summary>
+            When overridden in a derived class, creates a new <see cref="T:System.Configuration.ConfigurationElement" />.
+            </summary>
+      <returns>
+            A new <see cref="T:System.Configuration.ConfigurationElement" />.
+            </returns>
+      <ensures inheritedFrom="M:System.Configuration.ConfigurationElementCollection.CreateNewElement" inheritedFromTypeName="ConfigurationElementCollection">Contract.Result&lt;ConfigurationElement&gt;() != null</ensures>
+    </member>
+    <member name="M:DotNetOpenAuth.Configuration.TrustedProviderConfigurationCollection.GetElementKey(System.Configuration.ConfigurationElement)">
+      <summary>
+            Gets the element key for a specified configuration element when overridden in a derived class.
+            </summary>
+      <param name="element">The <see cref="T:System.Configuration.ConfigurationElement" /> to return the key for.</param>
+      <returns>
+            An <see cref="T:System.Object" /> that acts as the key for the specified <see cref="T:System.Configuration.ConfigurationElement" />.
+            </returns>
+      <requires inheritedFrom="M:System.Configuration.ConfigurationElementCollection.GetElementKey(System.Configuration.ConfigurationElement)" inheritedFromTypeName="ConfigurationElementCollection">element != null</requires>
+      <ensures inheritedFrom="M:System.Configuration.ConfigurationElementCollection.GetElementKey(System.Configuration.ConfigurationElement)" inheritedFromTypeName="ConfigurationElementCollection">Contract.Result&lt;object&gt;() != null</ensures>
+    </member>
+    <member name="P:DotNetOpenAuth.Configuration.TrustedProviderConfigurationCollection.RejectAssertionsFromUntrustedProviders">
+      <summary>
+            Gets or sets a value indicating whether any login attempt coming from an OpenID Provider Endpoint that is not on this
+            whitelist of trusted OP Endpoints will be rejected.  If the trusted providers list is empty and this value
+            is true, all assertions are rejected.
+            </summary>
+    </member>
+    <member name="T:DotNetOpenAuth.Configuration.TrustedProviderEndpointConfigurationElement">
+      <summary>
+            A configuration element that records a trusted Provider Endpoint.
+            </summary>
+    </member>
+    <member name="F:DotNetOpenAuth.Configuration.TrustedProviderEndpointConfigurationElement.ProviderEndpointConfigName">
+      <summary>
+            The name of the attribute that stores the <see cref="P:DotNetOpenAuth.Configuration.TrustedProviderEndpointConfigurationElement.ProviderEndpoint" /> value.
+            </summary>
+    </member>
+    <member name="M:DotNetOpenAuth.Configuration.TrustedProviderEndpointConfigurationElement.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:DotNetOpenAuth.Configuration.TrustedProviderEndpointConfigurationElement" /> class.
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.Configuration.TrustedProviderEndpointConfigurationElement.ProviderEndpoint">
+      <summary>
+            Gets or sets the OpenID Provider Endpoint (aka "OP Endpoint") that this relying party trusts.
             </summary>
     </member>
     <member name="T:DotNetOpenAuth.Configuration.TypeConfigurationCollection`1">
@@ -2514,14 +2617,6 @@
             URL-encoded series of key=value pairs.
             </summary>
     </member>
-    <member name="F:DotNetOpenAuth.Messaging.Channel.IndirectMessageGetToPostThreshold">
-      <summary>
-            The maximum allowable size for a 301 Redirect response before we send
-            a 200 OK response with a scripted form POST with the parameters instead
-            in order to ensure successfully sending a large payload to another server
-            that might have a maximum allowable size restriction on its GET request.
-            </summary>
-    </member>
     <member name="F:DotNetOpenAuth.Messaging.Channel.RedirectResponseBodyFormat">
       <summary>
             The HTML that should be returned to the user agent as part of a 301 Redirect.
@@ -2583,6 +2678,11 @@
     <member name="F:DotNetOpenAuth.Messaging.Channel.cachePolicy">
       <summary>
             Backing store for the <see cref="P:DotNetOpenAuth.Messaging.Channel.CachePolicy" /> property.
+            </summary>
+    </member>
+    <member name="F:DotNetOpenAuth.Messaging.Channel.maximumIndirectMessageUrlLength">
+      <summary>
+            Backing field for the <see cref="P:DotNetOpenAuth.Messaging.Channel.MaximumIndirectMessageUrlLength" /> property.
             </summary>
     </member>
     <member name="M:DotNetOpenAuth.Messaging.Channel.#ctor(DotNetOpenAuth.Messaging.IMessageFactory,DotNetOpenAuth.Messaging.IChannelBindingElement[])">
@@ -3152,6 +3252,19 @@
             to a mock object for testing purposes.
             </remarks>
     </member>
+    <member name="P:DotNetOpenAuth.Messaging.Channel.MaximumIndirectMessageUrlLength">
+      <summary>
+            Gets or sets the maximum allowable size for a 301 Redirect response before we send
+            a 200 OK response with a scripted form POST with the parameters instead
+            in order to ensure successfully sending a large payload to another server
+            that might have a maximum allowable size restriction on its GET request.
+            </summary>
+      <value>The default value is 2048.</value>
+      <setter>
+        <requires exception="T:System.ArgumentOutOfRangeException">value &gt;= 500 &amp;&amp; value &lt;= 4096</requires>
+      </setter>
+      <exception cref="T:System.ArgumentOutOfRangeException">value &lt; 500 || value &gt; 4096</exception>
+    </member>
     <member name="P:DotNetOpenAuth.Messaging.Channel.MessageDescriptions">
       <summary>
             Gets or sets the message descriptions.
@@ -3240,6 +3353,27 @@
       <remarks>
             This method implements spec V1.0 section 5.3.
             </remarks>
+    </member>
+    <member name="T:DotNetOpenAuth.Messaging.IMessageOriginalPayload">
+      <summary>
+            An interface that appears on messages that need to retain a description of
+            what their literal payload was when they were deserialized.
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.Messaging.IMessageOriginalPayload.OriginalPayload">
+      <summary>
+            Gets or sets the original message parts, before any normalization or default values were assigned.
+            </summary>
+    </member>
+    <member name="T:DotNetOpenAuth.Messaging.IMessageOriginalPayloadContract">
+      <summary>
+            Code contract for the <see cref="T:DotNetOpenAuth.Messaging.IMessageOriginalPayload" /> interface.
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.Messaging.IMessageOriginalPayloadContract.DotNetOpenAuth#Messaging#IMessageOriginalPayload#OriginalPayload">
+      <summary>
+            Gets or sets the original message parts, before any normalization or default values were assigned.
+            </summary>
     </member>
     <member name="T:DotNetOpenAuth.Messaging.DirectWebRequestOptions">
       <summary>
@@ -6358,13 +6492,21 @@
             The token manager offered by the service provider.
             </summary>
     </member>
-    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.TokenHandlingBindingElement.#ctor(DotNetOpenAuth.OAuth.ChannelElements.IServiceProviderTokenManager)">
+    <member name="F:DotNetOpenAuth.OAuth.ChannelElements.TokenHandlingBindingElement.securitySettings">
+      <summary>
+            The security settings for this service provider.
+            </summary>
+    </member>
+    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.TokenHandlingBindingElement.#ctor(DotNetOpenAuth.OAuth.ChannelElements.IServiceProviderTokenManager,DotNetOpenAuth.OAuth.ServiceProviderSecuritySettings)">
       <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.OAuth.ChannelElements.TokenHandlingBindingElement" /> class.
             </summary>
       <param name="tokenManager">The token manager.</param>
+      <param name="securitySettings">The security settings.</param>
       <requires exception="T:System.ArgumentNullException">tokenManager != null</requires>
       <exception cref="T:System.ArgumentNullException">tokenManager == null</exception>
+      <requires description="securitySettings" exception="T:System.ArgumentNullException">securitySettings != null</requires>
+      <exception cref="T:System.ArgumentNullException">securitySettings == null</exception>
     </member>
     <member name="M:DotNetOpenAuth.OAuth.ChannelElements.TokenHandlingBindingElement.ProcessOutgoingMessage(DotNetOpenAuth.Messaging.IProtocolMessage)">
       <summary>
@@ -7396,6 +7538,16 @@
             Gets or sets the message nonce used for replay detection.
             </summary>
     </member>
+    <member name="P:DotNetOpenAuth.OAuth.Messages.SignedMessageBase.DotNetOpenAuth#Messaging#IMessageOriginalPayload#OriginalPayload">
+      <summary>
+            Gets or sets the original message parts, before any normalization or default values were assigned.
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.OAuth.Messages.SignedMessageBase.OriginalPayload">
+      <summary>
+            Gets or sets the original message parts, before any normalization or default values were assigned.
+            </summary>
+    </member>
     <member name="P:DotNetOpenAuth.OAuth.Messages.SignedMessageBase.SignatureMethod">
       <summary>
             Gets or sets the signature method used to sign the request.
@@ -7541,6 +7693,17 @@
       <summary>
             Gets or sets the minimum required version of OAuth that must be implemented by a Consumer.
             </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.OAuth.ServiceProviderSecuritySettings.MaximumRequestTokenTimeToLive">
+      <summary>
+            Gets or sets the maximum time a user can take to complete authorization.
+            </summary>
+      <remarks>
+            This time limit serves as a security mitigation against brute force attacks to
+            compromise (unauthorized or authorized) request tokens.
+            Longer time limits is more friendly to slow users or consumers, while shorter
+            time limits provide better security.
+            </remarks>
     </member>
     <member name="T:DotNetOpenAuth.OAuth.VerificationCodeFormat">
       <summary>
@@ -10357,36 +10520,55 @@
             An OAuth-specific implementation of the <see cref="T:DotNetOpenAuth.Messaging.Channel" /> class.
             </summary>
     </member>
-    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel.#ctor(DotNetOpenAuth.Messaging.ITamperProtectionChannelBindingElement,DotNetOpenAuth.Messaging.Bindings.INonceStore,DotNetOpenAuth.OAuth.ChannelElements.IConsumerTokenManager)">
+    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel.#ctor(DotNetOpenAuth.Messaging.ITamperProtectionChannelBindingElement,DotNetOpenAuth.Messaging.Bindings.INonceStore,DotNetOpenAuth.OAuth.ChannelElements.IConsumerTokenManager,DotNetOpenAuth.OAuth.ConsumerSecuritySettings)">
       <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel" /> class.
             </summary>
       <param name="signingBindingElement">The binding element to use for signing.</param>
       <param name="store">The web application store to use for nonces.</param>
       <param name="tokenManager">The token manager instance to use.</param>
+      <param name="securitySettings">The security settings.</param>
+      <requires exception="T:System.ArgumentNullException">tokenManager != null</requires>
+      <exception cref="T:System.ArgumentNullException">tokenManager == null</exception>
+      <requires description="securitySettings" exception="T:System.ArgumentNullException">securitySettings != null</requires>
+      <exception cref="T:System.ArgumentNullException">securitySettings == null</exception>
+      <requires exception="T:System.ArgumentNullException">signingBindingElement != null</requires>
+      <exception cref="T:System.ArgumentNullException">signingBindingElement == null</exception>
+      <requires exception="T:System.ArgumentException">signingBindingElement.SignatureCallback == null</requires>
+      <exception cref="T:System.ArgumentException">signingBindingElement.SignatureCallback != null</exception>
     </member>
-    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel.#ctor(DotNetOpenAuth.Messaging.ITamperProtectionChannelBindingElement,DotNetOpenAuth.Messaging.Bindings.INonceStore,DotNetOpenAuth.OAuth.ChannelElements.IServiceProviderTokenManager)">
+    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel.#ctor(DotNetOpenAuth.Messaging.ITamperProtectionChannelBindingElement,DotNetOpenAuth.Messaging.Bindings.INonceStore,DotNetOpenAuth.OAuth.ChannelElements.IServiceProviderTokenManager,DotNetOpenAuth.OAuth.ServiceProviderSecuritySettings)">
       <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel" /> class.
             </summary>
       <param name="signingBindingElement">The binding element to use for signing.</param>
       <param name="store">The web application store to use for nonces.</param>
       <param name="tokenManager">The token manager instance to use.</param>
+      <param name="securitySettings">The security settings.</param>
+      <requires exception="T:System.ArgumentNullException">tokenManager != null</requires>
+      <exception cref="T:System.ArgumentNullException">tokenManager == null</exception>
+      <requires description="securitySettings" exception="T:System.ArgumentNullException">securitySettings != null</requires>
+      <exception cref="T:System.ArgumentNullException">securitySettings == null</exception>
+      <requires exception="T:System.ArgumentNullException">signingBindingElement != null</requires>
+      <exception cref="T:System.ArgumentNullException">signingBindingElement == null</exception>
+      <requires exception="T:System.ArgumentException">signingBindingElement.SignatureCallback == null</requires>
+      <exception cref="T:System.ArgumentException">signingBindingElement.SignatureCallback != null</exception>
     </member>
-    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel.#ctor(DotNetOpenAuth.Messaging.ITamperProtectionChannelBindingElement,DotNetOpenAuth.Messaging.Bindings.INonceStore,DotNetOpenAuth.OAuth.ChannelElements.ITokenManager,DotNetOpenAuth.Messaging.IMessageFactory)">
+    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel.#ctor(DotNetOpenAuth.Messaging.ITamperProtectionChannelBindingElement,DotNetOpenAuth.Messaging.Bindings.INonceStore,DotNetOpenAuth.OAuth.ChannelElements.ITokenManager,DotNetOpenAuth.OAuth.SecuritySettings,DotNetOpenAuth.Messaging.IMessageFactory)">
       <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel" /> class.
             </summary>
       <param name="signingBindingElement">The binding element to use for signing.</param>
       <param name="store">The web application store to use for nonces.</param>
       <param name="tokenManager">The ITokenManager instance to use.</param>
-      <param name="messageTypeProvider">
-            An injected message type provider instance.
+      <param name="securitySettings">The security settings.</param>
+      <param name="messageTypeProvider">An injected message type provider instance.
             Except for mock testing, this should always be one of
-            <see cref="T:DotNetOpenAuth.OAuth.ChannelElements.OAuthConsumerMessageFactory" /> or <see cref="T:DotNetOpenAuth.OAuth.ChannelElements.OAuthServiceProviderMessageFactory" />.
-            </param>
+            <see cref="T:DotNetOpenAuth.OAuth.ChannelElements.OAuthConsumerMessageFactory" /> or <see cref="T:DotNetOpenAuth.OAuth.ChannelElements.OAuthServiceProviderMessageFactory" />.</param>
       <requires exception="T:System.ArgumentNullException">tokenManager != null</requires>
       <exception cref="T:System.ArgumentNullException">tokenManager == null</exception>
+      <requires description="securitySettings" exception="T:System.ArgumentNullException">securitySettings != null</requires>
+      <exception cref="T:System.ArgumentNullException">securitySettings == null</exception>
       <requires exception="T:System.ArgumentNullException">signingBindingElement != null</requires>
       <exception cref="T:System.ArgumentNullException">signingBindingElement == null</exception>
       <requires exception="T:System.ArgumentException">signingBindingElement.SignatureCallback == null</requires>
@@ -10459,14 +10641,18 @@
       <exception cref="T:System.ArgumentNullException">response == null</exception>
       <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.Channel.PrepareDirectResponse(DotNetOpenAuth.Messaging.IProtocolMessage)" inheritedFromTypeName="Channel">Contract.Result&lt;OutgoingWebResponse&gt;() != null</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel.InitializeBindingElements(DotNetOpenAuth.Messaging.ITamperProtectionChannelBindingElement,DotNetOpenAuth.Messaging.Bindings.INonceStore,DotNetOpenAuth.OAuth.ChannelElements.ITokenManager)">
+    <member name="M:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel.InitializeBindingElements(DotNetOpenAuth.Messaging.ITamperProtectionChannelBindingElement,DotNetOpenAuth.Messaging.Bindings.INonceStore,DotNetOpenAuth.OAuth.ChannelElements.ITokenManager,DotNetOpenAuth.OAuth.SecuritySettings)">
       <summary>
             Initializes the binding elements for the OAuth channel.
             </summary>
       <param name="signingBindingElement">The signing binding element.</param>
       <param name="store">The nonce store.</param>
       <param name="tokenManager">The token manager.</param>
-      <returns>An array of binding elements used to initialize the channel.</returns>
+      <param name="securitySettings">The security settings.</param>
+      <returns>
+            An array of binding elements used to initialize the channel.
+            </returns>
+      <requires>securitySettings != null</requires>
     </member>
     <member name="M:DotNetOpenAuth.OAuth.ChannelElements.OAuthChannel.UriEscapeParameters(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}},System.Collections.Generic.IDictionary{System.String,System.String})">
       <summary>
@@ -18369,6 +18555,11 @@
             A common base class from which indirect response messages should derive.
             </summary>
     </member>
+    <member name="F:DotNetOpenAuth.OpenId.Messages.IndirectResponseBase.extensions">
+      <summary>
+            Backing store for the <see cref="P:DotNetOpenAuth.OpenId.Messages.IndirectResponseBase.Extensions" /> property.
+            </summary>
+    </member>
     <member name="M:DotNetOpenAuth.OpenId.Messages.IndirectResponseBase.#ctor(DotNetOpenAuth.OpenId.Messages.SignedResponseRequest,System.String)">
       <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.OpenId.Messages.IndirectResponseBase" /> class.
@@ -18415,6 +18606,28 @@
       <requires exception="T:System.ArgumentNullException">message != null</requires>
       <exception cref="T:System.ArgumentNullException">message == null</exception>
     </member>
+    <member name="P:DotNetOpenAuth.OpenId.Messages.IndirectResponseBase.Extensions">
+      <summary>
+            Gets the list of extensions that are included with this message.
+            </summary>
+      <value />
+      <remarks>
+            Implementations of this interface should ensure that this property never returns null.
+            </remarks>
+      <getter>
+        <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IProtocolMessageWithExtensions.get_Extensions" inheritedFromTypeName="IProtocolMessageWithExtensions">Contract.Result&lt;IList&lt;IExtensionMessage&gt;&gt;() != null</ensures>
+      </getter>
+    </member>
+    <member name="P:DotNetOpenAuth.OpenId.Messages.IndirectResponseBase.SignedExtensions">
+      <summary>
+            Gets the signed extensions on this message.
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.OpenId.Messages.IndirectResponseBase.UnsignedExtensions">
+      <summary>
+            Gets the unsigned extensions on this message.
+            </summary>
+    </member>
     <member name="P:DotNetOpenAuth.OpenId.Messages.IndirectResponseBase.OriginatingRequest">
       <summary>
             Gets the originating request message, if applicable.
@@ -18433,11 +18646,6 @@
       <remarks>
             This array of formats is not yet a complete list.
             </remarks>
-    </member>
-    <member name="F:DotNetOpenAuth.OpenId.Messages.IndirectSignedResponse.extensions">
-      <summary>
-            Backing store for the <see cref="P:DotNetOpenAuth.OpenId.Messages.IndirectSignedResponse.Extensions" /> property.
-            </summary>
     </member>
     <member name="F:DotNetOpenAuth.OpenId.Messages.IndirectSignedResponse.creationDateUtc">
       <summary>
@@ -18554,18 +18762,6 @@
                also be present with the same values in the URL of the HTTP request the RP received.
             </remarks>
     </member>
-    <member name="P:DotNetOpenAuth.OpenId.Messages.IndirectSignedResponse.Extensions">
-      <summary>
-            Gets the list of extensions that are included with this message.
-            </summary>
-      <value />
-      <remarks>
-            Implementations of this interface should ensure that this property never returns null.
-            </remarks>
-      <getter>
-        <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IProtocolMessageWithExtensions.get_Extensions" inheritedFromTypeName="IProtocolMessageWithExtensions">Contract.Result&lt;IList&lt;IExtensionMessage&gt;&gt;() != null</ensures>
-      </getter>
-    </member>
     <member name="P:DotNetOpenAuth.OpenId.Messages.IndirectSignedResponse.RequiredProtection">
       <summary>
             Gets the level of protection this message requires.
@@ -18660,16 +18856,6 @@
             This property is not persisted in the transmitted message, and
             has no effect on the Provider-side of the communication.
             </remarks>
-    </member>
-    <member name="P:DotNetOpenAuth.OpenId.Messages.IndirectSignedResponse.SignedExtensions">
-      <summary>
-            Gets the signed extensions on this message.
-            </summary>
-    </member>
-    <member name="P:DotNetOpenAuth.OpenId.Messages.IndirectSignedResponse.UnsignedExtensions">
-      <summary>
-            Gets the unsigned extensions on this message.
-            </summary>
     </member>
     <member name="P:DotNetOpenAuth.OpenId.Messages.IndirectSignedResponse.ResponseNonceTestHook">
       <summary>
@@ -25320,6 +25506,14 @@
       <exception cref="T:System.ArgumentNullException">identifier == null</exception>
       <ensures>Contract.Result&lt;IEnumerable&lt;IdentifierDiscoveryResult&gt;&gt;() != null</ensures>
     </member>
+    <member name="M:DotNetOpenAuth.OpenId.RelyingParty.OpenIdRelyingParty.FilterEndpoint(DotNetOpenAuth.OpenId.RelyingParty.IProviderEndpoint)">
+      <summary>
+            Checks whether a given OP Endpoint is permitted by the host relying party.
+            </summary>
+      <param name="endpoint">The OP endpoint.</param>
+      <returns>
+        <c>true</c> if the OP Endpoint is allowed; <c>false</c> otherwise.</returns>
+    </member>
     <member name="M:DotNetOpenAuth.OpenId.RelyingParty.OpenIdRelyingParty.Dispose(System.Boolean)">
       <summary>
             Releases unmanaged and - optionally - managed resources
@@ -25576,6 +25770,11 @@
               Looks up a localized string similar to Only OpenIDs issued directly by their OpenID Provider are allowed here..
             </summary>
     </member>
+    <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.DiffieHellmanAssociationRequired">
+      <summary>
+              Looks up a localized string similar to The associate request instance must be a Diffie-Hellman instance..
+            </summary>
+    </member>
     <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.DiffieHellmanRequiredPropertiesNotSet">
       <summary>
               Looks up a localized string similar to The following properties must be set before the Diffie-Hellman algorithm can generate a public key: {0}.
@@ -25631,6 +25830,11 @@
               Looks up a localized string similar to Cannot encode '{0}' because it contains an illegal character for Key-Value Form encoding.  (line {1}: '{2}').
             </summary>
     </member>
+    <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.InvalidDSig">
+      <summary>
+              Looks up a localized string similar to Invalid XmlDSig signature on XRDS document..
+            </summary>
+    </member>
     <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.InvalidKeyValueFormCharacterMissing">
       <summary>
               Looks up a localized string similar to Cannot decode Key-Value Form because a line was found without a '{0}' character.  (line {1}: '{2}').
@@ -25673,6 +25877,11 @@
     <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.MaximumAuthenticationTimeExpired">
       <summary>
               Looks up a localized string similar to The maximum time allowed to complete authentication has been exceeded.  Please try again..
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.MisdirectedSigningCertificate">
+      <summary>
+              Looks up a localized string similar to X.509 signing certificate issued to {0}, but a certificate for {1} was expected..
             </summary>
     </member>
     <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.MissingElement">
@@ -25730,9 +25939,14 @@
               Looks up a localized string similar to This operation is only allowed when IAuthenticationResponse.State == AuthenticationStatus.SetupRequired..
             </summary>
     </member>
-    <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.PositiveAssertionFromNonWhitelistedProvider">
+    <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.PopupRedirectMissingResponse">
       <summary>
-              Looks up a localized string similar to An positive OpenID assertion was received from OP endpoint {0} that is not on this relying party's whitelist..
+              Looks up a localized string similar to OpenID popup window or iframe did not recognize an OpenID response in the request..
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.PositiveAssertionFromNonQualifiedProvider">
+      <summary>
+              Looks up a localized string similar to An positive OpenID assertion was received from OP endpoint {0} and was rejected based on this site's security settings..
             </summary>
     </member>
     <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.PrivateRPSecretNotFound">
@@ -25840,9 +26054,19 @@
               Looks up a localized string similar to Providing a DateTime whose Kind is Unspecified is not allowed..
             </summary>
     </member>
+    <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.UnsupportedCanonicalizationMethod">
+      <summary>
+              Looks up a localized string similar to Unrecognized or missing canonicalization method..
+            </summary>
+    </member>
     <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.UnsupportedChannelConfiguration">
       <summary>
               Looks up a localized string similar to This feature is unavailable due to an unrecognized channel configuration..
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.UnsupportedSignatureMethod">
+      <summary>
+              Looks up a localized string similar to Unrecognized or missing signature method..
             </summary>
     </member>
     <member name="P:DotNetOpenAuth.OpenId.OpenIdStrings.UserSetupUrlRequiredInImmediateNegativeResponse">
@@ -26845,6 +27069,19 @@
       <value>
             	The default value is <c>true</c>.
             </value>
+    </member>
+    <member name="P:DotNetOpenAuth.OpenId.RelyingParty.RelyingPartySecuritySettings.TrustedProviderEndpoints">
+      <summary>
+            Gets the set of trusted OpenID Provider Endpoint URIs.
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.OpenId.RelyingParty.RelyingPartySecuritySettings.RejectAssertionsFromUntrustedProviders">
+      <summary>
+            Gets or sets a value indicating whether any login attempt coming from an OpenID Provider Endpoint that is not on this
+            whitelist of trusted OP Endpoints will be rejected.  If the trusted providers list is empty and this value
+            is true, all assertions are rejected.
+            </summary>
+      <value>Default is <c>false</c>.</value>
     </member>
     <member name="P:DotNetOpenAuth.OpenId.RelyingParty.RelyingPartySecuritySettings.ProtectDownlevelReplayAttacks">
       <summary>
@@ -29364,7 +29601,7 @@
     </member>
     <member name="F:DotNetOpenAuth.OAuth.Protocol.Default">
       <summary>
-            The default (or most recent) supported version of the OpenID protocol.
+            The default (or most recent) supported version of the OAuth protocol.
             </summary>
     </member>
     <member name="F:DotNetOpenAuth.OAuth.Protocol.dataContractNamespace">
@@ -34653,17 +34890,14 @@
     <member name="M:DotNetOpenAuth.Messaging.EnumerableCacheExtensions.EnumerableCache`1.EnumeratorCache.System#Collections#IEnumerator#get_Current">
       <ensures inheritedFrom="M:System.Collections.IEnumerator.get_Current" inheritedFromTypeName="IEnumerator">Contract.Result&lt;object&gt;() == this.Model[this.CurrentIndex]</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.OAuth.Messages.MessageBase.DotNetOpenAuth#Messaging#IMessage#get_Version">
-      <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IMessage.get_Version" inheritedFromTypeName="IMessage">Contract.Result&lt;Version&gt;() != null</ensures>
-    </member>
     <member name="M:DotNetOpenAuth.OAuth.Messages.MessageBase.DotNetOpenAuth#Messaging#IMessage#get_ExtraData">
       <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IMessage.get_ExtraData" inheritedFromTypeName="IMessage">Contract.Result&lt;IDictionary&lt;string, string&gt;&gt;() != null</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.OpenId.Protocol.ToString">
-      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
+    <member name="M:DotNetOpenAuth.OAuth.Messages.MessageBase.DotNetOpenAuth#Messaging#IMessage#get_Version">
+      <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IMessage.get_Version" inheritedFromTypeName="IMessage">Contract.Result&lt;Version&gt;() != null</ensures>
     </member>
-    <member name="T:DotNetOpenAuth.OpenId.Protocol.QueryParameters">
-      <invariant>!string.IsNullOrEmpty(this.Prefix)</invariant>
+    <member name="M:DotNetOpenAuth.OpenId.IdentifierDiscoveryResult.DotNetOpenAuth#OpenId#RelyingParty#IProviderEndpoint#get_Uri">
+      <ensures inheritedFrom="M:DotNetOpenAuth.OpenId.RelyingParty.IProviderEndpoint.get_Uri" inheritedFromTypeName="IProviderEndpoint">Contract.Result&lt;Uri&gt;() != null</ensures>
     </member>
     <member name="M:DotNetOpenAuth.OpenId.Extensions.ExtensionBase.DotNetOpenAuth#OpenId#Messages#IOpenIdMessageExtension#get_TypeUri">
       <ensures inheritedFrom="M:DotNetOpenAuth.OpenId.Messages.IOpenIdMessageExtension.get_TypeUri" inheritedFromTypeName="IOpenIdMessageExtension">!String.IsNullOrEmpty(Contract.Result&lt;string&gt;())</ensures>
@@ -34674,8 +34908,11 @@
     <member name="M:DotNetOpenAuth.OpenId.Extensions.ExtensionBase.DotNetOpenAuth#Messaging#IMessage#get_ExtraData">
       <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IMessage.get_ExtraData" inheritedFromTypeName="IMessage">Contract.Result&lt;IDictionary&lt;string, string&gt;&gt;() != null</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.OpenId.IdentifierDiscoveryResult.DotNetOpenAuth#OpenId#RelyingParty#IProviderEndpoint#get_Uri">
-      <ensures inheritedFrom="M:DotNetOpenAuth.OpenId.RelyingParty.IProviderEndpoint.get_Uri" inheritedFromTypeName="IProviderEndpoint">Contract.Result&lt;Uri&gt;() != null</ensures>
+    <member name="T:DotNetOpenAuth.OpenId.Protocol.QueryParameters">
+      <invariant>!string.IsNullOrEmpty(this.Prefix)</invariant>
+    </member>
+    <member name="M:DotNetOpenAuth.OpenId.Protocol.ToString">
+      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
     </member>
     <member name="M:Mono.Math.BigInteger.ToString">
       <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>

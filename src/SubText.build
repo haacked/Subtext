@@ -227,16 +227,16 @@
                 <include name="**/*" />
 
                 <exclude name="**/*.bmp" />
-                <exclude name="**/*.cs"/>
-                <exclude name="**/*.txt"/>
-                <exclude name="**/*.resx"/>
-                <exclude name="bin/*.xml"/>
-                <exclude name="**/*.csproj"/>
-                <exclude name="**/*.csproj.user"/>
-                <exclude name="**/.cvsignore"/>
-                <exclude name="**/.svn"/>
-                <exclude name="obj/**"/>
-                <exclude name="_Resharper.*"/>
+                <exclude name="**/*.cs" />
+                <exclude name="**/*.txt" />
+                <exclude name="**/*.resx" />
+                <exclude name="bin/*.xml" />
+                <exclude name="**/*.csproj" />
+                <exclude name="**/*.csproj.user" />
+                <exclude name="**/.cvsignore" />
+                <exclude name="**/.svn" />
+                <exclude name="obj/**" />
+                <exclude name="_Resharper.*" />
             </fileset>
         </copy>
 
