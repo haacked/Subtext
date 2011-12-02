@@ -853,6 +853,18 @@
     <Content Include="emoticons.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="App_Data\Packages\Colors.1.1.nupkg" />
+    <None Include="App_Data\Packages\Eco.1.0.nupkg" />
+    <None Include="App_Data\Packages\GlossyBlue.1.0.nupkg" />
+    <None Include="App_Data\Packages\Gradient.1.0.nupkg" />
+    <None Include="App_Data\Packages\KeyWest.0.9.nupkg" />
+    <None Include="App_Data\Packages\Mobile.1.0.nupkg" />
+    <None Include="App_Data\Packages\Naked.1.0.nupkg" />
+    <None Include="App_Data\Packages\Nature.1.0.nupkg" />
+    <None Include="App_Data\Packages\origami.1.0.nupkg" />
+    <None Include="App_Data\Packages\Piyo.1.0.nupkg" />
+    <None Include="App_Data\Packages\RedBook.1.0.nupkg" />
+    <None Include="App_Data\Packages\WPSkin.1.0.nupkg" />
     <None Include="packages.config" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
@@ -2441,7 +2453,6 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Packages\" />
     <Folder Include="Models\" />
     <Folder Include="Skins\Mobile\Images\" />
     <Folder Include="Skins\Mobile\Scripts\" />

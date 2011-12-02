@@ -478,7 +478,7 @@ IF EXISTS
 BEGIN
     UPDATE [subtext_Content] SET [subtext_Content].[DateCreatedUtc] = DateAdd(hh, cfg.[TimeZoneOffset], [DateAdded])
     FROM [subtext_Config] cfg INNER JOIN [subtext_Content] ON cfg.[BlogId] = [subtext_Content].[BlogId]
-    WHERE [subtext_Content].[DateCreatedUtc] IS NULL AND NOT [DateAdded] is NULL
+    WHERE [DateAdded] IS NOT NULL
 
     ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
     DROP COLUMN [DateAdded]
@@ -495,7 +495,7 @@ IF EXISTS
 BEGIN
     UPDATE [subtext_Content] SET [subtext_Content].[DateModifiedUtc] = DateAdd(hh, cfg.[TimeZoneOffset], [DateUpdated])
     FROM [subtext_Config] cfg INNER JOIN [subtext_Content] ON cfg.[BlogId] = [subtext_Content].[BlogId]
-    WHERE [subtext_Content].[DateModifiedUtc] IS NULL AND NOT [DateUpdated] is NULL
+    WHERE [DateUpdated] IS NOT NULL
 
     ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
     DROP COLUMN [DateUpdated]
@@ -512,7 +512,7 @@ IF EXISTS
 BEGIN
     UPDATE [subtext_Content] SET [DatePublishedUtc] = DateAdd(hh, cfg.[TimeZoneOffset], [DateSyndicated])
     FROM [subtext_Config] cfg INNER JOIN [subtext_Content] ON cfg.[BlogId] = [subtext_Content].[BlogId]
-    WHERE [DatePublishedUtc] is NULL and NOT [DateSyndicated] is NULL
+    WHERE [DateSyndicated] IS NOT NULL
 
     ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
     DROP COLUMN [DateSyndicated]
@@ -529,7 +529,7 @@ IF EXISTS
 BEGIN
     UPDATE [subtext_Feedback] SET [subtext_Feedback].[DateCreatedUtc] = DateAdd(hh, cfg.[TimeZoneOffset], [DateCreated])
     FROM [subtext_Config] cfg INNER JOIN [subtext_Feedback] ON cfg.[BlogId] = [subtext_Feedback].[BlogId]
-    WHERE [subtext_Feedback].[DateCreatedUtc] IS NULL AND NOT [DateCreated] is NULL
+    WHERE [DateCreated] IS NOT NULL
 
     ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback]
     DROP CONSTRAINT [DF_subtext_Feedback_DateCreated]
@@ -549,7 +549,7 @@ IF EXISTS
 BEGIN
     UPDATE [subtext_Feedback] SET [subtext_Feedback].[DateModifiedUtc] = DateAdd(hh, cfg.[TimeZoneOffset], [DateModified])
     FROM [subtext_Config] cfg INNER JOIN [subtext_Feedback] ON cfg.[BlogId] = [subtext_Feedback].[BlogId]
-    WHERE [subtext_Feedback].[DateModifiedUtc] IS NULL AND NOT [DateModified] is NULL
+    WHERE [DateModified] IS NOT NULL
 
     ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback]
     DROP CONSTRAINT [DF_subtext_Feedback_DateModified]
@@ -595,7 +595,7 @@ IF EXISTS
 BEGIN
     UPDATE [subtext_MetaTag] SET [subtext_MetaTag].[DateCreatedUtc] = DateAdd(hh, cfg.[TimeZoneOffset], [DateCreated])
     FROM [subtext_Config] cfg INNER JOIN [subtext_MetaTag] ON cfg.[BlogId] = [subtext_MetaTag].[BlogId]
-    WHERE [subtext_MetaTag].[DateCreatedUtc] IS NULL AND NOT [DateCreated] is NULL
+    WHERE [DateCreated] IS NOT NULL
 
     ALTER TABLE [<dbUser,varchar,dbo>].[subtext_MetaTag]
     DROP CONSTRAINT [DF_subtext_MetaTag_DateCreated]
