@@ -139,7 +139,7 @@ namespace Subtext.Web.App_Start
 
             kernel.Bind<RequestContext>().ToMethod(c => HttpContext.Current.Request.RequestContext).InRequestScope();
             kernel.Bind<IControllerActivator>().To<SubtextControllerActivator>().InSingletonScope();
-            kernel.Bind<IAccountService>().To<AccountService>().InSingletonScope();
+            kernel.Bind<IAccountService>().To<AccountService>().InRequestScope();
             kernel.Bind<IEntryPublisher>().To<EntryPublisher>().InRequestScope();
             kernel.Bind<FriendlyUrlSettings>().ToMethod(context => FriendlyUrlSettings.Settings).InRequestScope();
             kernel.Bind<FullTextSearchEngineSettings>().ToMethod(context => FullTextSearchEngineSettings.Settings).InRequestScope();
@@ -153,10 +153,10 @@ namespace Subtext.Web.App_Start
             kernel.Bind<OpmlWriter>().To<OpmlWriter>().InRequestScope();
             kernel.Bind<IKernel>().ToMethod(context => context.Kernel).InSingletonScope();
             kernel.Bind<Tracking>().ToMethod(context => Config.Settings.Tracking).InSingletonScope();
-            kernel.Bind<IInstallationManager>().To<InstallationManager>();
-            kernel.Bind<IInstaller>().ToMethod(context => new SqlInstaller(Config.ConnectionString));
+            kernel.Bind<IInstallationManager>().To<InstallationManager>().InRequestScope();
+            kernel.Bind<IInstaller>().ToMethod(context => new SqlInstaller(Config.ConnectionString)).InRequestScope();
             kernel.Bind<ISubtextContext>().To<SubtextContext>().InRequestScope();
-            kernel.Bind<LazyNotNull<HostInfo>>().ToMethod(context => new LazyNotNull<HostInfo>(() => HostInfo.Instance));
+            kernel.Bind<LazyNotNull<HostInfo>>().ToMethod(context => new LazyNotNull<HostInfo>(() => HostInfo.Instance)).InSingletonScope();
 
             var indexingSettings = FullTextSearchEngineSettings.Settings;
             if (indexingSettings.IsEnabled)

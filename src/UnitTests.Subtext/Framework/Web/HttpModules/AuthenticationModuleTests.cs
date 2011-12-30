@@ -89,36 +89,6 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
         }
 
         [Test]
-        public void HandleFormsAuthenticationTicket_WithRequestHavingNullAuthTicket_WritesExpiredCookie()
-        {
-            // arrange
-            Func<BlogRequest, HttpContextBase, string> loginFunc = (r, c) => "/foo/login.aspx";
-            var module = new AuthenticationModule();
-            var authCookie = new HttpCookie(".ASPXAUTH.42") { Value = null };
-            var cookies = new HttpCookieCollection { authCookie };
-            var httpContext = new Mock<HttpContextBase>();
-            httpContext.Stub(c => c.User);
-            httpContext.Setup(c => c.Request.Path).Returns("/");
-            httpContext.Setup(c => c.Request.QueryString).Returns(new NameValueCollection());
-            httpContext.Setup(c => c.Request.Cookies).Returns(cookies);
-            httpContext.Setup(c => c.Response.Redirect(It.IsAny<string>(), true));
-            var responseCookies = new HttpCookieCollection();
-            httpContext.Setup(c => c.Response.Cookies).Returns(responseCookies);
-            var blogRequest = new BlogRequest("localhost", string.Empty, new Uri("http://localhost"), false,
-                                              RequestLocation.Blog, "/") { Blog = new Blog { Id = 42 } };
-
-            // act
-            module.HandleFormsAuthenticationTicket(blogRequest, httpContext.Object, null);
-
-            // assert
-            var principal = httpContext.Object.User as GenericPrincipal;
-            Assert.IsNull(principal);
-            Assert.AreEqual(1, responseCookies.Count);
-            HttpCookie cookie = responseCookies[".ASPXAUTH.42"];
-            Assert.IsTrue(cookie.Expires.AddYears(20) < DateTime.Now);
-        }
-
-        [Test]
         public void AuthenticateRequest_WithRequestHavingValidAuthCookies_SetsUserToGenericPrincipalWithRoles()
         {
             // arrange

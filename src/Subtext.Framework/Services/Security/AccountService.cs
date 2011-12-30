@@ -18,9 +18,6 @@
 using System;
 using System.Security.Cryptography;
 using System.Web;
-using System.Web.Security;
-using log4net;
-using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Security
 {
@@ -37,16 +34,25 @@ namespace Subtext.Framework.Security
             private set;
         }
 
-        private readonly static ILog Log = new Log();
-
         public void Logout()
         {
             var request = SubtextContext.HttpContext.Request;
             var response = SubtextContext.HttpContext.Response;
             var cookieName = request.GetFullCookieName(SubtextContext.Blog);
-            var authCookie = new HttpCookie(cookieName) { Expires = DateTime.UtcNow.AddYears(-30) };
-            response.Cookies.Add(authCookie);
-            FormsAuthentication.SignOut();
+            if (request.Cookies[cookieName] != null)
+            {
+                var authCookie = new HttpCookie(cookieName)
+                {
+                    HttpOnly = true,
+                    Expires = DateTime.UtcNow.AddYears(-30),
+                    Value =
+                        request.Browser == null || request.Browser["supportsEmptyStringInCookieValue"] == "false"
+                            ? "Empty"
+                            : String.Empty
+                };
+                request.Cookies.Remove(cookieName);
+                response.Cookies.Add(authCookie);
+            }
         }
 
         public virtual void UpdatePassword(string password)

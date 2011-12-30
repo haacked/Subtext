@@ -17,18 +17,15 @@ namespace UnitTests.Subtext.Framework.Security
             // arrange
             var responseCookies = new HttpCookieCollection();
             var context = new Mock<ISubtextContext>();
+            var existingCookies = new HttpCookieCollection();
+            existingCookies.Add(new HttpCookie(".ASPXAUTH.HA.null"));
+            context.Setup(c => c.HttpContext.Request.Cookies).Returns(existingCookies);
             context.Setup(c => c.HttpContext.Request.QueryString).Returns(new NameValueCollection());
             context.Setup(c => c.HttpContext.Response.Cookies).Returns(responseCookies);
             var service = new AccountService(context.Object);
 
             // act
-            try
-            {
-                service.Logout();
-            }
-            catch // Exception thrown due to call to FormsAuthentication.SignOut();
-            {
-            }
+            service.Logout();
 
             // assert
             Assert.AreEqual(1, responseCookies.Count);

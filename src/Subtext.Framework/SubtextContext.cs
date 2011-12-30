@@ -15,6 +15,8 @@
 
 #endregion
 
+using System;
+using System.Reflection;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
@@ -46,7 +48,21 @@ namespace Subtext.Framework
 
         public HttpContextBase HttpContext
         {
-            get { return RequestContext.HttpContext; }
+            get
+            {
+#if DEBUG
+                if (System.Web.HttpContext.Current != null)
+                {
+                    var wrapper = RequestContext.HttpContext;
+                    var innerContext = wrapper.GetType().GetField("_context", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(wrapper) as HttpContext;
+                    if (innerContext != System.Web.HttpContext.Current)
+                    {
+                        throw new InvalidOperationException("The wrapped HttpContext does not match the current one.");
+                    }
+                }
+#endif
+                return RequestContext.HttpContext;
+            }
         }
 
         public BlogUrlHelper UrlHelper { get; private set; }
