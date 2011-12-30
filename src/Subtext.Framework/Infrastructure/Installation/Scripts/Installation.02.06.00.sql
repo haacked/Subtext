@@ -1,4 +1,87 @@
-﻿/* Adds new UTC based date columns and converts all the old data into these new columns */
+﻿IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DropColumnCascading]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_DropColumnCascading]
+GO
+
+/*
+Following procedure adapted from a StackOverflow answer (http://stackoverflow.com/a/7251546/598) 
+by Steve (http://stackoverflow.com/users/634027/steve).
+
+Answer licensed under the Creative Commons Share Alike license http://creativecommons.org/licenses/by-sa/3.0/
+*/
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_DropColumnCascading]
+(
+    @tablename nvarchar(500), 
+    @columnname nvarchar(500)
+)
+AS
+    SELECT CONSTRAINT_NAME, 'C' AS type
+    INTO #dependencies
+    FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE WHERE TABLE_NAME = @tablename AND COLUMN_NAME = @columnname
+
+    INSERT INTO #dependencies
+    select d.name, 'C'
+    from sys.default_constraints d
+    join sys.columns c ON c.column_id = d.parent_column_id AND c.object_id = d.parent_object_id
+    join sys.objects o ON o.object_id = d.parent_object_id
+    WHERE o.name = @tablename AND c.name = @columnname
+
+    INSERT INTO #dependencies
+    SELECT i.name, 'I'
+    FROM sys.indexes i
+    JOIN sys.index_columns ic ON ic.index_id = i.index_id and ic.object_id=i.object_id
+    JOIN sys.columns c ON c.column_id = ic.column_id and c.object_id=i.object_id
+    JOIN sys.objects o ON o.object_id = i.object_id
+    where o.name = @tableName AND i.type=2 AND c.name = @columnname AND is_unique_constraint = 0
+
+    INSERT INTO #dependencies
+    SELECT s.NAME, 'S'
+    FROM sys.stats AS s
+    INNER JOIN sys.stats_columns AS sc 
+        ON s.object_id = sc.object_id AND s.stats_id = sc.stats_id
+    INNER JOIN sys.columns AS c 
+        ON sc.object_id = c.object_id AND c.column_id = sc.column_id
+    WHERE s.object_id = OBJECT_ID(@tableName)
+    AND c.NAME = @columnname
+    AND s.NAME LIKE '_dta_stat%'
+
+    DECLARE @dep_name nvarchar(500)
+    DECLARE @type nchar(1)
+
+    DECLARE dep_cursor CURSOR
+    FOR SELECT * FROM #dependencies
+
+    OPEN dep_cursor
+
+    FETCH NEXT FROM dep_cursor 
+    INTO @dep_name, @type;
+
+    DECLARE @sql nvarchar(max)
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        SET @sql = 
+            CASE @type
+                WHEN 'C' THEN 'ALTER TABLE [' + @tablename + '] DROP CONSTRAINT [' + @dep_name + ']'
+                WHEN 'I' THEN 'DROP INDEX [' + @dep_name + '] ON dbo.[' + @tablename + ']'
+                WHEN 'S' THEN 'DROP STATISTICS [' + @tablename + '].[' + @dep_name + ']'
+            END
+        print @sql
+        EXEC sp_executesql @sql
+        FETCH NEXT FROM dep_cursor 
+        INTO @dep_name, @type;
+    END
+
+    DEALLOCATE dep_cursor
+
+    DROP TABLE #dependencies
+
+    SET @sql = 'ALTER TABLE [' + @tablename + '] DROP COLUMN [' + @columnname + ']'
+
+    print @sql
+    EXEC sp_executesql @sql
+GO	
+
+/* Adds new UTC based date columns and converts all the old data into these new columns */
 IF NOT EXISTS 
 (
     SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] 
@@ -480,8 +563,7 @@ BEGIN
     FROM [subtext_Config] cfg INNER JOIN [subtext_Content] ON cfg.[BlogId] = [subtext_Content].[BlogId]
     WHERE [DateAdded] IS NOT NULL
 
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
-    DROP COLUMN [DateAdded]
+    EXEC subtext_DropColumnCascading 'subtext_Content', 'DateAdded'
 END
 GO
 
@@ -497,8 +579,7 @@ BEGIN
     FROM [subtext_Config] cfg INNER JOIN [subtext_Content] ON cfg.[BlogId] = [subtext_Content].[BlogId]
     WHERE [DateUpdated] IS NOT NULL
 
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
-    DROP COLUMN [DateUpdated]
+    EXEC subtext_DropColumnCascading 'subtext_Content', 'DateUpdated'
 END
 GO
 
@@ -514,8 +595,7 @@ BEGIN
     FROM [subtext_Config] cfg INNER JOIN [subtext_Content] ON cfg.[BlogId] = [subtext_Content].[BlogId]
     WHERE [DateSyndicated] IS NOT NULL
 
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
-    DROP COLUMN [DateSyndicated]
+    EXEC subtext_DropColumnCascading 'subtext_Content', 'DateSyndicated' 
 END
 GO
 
@@ -531,11 +611,7 @@ BEGIN
     FROM [subtext_Config] cfg INNER JOIN [subtext_Feedback] ON cfg.[BlogId] = [subtext_Feedback].[BlogId]
     WHERE [DateCreated] IS NOT NULL
 
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback]
-    DROP CONSTRAINT [DF_subtext_Feedback_DateCreated]
-
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback]
-    DROP COLUMN [DateCreated]
+    EXEC subtext_DropColumnCascading 'subtext_Feedback', 'DateCreated'
 END
 GO
 
@@ -551,11 +627,7 @@ BEGIN
     FROM [subtext_Config] cfg INNER JOIN [subtext_Feedback] ON cfg.[BlogId] = [subtext_Feedback].[BlogId]
     WHERE [DateModified] IS NOT NULL
 
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback]
-    DROP CONSTRAINT [DF_subtext_Feedback_DateModified]
-
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Feedback]
-    DROP COLUMN [DateModified]
+    EXEC subtext_DropColumnCascading 'subtext_Feedback', 'DateModified'
 END
 GO
 
@@ -567,8 +639,7 @@ IF EXISTS
     AND COLUMN_NAME = 'DateCreated'
 )
 BEGIN
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Host]
-    DROP COLUMN [DateCreated]
+    EXEC subtext_DropColumnCascading 'subtext_Host', 'DateCreated'
 END
 GO
 
@@ -580,8 +651,7 @@ IF EXISTS
     AND COLUMN_NAME = 'DateCreated'
 )
 BEGIN
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Version]
-    DROP COLUMN [DateCreated]
+    EXEC subtext_DropColumnCascading 'subtext_Version', 'DateCreated'
 END
 GO
 
@@ -597,11 +667,7 @@ BEGIN
     FROM [subtext_Config] cfg INNER JOIN [subtext_MetaTag] ON cfg.[BlogId] = [subtext_MetaTag].[BlogId]
     WHERE [DateCreated] IS NOT NULL
 
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_MetaTag]
-    DROP CONSTRAINT [DF_subtext_MetaTag_DateCreated]
-
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_MetaTag]
-    DROP COLUMN [DateCreated]
+    EXEC subtext_DropColumnCascading 'subtext_MetaTag', 'DateCreated'
 END
 GO
 
@@ -615,8 +681,7 @@ IF EXISTS
 BEGIN
     UPDATE [<dbUser,varchar,dbo>].[subtext_Config] 
     SET [DateCreatedUtc] = ISNULL([LastUpdated], getutcdate())
-    
-    ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
-    DROP COLUMN [LastUpdated]
+
+    EXEC subtext_DropColumnCascading 'subtext_Config', 'LastUpdated'
 END
 GO
