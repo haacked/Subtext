@@ -38,18 +38,26 @@ namespace Subtext.Framework.Security
         {
             var request = SubtextContext.HttpContext.Request;
             var response = SubtextContext.HttpContext.Response;
-            var cookieName = request.GetFullCookieName(SubtextContext.Blog);
+
+            LogoutCookie(response, request, SubtextContext.Blog);
+            LogoutCookie(response, request, null /* Host Admin */);
+        }
+
+        private static void LogoutCookie(HttpResponseBase response, HttpRequestBase request, Blog blog)
+        {
+            var cookieName = request.GetFullCookieName(blog);
             if (request.Cookies[cookieName] != null)
             {
                 var authCookie = new HttpCookie(cookieName)
-                {
-                    HttpOnly = true,
-                    Expires = DateTime.UtcNow.AddYears(-30),
-                    Value =
-                        request.Browser == null || request.Browser["supportsEmptyStringInCookieValue"] == "false"
-                            ? "Empty"
-                            : String.Empty
-                };
+                                 {
+                                     HttpOnly = true,
+                                     Expires = DateTime.UtcNow.AddYears(-30),
+                                     Value =
+                                         request.Browser == null ||
+                                         request.Browser["supportsEmptyStringInCookieValue"] == "false"
+                                             ? "Empty"
+                                             : String.Empty
+                                 };
                 request.Cookies.Remove(cookieName);
                 response.Cookies.Add(authCookie);
             }

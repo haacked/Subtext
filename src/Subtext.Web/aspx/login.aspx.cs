@@ -96,13 +96,15 @@ namespace Subtext.Web.Pages
             if (isAdmin)
             {
                 roles[0] = "Admins";
+                SubtextContext.HttpContext.SetAuthenticationTicket(blog, username, persist, roles.Where(s => s != null).ToArray());
+
             }
             if (isHostAdmin)
             {
                 roles[1] = "HostAdmins";
+                SubtextContext.HttpContext.SetAuthenticationTicket(null, username, persist, forceHostAdmin: true, roles: roles.Where(s => s != null).ToArray());
             }
 
-            SubtextContext.HttpContext.SetAuthenticationTicket(blog, username, persist, roles.Where(s => s != null).ToArray());
             ReturnToUrl(returnUrl);
         }
 
