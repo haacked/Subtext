@@ -33,15 +33,15 @@ namespace SubtextUpgrader
 
         protected IFile SkinsConfigFile
         {
-            get; 
+            get;
             private set;
         }
 
-        public XmlDocument Xml 
-        { 
+        public XmlDocument Xml
+        {
             get
             {
-                if(_xml == null)
+                if (_xml == null)
                 {
                     _xml = SkinsConfigFile.ToXml();
                 }
@@ -59,7 +59,7 @@ namespace SubtextUpgrader
         {
             var skinConfigTemplate = "<SkinTemplates />".ToXml();
             var xmlDocs = Xml.ExtractDocuments("/SkinTemplates/Skins/SkinTemplate", skinConfigTemplate);
-            foreach(XmlDocument configXml in xmlDocs)
+            foreach (XmlDocument configXml in xmlDocs)
             {
                 var templateNode = configXml.SelectSingleNode("/SkinTemplates/SkinTemplate");
                 XmlAttribute templateFolderAttribute = templateNode.Attributes["TemplateFolder"];
@@ -73,7 +73,7 @@ namespace SubtextUpgrader
         {
             var oldSkinsDirectory = SkinsConfigFile.Directory.Parent.Combine("Skins");
 
-            foreach(var skin in GetNewSkinConfigs())
+            foreach (var skin in GetNewSkinConfigs())
             {
                 IDirectory skinDirectory = newSkinsDirectory.Combine(skin.TemplateFolder).Ensure();
                 oldSkinsDirectory.Combine(skin.TemplateFolder).CopyTo(skinDirectory);

@@ -25,7 +25,7 @@ namespace SubtextUpgrader
         Stream OpenWrite();
         bool Exists { get; }
         string CombinePath(string path);
-        IDirectory Directory { get;  }
+        IDirectory Directory { get; }
         IFile CopyTo(string path);
         IFile CopyTo(IDirectory directory);
         IFile Overwrite(IFile file);

@@ -30,13 +30,13 @@ namespace SubtextUpgrader
 
         protected FileInfo File
         {
-            get; 
+            get;
             private set;
         }
 
         public string Path
         {
-            get; 
+            get;
             private set;
         }
 
@@ -50,15 +50,15 @@ namespace SubtextUpgrader
         {
             get
             {
-               if(_contents == null)
-               {
-                   using(var stream = File.OpenRead())
-                   using(var reader = new StreamReader(stream))
-                   {
-                       _contents = reader.ReadToEnd();
-                   }
-               }
-               return _contents;
+                if (_contents == null)
+                {
+                    using (var stream = File.OpenRead())
+                    using (var reader = new StreamReader(stream))
+                    {
+                        _contents = reader.ReadToEnd();
+                    }
+                }
+                return _contents;
             }
         }
 
@@ -82,7 +82,7 @@ namespace SubtextUpgrader
         {
             get
             {
-                if(_directory == null)
+                if (_directory == null)
                 {
                     _directory = new SubtextDirectory(File.Directory);
                 }
@@ -119,7 +119,7 @@ namespace SubtextUpgrader
 
         public void Delete()
         {
-            if(File.Exists)
+            if (File.Exists)
             {
                 File.Delete();
             }

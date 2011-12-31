@@ -18,20 +18,24 @@
 using System;
 using System.Windows.Forms;
 
-namespace SubtextUpgrader {
-	/// <summary>
-	/// This tool is used to help upgrade existing installations of 
-	/// Subtext to the latest version.
-	/// </summary>
-	public class Program {
-		[STAThread]
-		static void Main(string[] args) {
-			if (args.Length == 0) {
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
-				Application.Run(new UpgradeForm());
-				return;
-			}
-		}
-	}
+namespace SubtextUpgrader
+{
+    /// <summary>
+    /// This tool is used to help upgrade existing installations of 
+    /// Subtext to the latest version.
+    /// </summary>
+    public class Program
+    {
+        [STAThread]
+        static void Main(string[] args)
+        {
+            if (args.Length == 0)
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new UpgradeForm());
+                return;
+            }
+        }
+    }
 }

@@ -60,7 +60,7 @@ namespace SubtextUpgrader
 
         private static string ReplaceDeprecatedSecurityHelperCalls(string content)
         {
-            var regex = new Regex(@"(?<![a-zA-Z])User.IsAdministrator()(?![a-zA-Z])", RegexOptions.Compiled);
+            var regex = new Regex(@"(?<![a-zA-Z])User.IsAdministrator\(\)(?![a-zA-Z])", RegexOptions.Compiled);
             return regex.Replace(content, "User.IsAdministrator()");
         }
 

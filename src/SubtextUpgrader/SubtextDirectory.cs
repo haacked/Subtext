@@ -23,7 +23,8 @@ namespace SubtextUpgrader
 {
     public class SubtextDirectory : IDirectory
     {
-        public SubtextDirectory(string path) : this(new DirectoryInfo(path))
+        public SubtextDirectory(string path)
+            : this(new DirectoryInfo(path))
         {
         }
 
@@ -34,7 +35,7 @@ namespace SubtextUpgrader
 
         protected DirectoryInfo PhysicalDirectory
         {
-            get; 
+            get;
             private set;
         }
 
@@ -48,7 +49,7 @@ namespace SubtextUpgrader
 
         public string Path
         {
-            get 
+            get
             {
                 return PhysicalDirectory.FullName;
             }
@@ -66,7 +67,7 @@ namespace SubtextUpgrader
         {
             get
             {
-                if(_parent == null)
+                if (_parent == null)
                 {
                     _parent = new SubtextDirectory(PhysicalDirectory.Parent);
                 }
@@ -99,7 +100,7 @@ namespace SubtextUpgrader
 
         public virtual IEnumerable<IFile> GetFiles()
         {
-            foreach(var file in PhysicalDirectory.GetFiles())
+            foreach (var file in PhysicalDirectory.GetFiles())
             {
                 yield return new SubtextFile(file);
             }
@@ -107,7 +108,7 @@ namespace SubtextUpgrader
 
         public virtual IEnumerable<IDirectory> GetDirectories()
         {
-            foreach(var directory in PhysicalDirectory.GetDirectories())
+            foreach (var directory in PhysicalDirectory.GetDirectories())
             {
                 yield return new SubtextDirectory(directory);
             }
@@ -115,7 +116,7 @@ namespace SubtextUpgrader
 
         public void Delete(bool recursive)
         {
-            if(PhysicalDirectory.Exists)
+            if (PhysicalDirectory.Exists)
             {
                 PhysicalDirectory.Delete(recursive);
             }
@@ -133,7 +134,7 @@ namespace SubtextUpgrader
             foreach (var file in GetFiles())
             {
                 var destinationFile = destination.CombineFile(file.Name);
-                
+
                 if (!destinationFile.Exists || shouldOverwriteExistingFile(file))
                     file.CopyTo(destination);
 
@@ -152,7 +153,7 @@ namespace SubtextUpgrader
 
         public IDirectory Ensure()
         {
-            if(!Exists)
+            if (!Exists)
             {
                 Create();
             }

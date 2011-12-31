@@ -15,8 +15,8 @@
 
 #endregion
 
-using System.Xml;
 using System.IO;
+using System.Xml;
 
 namespace SubtextUpgrader
 {
@@ -25,7 +25,7 @@ namespace SubtextUpgrader
         public static IFile CreateXmlFile(this IDirectory directory, string filename, XmlDocument xml)
         {
             IFile file = directory.CombineFile(filename);
-            using(var stream = file.OpenWrite())
+            using (var stream = file.OpenWrite())
             {
                 xml.Save(stream);
             }
@@ -35,7 +35,7 @@ namespace SubtextUpgrader
         public static string ToStringContents(this MemoryStream stream)
         {
             stream.Position = 0;
-            using(var reader = new StreamReader(stream))
+            using (var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
             }

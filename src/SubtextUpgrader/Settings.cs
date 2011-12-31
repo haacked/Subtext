@@ -19,15 +19,17 @@ namespace SubtextUpgrader
 {
     public class Settings
     {
-		public Settings() { }
+        public Settings() { }
 
-		public Settings(string sourceDirectory, string upgradeTargetDirectory, bool quietMode, string backupDirectory, bool verbose) : this() {
-			SourceDirectory = sourceDirectory;
-			UpgradeTargetDirectory = upgradeTargetDirectory;
-			QuietMode = quietMode;
-			BackupDirectory = backupDirectory;
-			Verbose = verbose;
-		}
+        public Settings(string sourceDirectory, string upgradeTargetDirectory, bool quietMode, string backupDirectory, bool verbose)
+            : this()
+        {
+            SourceDirectory = sourceDirectory;
+            UpgradeTargetDirectory = upgradeTargetDirectory;
+            QuietMode = quietMode;
+            BackupDirectory = backupDirectory;
+            Verbose = verbose;
+        }
 
         public string SourceDirectory { get; private set; }
 

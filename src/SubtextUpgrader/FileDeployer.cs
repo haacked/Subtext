@@ -29,7 +29,7 @@ namespace SubtextUpgrader
 
         public IDirectory WebRoot
         {
-            get; 
+            get;
             private set;
         }
 
@@ -49,7 +49,7 @@ namespace SubtextUpgrader
         public void RemoveOldDirectories()
         {
             var folderNames = new[] { "Admin", "HostAdmin", "Install", "SystemMessages", "Providers", "Sitemap" };
-            foreach(var folderName in folderNames)
+            foreach (var folderName in folderNames)
             {
                 Destination.Combine(folderName).Delete(true /*recursive*/);
             }
@@ -65,8 +65,8 @@ namespace SubtextUpgrader
                                     @"bin\Subtext.Akismet.dll", @"bin\Subtext.Web.Controls.dll", 
                                     @"bin\DotNetOpenId.dll", @"bin\WebControlCaptcha.dll", 
                                     @"bin\PostBackRitalin.dll"};
-            
-            foreach(var fileName in fileNames)
+
+            foreach (var fileName in fileNames)
             {
                 Destination.CombineFile(fileName).Delete();
             }
