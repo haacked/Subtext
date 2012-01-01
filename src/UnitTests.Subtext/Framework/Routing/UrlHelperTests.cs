@@ -807,10 +807,10 @@ namespace UnitTests.Subtext.Framework.Routing
             BlogUrlHelper helper = SetupUrlHelper("/");
 
             //act
-            string url = helper.CategoryRssUrl(new LinkCategory { Id = 1234, Title = "MyCategory" });
+            string url = helper.CategoryRssUrl(new LinkCategory { Id = 1234, Title = "My.Category" });
 
             //assert
-            Assert.AreEqual("/category/MyCategory/rss", url);
+            Assert.AreEqual("/category/My.Category/rss", url);
         }
 
         [Test]

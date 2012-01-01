@@ -87,7 +87,7 @@ public static class Routes
         routes.MapHttpHandler<BlogSecondaryCssHandler>("customcss", "customcss.aspx");
         //TODO: routes.MapHttpHandler<CategoryRedirectHandler>("category-redirect", "category/{category}.aspx/rss", new { category = @"\d+" });
         routes.MapHttpHandler<RssCategoryHandler>("category-rss", "category/{slug}/rss",
-                                                  new { slug = @"[-\w\s\d]+" });
+                                                  new { slug = @"[-\w\s\d\.]+" });
         routes.MapHttpHandler<OpmlHandler>("opml", "opml.xml.ashx");
 
         routes.MapPagesToControlOfSameName("contact", "ArchivePostPage", "ArticleCategories", "search");
