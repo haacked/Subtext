@@ -28,6 +28,7 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Util;
 
 //Need to remove Global.X calls ...just seems unclean
 //Maybe create a another class formatter ...Format.Entry(ref Entry entry) 
@@ -95,7 +96,7 @@ namespace Subtext.Framework.Data
                     {
                         if (value != null && value.GetType() == typeof(DateTime) && property != null && property.Name != null && property.Name.EndsWith("Utc", StringComparison.OrdinalIgnoreCase))
                         {
-                            property.SetValue(item, new DateTime(((DateTime)value).Ticks, DateTimeKind.Utc));
+                            property.SetValue(item, ((DateTime)value).AsUtc());
                             continue;
                         }
 
@@ -130,8 +131,7 @@ namespace Subtext.Framework.Data
 
         public static DateTime ReadDateTimeUtc(this IDataReader reader, string columnName)
         {
-            var dateTime = reader.ReadValue<DateTime>(columnName);
-            return new DateTime(dateTime.Ticks, DateTimeKind.Utc);
+            return reader.ReadValue<DateTime>(columnName).AsUtc();
         }
 
         public static T ReadValue<T>(this IDataReader reader, string columnName)

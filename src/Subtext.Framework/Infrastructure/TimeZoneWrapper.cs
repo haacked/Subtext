@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using Subtext.Framework.Util;
 
 namespace Subtext.Infrastructure
 {
@@ -64,7 +65,7 @@ namespace Subtext.Infrastructure
         {
             if (dateTime.Kind != DateTimeKind.Utc)
             {
-                dateTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Millisecond, DateTimeKind.Unspecified);
+                dateTime = dateTime.AsUtc();
             }
             return FromTimeZone(dateTime, TimeZoneInfo.Utc);
         }

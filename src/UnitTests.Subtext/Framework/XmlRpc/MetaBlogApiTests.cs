@@ -130,22 +130,26 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             var entryPublisher = new Mock<IEntryPublisher>();
             entryPublisher.Setup(publisher => publisher.Publish(It.IsAny<Entry>())).Returns(42).Callback<Entry>(
                 entry => publishedEntry = entry);
-            DateTime now = DateTime.UtcNow;
+            var utcNow = DateTime.UtcNow;
+            var now = new DateTime(utcNow.Year, utcNow.Month, utcNow.Day, utcNow.Hour, utcNow.Minute, utcNow.Second, DateTimeKind.Unspecified);
 
             var api = new MetaWeblog(subtextContext.Object, entryPublisher.Object);
-            var post = new Post();
-            post.categories = null;
-            post.description = "A unit test";
-            post.title = "A unit testing title";
-            post.dateCreated = now.AddDays(1);
+            var post = new Post
+                       {
+                           categories = null,
+                           description = "A unit test",
+                           title = "A unit testing title",
+                           dateCreated = now.AddDays(1)
+                       };
 
             // act
-            string result = api.newPost(blog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
+            api.newPost(blog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
 
             // assert
             Assert.IsNotNull(publishedEntry);
             Assert.Greater(publishedEntry.DateSyndicated, now.AddDays(.75));
             Assert.LowerEqualThan(publishedEntry.DateSyndicated, now.AddDays(1));
+            Assert.AreEqual(publishedEntry.DatePublishedUtc.Kind, DateTimeKind.Utc);
         }
 
         [Test]

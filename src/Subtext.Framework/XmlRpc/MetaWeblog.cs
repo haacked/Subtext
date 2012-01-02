@@ -477,7 +477,7 @@ namespace Subtext.Framework.XmlRpc
             entry.AllowComments = true;
             entry.DisplayOnHomePage = true;
 
-            DateTime dateTimeInPostUtc = post.dateCreated != null ? post.dateCreated.Value : DateTime.UtcNow;
+            DateTime dateTimeInPostUtc = post.dateCreated != null ? post.dateCreated.Value.AsUtc() : DateTime.UtcNow;
 
             if (publish)
             {

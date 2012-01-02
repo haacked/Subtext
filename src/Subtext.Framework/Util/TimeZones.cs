@@ -52,5 +52,10 @@ namespace Subtext.Framework.Util
                     where timeZone.Id == timeZoneId
                     select timeZone).FirstOrDefault();
         }
+
+        public static DateTime AsUtc(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Ticks, DateTimeKind.Utc);
+        }
     }
 }
