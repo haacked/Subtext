@@ -29,7 +29,7 @@ namespace Subtext.Framework.Text
 
         public FormatExpression(string expression)
         {
-            if(!expression.StartsWith("{") || !expression.EndsWith("}"))
+            if (!expression.StartsWith("{") || !expression.EndsWith("}"))
             {
                 _invalidExpression = true;
                 Expression = expression;
@@ -39,7 +39,7 @@ namespace Subtext.Framework.Text
             string expressionWithoutBraces = expression.Substring(1
                                                                   , expression.Length - 2);
             int colonIndex = expressionWithoutBraces.IndexOf(':');
-            if(colonIndex < 0)
+            if (colonIndex < 0)
             {
                 Expression = expressionWithoutBraces;
             }
@@ -58,20 +58,20 @@ namespace Subtext.Framework.Text
 
         public string Eval(object o)
         {
-            if(_invalidExpression)
+            if (_invalidExpression)
             {
                 throw new FormatException(Resources.Format_InvalidExpression);
             }
 
             try
             {
-                if(String.IsNullOrEmpty(Format))
+                if (String.IsNullOrEmpty(Format))
                 {
                     return (DataBinder.Eval(o, Expression) ?? string.Empty).ToString();
                 }
                 return (DataBinder.Eval(o, Expression, "{0:" + Format + "}") ?? string.Empty);
             }
-            catch(HttpException e)
+            catch (HttpException e)
             {
                 throw new FormatException(
                     String.Format(CultureInfo.InvariantCulture, Resources.Format_CouldNotFormatExpression, Expression,

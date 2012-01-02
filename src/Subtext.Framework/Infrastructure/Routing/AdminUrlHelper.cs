@@ -46,7 +46,7 @@ namespace Subtext.Framework.Routing
 
         public VirtualPath Export(bool embedAttachments)
         {
-            return Url.GetVirtualPath("export", new RouteValueDictionary{ {"embed", embedAttachments }});
+            return Url.GetVirtualPath("export", new RouteValueDictionary { { "embed", embedAttachments } });
         }
 
         public VirtualPath PostsList()
@@ -62,7 +62,7 @@ namespace Subtext.Framework.Routing
         //TODO: Unit test
         public VirtualPath PostsEdit(int id)
         {
-            return Url.AdminUrl("posts/edit.aspx", new {PostId = id});
+            return Url.AdminUrl("posts/edit.aspx", new { PostId = id });
         }
 
         public VirtualPath ArticlesList()
@@ -88,7 +88,7 @@ namespace Subtext.Framework.Routing
         //TODO: Unit test
         public VirtualPath FeedbackEdit(int id)
         {
-            var routeValues = new RouteValueDictionary {{"return-to-post", "true"}, {"FeedbackID", id}};
+            var routeValues = new RouteValueDictionary { { "return-to-post", "true" }, { "FeedbackID", id } };
             return Url.AdminUrl("feedback/edit.aspx", routeValues);
         }
 
@@ -129,7 +129,7 @@ namespace Subtext.Framework.Routing
 
         public VirtualPath EditCategories(CategoryType categoryType)
         {
-            return Url.AdminUrl("EditCategories.aspx", new {catType = categoryType});
+            return Url.AdminUrl("EditCategories.aspx", new { catType = categoryType });
         }
 
         public VirtualPath EditGalleries()

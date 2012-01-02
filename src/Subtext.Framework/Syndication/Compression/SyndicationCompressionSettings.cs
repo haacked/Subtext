@@ -30,9 +30,10 @@ namespace Subtext.Framework.Syndication.Compression
 
         #region -- Constructor(XmlNode) --
 
-        public SyndicationCompressionSettings(XmlNode node) : this()
+        public SyndicationCompressionSettings(XmlNode node)
+            : this()
         {
-            if(node == null)
+            if (node == null)
             {
                 return;
             }
@@ -88,7 +89,7 @@ namespace Subtext.Framework.Syndication.Compression
 
             settings = (SyndicationCompressionSettings)ConfigurationManager.GetSection("SyndicationCompression");
 
-            if(settings == null)
+            if (settings == null)
             {
                 settings = DefaultSettings;
             }

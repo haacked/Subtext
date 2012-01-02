@@ -11,7 +11,8 @@ namespace Subtext.Scripting.Exceptions
         {
         }
 
-        public SqlParseException(string message) : base(message)
+        public SqlParseException(string message)
+            : base(message)
         {
         }
 
@@ -20,7 +21,8 @@ namespace Subtext.Scripting.Exceptions
         {
         }
 
-        protected SqlParseException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected SqlParseException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
 

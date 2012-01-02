@@ -47,7 +47,7 @@ namespace Subtext.Framework.Util
         public static string UnpackEmbeddedResource(string resourceName, Encoding encoding)
         {
             Stream stream = UnpackEmbeddedResource(resourceName);
-            using(var reader = new StreamReader(stream))
+            using (var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
             }

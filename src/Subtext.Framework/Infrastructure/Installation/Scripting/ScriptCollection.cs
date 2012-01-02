@@ -58,7 +58,7 @@ namespace Subtext.Scripting
             {
                 var builder = new StringBuilder();
                 ApplyTemplatesToScripts();
-                foreach(Script script in this)
+                foreach (Script script in this)
                 {
                     builder.Append(script.ScriptText);
                     builder.Append(Environment.NewLine);
@@ -80,10 +80,10 @@ namespace Subtext.Scripting
         {
             get
             {
-                if(_templateParameters == null)
+                if (_templateParameters == null)
                 {
                     _templateParameters = new TemplateParameterCollection();
-                    foreach(Script script in this)
+                    foreach (Script script in this)
                     {
                         _templateParameters.AddRange(script.TemplateParameters);
                     }
@@ -103,12 +103,12 @@ namespace Subtext.Scripting
         /// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="Script"/>s to add to the collection. </param>
         public void AddRange(IEnumerable<Script> value)
         {
-            if(value == null)
+            if (value == null)
             {
                 throw new ArgumentNullException("value");
             }
 
-            foreach(Script script in value)
+            foreach (Script script in value)
             {
                 Add(script);
             }
@@ -116,11 +116,11 @@ namespace Subtext.Scripting
 
         internal void ApplyTemplatesToScripts()
         {
-            foreach(TemplateParameter parameter in TemplateParameters)
+            foreach (TemplateParameter parameter in TemplateParameters)
             {
-                foreach(Script script in this)
+                foreach (Script script in this)
                 {
-                    if(script.TemplateParameters.Contains(parameter.Name))
+                    if (script.TemplateParameters.Contains(parameter.Name))
                     {
                         script.TemplateParameters[parameter.Name].Value = parameter.Value;
                     }

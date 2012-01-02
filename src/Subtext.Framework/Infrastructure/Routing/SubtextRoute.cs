@@ -37,7 +37,7 @@ namespace Subtext.Framework.Routing
             {
                 SubfolderRoute subfolderRoute = _subfolderRoute;
                 //Not going to lock...
-                if(subfolderRoute == null)
+                if (subfolderRoute == null)
                 {
                     subfolderRoute = new SubfolderRoute(this);
                     _subfolderRoute = subfolderRoute;
@@ -49,10 +49,10 @@ namespace Subtext.Framework.Routing
         public virtual RouteData GetRouteData(HttpContextBase httpContext, BlogRequest blogRequest)
         {
             RouteData routeData;
-            if(String.IsNullOrEmpty(blogRequest.Subfolder))
+            if (String.IsNullOrEmpty(blogRequest.Subfolder))
             {
                 routeData = base.GetRouteData(httpContext);
-                if(routeData != null)
+                if (routeData != null)
                 {
                     //Add current subfolder info.
                     routeData.Values.Add("subfolder", string.Empty);
@@ -75,11 +75,11 @@ namespace Subtext.Framework.Routing
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
             var subfolderInRouteData = requestContext.RouteData.Values["subfolder"] as string;
-            if(String.IsNullOrEmpty(subfolderInRouteData) && values != null)
+            if (String.IsNullOrEmpty(subfolderInRouteData) && values != null)
             {
                 subfolderInRouteData = values["subfolder"] as string;
             }
-            if(String.IsNullOrEmpty(subfolderInRouteData))
+            if (String.IsNullOrEmpty(subfolderInRouteData))
             {
                 return base.GetVirtualPath(requestContext, values);
             }

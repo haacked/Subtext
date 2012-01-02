@@ -37,7 +37,7 @@ namespace Subtext.Framework.Emoticons
         public EmoticonsFileSource(string path)
         {
             _path = path ?? _subtextContext.RequestContext.HttpContext.Request.MapPath("~/emoticons.txt");
-            if(!String.IsNullOrEmpty(_path))
+            if (!String.IsNullOrEmpty(_path))
             {
                 _reader = File.OpenText(_path);
             }
@@ -52,7 +52,7 @@ namespace Subtext.Framework.Emoticons
 
         public void Dispose()
         {
-            if(_reader != null)
+            if (_reader != null)
             {
                 _reader.Dispose();
             }
@@ -64,7 +64,7 @@ namespace Subtext.Framework.Emoticons
 
         public IEnumerable<Emoticon> GetEmoticons()
         {
-            if(_reader == null)
+            if (_reader == null)
             {
                 return new List<Emoticon>();
             }
@@ -76,7 +76,7 @@ namespace Subtext.Framework.Emoticons
         private IEnumerable<Emoticon> GetEnumerable()
         {
             string emoticonText = _reader.ReadLine();
-            while(emoticonText != null)
+            while (emoticonText != null)
             {
                 string imageTag = _reader.ReadLine();
                 yield return new Emoticon(emoticonText, imageTag);

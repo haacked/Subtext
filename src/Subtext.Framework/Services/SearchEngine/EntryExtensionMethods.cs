@@ -42,7 +42,7 @@ namespace Subtext.Framework.Services.SearchEngine
                            IsPublished = entry.IsActive,
                            EntryId = entry.Id,
                            PublishDate = entry.DateSyndicated,
-                           Tags = String.Join(",",tags.ToArray()),
+                           Tags = String.Join(",", tags.ToArray()),
                            Title = entry.Title,
                            EntryName = entry.EntryName
                        };

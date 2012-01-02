@@ -76,7 +76,7 @@ namespace Subtext.Framework.Exceptions
             get
             {
                 string blogCountClause = Resources.IsAnotherBlog;
-                if(BlogsWithSameHostCount >= 1)
+                if (BlogsWithSameHostCount >= 1)
                 {
                     blogCountClause = String.Format(CultureInfo.InvariantCulture, Resources.BlogCountClause,
                                                     BlogsWithSameHostCount);

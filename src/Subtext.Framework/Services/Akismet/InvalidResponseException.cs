@@ -43,7 +43,8 @@ namespace Subtext.Akismet
         /// Initializes a new instance of the <see cref="InvalidResponseException"/> class.
         /// </summary>
         /// <param name="message">The message.</param>
-        public InvalidResponseException(string message) : base(message)
+        public InvalidResponseException(string message)
+            : base(message)
         {
         }
 
@@ -52,19 +53,22 @@ namespace Subtext.Akismet
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
-        public InvalidResponseException(string message, Exception innerException) : base(message, innerException)
+        public InvalidResponseException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InvalidResponseException"/> class.
         /// </summary>
-        public InvalidResponseException(string message, HttpStatusCode status) : base(message)
+        public InvalidResponseException(string message, HttpStatusCode status)
+            : base(message)
         {
             HttpStatus = status;
         }
 
-        private InvalidResponseException(SerializationInfo info, StreamingContext context) : base(info, context)
+        private InvalidResponseException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
             HttpStatus = (HttpStatusCode)info.GetInt32("HttpStatus");
         }

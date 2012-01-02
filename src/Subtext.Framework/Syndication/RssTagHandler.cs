@@ -30,7 +30,8 @@ namespace Subtext.Framework.Syndication
     {
         BaseSyndicationWriter<Entry> _writer;
 
-        public RssTagHandler(ISubtextContext subtextContext) : base(subtextContext)
+        public RssTagHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
@@ -42,7 +43,7 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if(_writer == null)
+                if (_writer == null)
                 {
                     // timheuer: changed this to GetEntriesByTag
                     _writer = new RssWriter(HttpContext.Response.Output,
@@ -75,19 +76,19 @@ namespace Subtext.Framework.Syndication
         // timheuer - overridden method to bypass the feedburner check
         protected override void ProcessFeed()
         {
-            if(base.IsLocalCacheOk())
+            if (base.IsLocalCacheOk())
             {
                 HttpContext.Response.StatusCode = 304;
                 return;
             }
 
             // Checks our cache against last modified header.
-            if(!base.IsHttpCacheOk())
+            if (!base.IsHttpCacheOk())
             {
                 Feed = base.BuildFeed();
-                if(Feed != null)
+                if (Feed != null)
                 {
-                    if(UseDeltaEncoding && Feed.ClientHasAllFeedItems)
+                    if (UseDeltaEncoding && Feed.ClientHasAllFeedItems)
                     {
                         HttpContext.Response.StatusCode = 304;
                         return;
@@ -114,7 +115,7 @@ namespace Subtext.Framework.Syndication
         protected override void Cache(CachedFeed feed)
         {
             ICache cache = SubtextContext.Cache;
-            if(cache != null)
+            if (cache != null)
             {
                 cache.InsertDuration(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublishedUtc), feed,
                                      Cacher.MediumDuration, null);

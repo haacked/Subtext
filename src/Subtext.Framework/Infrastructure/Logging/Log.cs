@@ -118,7 +118,8 @@ namespace Subtext.Framework.Logging
         /// and automatically establishes log name as the <see cref="P:System.Type.FullName"/> of the class type.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public Log() : this(GetCallerType())
+        public Log()
+            : this(GetCallerType())
         {
         }
 
@@ -985,7 +986,7 @@ namespace Subtext.Framework.Logging
         /// <param name="blogId">Blog id.</param>
         static void SetBlogIdContext(int blogId)
         {
-            if(blogId == NullValue.NullInt32 && ThreadContext.Properties["BlogId"] != null)
+            if (blogId == NullValue.NullInt32 && ThreadContext.Properties["BlogId"] != null)
             {
                 return;
             }
@@ -995,7 +996,7 @@ namespace Subtext.Framework.Logging
 
         static void SetBlogRequestContext()
         {
-            if(HttpContext.Current != null)
+            if (HttpContext.Current != null)
             {
                 try
                 {
@@ -1005,14 +1006,15 @@ namespace Subtext.Framework.Logging
                         ThreadContext.Properties["Url"] = url.ToString();
                     }
                 }
-                catch (HttpException) { 
-                
+                catch (HttpException)
+                {
+
                 }
 
-                if(HttpContext.Current.Items != null && BlogRequest.Current != null)
+                if (HttpContext.Current.Items != null && BlogRequest.Current != null)
                 {
                     var blog = BlogRequest.Current.Blog;
-                    if(blog != null)
+                    if (blog != null)
                     {
                         SetBlogIdContext(blog.Id);
                     }

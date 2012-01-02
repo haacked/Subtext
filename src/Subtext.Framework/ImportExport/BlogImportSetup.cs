@@ -36,17 +36,19 @@ namespace Subtext.ImportExport
 
         public Blog Blog
         {
-            get; private set;
+            get;
+            private set;
         }
 
         public ObjectRepository Repository
         {
-            get; private set;
+            get;
+            private set;
         }
 
         void SetupBlogForImport()
         {
-            if(!Blog.DuplicateCommentsEnabled)
+            if (!Blog.DuplicateCommentsEnabled)
             {
                 Blog.DuplicateCommentsEnabled = true;
                 Repository.UpdateBlog(Blog);
@@ -61,7 +63,7 @@ namespace Subtext.ImportExport
         public void Dispose()
         {
             Action revertAction = _revertAction;
-            if(revertAction != null)
+            if (revertAction != null)
             {
                 revertAction();
             }

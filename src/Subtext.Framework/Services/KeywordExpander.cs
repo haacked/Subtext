@@ -45,9 +45,9 @@ namespace Subtext.Framework.Services
         {
             get
             {
-                if(_keywords == null)
+                if (_keywords == null)
                 {
-                    if(_repository != null)
+                    if (_repository != null)
                     {
                         _keywords = _repository.GetKeyWords();
                     }
@@ -90,39 +90,39 @@ namespace Subtext.Framework.Services
 
             var tagstack = new Queue<char>(anchorOpen.Length);
 
-            for(int i = 0; i < source.Length; i++)
+            for (int i = 0; i < source.Length; i++)
             {
                 char nextChar = source[i];
                 tagstack.Enqueue(nextChar);
 
-                switch(state)
+                switch (state)
                 {
                     case ScanState.Replace:
-                        if(anchorOpen == new string(tagstack.ToArray()))
+                        if (anchorOpen == new string(tagstack.ToArray()))
                         {
                             state = ScanState.InAnchor;
                             break;
                         }
-                        if(tagOpen == nextChar)
+                        if (tagOpen == nextChar)
                         {
                             state = ScanState.InTag;
                             break;
                         }
-                        if(source.Length - (i + oldValue.Length) > 0)
+                        if (source.Length - (i + oldValue.Length) > 0)
                         {
                             // peek a head the next target length chunk + 1 boundary char
                             string matchTarget = source.Substring(i, oldValue.Length);
 
-                            if(String.Equals(matchTarget, oldValue,
+                            if (String.Equals(matchTarget, oldValue,
                                              caseSensitive
                                                  ? StringComparison.Ordinal
                                                  : StringComparison.OrdinalIgnoreCase))
                             {
                                 int index = 0 - i;
-                                if(index != 0) //Skip if we are at the start of the block
+                                if (index != 0) //Skip if we are at the start of the block
                                 {
                                     char prevBeforeMatch = source[(i) - 1];
-                                    if(prevBeforeMatch != '>' && prevBeforeMatch != '"' &&
+                                    if (prevBeforeMatch != '>' && prevBeforeMatch != '"' &&
                                        !Char.IsWhiteSpace(prevBeforeMatch))
                                     {
                                         break;
@@ -131,13 +131,13 @@ namespace Subtext.Framework.Services
 
                                 // check for word boundary
                                 char nextAfterMatch = source[i + oldValue.Length];
-                                if(!CharIsWordBoundary(nextAfterMatch))
+                                if (!CharIsWordBoundary(nextAfterMatch))
                                 {
                                     break;
                                 }
 
                                 // format old with specifier else it's a straight replace
-                                if(isFormat)
+                                if (isFormat)
                                 {
                                     outputBuffer.AppendFormat(newValue, oldValue);
                                 }
@@ -147,7 +147,7 @@ namespace Subtext.Framework.Services
                                 }
 
                                 // if we're onlyFirstMatch, tack on remainder of source and return
-                                if(onlyFirstMatch)
+                                if (onlyFirstMatch)
                                 {
                                     outputBuffer.Append(source.Substring(i + oldValue.Length,
                                                                                source.Length -
@@ -164,18 +164,18 @@ namespace Subtext.Framework.Services
                         break;
 
                     case ScanState.InAnchor:
-                        if(anchorClose == new string(tagstack.ToArray()))
+                        if (anchorClose == new string(tagstack.ToArray()))
                         {
                             state = ScanState.Replace;
                         }
                         break;
 
                     case ScanState.InTag:
-                        if(anchorOpen == new string(tagstack.ToArray()))
+                        if (anchorOpen == new string(tagstack.ToArray()))
                         {
                             state = ScanState.InAnchor;
                         }
-                        else if(tagClose == nextChar)
+                        else if (tagClose == nextChar)
                         {
                             state = ScanState.Replace;
                         }
@@ -185,7 +185,7 @@ namespace Subtext.Framework.Services
                         break;
                 }
 
-                if(!lastIterMatched)
+                if (!lastIterMatched)
                 {
                     outputBuffer.Append(nextChar);
                 }
@@ -204,7 +204,7 @@ namespace Subtext.Framework.Services
         // e.g., &nbsp; and other boundary entities
         private static bool CharIsWordBoundary(char value)
         {
-            switch(value)
+            switch (value)
             {
                 case '_':
                     return false;

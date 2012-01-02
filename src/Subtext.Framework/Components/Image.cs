@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
 using Subtext.Framework.Properties;
@@ -65,7 +64,7 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(_localDirectoryPath == null)
+                if (_localDirectoryPath == null)
                 {
                     throw new InvalidOperationException(Resources.InvalidOperation_LocalDirectoryPathNotSet);
                 }
@@ -74,7 +73,7 @@ namespace Subtext.Framework.Components
             }
             set
             {
-                if(value != null)
+                if (value != null)
                 {
                     value = Path.GetFullPath(value);
                 }

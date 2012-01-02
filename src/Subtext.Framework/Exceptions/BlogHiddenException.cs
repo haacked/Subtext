@@ -55,7 +55,8 @@ namespace Subtext.Framework.Exceptions
         /// Creates a new <see cref="BlogHiddenException"/> instance.
         /// </summary>
         /// <param name="hidden">Hidden.</param>
-        public BlogHiddenException(Blog hidden) : this(hidden, NullValue.NullInt32)
+        public BlogHiddenException(Blog hidden)
+            : this(hidden, NullValue.NullInt32)
         {
         }
 
@@ -96,7 +97,7 @@ namespace Subtext.Framework.Exceptions
                            +
                            "The previously mentioned blog does not have a subfolder defined.  Please update it before ";
 
-                if(_blogId == NullValue.NullInt32)
+                if (_blogId == NullValue.NullInt32)
                 {
                     message += "creating/activating this blog.</p>";
                 }

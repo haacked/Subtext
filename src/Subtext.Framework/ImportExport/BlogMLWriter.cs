@@ -65,7 +65,7 @@ namespace Subtext.ImportExport
         private void WriteAuthors(IEnumerable<BlogMLAuthor> authors)
         {
             WriteStartAuthors();
-            foreach(BlogMLAuthor bmlAuthor in authors)
+            foreach (BlogMLAuthor bmlAuthor in authors)
             {
                 WriteAuthor(
                     bmlAuthor.ID,
@@ -80,10 +80,10 @@ namespace Subtext.ImportExport
 
         private void WriteExtendedProperties(ICollection<Pair<string, string>> extendedProperties)
         {
-            if(extendedProperties.Count > 0)
+            if (extendedProperties.Count > 0)
             {
                 WriteStartExtendedProperties();
-                foreach(var extProp in extendedProperties)
+                foreach (var extProp in extendedProperties)
                 {
                     WriteExtendedProperty(extProp.Key, extProp.Value);
                 }
@@ -94,7 +94,7 @@ namespace Subtext.ImportExport
         private void WriteCategories(IEnumerable<BlogMLCategory> categories)
         {
             WriteStartCategories();
-            foreach(BlogMLCategory category in categories)
+            foreach (BlogMLCategory category in categories)
             {
                 WriteCategory(category.ID, category.Title, ContentTypes.Text, category.DateCreated, category.DateModified, category.Approved, category.Description, category.ParentRef);
             }
@@ -104,7 +104,7 @@ namespace Subtext.ImportExport
         private void WritePosts(IEnumerable<BlogMLPost> posts)
         {
             WriteStartPosts();
-            foreach(var post in posts)
+            foreach (var post in posts)
             {
                 WriteStartBlogMLPost(post);
                 WritePostCategories(post.Categories);
@@ -129,11 +129,11 @@ namespace Subtext.ImportExport
             WriteAttributeStringRequired("views", post.Views.ToString());
             WriteContent("title", BlogMLContent.Create(post.Title, ContentTypes.Text));
             WriteBlogMLContent("content", post.Content);
-            if(!String.IsNullOrEmpty(post.PostName))
+            if (!String.IsNullOrEmpty(post.PostName))
             {
                 WriteContent("post-name", BlogMLContent.Create(post.PostName, ContentTypes.Text));
             }
-            if(post.HasExcerpt)
+            if (post.HasExcerpt)
             {
                 WriteBlogMLContent("excerpt", post.Excerpt);
             }
@@ -146,10 +146,10 @@ namespace Subtext.ImportExport
 
         protected void WritePostCategories(BlogMLPost.CategoryReferenceCollection categoryRefs)
         {
-            if(categoryRefs.Count > 0)
+            if (categoryRefs.Count > 0)
             {
                 WriteStartCategories();
-                foreach(BlogMLCategoryReference categoryRef in categoryRefs)
+                foreach (BlogMLCategoryReference categoryRef in categoryRefs)
                 {
                     WriteCategoryReference(categoryRef.Ref);
                 }
@@ -159,10 +159,10 @@ namespace Subtext.ImportExport
 
         private void WritePostComments(BlogMLPost.CommentCollection comments)
         {
-            if(comments.Count > 0)
+            if (comments.Count > 0)
             {
                 WriteStartComments();
-                foreach(BlogMLComment comment in comments)
+                foreach (BlogMLComment comment in comments)
                 {
                     string userName = string.IsNullOrEmpty(comment.UserName) ? "Anonymous" : comment.UserName;
                     WriteComment(comment.ID, BlogMLContent.Create(comment.Title, ContentTypes.Text), comment.DateCreated, comment.DateModified,
@@ -175,12 +175,12 @@ namespace Subtext.ImportExport
 
         private void WritePostTrackbacks(BlogMLPost.TrackbackCollection trackbacks)
         {
-            if(trackbacks.Count > 0)
+            if (trackbacks.Count > 0)
             {
                 WriteStartTrackbacks();
-                foreach(BlogMLTrackback trackback in trackbacks)
+                foreach (BlogMLTrackback trackback in trackbacks)
                 {
-                    if(!String.IsNullOrEmpty(trackback.Url))
+                    if (!String.IsNullOrEmpty(trackback.Url))
                     {
                         WriteTrackback(trackback.ID, trackback.Title, ContentTypes.Text, trackback.DateCreated, trackback.DateModified, trackback.Approved, trackback.Url);
                     }
@@ -191,12 +191,12 @@ namespace Subtext.ImportExport
 
         private void WritePostAttachments(BlogMLPost.AttachmentCollection attachments)
         {
-            if(attachments.Count > 0)
+            if (attachments.Count > 0)
             {
                 WriteStartAttachments();
-                foreach(BlogMLAttachment attachment in attachments)
+                foreach (BlogMLAttachment attachment in attachments)
                 {
-                    if(attachment.Embedded)
+                    if (attachment.Embedded)
                     {
                         WriteAttachment(attachment.Url, attachment.Data.Length, attachment.MimeType, attachment.Path, attachment.Embedded, attachment.Data);
                     }
@@ -212,10 +212,10 @@ namespace Subtext.ImportExport
 
         private void WritePostAuthors(BlogMLPost.AuthorReferenceCollection authorsRefs)
         {
-            if(authorsRefs.Count > 0)
+            if (authorsRefs.Count > 0)
             {
                 WriteStartAuthors();
-                foreach(BlogMLAuthorReference authorRef in authorsRefs)
+                foreach (BlogMLAuthorReference authorRef in authorsRefs)
                 {
                     WriteAuthorReference(authorRef.Ref);
                 }

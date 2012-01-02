@@ -90,12 +90,12 @@ namespace Subtext.Extensibility.Providers
 
         public override void Initialize(string name, NameValueCollection configValue)
         {
-            if(configValue["Width"] != null)
+            if (configValue["Width"] != null)
             {
                 Width = ParseUnit(configValue["Width"]);
             }
 
-            if(configValue["Height"] != null)
+            if (configValue["Height"] != null)
             {
                 Height = ParseUnit(configValue["Height"]);
             }
@@ -109,7 +109,7 @@ namespace Subtext.Extensibility.Providers
             {
                 return Unit.Parse(s);
             }
-            catch(Exception)
+            catch
             {
             }
             return Unit.Empty;

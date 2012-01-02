@@ -41,7 +41,7 @@ namespace Subtext.Framework.UI.Skinning
             get
             {
                 var templates = _templates;
-                if(templates == null)
+                if (templates == null)
                 {
                     templates = _skinEngine.GetSkinTemplates(false /* mobile */);
                     _templates = templates;
@@ -76,14 +76,14 @@ namespace Subtext.Framework.UI.Skinning
         {
             string element = string.Empty;
 
-            if(!String.IsNullOrEmpty(style.Conditional))
+            if (!String.IsNullOrEmpty(style.Conditional))
             {
                 element = string.Format(CultureInfo.InvariantCulture, "<!--[{0}]>{1}", style.Conditional,
                                         Environment.NewLine);
             }
 
             element += "<link";
-            if(!string.IsNullOrEmpty(style.Media) &&
+            if (!string.IsNullOrEmpty(style.Media) &&
                !style.Media.Equals("all", StringComparison.OrdinalIgnoreCase))
             {
                 element += RenderStyleAttribute("media", style.Media);
@@ -94,7 +94,7 @@ namespace Subtext.Framework.UI.Skinning
                 RenderStyleAttribute("rel", "stylesheet") +
                 RenderStyleAttribute("title", style.Title);
 
-            if(string.IsNullOrEmpty(skinName))
+            if (string.IsNullOrEmpty(skinName))
             {
                 element +=
                     string.Format("{0} />{1}", RenderStyleAttribute("href", GetStylesheetHrefPath(skinPath, style)), Environment.NewLine);
@@ -105,7 +105,7 @@ namespace Subtext.Framework.UI.Skinning
                     string.Format("{0} />{1}", RenderStyleAttribute("href", GetStylesheetHrefPath(skinPath, style, skinName, cssRequestParam)), Environment.NewLine);
             }
 
-            if(!String.IsNullOrEmpty(style.Conditional))
+            if (!String.IsNullOrEmpty(style.Conditional))
             {
                 element += string.Format("<![endif]-->{0}", Environment.NewLine);
             }
@@ -122,7 +122,7 @@ namespace Subtext.Framework.UI.Skinning
         /// <returns></returns>
         public static string GetStylesheetHrefPath(string skinPath, Style style)
         {
-            if(style.Href.StartsWith("~"))
+            if (style.Href.StartsWith("~"))
             {
                 return HttpHelper.ExpandTildePath(style.Href);
             }
@@ -141,7 +141,7 @@ namespace Subtext.Framework.UI.Skinning
         /// <returns></returns>
         public static string GetStylesheetHrefPath(string skinPath, Style style, string skinName, string cssRequestParam)
         {
-            if(IsStyleRemote(style))
+            if (IsStyleRemote(style))
             {
                 return style.Href;
             }
@@ -169,42 +169,42 @@ namespace Subtext.Framework.UI.Skinning
 
             var addedStyle = new List<string>();
 
-            if(skinTemplate != null)
+            if (skinTemplate != null)
             {
                 string skinPath = CreateStylePath(skinTemplate.TemplateFolder);
 
                 // If skin doesn't want to be merged, just write plain css
-                if(skinTemplate.StyleMergeMode == StyleMergeMode.None)
+                if (skinTemplate.StyleMergeMode == StyleMergeMode.None)
                 {
-                    if(skinTemplate.Styles != null)
+                    if (skinTemplate.Styles != null)
                     {
-                        foreach(Style style in skinTemplate.Styles)
+                        foreach (Style style in skinTemplate.Styles)
                         {
                             templateDefinedStyles.Append(RenderStyleElement(skinPath, style));
                         }
                     }
 
-                    if(!skinTemplate.ExcludeDefaultStyle)
+                    if (!skinTemplate.ExcludeDefaultStyle)
                     {
                         templateDefinedStyles.Append(RenderStyleElement(skinPath, "style.css"));
                     }
 
-                    if(skinTemplate.HasSkinStylesheet)
+                    if (skinTemplate.HasSkinStylesheet)
                     {
                         templateDefinedStyles.Append(RenderStyleElement(skinPath, skinTemplate.StyleSheet));
                     }
 
                     finalStyleDefinition = templateDefinedStyles.ToString();
                 }
-                else if(skinTemplate.StyleMergeMode == StyleMergeMode.MergedAfter ||
+                else if (skinTemplate.StyleMergeMode == StyleMergeMode.MergedAfter ||
                         skinTemplate.StyleMergeMode == StyleMergeMode.MergedFirst)
                 {
-                    foreach(Style style in skinTemplate.Styles)
+                    foreach (Style style in skinTemplate.Styles)
                     {
-                        if(!CanStyleBeMerged(style))
+                        if (!CanStyleBeMerged(style))
                         {
                             string styleKey = BuildStyleKey(style);
-                            if(!addedStyle.Contains(styleKey) || IsStyleRemote(style))
+                            if (!addedStyle.Contains(styleKey) || IsStyleRemote(style))
                             {
                                 templateDefinedStyles.Append(RenderStyleElement(skinPath, style, skinName, styleKey));
                                 addedStyle.Add(styleKey);
@@ -213,11 +213,11 @@ namespace Subtext.Framework.UI.Skinning
                     }
 
                     string mergedStyleLink = RenderStyleElement(skinPath, string.Format("css.axd?name={0}", skinName));
-                    if(skinTemplate.StyleMergeMode == StyleMergeMode.MergedAfter)
+                    if (skinTemplate.StyleMergeMode == StyleMergeMode.MergedAfter)
                     {
                         finalStyleDefinition = templateDefinedStyles + mergedStyleLink;
                     }
-                    else if(skinTemplate.StyleMergeMode == StyleMergeMode.MergedFirst)
+                    else if (skinTemplate.StyleMergeMode == StyleMergeMode.MergedFirst)
                     {
                         finalStyleDefinition = mergedStyleLink + templateDefinedStyles;
                     }
@@ -230,21 +230,21 @@ namespace Subtext.Framework.UI.Skinning
         private static string BuildStyleKey(Style style)
         {
             var keyBuilder = new StringBuilder();
-            if(!String.IsNullOrEmpty(style.Media) && !style.Media.Equals("all", StringComparison.OrdinalIgnoreCase))
+            if (!String.IsNullOrEmpty(style.Media) && !style.Media.Equals("all", StringComparison.OrdinalIgnoreCase))
             {
                 keyBuilder.AppendFormat("media={0}&", style.Media);
             }
-            if(!String.IsNullOrEmpty(style.Title))
+            if (!String.IsNullOrEmpty(style.Title))
             {
                 keyBuilder.AppendFormat("title={0}&", style.Title);
             }
-            if(!String.IsNullOrEmpty(style.Conditional))
+            if (!String.IsNullOrEmpty(style.Conditional))
             {
                 keyBuilder.AppendFormat("conditional={0}&", HttpUtility.UrlEncode(style.Conditional));
             }
 
             string key = keyBuilder.ToString();
-            if(key.Length > 0)
+            if (key.Length > 0)
             {
                 return key.Substring(0, key.Length - 1);
             }
@@ -265,25 +265,25 @@ namespace Subtext.Framework.UI.Skinning
 
             SkinTemplate skinTemplate = Templates.GetValueOrDefault(skinName);
 
-            if((string.IsNullOrEmpty(media)) && string.IsNullOrEmpty(title) && string.IsNullOrEmpty(conditional))
+            if ((string.IsNullOrEmpty(media)) && string.IsNullOrEmpty(title) && string.IsNullOrEmpty(conditional))
             {
                 normalCss = true;
             }
 
-            if(skinTemplate != null)
+            if (skinTemplate != null)
             {
                 string skinPath = CreateStylePath(skinTemplate.TemplateFolder);
 
-                if(skinTemplate.Styles != null)
+                if (skinTemplate.Styles != null)
                 {
-                    foreach(Style style in skinTemplate.Styles)
+                    foreach (Style style in skinTemplate.Styles)
                     {
-                        if(normalCss)
+                        if (normalCss)
                         {
-                            if(CanStyleBeMerged(style))
+                            if (CanStyleBeMerged(style))
                             {
                                 string tmpHref;
-                                if(style.Href.StartsWith("~"))
+                                if (style.Href.StartsWith("~"))
                                 {
                                     tmpHref = HttpHelper.ExpandTildePath(style.Href);
                                 }
@@ -297,17 +297,17 @@ namespace Subtext.Framework.UI.Skinning
                         else
                         {
                             string tmpMedia = style.Media;
-                            if(tmpMedia != null && tmpMedia.Equals("all"))
+                            if (tmpMedia != null && tmpMedia.Equals("all"))
                             {
                                 tmpMedia = null;
                             }
-                            if(string.Compare(media, tmpMedia, StringComparison.OrdinalIgnoreCase) == 0 &&
+                            if (string.Compare(media, tmpMedia, StringComparison.OrdinalIgnoreCase) == 0 &&
                                string.Compare(title, style.Title, StringComparison.OrdinalIgnoreCase) == 0 &&
                                string.Compare(conditional, style.Conditional,
                                               StringComparison.OrdinalIgnoreCase) == 0)
                             {
                                 string tmpHref;
-                                if(style.Href.StartsWith("~"))
+                                if (style.Href.StartsWith("~"))
                                 {
                                     tmpHref = HttpHelper.ExpandTildePath(style.Href);
                                 }
@@ -321,16 +321,16 @@ namespace Subtext.Framework.UI.Skinning
                     }
                 }
 
-                if(normalCss)
+                if (normalCss)
                 {
                     //Main style
-                    if(!skinTemplate.ExcludeDefaultStyle)
+                    if (!skinTemplate.ExcludeDefaultStyle)
                     {
                         styles.Add(new StyleDefinition(skinPath + "style.css"));
                     }
 
                     //Secondary Style
-                    if(skinTemplate.HasSkinStylesheet)
+                    if (skinTemplate.HasSkinStylesheet)
                     {
                         styles.Add(new StyleDefinition(skinPath + skinTemplate.StyleSheet));
                     }
@@ -341,15 +341,15 @@ namespace Subtext.Framework.UI.Skinning
 
         public static bool CanStyleBeMerged(Style style)
         {
-            if(!String.IsNullOrEmpty(style.Conditional))
+            if (!String.IsNullOrEmpty(style.Conditional))
             {
                 return false;
             }
-            if(!string.IsNullOrEmpty(style.Title))
+            if (!string.IsNullOrEmpty(style.Title))
             {
                 return false;
             }
-            if(IsStyleRemote(style))
+            if (IsStyleRemote(style))
             {
                 return false;
             }
@@ -358,7 +358,7 @@ namespace Subtext.Framework.UI.Skinning
 
         private static bool IsStyleRemote(Style style)
         {
-            if(style.Href.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+            if (style.Href.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
                style.Href.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
             {
                 return true;

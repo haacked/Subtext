@@ -31,7 +31,7 @@ namespace Subtext.Framework.Exceptions
 
         public int CommentDelayInMinutes
         {
-            get; 
+            get;
             private set;
         }
 

@@ -62,7 +62,7 @@ namespace Subtext.ImportExport
 
         public void CreateCategories(BlogMLBlog blog)
         {
-            foreach(BlogMLCategory bmlCategory in blog.Categories)
+            foreach (BlogMLCategory bmlCategory in blog.Categories)
             {
                 LinkCategory category = Mapper.ConvertCategory(bmlCategory);
                 Repository.CreateLinkCategory(category);
@@ -75,10 +75,10 @@ namespace Subtext.ImportExport
             newEntry.BlogId = Blog.Id;
             newEntry.Blog = Blog;
             var publisher = EntryPublisher as EntryPublisher;
-            if(publisher != null)
+            if (publisher != null)
             {
                 var transform = publisher.Transformation as CompositeTextTransformation;
-                if(transform != null)
+                if (transform != null)
                 {
                     transform.Clear();
                 }
@@ -102,24 +102,24 @@ namespace Subtext.ImportExport
 
         public void SetExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties)
         {
-            if(extendedProperties != null && extendedProperties.Count > 0)
+            if (extendedProperties != null && extendedProperties.Count > 0)
             {
-                foreach(var extProp in extendedProperties)
+                foreach (var extProp in extendedProperties)
                 {
-                    if(BlogMLBlogExtendedProperties.CommentModeration.Equals(extProp.Key))
+                    if (BlogMLBlogExtendedProperties.CommentModeration.Equals(extProp.Key))
                     {
                         bool modEnabled;
 
-                        if(bool.TryParse(extProp.Value, out modEnabled))
+                        if (bool.TryParse(extProp.Value, out modEnabled))
                         {
                             Blog.ModerationEnabled = modEnabled;
                         }
                     }
-                    else if(BlogMLBlogExtendedProperties.EnableSendingTrackbacks.Equals(extProp.Key))
+                    else if (BlogMLBlogExtendedProperties.EnableSendingTrackbacks.Equals(extProp.Key))
                     {
                         bool tracksEnabled;
 
-                        if(bool.TryParse(extProp.Value, out tracksEnabled))
+                        if (bool.TryParse(extProp.Value, out tracksEnabled))
                         {
                             Blog.TrackbacksEnabled = tracksEnabled;
                         }

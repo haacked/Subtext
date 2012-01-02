@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Framework.Properties {
-    using System;
-    
-    
+namespace Subtext.Framework.Properties
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,773 +22,943 @@ namespace Subtext.Framework.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
-        
+    public class Resources
+    {
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Resources()
+        {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
-            get {
-                if (object.ReferenceEquals(resourceMan, null)) {
+        public static global::System.Resources.ResourceManager ResourceManager
+        {
+            get
+            {
+                if (object.ReferenceEquals(resourceMan, null))
+                {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Subtext.Framework.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
-            get {
+        public static global::System.Globalization.CultureInfo Culture
+        {
+            get
+            {
                 return resourceCulture;
             }
-            set {
+            set
+            {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Entry must have a title.
         /// </summary>
-        public static string Argument_EntryHasNoTitle {
-            get {
+        public static string Argument_EntryHasNoTitle
+        {
+            get
+            {
                 return ResourceManager.GetString("Argument_EntryHasNoTitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Entry must have a valid PostType.
         /// </summary>
-        public static string Argument_EntryMustHaveValidPostType {
-            get {
+        public static string Argument_EntryMustHaveValidPostType
+        {
+            get
+            {
                 return ResourceManager.GetString("Argument_EntryMustHaveValidPostType", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String cannot be of zero length..
         /// </summary>
-        public static string Argument_StringZeroLength {
-            get {
+        public static string Argument_StringZeroLength
+        {
+            get
+            {
                 return ResourceManager.GetString("Argument_StringZeroLength", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cannot convert a comment of type &apos;{0}&apos; to &apos;{1}&apos;.
         /// </summary>
-        public static string ArgumentException_CommentTypeMismatch {
-            get {
+        public static string ArgumentException_CommentTypeMismatch
+        {
+            get
+            {
                 return ResourceManager.GetString("ArgumentException_CommentTypeMismatch", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We will not shorten a URL to less than 5 characters. Come on now!.
         /// </summary>
-        public static string ArgumentException_TooShortUrl {
-            get {
+        public static string ArgumentException_TooShortUrl
+        {
+            get
+            {
                 return ResourceManager.GetString("ArgumentException_TooShortUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Length must not be negative..
         /// </summary>
-        public static string ArgumentOutOfRange_LengthMustNotBeNegative {
-            get {
+        public static string ArgumentOutOfRange_LengthMustNotBeNegative
+        {
+            get
+            {
                 return ResourceManager.GetString("ArgumentOutOfRange_LengthMustNotBeNegative", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cannot request negative tags. Pass in 0 to get all tags..
         /// </summary>
-        public static string ArgumentOutOfRange_NegativeTagItemCount {
-            get {
+        public static string ArgumentOutOfRange_NegativeTagItemCount
+        {
+            get
+            {
                 return ResourceManager.GetString("ArgumentOutOfRange_NegativeTagItemCount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Semaphore must have a count of at least 0..
         /// </summary>
-        public static string ArgumentOutOfRange_SemaphoreCount {
-            get {
+        public static string ArgumentOutOfRange_SemaphoreCount
+        {
+            get
+            {
                 return ResourceManager.GetString("ArgumentOutOfRange_SemaphoreCount", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to We&apos;d all like to be able to go back in time, but this is not allowed. Please choose a positive timeout.
         /// </summary>
-        public static string ArgumentOutOfRange_StackTraceTimeout {
-            get {
+        public static string ArgumentOutOfRange_StackTraceTimeout
+        {
+            get
+            {
                 return ResourceManager.GetString("ArgumentOutOfRange_StackTraceTimeout", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to StartIndex cannot be less than zero..
         /// </summary>
-        public static string ArgumentOutOfRange_StartIndex {
-            get {
+        public static string ArgumentOutOfRange_StartIndex
+        {
+            get
+            {
                 return ResourceManager.GetString("ArgumentOutOfRange_StartIndex", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Length cannot be less than zero..
         /// </summary>
-        public static string ArgumnetOutOfRange_Length {
-            get {
+        public static string ArgumnetOutOfRange_Length
+        {
+            get
+            {
                 return ResourceManager.GetString("ArgumnetOutOfRange_Length", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to are {0} blogs.
         /// </summary>
-        public static string BlogCountClause {
-            get {
+        public static string BlogCountClause
+        {
+            get
+            {
                 return ResourceManager.GetString("BlogCountClause", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sorry, but there {0} with the specified hostname &apos;{1}&apos;.  To set up another blog with the same hostname, you must provide an subfolder name.  Please click on &apos;Host Domain&apos; below for more information..
         /// </summary>
-        public static string BlogRequiresSubfolder_ThereAreBlogsWithSameHostName {
-            get {
+        public static string BlogRequiresSubfolder_ThereAreBlogsWithSameHostName
+        {
+            get
+            {
                 return ResourceManager.GetString("BlogRequiresSubfolder_ThereAreBlogsWithSameHostName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sorry, but there is a delay between allowing comments originating from the same source. Please wait for {0} and try again..
         /// </summary>
-        public static string CommentFrequencyException_Message {
-            get {
+        public static string CommentFrequencyException_Message
+        {
+            get
+            {
                 return ResourceManager.GetString("CommentFrequencyException_Message", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No connection string matches the key &apos;{0}&apos;..
         /// </summary>
-        public static string Configuration_KeyNotFound {
-            get {
+        public static string Configuration_KeyNotFound
+        {
+            get
+            {
                 return ResourceManager.GetString("Configuration_KeyNotFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There is no connectionString entry associated with the connectionStringName &apos;{0}&apos;..
         /// </summary>
-        public static string ConfigurationErrros_NoConnectionString {
-            get {
+        public static string ConfigurationErrros_NoConnectionString
+        {
+            get
+            {
                 return ResourceManager.GetString("ConfigurationErrros_NoConnectionString", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to An entry with that EntryName already exists..
         /// </summary>
-        public static string DuplicateEntryException_EntryNameAlreadyExists {
-            get {
+        public static string DuplicateEntryException_EntryNameAlreadyExists
+        {
+            get
+            {
                 return ResourceManager.GetString("DuplicateEntryException_EntryNameAlreadyExists", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Comment: {0} (via {1}).
         /// </summary>
-        public static string Email_CommentVia {
-            get {
+        public static string Email_CommentVia
+        {
+            get
+            {
                 return ResourceManager.GetString("Email_CommentVia", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enclosure must have a mime type..
         /// </summary>
-        public static string Enclosure_MimeTypeRequired {
-            get {
+        public static string Enclosure_MimeTypeRequired
+        {
+            get
+            {
                 return ResourceManager.GetString("Enclosure_MimeTypeRequired", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enclosure requires to be bound to a Entry..
         /// </summary>
-        public static string Enclosure_NeedsAnEntry {
-            get {
+        public static string Enclosure_NeedsAnEntry
+        {
+            get
+            {
                 return ResourceManager.GetString("Enclosure_NeedsAnEntry", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enclosure size must be greater than zero..
         /// </summary>
-        public static string Enclosure_SizeGreaterThanZero {
-            get {
+        public static string Enclosure_SizeGreaterThanZero
+        {
+            get
+            {
                 return ResourceManager.GetString("Enclosure_SizeGreaterThanZero", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Enclosure must have an URL..
         /// </summary>
-        public static string Enclosure_UrlRequired {
-            get {
+        public static string Enclosure_UrlRequired
+        {
+            get
+            {
                 return ResourceManager.GetString("Enclosure_UrlRequired", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to ExtendedProperties bytes overflow. The ExtendedProperties is limited to 7800 bytes.
         /// </summary>
-        public static string ExtendedPropertiesOverflow_Generic {
-            get {
+        public static string ExtendedPropertiesOverflow_Generic
+        {
+            get
+            {
                 return ResourceManager.GetString("ExtendedPropertiesOverflow_Generic", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to File Not Found.
         /// </summary>
-        public static string FileNotFound {
-            get {
+        public static string FileNotFound
+        {
+            get
+            {
                 return ResourceManager.GetString("FileNotFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to String was not recognized as a valid DateTime..
         /// </summary>
-        public static string Format_BadDateTime {
-            get {
+        public static string Format_BadDateTime
+        {
+            get
+            {
                 return ResourceManager.GetString("Format_BadDateTime", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Could not format &apos;{0}:{1}&apos;.
         /// </summary>
-        public static string Format_CouldNotFormatExpression {
-            get {
+        public static string Format_CouldNotFormatExpression
+        {
+            get
+            {
                 return ResourceManager.GetString("Format_CouldNotFormatExpression", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invalid blog id &apos;{0}&apos; specified.
         /// </summary>
-        public static string Format_InvalidBlogId {
-            get {
+        public static string Format_InvalidBlogId
+        {
+            get
+            {
                 return ResourceManager.GetString("Format_InvalidBlogId", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invalid Expression.
         /// </summary>
-        public static string Format_InvalidExpression {
-            get {
+        public static string Format_InvalidExpression
+        {
+            get
+            {
                 return ResourceManager.GetString("Format_InvalidExpression", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invalid Post ID..
         /// </summary>
-        public static string Format_InvalidPostId {
-            get {
+        public static string Format_InvalidPostId
+        {
+            get
+            {
                 return ResourceManager.GetString("Format_InvalidPostId", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Missing attribute &apos;{0}&apos;..
         /// </summary>
-        public static string HttpException_MissingAttribute {
-            get {
+        public static string HttpException_MissingAttribute
+        {
+            get
+            {
                 return ResourceManager.GetString("HttpException_MissingAttribute", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Illegal Characters Found.
         /// </summary>
-        public static string IllegalPostCharacters {
-            get {
+        public static string IllegalPostCharacters
+        {
+            get
+            {
                 return ResourceManager.GetString("IllegalPostCharacters", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to An exception occurred while importing a comment.
         /// </summary>
-        public static string Import_ErrorWhileImportingComment {
-            get {
+        public static string Import_ErrorWhileImportingComment
+        {
+            get
+            {
                 return ResourceManager.GetString("Import_ErrorWhileImportingComment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Backslashes are not allowed in the rss proxy name..
         /// </summary>
-        public static string InvalidOperation_BackslashesInRssProxyName {
-            get {
+        public static string InvalidOperation_BackslashesInRssProxyName
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_BackslashesInRssProxyName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cannot destroy an approved comment. Please flag it as spam or trash it first..
         /// </summary>
-        public static string InvalidOperation_CannotDestroyApprovedComment {
-            get {
+        public static string InvalidOperation_CannotDestroyApprovedComment
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_CannotDestroyApprovedComment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to ContentRegion with ID &apos;{0}&apos; must be Defined.
         /// </summary>
-        public static string InvalidOperation_ContentRegionNotFound {
-            get {
+        public static string InvalidOperation_ContentRegionNotFound
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_ContentRegionNotFound", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Content Type must be text/xml.
         /// </summary>
-        public static string InvalidOperation_ContentTypeMustBeXml {
-            get {
+        public static string InvalidOperation_ContentTypeMustBeXml
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_ContentTypeMustBeXml", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cannot destroy an active comment..
         /// </summary>
-        public static string InvalidOperation_DestroyActiveComment {
-            get {
+        public static string InvalidOperation_DestroyActiveComment
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_DestroyActiveComment", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to DirectoryRouteHandler only works with IDirectoryRoutes.
         /// </summary>
-        public static string InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes {
-            get {
+        public static string InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_DirectoryRouteHandlerWorksWithDirectoryRoutes", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to A Host record already exists.
         /// </summary>
-        public static string InvalidOperation_HostRecordAlreadyExists {
-            get {
+        public static string InvalidOperation_HostRecordAlreadyExists
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_HostRecordAlreadyExists", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Cannot create a Host record.  One already exists..
         /// </summary>
-        public static string InvalidOperation_HostRecordExists {
-            get {
+        public static string InvalidOperation_HostRecordExists
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_HostRecordExists", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to There were invalid characetres in the file name &apos;{0}&apos;.
         /// </summary>
-        public static string InvalidOperation_InvalidCharactersInFileName {
-            get {
+        public static string InvalidOperation_InvalidCharactersInFileName
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_InvalidCharactersInFileName", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invalid Date Format.
         /// </summary>
-        public static string InvalidOperation_InvalidDateFormat {
-            get {
+        public static string InvalidOperation_InvalidDateFormat
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_InvalidDateFormat", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Invalid Feedback Status supplied &apos;{0}&apos;.
         /// </summary>
-        public static string InvalidOperation_InvalidFeedbackStatus {
-            get {
+        public static string InvalidOperation_InvalidFeedbackStatus
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_InvalidFeedbackStatus", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The LocalDirectoryPath has not been set yet..
         /// </summary>
-        public static string InvalidOperation_LocalDirectoryPathNotSet {
-            get {
+        public static string InvalidOperation_LocalDirectoryPathNotSet
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_LocalDirectoryPathNotSet", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to PostType must not be set to PostType.None.
         /// </summary>
-        public static string InvalidOperation_PostTypeIsNone {
-            get {
+        public static string InvalidOperation_PostTypeIsNone
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_PostTypeIsNone", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to TemplateFile Property for MasterPage must be Defined.
         /// </summary>
-        public static string InvalidOperation_TemplateFileIsNull {
-            get {
+        public static string InvalidOperation_TemplateFileIsNull
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_TemplateFileIsNull", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The Template parameters are null. This should is impossible..
         /// </summary>
-        public static string InvalidOperation_TemplateParametersNull {
-            get {
+        public static string InvalidOperation_TemplateParametersNull
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidOperation_TemplateParametersNull", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Akismet returned an empty response.
         /// </summary>
-        public static string InvalidResponse_EmptyResponse {
-            get {
+        public static string InvalidResponse_EmptyResponse
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidResponse_EmptyResponse", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Received the response &apos;{0}&apos; from Akismet. Probably a bad API key..
         /// </summary>
-        public static string InvalidResponse_PossiblyBadApiKey {
-            get {
+        public static string InvalidResponse_PossiblyBadApiKey
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidResponse_PossiblyBadApiKey", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The service was not able to handle our request. Http Status &apos;{0}&apos;..
         /// </summary>
-        public static string InvalidResponse_ServiceUnableToHandleRequest {
-            get {
+        public static string InvalidResponse_ServiceUnableToHandleRequest
+        {
+            get
+            {
                 return ResourceManager.GetString("InvalidResponse_ServiceUnableToHandleRequest", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to is another blog.
         /// </summary>
-        public static string IsAnotherBlog {
-            get {
+        public static string IsAnotherBlog
+        {
+            get
+            {
                 return ResourceManager.GetString("IsAnotherBlog", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Approve.
         /// </summary>
-        public static string Label_Approve {
-            get {
+        public static string Label_Approve
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_Approve", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Comments.
         /// </summary>
-        public static string Label_Comments {
-            get {
+        public static string Label_Comments
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_Comments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Comments Flagged as SPAM.
         /// </summary>
-        public static string Label_CommentsFlaggedAsSpam {
-            get {
+        public static string Label_CommentsFlaggedAsSpam
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_CommentsFlaggedAsSpam", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Comments In The Trash Bin.
         /// </summary>
-        public static string Label_CommentsInTrash {
-            get {
+        public static string Label_CommentsInTrash
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_CommentsInTrash", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Comments Pending Moderator Approval.
         /// </summary>
-        public static string Label_CommentsPendingModeratorApproval {
-            get {
+        public static string Label_CommentsPendingModeratorApproval
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_CommentsPendingModeratorApproval", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Destroy all spam, not just checked.
         /// </summary>
-        public static string Label_DestroySpamTooltip {
-            get {
+        public static string Label_DestroySpamTooltip
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_DestroySpamTooltip", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Destroy all trash, not just checked.
         /// </summary>
-        public static string Label_DestroyTrashTooltip {
-            get {
+        public static string Label_DestroyTrashTooltip
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_DestroyTrashTooltip", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;em&gt;There are no approved comments to display.&lt;/em&gt;.
         /// </summary>
-        public static string Label_NoApprovedComments {
-            get {
+        public static string Label_NoApprovedComments
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_NoApprovedComments", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;em&gt;No Entries Flagged as SPAM.&lt;/em&gt;.
         /// </summary>
-        public static string Label_NoCommentsFlaggedAsSpam {
-            get {
+        public static string Label_NoCommentsFlaggedAsSpam
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_NoCommentsFlaggedAsSpam", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;em&gt;No Entries in the Trash.&lt;/em&gt;.
         /// </summary>
-        public static string Label_NoCommentsInTrash {
-            get {
+        public static string Label_NoCommentsInTrash
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_NoCommentsInTrash", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;em&gt;No Entries Need Moderation.&lt;/em&gt;.
         /// </summary>
-        public static string Label_NoCommentsNeedModeration {
-            get {
+        public static string Label_NoCommentsNeedModeration
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_NoCommentsNeedModeration", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Trashes checked spam.
         /// </summary>
-        public static string Label_TrashesSpam {
-            get {
+        public static string Label_TrashesSpam
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_TrashesSpam", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Undelete.
         /// </summary>
-        public static string Label_Undelete {
-            get {
+        public static string Label_Undelete
+        {
+            get
+            {
                 return ResourceManager.GetString("Label_Undelete", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Could not extract entry id from incoming URL &apos;{0}.
         /// </summary>
-        public static string Log_CouldNotExtractEntryId {
-            get {
+        public static string Log_CouldNotExtractEntryId
+        {
+            get
+            {
                 return ResourceManager.GetString("Log_CouldNotExtractEntryId", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to {1} referrals from &lt;a href=\&quot;{0}\&quot;&gt;{0}&lt;/a&gt;.
         /// </summary>
-        public static string Message_ReferrersForm {
-            get {
+        public static string Message_ReferrersForm
+        {
+            get
+            {
                 return ResourceManager.GetString("Message_ReferrersForm", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to minutes.
         /// </summary>
-        public static string Minutes_Plural {
-            get {
+        public static string Minutes_Plural
+        {
+            get
+            {
                 return ResourceManager.GetString("Minutes_Plural", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to minute.
         /// </summary>
-        public static string Minutes_Singular {
-            get {
+        public static string Minutes_Singular
+        {
+            get
+            {
                 return ResourceManager.GetString("Minutes_Singular", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Could not find the private instance field &apos;{0}&apos;.
         /// </summary>
-        public static string ReflectionArgument_CouldNotFindInstanceField {
-            get {
+        public static string ReflectionArgument_CouldNotFindInstanceField
+        {
+            get
+            {
                 return ResourceManager.GetString("ReflectionArgument_CouldNotFindInstanceField", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Could not find a method with the name &apos;{0}&apos;.
         /// </summary>
-        public static string ReflectionArgument_CouldNotFindMethod {
-            get {
+        public static string ReflectionArgument_CouldNotFindMethod
+        {
+            get
+            {
                 return ResourceManager.GetString("ReflectionArgument_CouldNotFindMethod", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Could not find a property with the name &apos;{0}&apos;.
         /// </summary>
-        public static string ReflectionArgument_CouldNotFindProperty {
-            get {
+        public static string ReflectionArgument_CouldNotFindProperty
+        {
+            get
+            {
                 return ResourceManager.GetString("ReflectionArgument_CouldNotFindProperty", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Could not find the static field &apos;{0}&apos;.
         /// </summary>
-        public static string ReflectionArgument_CouldNotFindsStaticField {
-            get {
+        public static string ReflectionArgument_CouldNotFindsStaticField
+        {
+            get
+            {
                 return ResourceManager.GetString("ReflectionArgument_CouldNotFindsStaticField", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Script has no tokens..
         /// </summary>
-        public static string ScriptHasNoTokens {
-            get {
+        public static string ScriptHasNoTokens
+        {
+            get
+            {
                 return ResourceManager.GetString("ScriptHasNoTokens", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Could not load this Skin control.
         /// </summary>
-        public static string SkinControlLoadException_Message {
-            get {
+        public static string SkinControlLoadException_Message
+        {
+            get
+            {
                 return ResourceManager.GetString("SkinControlLoadException_Message", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Incorrect syntax was encountered while parsing GO. Cannot have a slash star /* comment */ after a GO statement..
         /// </summary>
-        public static string SqlParseException_IncorrectSyntaxNearGo {
-            get {
+        public static string SqlParseException_IncorrectSyntaxNearGo
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlParseException_IncorrectSyntaxNearGo", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Error in executing the script: {0}.
         /// </summary>
-        public static string SqlScriptExecutionError_ErrorInScript {
-            get {
+        public static string SqlScriptExecutionError_ErrorInScript
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlScriptExecutionError_ErrorInScript", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while executing the script..
         /// </summary>
-        public static string SqlScriptExecutionError_ErrorOccurred {
-            get {
+        public static string SqlScriptExecutionError_ErrorOccurred
+        {
+            get
+            {
                 return ResourceManager.GetString("SqlScriptExecutionError_ErrorOccurred", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Timeout waiting for lock.
         /// </summary>
-        public static string TimeoutWaitingForLock {
-            get {
+        public static string TimeoutWaitingForLock
+        {
+            get
+            {
                 return ResourceManager.GetString("TimeoutWaitingForLock", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to EntryId is invalid or missing.
         /// </summary>
-        public static string TrackbackResponse_EntryIdMissing {
-            get {
+        public static string TrackbackResponse_EntryIdMissing
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackbackResponse_EntryIdMissing", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Sorry couldn&apos;t find a relevant link in {0}.
         /// </summary>
-        public static string TrackbackResponse_NoRelevantLink {
-            get {
+        public static string TrackbackResponse_NoRelevantLink
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackbackResponse_NoRelevantLink", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to no url parameter found, please try harder!.
         /// </summary>
-        public static string TrackbackResponse_NoUrl {
-            get {
+        public static string TrackbackResponse_NoUrl
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackbackResponse_NoUrl", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to &lt;!--
         ///   &lt;rdf:RDF 
@@ -805,134 +975,164 @@ namespace Subtext.Framework.Properties {
         ///   &lt;/rdf:RDF&gt;
         ///--&gt;.
         /// </summary>
-        public static string TrackbackTag {
-            get {
+        public static string TrackbackTag
+        {
+            get
+            {
                 return ResourceManager.GetString("TrackbackTag", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Undisposed Lock.
         /// </summary>
-        public static string UndisposedLock {
-            get {
+        public static string UndisposedLock
+        {
+            get
+            {
                 return ResourceManager.GetString("UndisposedLock", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to You did not link to a permalink.
         /// </summary>
-        public static string XmlRcpFault_DidNotLinkToPermalink {
-            get {
+        public static string XmlRcpFault_DidNotLinkToPermalink
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRcpFault_DidNotLinkToPermalink", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Not a valid link.
         /// </summary>
-        public static string XmlRcpFault_InvalidLink {
-            get {
+        public static string XmlRcpFault_InvalidLink
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRcpFault_InvalidLink", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Error while connecting to the Community Credit webservice.
         /// </summary>
-        public static string XmlRpcError_CommunityCredits {
-            get {
+        public static string XmlRpcError_CommunityCredits
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcError_CommunityCredits", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The post could not be added.
         /// </summary>
-        public static string XmlRpcFault_AddPostFailed {
-            get {
+        public static string XmlRpcFault_AddPostFailed
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcFault_AddPostFailed", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Could not delete page:{0}.
         /// </summary>
-        public static string XmlRpcFault_CannotDeletePage {
-            get {
+        public static string XmlRpcFault_CannotDeletePage
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcFault_CannotDeletePage", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Could not delete post: {0}.
         /// </summary>
-        public static string XmlRpcFault_CannotDeletePost {
-            get {
+        public static string XmlRpcFault_CannotDeletePost
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcFault_CannotDeletePost", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The entry could not be found.
         /// </summary>
-        public static string XmlRpcFault_CouldNotFindEntry {
-            get {
+        public static string XmlRpcFault_CouldNotFindEntry
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcFault_CouldNotFindEntry", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Error saving file..
         /// </summary>
-        public static string XmlRpcFault_ErrorSavingFile {
-            get {
+        public static string XmlRpcFault_ErrorSavingFile
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcFault_ErrorSavingFile", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No categories exist.
         /// </summary>
-        public static string XmlRpcFault_NoCategories {
-            get {
+        public static string XmlRpcFault_NoCategories
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcFault_NoCategories", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Username and password denied..
         /// </summary>
-        public static string XmlRpcFault_UsernameAndPasswordInvalid {
-            get {
+        public static string XmlRpcFault_UsernameAndPasswordInvalid
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcFault_UsernameAndPasswordInvalid", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Web Service Access is not enabled..
         /// </summary>
-        public static string XmlRpcFault_WebServiceNotEnabled {
-            get {
+        public static string XmlRpcFault_WebServiceNotEnabled
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcFault_WebServiceNotEnabled", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to thanks for the pingback on {0}.
         /// </summary>
-        public static string XmlRpcMessage_ThanksForThePingback {
-            get {
+        public static string XmlRpcMessage_ThanksForThePingback
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcMessage_ThanksForThePingback", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Community Credit ws returned the following response while notifying for the url {0}: {1}.
         /// </summary>
-        public static string XmlRpcWarn_CommunityCredits {
-            get {
+        public static string XmlRpcWarn_CommunityCredits
+        {
+            get
+            {
                 return ResourceManager.GetString("XmlRpcWarn_CommunityCredits", resourceCulture);
             }
         }

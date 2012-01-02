@@ -17,7 +17,6 @@
 
 using System.Globalization;
 using System.Web;
-using System.Web.Mobile;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Services
@@ -28,7 +27,7 @@ namespace Subtext.Framework.Services
         {
             get
             {
-                if(Config.CurrentBlog != null)
+                if (Config.CurrentBlog != null)
                 {
                     return Config.CurrentBlog.Id;
                 }
@@ -45,20 +44,20 @@ namespace Subtext.Framework.Services
         {
             string mobileQuery = context.Request.QueryString["mobile"];
             bool isMobile;
-            if(!bool.TryParse(mobileQuery, out isMobile))
+            if (!bool.TryParse(mobileQuery, out isMobile))
             {
                 isMobile = false;
             }
             SetMobile(isMobile);
 
             string returnUrl = context.Request.QueryString["returnUrl"] ?? string.Empty;
-            if(returnUrl.Length == 0)
+            if (returnUrl.Length == 0)
             {
                 returnUrl = "~/";
             }
 
             //Security so people can't use this for phishing.
-            if(returnUrl.StartsWith("http:")
+            if (returnUrl.StartsWith("http:")
                || returnUrl.StartsWith("https:")
                || (!returnUrl.StartsWith("/") && !returnUrl.StartsWith("~/")))
             {
@@ -70,7 +69,7 @@ namespace Subtext.Framework.Services
         public BrowserInfo DetectBrowserCapabilities(HttpRequestBase request)
         {
             bool? isMobile = UserSpecifiedMobile();
-            if(isMobile == null)
+            if (isMobile == null)
             {
                 var mobileCaps = request.Browser;
                 isMobile = mobileCaps != null && mobileCaps.IsMobileDevice;
@@ -81,7 +80,7 @@ namespace Subtext.Framework.Services
         static bool? UserSpecifiedMobile()
         {
             HttpCookie cookie = HttpContext.Current.Request.Cookies.Get("MobileDeviceInfo_" + BlogId);
-            if(cookie == null)
+            if (cookie == null)
             {
                 return null;
             }
@@ -90,8 +89,7 @@ namespace Subtext.Framework.Services
 
         public void SetMobile(bool isMobile)
         {
-            var cookie = new HttpCookie("MobileDeviceInfo_" + BlogId, isMobile.ToString(CultureInfo.InvariantCulture))
-            {Value = isMobile.ToString(CultureInfo.InvariantCulture)};
+            var cookie = new HttpCookie("MobileDeviceInfo_" + BlogId, isMobile.ToString(CultureInfo.InvariantCulture)) { Value = isMobile.ToString(CultureInfo.InvariantCulture) };
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
     }

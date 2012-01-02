@@ -41,7 +41,8 @@ namespace Subtext.Framework.Components
         /// </summary>
         /// <param name="categoryId"></param>
         /// <param name="title">Title.</param>
-        public LinkCategory(int categoryId, string title) : this()
+        public LinkCategory(int categoryId, string title)
+            : this()
         {
             Title = title;
             Id = categoryId;

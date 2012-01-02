@@ -35,9 +35,9 @@ namespace Subtext.Framework.Services
         /// <typeparam name="TTextTransformation"></typeparam>
         public void Remove<TTextTransformation>() where TTextTransformation : ITextTransformation
         {
-            foreach(ITextTransformation textTransform in this)
+            foreach (ITextTransformation textTransform in this)
             {
-                if(textTransform.GetType() == typeof(TTextTransformation))
+                if (textTransform.GetType() == typeof(TTextTransformation))
                 {
                     Remove(textTransform);
                     return;

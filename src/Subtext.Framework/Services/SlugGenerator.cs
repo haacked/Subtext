@@ -60,17 +60,17 @@ namespace Subtext.Framework.Services
 
         public string GetSlugFromTitle(Entry entry)
         {
-            if(entry == null)
+            if (entry == null)
             {
                 throw new ArgumentNullException("entry");
             }
-            if(String.IsNullOrEmpty(entry.Title))
+            if (String.IsNullOrEmpty(entry.Title))
             {
                 throw new ArgumentException(Resources.Argument_EntryHasNoTitle, "entry");
             }
 
             string separator = SlugSettings.SeparatingCharacter;
-            if(separator != "_" && separator != "." && separator != "-" && separator != string.Empty)
+            if (separator != "_" && separator != "." && separator != "-" && separator != string.Empty)
             {
                 separator = DefaultWordSeparator;
             }
@@ -78,11 +78,11 @@ namespace Subtext.Framework.Services
             string slug = RemoveNonWordCharacters(entry.Title);
             slug = RemoveTrailingPeriods(slug);
 
-            if(SlugSettings.WordCountLimit > 0)
+            if (SlugSettings.WordCountLimit > 0)
             {
                 IEnumerable<string> words = slug.SplitIntoWords().Take(SlugSettings.WordCountLimit);
                 IEnumerable<string> encodedWords = words.Select(word => ReplaceUnicodeCharacters(word));
-                if(!String.IsNullOrEmpty(separator))
+                if (!String.IsNullOrEmpty(separator))
                 {
                     slug = String.Join(separator, encodedWords.ToArray());
                     slug = slug.Trim(new[] { separator[0] });
@@ -94,7 +94,7 @@ namespace Subtext.Framework.Services
                 }
             }
 
-            if(slug.IsNumeric())
+            if (slug.IsNumeric())
             {
                 slug = "n_" + slug;
             }
@@ -119,7 +119,7 @@ namespace Subtext.Framework.Services
 
         string EnsureUniqueness(string originalSlug, string separator)
         {
-            if(Repository == null)
+            if (Repository == null)
             {
                 return originalSlug;
             }
@@ -148,7 +148,7 @@ namespace Subtext.Framework.Services
             byte[] bytes = removal.GetBytes(normalized);
 
             string encoded = Encoding.ASCII.GetString(bytes);
-            if(String.IsNullOrEmpty(encoded))
+            if (String.IsNullOrEmpty(encoded))
             {
                 return HttpUtility.UrlEncode(text);
             }

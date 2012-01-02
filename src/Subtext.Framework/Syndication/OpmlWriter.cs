@@ -37,9 +37,9 @@ namespace Subtext.Framework.Syndication
                 IndentChars = ("\t")
             };
 
-            using(XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
+            using (XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
             {
-                if(xmlWriter != null)
+                if (xmlWriter != null)
                 {
                     xmlWriter.WriteStartDocument();
 
@@ -57,7 +57,7 @@ namespace Subtext.Framework.Syndication
 
                     xmlWriter.WriteStartElement("outline");
                     xmlWriter.WriteAttributeString("text", ConfigurationManager.AppSettings["AggregateTitle"] + " Feeds");
-                    foreach(Blog blog in blogs)
+                    foreach (Blog blog in blogs)
                     {
                         xmlWriter.WriteStartElement("outline");
 

@@ -49,7 +49,8 @@ namespace Subtext.Framework.Exceptions
         /// and we threw the error. i.e.- Could not find the BlogML file, The BlogML file is not 
         /// valid, etc...</param>
         /// <param name="innerException"></param>
-        public BlogImportException(string importFailureReason, Exception innerException) : base(null, innerException)
+        public BlogImportException(string importFailureReason, Exception innerException)
+            : base(null, innerException)
         {
             _importMessage = importFailureReason;
         }

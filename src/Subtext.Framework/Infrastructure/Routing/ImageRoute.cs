@@ -26,9 +26,10 @@ namespace Subtext.Framework.Routing
     /// </summary>
     public class ImageRoute : Route
     {
-        public ImageRoute(string url) : base(url, null)
+        public ImageRoute(string url)
+            : base(url, null)
         {
-            Defaults = new RouteValueDictionary(new {filename = string.Empty, id = string.Empty});
+            Defaults = new RouteValueDictionary(new { filename = string.Empty, id = string.Empty });
         }
 
         public override RouteData GetRouteData(HttpContextBase httpContext)

@@ -31,7 +31,8 @@ namespace Subtext.Framework.Web.Handlers
     /// </remarks>
     public class RsdHandler : SubtextHttpHandler
     {
-        public RsdHandler(ISubtextContext subtextContext) : base(subtextContext)
+        public RsdHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
@@ -64,14 +65,14 @@ namespace Subtext.Framework.Web.Handlers
         /// </remarks>
         public override void ProcessRequest()
         {
-            if(Blog == null)
+            if (Blog == null)
             {
                 return;
             }
             HttpResponseBase response = SubtextContext.HttpContext.Response;
             response.Charset = "utf-8";
             response.ContentType = "text/xml";
-            var settings = new XmlWriterSettings {Indent = true, IndentChars = "  ", Encoding = Encoding.UTF8};
+            var settings = new XmlWriterSettings { Indent = true, IndentChars = "  ", Encoding = Encoding.UTF8 };
             XmlWriter writer = XmlWriter.Create(response.OutputStream, settings);
             WriteRsd(writer, Blog, Url);
         }

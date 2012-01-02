@@ -36,7 +36,8 @@ namespace Subtext.Framework.Exceptions
         /// Initializes a new instance of the <see cref="CommentSpamException"/> class.
         /// </summary>
         /// <param name="message">The message.</param>
-        protected BaseCommentException(string message) : base(message)
+        protected BaseCommentException(string message)
+            : base(message)
         {
         }
 
@@ -45,7 +46,8 @@ namespace Subtext.Framework.Exceptions
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
-        protected BaseCommentException(string message, Exception innerException) : base(message, innerException)
+        protected BaseCommentException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }

@@ -55,7 +55,7 @@ namespace Subtext.Framework.Tracking
             {
                 Notify();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Warn("Had a problem with notification.", e);
             }
@@ -70,7 +70,7 @@ namespace Subtext.Framework.Tracking
             {
                 PingWeblogsDotCom(track);
             }
-            catch(HttpException e)
+            catch (HttpException e)
             {
                 Log.Warn("Had a problem pinging weblogs.com. continuing.", e);
             }
@@ -79,31 +79,31 @@ namespace Subtext.Framework.Tracking
             ICollection<string> links = HtmlHelper.GetLinks(Text);
 
             //Do we have links
-            if(links == null || links.Count == 0)
+            if (links == null || links.Count == 0)
             {
                 return;
             }
 
             //Create our notification Components
-            using(var pbnp = new PingBackNotificationProxy())
+            using (var pbnp = new PingBackNotificationProxy())
             {
                 //for each link, try to pingback and/or trackback
-                foreach(string link in links)
+                foreach (string link in links)
                 {
                     //get the page text
                     Uri url = link.ParseUri();
-                    if(url == null)
+                    if (url == null)
                     {
                         continue;
                     }
 
                     string pageText = HttpHelper.GetPageText(url);
-                    if(pageText == null || !track.EnableTrackBacks)
+                    if (pageText == null || !track.EnableTrackBacks)
                     {
                         continue;
                     }
 
-                    if(track.EnablePingBacks &&
+                    if (track.EnablePingBacks &&
                        !TrackBackNotificationProxy.TrackBackPing(pageText, url, Title, PostUrl, BlogName, Description))
                     {
                         Log.DebugFormat("Trackback failed to '{0}'. Let's try a PingBack.", url);
@@ -115,9 +115,9 @@ namespace Subtext.Framework.Tracking
 
         private void PingWeblogsDotCom(Configuration.Tracking track)
         {
-            if(track.PingWeblogs)
+            if (track.PingWeblogs)
             {
-                using(var weblogs = new WeblogsNotificationProxy())
+                using (var weblogs = new WeblogsNotificationProxy())
                 {
                     weblogs.Ping(BlogName, FullyQualifiedUrl);
                 }

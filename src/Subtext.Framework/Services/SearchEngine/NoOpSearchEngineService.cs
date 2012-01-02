@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Subtext.Framework.Services.SearchEngine
 {
-    public class NoOpSearchEngineService: ISearchEngineService
+    public class NoOpSearchEngineService : ISearchEngineService
     {
         #region ISearchEngineService Members
 
@@ -36,7 +33,7 @@ namespace Subtext.Framework.Services.SearchEngine
 
         public void RemovePost(int postId)
         {
-            
+
         }
 
         public int GetIndexedEntryCount(int blogId)
@@ -60,7 +57,7 @@ namespace Subtext.Framework.Services.SearchEngine
 
         public void Dispose()
         {
-            
+
         }
 
         #endregion

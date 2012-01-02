@@ -46,9 +46,9 @@ namespace Subtext.Scripting
         {
             get
             {
-                foreach(TemplateParameter parameter in _list)
+                foreach (TemplateParameter parameter in _list)
                 {
-                    if(String.Equals(parameter.Name, name, StringComparison.OrdinalIgnoreCase))
+                    if (String.Equals(parameter.Name, name, StringComparison.OrdinalIgnoreCase))
                     {
                         return parameter;
                     }
@@ -75,7 +75,7 @@ namespace Subtext.Scripting
         /// </summary>
         public bool Contains(TemplateParameter item)
         {
-            if(item == null)
+            if (item == null)
             {
                 throw new ArgumentNullException("item");
             }
@@ -141,12 +141,12 @@ namespace Subtext.Scripting
         /// <returns></returns>
         public TemplateParameter Add(Match match)
         {
-            if(match == null)
+            if (match == null)
             {
                 throw new ArgumentNullException("match");
             }
 
-            if(this[match.Groups["name"].Value] != null)
+            if (this[match.Groups["name"].Value] != null)
             {
                 return this[match.Groups["name"].Value];
             }
@@ -165,12 +165,12 @@ namespace Subtext.Scripting
         /// <returns></returns>
         public TemplateParameter Add(TemplateParameter value)
         {
-            if(value == null)
+            if (value == null)
             {
                 throw new ArgumentNullException("value");
             }
 
-            if(Contains(value))
+            if (Contains(value))
             {
                 return this[value.Name];
             }
@@ -186,7 +186,7 @@ namespace Subtext.Scripting
         /// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="TemplateParameter"/>s to add to the collection. </param>
         public void AddRange(IEnumerable<TemplateParameter> value)
         {
-            foreach(TemplateParameter parameter in value)
+            foreach (TemplateParameter parameter in value)
             {
                 Add(parameter);
             }
@@ -211,7 +211,7 @@ namespace Subtext.Scripting
         /// <param name="value">The value.</param>
         public void SetValue(string name, string value)
         {
-            if(this[name] != null)
+            if (this[name] != null)
             {
                 this[name].Value = value;
             }
@@ -225,7 +225,7 @@ namespace Subtext.Scripting
         protected void OnValueChanged(ParameterValueChangedEventArgs args)
         {
             EventHandler<ParameterValueChangedEventArgs> changeEvent = ValueChanged;
-            if(changeEvent != null)
+            if (changeEvent != null)
             {
                 changeEvent(this, args);
             }

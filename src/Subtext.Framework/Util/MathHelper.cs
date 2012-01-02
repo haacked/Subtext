@@ -44,14 +44,14 @@ namespace Subtext.Framework.Util
             decimal originalWidth = original.Width;
             decimal originalHeight = original.Height;
 
-            if(originalWidth <= maxWidth && originalHeight <= maxHeight)
+            if (originalWidth <= maxWidth && originalHeight <= maxHeight)
             {
                 return original;
             }
 
             // determine the largest factor 
             decimal factor;
-            if(original.GetAspectRatio() > aspectRatio)
+            if (original.GetAspectRatio() > aspectRatio)
             {
                 factor = originalWidth / (decimal)maxWidth;
             }

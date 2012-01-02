@@ -40,7 +40,7 @@ namespace Subtext.Framework.Infrastructure.Installation
         internal static InstallationScriptInfo Parse(string resourceName)
         {
             Match match = ScriptParseRegex.Match(resourceName);
-            if(!match.Success)
+            if (!match.Success)
             {
                 return null;
             }

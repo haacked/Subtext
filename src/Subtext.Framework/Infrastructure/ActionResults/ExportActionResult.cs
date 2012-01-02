@@ -15,18 +15,17 @@
 
 #endregion
 
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
 using Subtext.ImportExport;
-using System.IO;
 
 namespace Subtext.Infrastructure.ActionResults
 {
     public class ExportActionResult : FileResult
     {
-        public ExportActionResult(IBlogMLWriter blogMLWriter, string fileName) : base("text/xml")
+        public ExportActionResult(IBlogMLWriter blogMLWriter, string fileName)
+            : base("text/xml")
         {
             BlogMLWriter = blogMLWriter;
             FileDownloadName = fileName;
@@ -34,7 +33,7 @@ namespace Subtext.Infrastructure.ActionResults
 
         public IBlogMLWriter BlogMLWriter
         {
-            get; 
+            get;
             private set;
         }
 

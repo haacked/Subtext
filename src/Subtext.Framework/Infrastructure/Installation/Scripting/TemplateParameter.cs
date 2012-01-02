@@ -61,7 +61,7 @@ namespace Subtext.Scripting
             get { return _value; }
             set
             {
-                if(value != _value)
+                if (value != _value)
                 {
                     OnValueChanged(_value, value);
                 }
@@ -72,7 +72,7 @@ namespace Subtext.Scripting
         protected void OnValueChanged(string oldValue, string newValue)
         {
             EventHandler<ParameterValueChangedEventArgs> changeEvent = ValueChanged;
-            if(changeEvent != null)
+            if (changeEvent != null)
             {
                 changeEvent(this, new ParameterValueChangedEventArgs(Name, oldValue, newValue));
             }

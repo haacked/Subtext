@@ -34,7 +34,8 @@ namespace Subtext.Framework.Exceptions
         /// Creates a new <see cref="BlogDuplicationException"/> instance.
         /// </summary>
         /// <param name="duplicate">Duplicate.</param>
-        public BlogDuplicationException(Blog duplicate) : this(duplicate, NullValue.NullInt32)
+        public BlogDuplicationException(Blog duplicate)
+            : this(duplicate, NullValue.NullInt32)
         {
         }
 
@@ -57,7 +58,7 @@ namespace Subtext.Framework.Exceptions
         {
             get
             {
-                if(_blogId == NullValue.NullInt32)
+                if (_blogId == NullValue.NullInt32)
                 {
                     return string.Format("Oooh. A blog with the same host '{0}' and subfolder '{1}' already exists.", _duplicateBlog.Host, _duplicateBlog.Subfolder);
                 }

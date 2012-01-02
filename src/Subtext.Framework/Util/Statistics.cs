@@ -33,7 +33,7 @@ namespace Subtext.Framework.Util
             double sum = 0;
             int count = 0;
 
-            foreach(double d in values)
+            foreach (double d in values)
             {
                 sum += d;
                 count++;
@@ -48,7 +48,7 @@ namespace Subtext.Framework.Util
             double sumOfDiffSquares = 0;
             int count = 0;
 
-            foreach(double d in values)
+            foreach (double d in values)
             {
                 double diff = (d - mean);
                 sumOfDiffSquares += diff * diff;
@@ -61,7 +61,7 @@ namespace Subtext.Framework.Util
         public static double StandardDeviation<TValue>(this IEnumerable<TValue> values, out double mean)
         {
             var converted = new List<double>();
-            foreach(TValue value in values)
+            foreach (TValue value in values)
             {
                 converted.Add(Convert.ToDouble(value, CultureInfo.InvariantCulture));
             }

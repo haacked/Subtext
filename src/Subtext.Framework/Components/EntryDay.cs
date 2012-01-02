@@ -16,8 +16,8 @@
 #endregion
 
 using System;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Subtext.Framework.Components
 {
@@ -34,7 +34,8 @@ namespace Subtext.Framework.Components
             BlogDay = day.Date;
         }
 
-        public EntryDay(DateTime day, IList<Entry> entries) : base(entries)
+        public EntryDay(DateTime day, IList<Entry> entries)
+            : base(entries)
         {
             BlogDay = day.Date;
         }

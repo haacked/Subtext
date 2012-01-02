@@ -32,30 +32,30 @@ namespace Subtext.Framework.Syndication.Compression
             schemes = schemes.ToLower(CultureInfo.InvariantCulture);
             SyndicationCompressionSettings settings = SyndicationCompressionSettings.GetSettings();
 
-            if(schemes.IndexOf("deflate") >= 0)
+            if (schemes.IndexOf("deflate") >= 0)
             {
                 foundDeflate = true;
             }
-            if(schemes.IndexOf("gzip") >= 0)
+            if (schemes.IndexOf("gzip") >= 0)
             {
                 foundGZip = true;
             }
 
-            if(settings.CompressionType == Algorithms.Deflate && foundDeflate)
+            if (settings.CompressionType == Algorithms.Deflate && foundDeflate)
             {
                 filter = new SyndicationCompressionFilter(new DeflateFilter(contextFilter, settings.CompressionLevel),
                                                           "deflate");
             }
-            else if(settings.CompressionType == Algorithms.GZip && foundGZip)
+            else if (settings.CompressionType == Algorithms.GZip && foundGZip)
             {
                 filter = new SyndicationCompressionFilter(new GZipFilter(contextFilter), "gzip");
             }
-            else if(foundDeflate) //-- If Use Accepts Other Than Configured
+            else if (foundDeflate) //-- If Use Accepts Other Than Configured
             {
                 filter = new SyndicationCompressionFilter(new DeflateFilter(contextFilter, settings.CompressionLevel),
                                                           "deflate");
             }
-            else if(foundGZip) //-- If Use Accepts Other Than Configured
+            else if (foundGZip) //-- If Use Accepts Other Than Configured
             {
                 filter = new SyndicationCompressionFilter(new GZipFilter(contextFilter), "gzip");
             }

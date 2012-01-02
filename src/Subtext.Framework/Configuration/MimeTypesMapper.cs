@@ -29,7 +29,7 @@ namespace Subtext.Framework.Configuration
 
         public MimeTypesMapper(NameValueCollection config)
         {
-            if(config == null)
+            if (config == null)
             {
                 throw new ArgumentNullException("config");
             }
@@ -48,11 +48,11 @@ namespace Subtext.Framework.Configuration
         /// <returns>The MimeType</returns>
         public string GetMimeType(string ext)
         {
-            if(ext == null)
+            if (ext == null)
             {
                 throw new ArgumentNullException("ext");
             }
-            if(List[ext] != null)
+            if (List[ext] != null)
             {
                 return List[ext];
             }
@@ -66,13 +66,13 @@ namespace Subtext.Framework.Configuration
         /// <returns>The MimeType.</returns>
         public string ParseUrl(string url)
         {
-            if(url == null)
+            if (url == null)
             {
                 throw new ArgumentNullException("url");
             }
             Uri uri;
 
-            if(!Uri.TryCreate(url, UriKind.Absolute, out uri))
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
             {
                 throw new ArgumentException("Url not valid.", "url");
             }

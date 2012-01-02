@@ -28,7 +28,7 @@ namespace Subtext.Framework.ModelBinders
         public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             HttpRequestBase request = controllerContext.HttpContext.Request;
-            if(request.ContentType != "text/xml")
+            if (request.ContentType != "text/xml")
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_ContentTypeMustBeXml);
             }

@@ -55,9 +55,9 @@ namespace Subtext.Framework.Tracking
                                          string description)
         {
             string trackBackItem = GetTrackBackText(pageText, url, link);
-            if(trackBackItem != null)
+            if (trackBackItem != null)
             {
-                if(!trackBackItem.ToLower(CultureInfo.InvariantCulture).StartsWith("http://"))
+                if (!trackBackItem.ToLower(CultureInfo.InvariantCulture).StartsWith("http://"))
                 {
                     trackBackItem = "http://" + trackBackItem;
                 }
@@ -67,7 +67,7 @@ namespace Subtext.Framework.Tracking
                                     HttpUtility.HtmlEncode(blogname) + "&excerpt=" + HttpUtility.HtmlEncode(description);
 
                 Uri trackBackUrl = trackBackItem.ParseUri();
-                if(trackBackUrl != null)
+                if (trackBackUrl != null)
                 {
                     return SendPing(trackBackUrl, parameters);
                 }
@@ -84,7 +84,7 @@ namespace Subtext.Framework.Tracking
             request.KeepAlive = false;
             HttpHelper.SetProxy(request);
 
-            using(var myWriter = new StreamWriter(request.GetRequestStream()))
+            using (var myWriter = new StreamWriter(request.GetRequestStream()))
             {
                 myWriter.Write(parameters);
             }
@@ -96,22 +96,22 @@ namespace Subtext.Framework.Tracking
 
         private static string GetTrackBackText(string pageText, Uri url, Uri postUrl)
         {
-            if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
+            if (!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
             {
                 const string rdfPattern = @"<rdf:\w+\s[^>]*?>(</rdf:rdf>)?";
                 var regex = new Regex(rdfPattern, RegexOptions.IgnoreCase);
-                
-                for(Match match = regex.Match(pageText); match.Success; match = match.NextMatch())
+
+                for (Match match = regex.Match(pageText); match.Success; match = match.NextMatch())
                 {
-                    if(match.Groups.ToString().Length > 0)
+                    if (match.Groups.ToString().Length > 0)
                     {
                         string text = match.Groups[0].ToString();
-                        if(text.IndexOf(url.ToString()) > 0)
+                        if (text.IndexOf(url.ToString()) > 0)
                         {
                             const string trackbackPattern = "trackback:ping=\"([^\"]+)\"";
                             var reg = new Regex(trackbackPattern, RegexOptions.IgnoreCase);
                             Match m2 = reg.Match(text);
-                            if(m2.Success)
+                            if (m2.Success)
                             {
                                 return m2.Result("$1");
                             }

@@ -36,7 +36,7 @@ namespace Subtext.Extensibility.Collections
 
         public IEnumerator<IPagedCollection<T>> GetEnumerator()
         {
-            if(_pageSize <= 0)
+            if (_pageSize <= 0)
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_PageSizeLessThanZero);
             }
@@ -44,7 +44,7 @@ namespace Subtext.Extensibility.Collections
             int pageIndex = 0;
             int pageCount = 0;
 
-            if(pageCount == 0)
+            if (pageCount == 0)
             {
                 IPagedCollection<T> page = _pageSource(pageIndex, _pageSize);
                 pageCount = (int)Math.Ceiling((double)page.MaxItems / _pageSize);
@@ -52,7 +52,7 @@ namespace Subtext.Extensibility.Collections
             }
 
             //We've already yielded page 0, so start at 1
-            while(++pageIndex < pageCount)
+            while (++pageIndex < pageCount)
             {
                 yield return _pageSource(pageIndex, _pageSize);
             }
@@ -72,9 +72,9 @@ namespace Subtext.Extensibility.Collections
 
         public IEnumerable<T> AsFlattenedEnumerable()
         {
-            foreach(var page in this)
+            foreach (var page in this)
             {
-                foreach(var item in page)
+                foreach (var item in page)
                 {
                     yield return item;
                 }

@@ -49,7 +49,7 @@ namespace Subtext.Framework.Email
 
         public void EmailCommentToBlogAuthor(FeedbackItem comment)
         {
-            if(String.IsNullOrEmpty(Blog.Email)
+            if (String.IsNullOrEmpty(Blog.Email)
                || comment.FeedbackType == FeedbackType.PingTrack
                || Context.User.IsAdministrator())
             {
@@ -57,7 +57,7 @@ namespace Subtext.Framework.Email
             }
 
             string fromEmail = comment.Email;
-            if(String.IsNullOrEmpty(fromEmail))
+            if (String.IsNullOrEmpty(fromEmail))
             {
                 fromEmail = null;
             }
@@ -86,7 +86,7 @@ namespace Subtext.Framework.Email
             string message = template.Format(commentForTemplate);
             string subject = String.Format(CultureInfo.InvariantCulture, Resources.Email_CommentVia, comment.Title,
                                            Blog.Title);
-            if(comment.FlaggedAsSpam)
+            if (comment.FlaggedAsSpam)
             {
                 subject = "[SPAM Flagged] " + subject;
             }

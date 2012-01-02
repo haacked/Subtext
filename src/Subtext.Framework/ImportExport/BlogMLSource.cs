@@ -35,13 +35,13 @@ namespace Subtext.ImportExport
 
         protected ISubtextContext SubtextContext
         {
-            get; 
+            get;
             private set;
         }
 
         protected IBlogMLExportMapper BlogMLConverter
         {
-            get; 
+            get;
             private set;
         }
 
@@ -53,14 +53,14 @@ namespace Subtext.ImportExport
         }
 
         protected IList<BlogMLCategory> Categories
-        { 
+        {
             get
             {
-                if(_categories == null)
+                if (_categories == null)
                 {
-                    
+
                     var categories = SubtextContext.Repository.GetCategories(CategoryType.PostCollection, false /*activeOnly*/);
-                    if(categories != null && categories.Count > 0)
+                    if (categories != null && categories.Count > 0)
                     {
                         _categories = BlogMLConverter.ConvertCategories(categories).ToList();
                     }
@@ -71,17 +71,17 @@ namespace Subtext.ImportExport
         }
 
         IList<BlogMLCategory> _categories;
-                
+
         protected Dictionary<string, BlogMLCategory> CategoryByTitleLookup
         {
             get
             {
                 // We need to build this lookup dictionary because an Entry only contains a collection
                 // of Category titles and not the actual categories. :(
-                if(_categoryByTitleLookup == null)
+                if (_categoryByTitleLookup == null)
                 {
                     _categoryByTitleLookup = new Dictionary<string, BlogMLCategory>();
-                    foreach(var category in Categories)
+                    foreach (var category in Categories)
                     {
                         _categoryByTitleLookup.Add(category.Title, category);
                     }
@@ -96,10 +96,10 @@ namespace Subtext.ImportExport
         {
             const int pageSize = 100;
             var collectionBook = new CollectionBook<EntryStatsView>((pageIndex, sizeOfPage) => SubtextContext.Repository.GetEntriesForExport(pageIndex, sizeOfPage), pageSize);
-            foreach(var entry in collectionBook.AsFlattenedEnumerable())
+            foreach (var entry in collectionBook.AsFlattenedEnumerable())
             {
                 var post = BlogMLConverter.ConvertEntry(entry, embedAttachments);
-                foreach(var categoryTitle in entry.Categories)
+                foreach (var categoryTitle in entry.Categories)
                 {
                     post.Categories.Add(CategoryByTitleLookup[categoryTitle].ID.ToString(CultureInfo.InvariantCulture));
                 }

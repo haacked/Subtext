@@ -48,12 +48,12 @@ namespace Subtext.Framework.Email
                 var from = new MailAddress(fromStr);
                 var to = new MailAddress(toStr);
 
-                var em = new MailMessage(from, to) {BodyEncoding = Encoding.UTF8, Subject = subject, Body = message};
+                var em = new MailMessage(from, to) { BodyEncoding = Encoding.UTF8, Subject = subject, Body = message };
                 em.ReplyToList.Add(from);
 
-                var client = new SmtpClient(SmtpServer) {Port = Port, EnableSsl = SslEnabled};
+                var client = new SmtpClient(SmtpServer) { Port = Port, EnableSsl = SslEnabled };
 
-                if(UserName != null && Password != null)
+                if (UserName != null && Password != null)
                 {
                     client.UseDefaultCredentials = false;
                     client.Credentials = new NetworkCredential(UserName, Password);
@@ -61,7 +61,7 @@ namespace Subtext.Framework.Email
 
                 client.Send(em);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error("Could not send email.", e);
                 //Swallow as this was on an async thread.

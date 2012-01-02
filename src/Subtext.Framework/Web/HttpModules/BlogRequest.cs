@@ -74,13 +74,16 @@ namespace Subtext.Framework.Web.HttpModules
         /// <value>The current.</value>
         public static BlogRequest Current
         {
-            get {
-                if (HttpContext.Current == null) {
+            get
+            {
+                if (HttpContext.Current == null)
+                {
                     return null;
                 }
-                return (BlogRequest)HttpContext.Current.Items[BlogRequestKey]; 
+                return (BlogRequest)HttpContext.Current.Items[BlogRequestKey];
             }
-            set {
+            set
+            {
                 if (HttpContext.Current != null)
                 {
                     HttpContext.Current.Items[BlogRequestKey] = value;
@@ -128,39 +131,39 @@ namespace Subtext.Framework.Web.HttpModules
 
         private static RequestLocation DetermineRequestLocation(HttpRequestBase request)
         {
-            if(IsStaticFileRequest(request))
+            if (IsStaticFileRequest(request))
             {
                 return RequestLocation.StaticFile;
             }
-            if(IsLogin(request))
+            if (IsLogin(request))
             {
                 return RequestLocation.LoginPage;
             }
-            if(IsForgotPassword(request))
+            if (IsForgotPassword(request))
             {
                 return RequestLocation.LoginPage;
             }
-            if(IsSystemMessage(request))
+            if (IsSystemMessage(request))
             {
                 return RequestLocation.SystemMessages;
             }
-            if(IsUpgrade(request))
+            if (IsUpgrade(request))
             {
                 return RequestLocation.Upgrade;
             }
-            if(IsHostAdmin(request))
+            if (IsHostAdmin(request))
             {
                 return RequestLocation.HostAdmin;
             }
-            if(IsInstallation(request))
+            if (IsInstallation(request))
             {
                 return RequestLocation.Installation;
             }
-            if(IsSkins(request))
+            if (IsSkins(request))
             {
                 return RequestLocation.Skins;
             }
-            if(IsEmbeddedResource(request))
+            if (IsEmbeddedResource(request))
             {
                 return RequestLocation.EmbeddedResource;
             }
@@ -195,12 +198,12 @@ namespace Subtext.Framework.Web.HttpModules
         {
             string appPath = request.ApplicationPath ?? string.Empty;
 
-            if(!appPath.EndsWith("/", StringComparison.Ordinal))
+            if (!appPath.EndsWith("/", StringComparison.Ordinal))
             {
                 appPath += "/";
             }
             string path = request.Path;
-            if(!path.EndsWith("/", StringComparison.Ordinal))
+            if (!path.EndsWith("/", StringComparison.Ordinal))
             {
                 path += "/";
             }
@@ -247,7 +250,7 @@ namespace Subtext.Framework.Web.HttpModules
         private static string SubfolderFromRequest(HttpRequestBase request)
         {
             string subfolder = UrlFormats.GetBlogSubfolderFromRequest(request.RawUrl, request.ApplicationPath) ?? string.Empty;
-            if(!String.IsNullOrEmpty(subfolder) && !Config.IsValidSubfolderName(subfolder))
+            if (!String.IsNullOrEmpty(subfolder) && !Config.IsValidSubfolderName(subfolder))
             {
                 subfolder = string.Empty;
             }
@@ -258,12 +261,12 @@ namespace Subtext.Framework.Web.HttpModules
         {
             string host = request.Url.Host;
 
-            if(request.IsLocal && request.Url.Host == "127.0.0.1") // For testing.
+            if (request.IsLocal && request.Url.Host == "127.0.0.1") // For testing.
             {
                 return "localhost";
             }
 
-            if(String.IsNullOrEmpty(host))
+            if (String.IsNullOrEmpty(host))
             {
                 host = request.Params["HTTP_HOST"].LeftBefore(":", StringComparison.OrdinalIgnoreCase);
             }

@@ -59,7 +59,7 @@ namespace Subtext.Framework.Tracking
         //Body of text to insert into a post with Trackback
         public static string TrackBackTag(Entry entry, Blog blog, BlogUrlHelper urlHelper)
         {
-            if(entry == null)
+            if (entry == null)
             {
                 throw new ArgumentNullException("entry");
             }

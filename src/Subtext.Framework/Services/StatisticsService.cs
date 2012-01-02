@@ -42,7 +42,7 @@ namespace Subtext.Framework.Services
 
         public void RecordAggregatorView(EntryView entryView)
         {
-            if(!Settings.EnableAggBugs || SubtextContext.HttpContext.Request.HttpMethod == "POST")
+            if (!Settings.EnableAggBugs || SubtextContext.HttpContext.Request.HttpMethod == "POST")
             {
                 return;
             }
@@ -53,7 +53,7 @@ namespace Subtext.Framework.Services
             {
                 SubtextContext.Repository.TrackEntry(entryView);
             }
-            catch(SqlException e)
+            catch (SqlException e)
             {
                 Log.Error("Could not record Aggregator view", e);
             }
@@ -61,7 +61,7 @@ namespace Subtext.Framework.Services
 
         public void RecordWebView(EntryView entryView)
         {
-            if(!Settings.EnableWebStats || SubtextContext.HttpContext.Request.HttpMethod == "POST")
+            if (!Settings.EnableWebStats || SubtextContext.HttpContext.Request.HttpMethod == "POST")
             {
                 return;
             }
@@ -73,7 +73,7 @@ namespace Subtext.Framework.Services
             {
                 SubtextContext.Repository.TrackEntry(entryView);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 // extra precautions for web view because it's not done via image bug.
                 Log.Error("Could not record Web view", e);
@@ -85,7 +85,7 @@ namespace Subtext.Framework.Services
             HttpRequestBase request = context.HttpContext.Request;
             Uri uri = request.GetUriReferrerSafe();
 
-            if(uri == null)
+            if (uri == null)
             {
                 return null;
             }
@@ -94,12 +94,12 @@ namespace Subtext.Framework.Services
             string blogDomain =
                 Blog.StripWwwPrefixFromHost(context.UrlHelper.BlogUrl().ToFullyQualifiedUrl(context.Blog).Host);
 
-            if(String.Equals(referrerDomain, blogDomain, StringComparison.OrdinalIgnoreCase))
+            if (String.Equals(referrerDomain, blogDomain, StringComparison.OrdinalIgnoreCase))
             {
                 return null;
             }
 
-            if(referrerDomain.Length == 0)
+            if (referrerDomain.Length == 0)
             {
                 Log.Warn("Somehow the referral was an empty string and not null.");
                 return null;

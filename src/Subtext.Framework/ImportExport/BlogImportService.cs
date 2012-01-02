@@ -45,7 +45,7 @@ namespace Subtext.ImportExport
 
         public void ImportBlog(BlogMLBlog blog)
         {
-            using(Repository.SetupBlogForImport())
+            using (Repository.SetupBlogForImport())
             {
                 Import(blog);
             }
@@ -57,7 +57,7 @@ namespace Subtext.ImportExport
 
             Repository.CreateCategories(blog);
 
-            foreach(BlogMLPost bmlPost in blog.Posts)
+            foreach (BlogMLPost bmlPost in blog.Posts)
             {
                 ImportBlogPost(blog, bmlPost);
             }
@@ -66,7 +66,7 @@ namespace Subtext.ImportExport
 
         private void ImportBlogPost(BlogMLBlog blog, BlogMLPost bmlPost)
         {
-            if(bmlPost.Attachments.Count > 0)
+            if (bmlPost.Attachments.Count > 0)
             {
                 //Updates the post content with new attachment urls.
                 bmlPost.Content = BlogMLContent.Create(CreateFilesFromAttachments(bmlPost), ContentTypes.Base64);
@@ -74,25 +74,25 @@ namespace Subtext.ImportExport
 
             string newEntryId = Repository.CreateBlogPost(blog, bmlPost);
 
-            foreach(BlogMLComment bmlComment in bmlPost.Comments)
+            foreach (BlogMLComment bmlComment in bmlPost.Comments)
             {
                 try
                 {
                     Repository.CreateComment(bmlComment, newEntryId);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     LogError(Resources.Import_ErrorWhileImportingComment, e);
                 }
             }
 
-            foreach(BlogMLTrackback bmlPingTrack in bmlPost.Trackbacks)
+            foreach (BlogMLTrackback bmlPingTrack in bmlPost.Trackbacks)
             {
                 try
                 {
                     Repository.CreateTrackback(bmlPingTrack, newEntryId);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     LogError(Resources.Import_ErrorWhileImportingComment, e);
                 }
@@ -110,14 +110,14 @@ namespace Subtext.ImportExport
         public string CreateFilesFromAttachments(BlogMLPost post)
         {
             string postContent = post.Content.UncodedText;
-            foreach(BlogMLAttachment bmlAttachment in post.Attachments)
+            foreach (BlogMLAttachment bmlAttachment in post.Attachments)
             {
                 string assetDirPath = Repository.GetAttachmentDirectoryPath();
                 string assetDirUrl = Repository.GetAttachmentDirectoryUrl();
 
-                if(!String.IsNullOrEmpty(assetDirPath) && !String.IsNullOrEmpty(assetDirUrl))
+                if (!String.IsNullOrEmpty(assetDirPath) && !String.IsNullOrEmpty(assetDirUrl))
                 {
-                    if(!Directory.Exists(assetDirPath))
+                    if (!Directory.Exists(assetDirPath))
                     {
                         Directory.CreateDirectory(assetDirPath);
                     }
@@ -139,13 +139,13 @@ namespace Subtext.ImportExport
                 attachment.Url,
                 newAttachmentUrl);
 
-            if(attachment.Embedded)
+            if (attachment.Embedded)
             {
-                if(!File.Exists(attachmentPath))
+                if (!File.Exists(attachmentPath))
                 {
-                    using(var fStream = new FileStream(attachmentPath, FileMode.CreateNew))
+                    using (var fStream = new FileStream(attachmentPath, FileMode.CreateNew))
                     {
-                        using(var writer = new BinaryWriter(fStream))
+                        using (var writer = new BinaryWriter(fStream))
                         {
                             writer.Write(attachment.Data);
                         }

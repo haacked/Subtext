@@ -40,7 +40,8 @@ namespace Subtext.Framework.Services
         /// </summary>
         /// <param name="apiKey">The API key.</param>
         /// <param name="blog">The blog.</param>
-        public AkismetSpamService(string apiKey, Blog blog) : this(apiKey, blog, null, null)
+        public AkismetSpamService(string apiKey, Blog blog)
+            : this(apiKey, blog, null, null)
         {
         }
 
@@ -49,7 +50,7 @@ namespace Subtext.Framework.Services
             _blog = blog;
             _akismet = akismetClient ?? new AkismetClient(apiKey, urlHelper.BlogUrl().ToFullyQualifiedUrl(blog));
             IWebProxy proxy = HttpHelper.GetProxy();
-            if(proxy != null)
+            if (proxy != null)
             {
                 _akismet.Proxy = proxy;
             }
@@ -67,13 +68,13 @@ namespace Subtext.Framework.Services
 
             try
             {
-                if(_akismet.CheckCommentForSpam(comment))
+                if (_akismet.CheckCommentForSpam(comment))
                 {
                     _akismet.SubmitSpam(comment);
                     return true;
                 }
             }
-            catch(InvalidResponseException e)
+            catch (InvalidResponseException e)
             {
                 Log.Error(e.Message, e);
             }
@@ -112,7 +113,7 @@ namespace Subtext.Framework.Services
             {
                 return _akismet.VerifyApiKey();
             }
-            catch(WebException e)
+            catch (WebException e)
             {
                 Log.Error("Error occured while verifying Akismet.", e);
                 return false;
@@ -121,8 +122,8 @@ namespace Subtext.Framework.Services
 
         public Comment ConvertToAkismetItem(FeedbackItem feedback)
         {
-            var comment = new Comment(feedback.IpAddress, feedback.UserAgent) {Author = feedback.Author ?? string.Empty, AuthorEmail = feedback.Email};
-            if(feedback.SourceUrl != null)
+            var comment = new Comment(feedback.IpAddress, feedback.UserAgent) { Author = feedback.Author ?? string.Empty, AuthorEmail = feedback.Email };
+            if (feedback.SourceUrl != null)
             {
                 comment.AuthorUrl = feedback.SourceUrl;
             }
@@ -130,10 +131,10 @@ namespace Subtext.Framework.Services
             comment.Referrer = feedback.Referrer;
 
             var feedbackUrl = _urlHelper.FeedbackUrl(feedback);
-            if(feedbackUrl != null)
+            if (feedbackUrl != null)
             {
                 Uri permalink = feedbackUrl.ToFullyQualifiedUrl(_blog);
-                if(permalink != null)
+                if (permalink != null)
                 {
                     comment.Permalink = permalink;
                 }

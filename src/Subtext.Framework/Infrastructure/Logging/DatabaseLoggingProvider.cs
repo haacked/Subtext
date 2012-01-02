@@ -43,7 +43,7 @@ namespace Subtext.Framework.Logging
         /// <returns></returns>
         public override IPagedCollection<LogEntry> GetPagedLogEntries(int pageIndex, int pageSize)
         {
-            using(IDataReader reader = _procedures.GetPageableLogEntries(BlogId, pageIndex, pageSize))
+            using (IDataReader reader = _procedures.GetPageableLogEntries(BlogId, pageIndex, pageSize))
             {
                 return reader.ReadPagedCollection(r => r.ReadObject<LogEntry>());
             }

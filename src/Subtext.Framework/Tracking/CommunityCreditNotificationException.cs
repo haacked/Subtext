@@ -25,7 +25,8 @@ namespace Subtext.Framework.Tracking
         {
         }
 
-        public CommunityCreditNotificationException(string message) : base(message)
+        public CommunityCreditNotificationException(string message)
+            : base(message)
         {
         }
 

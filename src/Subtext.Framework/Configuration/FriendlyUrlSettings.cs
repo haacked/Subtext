@@ -40,14 +40,14 @@ namespace Subtext.Configuration
         /// <param name="config">The config.</param>
         public FriendlyUrlSettings(NameValueCollection config)
         {
-            if(config == null)
+            if (config == null)
             {
                 return;
             }
             TextTransformation = ParseTextTransform(config["textTransform"]);
             SeparatingCharacter = config["separatingCharacter"];
             string wordCountLimitText = config["limitWordCount"];
-            if(!String.IsNullOrEmpty(wordCountLimitText))
+            if (!String.IsNullOrEmpty(wordCountLimitText))
             {
                 int wordCountLimit;
                 int.TryParse(wordCountLimitText, out wordCountLimit);
@@ -73,7 +73,7 @@ namespace Subtext.Configuration
 
         static TextTransform ParseTextTransform(string enumValue)
         {
-            if(String.IsNullOrEmpty(enumValue))
+            if (String.IsNullOrEmpty(enumValue))
             {
                 return TextTransform.None;
             }
@@ -81,7 +81,7 @@ namespace Subtext.Configuration
             {
                 return (TextTransform)Enum.Parse(typeof(TextTransform), enumValue);
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 Log.Warn(
                     "The 'textTransform' setting in the FriendlyUrlSettings section of Web.config has an incorrect value. It should be 'None', 'LowerCase', or 'UpperCase'");
@@ -91,7 +91,7 @@ namespace Subtext.Configuration
 
         public static string TransformString(string s, TextTransform textTransform)
         {
-            switch(textTransform)
+            switch (textTransform)
             {
                 case TextTransform.None:
                     break;

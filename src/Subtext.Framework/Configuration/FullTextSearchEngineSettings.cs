@@ -17,12 +17,7 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Xml.Serialization;
 using Lucene.Net.Analysis;
 
@@ -51,8 +46,8 @@ namespace Subtext.Framework.Configuration
         [XmlElement("StopWords")]
         public string StopWordsString
         {
-            set 
-            { 
+            set
+            {
                 _stopWordsString = value;
                 String[] stopWords = _stopWordsString.Split(',');
 
@@ -79,7 +74,7 @@ namespace Subtext.Framework.Configuration
             MoreLikeThisBoost = true;
             MinimumDocumentFrequency = 5;
             MinimumTermFrequency = 2;
-         }
+        }
 
         /// <summary>
         /// Boost to apply to the title of an entry. Default is 2.

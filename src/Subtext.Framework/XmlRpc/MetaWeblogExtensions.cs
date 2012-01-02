@@ -38,11 +38,11 @@ namespace Subtext.Framework.XmlRpc
                 entry.Description = post.excerpt;
             }
 
-            if(post.categories != null)
+            if (post.categories != null)
             {
                 entry.Categories.AddRange(post.categories);
             }
-            if(!string.IsNullOrEmpty(post.wp_slug))
+            if (!string.IsNullOrEmpty(post.wp_slug))
             {
                 entry.EntryName = post.wp_slug;
             }

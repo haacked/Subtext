@@ -4,7 +4,8 @@ namespace Subtext.Framework.UI.Skinning
 {
     public class SkinControlLoadException : Exception
     {
-        public SkinControlLoadException(string message, string controlPath, Exception exception) : base(message, exception)
+        public SkinControlLoadException(string message, string controlPath, Exception exception)
+            : base(message, exception)
         {
             ControlPath = controlPath;
         }

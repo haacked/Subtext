@@ -23,16 +23,22 @@ namespace Subtext.Framework.XmlRpc
     [XmlRpcMissingMapping(MappingAction.Ignore)]
     public struct Post
     {
-        [XmlRpcMember("categories", Description = "Contains categories for the post.")] public string[] categories;
+        [XmlRpcMember("categories", Description = "Contains categories for the post.")]
+        public string[] categories;
 
-        [XmlRpcMissingMapping(MappingAction.Error)] [XmlRpcMember(Description = "Required when posting.")] public
+        [XmlRpcMissingMapping(MappingAction.Error)]
+        [XmlRpcMember(Description = "Required when posting.")]
+        public
             DateTime? dateCreated;
 
-        [XmlRpcMissingMapping(MappingAction.Error)] [XmlRpcMember(Description = "Required when posting.")] public string
+        [XmlRpcMissingMapping(MappingAction.Error)]
+        [XmlRpcMember(Description = "Required when posting.")]
+        public string
             description;
 
         public Enclosure? enclosure;
-        [XmlRpcMember("mt_excerpt")] public string excerpt;
+        [XmlRpcMember("mt_excerpt")]
+        public string excerpt;
         public string link;
         public string permalink;
 
@@ -40,11 +46,14 @@ namespace Subtext.Framework.XmlRpc
             Description = "Not required when posting. Depending on server may "
                           + "be either string or integer. "
                           + "Use Convert.ToInt32(postid) to treat as integer or "
-                          + "Convert.ToString(postid) to treat as string")] public object postid;
+                          + "Convert.ToString(postid) to treat as string")]
+        public object postid;
 
         public Source source;
 
-        [XmlRpcMissingMapping(MappingAction.Error)] [XmlRpcMember(Description = "Required when posting.")] public string
+        [XmlRpcMissingMapping(MappingAction.Error)]
+        [XmlRpcMember(Description = "Required when posting.")]
+        public string
             title;
 
         public string userid;

@@ -61,23 +61,23 @@ namespace Subtext.Framework.Web.Handlers
             //Append all styles into one file
 
             context.Response.Write(string.Format("/*{0}", Environment.NewLine));
-            foreach(StyleDefinition style in styles)
+            foreach (StyleDefinition style in styles)
             {
                 context.Response.Write(style + Environment.NewLine);
             }
             context.Response.Write(string.Format("*/{0}", Environment.NewLine));
 
-            foreach(StyleDefinition style in styles)
+            foreach (StyleDefinition style in styles)
             {
                 context.Response.Write(Environment.NewLine + "/* " + style + " */" + Environment.NewLine);
                 string path = context.Server.MapPath(style.Href);
-                if(File.Exists(path))
+                if (File.Exists(path))
                 {
                     string cssFile = File.ReadAllText(path);
                     // Normalize path.
                     cssFile = cssFile.Replace("url(../images", "url(../../images");
                     cssFile = cssFile.Replace("url(../Images", "url(../../Images");
-                    if(!String.IsNullOrEmpty(style.Media) && styles.Count > 1)
+                    if (!String.IsNullOrEmpty(style.Media) && styles.Count > 1)
                     {
                         context.Response.Write("@media " + style.Media + "{\r\n");
                         context.Response.Write(cssFile);
@@ -102,7 +102,7 @@ namespace Subtext.Framework.Web.Handlers
 
         private static void SetHeaders(IEnumerable<StyleDefinition> styles, HttpContext context)
         {
-            foreach(StyleDefinition style in styles)
+            foreach (StyleDefinition style in styles)
             {
                 context.Response.AddFileDependency(context.Server.MapPath(style.Href));
             }
@@ -126,7 +126,7 @@ namespace Subtext.Framework.Web.Handlers
         protected override bool ValidateParameters(HttpContext context)
         {
             string skinName = context.Request.Params["name"];
-            if(String.IsNullOrEmpty(skinName))
+            if (String.IsNullOrEmpty(skinName))
             {
                 return false;
             }

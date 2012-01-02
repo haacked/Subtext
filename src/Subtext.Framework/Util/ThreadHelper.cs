@@ -28,12 +28,13 @@ namespace Subtext.Framework.Util
 
         public static bool FireAndForget(WaitCallback callback, string failureLogMessage)
         {
-            return ThreadPool.QueueUserWorkItem(o => {
+            return ThreadPool.QueueUserWorkItem(o =>
+            {
                 try
                 {
                     callback(o);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Log.Error(failureLogMessage, e);
                 }

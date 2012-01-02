@@ -15,8 +15,8 @@
 
 #endregion
 
-using BlogML.Xml;
 using System.Collections.Generic;
+using BlogML.Xml;
 
 namespace Subtext.ImportExport
 {

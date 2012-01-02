@@ -56,17 +56,17 @@ namespace Subtext.Framework.Web.Handlers
             //Append all styles into one file
 
             context.Response.Write("/*" + Environment.NewLine);
-            foreach(string script in scripts)
+            foreach (string script in scripts)
             {
                 context.Response.Write(script + Environment.NewLine);
             }
             context.Response.Write("*/" + Environment.NewLine);
 
-            foreach(string script in scripts)
+            foreach (string script in scripts)
             {
                 context.Response.Write(Environment.NewLine + "/* " + script + " */" + Environment.NewLine);
                 string path = context.Server.MapPath(script);
-                if(File.Exists(path))
+                if (File.Exists(path))
                 {
                     string jsFile = File.ReadAllText(context.Server.MapPath(script));
                     context.Response.Write(jsFile);
@@ -85,7 +85,7 @@ namespace Subtext.Framework.Web.Handlers
 
         private static void SetHeaders(IEnumerable<string> styles, HttpContext context)
         {
-            foreach(string style in styles)
+            foreach (string style in styles)
             {
                 context.Response.AddFileDependency(context.Server.MapPath(style));
             }
@@ -107,7 +107,7 @@ namespace Subtext.Framework.Web.Handlers
         protected override bool ValidateParameters(HttpContext context)
         {
             string skinName = context.Request.Params["name"];
-            if(String.IsNullOrEmpty(skinName))
+            if (String.IsNullOrEmpty(skinName))
             {
                 return false;
             }

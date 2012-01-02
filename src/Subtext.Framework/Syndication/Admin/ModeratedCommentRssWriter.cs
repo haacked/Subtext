@@ -40,7 +40,7 @@ namespace Subtext.Framework.Syndication.Admin
                                             60,
                                             null);
 
-            Uri url = UrlHelper.AdminUrl("Feedback.aspx", new {status = 2}).ToFullyQualifiedUrl(Blog);
+            Uri url = UrlHelper.AdminUrl("Feedback.aspx", new { status = 2 }).ToFullyQualifiedUrl(Blog);
             BuildChannel(CommentEntry.Title, url, CommentEntry.Email,
                          CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, Blog.Language,
                          Blog.Author, Blog.LicenseUrl, image);

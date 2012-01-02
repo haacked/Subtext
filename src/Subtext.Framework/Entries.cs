@@ -18,7 +18,6 @@
 using System.Collections.Generic;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
-using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 

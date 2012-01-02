@@ -25,7 +25,8 @@ namespace Subtext.Framework.Routing
     {
         readonly Route _parent;
 
-        public SubfolderRoute(Route parent) : base("{subfolder}/" + parent.Url, parent.RouteHandler)
+        public SubfolderRoute(Route parent)
+            : base("{subfolder}/" + parent.Url, parent.RouteHandler)
         {
             _parent = parent;
             Constraints = parent.Constraints;
@@ -36,9 +37,9 @@ namespace Subtext.Framework.Routing
         public RouteData GetRouteData(HttpContextBase httpContext, string subfolder)
         {
             RouteData routeData = GetRouteData(httpContext);
-            if(routeData != null)
+            if (routeData != null)
             {
-                if(!String.Equals(subfolder, routeData.GetSubfolder(), StringComparison.OrdinalIgnoreCase))
+                if (!String.Equals(subfolder, routeData.GetSubfolder(), StringComparison.OrdinalIgnoreCase))
                 {
                     return null;
                 }
@@ -49,7 +50,7 @@ namespace Subtext.Framework.Routing
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
             RouteData routeData = base.GetRouteData(httpContext);
-            if(routeData != null)
+            if (routeData != null)
             {
                 routeData.Route = _parent;
             }

@@ -68,11 +68,11 @@ namespace Subtext.Framework.Tracking
             {
                 page = HttpHelper.GetPageText(sourceUrl);
             }
-            catch(WebException e)
+            catch (WebException e)
             {
                 Log.Warn("Could not verify the source of a ping/trackback", e);
             }
-            if(page == null || targetUrl == null)
+            if (page == null || targetUrl == null)
             {
                 return false;
             }
@@ -80,7 +80,7 @@ namespace Subtext.Framework.Tracking
             const string pattern = @"<head.*?>.*<title.*?>(.*)</title.*?>.*</head.*?>";
             var regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             Match match = regex.Match(page);
-            if(match.Success)
+            if (match.Success)
             {
                 pageTitle = match.Result("$1");
                 return true;

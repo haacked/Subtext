@@ -30,7 +30,8 @@ namespace Subtext.Framework.Components
         {
         }
 
-        public PagedCollection(IEnumerable<T> collection) : base(collection)
+        public PagedCollection(IEnumerable<T> collection)
+            : base(collection)
         {
         }
 

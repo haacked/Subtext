@@ -30,7 +30,8 @@ namespace Subtext.Framework.Syndication
     {
         BaseSyndicationWriter<Entry> _writer;
 
-        public AtomHandler(ISubtextContext subtextContext) : base(subtextContext)
+        public AtomHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
@@ -42,7 +43,7 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if(_writer == null)
+                if (_writer == null)
                 {
                     _writer = new AtomWriter(SubtextContext.RequestContext.HttpContext.Response.Output,
                                             Repository.GetMainSyndicationEntries(Blog.ItemCount),
@@ -74,7 +75,7 @@ namespace Subtext.Framework.Syndication
         protected override void Cache(CachedFeed feed)
         {
             ICache cache = SubtextContext.Cache;
-            if(cache != null)
+            if (cache != null)
             {
                 cache.InsertDuration(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublishedUtc), feed,
                                      Cacher.MediumDuration, null);

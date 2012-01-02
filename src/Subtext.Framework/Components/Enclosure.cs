@@ -44,15 +44,15 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(Size < 1024)
+                if (Size < 1024)
                 {
                     return Size + " bytes";
                 }
-                if(Size < 1024 * 1024)
+                if (Size < 1024 * 1024)
                 {
                     return Math.Round(((double)Size / 1024), 2) + " KB";
                 }
-                if(Size < 1024 * 1024 * 1024)
+                if (Size < 1024 * 1024 * 1024)
                 {
                     return Math.Round(((double)Size / (1024 * 1024)), 2) + " MB";
                 }
@@ -65,25 +65,25 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(EntryId == 0)
+                if (EntryId == 0)
                 {
                     ValidationMessage = Resources.Enclosure_NeedsAnEntry;
                     return false;
                 }
 
-                if(string.IsNullOrEmpty(Url))
+                if (string.IsNullOrEmpty(Url))
                 {
                     ValidationMessage = Resources.Enclosure_UrlRequired;
                     return false;
                 }
 
-                if(string.IsNullOrEmpty(MimeType))
+                if (string.IsNullOrEmpty(MimeType))
                 {
                     ValidationMessage = Resources.Enclosure_MimeTypeRequired;
                     return false;
                 }
 
-                if(Size == 0)
+                if (Size == 0)
                 {
                     ValidationMessage = Resources.Enclosure_SizeGreaterThanZero;
                     return false;

@@ -32,7 +32,7 @@ namespace Subtext.Framework.Exceptions
             InvalidPhysicalPaths = physicalPaths;
             _message = "In order to complete the upgrade, please delete the following directories/files." +
                       Environment.NewLine;
-            foreach(string path in physicalPaths)
+            foreach (string path in physicalPaths)
             {
                 _message += " " + path + Environment.NewLine;
             }

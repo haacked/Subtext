@@ -95,7 +95,8 @@ namespace Subtext.Scripting
                        || String.Equals(_securityType, "true", StringComparison.OrdinalIgnoreCase);
             }
 
-            set {
+            set
+            {
                 _securityType = value ? "true" : String.Empty;
             }
         }
@@ -137,7 +138,7 @@ namespace Subtext.Scripting
             var regex = new Regex(@"(?<serverField>Data\s+Source|Server)\s*=\s*(?<server>.*?)(;|$|\s)",
                                   RegexOptions.IgnoreCase);
             Match match = regex.Match(connectionString);
-            if(match.Success)
+            if (match.Success)
             {
                 Server = match.Groups["server"].Value;
             }
@@ -148,24 +149,24 @@ namespace Subtext.Scripting
             var regex = new Regex(@"(?<databaseField>Database|Initial Catalog)\s*=\s*(?<database>.*?)(;|$|\s)",
                                   RegexOptions.IgnoreCase);
             Match match = regex.Match(connectionString);
-            if(match.Success)
+            if (match.Success)
             {
                 Database = match.Groups["database"].Value;
-                if(!String.IsNullOrEmpty(Database))
+                if (!String.IsNullOrEmpty(Database))
                 {
                     return;
                 }
             }
 
-            if(String.IsNullOrEmpty(Database))
+            if (String.IsNullOrEmpty(Database))
             {
                 regex = new Regex(@"AttachDbFilename\s*=\s*\|DataDirectory\|\\(?<database>.*?)(;|$|\s)",
                                   RegexOptions.IgnoreCase);
                 match = regex.Match(connectionString);
-                if(match.Success)
+                if (match.Success)
                 {
                     Database = match.Groups["database"].Value;
-                    if(!String.IsNullOrEmpty(Database))
+                    if (!String.IsNullOrEmpty(Database))
                     {
                         return;
                     }
@@ -177,7 +178,7 @@ namespace Subtext.Scripting
         {
             var regex = new Regex(@"User\s+Id\s*=\s*(?<userId>.*?)(;|$|\s)", RegexOptions.IgnoreCase);
             Match match = regex.Match(connectionString);
-            if(match.Success)
+            if (match.Success)
             {
                 UserId = match.Groups["userId"].Value;
             }
@@ -187,7 +188,7 @@ namespace Subtext.Scripting
         {
             var regex = new Regex(@"Password\s*=\s*(?<password>.*?)(;|$|\s)", RegexOptions.IgnoreCase);
             Match match = regex.Match(connectionString);
-            if(match.Success)
+            if (match.Success)
             {
                 Password = match.Groups["password"].Value;
             }
@@ -200,7 +201,7 @@ namespace Subtext.Scripting
                     @"(?<securityTypeField>Integrated\s+Security|Trusted_Connection)\s*=\s*(?<securityType>.*?)(;|$|\s)",
                     RegexOptions.IgnoreCase);
             Match match = regex.Match(connectionString);
-            if(match.Success)
+            if (match.Success)
             {
                 _securityType = match.Groups["securityType"].Value;
             }

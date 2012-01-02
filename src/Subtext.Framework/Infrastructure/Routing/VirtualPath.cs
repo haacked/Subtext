@@ -25,7 +25,7 @@ namespace Subtext.Framework.Routing
 
         public VirtualPath(string virtualPath)
         {
-            if(virtualPath == null)
+            if (virtualPath == null)
             {
                 throw new ArgumentNullException("virtualPath");
             }
@@ -35,7 +35,7 @@ namespace Subtext.Framework.Routing
 
         public static implicit operator String(VirtualPath vp)
         {
-            if(vp == null)
+            if (vp == null)
             {
                 return null;
             }
@@ -44,7 +44,7 @@ namespace Subtext.Framework.Routing
 
         public static implicit operator VirtualPath(string virtualPath)
         {
-            if(String.IsNullOrEmpty(virtualPath))
+            if (String.IsNullOrEmpty(virtualPath))
             {
                 return null;
             }

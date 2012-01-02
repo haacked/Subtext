@@ -62,12 +62,12 @@ namespace Subtext.Akismet
             ServicePointManager.Expect100Continue = false;
             var request = WebRequest.Create(url) as HttpWebRequest;
 
-            if(proxy != null)
+            if (proxy != null)
             {
                 request.Proxy = proxy;
             }
 
-            if(null != request)
+            if (null != request)
             {
                 request.UserAgent = userAgent;
                 request.Timeout = timeout;
@@ -76,14 +76,14 @@ namespace Subtext.Akismet
                 request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
                 request.KeepAlive = true;
 
-                using(var myWriter = new StreamWriter(request.GetRequestStream()))
+                using (var myWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     myWriter.Write(formParameters);
                 }
             }
 
             var response = (HttpWebResponse)request.GetResponse();
-            if(response.StatusCode < HttpStatusCode.OK && response.StatusCode >= HttpStatusCode.Ambiguous)
+            if (response.StatusCode < HttpStatusCode.OK && response.StatusCode >= HttpStatusCode.Ambiguous)
             {
                 throw new InvalidResponseException(
                     string.Format(CultureInfo.InvariantCulture, Resources.InvalidResponse_ServiceUnableToHandleRequest,
@@ -91,8 +91,8 @@ namespace Subtext.Akismet
             }
 
             string responseText;
-            using(var reader = new StreamReader(response.GetResponseStream(), Encoding.ASCII))
-                //They only return "true" or "false"
+            using (var reader = new StreamReader(response.GetResponseStream(), Encoding.ASCII))
+            //They only return "true" or "false"
             {
                 responseText = reader.ReadToEnd();
             }

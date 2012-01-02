@@ -29,7 +29,7 @@ namespace Subtext.Framework.Data
     public partial class StoredProcedures
     {
         private readonly static ILog Log = new Log();
-        
+
         public StoredProcedures(string connectionString)
         {
             ConnectionString = connectionString;
@@ -51,16 +51,16 @@ namespace Subtext.Framework.Data
 
         private IDataReader GetReader(string sql, SqlParameter[] parameters)
         {
-            return ExecuteQueryAndLogError((sqlStatement, sqlParams) => 
+            return ExecuteQueryAndLogError((sqlStatement, sqlParams) =>
                 SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sqlStatement, sqlParams), sql, parameters);
         }
 
         private int NonQueryInt(string sql, SqlParameter[] parameters)
         {
             var transaction = _transaction;
-            return ExecuteQueryAndLogError((sqlStatement, sqlParams) => 
+            return ExecuteQueryAndLogError((sqlStatement, sqlParams) =>
             {
-                if(transaction != null)
+                if (transaction != null)
                 {
                     return SqlHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, sqlStatement, sqlParams);
                 }
@@ -74,7 +74,7 @@ namespace Subtext.Framework.Data
             {
                 return query(sql, parameters);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 LogSqlStatement(sql, parameters);
                 throw; // Let the caller determine how to handle the exception.
@@ -84,10 +84,10 @@ namespace Subtext.Framework.Data
         private static void LogSqlStatement(string sql, IEnumerable<SqlParameter> parameters)
         {
             string sqlStatement = sql;
-            if(parameters != null)
+            if (parameters != null)
             {
                 sqlStatement += " ";
-                foreach(var parameter in parameters)
+                foreach (var parameter in parameters)
                 {
                     sqlStatement += parameter.ParameterName + "=" + parameter.Value + ", ";
                 }
@@ -104,8 +104,9 @@ namespace Subtext.Framework.Data
         /// Gets or sets the connection string.
         /// </summary>
         /// <value></value>
-        protected string ConnectionString {
-            get; 
+        protected string ConnectionString
+        {
+            get;
             set;
         }
 
@@ -155,7 +156,7 @@ namespace Subtext.Framework.Data
             {
                 return GetPageableBlogs(pageIndex, pageSize, host, (int)flags);
             }
-            catch(SqlException)
+            catch (SqlException)
             {
                 SqlParameter[] p = {
                                        DataHelper.MakeInParam("@PageIndex", pageIndex),

@@ -45,7 +45,7 @@ namespace Subtext.Framework.Util
         {
             RouteValueDictionary routeValues = requestContext.RouteData.Values;
             int id;
-            if(!routeValues.ContainsKey("id") ||
+            if (!routeValues.ContainsKey("id") ||
                !int.TryParse((string)routeValues["id"], out id))
             {
                 return null;

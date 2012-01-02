@@ -55,7 +55,7 @@ namespace Subtext.Framework.Infrastructure.Installation
         public static void ExecuteScript(string scriptName, SqlTransaction transaction, string dbUserName)
         {
             var scriptRunner = new SqlScriptRunner(UnpackEmbeddedScript(scriptName), Encoding.UTF8);
-            if(!string.IsNullOrEmpty(dbUserName))
+            if (!string.IsNullOrEmpty(dbUserName))
             {
                 scriptRunner.TemplateParameters.SetValue("dbUser", dbUserName);
             }
@@ -69,7 +69,7 @@ namespace Subtext.Framework.Infrastructure.Installation
         public static string UnpackEmbeddedScriptAsString(string scriptName)
         {
             Stream stream = UnpackEmbeddedScript(scriptName);
-            using(var reader = new StreamReader(stream))
+            using (var reader = new StreamReader(stream))
             {
                 return reader.ReadToEnd();
             }

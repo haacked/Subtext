@@ -20,8 +20,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Subtext.Scripting.Exceptions;
 using Subtext.Framework.Properties;
+using Subtext.Scripting.Exceptions;
 
 namespace Subtext.Scripting
 {
@@ -58,22 +58,22 @@ namespace Subtext.Scripting
 
         public IEnumerator<string> GetEnumerator()
         {
-            while(Next())
+            while (Next())
             {
-                if(Split())
+                if (Split())
                 {
                     string script = _builder.ToString().Trim();
-                    if(script.Length > 0)
+                    if (script.Length > 0)
                     {
                         yield return (script);
                     }
                     Reset();
                 }
             }
-            if(_builder.Length > 0)
+            if (_builder.Length > 0)
             {
                 string scriptRemains = _builder.ToString().Trim();
-                if(scriptRemains.Length > 0)
+                if (scriptRemains.Length > 0)
                 {
                     yield return (scriptRemains);
                 }
@@ -89,7 +89,7 @@ namespace Subtext.Scripting
 
         internal bool Next()
         {
-            if(!HasNext)
+            if (!HasNext)
             {
                 return false;
             }
@@ -146,18 +146,18 @@ namespace Subtext.Scripting
         /// </summary>
         public bool ReadNextSection()
         {
-            if(IsQuote)
+            if (IsQuote)
             {
                 ReadQuotedString();
                 return false;
             }
 
-            if(BeginDashDashComment)
+            if (BeginDashDashComment)
             {
                 return ReadDashDashComment();
             }
 
-            if(BeginSlashStarComment)
+            if (BeginSlashStarComment)
             {
                 ReadSlashStarComment();
                 return false;
@@ -169,10 +169,10 @@ namespace Subtext.Scripting
         protected virtual bool ReadDashDashComment()
         {
             Splitter.Append(Current);
-            while(Splitter.Next())
+            while (Splitter.Next())
             {
                 Splitter.Append(Current);
-                if(EndOfLine)
+                if (EndOfLine)
                 {
                     break;
                 }
@@ -184,7 +184,7 @@ namespace Subtext.Scripting
 
         protected virtual void ReadSlashStarComment()
         {
-            if(ReadSlashStarCommentWithResult())
+            if (ReadSlashStarCommentWithResult())
             {
                 Splitter.SetParser(new SeparatorLineReader(Splitter));
                 return;
@@ -194,16 +194,16 @@ namespace Subtext.Scripting
         private bool ReadSlashStarCommentWithResult()
         {
             Splitter.Append(Current);
-            while(Splitter.Next())
+            while (Splitter.Next())
             {
-                if(BeginSlashStarComment)
+                if (BeginSlashStarComment)
                 {
                     ReadSlashStarCommentWithResult();
                     continue;
                 }
                 Splitter.Append(Current);
 
-                if(EndSlashStarComment)
+                if (EndSlashStarComment)
                 {
                     return true;
                 }
@@ -214,10 +214,10 @@ namespace Subtext.Scripting
         protected virtual void ReadQuotedString()
         {
             Splitter.Append(Current);
-            while(Splitter.Next())
+            while (Splitter.Next())
             {
                 Splitter.Append(Current);
-                if(IsQuote)
+                if (IsQuote)
                 {
                     return;
                 }
@@ -285,7 +285,7 @@ namespace Subtext.Scripting
 
         protected char Peek()
         {
-            if(!HasNext)
+            if (!HasNext)
             {
                 return char.MinValue;
             }
@@ -315,7 +315,7 @@ namespace Subtext.Scripting
 
         protected override bool ReadDashDashComment()
         {
-            if(!_foundGo)
+            if (!_foundGo)
             {
                 base.ReadDashDashComment();
                 return false;
@@ -326,7 +326,7 @@ namespace Subtext.Scripting
 
         protected override void ReadSlashStarComment()
         {
-            if(_foundGo)
+            if (_foundGo)
             {
                 throw new SqlParseException(Resources.SqlParseException_IncorrectSyntaxNearGo);
             }
@@ -335,9 +335,9 @@ namespace Subtext.Scripting
 
         protected override bool ReadNext()
         {
-            if(EndOfLine) //End of line or script
+            if (EndOfLine) //End of line or script
             {
-                if(!_foundGo)
+                if (!_foundGo)
                 {
                     _builder.Append(Current);
                     Splitter.Append(_builder.ToString());
@@ -348,21 +348,21 @@ namespace Subtext.Scripting
                 return true;
             }
 
-            if(WhiteSpace)
+            if (WhiteSpace)
             {
                 _builder.Append(Current);
                 return false;
             }
 
-            if(!CharEquals('g') && !CharEquals('o'))
+            if (!CharEquals('g') && !CharEquals('o'))
             {
                 FoundNonEmptyCharacter(Current);
                 return false;
             }
 
-            if(CharEquals('o'))
+            if (CharEquals('o'))
             {
-                if(CharEquals('g', LastChar) && !_foundGo)
+                if (CharEquals('g', LastChar) && !_foundGo)
                 {
                     _foundGo = true;
                 }
@@ -372,9 +372,9 @@ namespace Subtext.Scripting
                 }
             }
 
-            if(CharEquals('g', Current))
+            if (CharEquals('g', Current))
             {
-                if(_gFound || (!Char.IsWhiteSpace(LastChar) && LastChar != char.MinValue))
+                if (_gFound || (!Char.IsWhiteSpace(LastChar) && LastChar != char.MinValue))
                 {
                     FoundNonEmptyCharacter(Current);
                     return false;
@@ -383,7 +383,7 @@ namespace Subtext.Scripting
                 _gFound = true;
             }
 
-            if(!HasNext && _foundGo)
+            if (!HasNext && _foundGo)
             {
                 Reset();
                 return true;
@@ -410,7 +410,7 @@ namespace Subtext.Scripting
 
         protected override bool ReadNext()
         {
-            if(EndOfLine) //end of line
+            if (EndOfLine) //end of line
             {
                 Splitter.Append(Current);
                 Splitter.SetParser(new SeparatorLineReader(Splitter));

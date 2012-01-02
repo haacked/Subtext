@@ -61,7 +61,7 @@ namespace Subtext.Framework.Util
         public static T DeserializeFromBase64String<T>(string base64SerializedObject)
         {
             byte[] serialized = Convert.FromBase64String(base64SerializedObject);
-            var stream = new MemoryStream(serialized) {Position = 0};
+            var stream = new MemoryStream(serialized) { Position = 0 };
             var formatter = new BinaryFormatter();
             object o = formatter.Deserialize(stream);
             return (T)o;

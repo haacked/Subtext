@@ -40,7 +40,8 @@ namespace Subtext.Framework.Syndication
         /// <param name="url">The URL.</param>
         /// <param name="title">The title.</param>
         /// <param name="link">The link.</param>
-        public RssImageElement(Uri url, string title, Uri link) : this(url, title, link, null, null, null)
+        public RssImageElement(Uri url, string title, Uri link)
+            : this(url, title, link, null, null, null)
         {
         }
 
@@ -129,17 +130,17 @@ namespace Subtext.Framework.Syndication
             writer.WriteElementString("url", _url.ToString());
             writer.WriteElementString("link", _link.ToString());
 
-            if(_width != null)
+            if (_width != null)
             {
                 writer.WriteElementString("width", _width.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if(_height != null)
+            if (_height != null)
             {
                 writer.WriteElementString("height", _height.Value.ToString(CultureInfo.InvariantCulture));
             }
 
-            if(_description != null)
+            if (_description != null)
             {
                 writer.WriteElementString("description", _description); //Used in the alt tag.
             }

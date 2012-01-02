@@ -48,7 +48,7 @@ namespace Subtext.Framework.Emoticons
 
         public string Transform(string original)
         {
-            if(_appRootUrl == null && _subtextContext != null && _subtextContext.UrlHelper != null)
+            if (_appRootUrl == null && _subtextContext != null && _subtextContext.UrlHelper != null)
             {
                 //TODO: Temporary Hack.
                 _appRootUrl = _subtextContext.UrlHelper.AppRoot();

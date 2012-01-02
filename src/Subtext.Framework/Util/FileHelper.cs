@@ -26,17 +26,17 @@ namespace Subtext.Framework.Util
 {
     public static class FileHelper
     {
-        static readonly string[] ImageExtensions = {".jpg", ".jpeg", ".gif", ".png", ".bmp"};
+        static readonly string[] ImageExtensions = { ".jpg", ".jpeg", ".gif", ".png", ".bmp" };
 
         public static void EnsureDirectory(string directoryPath)
         {
-            if(String.IsNullOrEmpty(directoryPath))
+            if (String.IsNullOrEmpty(directoryPath))
             {
                 throw new ArgumentNullException("directoryPath");
             }
 
             string dir = Path.GetFullPath(directoryPath);
-            if(!Directory.Exists(dir))
+            if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
             }
@@ -44,21 +44,21 @@ namespace Subtext.Framework.Util
 
         public static void WriteBytesToFile(string destinationFilePath, byte[] data)
         {
-            if(String.IsNullOrEmpty(destinationFilePath))
+            if (String.IsNullOrEmpty(destinationFilePath))
             {
                 throw new ArgumentNullException("destinationFilePath");
             }
 
-            if(!IsValidFilePath(destinationFilePath))
+            if (!IsValidFilePath(destinationFilePath))
             {
                 throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture,
                                                                   Resources.InvalidOperation_InvalidCharactersInFileName,
                                                                   destinationFilePath));
             }
 
-            using(var stream = new FileStream(destinationFilePath, FileMode.Create))
+            using (var stream = new FileStream(destinationFilePath, FileMode.Create))
             {
-                using(var writer = new BinaryWriter(stream))
+                using (var writer = new BinaryWriter(stream))
                 {
                     writer.Write(data);
                 }

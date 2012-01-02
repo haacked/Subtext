@@ -35,7 +35,6 @@
 
 #endregion
 
-using System.Threading;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
@@ -53,17 +52,17 @@ namespace Subtext.Framework.Tracking
         /// </summary>
         public static void Run(Entry entry, Blog blog, BlogUrlHelper urlHelper)
         {
-            if(!blog.TrackbacksEnabled)
+            if (!blog.TrackbacksEnabled)
             {
                 return;
             }
 
-            if(!Config.Settings.Tracking.EnablePingBacks && !Config.Settings.Tracking.EnableTrackBacks)
+            if (!Config.Settings.Tracking.EnablePingBacks && !Config.Settings.Tracking.EnableTrackBacks)
             {
                 return;
             }
 
-            if(entry != null)
+            if (entry != null)
             {
                 var notify = new Notifier
                 {

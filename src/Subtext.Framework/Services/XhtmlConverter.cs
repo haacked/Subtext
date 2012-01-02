@@ -32,11 +32,13 @@ namespace Subtext.Framework.Services
         private readonly SgmlReader _reader;
 
         [Inject]
-        public XhtmlConverter() : this(null, new SgmlReader())
+        public XhtmlConverter()
+            : this(null, new SgmlReader())
         {
         }
 
-        public XhtmlConverter(Converter<string, string> innerTextConverter) : this(innerTextConverter, new SgmlReader())
+        public XhtmlConverter(Converter<string, string> innerTextConverter)
+            : this(innerTextConverter, new SgmlReader())
         {
         }
 
@@ -48,7 +50,7 @@ namespace Subtext.Framework.Services
 
         public string Transform(string original)
         {
-            if(string.IsNullOrEmpty(original))
+            if (string.IsNullOrEmpty(original))
             {
                 return string.Empty;
             }
@@ -77,19 +79,19 @@ namespace Subtext.Framework.Services
 
                 bool insideAnchor = false;
                 bool skipRead = false;
-                while((skipRead || _reader.Read()) && !_reader.EOF)
+                while ((skipRead || _reader.Read()) && !_reader.EOF)
                 {
                     skipRead = false;
-                    switch(_reader.NodeType)
+                    switch (_reader.NodeType)
                     {
                         case XmlNodeType.Element:
                             //Special case for anchor tags for the time being. 
                             //We need some way to communicate which elements the current node is nested within 
-                            if(_reader.IsEmptyElement)
+                            if (_reader.IsEmptyElement)
                             {
                                 xmlWriter.WriteStartElement(_reader.LocalName);
                                 xmlWriter.WriteAttributes(_reader, true);
-                                if(_reader.LocalName == "a" || _reader.LocalName == "script" ||
+                                if (_reader.LocalName == "a" || _reader.LocalName == "script" ||
                                    _reader.LocalName == "iframe" || _reader.LocalName == "object")
                                 {
                                     xmlWriter.WriteFullEndElement();
@@ -101,7 +103,7 @@ namespace Subtext.Framework.Services
                             }
                             else
                             {
-                                if(_reader.LocalName == "a")
+                                if (_reader.LocalName == "a")
                                 {
                                     insideAnchor = true;
                                 }
@@ -113,7 +115,7 @@ namespace Subtext.Framework.Services
                         case XmlNodeType.Text:
                             string text = _reader.Value;
 
-                            if(converter != null && !insideAnchor)
+                            if (converter != null && !insideAnchor)
                             {
                                 xmlWriter.WriteRaw(converter(HttpUtility.HtmlEncode(text)));
                             }
@@ -124,14 +126,14 @@ namespace Subtext.Framework.Services
                             break;
 
                         case XmlNodeType.EndElement:
-                            if(_reader.LocalName == "a")
+                            if (_reader.LocalName == "a")
                             {
                                 insideAnchor = false;
                             }
 
-                            if(_reader.LocalName == "a" || 
+                            if (_reader.LocalName == "a" ||
                                 _reader.LocalName == "script" ||
-                               _reader.LocalName == "iframe" || 
+                               _reader.LocalName == "iframe" ||
                                _reader.LocalName == "object")
                             {
                                 xmlWriter.WriteFullEndElement();
@@ -151,7 +153,7 @@ namespace Subtext.Framework.Services
             }
             finally
             {
-                if(xmlWriter != null)
+                if (xmlWriter != null)
                 {
                     xmlWriter.Close();
                 }
@@ -166,7 +168,7 @@ namespace Subtext.Framework.Services
         // This to make sure the Xhtml is well formatted before processing it
         private static string RemoveNewLineBeforeCdata(string text)
         {
-            if(String.IsNullOrEmpty(text))
+            if (String.IsNullOrEmpty(text))
             {
                 return string.Empty;
             }

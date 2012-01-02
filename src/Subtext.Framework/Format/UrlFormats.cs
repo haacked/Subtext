@@ -17,9 +17,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Format
 {
@@ -50,34 +47,34 @@ namespace Subtext.Framework.Format
         /// <returns></returns>
         public static string GetBlogSubfolderFromRequest(string rawUrl, string applicationPath)
         {
-            if(rawUrl == null)
+            if (rawUrl == null)
             {
                 throw new ArgumentNullException("rawUrl");
             }
 
-            if(applicationPath == null)
+            if (applicationPath == null)
             {
                 throw new ArgumentNullException("applicationPath");
             }
 
             Debug.Assert(applicationPath.StartsWith("/"), "ApplicationPaths always start with a slash");
 
-            if(!rawUrl.StartsWith(applicationPath, StringComparison.OrdinalIgnoreCase))
+            if (!rawUrl.StartsWith(applicationPath, StringComparison.OrdinalIgnoreCase))
             {
                 return string.Empty;
             }
             int appPathLength = applicationPath.Length;
-            int startIndex = appPathLength; 
-            if(appPathLength > 1)
+            int startIndex = appPathLength;
+            if (appPathLength > 1)
             {
                 startIndex++;
-            } 
-            if(startIndex > rawUrl.Length)
+            }
+            if (startIndex > rawUrl.Length)
             {
                 return string.Empty;
             }
             int endIndex = rawUrl.IndexOf('/', startIndex);
-            if(endIndex < 0)
+            if (endIndex < 0)
             {
                 string path = rawUrl.Substring(startIndex);
                 // Don't want to return default.aspx etc.

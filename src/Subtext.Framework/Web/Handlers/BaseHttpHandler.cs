@@ -74,13 +74,13 @@ namespace Subtext.Extensibility.Web
         {
             SetResponseCachePolicy(context.Response.Cache);
 
-            if(!ValidateParameters(context))
+            if (!ValidateParameters(context))
             {
                 RespondInternalError(context);
                 return;
             }
 
-            if(RequiresAuthentication && !context.User.Identity.IsAuthenticated)
+            if (RequiresAuthentication && !context.User.Identity.IsAuthenticated)
             {
                 RespondForbidden(context);
                 return;

@@ -17,10 +17,10 @@
 
 using System;
 using System.Globalization;
+using System.IO;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Infrastructure;
-using System.IO;
 
 namespace Subtext.Framework.Syndication
 {
@@ -31,7 +31,8 @@ namespace Subtext.Framework.Syndication
     {
         BaseSyndicationWriter<Entry> _writer;
 
-        public RssHandler(ISubtextContext subtextContext) : base(subtextContext)
+        public RssHandler(ISubtextContext subtextContext)
+            : base(subtextContext)
         {
         }
 
@@ -43,12 +44,12 @@ namespace Subtext.Framework.Syndication
         {
             get
             {
-                if(_writer == null)
+                if (_writer == null)
                 {
                     _writer = new RssWriter(new StringWriter(),
                                            Repository.GetMainSyndicationEntries(Blog.ItemCount),
-                                           PublishDateOfLastFeedItemReceived, 
-                                           UseDeltaEncoding, 
+                                           PublishDateOfLastFeedItemReceived,
+                                           UseDeltaEncoding,
                                            SubtextContext);
                 }
                 return _writer;
@@ -81,7 +82,7 @@ namespace Subtext.Framework.Syndication
         protected override void Cache(CachedFeed feed)
         {
             ICache cache = SubtextContext.Cache;
-            if(cache != null)
+            if (cache != null)
             {
                 cache.InsertDuration(CacheKey(SyndicationWriter.DateLastViewedFeedItemPublishedUtc), feed,
                                      Cacher.MediumDuration, null);

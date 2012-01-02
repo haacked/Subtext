@@ -23,14 +23,16 @@ using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Properties;
 
-namespace Subtext.Akismet {
+namespace Subtext.Akismet
+{
     /// <summary>
     /// The client class used to communicate with the 
     /// <see href="http://akismet.com/">Akismet</see> service.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Akismet")]
     [Serializable]
-    public class AkismetClient {
+    public class AkismetClient
+    {
         const string CheckUrlFormat = "http://{0}.rest.akismet.com/1.1/comment-check";
         const string SubmitHamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-ham";
         const string SubmitSpamUrlFormat = "http://{0}.rest.akismet.com/1.1/submit-spam";
@@ -44,7 +46,8 @@ namespace Subtext.Akismet {
         Uri _submitSpamUrl;
         string _userAgent;
 
-        protected AkismetClient() {
+        protected AkismetClient()
+        {
         }
 
         /// <summary>
@@ -53,7 +56,8 @@ namespace Subtext.Akismet {
         /// <param name="apiKey">The Akismet API key.</param>
         /// <param name="blogUrl">The root url of the blog.</param>
         public AkismetClient(string apiKey, Uri blogUrl)
-            : this(apiKey, blogUrl, new HttpClient()) {
+            : this(apiKey, blogUrl, new HttpClient())
+        {
         }
 
         /// <summary>
@@ -67,16 +71,20 @@ namespace Subtext.Akismet {
         /// <param name="apiKey">The Akismet API key.</param>
         /// <param name="blogUrl">The root url of the blog.</param>
         /// <param name="httpClient">Client class used to make the underlying requests.</param>
-        public AkismetClient(string apiKey, Uri blogUrl, HttpClient httpClient) {
-            if (apiKey == null) {
+        public AkismetClient(string apiKey, Uri blogUrl, HttpClient httpClient)
+        {
+            if (apiKey == null)
+            {
                 throw new ArgumentNullException("apiKey");
             }
 
-            if (blogUrl == null) {
+            if (blogUrl == null)
+            {
                 throw new ArgumentNullException("blogUrl");
             }
 
-            if (httpClient == null) {
+            if (httpClient == null)
+            {
                 throw new ArgumentNullException("httpClient");
             }
 
@@ -91,9 +99,11 @@ namespace Subtext.Akismet {
         /// Gets or sets the Akismet API key.
         /// </summary>
         /// <value>The API key.</value>
-        public string ApiKey {
+        public string ApiKey
+        {
             get { return _apiKey ?? string.Empty; }
-            set {
+            set
+            {
                 _apiKey = value ?? string.Empty;
                 SetServiceUrls();
             }
@@ -105,7 +115,8 @@ namespace Subtext.Akismet {
         /// being checked.
         /// </summary>
         /// <value>The API key.</value>
-        public string UserAgent {
+        public string UserAgent
+        {
             get { return _userAgent ?? BuildUserAgent("Subtext", Version); }
             set { _userAgent = value; }
         }
@@ -129,7 +140,8 @@ namespace Subtext.Akismet {
         /// <value>The proxy.</value>
         public IWebProxy Proxy { get; set; }
 
-        void SetServiceUrls() {
+        void SetServiceUrls()
+        {
             _submitHamUrl = new Uri(String.Format(CultureInfo.InvariantCulture, SubmitHamUrlFormat, _apiKey));
             _submitSpamUrl = new Uri(String.Format(CultureInfo.InvariantCulture, SubmitSpamUrlFormat, _apiKey));
             _checkUrl = new Uri(String.Format(CultureInfo.InvariantCulture, CheckUrlFormat, _apiKey));
@@ -142,7 +154,8 @@ namespace Subtext.Akismet {
         /// <param name="applicationName">Name of the application.</param>
         /// <param name="appVersion">The version of the app.</param>
         /// <returns></returns>
-        public static string BuildUserAgent(string applicationName, string appVersion) {
+        public static string BuildUserAgent(string applicationName, string appVersion)
+        {
             return string.Format(CultureInfo.InvariantCulture, "{0}/{1} | Akismet/1.11", applicationName, appVersion);
         }
 
@@ -152,12 +165,14 @@ namespace Subtext.Akismet {
         /// </summary>
         /// <returns></returns>
         /// <exception type="Sytsem.Web.WebException">If it cannot make a request of Akismet.</exception>
-        public bool VerifyApiKey() {
+        public bool VerifyApiKey()
+        {
             string parameters = "key=" + HttpUtility.UrlEncode(ApiKey) + "&blog=" +
                                 HttpUtility.UrlEncode(BlogUrl.ToString());
             string result = _httpClient.PostRequest(VerifyUrl, UserAgent, Timeout, parameters, Proxy);
 
-            if (String.IsNullOrEmpty(result)) {
+            if (String.IsNullOrEmpty(result))
+            {
                 throw new InvalidResponseException(Resources.InvalidResponse_EmptyResponse);
             }
 
@@ -169,17 +184,21 @@ namespace Subtext.Akismet {
         /// </summary>
         /// <param name="comment"></param>
         /// <returns></returns>
-        public bool CheckCommentForSpam(IComment comment) {
-            if (comment == null) {
+        public bool CheckCommentForSpam(IComment comment)
+        {
+            if (comment == null)
+            {
                 throw new ArgumentNullException("comment");
             }
             string result = SubmitComment(comment, _checkUrl);
 
-            if (String.IsNullOrEmpty(result)) {
+            if (String.IsNullOrEmpty(result))
+            {
                 throw new InvalidResponseException(Resources.InvalidResponse_EmptyResponse);
             }
 
-            if (result != "true" && result != "false") {
+            if (result != "true" && result != "false")
+            {
                 throw new InvalidResponseException(string.Format(CultureInfo.InvariantCulture,
                                                                  Resources.InvalidResponse_PossiblyBadApiKey, result));
             }
@@ -193,7 +212,8 @@ namespace Subtext.Akismet {
         /// </summary>
         /// <param name="comment"></param>
         /// <returns></returns>
-        public virtual void SubmitSpam(IComment comment) {
+        public virtual void SubmitSpam(IComment comment)
+        {
             SubmitComment(comment, _submitSpamUrl);
         }
 
@@ -203,47 +223,58 @@ namespace Subtext.Akismet {
         /// </summary>
         /// <param name="comment"></param>
         /// <returns></returns>
-        public void SubmitHam(IComment comment) {
+        public void SubmitHam(IComment comment)
+        {
             SubmitComment(comment, _submitHamUrl);
         }
 
         [SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
-        string SubmitComment(IComment comment, Uri url) {
+        string SubmitComment(IComment comment, Uri url)
+        {
             //Not too many concatenations.  Might not need a string builder.
             string parameters = "blog=" + HttpUtility.UrlEncode(BlogUrl.ToString())
                                 + "&user_ip=" + comment.IPAddress
                                 + "&user_agent=" + HttpUtility.UrlEncode(comment.UserAgent);
 
-            if (!String.IsNullOrEmpty(comment.Referrer)) {
+            if (!String.IsNullOrEmpty(comment.Referrer))
+            {
                 parameters += "&referer=" + HttpUtility.UrlEncode(comment.Referrer);
             }
 
-            if (comment.Permalink != null) {
+            if (comment.Permalink != null)
+            {
                 parameters += "&permalink=" + HttpUtility.UrlEncode(comment.Permalink.ToString());
             }
 
-            if (!String.IsNullOrEmpty(comment.CommentType)) {
+            if (!String.IsNullOrEmpty(comment.CommentType))
+            {
                 parameters += "&comment_type=" + HttpUtility.UrlEncode(comment.CommentType);
             }
 
-            if (!String.IsNullOrEmpty(comment.Author)) {
+            if (!String.IsNullOrEmpty(comment.Author))
+            {
                 parameters += "&comment_author=" + HttpUtility.UrlEncode(comment.Author);
             }
 
-            if (!String.IsNullOrEmpty(comment.AuthorEmail)) {
+            if (!String.IsNullOrEmpty(comment.AuthorEmail))
+            {
                 parameters += "&comment_author_email=" + HttpUtility.UrlEncode(comment.AuthorEmail);
             }
 
-            if (comment.AuthorUrl != null) {
+            if (comment.AuthorUrl != null)
+            {
                 parameters += "&comment_author_url=" + HttpUtility.UrlEncode(comment.AuthorUrl.ToString());
             }
 
-            if (!String.IsNullOrEmpty(comment.Content)) {
+            if (!String.IsNullOrEmpty(comment.Content))
+            {
                 parameters += "&comment_content=" + HttpUtility.UrlEncode(comment.Content);
             }
 
-            if (comment.ServerEnvironmentVariables != null) {
-                foreach (string key in comment.ServerEnvironmentVariables) {
+            if (comment.ServerEnvironmentVariables != null)
+            {
+                foreach (string key in comment.ServerEnvironmentVariables)
+                {
                     parameters += "&" + key + "=" + HttpUtility.UrlEncode(comment.ServerEnvironmentVariables[key]);
                 }
             }

@@ -31,7 +31,8 @@ namespace Subtext.Framework.Syndication
         /// Creates a new <see cref="CategoryWriter"/> instance.
         /// </summary>
         public CategoryWriter(TextWriter writer, ICollection<Entry> ec, LinkCategory lc, Uri url,
-                              ISubtextContext context) : base(writer, ec, NullValue.NullDateTime, false, context)
+                              ISubtextContext context)
+            : base(writer, ec, NullValue.NullDateTime, false, context)
         {
             Category = lc;
             Url = url;
@@ -46,7 +47,7 @@ namespace Subtext.Framework.Syndication
 
         protected override void WriteChannel()
         {
-            if(Category == null)
+            if (Category == null)
             {
                 base.WriteChannel();
             }

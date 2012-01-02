@@ -17,11 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Services.SearchEngine
 {
-    public interface ISearchEngineService: IDisposable
+    public interface ISearchEngineService : IDisposable
     {
         /// <summary>
         /// Adds an entry to the full text index

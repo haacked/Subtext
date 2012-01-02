@@ -36,7 +36,8 @@ namespace Subtext.Framework.Exceptions
         /// Creates a new <see cref="BaseBlogConfigurationException"/> instance.
         /// </summary>
         /// <param name="innerException">Inner exception.</param>
-        protected BaseBlogConfigurationException(Exception innerException) : base(null, innerException)
+        protected BaseBlogConfigurationException(Exception innerException)
+            : base(null, innerException)
         {
         }
     }

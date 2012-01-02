@@ -63,7 +63,7 @@ namespace Subtext.Framework.Components
         {
             get
             {
-                if(_format == null)
+                if (_format == null)
                 {
                     ProcessFormat();
                 }

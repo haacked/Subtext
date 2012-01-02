@@ -35,22 +35,22 @@ namespace Subtext.Framework.Tracking
 
             bool commCreditsEnabled;
 
-            if(!bool.TryParse(ConfigurationManager.AppSettings["CommCreditEnabled"], out commCreditsEnabled))
+            if (!bool.TryParse(ConfigurationManager.AppSettings["CommCreditEnabled"], out commCreditsEnabled))
             {
                 return;
             }
 
-            if(commCreditsEnabled && entry.IsActive)
+            if (commCreditsEnabled && entry.IsActive)
             {
                 var wsCommunityCredit = new AffiliateServices();
 
                 string url = urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(blog).ToString();
                 string category = String.Empty;
-                if(entry.PostType == PostType.BlogPost)
+                if (entry.PostType == PostType.BlogPost)
                 {
                     category = "Blog";
                 }
-                else if(entry.PostType == PostType.Story)
+                else if (entry.PostType == PostType.Story)
                 {
                     category = "Article";
                 }
@@ -69,7 +69,7 @@ namespace Subtext.Framework.Tracking
                                                               affiliateCode, affiliateKey);
 
                 Log.InfoFormat("Response Received was: {0}", result);
-                if(!result.Equals("Success"))
+                if (!result.Equals("Success"))
                 {
                     throw new CommunityCreditNotificationException(result);
                 }

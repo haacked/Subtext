@@ -46,12 +46,12 @@ namespace Subtext.Framework.Util
             {
                 return EmoticonsTransforms(cache, rootUrl, formattedPost, GetTransformFilePath("emoticons.txt"));
             }
-            catch(IOException ioe)
+            catch (IOException ioe)
             {
                 Log.Warn("Problem reading the emoticons.txt file", ioe);
                 return formattedPost;
             }
-            catch(ArgumentNullException e)
+            catch (ArgumentNullException e)
             {
                 Log.Warn("Problem reading the emoticons.txt file", e);
                 return formattedPost;
@@ -61,17 +61,17 @@ namespace Subtext.Framework.Util
         public static string EmoticonsTransforms(ICache cache, string rootUrl, string formattedPost,
                                                  string emoticonsFilePath)
         {
-            if(formattedPost == null)
+            if (formattedPost == null)
             {
                 throw new ArgumentNullException("formattedPost");
             }
 
-            if(emoticonsFilePath == null)
+            if (emoticonsFilePath == null)
             {
                 throw new ArgumentNullException("emoticonsFilePath");
             }
 
-            if(!File.Exists(emoticonsFilePath))
+            if (!File.Exists(emoticonsFilePath))
             {
                 Log.Warn(
                     "Missing an emoticons.txt file in the webroot. Please download it from <a href=\"http://haacked.com/images/emoticons.zip\" title=\"Emoticons file\">here</a>.");
@@ -85,13 +85,13 @@ namespace Subtext.Framework.Util
         static string PerformUserTransforms(string rootUrl, string stringToTransform,
                                             IList<string> userDefinedTransforms)
         {
-            if(userDefinedTransforms == null)
+            if (userDefinedTransforms == null)
             {
                 return stringToTransform;
             }
 
             int iLoop = 0;
-            while(iLoop < userDefinedTransforms.Count)
+            while (iLoop < userDefinedTransforms.Count)
             {
                 // Special work for anchors
                 stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop],
@@ -108,7 +108,7 @@ namespace Subtext.Framework.Util
 
         private static string GetTransformFilePath(string filename)
         {
-            if(String.IsNullOrEmpty(filename))
+            if (String.IsNullOrEmpty(filename))
             {
                 throw new ArgumentNullException("filename");
             }
@@ -118,12 +118,12 @@ namespace Subtext.Framework.Util
 
         public static IList<string> LoadTransformFile(ICache cache, string filePath)
         {
-            if(cache == null)
+            if (cache == null)
             {
                 throw new ArgumentNullException("cache");
             }
 
-            if(filePath == null)
+            if (filePath == null)
             {
                 throw new ArgumentNullException("filePath");
             }
@@ -134,26 +134,26 @@ namespace Subtext.Framework.Util
             //
             var tranforms = cache[cacheKey] as IList<string>;
 
-            if(tranforms == null)
+            if (tranforms == null)
             {
                 tranforms = new List<string>();
 
-                if(filePath.Length > 0)
+                if (filePath.Length > 0)
                 {
-                    using(StreamReader sr = File.OpenText(filePath))
+                    using (StreamReader sr = File.OpenText(filePath))
                     {
                         // Read through each set of lines in the text file
                         //
                         string line = sr.ReadLine();
 
-                        while(line != null)
+                        while (line != null)
                         {
                             line = Regex.Escape(line);
                             string replaceLine = sr.ReadLine();
 
                             // make sure replaceLine != null
                             //
-                            if(replaceLine == null)
+                            if (replaceLine == null)
                             {
                                 break;
                             }

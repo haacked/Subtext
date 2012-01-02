@@ -22,8 +22,8 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.ApplicationBlocks.Data;
-using Subtext.Scripting.Exceptions;
 using Subtext.Framework.Properties;
+using Subtext.Scripting.Exceptions;
 
 namespace Subtext.Scripting
 {
@@ -65,7 +65,7 @@ namespace Subtext.Scripting
         /// </summary>
         public int Execute(SqlTransaction transaction)
         {
-            if(transaction == null)
+            if (transaction == null)
             {
                 throw new ArgumentNullException("transaction");
             }
@@ -76,7 +76,7 @@ namespace Subtext.Scripting
                 returnValue = SqlHelper.ExecuteNonQuery(transaction, CommandType.Text, ScriptText);
                 return returnValue;
             }
-            catch(SqlException e)
+            catch (SqlException e)
             {
                 throw new SqlScriptExecutionException(
                     String.Format(CultureInfo.InvariantCulture, Resources.SqlScriptExecutionError_ErrorInScript,
@@ -92,11 +92,11 @@ namespace Subtext.Scripting
         {
             get
             {
-                if(_parameters == null)
+                if (_parameters == null)
                 {
                     _parameters = new TemplateParameterCollection();
 
-                    if(String.IsNullOrEmpty(OriginalScriptText))
+                    if (String.IsNullOrEmpty(OriginalScriptText))
                     {
                         return _parameters;
                     }
@@ -109,9 +109,9 @@ namespace Subtext.Scripting
                     _scriptTokens = new ScriptToken();
 
                     int lastIndex = 0;
-                    foreach(Match match in matches)
+                    foreach (Match match in matches)
                     {
-                        if(match.Index > 0)
+                        if (match.Index > 0)
                         {
                             string textBeforeMatch = OriginalScriptText.Substring(lastIndex, match.Index - lastIndex);
                             _scriptTokens.Append(textBeforeMatch);
@@ -122,7 +122,7 @@ namespace Subtext.Scripting
                         _scriptTokens.Append(parameter);
                     }
                     string textAfterLastMatch = OriginalScriptText.Substring(lastIndex);
-                    if(textAfterLastMatch.Length > 0)
+                    if (textAfterLastMatch.Length > 0)
                     {
                         _scriptTokens.Append(textAfterLastMatch);
                     }
@@ -142,7 +142,7 @@ namespace Subtext.Scripting
             var scripts = new ScriptCollection(fullScriptText);
             var splitter = new ScriptSplitter(fullScriptText);
 
-            foreach(string script in splitter)
+            foreach (string script in splitter)
             {
                 scripts.Add(new Script(script));
             }
@@ -153,11 +153,11 @@ namespace Subtext.Scripting
         string ApplyTemplateReplacements()
         {
             var builder = new StringBuilder();
-            if(_scriptTokens == null && TemplateParameters == null)
+            if (_scriptTokens == null && TemplateParameters == null)
             {
                 throw new InvalidOperationException(Resources.InvalidOperation_TemplateParametersNull);
             }
-            if(_scriptTokens != null)
+            if (_scriptTokens != null)
             {
                 _scriptTokens.AggregateText(builder);
             }
@@ -172,7 +172,7 @@ namespace Subtext.Scripting
         /// </returns>
         public override string ToString()
         {
-            if(_scriptTokens != null)
+            if (_scriptTokens != null)
             {
                 return _scriptTokens.ToString();
             }
@@ -226,7 +226,7 @@ namespace Subtext.Scripting
                     ScriptToken last = this;
                     ScriptToken next = Next;
 
-                    while(next != null)
+                    while (next != null)
                     {
                         last = next;
                         next = last.Next;
@@ -252,7 +252,7 @@ namespace Subtext.Scripting
             internal void AggregateText(StringBuilder builder)
             {
                 builder.Append(Text);
-                if(Next != null)
+                if (Next != null)
                 {
                     Next.AggregateText(builder);
                 }
@@ -267,13 +267,13 @@ namespace Subtext.Scripting
             public override string ToString()
             {
                 int length = 0;
-                if(Text != null)
+                if (Text != null)
                 {
                     length = Text.Length;
                 }
                 string result = string.Format(CultureInfo.InvariantCulture, @"<ScriptToken length=""{0}"">{1}", length,
                                               Environment.NewLine);
-                if(Next != null)
+                if (Next != null)
                 {
                     result += Next.ToString();
                 }
@@ -314,13 +314,13 @@ namespace Subtext.Scripting
             public override string ToString()
             {
                 string result = "<TemplateParameter";
-                if(_parameter != null)
+                if (_parameter != null)
                 {
                     result += string.Format(CultureInfo.InvariantCulture, @" name=""{0}"" value=""{1}"" type=""{2}""",
                                             _parameter.Name, _parameter.Value, _parameter.DataType);
                 }
                 result += string.Format(" />{0}", Environment.NewLine);
-                if(Next != null)
+                if (Next != null)
                 {
                     result += Next.ToString();
                 }

@@ -31,7 +31,8 @@ namespace Subtext.Framework.UI.Skinning
             Href = href;
         }
 
-        public StyleDefinition(string href, string media) : this(href)
+        public StyleDefinition(string href, string media)
+            : this(href)
         {
             Media = media;
         }
@@ -42,7 +43,7 @@ namespace Subtext.Framework.UI.Skinning
 
         public bool Equals(StyleDefinition styleDefinition)
         {
-            if(styleDefinition == null)
+            if (styleDefinition == null)
             {
                 return false;
             }
@@ -56,7 +57,7 @@ namespace Subtext.Framework.UI.Skinning
 
         public override bool Equals(object obj)
         {
-            if(ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
             {
                 return true;
             }
