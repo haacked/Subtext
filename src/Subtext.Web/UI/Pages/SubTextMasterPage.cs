@@ -220,7 +220,7 @@ namespace Subtext.Web.UI.Pages
             if (opensearch != null)
             {
                 opensearch.Attributes.Add("href", Url.OpenSearchDescriptorUrl());
-                opensearch.Attributes.Add("Title", Blog.Title);
+                opensearch.Attributes.Add("title", Blog.Title);
             }
 
             if (RSSLink != null)
