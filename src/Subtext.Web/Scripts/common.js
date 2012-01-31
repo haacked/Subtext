@@ -41,7 +41,9 @@ function endRequest(sender, args)
     if (button) 
     {
         button.disabled = false;
-        button.value = button.oldValue;
+        if (button.oldValue && button.oldValue != '') {
+            button.value = button.oldValue;
+        }
         if (button.className == 'button-disabled') 
         {
             button.className = 'buttonSubmit';
