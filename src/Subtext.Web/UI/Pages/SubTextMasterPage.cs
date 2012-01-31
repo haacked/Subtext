@@ -99,13 +99,19 @@ namespace Subtext.Web.UI.Pages
                     {
                         entryId = entry.Id;
                     }
-                    var query = Query;
-                    if (!String.IsNullOrEmpty(query))
+
+                    // Allow errors in Lucene.Net.QueryParsers.QueryParser to be avoided by
+                    // disabling the full text search engine in Web.config
+                    if (FullTextSearchEngineSettings.Settings.IsEnabled == true)
                     {
-                        var searchResults = SearchEngineService.Search(query, 5, Blog.Id, entryId);
-                        if (searchResults.Any())
+                        var query = Query;
+                        if (!String.IsNullOrEmpty(query))
                         {
-                            AddMoreResultsControl(searchResults, controlLoader, apnlCommentsWrapper);
+                            var searchResults = SearchEngineService.Search(query, 5, Blog.Id, entryId);
+                            if (searchResults.Any())
+                            {
+                                AddMoreResultsControl(searchResults, controlLoader, apnlCommentsWrapper);
+                            }
                         }
                     }
                 }
