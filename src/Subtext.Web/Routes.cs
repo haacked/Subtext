@@ -125,6 +125,7 @@ public static class Routes
 
 
         routes.MapControls("tag", "tags/{tag}/default.aspx", null, new[] { "TagEntryList" });
+        routes.MapControls("tag-default", "tags/{tag}", null, new[] { "TagEntryList" });
         routes.MapControls("tag-cloud", "tags/default.aspx", null, new[] { "FullTagCloud" });
         routes.MapHttpHandler<RssTagHandler>("tag-rss", "tags/{tag}/rss.aspx");
 
