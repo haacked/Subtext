@@ -17,6 +17,7 @@
 
 using System;
 using System.Globalization;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -150,8 +151,19 @@ namespace Subtext.Web.UI.Controls
             else
             {
                 //No post? Deleted? Help :)
-                Controls.Clear();
-                Controls.Add(new LiteralControl(Resources.ViewPost_EntryNotFound));
+                // Attempting to replace the content of this user control with
+                // a static message causes an exception if the skin control
+                // specifies server-side code using "<%= ... %>":
+                //
+                // "System.Web.HttpException: The Controls collection cannot be
+                // modified because the control contains code blocks (i.e. <%
+                // ... %>)."
+                //
+                // To avoid this, mimic a 404 error instead.
+                //
+                //Controls.Clear();
+                //Controls.Add(new LiteralControl(Resources.ViewPost_EntryNotFound));
+                throw new HttpException(404, "Post not found.");
             }
         }
 
