@@ -233,9 +233,22 @@ namespace Subtext.Framework.Routing
             }
 
             var builder = new UriBuilder { Scheme = scheme, Host = blog.Host };
-            if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.Url.Port != 80)
+            if (HttpContext.Current != null
+                && HttpContext.Current.Request != null)
             {
-                builder.Port = HttpContext.Current.Request.Url.Port;
+                if (HttpContext.Current.Request.IsSecureConnection == true)
+                {
+                    builder.Scheme = "https";
+
+                    if (HttpContext.Current.Request.Url.Port != 443)
+                    {
+                        builder.Port = HttpContext.Current.Request.Url.Port;
+                    }
+                }
+                else if (HttpContext.Current.Request.Url.Port != 80)
+                {
+                    builder.Port = HttpContext.Current.Request.Url.Port;
+                }
             }
             return new Uri(builder.Uri, virtualPath);
         }
