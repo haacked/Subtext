@@ -139,7 +139,7 @@ namespace Subtext.Web.UI.Controls
 
                 if (PingBack != null)
                 {
-                    PingBack.Text = TrackHelpers.GetPingPackTag(Url);
+                    PingBack.Text = TrackHelpers.GetPingbackTag(Url, Entry);
                 }
 
                 if (TrackBack != null)

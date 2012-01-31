@@ -48,12 +48,16 @@ namespace Subtext.Framework.Tracking
     /// </summary>
     public static class TrackHelpers
     {
-        //Text to insert into a file with pinkback service location
-        public static string GetPingPackTag(BlogUrlHelper urlHelper)
+        //Text to insert into a file with pingback service location
+        public static string GetPingbackTag(BlogUrlHelper urlHelper, Entry entry)
         {
+            VirtualPath blogUrl = urlHelper.BlogUrl();
+            Uri absoluteUrl = blogUrl.ToFullyQualifiedUrl(entry.Blog);
+
             return string.Format(CultureInfo.InvariantCulture,
-                                 "<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\"></link>",
-                                 urlHelper.BlogUrl());
+                "<link rel=\"pingback\" href=\"{0}Services/Pingback/{1}.aspx\"></link>",
+                absoluteUrl.AbsoluteUri,
+                entry.Id);
         }
 
         //Body of text to insert into a post with Trackback

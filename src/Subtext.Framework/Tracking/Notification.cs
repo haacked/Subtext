@@ -35,6 +35,7 @@
 
 #endregion
 
+using System;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Routing;
@@ -64,9 +65,12 @@ namespace Subtext.Framework.Tracking
 
             if (entry != null)
             {
+                VirtualPath blogUrl = urlHelper.BlogUrl();
+                Uri fullyQualifiedUrl = blogUrl.ToFullyQualifiedUrl(blog);
+
                 var notify = new Notifier
                 {
-                    FullyQualifiedUrl = urlHelper.BlogUrl(),
+                    FullyQualifiedUrl = fullyQualifiedUrl.AbsoluteUri,
                     BlogName = blog.Title,
                     Title = entry.Title,
                     PostUrl = urlHelper.EntryUrl(entry).ToFullyQualifiedUrl(blog),

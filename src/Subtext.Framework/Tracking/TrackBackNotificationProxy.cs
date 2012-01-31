@@ -72,7 +72,7 @@ namespace Subtext.Framework.Tracking
                     return SendPing(trackBackUrl, parameters);
                 }
             }
-            return true;
+            return false;
         }
 
         private static bool SendPing(Uri trackBackItem, string parameters)
