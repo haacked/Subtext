@@ -40,6 +40,8 @@ namespace Subtext.Web.UI.Controls
         const string LinkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
         const string LinkToEnclosure = "<a href=\"{0}\" title = \"{1}\">{2}</a>{3}";
 
+        protected Entry Entry { get; private set; }
+
         /// <summary>
         /// Loads the entry specified by the URL.  If the user is an 
         /// admin and the skin supports it, will also display an edit 
@@ -52,81 +54,81 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
 
             //Get the entry
-            Entry entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+            Entry = Cacher.GetEntryFromRequest(true, SubtextContext);
 
             //if found
-            if (entry != null)
+            if (Entry != null)
             {
-                BindCurrentEntryControls(entry, this);
+                BindCurrentEntryControls(Entry, this);
 
-                DisplayEditLink(entry);
+                DisplayEditLink(Entry);
 
                 var statistics = DependencyResolver.Current.GetService<IStatisticsService>();
-                statistics.RecordWebView(new EntryView { EntryId = entry.Id, BlogId = Blog.Id });
+                statistics.RecordWebView(new EntryView { EntryId = Entry.Id, BlogId = Blog.Id });
 
                 //Set the page title
-                Globals.SetTitle(entry.Title, Context);
+                Globals.SetTitle(Entry.Title, Context);
 
                 //Sent entry properties
-                TitleUrl.Text = entry.Title;
+                TitleUrl.Text = Entry.Title;
                 ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
-                TitleUrl.NavigateUrl = Url.EntryUrl(entry);
-                Body.Text = entry.Body;
+                TitleUrl.NavigateUrl = Url.EntryUrl(Entry);
+                Body.Text = Entry.Body;
                 if (PostDescription != null)
                 {
                     PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}",
-                                                         entry.DateSyndicated.ToLongDateString(),
-                                                         entry.DateSyndicated.ToShortTimeString());
+                                                         Entry.DateSyndicated.ToLongDateString(),
+                                                         Entry.DateSyndicated.ToShortTimeString());
                 }
                 Trace.Write("loading categories");
                 if (Categories != null)
                 {
-                    Categories.LinkCategories = Repository.GetLinkCategoriesByPostId(entry.Id);
+                    Categories.LinkCategories = Repository.GetLinkCategoriesByPostId(Entry.Id);
                     Categories.DataBind();
                 }
 
                 if (date != null)
                 {
-                    string entryUrl = Url.EntryUrl(entry);
+                    string entryUrl = Url.EntryUrl(Entry);
                     if (date.Attributes["Format"] != null)
                     {
                         date.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>",
-                                                  entryUrl, entry.DateSyndicated.ToString(date.Attributes["Format"]),
+                                                  entryUrl, Entry.DateSyndicated.ToString(date.Attributes["Format"]),
                                                   Resources.EntryList_PermanentLink);
                         date.Attributes.Remove("Format");
                     }
                     else
                     {
                         date.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>",
-                                                  entryUrl, entry.DateSyndicated.ToString("f"),
+                                                  entryUrl, Entry.DateSyndicated.ToString("f"),
                                                   Resources.EntryList_PermanentLink);
                     }
                 }
 
                 if (commentCount != null)
                 {
-                    if (Blog.CommentsEnabled && entry.AllowComments)
+                    if (Blog.CommentsEnabled && Entry.AllowComments)
                     {
-                        string entryUrl = Url.EntryUrl(entry);
-                        if (entry.FeedBackCount == 0)
+                        string entryUrl = Url.EntryUrl(Entry);
+                        if (Entry.FeedBackCount == 0)
                         {
                             commentCount.Text = string.Format(LinkToComments, entryUrl, Resources.EntryList_AddComment,
                                                               string.Empty);
                         }
-                        else if (entry.FeedBackCount == 1)
+                        else if (Entry.FeedBackCount == 1)
                         {
                             commentCount.Text = string.Format(LinkToComments, entryUrl, Resources.EntryList_OneComment,
                                                               string.Empty);
                         }
-                        else if (entry.FeedBackCount > 1)
+                        else if (Entry.FeedBackCount > 1)
                         {
-                            commentCount.Text = string.Format(LinkToComments, entryUrl, entry.FeedBackCount,
+                            commentCount.Text = string.Format(LinkToComments, entryUrl, Entry.FeedBackCount,
                                                               Resources.EntryList_CommentsPlural);
                         }
                     }
                 }
 
-                BindEnclosure(entry);
+                BindEnclosure(Entry);
 
                 //Set Pingback/Trackback 
                 if (PingBack == null)
@@ -141,7 +143,7 @@ namespace Subtext.Web.UI.Controls
 
                 if (TrackBack != null)
                 {
-                    TrackBack.Text = TrackHelpers.TrackBackTag(entry, Blog, Url);
+                    TrackBack.Text = TrackHelpers.TrackBackTag(Entry, Blog, Url);
                 }
                 DataBind();
             }
