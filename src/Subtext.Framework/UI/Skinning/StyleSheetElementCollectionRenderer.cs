@@ -126,9 +126,14 @@ namespace Subtext.Framework.UI.Skinning
             {
                 return HttpHelper.ExpandTildePath(style.Href);
             }
-            return style.Href.StartsWith("/") || style.Href.StartsWith("http://") || style.Href.StartsWith("https://")
-                       ? style.Href
-                       : skinPath + style.Href;
+            else if (IsStyleRemote(style) == true)
+            {
+                return style.Href;
+            }
+            else
+            {
+                return skinPath + style.Href;
+            }
         }
 
         /// <summary>
@@ -358,8 +363,9 @@ namespace Subtext.Framework.UI.Skinning
 
         private static bool IsStyleRemote(Style style)
         {
-            if (style.Href.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
-               style.Href.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            if (style.Href.StartsWith("/")
+                || style.Href.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                || style.Href.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
