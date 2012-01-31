@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -54,8 +55,18 @@ namespace Subtext.Web.UI.Controls
 
                 if (lc == null)
                 {
-                    HttpHelper.SetFileNotFoundResponse();
-                    return;
+                    // When running under Medium trust, calling HttpHelper.SetFileNotFoundResponse() causes an exception
+                    // while attempting to read the system.web/customErrors section of the Web.config file
+                    // ("System.Security.SecurityException: Request for the permission of type
+                    // 'System.Configuration.ConfigurationPermission, System.Configuration, Version=2.0.0.0, Culture=neutral,
+                    // PublicKeyToken=b03f5f7f11d50a3a' failed.").
+                    //
+                    // Therefore, just throw 404 HttpException instead.
+                    //
+                    //HttpHelper.SetFileNotFoundResponse();
+                    //return;
+
+                    throw new HttpException(404, "Category not found.");
                 }
 
                 ICollection<Entry> ec = Cacher.GetEntriesByCategory(count, lc.Id, SubtextContext);
