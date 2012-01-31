@@ -560,7 +560,7 @@ img
 
 #bottom
 {
-	background: url(/Subtext.Web/Skins/Haackify/Images/bottom.gif) no-repeat ;
+	/* background: url(/Subtext.Web/Skins/Haackify/Images/bottom.gif) no-repeat ; */
 	height: 31px;
 	width: 794px;
 	margin: auto;
