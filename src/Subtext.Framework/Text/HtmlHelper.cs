@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -824,6 +825,17 @@ namespace Subtext.Framework.Text
                     Uri url;
                     if (Uri.TryCreate(urlStr, UriKind.RelativeOrAbsolute, out url))
                     {
+                        if (url.IsAbsoluteUri == false)
+                        {
+                            // HACK: You can't access Segments property on
+                            // relative Uri
+                            url = new Uri(
+                                new Uri("http://foobar"),
+                                urlStr);
+                        }
+
+                        Debug.Assert(url.IsAbsoluteUri == true);
+
                         string[] seg = url.Segments;
                         string tag = HttpUtility.UrlDecode(seg[seg.Length - 1].Replace("/", ""));
 
