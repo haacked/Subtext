@@ -1127,7 +1127,7 @@ WHERE (c.CategoryID = @CategoryID OR @CategoryID IS NULL)
     AND (c.BlogId = @BlogId OR @BlogId IS NULL)
     AND c.Active <> CASE @IsActive WHEN 0 THEN -1 else 0 END
 ORDER BY
-    c.Title
+    c.Title ASC
     
 
 GO
