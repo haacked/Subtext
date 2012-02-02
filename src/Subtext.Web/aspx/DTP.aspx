@@ -15,7 +15,7 @@
     <link id="Rsd" rel="EditURI" type="application/rsd+xml" title="RSD" runat="server" />
     <link id="wlwmanifest" rel="wlwmanifest" type="application/wlwmanifest+xml" runat="server" />
     <link id="opensearch" rel="search" type="application/opensearchdescription+xml" runat="server" />
-    <script type="text/javascript" src="<%= Request.IsSecureConnection ? "https" : "http" %>://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/common.js") %>"></script>
     <script type="text/javascript">
             <%= AllowedHtmlJavascriptDeclaration %>
