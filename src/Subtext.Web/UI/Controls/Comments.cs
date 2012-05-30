@@ -186,7 +186,7 @@ namespace Subtext.Web.UI.Controls
                     var post = e.Item.FindControl("PostText") as Literal;
                     if (post != null)
                     {
-                        if (feedbackItem.Body.Length > 0)
+                        if (!String.IsNullOrEmpty(feedbackItem.Body))
                         {
                             post.Text = feedbackItem.Body;
                             if (feedbackItem.Body.Length == 0 && feedbackItem.FeedbackType == FeedbackType.PingTrack)
