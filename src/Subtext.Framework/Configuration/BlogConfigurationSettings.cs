@@ -97,6 +97,24 @@ namespace Subtext.Framework.Configuration
         public int GalleryImageThumbnailWidth { get; set; }
         public int GalleryImageThumbnailHeight { get; set; }
 
+        public bool HostAdminLinkEnabled
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["ShowHostAdminLink"]))
+                {
+                    return true;
+                }
+
+                bool enabled;
+                if (bool.TryParse(ConfigurationManager.AppSettings["ShowHostAdminLink"], out enabled))
+                {
+                    return enabled;
+                }
+                return true;
+            }
+        }
+
         /// <summary>
         /// Gets a value indicating whether invisible captcha enabled.  This is 
         /// configured within the "InvisibleCaptchaEnabled" app setting. It is not 

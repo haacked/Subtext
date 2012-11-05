@@ -6,7 +6,7 @@
 	<asp:PlaceHolder id="plcInactiveBlogMessage" runat="server" Visible="false">
 		<p>
 			For whatever reason, this blog is no longer active.  It can be reactivated by 
-			a host admin from the <a href="~/HostAdmin/" id="hostAdminLink" runat="server">Host Admin Tool</a>.
+			a host admin<span id="spanHostAdmin" runat="server"> from the <a href="~/HostAdmin/" id="hostAdminLink" runat="server">Host Admin Tool</a></span>.
 		</p>
 	</asp:PlaceHolder>
 	
