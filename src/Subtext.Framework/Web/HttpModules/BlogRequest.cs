@@ -183,7 +183,8 @@ namespace Subtext.Framework.Web.HttpModules
                    || filePath.EndsWith(".txt", StringComparison.OrdinalIgnoreCase)
                    || filePath.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
                    || filePath.EndsWith(".htm", StringComparison.OrdinalIgnoreCase)
-                   || filePath.Contains("/images/", StringComparison.OrdinalIgnoreCase);
+                   || filePath.Contains("/images/", StringComparison.OrdinalIgnoreCase)
+                   || Config.Settings.NonBlogPages.Get(request.FilePath.Substring(1))!=null;
         }
 
         private static bool IsEmbeddedResource(HttpRequestBase request)
