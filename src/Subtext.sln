@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.BlogEntry
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeZoneGenerator", "TimeZoneGenerator\TimeZoneGenerator.csproj", "{99EC9973-BA58-4C34-8AE6-DB8927F18817}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextToJekyllExporter", "SubtextToJekyllExporter\SubtextToJekyllExporter.csproj", "{8E18F26C-8027-494A-AC8B-B92138AF13BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AutomatedRelease|.NET = AutomatedRelease|.NET
@@ -334,6 +336,36 @@ Global
 		{99EC9973-BA58-4C34-8AE6-DB8927F18817}.Release|Mixed Platforms.Build.0 = Release|x86
 		{99EC9973-BA58-4C34-8AE6-DB8927F18817}.Release|x86.ActiveCfg = Release|x86
 		{99EC9973-BA58-4C34-8AE6-DB8927F18817}.Release|x86.Build.0 = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.AutomatedRelease|.NET.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.AutomatedRelease|Any CPU.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.AutomatedRelease|Mixed Platforms.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.AutomatedRelease|Mixed Platforms.Build.0 = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.AutomatedRelease|x86.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.AutomatedRelease|x86.Build.0 = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Build|.NET.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Build|Any CPU.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Build|Mixed Platforms.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Build|Mixed Platforms.Build.0 = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Build|x86.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Build|x86.Build.0 = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Debug|.NET.ActiveCfg = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Debug|x86.ActiveCfg = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Debug|x86.Build.0 = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Documentation|.NET.ActiveCfg = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Documentation|Any CPU.ActiveCfg = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Documentation|Mixed Platforms.ActiveCfg = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Documentation|Mixed Platforms.Build.0 = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Documentation|x86.ActiveCfg = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Documentation|x86.Build.0 = Debug|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Release|.NET.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Release|Any CPU.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Release|Mixed Platforms.Build.0 = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Release|x86.ActiveCfg = Release|x86
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -342,5 +374,6 @@ Global
 		{C49C4F5E-C147-40CF-96BB-EE12A7168CCF} = {ED6D2474-6402-4392-AFF0-6115A3F13C28}
 		{86FA49AC-4761-4BFA-9C65-2F30DAEA792D} = {ED6D2474-6402-4392-AFF0-6115A3F13C28}
 		{99EC9973-BA58-4C34-8AE6-DB8927F18817} = {ED6D2474-6402-4392-AFF0-6115A3F13C28}
+		{8E18F26C-8027-494A-AC8B-B92138AF13BA} = {ED6D2474-6402-4392-AFF0-6115A3F13C28}
 	EndGlobalSection
 EndGlobal
