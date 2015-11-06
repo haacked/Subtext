@@ -31,6 +31,7 @@ namespace Subtext.Framework.Configuration
     {
         private Tracking _tracking;
         private NameValueCollection _allowedHtmlTags;
+        private NameValueCollection _nonBlogPages;
 
         public BlogConfigurationSettings()
         {
@@ -97,6 +98,24 @@ namespace Subtext.Framework.Configuration
         public int GalleryImageThumbnailWidth { get; set; }
         public int GalleryImageThumbnailHeight { get; set; }
 
+        public bool HostAdminLinkEnabled
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["ShowHostAdminLink"]))
+                {
+                    return true;
+                }
+
+                bool enabled;
+                if (bool.TryParse(ConfigurationManager.AppSettings["ShowHostAdminLink"], out enabled))
+                {
+                    return enabled;
+                }
+                return true;
+            }
+        }
+
         /// <summary>
         /// Gets a value indicating whether invisible captcha enabled.  This is 
         /// configured within the "InvisibleCaptchaEnabled" app setting. It is not 
@@ -140,6 +159,25 @@ namespace Subtext.Framework.Configuration
                     _allowedHtmlTags = ((NameValueCollection)(ConfigurationManager.GetSection("AllowableCommentHtml")));
                 }
                 return _allowedHtmlTags;
+            }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="NameValueCollection"/> containing a list 
+        /// of page names that are not to be parsed as a request for a blog entry.
+        /// The key contains the file name and the value contains a short description about the page
+        /// </summary>
+        /// <value>The static file names.</value>
+        [XmlIgnore]
+        public NameValueCollection NonBlogPages
+        {
+             get
+            {
+                if (_nonBlogPages == null)
+                {
+                    _nonBlogPages = ((NameValueCollection)(ConfigurationManager.GetSection("NonBlogPages")));
+                }
+                return _nonBlogPages;
             }
         }
     }

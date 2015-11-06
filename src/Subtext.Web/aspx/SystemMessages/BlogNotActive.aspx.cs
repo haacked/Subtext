@@ -37,6 +37,7 @@ namespace Subtext.Web
                 lnkBlog.HRef = Url.BlogUrl();
             }
             base.OnLoad(e);
+            spanHostAdmin.Visible = Subtext.Framework.Configuration.Config.Settings.HostAdminLinkEnabled;
         }
     }
 }
