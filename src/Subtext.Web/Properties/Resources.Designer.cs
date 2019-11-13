@@ -1390,7 +1390,7 @@ namespace Subtext.Web.Properties
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Thanks for your comment!.
+        ///   Looks up a localized string similar to Thank you for your comment..
         /// </summary>
         public static string PostComment_ThanksForComment
         {
@@ -1456,7 +1456,7 @@ namespace Subtext.Web.Properties
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to There are {0} entries for the tag &lt;em&gt;{1}&lt;/em&gt;.
+        ///   Looks up a localized string similar to There are {0} entries for the tag &lt;em&gt;{1}&lt;/em&gt;..
         /// </summary>
         public static string TagEntryList_NoEntriesForTag
         {

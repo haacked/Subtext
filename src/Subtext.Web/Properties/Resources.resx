@@ -247,7 +247,7 @@
     <value>That page is forbidden.</value>
   </data>
   <data name="TagEntryList_NoEntriesForTag" xml:space="preserve">
-    <value>There are {0} entries for the tag &lt;em&gt;{1}&lt;/em&gt;</value>
+    <value>There are {0} entries for the tag &lt;em&gt;{1}&lt;/em&gt;.</value>
   </data>
   <data name="ViewPost_EditThisEntry" xml:space="preserve">
     <value>Edit this entry.</value>
@@ -486,7 +486,7 @@ For more information on configuring blogs, see the &lt;a href='http://www.subtex
     <value>Darn! An unexpected error occurred.  Not sure what happened. Sorry.</value>
   </data>
   <data name="PostComment_ThanksForComment" xml:space="preserve">
-    <value>Thanks for your comment!</value>
+    <value>Thank you for your comment.</value>
   </data>
   <data name="Security_PasswordNotUpdated" xml:space="preserve">
     <value>Your password can not be updated</value>
