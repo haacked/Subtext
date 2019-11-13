@@ -26,7 +26,7 @@
 					Subject
 				</dt>
 				<dd>
-					<asp:textbox id="tbSubject" cssclass="Text" runat="server" /></td>
+					<asp:textbox id="tbSubject" cssclass="Text" runat="server" />
 				</dd>
 				<dt>
 					Message <em class="Required">*</em>

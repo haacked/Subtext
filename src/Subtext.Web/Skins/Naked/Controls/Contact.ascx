@@ -24,7 +24,7 @@
 					Subject
 				</dt>
 				<dd>
-					<asp:textbox id="tbSubject" cssclass="Text" runat="server" /></td>
+					<asp:textbox id="tbSubject" cssclass="Text" runat="server" />
 				</dd>
 				<dt>
 					Message<asp:RequiredFieldValidator id="vldMessageRequired" runat="server" ErrorMessage="Please enter a message" ControlToValidate="tbMessage" Display="Dynamic"> *Please enter a message. Anything.</asp:RequiredFieldValidator>

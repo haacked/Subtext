@@ -17,6 +17,7 @@
 
 using System;
 using System.Configuration;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
@@ -188,7 +189,7 @@ namespace Subtext.Web.UI.Controls
         {
             int index = Controls.IndexOf(textBox);
             Controls.RemoveAt(index);
-            Controls.AddAt(index, new LiteralControl(textBox.Text));
+            Controls.AddAt(index, new LiteralControl(HttpUtility.HtmlEncode(textBox.Text)));
             textBox.Visible = true;
         }
 
