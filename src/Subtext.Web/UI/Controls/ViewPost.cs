@@ -17,7 +17,6 @@
 
 using System;
 using System.Globalization;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -30,6 +29,7 @@ using Subtext.Framework.Services;
 using Subtext.Framework.Tracking;
 using Subtext.Web.Controls;
 using Subtext.Web.Properties;
+using Subtext.Web.UI.ViewModels;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -41,7 +41,23 @@ namespace Subtext.Web.UI.Controls
         const string LinkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
         const string LinkToEnclosure = "<a href=\"{0}\" title = \"{1}\">{2}</a>{3}";
 
-        protected Entry Entry { get; private set; }
+        private Entry _entry;
+        private EntryViewModel _entryViewModel;
+
+        public EntryViewModel Entry
+        {
+            get
+            {
+                if (_entryViewModel == null)
+                {
+                    if (_entry != null)
+                    {
+                        _entryViewModel = new EntryViewModel(_entry, SubtextContext);
+                    }
+                }
+                return _entryViewModel;
+            }
+        }
 
         /// <summary>
         /// Loads the entry specified by the URL.  If the user is an 
@@ -55,81 +71,81 @@ namespace Subtext.Web.UI.Controls
             base.OnLoad(e);
 
             //Get the entry
-            Entry = Cacher.GetEntryFromRequest(true, SubtextContext);
+            _entry = Cacher.GetEntryFromRequest(true, SubtextContext);
 
             //if found
-            if (Entry != null)
+            if (_entry != null)
             {
-                BindCurrentEntryControls(Entry, this);
+                BindCurrentEntryControls(_entry, this);
 
-                DisplayEditLink(Entry);
+                DisplayEditLink(_entry);
 
                 var statistics = DependencyResolver.Current.GetService<IStatisticsService>();
-                statistics.RecordWebView(new EntryView { EntryId = Entry.Id, BlogId = Blog.Id });
+                statistics.RecordWebView(new EntryView { EntryId = _entry.Id, BlogId = Blog.Id });
 
                 //Set the page title
-                Globals.SetTitle(Entry.Title, Context);
+                Globals.SetTitle(_entry.Title, Context);
 
                 //Sent entry properties
-                TitleUrl.Text = Entry.Title;
+                TitleUrl.Text = _entry.Title;
                 ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
-                TitleUrl.NavigateUrl = Url.EntryUrl(Entry);
-                Body.Text = Entry.Body;
+                TitleUrl.NavigateUrl = Url.EntryUrl(_entry);
+                Body.Text = _entry.Body;
                 if (PostDescription != null)
                 {
                     PostDescription.Text = string.Format(CultureInfo.InvariantCulture, "{0} {1}",
-                                                         Entry.DateSyndicated.ToLongDateString(),
-                                                         Entry.DateSyndicated.ToShortTimeString());
+                                                         _entry.DateSyndicated.ToLongDateString(),
+                                                         _entry.DateSyndicated.ToShortTimeString());
                 }
                 Trace.Write("loading categories");
                 if (Categories != null)
                 {
-                    Categories.LinkCategories = Repository.GetLinkCategoriesByPostId(Entry.Id);
+                    Categories.LinkCategories = Repository.GetLinkCategoriesByPostId(_entry.Id);
                     Categories.DataBind();
                 }
 
                 if (date != null)
                 {
-                    string entryUrl = Url.EntryUrl(Entry);
+                    string entryUrl = Url.EntryUrl(_entry);
                     if (date.Attributes["Format"] != null)
                     {
                         date.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>",
-                                                  entryUrl, Entry.DateSyndicated.ToString(date.Attributes["Format"]),
+                                                  entryUrl, _entry.DateSyndicated.ToString(date.Attributes["Format"]),
                                                   Resources.EntryList_PermanentLink);
                         date.Attributes.Remove("Format");
                     }
                     else
                     {
                         date.Text = string.Format(CultureInfo.InvariantCulture, "<a href=\"{0}\" title=\"{2}\">{1}</a>",
-                                                  entryUrl, Entry.DateSyndicated.ToString("f"),
+                                                  entryUrl, _entry.DateSyndicated.ToString("f"),
                                                   Resources.EntryList_PermanentLink);
                     }
                 }
 
                 if (commentCount != null)
                 {
-                    if (Blog.CommentsEnabled && Entry.AllowComments)
+                    if (Blog.CommentsEnabled && _entry.AllowComments)
                     {
-                        string entryUrl = Url.EntryUrl(Entry);
-                        if (Entry.FeedBackCount == 0)
+                        string entryUrl = Url.EntryUrl(_entry);
+                        if (_entry.FeedBackCount == 0)
                         {
                             commentCount.Text = string.Format(LinkToComments, entryUrl, Resources.EntryList_AddComment,
                                                               string.Empty);
                         }
-                        else if (Entry.FeedBackCount == 1)
+                        else if (_entry.FeedBackCount == 1)
                         {
                             commentCount.Text = string.Format(LinkToComments, entryUrl, Resources.EntryList_OneComment,
                                                               string.Empty);
                         }
-                        else if (Entry.FeedBackCount > 1)
+                        else if (_entry.FeedBackCount > 1)
                         {
-                            commentCount.Text = string.Format(LinkToComments, entryUrl, Entry.FeedBackCount,
+                            commentCount.Text = string.Format(LinkToComments, entryUrl, _entry.FeedBackCount,
                                                               Resources.EntryList_CommentsPlural);
                         }
                     }
                 }
 
-                BindEnclosure(Entry);
+                BindEnclosure(_entry);
 
                 //Set Pingback/Trackback 
                 if (PingBack == null)
@@ -139,31 +155,20 @@ namespace Subtext.Web.UI.Controls
 
                 if (PingBack != null)
                 {
-                    PingBack.Text = TrackHelpers.GetPingbackTag(Url, Entry);
+                    PingBack.Text = TrackHelpers.GetPingPackTag(Url, _entry);
                 }
 
                 if (TrackBack != null)
                 {
-                    TrackBack.Text = TrackHelpers.TrackBackTag(Entry, Blog, Url);
+                    TrackBack.Text = TrackHelpers.TrackBackTag(_entry, Blog, Url);
                 }
                 DataBind();
             }
             else
             {
                 //No post? Deleted? Help :)
-                // Attempting to replace the content of this user control with
-                // a static message causes an exception if the skin control
-                // specifies server-side code using "<%= ... %>":
-                //
-                // "System.Web.HttpException: The Controls collection cannot be
-                // modified because the control contains code blocks (i.e. <%
-                // ... %>)."
-                //
-                // To avoid this, mimic a 404 error instead.
-                //
-                //Controls.Clear();
-                //Controls.Add(new LiteralControl(Resources.ViewPost_EntryNotFound));
-                throw new HttpException(404, "Post not found.");
+                Controls.Clear();
+                Controls.Add(new LiteralControl(Resources.ViewPost_EntryNotFound));
             }
         }
 

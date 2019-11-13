@@ -118,5 +118,15 @@ namespace Subtext.Web.UI.ViewModels
         {
             get { return Entry.Id; }
         }
+
+        public string Author
+        {
+            get { return Entry.Author; }
+        }
+
+        public Enclosure Enclosure
+        {
+            get { return Entry.Enclosure; }
+        }
     }
 }
