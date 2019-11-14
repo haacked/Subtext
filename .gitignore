@@ -1,3 +1,6 @@
+.vs/
+App_Data/
+
 *.suo
 *.user
 *.FileListAbsolute.txt
