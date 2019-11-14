@@ -155,7 +155,7 @@ namespace Subtext.Web.UI.Controls
 
                 if (PingBack != null)
                 {
-                    PingBack.Text = TrackHelpers.GetPingPackTag(Url, _entry);
+                    PingBack.Text = TrackHelpers.GetPingbackTag(Url, _entry);
                 }
 
                 if (TrackBack != null)
