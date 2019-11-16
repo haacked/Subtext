@@ -87,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-            var entries = new List<Entry>(CreateSomeEntries());
+            var entries = new List<Entry>(CreateSomeEntries(blogInfo.TimeZoneId));
             entries[0].Categories.AddRange(new[] { "Category1", "Category2" });
             entries[0].Email = "nobody@example.com";
             entries[2].Categories.Add("Category 3");
@@ -265,7 +265,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-            var entries = new List<Entry>(CreateSomeEntriesDescending());
+            var entries = new List<Entry>(CreateSomeEntriesDescending(blogInfo.TimeZoneId));
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/", "Subtext.Web", null);
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
@@ -358,7 +358,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
             HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-            var entries = new List<Entry>(CreateSomeEntriesDescending());
+            var entries = new List<Entry>(CreateSomeEntriesDescending(blogInfo.TimeZoneId));
             var subtextContext = new Mock<ISubtextContext>();
             subtextContext.FakeSyndicationContext(blogInfo, "/Subtext.Web/", "Subtext.Web", null);
             Mock<BlogUrlHelper> urlHelper = Mock.Get(subtextContext.Object.UrlHelper);
@@ -452,39 +452,39 @@ namespace UnitTests.Subtext.Framework.Syndication
             UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, writer.Xml);
         }
 
-        Entry[] CreateSomeEntries()
+        Entry[] CreateSomeEntries(string blogTimeZoneId)
         {
             return new[]
             {
                 CreateEntry(1001, "Title of 1001.", "Body of 1001",
-                            DateTime.ParseExact("01/23/1975", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                            GetTestDateForLocalTimeZone("01/23/1975", blogTimeZoneId))
                 ,
                 CreateEntry(1002, "Title of 1002.", "Body of 1002",
-                            DateTime.ParseExact("05/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                            GetTestDateForLocalTimeZone("05/25/1976", blogTimeZoneId))
                 ,
                 CreateEntry(1003, "Title of 1003.", "Body of 1003",
-                            DateTime.ParseExact("09/16/1979", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                            GetTestDateForLocalTimeZone("09/16/1979", blogTimeZoneId))
                 ,
                 CreateEntry(1004, "Title of 1004.", "Body of 1004",
-                            DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                            GetTestDateForLocalTimeZone("06/14/2003", blogTimeZoneId))
             };
         }
 
-        Entry[] CreateSomeEntriesDescending()
+        Entry[] CreateSomeEntriesDescending(string blogTimeZoneId)
         {
             return new[]
             {
                 CreateEntry(1004, "Title of 1004.", "Body of 1004",
-                            DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                            GetTestDateForLocalTimeZone("06/14/2003", blogTimeZoneId))
                 ,
                 CreateEntry(1003, "Title of 1003.", "Body of 1003",
-                            DateTime.ParseExact("09/16/1979", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                            GetTestDateForLocalTimeZone("09/16/1979", blogTimeZoneId))
                 ,
                 CreateEntry(1002, "Title of 1002.", "Body of 1002",
-                            DateTime.ParseExact("05/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                            GetTestDateForLocalTimeZone("05/25/1976", blogTimeZoneId))
                 ,
                 CreateEntry(1001, "Title of 1001.", "Body of 1001",
-                            DateTime.ParseExact("01/23/1975", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+                            GetTestDateForLocalTimeZone("01/23/1975", blogTimeZoneId))
             };
         }
 
@@ -502,6 +502,23 @@ namespace UnitTests.Subtext.Framework.Syndication
             entry.DatePublishedUtc = entry.DateCreatedUtc.ToUniversalTime().AddMonths(1);
 
             return entry;
+        }
+
+        private DateTime GetTestDateForLocalTimeZone(
+            string date,
+            string blogTimeZoneId)
+        {
+            var parsedDate = DateTime.ParseExact(
+                date,
+                "MM/dd/yyyy",
+                CultureInfo.InvariantCulture);
+
+            var convertedDate = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(
+                parsedDate,
+                blogTimeZoneId,
+                TimeZoneInfo.Local.Id);
+
+            return convertedDate;
         }
 
         /// <summary>
