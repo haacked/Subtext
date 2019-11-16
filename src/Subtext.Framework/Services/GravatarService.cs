@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Web;
 using System.Web.Security;
 
 namespace Subtext.Framework.Services
@@ -41,14 +42,19 @@ namespace Subtext.Framework.Services
 
         public string UrlFormatString { get; private set; }
 
-        public string GenerateUrl(string email)
+        public string GenerateUrl(string email, string defaultImage = "identicon")
         {
+            if (!String.IsNullOrEmpty(defaultImage))
+            {
+                defaultImage = HttpUtility.UrlEncode(defaultImage);
+            }
+
             string emailForUrl = String.Empty;
             if (!String.IsNullOrEmpty(email))
             {
                 emailForUrl = (FormsAuthentication.HashPasswordForStoringInConfigFile(email.ToLowerInvariant(), "md5") ?? string.Empty).ToLowerInvariant();
             }
-            return String.Format(CultureInfo.InvariantCulture, UrlFormatString, emailForUrl);
+            return String.Format(CultureInfo.InvariantCulture, UrlFormatString, emailForUrl, defaultImage);
         }
     }
 }

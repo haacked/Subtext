@@ -201,20 +201,57 @@ namespace Subtext.Web.UI.Controls
                         var gravatarImage = e.Item.FindControl("GravatarImg") as Image;
                         if (gravatarImage != null)
                         {
-                            string ip;
-                            if (feedbackItem.IpAddress != null)
+                            string defaultImage = null;
+
+                            //This allows per-skin configuration of the default gravatar image.
+                            foreach (string attributeKey in gravatarImage.Attributes.Keys)
                             {
-                                ip = feedbackItem.IpAddress.ToString();
-                            }
-                            else
-                            {
-                                ip = string.Format("{0} {1}", DateTime.UtcNow.Millisecond, DateTime.UtcNow.Second);
+                                if (string.Compare(
+                                        attributeKey,
+                                        "PlaceHolderImage",
+                                        StringComparison.OrdinalIgnoreCase) == 0)
+                                {
+                                    defaultImage = gravatarImage.Attributes["PlaceHolderImage"];
+                                    gravatarImage.Attributes.Remove("PlaceHolderImage");
+                                    break;
+                                }
                             }
 
-                            string gravatarUrl = gravatarUrl = _gravatarService.GenerateUrl(feedbackItem.Email);
-                            gravatarImage.Attributes.Remove("PlaceHolderImage");
-                            gravatarImage.ImageUrl = gravatarUrl;
-                            gravatarImage.Visible = true;
+                            if (!String.IsNullOrEmpty(defaultImage))
+                            {
+                                defaultImage = HttpHelper.ExpandTildePath(defaultImage);
+
+                                Uri defaultImageUrl = new Uri(
+                                    defaultImage,
+                                    UriKind.RelativeOrAbsolute);
+
+                                if (defaultImageUrl.IsAbsoluteUri == false)
+                                {
+                                    defaultImageUrl = new Uri(
+                                        Request.Url,
+                                        defaultImage);
+                                }
+
+                                defaultImage = defaultImageUrl.AbsoluteUri;
+                            }
+
+                            gravatarImage.ImageUrl = _gravatarService.GenerateUrl(
+                                feedbackItem.Email,
+                                defaultImage);
+
+                            // Only change the Visible property of the image to
+                            // true when an email address is specified in the
+                            // comment. This allows a skin to specify a default
+                            // Gravatar image (e.g.
+                            // PlaceHolderImage="~/Skins/TechnologyToolbox1/Images/Silhouette-1.jpg")
+                            // but also choose to hide the default image when
+                            // no email address is available to retrieve a
+                            // Gravatar (i.e. by specifying Visible="false" on
+                            // the Image control).
+                            if (string.IsNullOrEmpty(feedbackItem.Email) == false)
+                            {
+                                gravatarImage.Visible = true;
+                            }
                         }
                     }
 
