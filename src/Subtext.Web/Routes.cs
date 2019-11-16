@@ -2,13 +2,13 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
-// 
+//
 // Subtext is an open source weblog system that is a fork of the .TEXT
 // weblog system.
 //
 // For updated news and information please visit http://subtextproject.com/
 // Subtext is hosted at Google Code at http://code.google.com/p/subtext/
-// The development mailing list is at subtext@googlegroups.com 
+// The development mailing list is at subtext@googlegroups.com
 //
 // This project is licensed under the BSD license.  See the License.txt file for more information.
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ public static class Routes
         routes.MapHttpHandler<BrowserDetectionService>("BrowserServices.ashx");
 
         //Todo: Add a data token to indicate feed title.
-        // By default, the main feed is RSS. To chang it to atom, just 
+        // By default, the main feed is RSS. To chang it to atom, just
         // swap the route names.
         routes.MapHttpHandler<RssHandler>("rss", "rss.aspx");
         routes.MapHttpHandler<AtomHandler>("atom", "atom.aspx");
@@ -126,6 +126,7 @@ public static class Routes
 
         routes.MapControls("tag", "tags/{tag}/default.aspx", null, new[] { "TagEntryList" });
         routes.MapControls("tag-default", "tags/{tag}", null, new[] { "TagEntryList" });
+        routes.MapControls("tag-cloud-default", "tags", null, new[] { "FullTagCloud" });
         routes.MapControls("tag-cloud", "tags/default.aspx", null, new[] { "FullTagCloud" });
         routes.MapHttpHandler<RssTagHandler>("tag-rss", "tags/{tag}/rss.aspx");
 
