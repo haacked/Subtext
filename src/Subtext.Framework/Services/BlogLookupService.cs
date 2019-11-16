@@ -140,30 +140,37 @@ namespace Subtext.Framework.Services
 
                 // HACK: Handle special case where a single blog is hosted at something like "/blog/jjameson"
                 // and a user hacks the URL to specify "/blog" (i.e. appPath = "/blog/",
-                // blogRequest.Subfolder = "blog", and newSubfolder = "jjameson").
+                // blogRequest.Subfolder = string.Empty, and newSubfolder = "jjameson").
                 //
                 // Without this hack, an ArgumentOutOfRangeException occurs ("Index and length must refer to
                 // a location within the string. Parameter name: length")
-                if (blogRequest.Subfolder.Length + 2 == appPath.Length
-                    && string.Compare(
-                        "/" + blogRequest.Subfolder + "/",
+                if (blogRequest.Subfolder == string.Empty
+                    && originalUrl.Path.StartsWith(
                         appPath,
-                        StringComparison.CurrentCultureIgnoreCase) == 0)
-                {
-                    if (originalUrl.Path.EndsWith(
-                        "/",
                         StringComparison.CurrentCultureIgnoreCase) == false)
-                    {
-                        originalUrl.Path += "/";
-                    }
+                {
+                    string newPath = originalUrl.Path + "/";
 
-                    originalUrl.Path += newSubfolder;
-                    return originalUrl;
+                    if (newPath.StartsWith(
+                        appPath,
+                        StringComparison.CurrentCultureIgnoreCase) == true)
+                    {
+                        originalUrl.Path = newPath;
+                    }
                 }
 
                 if (!String.IsNullOrEmpty(blogRequest.Subfolder))
                 {
-                    originalUrl.Path = originalUrl.Path.Remove(indexAfterAppPath, blogRequest.Subfolder.Length + 1);
+                    // HACK: Handle special case where a single blog is hosted at something like "/blog/jjameson"
+                    // and a user hacks the URL to specify "/blog" (i.e. appPath = "/blog/",
+                    // blogRequest.Subfolder = "blog", and newSubfolder = "jjameson").
+                    //
+                    // Without this hack, an ArgumentOutOfRangeException occurs ("Index and length must refer to
+                    // a location within the string. Parameter name: length")
+                    if (originalUrl.Path.Length > indexAfterAppPath)
+                    {
+                        originalUrl.Path = originalUrl.Path.Remove(indexAfterAppPath, blogRequest.Subfolder.Length + 1);
+                    }
                 }
                 if (!String.IsNullOrEmpty(newSubfolder))
                 {
