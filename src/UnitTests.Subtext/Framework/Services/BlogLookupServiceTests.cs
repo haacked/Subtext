@@ -308,5 +308,40 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("example.com", onlyBlog.Host);
             repository.Verify(r => r.UpdateBlog(It.IsAny<Blog>()));
         }
+
+        [Test]
+        public void
+            RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemAndSubfolderEqualsAppPath_RedirectsToSingleBlog
+            ()
+        {
+            //arrange
+            var onlyBlog = new Blog { Host = "example.com", Subfolder = "jjameson" };
+            var pagedCollection = new PagedCollection<Blog> { onlyBlog };
+            pagedCollection.MaxItems = 1;
+
+            var repository = new Mock<ObjectRepository>();
+            repository.Setup(r => r.GetBlog("example.com", "blog")).Returns((Blog)null);
+            repository.Setup(r => r.GetBlog("example.com", "jjameson")).Returns(onlyBlog);
+            repository.Setup(r => r.GetPagedBlogs(null, 0, It.IsAny<int>(), ConfigurationFlags.None)).Returns(
+                pagedCollection);
+            var appSettings = new NameValueCollection();
+            appSettings.Add("AggregateEnabled", "false");
+            var hostInfo = new HostInfo(appSettings);
+            var service = new BlogLookupService(repository.Object, new LazyNotNull<HostInfo>(() => hostInfo));
+            var blogRequest = new BlogRequest(
+                "example.com",
+                "blog",
+                new Uri("http://example.com/blog/"),
+                false,
+                RequestLocation.Blog,
+                "/blog");
+
+            //act
+            BlogLookupResult result = service.Lookup(blogRequest);
+
+            //assert
+            Assert.IsNull(result.Blog);
+            Assert.AreEqual("http://example.com/blog/jjameson", result.AlternateUrl.ToString());
+        }
     }
 }
