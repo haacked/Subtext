@@ -7,7 +7,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="categoryListLinks" runat="server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="pageContent" runat="server">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/aspx/Admin/js/jquery.tmpl.min.js") %>"></script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/aspx/Admin/js/knockout-1.2.1.js") %>"></script>
     <script type="text/javascript" src="<%= VirtualPathUtility.ToAbsolute("~/aspx/Admin/js/jquery-impromptu.3.1.min.js") %>"></script>
