@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
         [Test]
-        public void Request_WithNonMatchingHostButAlternativeHostMatches_ReturnsAlternativeHost()
+        public void Request_WithNonMatchingHostButAlternativeHostMatches_ReturnsBlogWithSpecifiedHost()
         {
             //arrange
             var repository = new Mock<ObjectRepository>();
@@ -50,12 +50,12 @@ namespace UnitTests.Subtext.Framework.Services
                 service.Lookup(new BlogRequest("example.com", string.Empty, new Uri("http://example.com/foo/bar"), false));
 
             //assert
-            Assert.IsNull(result.Blog);
-            Assert.AreEqual("http://www.example.com/foo/bar", result.AlternateUrl.ToString());
+            Assert.AreEqual(result.Blog.Host, "example.com");
+            Assert.IsNull(result.AlternateUrl);
         }
 
         [Test]
-        public void Request_MatchingActiveAlias_RedirectsToPrimary()
+        public void Request_MatchingActiveAlias_ReturnsBlogWithSpecifiedHost()
         {
             //arrange
             var repository = new Mock<ObjectRepository>();
@@ -68,8 +68,8 @@ namespace UnitTests.Subtext.Framework.Services
                                                new Uri("http://blog.example.com/foo/bar"), false));
 
             //assert
-            Assert.IsNull(result.Blog);
-            Assert.AreEqual("http://www.example.com/foo/bar", result.AlternateUrl.ToString());
+            Assert.AreEqual("blog.example.com", result.Blog.Host);
+            Assert.IsNull(result.AlternateUrl);
         }
 
         [Test]

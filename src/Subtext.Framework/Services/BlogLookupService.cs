@@ -55,12 +55,18 @@ namespace Subtext.Framework.Services
             Blog blog = Repository.GetBlog(host, blogRequest.Subfolder);
             if (blog != null)
             {
-                if (!String.Equals(host, blog.Host, StringComparison.OrdinalIgnoreCase)
-                   || !String.Equals(blogRequest.Subfolder, blog.Subfolder, StringComparison.OrdinalIgnoreCase))
+                if (!String.Equals(host, blog.Host, StringComparison.OrdinalIgnoreCase))
                 {
-                    UriBuilder alternateUrl = ReplaceHost(blogRequest.RawUrl, blog.Host);
-                    alternateUrl = ReplaceSubfolder(alternateUrl, blogRequest, blog.Subfolder);
-                    return new BlogLookupResult(null, alternateUrl.Uri);
+                    if (!String.Equals(blogRequest.Subfolder, blog.Subfolder,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        UriBuilder alternateUrl = ReplaceHost(blogRequest.RawUrl, blog.Host);
+                        alternateUrl = ReplaceSubfolder(alternateUrl, blogRequest, blog.Subfolder);
+                        return new BlogLookupResult(null, alternateUrl.Uri);
+                    }
+
+                    blog.Host = host;
+                    return new BlogLookupResult(blog, null);
                 }
                 return new BlogLookupResult(blog, null);
             }
