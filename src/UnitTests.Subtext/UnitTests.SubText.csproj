@@ -504,6 +504,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MockExtensions.cs" />
+    <Compile Include="MultipleCultureTestMethodAttribute.cs" />
     <Compile Include="ReflectionHelper.cs">
       <SubType>Code</SubType>
     </Compile>
