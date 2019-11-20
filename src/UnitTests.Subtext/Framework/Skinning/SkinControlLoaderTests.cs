@@ -1,6 +1,6 @@
 ﻿using System.Web;
 using System.Web.UI;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Stub;
 using Subtext.Framework.Configuration;
@@ -9,10 +9,10 @@ using Subtext.Web.Skins._System.Controls;
 
 namespace UnitTests.Subtext.Framework.Skinning
 {
-    [TestFixture]
+    [TestClass]
     public class SkinControlLoaderTests
     {
-        [Test]
+        [TestMethod]
         public void LoadControl_WithControlName_LoadsTheControlFromTheSkinFolder()
         {
             // arrange
@@ -29,7 +29,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreSame(loadedControl, control);
         }
 
-        [Test]
+        [TestMethod]
         public void LoadControl_WithControlName_ReplacesDotWithUnderscoreInId()
         {
             // arrange
@@ -47,7 +47,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
 
-        [Test]
+        [TestMethod]
         public void LoadControl_WithControlThrowingHttpException_LoadsFallbackControl()
         {
             // arrange
@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreSame(fallbackControl, control);
         }
 
-        [Test]
+        [TestMethod]
         public void LoadControl_WithControlThrowingHttpParseException_LoadsErrorControlWithExceptionProperty()
         {
             // arrange
@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual(exception, control.Exception.InnerException);
         }
 
-        [Test]
+        [TestMethod]
         public void LoadControl_WithControlThrowingHttpParseException_LoadsErrorControlWithExceptionHavingControlPath()
         {
             // arrange
@@ -107,7 +107,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual("~/Skins/OfMyChinnyChinChin/Controls/ViewPost.ascx", control.Exception.ControlPath);
         }
 
-        [Test]
+        [TestMethod]
         public void LoadControl_WithControlAndFallbackThrowingHttpException_LoadsErrorControl()
         {
             // arrange

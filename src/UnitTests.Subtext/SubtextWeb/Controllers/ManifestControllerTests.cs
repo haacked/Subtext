@@ -1,5 +1,6 @@
-﻿using System.Web.Mvc;
-using MbUnit.Framework;
+﻿using System;
+using System.Web.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Web.Controllers;
@@ -7,10 +8,10 @@ using UrlHelper=Subtext.Framework.Routing.BlogUrlHelper;
 
 namespace UnitTests.Subtext.SubtextWeb.Controllers
 {
-    [TestFixture]
+    [TestClass]
     public class ManifestControllerTests
     {
-        [Test]
+        [TestMethod]
         public void Index_ReturnsContentWithContentTypeTextXml()
         {
             // arrange
@@ -28,7 +29,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             Assert.AreEqual("text/xml", manifest.ContentType);
         }
 
-        [Test]
+        [TestMethod]
         public void Index_WithBlogNotAllowingTrackbacks_ReturnsManifestWithSupportsTrackbacksNo()
         {
             // arrange
@@ -43,10 +44,10 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var manifest = controller.Index() as ContentResult;
 
             // assert
-            Assert.Contains(manifest.Content, "<supportsTrackbacks>No</supportsTrackbacks>");
+            StringAssert.Contains(manifest.Content, "<supportsTrackbacks>No</supportsTrackbacks>");
         }
 
-        [Test]
+        [TestMethod]
         public void Index_WithBlogAllowingTrackbacks_ReturnsManifestWithSupportsTrackbacksYes()
         {
             // arrange
@@ -61,10 +62,10 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             var manifest = controller.Index() as ContentResult;
 
             // assert
-            Assert.Contains(manifest.Content, "<supportsTrackbacks>Yes</supportsTrackbacks>");
+            StringAssert.Contains(manifest.Content, "<supportsTrackbacks>Yes</supportsTrackbacks>");
         }
 
-        [Test]
+        [TestMethod]
         public void Index_ReturnsManifestWithProperAdminUrls()
         {
             // arrange
@@ -90,9 +91,10 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
       <![CDATA[
         http://localhost/admin/posts/edit.aspx
     ]]>
-    </postEditingUrl>";
+    </postEditingUrl>"
+                .Replace(Environment.NewLine, "\n");
 
-            Assert.Contains(manifest.Content, expected);
+            StringAssert.Contains(manifest.Content, expected);
         }
     }
 }

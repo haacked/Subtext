@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using log4net;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
@@ -15,10 +15,10 @@ using Subtext.Web;
 
 namespace UnitTests.Subtext.SubtextWeb
 {
-    [TestFixture]
+    [TestClass]
     public class SubtextApplicationTests
     {
-        [Test]
+        [TestMethod]
         public void StartApplication_SetsLogInitializedToFalse()
         {
             // arrange
@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsFalse(app.LogInitialized);
         }
 
-        [Test]
+        [TestMethod]
         public void StartApplication_AddsAdminDirectoryToInvalidPaths_IfAdminDirectoryExistsInWrongPlace()
         {
             // arrange
@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("~/Admin", app.DeprecatedPhysicalPaths[0]);
         }
 
-        [Test]
+        [TestMethod]
         public void StartApplication_AddsLoginFileToInvalidPaths_IfLoginFileExistsInWrongPlace()
         {
             // arrange
@@ -69,7 +69,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("~/login.aspx", app.DeprecatedPhysicalPaths[0]);
         }
 
-        [Test]
+        [TestMethod]
         public void StartApplication_AddsHostAdminDirectoryToInvalidPaths_IfHostAdminDirectoryExistsInWrongPlace()
         {
             // arrange
@@ -85,7 +85,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("~/HostAdmin", app.DeprecatedPhysicalPaths[0]);
         }
 
-        [Test]
+        [TestMethod]
         public void BeginApplicationRequest_LogsThatTheApplicationHasStartedAndSetsLogInitializedTrue()
         {
             // arrange
@@ -103,7 +103,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsTrue(app.LogInitialized);
         }
 
-        [Test]
+        [TestMethod]
         public void BeginApplicationRequest_WithOldAdminDirectory_ThrowsDeprecatedFileExistsException()
         {
             // arrange
@@ -121,7 +121,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("~/Admin", exception.InvalidPhysicalPaths[0]);
         }
 
-        [Test]
+        [TestMethod]
         public void UnwrapHttpUnhandledException_WithHttpUnhandledExceptionContainingNoInnerException_ReturnsNull()
         {
             // act
@@ -131,7 +131,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsNull(exception);
         }
 
-        [Test]
+        [TestMethod]
         public void
             UnwrapHttpUnhandledException_WithHttpUnhandledExceptionContainingInnerException_ReturnsInnerException()
         {
@@ -146,7 +146,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual(innerException, exception);
         }
 
-        [Test]
+        [TestMethod]
         public void OnApplicationError_WithUnhandledExceptionAndCustomErrorsEnabled_TransfersToErrorPage()
         {
             // arrange
@@ -162,7 +162,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("~/aspx/SystemMessages/error.aspx", transferLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void OnApplicationError_WithUnhandledExceptionAndCustomErrorsDisabled_LogsMessage()
         {
             // arrange
@@ -179,7 +179,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("Unhandled Exception trapped in Global.asax", logMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void OnApplicationError_WithHttpUnhandledExceptionContainingNoInnerException_Transfers()
         {
             // arrange
@@ -195,7 +195,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("~/aspx/SystemMessages/error.aspx", transferLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void LogIfCommentException_LogsCommentException()
         {
             // arrange
@@ -212,7 +212,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("Comment exception thrown and handled in Global.asax.", logMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void LogIfCommentException_DoesNothingForNonCommentException()
         {
             // arrange
@@ -224,7 +224,7 @@ namespace UnitTests.Subtext.SubtextWeb
             SubtextApplication.LogIfCommentException(exception, log.Object);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleDrepecatedFilePathsException_WithNonDeprecatedPhysicalPathsException_ReturnsFalse()
         {
             // arrange
@@ -239,7 +239,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsFalse(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleDeprecatedFilePathsException_WithDepecatedPhysicalPathsException_ReturnsFalse()
         {
             // arrange
@@ -260,7 +260,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsTrue(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleSqlException_ReturnsFalseForNonSqlException()
         {
             // arrange
@@ -273,7 +273,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsFalse(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void
             HandleSqlException_WithSqlServerDoesNotExistOrAccessDeniedError_TransfersToBadConnectionStringPageAndReturnsTrue
             ()
@@ -293,7 +293,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsTrue(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void
             HandleSqlException_WithSqlServerCouldNotFindStoredProcedureAndProcNameIsBlog_GetConfig_TransfersToBadConnectionStringPageAndReturnsTrue
             ()
@@ -313,7 +313,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsTrue(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleRequestLocationException_WithNullBlogRequest_RedirectsToInstallDefault()
         {
             // arrange
@@ -333,7 +333,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsTrue(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleRequestLocationException_WithInstallationActionRequired_RedirectsToInstallDefault()
         {
             // arrange
@@ -353,7 +353,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsTrue(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleRequestLocationException_IgnoresInstallationLocation()
         {
             // arrange
@@ -373,7 +373,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsFalse(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleRequestLocationException_IgnoresUpgradeLocation()
         {
             // arrange
@@ -392,7 +392,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsFalse(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleRequestLocationException_HandlesBlogInactiveException()
         {
             // arrange
@@ -413,7 +413,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsTrue(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleRequestLocationException_IgnoresBlogInactiveExceptionWhenInSystemMessagesDirectory()
         {
             // arrange
@@ -432,7 +432,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsFalse(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void
             HandleBadConnectionStringException_WithInvalidOperationExceptionMentioningConnectionString_TransfersToBadConnectionStringPage
             ()
@@ -451,7 +451,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("~/aspx/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void
             HandleBadConnectionStringException_WithInvalidOperationExceptionContainingOtherMessages_IgnoresException()
         {
@@ -467,7 +467,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsFalse(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void
             HandleBadConnectionStringException_WithArgumentExceptionContainingKeywordNotSupported_TransfersToBadConnectionStringPage
             ()
@@ -486,7 +486,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("~/aspx/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void
             HandleBadConnectionStringException_WithArgumentExceptionContainingInvalidValueForKey_TransfersToBadConnectionStringPage
             ()
@@ -505,7 +505,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("~/aspx/SystemMessages/CheckYourConnectionString.aspx", transferLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleBadConnectionStringException_WithArgumentExceptionContainingOtherMessages_IgnoresException()
         {
             // arrange
@@ -520,7 +520,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsFalse(handled);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleBadConnectionStringException_IgnoresOtherExceptions()
         {
             // arrange
@@ -535,14 +535,14 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.IsFalse(handled);
         }
 
-        [SetUp]
-        public void SetUp()
+        [TestInitialize]
+        public void TestInitialize()
         {
             CleanupDirectories();
         }
 
-        [TearDown]
-        public void TearDown()
+        [TestCleanup]
+        public void TestCleanup()
         {
             CleanupDirectories();
             File.Delete("login.aspx");

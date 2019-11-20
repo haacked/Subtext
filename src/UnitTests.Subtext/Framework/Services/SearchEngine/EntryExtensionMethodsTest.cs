@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -11,10 +11,10 @@ using Subtext.Framework.Services.SearchEngine;
 
 namespace UnitTests.Subtext.Framework.Services.SearchEngine
 {
-    [TestFixture]
+    [TestClass]
     public class EntryExtensionMethodsTest
     {
-        [Test]
+        [TestMethod]
         public void EntryExtensionMethodsTest_ConvertToSearchEngineEntry_WithTags_ConvertsTagsToString()
         {
             Entry post = new Entry(PostType.BlogPost)
@@ -27,7 +27,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             Assert.AreEqual("tag1,tag2", searchEntry.Tags);
         }
 
-        [Test]
+        [TestMethod]
         public void EntryExtensionMethodsTest_ConvertToSearchEngineEntry_StripsHtmlTags()
         {
             Entry post = new Entry(PostType.BlogPost)
@@ -40,7 +40,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             Assert.AreEqual("this is bold text", searchEntry.Body);
         }
 
-        [Test]
+        [TestMethod]
         public void EntryExtensionMethodsTest_ConvertToSearchEngineEntry_WithOutTags_ConvertsTagsToString()
         {
             Entry post = new Entry(PostType.BlogPost)

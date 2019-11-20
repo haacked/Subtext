@@ -1,16 +1,16 @@
 using System;
 using System.IO;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Util
 {
-    [TestFixture]
+    [TestClass]
     public class FileHelperTests
     {
         private const string TestDirectory = "unit-test-dir";
 
-        [Test]
+        [TestMethod]
         public void IsValidImageFileName_WithImageFileName_ReturnsTrue()
         {
             // arrange
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.IsTrue(isValid);
         }
 
-        [Test]
+        [TestMethod]
         public void IsValidImageFileName_WithTextFileName_ReturnsFalse()
         {
             // arrange
@@ -36,7 +36,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.IsFalse(isValid);
         }
 
-        [Test]
+        [TestMethod]
         public void IsValidFileName_WithValidChars_ReturnsTrue()
         {
             // arrange
@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.IsTrue(isValid);
         }
 
-        [Test]
+        [TestMethod]
         public void IsValidFileName_WithBadFileName_ReturnsFalse()
         {
             // arrange
@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.IsFalse(isValid);
         }
 
-        [Test]
+        [TestMethod]
         public void CanCheckDirectory()
         {
             string dir = Path.GetFullPath(TestDirectory);
@@ -70,14 +70,14 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.IsTrue(Directory.Exists(dir));
         }
 
-        [Test]
+        [TestMethod]
         public void CheckDirectoryThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() => FileHelper.EnsureDirectory(null));
             UnitTestHelper.AssertThrowsArgumentNullException(() => FileHelper.EnsureDirectory(string.Empty));
         }
 
-        [Test]
+        [TestMethod]
         public void WriteBytesToFile_WithNullDestination_ThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() => FileHelper.WriteBytesToFile(null, new byte[0]));
@@ -85,30 +85,35 @@ namespace UnitTests.Subtext.Framework.Util
                 () => FileHelper.WriteBytesToFile(string.Empty, new byte[0]));
         }
 
-        [Test]
+        [TestMethod]
         public void WriteBytesToFile_WithInvalidFilePath_ThrowsInvailidOperationException()
         {
             UnitTestHelper.AssertThrows<InvalidOperationException>(
                 () => FileHelper.WriteBytesToFile("c:\\foo\\#$3211|.jpg", new byte[0]));
         }
 
-        [SetUp]
-        public void SetUp()
+        private void DeleteTestFolders()
         {
-            if(Directory.Exists(TestDirectory))
+            if (Directory.Exists(TestDirectory))
             {
                 Directory.Delete(TestDirectory, true);
             }
-            if(Directory.Exists("image"))
+            if (Directory.Exists("image"))
             {
                 Directory.Delete("image", true);
             }
         }
 
-        [TearDown]
-        public void TearDown()
+        [TestInitialize]
+        public void TestInitialize()
         {
-            SetUp();
+            DeleteTestFolders();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            DeleteTestFolders();
         }
     }
 }

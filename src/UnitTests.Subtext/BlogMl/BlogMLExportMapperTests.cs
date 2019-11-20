@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using BlogML;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
@@ -14,10 +14,10 @@ using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
 {
-    [TestFixture]
+    [TestClass]
     public class BlogMLExportMapperTests
     {
-        [Test]
+        [TestMethod]
         public void ConvertBlog_WithSubtextBlog_ReturnsCorrespondingBlogMLBlog()
         {
             // arrange
@@ -39,7 +39,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("Enabled", blogMLBlog.ExtendedProperties[0].Value);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertCategories_WithBlogCategories_ConvertsToBLogMLCategories()
         {
             // arrange
@@ -59,7 +59,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("Category Dos", blogMLCategories.ElementAt(1).Title);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntry_ConvertsToBLogMLPosts()
         {
             // arrange
@@ -77,7 +77,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("Test Entry", post.Title);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntry_ContvertsBodyAndExcerptToBase64Encoding()
         {
             // arrange
@@ -98,7 +98,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(ContentTypes.Base64, post.Excerpt.ContentType);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithInActiveEntry_SetsDateModifiedToDateModified()
         {
             // arrange
@@ -119,7 +119,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(dateModifiedUtc, post.DateModified);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithActiveEntry_SetsDateModifiedToDatePublishedUtc()
         {
             // arrange
@@ -141,7 +141,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(datePublishedUtc, post.DateModified);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithActiveEntry_SetsDateCreatedToLocalDateTime()
         {
             // arrange
@@ -162,7 +162,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(dateCreatedUtc, post.DateCreated);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntryHavingNoDatePublished_DoesNotThrowNullReferenceException()
         {
             // arrange
@@ -182,7 +182,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.IsNotNull(post);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntryHavingEntryName_ConvertsToBLogMLPostWithPostName()
         {
             // arrange
@@ -200,7 +200,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("My-Cool-Post", post.PostName);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntry_ConvertsToBLogMLPostWithPostUrl()
         {
             // arrange
@@ -218,7 +218,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("http://foo.example.com/my-cool-post.aspx", post.PostUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntryHavingAuthor_ConvertsToBLogMLPostWithAuthorReference()
         {
             // arrange
@@ -236,7 +236,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("321", post.Authors[0].Ref);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntryHavingAttachments_IncludesAttachmentsWithoutEmbedding()
         {
             // arrange
@@ -258,7 +258,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("/my-dogs.jpg", attachment.Url);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntryHavingFullyQualifiedImage_IgnoresImage()
         {
             // arrange
@@ -277,7 +277,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(0, post.Attachments.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntryHavingAttachments_EmbedsAttachmentsWhenEmbedIsTrue()
         {
             // arrange
@@ -303,7 +303,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==", Convert.ToBase64String(attachment.Data));
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertEntry_WithEntryHavingCommentsAndTrackbacks_IncludesCommentsAndTrackbacks()
         {
             // arrange
@@ -324,7 +324,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(1, post.Trackbacks.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertComment_WithFeedBackItem_ConvertsToBlogMlComment()
         {
             // arrange
@@ -376,7 +376,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("<p>First!</p>", comment.Content.Text);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertComment_WithDateCreated_ConvertsToUtc()
         {
             // arrange
@@ -395,7 +395,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(dateCreatedUtc, comment.DateCreated);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertComment_WithDateModified_ConvertsToUtc()
         {
             // arrange
@@ -414,7 +414,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(dateModifiedUtc, comment.DateModified);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertComment_WithNullFeedBackItem_ThrowsArgumentNullException()
         {
             // arrange
@@ -425,7 +425,7 @@ namespace UnitTests.Subtext.BlogMl
             UnitTestHelper.AssertThrows<ArgumentException>(() => converter.ConvertComment(null));
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertComment_WithFeedBackItemHavingNonCommentFeedbackType_ThrowsArgumentException()
         {
             // arrange
@@ -437,7 +437,7 @@ namespace UnitTests.Subtext.BlogMl
             UnitTestHelper.AssertThrows<ArgumentException>(() => converter.ConvertComment(feedback));
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTrackback_WithDateCreated_ConvertsDateCreatedToUtc()
         {
             // arrange
@@ -465,7 +465,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(dateCreatedUtc, comment.DateCreated);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTrackback_WithDateModified_ConvertsDateModifiedToUtc()
         {
             // arrange
@@ -493,7 +493,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(dateModifiedUtc, comment.DateModified);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTrackback_WithFeedBackItem_ConvertsToBlogMlComment()
         {
             // arrange
@@ -521,7 +521,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("http://subtextproject.com/", comment.Url);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTrackback_WithNullFeedBackItem_ThrowsArgumentNullException()
         {
             // arrange
@@ -532,7 +532,7 @@ namespace UnitTests.Subtext.BlogMl
             UnitTestHelper.AssertThrows<ArgumentException>(() => converter.ConvertTrackback(null));
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTrackback_WithFeedBackItemHavingNonTrackbackFeedbackType_ThrowsArgumentException()
         {
             // arrange
@@ -544,7 +544,7 @@ namespace UnitTests.Subtext.BlogMl
             UnitTestHelper.AssertThrows<ArgumentException>(() => converter.ConvertTrackback(feedback));
         }
 
-        [Test]
+        [TestMethod]
         public void GetPostAttachments_WithFullyQualifiedImageSrcWithHostSameAsBlog_ReturnsAttachment()
         {
             // arrange
@@ -562,7 +562,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("http://test.example.com/images/foo.jpg", attachments.First().Url);
         }
 
-        [Test]
+        [TestMethod]
         public void GetPostAttachments_WithBlogInVirtualAppFullyQualifiedImageSrcWithHostSameAsBlog_ReturnsAttachment()
         {
             // arrange
@@ -580,7 +580,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("http://test.example.com/subtext.web/images/foo.jpg", attachments.First().Url);
         }
 
-        [Test]
+        [TestMethod]
         public void GetPostAttachments_WithImageSrcAsVirtualPath_ReturnsAttachment()
         {
             // arrange
@@ -598,7 +598,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("/images/foo.jpg", attachments.First().Url);
         }
 
-        [Test]
+        [TestMethod]
         public void GetPostAttachments_WithBlogInVirtualApplicaitonImageSrcAsVirtualPath_ReturnsAttachment()
         {
             // arrange
@@ -616,7 +616,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("/Subtext.Web/images/foo.jpg", attachments.First().Url);
         }
 
-        [Test]
+        [TestMethod]
         public void GetPostAttachments_WithImageSrcAsRelativePath_ReturnsAttachment()
         {
             // arrange

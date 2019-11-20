@@ -1,16 +1,16 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using STRouting = Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
-    [TestFixture]
+    [TestClass]
     public class RootRouteTests
     {
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestForAppRoot_WhenAggregationEnabled_MatchesAndReturnsAggDefault()
         {
             //arrange
@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsFalse(routeData.DataTokens.ContainsKey(STRouting.PageRoute.ControlNamesKey));
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestForAppRoot_WhenAggregationDisabled_MatchesAndReturnsDtp()
         {
             //arrange
@@ -46,7 +46,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsTrue(routeData.DataTokens.ContainsKey(STRouting.PageRoute.ControlNamesKey));
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestForSubfolder_WhenAggregationEnabled_MatchesRequestAndReturnsDtp()
         {
             //arrange
@@ -63,7 +63,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreSame(route, routeData.Route);
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestForSubfolder_WhenAggregationDisabled_MatchesRequestAndReturnsDtp()
         {
             //arrange
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreSame(route, routeData.Route);
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestWithSubfolder_WhenAggregationEnabledAndBlogDoesNotHaveSubfolder_DoesNotMatch()
         {
             //arrange
@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(routeData);
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestWithSubfolder_WhenAggregationDisabledAndBlogDoesNotHaveSubfolder_DoesNotMatch
             ()
         {
@@ -111,7 +111,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(routeData);
         }
 
-        [Test]
+        [TestMethod]
         public void
             GetRouteDataWithRequestWithSubfolder_WhenAggregationEnabledAndSubfolderDoesNotMatchBlogSubfolder_DoesNotMatch
             ()
@@ -128,7 +128,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(routeData);
         }
 
-        [Test]
+        [TestMethod]
         public void
             GetRouteDataWithRequestWithSubfolder_WhenAggregationDisabledAndSubfolderDoesNotMatchBlogSubfolder_DoesNotMatch
             ()
@@ -145,7 +145,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(routeData);
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestForDefault_WhenAggregationEnabled_MatchesAndReturnsAggDefault()
         {
             //arrange
@@ -162,7 +162,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreSame(route, routeData.Route);
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestForDefault_WhenAggregationDisabled_MatchesAndReturnsDtp()
         {
             //arrange
@@ -179,7 +179,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreSame(route, routeData.Route);
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestForDefaultInSubfolder_WhenAggregationEnabled_MatchesRequestAndReturnsDtp()
         {
             //arrange
@@ -196,7 +196,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreSame(route, routeData.Route);
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteDataWithRequestForDefaultInSubfolder_WhenAggregationDisabled_MatchesRequestAndReturnsDtp()
         {
             //arrange
@@ -213,7 +213,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreSame(route, routeData.Route);
         }
 
-        [Test]
+        [TestMethod]
         public void GetVirtualPath_WhenAggregationEnabledAndNoSubfolderInRouteData_ReturnsRoot()
         {
             //arrange
@@ -231,7 +231,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual(string.Empty, virtualPathInfo.VirtualPath);
         }
 
-        [Test]
+        [TestMethod]
         public void GetVirtualPath_WhenAggregationEnabledWithSubfolderInRouteData_ReturnsSubfolder()
         {
             //arrange
@@ -250,7 +250,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("subfolder", virtualPathInfo.VirtualPath);
         }
 
-        [Test]
+        [TestMethod]
         public void GetVirtualPath_WhenAggregationEnabledWithSubfolderInRouteValues_ReturnsSubfolder()
         {
             //arrange
@@ -268,7 +268,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("subfolder", virtualPathInfo.VirtualPath);
         }
 
-        [Test]
+        [TestMethod]
         public void GetVirtualPath_WhenSupplyingRouteValues_AppendsValuesToQueryString()
         {
             //arrange

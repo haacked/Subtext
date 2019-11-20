@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Hosting;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.UI.Skinning;
 
 namespace UnitTests.Subtext.Framework.Skinning
 {
-    [TestFixture]
+    [TestClass]
     public class SkinEngineTests
     {
-        [Test]
+        [TestMethod]
         public void GetSkinTemplates_WithFolders_ReturnsSkinPerFolder()
         {
             //arrange
@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual("Skin0", skinTemplates.Values.First().TemplateFolder);
         }
 
-        [Test]
+        [TestMethod]
         public void GetSkinTemplates_WithSpecialFolders_IgnoresSpecialFolders()
         {
             //arrange
@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual("Skin1", skinTemplates.Values.First().Name);
         }
 
-        [Test]
+        [TestMethod]
         public void GetSkinTemplates_WithSkinConfigInFolder_AppliesConfig()
         {
             //arrange
@@ -104,7 +104,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual(1, template.Styles.Count());
         }
 
-        [Test]
+        [TestMethod]
         public void GetSkinTemplates_WithMobileOnlyTrue_ReturnsSkinWithMobileSupportSetToMobileOnly()
         {
             //arrange
@@ -142,7 +142,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual("Mobile", template.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void GetSkinTemplates_WithMobileOnlyTrue_ReturnsSkinWithMobileSupportSetToSupported()
         {
             //arrange
@@ -180,7 +180,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual("Mobile", template.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void GetSkinTemplates_WithMobileOnlyFalse_ReturnsSkinWithMobileSupportSetToSupported()
         {
             //arrange
@@ -218,7 +218,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual("Mobile", template.Name);
         }
 
-        [Test]
+        [TestMethod]
         public void GetSkinTemplates_WithMobileOnlyTrue_DoesNotReturnSkinThatDoesNotSupportMobile()
         {
             //arrange

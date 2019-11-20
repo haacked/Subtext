@@ -17,7 +17,7 @@
 
 using System;
 using System.Collections.ObjectModel;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Infrastructure.Installation;
 
 namespace UnitTests.Subtext.InstallationTests
@@ -25,13 +25,13 @@ namespace UnitTests.Subtext.InstallationTests
     /// <summary>
     /// Tests of the <see cref="SqlInstallationProvider"/> class.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class SqlInstallationProviderTests
     {
         /// <summary>
         /// Tests that we can properly list the installation scripts.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ListInstallationScriptsReturnsCorrectScripts()
         {
             ReadOnlyCollection<string> scripts = SqlInstaller.ListInstallationScripts(null, new Version(1, 5, 0, 0));
@@ -56,10 +56,11 @@ namespace UnitTests.Subtext.InstallationTests
         }
 
         /// <summary>
-        /// Called before each unit test.
+        /// Sets the up test class.  This is called once for 
+        /// this test class before all the tests run.
         /// </summary>
-        [TestFixtureSetUp]
-        public void TestFixtureSetUp()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
         {
             //Confirm app settings
             UnitTestHelper.AssertAppSettings();

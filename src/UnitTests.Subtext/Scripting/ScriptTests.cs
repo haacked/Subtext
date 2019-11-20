@@ -1,12 +1,12 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Scripting;
 
 namespace UnitTests.Subtext.Scripting
 {
-    [TestFixture]
+    [TestClass]
     public class ScriptTests
     {
-        [Test]
+        [TestMethod]
         public void ToStringWithScriptWithNoTokensDisplaysNoTokensMessage()
         {
             var script = new Script("/*nothing*/");

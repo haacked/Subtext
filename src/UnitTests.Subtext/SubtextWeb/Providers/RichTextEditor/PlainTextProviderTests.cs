@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Web.UI.WebControls;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Web.Providers.BlogEntryEditor.PlainText;
@@ -28,10 +28,10 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
     /// <summary>
     /// Summary description for PlainTextProviderTests.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class PlainTextProviderTests
     {
-        [Test]
+        [TestMethod]
         public void SetControlID()
         {
             string test = "MyTestControlID";
@@ -40,7 +40,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             Assert.AreEqual(test, provider.ControlId);
         }
 
-        [Test]
+        [TestMethod]
         public void SetText()
         {
             string test = "Lorem Ipsum";
@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             Assert.AreEqual(test, provider.Xhtml);
         }
 
-        [Test]
+        [TestMethod]
         public void SetWidth()
         {
             Unit test = 200;
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             Assert.AreEqual(test, provider.Width);
         }
 
-        [Test]
+        [TestMethod]
         public void SetHeight()
         {
             Unit test = 100;
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             Assert.AreEqual(test, provider.Height);
         }
 
-        [Test]
+        [TestMethod]
         public void TestInitializationWithNullName()
         {
             var provider = new PlainTextBlogEntryEditorProvider();
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
                 );
         }
 
-        [Test]
+        [TestMethod]
         public void TestInitializationWithNullConfigValue()
         {
             var provider = new PlainTextBlogEntryEditorProvider();
@@ -89,7 +89,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
                 );
         }
 
-        [Test]
+        [TestMethod]
         public void TestInitialization()
         {
             var provider = new PlainTextBlogEntryEditorProvider();

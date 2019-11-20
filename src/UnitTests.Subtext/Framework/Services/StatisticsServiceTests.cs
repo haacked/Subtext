@@ -1,5 +1,5 @@
 using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -7,10 +7,10 @@ using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.Framework.Services
 {
-    [TestFixture]
+    [TestClass]
     public class StatisticsServiceTests
     {
-        [Test]
+        [TestMethod]
         public void CtorSetsSubtextContextAndSettings()
         {
             //arrange
@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(settings, statisticsService.Settings);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordAggregatorViewRecordsEntry()
         {
             //arrange
@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(66, entryView.EntryId);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordAggViewWithStatsDisabledDoesNotTrackEntry()
         {
             //arrange
@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsFalse(wasCalled);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordAggViewDoesNotRecordHttpPost()
         {
             //arrange
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsFalse(wasCalled);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordWebViewRecordsEntry()
         {
             //arrange
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(66, entryView.EntryId);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordWebViewWithStatsDisabledDoesNotTrackEntry()
         {
             //arrange
@@ -117,7 +117,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsFalse(wasCalled);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordWebViewDoesNotRecordHttpPost()
         {
             //arrange
@@ -135,7 +135,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsFalse(wasCalled);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordWebViewRecordsReferrer()
         {
             //arrange
@@ -157,7 +157,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("http://subtextproject.com/", recordedView.ReferralUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordWebViewFromSameReferrerDoesNotRecordsReferrer()
         {
             //arrange
@@ -179,7 +179,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsNull(recordedView.ReferralUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordWebViewFromSameReferrerDomainDoesNotRecordsReferrer()
         {
             //arrange
@@ -201,7 +201,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsNull(recordedView.ReferralUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void RecordWebViewWithBadReferrerIgnoresReferer()
         {
             //arrange

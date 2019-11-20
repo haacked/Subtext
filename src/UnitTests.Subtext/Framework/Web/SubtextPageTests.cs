@@ -1,6 +1,6 @@
 using System.Web;
 using System.Web.Routing;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Providers;
@@ -9,10 +9,10 @@ using Subtext.Framework.Web.Handlers;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
-    [TestFixture]
+    [TestClass]
     public class SubtextPageTests
     {
-        [Test]
+        [TestMethod]
         public void SettingSubtextContextPopulatesOtherProperties()
         {
             //arrange

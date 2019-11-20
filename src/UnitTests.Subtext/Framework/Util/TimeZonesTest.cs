@@ -1,11 +1,11 @@
 using System;
 using System.Collections.ObjectModel;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Util
 {
-    [TestFixture]
+    [TestClass]
     public class TimeZonesTest
     {
         const string CentralEuropeZoneId = "Central Europe Standard Time";
@@ -13,7 +13,7 @@ namespace UnitTests.Subtext.Framework.Util
         const string NewZealandZoneId = "New Zealand Standard Time";
         public const string PacificTimeZoneId = "Pacific Standard Time";
 
-        [Test]
+        [TestMethod]
         public void CanGetTimeZones()
         {
             // arrange, act
@@ -24,11 +24,11 @@ namespace UnitTests.Subtext.Framework.Util
             }
 
             // assert
-            Assert.Greater(timeZones.Count, 10);
+            Assert.IsTrue(timeZones.Count > 10);
         }
 
 
-        [Test]
+        [TestMethod]
         public void GenerateUpdateScript()
         {
             string sql = string.Empty;
@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Util
             Console.Write(sql);
         }
 
-        //[Test]
+        //[TestMethod]
         //[Ignore("Only run this when we need to regen this file. Better to make this a build step.")]
         //public void WriteTimeZonesToFile()
         //{

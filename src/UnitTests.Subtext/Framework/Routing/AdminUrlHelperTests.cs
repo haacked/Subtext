@@ -1,17 +1,17 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.Components;
 using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
-    [TestFixture]
+    [TestClass]
     public class AdminUrlHelperTests
     {
-        [Test]
+        [TestMethod]
         public void PostsList_WithBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -26,7 +26,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/posts/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void PostsEdit_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/posts/edit.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ArticlesList_WithBlogHavingSubfolder_RendersUrlToArticlesListPage()
         {
             //arrange
@@ -56,7 +56,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/articles/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ArticlesEdit_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToArticlesListPage()
         {
             //arrange
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/articles/edit.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void FeedbackList_WithBlogHavingSubfolder_RendersUrlToFeedbackListPage()
         {
             //arrange
@@ -86,7 +86,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/feedback/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void FeedbackEdit_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToFeedbackListPage()
         {
             //arrange
@@ -101,7 +101,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/feedback/edit.aspx?return-to-post=true&FeedbackID=123", url);
         }
 
-        [Test]
+        [TestMethod]
         public void LinksEdit_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -116,7 +116,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/EditLinks.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleriesEdit_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -131,7 +131,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/EditGalleries.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void EditCategories_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -146,7 +146,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/EditCategories.aspx?catType=PostCollection", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ErrorLog_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -161,7 +161,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/ErrorLog.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void Home_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -176,7 +176,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImportExport_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -191,7 +191,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/ImportExport.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ExportUrl_WithEmbedFalseAndSubFolder_RendersUrlWithQueryStringParameter()
         {
             //arrange
@@ -206,7 +206,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/export.ashx?embed=False", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ExportUrl_WithEmbedTrue_RendersUrlWithQueryStringParameter()
         {
             //arrange
@@ -219,7 +219,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/admin/export.ashx?embed=True", url);
         }
 
-        [Test]
+        [TestMethod]
         public void Statistics_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -234,7 +234,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/Statistics.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void Options_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange
@@ -249,7 +249,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/Options.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void Credits_WithCategoryTypeAndBlogHavingSubfolder_RendersUrlToPostsListPage()
         {
             //arrange

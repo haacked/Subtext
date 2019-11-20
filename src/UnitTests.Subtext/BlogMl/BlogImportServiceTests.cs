@@ -2,16 +2,16 @@ using System;
 using System.IO;
 using BlogML;
 using BlogML.Xml;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
 {
-    [TestFixture]
+    [TestClass]
     public class BlogMlImportServiceTests
     {
-        [Test]
+        [TestMethod]
         public void Import_SetsExtendedPropertiesOnBlog()
         {
             // arrange
@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.IsTrue(extendedPropertiesSet);
         }
 
-        [Test]
+        [TestMethod]
         public void Import_WithBlogHavingCategories_CreatesCategories()
         {
             // arrange
@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.IsTrue(categoriesCreated);
         }
 
-        [Test]
+        [TestMethod]
         public void Import_WithBlogPostHavingComments_CreatesCommentUsingPostId()
         {
             // arrange
@@ -67,7 +67,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.IsTrue(commentCreated);
         }
 
-        [Test]
+        [TestMethod]
         public void Import_WithBlogPostHavingBase64EncodedContentWithAttachments_ProperlyRewritesAttachments()
         {
             // arrange
@@ -92,7 +92,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(@"<img src=""http://new.example.com/images/my-mug.jpg"" />", publishedPost.Content.UncodedText);
         }
 
-        [Test]
+        [TestMethod]
         public void Import_WithBlogPostHavingTrackback_CreatesTrackbackUsingPostId()
         {
             // arrange
@@ -114,7 +114,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.IsTrue(trackbackCreated);
         }
 
-        [Test]
+        [TestMethod]
         public void Import_WithCreateCommentThrowingException_DoesNotPropagateException()
         {
             // arrange
@@ -130,7 +130,7 @@ namespace UnitTests.Subtext.BlogMl
             service.Import(blog);
         }
 
-        [Test]
+        [TestMethod]
         public void Import_WithCreateTrackbackThrowingException_DoesNotPropagateException()
         {
             // arrange
@@ -146,7 +146,7 @@ namespace UnitTests.Subtext.BlogMl
             service.Import(blog);
         }
 
-        [Test]
+        [TestMethod]
         public void ImportBlog_WithStream_DeserializesBlog()
         {
             // arrange
@@ -198,7 +198,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(1, deserializedPost.Authors.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void CreateFileFromAttachment_WithEmbeddedAttachment_CreatesFile()
         {
             // arrange
@@ -217,7 +217,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.IsTrue(File.Exists(Path.Combine(ImageDirectory, "my-mug.jpg")));
         }
 
-        [Test]
+        [TestMethod]
         public void CreateFileFromAttachment_WithOutEmbeddedAttachment_RewritesPostContent()
         {
             // arrange
@@ -236,7 +236,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(@"<img src=""http://example.com/images/my-mug.jpg"" />", postContent);
         }
 
-        [Test]
+        [TestMethod]
         public void Import_WithEmbeddedAttachments_CreatesFilesForAttachmentsAndRewritesBlogPost()
         {
             // arrange
@@ -267,15 +267,15 @@ namespace UnitTests.Subtext.BlogMl
             }
         }
 
-        [SetUp]
-        public void Setup()
+        [TestInitialize]
+        public void TestInitialize()
         {
             //Make sure no files are left over from last time.
-            TearDown();
+            TestCleanup();
         }
 
-        [TearDown]
-        public void TearDown()
+        [TestCleanup]
+        public void TestCleanup()
         {
             if(Directory.Exists(ImageDirectory))
             {

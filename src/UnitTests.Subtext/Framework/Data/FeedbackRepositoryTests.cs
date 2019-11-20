@@ -1,5 +1,5 @@
 ﻿using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -7,10 +7,10 @@ using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Data
 {
-    [TestFixture]
+    [TestClass]
     public class FeedbackRepositoryTests
     {
-        [Test]
+        [TestMethod]
         public void Create_WithFeedbackItem_SetsDateCreatedAndModifiedToUtcNow()
         {
             // Arrange
@@ -41,10 +41,10 @@ namespace UnitTests.Subtext.Framework.Data
             repository.Create(feedback);
 
             // Assert
-            Assert.GreaterEqualThan(DateTime.UtcNow, feedback.DateCreatedUtc);
-            Assert.GreaterEqualThan(DateTime.UtcNow, feedback.DateModifiedUtc);
-            Assert.GreaterEqualThan(feedback.DateCreatedUtc, now);
-            Assert.GreaterEqualThan(feedback.DateModifiedUtc, now);
+            Assert.IsTrue(DateTime.UtcNow >= feedback.DateCreatedUtc);
+            Assert.IsTrue(DateTime.UtcNow >= feedback.DateModifiedUtc);
+            Assert.IsTrue(feedback.DateCreatedUtc >= now);
+            Assert.IsTrue(feedback.DateModifiedUtc >= now);
         }
     }
 }

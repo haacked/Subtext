@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Configuration;
 using Subtext.Extensibility;
@@ -10,10 +10,10 @@ using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.Framework.Services
 {
-    [TestFixture]
+    [TestClass]
     public class SlugGeneratorTests
     {
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithNullEntry_ThrowsArgumentNullException()
         {
             //arrange
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Services
             UnitTestHelper.AssertThrowsArgumentNullException(() => generator.GetSlugFromTitle(null));
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithNullOrEmptyTitle_ThrowsArgumentException()
         {
             //arrange
@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.Framework.Services
             UnitTestHelper.AssertThrows<ArgumentException>(() => generator.GetSlugFromTitle(entry));
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithNullFriendlySettings_UsesDefaults()
         {
             //arrange
@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(10, settings.WordCountLimit);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithSpacesInTitle_ReplacesSpacesInTitle()
         {
             //arrange
@@ -64,7 +64,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("this-is-a-test", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithNullCharacterDelimiterAndSpacesInTitle_RemovesSpacesAndPascalCasesTitle()
         {
             //arrange
@@ -82,7 +82,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("ThisIsATest", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithTextTransformToUpperCase_TransformsUrlToUpperCase()
         {
             //arrange
@@ -101,7 +101,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("THIS.IS.A.TEST", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithTitleHavingExtraWhitespace_NormalizesWhitespace()
         {
             //arrange
@@ -119,7 +119,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("this-is-a-test", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithMoreWordsThanAllowed_TruncatesRemainingWords()
         {
             //arrange
@@ -137,7 +137,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("this_is", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithInvalidSeparator_UsesDefault()
         {
             //arrange
@@ -155,7 +155,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("this-is-a-test", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithDotSeparator_UsesDot()
         {
             //arrange
@@ -173,7 +173,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("this.is.a.test", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithInternationalizedTitles_ConvertsToAnsiUrlSlug()
         {
             //arrange
@@ -187,7 +187,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("anchor-cue-hello-world", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithNonEuropeanInternationalizedTitles_ConvertsToUrlEncodedTitle()
         {
             //arrange
@@ -201,7 +201,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("%ec%95%88-%eb%85%95%ed%95%98%ec%8b%ad%eb%8b%88%ea%b9%8c", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithNonWordCharacters_RemoveNonWordCharacters()
         {
             //arrange
@@ -215,7 +215,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("foo-bar_baz", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_UsingPeriod_NormalizesPeriods()
         {
             //arrange
@@ -233,7 +233,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("this.is.a.test", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_UsingDash_NormalizesDashes()
         {
             //arrange
@@ -251,7 +251,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("this-is-a-test", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithTitleEndingInPeriod_RemovesTrailingPeriod()
         {
             //arrange
@@ -269,7 +269,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("a-test", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithAllNumericTitle_PrependsLetterNToAvoidConflicts()
         {
             //arrange
@@ -283,7 +283,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("n_1234", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithSlugMatchingExistingEntry_AppendsAgainToSlug()
         {
             //arrange
@@ -300,7 +300,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("foo-bar-again", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithSlugMatchingTwoExistingEntries_AppendsAgainToSlug()
         {
             //arrange
@@ -318,7 +318,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("foo-bar-yet-again", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithSlugMatchingThreeExistingEntries_AppendsUniqueSuffixToSlug()
         {
             //arrange
@@ -337,7 +337,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("foo-bar-and-again", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithSlugMatchingFourExistingEntries_AppendsUniqueSuffixToSlug()
         {
             //arrange
@@ -357,7 +357,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("foo-bar-once-again", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithSlugMatchingFiveExistingEntries_AppendsUniqueSuffixToSlug()
         {
             //arrange
@@ -378,7 +378,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("foo-bar-once-more", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithSlugMatchingSixExistingEntries_AppendsUniqueSuffixToSlug()
         {
             //arrange
@@ -400,7 +400,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("foo-bar-to-beat-a-dead-horse", slug);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTitleToSlug_WithSlugAndAllPrefixesMatchingExistingEntries_ThrowsException()
         {
             //arrange

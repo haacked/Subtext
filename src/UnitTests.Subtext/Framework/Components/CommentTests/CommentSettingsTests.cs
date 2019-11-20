@@ -1,4 +1,4 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -6,10 +6,10 @@ using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
-    [TestFixture]
+    [TestClass]
     public class CommentSettingsTests
     {
-        [Test]
+        [TestMethod]
         public void ApproveThrowsArgumentNullException()
         {
             // arrange

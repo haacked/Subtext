@@ -1,8 +1,8 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Subtext.SubtextWeb.Admin
 {
-    [TestFixture]
+    [TestClass]
     public class AdminPageTests
     {
     }

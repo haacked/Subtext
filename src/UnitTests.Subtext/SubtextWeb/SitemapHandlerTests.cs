@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Xml;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -13,10 +13,10 @@ using Subtext.Web.SiteMap;
 
 namespace UnitTests.Subtext.SubtextWeb
 {
-    [TestFixture]
+    [TestClass]
     public class SitemapHandlerTests
     {
-        [Test]
+        [TestMethod]
         public void ProcessRequest_WithSingleBlogPost_ProducesSitemapWithBlogPostNode()
         {
             //arrange
@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual("2008-01-23", entryUrlNode.ChildNodes[1].InnerText);
         }
 
-        [Test]
+        [TestMethod]
         public void ProcessRequest_WithSingleArticle_ProducesSitemapWithArticleNode()
         {
             //arrange

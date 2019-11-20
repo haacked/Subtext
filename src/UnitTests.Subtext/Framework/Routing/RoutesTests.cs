@@ -3,17 +3,17 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.Routing;
 using Subtext.Infrastructure;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
-    [TestFixture]
+    [TestClass]
     public class RoutesTests
     {
-        [Test]
+        [TestMethod]
         public void RequestWithSubfolderForBlogRoot_WithAggregateEnabled_Matches()
         {
             //arrange
@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("foo.aspx", routeData.Values["pathInfo"]);
         }
 
-        [Test]
+        [TestMethod]
         public void RequestWithSubfolderForBlogRoot_WithBlogHavingDifferentSubfolder_DoesNotMatch()
         {
             //arrange
@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(routeData);
         }
 
-        [Test]
+        [TestMethod]
         public void RequestWithSubfolder_ForAdminDirectory_UsesDirectoryRouteHandler()
         {
             //arrange
@@ -68,7 +68,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("foo.aspx", routeData.Values["pathInfo"]);
         }
 
-        [Test]
+        [TestMethod]
         public void RequestWithoutSubfolder_ForProvidersDirectory_UsesDirectoryRouteHandler()
         {
             //arrange
@@ -87,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("foo.aspx", routeData.Values["pathInfo"]);
         }
 
-        [Test]
+        [TestMethod]
         public void Request_ForBlogPost_ContainsControlsForBlogPost()
         {
             //arrange
@@ -108,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("blog-post", routeData.Values["slug"]);
         }
 
-        [Test]
+        [TestMethod]
         public void RequestUrlWithSingleDigitMonth_ForBlogPost_DoesNotMatchPageRoute()
         {
             //arrange
@@ -125,7 +125,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(routeData);
         }
 
-        [Test]
+        [TestMethod]
         public void RequestWithSubfolders_ForBlogPost_ContainsControlsForBlogPost()
         {
             //arrange
@@ -146,15 +146,15 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("blog-post", routeData.Values["slug"]);
         }
 
-        [RowTest]
-        [Row("~/subfolder/sitemap.ashx", "subfolder")]
-        [Row("~/sitemap.ashx", null)]
-        [Row("~/subfolder/BrowserServices.ashx", "subfolder")]
-        [Row("~/BrowserServices.ashx", null)]
-        [Row("~/subfolder/admin/handlers/BlogMLExport.ashx", "subfolder")]
-        [Row("~/admin/handlers/BlogMLExport.ashx", null)]
-        [Row("~/subfolder/admin/FooRss.axd", "subfolder")]
-        [Row("~/admin/FooRss.axd", null)]
+        [DataTestMethod]
+        [DataRow("~/subfolder/sitemap.ashx", "subfolder")]
+        [DataRow("~/sitemap.ashx", null)]
+        [DataRow("~/subfolder/BrowserServices.ashx", "subfolder")]
+        [DataRow("~/BrowserServices.ashx", null)]
+        [DataRow("~/subfolder/admin/handlers/BlogMLExport.ashx", "subfolder")]
+        [DataRow("~/admin/handlers/BlogMLExport.ashx", null)]
+        [DataRow("~/subfolder/admin/FooRss.axd", "subfolder")]
+        [DataRow("~/admin/FooRss.axd", null)]
         public void Request_ForDirectHttpHandlers_Matches(string url, string subfolder)
         {
             //arrange
@@ -171,7 +171,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNotNull(routeData);
         }
 
-        [Test]
+        [TestMethod]
         public void RequestWithSubfolderForCommentApiController_WithBlogHavingSubfolder_Matches()
         {
             //arrange
@@ -191,7 +191,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual(routeData.RouteHandler.GetType(), typeof(MvcRouteHandler));
         }
 
-        [Test]
+        [TestMethod]
         public void RequestWithSubfolderForAggregatorBug_WithBlogHavingSubfolder_Matches()
         {
             //arrange
@@ -211,7 +211,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual(routeData.RouteHandler.GetType(), typeof(MvcRouteHandler));
         }
 
-        [Test]
+        [TestMethod]
         public void RequestWithSubfolderForInstallDirectory_DoesNotMatch()
         {
             //arrange
@@ -228,7 +228,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(routeData);
         }
 
-        [Test]
+        [TestMethod]
         public void RequestWithoutSubfolderForInstallDirectory_Matches()
         {
             //arrange
@@ -245,7 +245,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNotNull(routeData);
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteData_ForRequestForExportController_Matches()
         {
             //arrange
@@ -264,7 +264,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("blogml", routeData.Values["action"]);
         }
 
-        [Test]
+        [TestMethod]
         public void GetRouteData_ForRequestForEntryAdminController_Matches()
         {
             //arrange

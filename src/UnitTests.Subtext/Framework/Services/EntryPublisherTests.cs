@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Configuration;
 using Subtext.Extensibility;
@@ -16,10 +16,10 @@ using Subtext.Framework.Services.SearchEngine;
 
 namespace UnitTests.Subtext.Framework.Services
 {
-    [TestFixture]
+    [TestClass]
     public class EntryPublisherTests
     {
-        [Test]
+        [TestMethod]
         public void Ctor_WithNullContext_ThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(
@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Services
                                    new SlugGenerator(FriendlyUrlSettings.Settings), null));
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithTransformations_RunsTransformationAgainstEntryBody()
         {
             //arrange
@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("testt1", entry.Body);
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntryTitleButNoSlug_CreatesSlug()
         {
             //arrange
@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("this-is-a-test", entry.EntryName);
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntryTitleAndSlug_DoesNotOverideSlug()
         {
             //arrange
@@ -94,7 +94,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("testing", entry.EntryName);
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntry_SavesInRepository()
         {
             //arrange
@@ -116,7 +116,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(entry, savedEntry);
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntry_SetsDateCreatedToUtc()
         {
             //arrange
@@ -141,7 +141,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsTrue(entry.DateSyndicated.IsNull());
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithActiveEntryAndIncludeInSyndication_SetsDatePublishedUtcToUtc()
         {
             //arrange
@@ -163,7 +163,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsTrue(entry.DatePublishedUtc <= DateTime.UtcNow);
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntryHavingCategories_CreatesEntryWithAssociatedCategoryIds()
         {
             //arrange
@@ -194,7 +194,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(33, categoryIds.ElementAt(2));
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntryBodyHavingTags_SetsEntryTags()
         {
             //arrange
@@ -217,7 +217,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsNotNull(tagNames);
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntry_AddsToSearchEngine()
         {
             //arrange
@@ -242,7 +242,7 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
 
-        [Test]
+        [TestMethod]
         public void Publish_WithScriptTagsAllowed_AllowsScriptTagInBody()
         {
             //arrange
@@ -263,7 +263,7 @@ namespace UnitTests.Subtext.Framework.Services
             //no exception thrown.
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithNullEntry_ThrowsArgumentNullException()
         {
             //arrange
@@ -278,7 +278,7 @@ namespace UnitTests.Subtext.Framework.Services
             UnitTestHelper.AssertThrowsArgumentNullException(() => publisher.Publish(null));
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntryHavingPostTypeNone_ThrowsArgumentException()
         {
             //arrange
@@ -293,7 +293,7 @@ namespace UnitTests.Subtext.Framework.Services
             UnitTestHelper.AssertThrows<ArgumentException>(() => publisher.Publish(new Entry(PostType.None)));
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithDuplicateEntryName_ThrowsException()
         {
             //arrange
@@ -314,7 +314,7 @@ namespace UnitTests.Subtext.Framework.Services
                 );
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithRepositoryThrowingException_PropagatesException()
         {
             //arrange
@@ -335,7 +335,7 @@ namespace UnitTests.Subtext.Framework.Services
                 );
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithScriptTagInBody_ThrowsException()
         {
             //arrange
@@ -355,7 +355,7 @@ namespace UnitTests.Subtext.Framework.Services
                 );
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithScriptTagInTitle_ThrowsException()
         {
             //arrange
@@ -375,7 +375,7 @@ namespace UnitTests.Subtext.Framework.Services
                 );
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithScriptTagInSlug_ThrowsException()
         {
             //arrange
@@ -395,7 +395,7 @@ namespace UnitTests.Subtext.Framework.Services
                 );
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithScriptTagInDescription_ThrowsException()
         {
             //arrange
@@ -415,7 +415,7 @@ namespace UnitTests.Subtext.Framework.Services
                 );
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntryHavingValidEntryName_DoesNotChangeEntryName()
         {
             //arrange
@@ -437,7 +437,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("original-entry-name", entry.EntryName);
         }
 
-        [Test]
+        [TestMethod]
         public void Publish_WithEntryHavingNumericIntegerEntryName_PrependsNUnderscore()
         {
             //arrange

@@ -6,13 +6,13 @@ using System.Text;
 using System.Xml;
 using BlogML;
 using BlogML.Xml;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
 {
-    [TestFixture]
+    [TestClass]
     public class BlogMLWriterTests
     {
 
@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.BlogMl
             return String.Format(@"date-created=""{0}""", dateTime.ToUniversalTime().ToString("s"));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithSourceReturningBlog_WritesBlogInfoToWriter()
         {
             // arrange
@@ -37,13 +37,13 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<title type=""text""><![CDATA[Subtext Blog]]></title>");
-            Assert.Contains(output, @"<sub-title type=""text""><![CDATA[A test blog]]></sub-title>");
-            Assert.Contains(output, @"root-url=""http://subtextproject.com/""");
-            Assert.Contains(output, DateCreated(dateTime));
+            StringAssert.Contains(output, @"<title type=""text""><![CDATA[Subtext Blog]]></title>");
+            StringAssert.Contains(output, @"<sub-title type=""text""><![CDATA[A test blog]]></sub-title>");
+            StringAssert.Contains(output, @"root-url=""http://subtextproject.com/""");
+            StringAssert.Contains(output, DateCreated(dateTime));
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithSourceReturningBlogWithNullSubtitle_RendersEmptyStringForUrl()
         {
             // arrange
@@ -59,10 +59,10 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<sub-title type=""text""><![CDATA[]]></sub-title>");
+            StringAssert.Contains(output, @"<sub-title type=""text""><![CDATA[]]></sub-title>");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithSourceReturningAuthors_WritesAuthorsToWriter()
         {
             // arrange
@@ -80,13 +80,13 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<author id=""112""");
-            Assert.Contains(output, @"email=""phineas@example.com""");
-            Assert.Contains(output, @"approved=""true""");
-            Assert.Contains(output, @"<title type=""text""><![CDATA[Phineas]]></title>");
+            StringAssert.Contains(output, @"<author id=""112""");
+            StringAssert.Contains(output, @"email=""phineas@example.com""");
+            StringAssert.Contains(output, @"approved=""true""");
+            StringAssert.Contains(output, @"<title type=""text""><![CDATA[Phineas]]></title>");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingExtendedProperties_WritesPropertiesToWriter()
         {
             // arrange
@@ -104,10 +104,10 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<property name=""Color"" value=""Blue"" />");
+            StringAssert.Contains(output, @"<property name=""Color"" value=""Blue"" />");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingCategories_WritesCategoriesToWriter()
         {
             // arrange
@@ -125,11 +125,11 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<category id=""221""");
-            Assert.Contains(output, @"<title type=""text""><![CDATA[Test Category]]></title>");
+            StringAssert.Contains(output, @"<category id=""221""");
+            StringAssert.Contains(output, @"<title type=""text""><![CDATA[Test Category]]></title>");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingPosts_WritesPostsToWriter()
         {
             // arrange
@@ -149,13 +149,13 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, "<posts>");
-            Assert.Contains(output, "</posts>");
-            Assert.Contains(output, @"<title type=""text""><![CDATA[This is a blog post]]></title>");
-            Assert.Contains(output, @"<content type=""text""><![CDATA[<p>Test</p>]]></content>");
+            StringAssert.Contains(output, "<posts>");
+            StringAssert.Contains(output, "</posts>");
+            StringAssert.Contains(output, @"<title type=""text""><![CDATA[This is a blog post]]></title>");
+            StringAssert.Contains(output, @"<content type=""text""><![CDATA[<p>Test</p>]]></content>");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingBase64EncodedPosts_WritesPostsToWriterAsBase64Encoded()
         {
             // arrange
@@ -177,10 +177,10 @@ namespace UnitTests.Subtext.BlogMl
             // assert
             string output = stringWriter.ToString();
             Console.WriteLine(Convert.ToBase64String(Encoding.UTF8.GetBytes("<p>This is a Test</p>")));
-            Assert.Contains(output, @"<content type=""base64""><![CDATA[PHA+VGhpcyBpcyBhIFRlc3Q8L3A+]]></content>");
+            StringAssert.Contains(output, @"<content type=""base64""><![CDATA[PHA+VGhpcyBpcyBhIFRlc3Q8L3A+]]></content>");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingPostsWithCategories_WritesPostCategoriesToWriter()
         {
             // arrange
@@ -202,12 +202,12 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<categories>");
-            Assert.Contains(output, @"<category ref=""221"" />");
-            Assert.Contains(output, @"</categories>");
+            StringAssert.Contains(output, @"<categories>");
+            StringAssert.Contains(output, @"<category ref=""221"" />");
+            StringAssert.Contains(output, @"</categories>");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingPostsWithComments_WritesPostCommentsToWriter()
         {
             // arrange
@@ -229,11 +229,11 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<title type=""text""><![CDATA[Test Comment Title]]></title>");
-            Assert.Contains(output, @"<content type=""text""><![CDATA[<p>Comment Body</p>]]></content>");
+            StringAssert.Contains(output, @"<title type=""text""><![CDATA[Test Comment Title]]></title>");
+            StringAssert.Contains(output, @"<content type=""text""><![CDATA[<p>Comment Body</p>]]></content>");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingTrackbacksWithComments_WritesPostTrackbacksToWriter()
         {
             // arrange
@@ -255,11 +255,11 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<title type=""text""><![CDATA[Post Test Trackback]]></title>");
-            Assert.Contains(output, @"url=""http://example.com/trackback-source""");
+            StringAssert.Contains(output, @"<title type=""text""><![CDATA[Post Test Trackback]]></title>");
+            StringAssert.Contains(output, @"url=""http://example.com/trackback-source""");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingEmbeddedAttachmentsWithComments_WritesPostAttachmentsToWriter()
         {
             // arrange
@@ -289,14 +289,14 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"external-uri=""c:\\path-to-attachment.jpg""");
-            Assert.Contains(output, @"url=""/foo/path-to-attachment.jpg""");
-            Assert.Contains(output, @"mime-type=""img/jpeg""");
-            Assert.Contains(output, @"embedded=""true""");
-            Assert.Contains(output, @"AQIDBAU=</attachment>");
+            StringAssert.Contains(output, @"external-uri=""c:\\path-to-attachment.jpg""");
+            StringAssert.Contains(output, @"url=""/foo/path-to-attachment.jpg""");
+            StringAssert.Contains(output, @"mime-type=""img/jpeg""");
+            StringAssert.Contains(output, @"embedded=""true""");
+            StringAssert.Contains(output, @"AQIDBAU=</attachment>");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingNonEmbeddedAttachmentsWithComments_WritesPostAttachmentsToWriter()
         {
             // arrange
@@ -325,10 +325,10 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<attachment url=""/foo/path-to-attachment.jpg"" mime-type=""img/jpeg"" external-uri=""c:\\path-to-attachment.jpg"" embedded=""false"" />");
+            StringAssert.Contains(output, @"<attachment url=""/foo/path-to-attachment.jpg"" mime-type=""img/jpeg"" external-uri=""c:\\path-to-attachment.jpg"" embedded=""false"" />");
         }
 
-        [Test]
+        [TestMethod]
         public void Write_WithBlogContainingMultipleAuthors_WritesPostAuthorsToWriter()
         {
             // arrange
@@ -352,7 +352,7 @@ namespace UnitTests.Subtext.BlogMl
 
             // assert
             string output = stringWriter.ToString();
-            Assert.Contains(output, @"<author ref=""20"" />");
+            StringAssert.Contains(output, @"<author ref=""20"" />");
         }
     }
 }

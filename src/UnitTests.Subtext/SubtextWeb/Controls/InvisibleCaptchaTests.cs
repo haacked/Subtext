@@ -1,12 +1,12 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Web.Controls.Captcha;
 
 namespace UnitTests.Subtext.SubtextWeb.Controls
 {
-    [TestFixture]
+    [TestClass]
     public class InvisibleCaptchaTests
     {
-        [Test]
+        [TestMethod]
         public void CanRoundTripEncryption()
         {
             string encrypted = CaptchaBase.EncryptString("Hello Sucka!");

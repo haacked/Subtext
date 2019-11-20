@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Emoticons;
 
 namespace UnitTests.Subtext.Framework.Emoticons
 {
-    [TestFixture]
+    [TestClass]
     public class EmoticonsFileSourceTests
     {
-        [Test]
+        [TestMethod]
         public void GetEmoticons_WithFileSource_LoadsEmoticonsFromStreamReader()
         {
             //arrange
@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Emoticons
             Assert.AreEqual("<img src=\"{0}\" title=\"sad\" />", emoticons.ElementAt(1).ImageTag);
         }
 
-        [Test]
+        [TestMethod]
         [Category("Integration")]
         public void GetEmoticons_WithFileSource_LoadsEmoticonsFromFile()
         {

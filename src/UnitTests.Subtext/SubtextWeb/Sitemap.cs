@@ -1,13 +1,13 @@
 using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Web.SiteMap;
 
 namespace UnitTests.Subtext.SubtextWeb
 {
-    [TestFixture]
+    [TestClass]
     public class Sitemap
     {
-        [Test]
+        [TestMethod]
         public void Add_WithUrlElement_IncreasesCountByOne()
         {
             var urlCollection = new UrlCollection();
@@ -15,17 +15,17 @@ namespace UnitTests.Subtext.SubtextWeb
             Assert.AreEqual(1, urlCollection.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void UrlElement_WithPropertiesSet_ReturnsSameValuesForProperties()
         {
             var url = new UrlElement(new Uri("http://someurl.com"), DateTime.MinValue, ChangeFrequency.Never, 0);
-            StringAssert.AreEqualIgnoreCase("http://someurl.com/", url.Location);
+            Assert.AreEqual("http://someurl.com/", url.Location, true);
             Assert.AreEqual(DateTime.MinValue, url.LastModified);
             Assert.AreEqual(ChangeFrequency.Never, url.ChangeFrequency);
             Assert.AreEqual(0, url.Priority);
         }
 
-        [Test]
+        [TestMethod]
         public void UrlElement_CtorSetsPriority_ToLessThanZero()
         {
             // using property

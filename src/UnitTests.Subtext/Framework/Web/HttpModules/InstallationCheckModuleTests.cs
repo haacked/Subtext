@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Specialized;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Infrastructure.Installation;
@@ -9,7 +9,7 @@ using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.Framework.Web.HttpModules
 {
-    [TestFixture]
+    [TestClass]
     public class InstallationCheckModuleTests
     {
         private static HostInfo CreateHostInfo()
@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             return new HostInfo(new NameValueCollection());
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_ForStaticFiles_ReturnsNull()
         {
             // arrange
@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_WhenHostInfoNull_ReturnsInstallDirectory()
         {
             // arrange
@@ -46,7 +46,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual("~/install/default.aspx", redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_WhenHostInfoNullButInInstallDirAndNoUpgradeIsRequired_ReturnsNull()
         {
             // arrange
@@ -63,7 +63,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_WhenHostInfoNotNullAndInstallRequiredButInInstallDirectory_ReturnsNull()
         {
             // arrange
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_WhenHostInfoNotNullAndInstallRequiredButInHostAdminDirectory_ReturnsNull()
         {
             // arrange
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void
             GetInstallationRedirectUrl_WhenHostInfoNotNullInstallationActionRequiredAndNotInInstallDirectory_ReturnsInstallDirecotry
             ()
@@ -120,7 +120,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual("~/install/default.aspx", redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void
             GetInstallationRedirectUrl_WhenHostInfoNotNullInstallationActionRequiredAndInLoginPage_ReturnsInstallDirectory
             ()
@@ -141,7 +141,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual("~/install/default.aspx", redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_WhenUpgradeRequiredAndInLoginPage_ReturnsNull()
         {
             // arrange
@@ -160,7 +160,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_WhenUpgradeRequiredAndInUpgradeDirectory_ReturnsNull()
         {
             // arrange
@@ -179,7 +179,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_WhenUpgradeRequiredAndInSystemMessagesDirectory_ReturnsNull()
         {
             // arrange
@@ -198,7 +198,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_WhenUpgradeRequiredAndInHostAdminDirectory_ReturnsNull()
         {
             // arrange
@@ -217,7 +217,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsNull(redirectUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void GetInstallationRedirectUrl_WhenUpgradeRequired_ReturnsUpgradeDirectory()
         {
             // arrange

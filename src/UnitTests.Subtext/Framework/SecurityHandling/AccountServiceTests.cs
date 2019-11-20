@@ -1,15 +1,15 @@
 ﻿using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.SecurityHandling
 {
-    [TestFixture]
+    [TestClass]
     public class AccountServiceTests
     {
-        [Test]
+        [TestMethod]
         public void UpdatePassword_WithEmptyPassword_ThrowsArgumentNullException()
         {
             // Arrange
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
                 accountService.UpdatePassword(""));
         }
 
-        [Test]
+        [TestMethod]
         public void UpdatePassword_WithNonEmptyPassword_HashesPassword()
         {
             // Arrange

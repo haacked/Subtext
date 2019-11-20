@@ -16,7 +16,7 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -32,10 +32,10 @@ namespace UnitTests.Subtext.InstallationTests
     /// <summary>
     /// Tests of the InstallationManager class.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class InstallationManagerTests
     {
-        [Test]
+        [TestMethod]
         public void IsInstallationActionRequired_WithInstallerReturningNull_ReturnsTrue()
         {
             //arrange
@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.InstallationTests
             Assert.IsTrue(result);
         }
 
-        [Test]
+        [TestMethod]
         public void IsInstallationActionRequired_WithCachedInstallationStatusOfNeedsInstallation_ReturnsTrue()
         {
             //arrange
@@ -69,7 +69,7 @@ namespace UnitTests.Subtext.InstallationTests
             Assert.IsTrue(result);
         }
 
-        [Test]
+        [TestMethod]
         public void IsInstallationActionRequired_WithInstallerReturningSameVersionAsAssembly_ReturnsFalse()
         {
             //arrange
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.InstallationTests
             Assert.IsFalse(result);
         }
 
-        [Test]
+        [TestMethod]
         public void IsInstallationActionRequired_WithHostDataDoesNotExistException_ReturnsTrue()
         {
             //arrange
@@ -98,7 +98,7 @@ namespace UnitTests.Subtext.InstallationTests
             Assert.IsTrue(result);
         }
 
-        [Test]
+        [TestMethod]
         public void Install_ResetsInstallationStatusCache()
         {
             // arrange
@@ -115,7 +115,7 @@ namespace UnitTests.Subtext.InstallationTests
             Assert.IsNull(cache["NeedsInstallation"]);
         }
 
-        [Test]
+        [TestMethod]
         public void Upgrade_ResetsInstallationStatusCache()
         {
             // arrange
@@ -132,7 +132,7 @@ namespace UnitTests.Subtext.InstallationTests
             Assert.IsNull(cache["NeedsInstallation"]);
         }
 
-        [Test]
+        [TestMethod]
         public void ResetInstallationStatusCache_WithApplicationNeedingInstallation_SetsStatusToNull()
         {
             // arrange
@@ -147,7 +147,7 @@ namespace UnitTests.Subtext.InstallationTests
             Assert.IsNull(cache["NeedsInstallation"]);
         }
 
-        [Test]
+        [TestMethod]
         public void CreateWelcomeContent_CreatesIntroBlogPostAndCategories()
         {
             // arrange
@@ -171,16 +171,16 @@ namespace UnitTests.Subtext.InstallationTests
             // assert
             Assert.AreEqual(entry.Title, "Welcome to Subtext!");
             Assert.AreEqual(entry.EntryName, "welcome-to-subtext");
-            Assert.Contains(entry.Body, @"<a href=""/admin/default.aspx");
-            Assert.Contains(entry.Body, @"<a href=""/articles/welcome-to-subtext-article.aspx");
-            Assert.Contains(entry.Body, @"<a href=""/hostadmin/default.aspx");
+            StringAssert.Contains(entry.Body, @"<a href=""/admin/default.aspx");
+            StringAssert.Contains(entry.Body, @"<a href=""/articles/welcome-to-subtext-article.aspx");
+            StringAssert.Contains(entry.Body, @"<a href=""/hostadmin/default.aspx");
             Assert.IsTrue(entry.AllowComments);
             Assert.IsTrue(!entry.Body.Contains(@"<a href=""{0}"));
             Assert.IsTrue(!entry.Body.Contains(@"<a href=""{1}"));
             Assert.IsTrue(!entry.Body.Contains(@"<a href=""{2}"));
         }
 
-        [Test]
+        [TestMethod]
         public void CreateWelcomeContent_CreatesIntroArticle()
         {
             // arrange
@@ -201,11 +201,11 @@ namespace UnitTests.Subtext.InstallationTests
 
             // assert
             Assert.AreEqual(article.Title, "Welcome to Subtext!");
-            Assert.Contains(article.Body, @"<a href=""/admin/articles/");
+            StringAssert.Contains(article.Body, @"<a href=""/admin/articles/");
             Assert.IsTrue(!article.Body.Contains(@"<a href=""{0}"));
         }
 
-        [Test]
+        [TestMethod]
         public void CreateWelcomeContent_CreatesIntroComment()
         {
             // arrange
@@ -227,15 +227,16 @@ namespace UnitTests.Subtext.InstallationTests
             // assert
             Assert.IsTrue(comment.Approved);
             Assert.AreEqual(comment.Title, "re: Welcome to Subtext!");
-            Assert.Contains(comment.Body, @"<a href=""/admin/feedback/");
+            StringAssert.Contains(comment.Body, @"<a href=""/admin/feedback/");
             Assert.IsTrue(!comment.Body.Contains(@"<a href=""{1}"));
         }
 
         /// <summary>
-        /// Called before each unit test.
+        /// Sets the up test class.  This is called once for 
+        /// this test class before all the tests run.
         /// </summary>
-        [TestFixtureSetUp]
-        public void TestFixtureSetUp()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
         {
             //Confirm app settings
             UnitTestHelper.AssertAppSettings();

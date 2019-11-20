@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -10,10 +10,10 @@ using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.Framework.Services
 {
-    [TestFixture]
+    [TestClass]
     public class CommentServiceTests
     {
-        [Test]
+        [TestMethod]
         public void CreateSetsDateCreated()
         {
             //arrange
@@ -36,11 +36,11 @@ namespace UnitTests.Subtext.Framework.Services
             service.Create(comment, true/*runFilters*/);
 
             //assert
-            Assert.GreaterEqualThan(comment.DateCreatedUtc, dateCreatedUtc);
-            Assert.GreaterEqualThan(DateTime.UtcNow, comment.DateCreatedUtc);
+            Assert.IsTrue(comment.DateCreatedUtc >= dateCreatedUtc);
+            Assert.IsTrue(DateTime.UtcNow >= comment.DateCreatedUtc);
         }
 
-        [Test]
+        [TestMethod]
         public void CreateDoesNotChangeDateCreatedAndDateModifiedIfAlreadySpecified()
         {
             //arrange
@@ -75,7 +75,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(dateCreated.AddDays(-1), comment.DateModifiedUtc);
         }
 
-        [Test]
+        [TestMethod]
         public void Create_WithFilters_CallsIntoCommentFilters()
         {
             //arrange
@@ -118,7 +118,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsTrue(comment.FlaggedAsSpam);
         }
 
-        [Test]
+        [TestMethod]
         public void Create_ForEntry_SetsEntryPropertyBeforeCallingFilters()
         {
             //arrange
@@ -156,7 +156,7 @@ namespace UnitTests.Subtext.Framework.Services
         }
 
 
-        [Test]
+        [TestMethod]
         public void Create_WithRunFiltersFalse_DoesNotSetFlaggedSpamToTrue()
         {
             //arrange
@@ -190,7 +190,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsFalse(comment.FlaggedAsSpam);
         }
 
-        [Test]
+        [TestMethod]
         public void UpdateStatus_WithDeletedFlag_SetsDeleted()
         {
             // arrange
@@ -206,7 +206,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsTrue(feedback.Deleted);
         }
 
-        [Test]
+        [TestMethod]
         public void Destroy_DestroysTheFeedback()
         {
             // arrange

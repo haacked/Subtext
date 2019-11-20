@@ -1,16 +1,16 @@
 using System.Drawing;
 using System.IO;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Util;
 using Subtext.Framework.Web;
 
 namespace UnitTests.Subtext.Framework.Util
 {
-    [TestFixture]
+    [TestClass]
     public class GraphicsHelperTests
     {
-        [Test]
+        [TestMethod]
         public void GetFileStreamReturnsNullForNullPostedFile()
         {
             // arrange
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.IsNull(fileStream);
         }
 
-        [Test]
+        [TestMethod]
         public void FromFilePathAsUnindexedImage_WithFilePath_ReturnsImage()
         {
             // arrange
@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.AreEqual(113, imageSize.Height);
         }
 
-        [Test]
+        [TestMethod]
         public void GetResizedImage_WithImage_ReturnsResizedImage()
         {
             // arrange
@@ -62,20 +62,25 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.AreEqual(50, imageSize.Height);
         }
 
-        [SetUp]
-        public void SetUp()
-        {
-            TearDown();
-        }
-
-        [TearDown]
-        public void TearDown()
+        private void DeleteTestImage()
         {
             string imagePath = UnitTestHelper.GetPathInExecutingAssemblyLocation("pb.jpg");
-            if(File.Exists(imagePath))
+            if (File.Exists(imagePath))
             {
                 File.Delete(imagePath);
             }
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            DeleteTestImage();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            DeleteTestImage();
         }
     }
 }

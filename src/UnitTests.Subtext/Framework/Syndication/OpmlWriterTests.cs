@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Routing;
@@ -8,10 +8,10 @@ using Subtext.Framework.Syndication;
 
 namespace UnitTests.Subtext.Framework.Syndication
 {
-    [TestFixture]
+    [TestClass]
     public class OpmlWriterTests
     {
-        [Test]
+        [TestMethod]
         public void OpmlWriter_WithTwoBlogs_RendersCorrectIndentedOpml()
         {
             //arrange

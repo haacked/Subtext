@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Specialized;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Web.HttpModules
 {
-    [TestFixture]
+    [TestClass]
     public class BlogRequestTests
     {
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestWithSubfolder_CreatesBlogRequestWithSubfolder()
         {
             //arrange
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual("foo", blogRequest.Subfolder);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithHostHavingPort_StripsPort()
         {
             //arrange
@@ -36,7 +36,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual("example.com", blogRequest.Host);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestHavingNoHostInParameters_CreatesBlogRequestWithHostAuthority()
         {
             //arrange
@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual("example.com", blogRequest.Host);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForLoginPage_SetsRequestLocationToLogin()
         {
             //arrange
@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual(RequestLocation.LoginPage, blogRequest.RequestLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForSystemMessage_SetsRequestLocationToSystemMessages()
         {
             //arrange
@@ -75,7 +75,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual(RequestLocation.SystemMessages, blogRequest.RequestLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForHostAdmin_SetsRequestLocationToHostAdmin()
         {
             //arrange
@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual(RequestLocation.HostAdmin, blogRequest.RequestLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForInstallDirectoryRoot_SetsRequestLocationToInstallDirectory()
         {
             //arrange
@@ -101,7 +101,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual(RequestLocation.Installation, blogRequest.RequestLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForInstallDirectory_SetsRequestLocationToInstallDirectory()
         {
             //arrange
@@ -114,7 +114,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual(RequestLocation.Installation, blogRequest.RequestLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForStaticFile_SetsRequestLocationToStaticFile()
         {
             //arrange
@@ -127,7 +127,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.AreEqual(RequestLocation.StaticFile, blogRequest.RequestLocation);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForBlog_SetsBlogNotRequiredFalse()
         {
             //arrange, act
@@ -138,7 +138,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsFalse(blogRequest.BlogNotRequired);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForHostAdmin_SetsBlogNotRequiredTrue()
         {
             //arrange, act
@@ -149,7 +149,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsTrue(blogRequest.BlogNotRequired);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForUpgrade_SetsBlogNotRequiredTrue()
         {
             //arrange, act
@@ -160,7 +160,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsTrue(blogRequest.BlogNotRequired);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForSkins_SetsBlogNotRequiredTrue()
         {
             //arrange, act
@@ -171,7 +171,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsTrue(blogRequest.BlogNotRequired);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForStaticFile_SetsBlogNotRequiredTrue()
         {
             //arrange, act
@@ -182,7 +182,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsTrue(blogRequest.BlogNotRequired);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForSystemMessages_SetsBlogNotRequiredTrue()
         {
             //arrange, act
@@ -193,7 +193,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsTrue(blogRequest.BlogNotRequired);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForLoginPage_SetsBlogNotRequiredFalse()
         {
             //arrange, act
@@ -204,7 +204,7 @@ namespace UnitTests.Subtext.Framework.Web.HttpModules
             Assert.IsFalse(blogRequest.BlogNotRequired);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithRequestForInstallation_SetsBlogNotRequiredTrue()
         {
             //arrange, act

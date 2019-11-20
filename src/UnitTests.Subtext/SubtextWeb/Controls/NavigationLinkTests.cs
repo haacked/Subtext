@@ -1,12 +1,12 @@
-﻿using MbUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Web.Controls;
 
 namespace UnitTests.Subtext.SubtextWeb.Controls
 {
-    [TestFixture]
+    [TestClass]
     public class NavigationLinkTests
     {
-        [Test]
+        [TestMethod]
         public void IsRequestForSamePage_WithRequestForRootAndNavigateUrlAsSlash_ReturnsTrue()
         {
             // arrange
@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
             Assert.IsTrue(isSamePage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsRequestForSamePage_WithRequestForRootAndNavigateUrlAsDefaultAspx_ReturnsTrue()
         {
             // arrange
@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
             Assert.IsTrue(isSamePage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsRequestForSamePage_WithRequestForDefaultAspxRootAndNavigateUrlAsSlash_ReturnsTrue()
         {
             // arrange
@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
             Assert.IsTrue(isSamePage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsRequestForSamePage_WithRequestForDirectoryWithMatchingNavigateUrl_ReturnsTrue()
         {
             // arrange
@@ -58,7 +58,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
             Assert.IsTrue(isSamePage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsRequestForSamePage_WithDefaultAspxRequestForDirectoryWithMatchingNavigateUrl_ReturnsTrue()
         {
             // arrange
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
             Assert.IsTrue(isSamePage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsRequestForSamePage_WithRequestForDirectoryWithMatchingDefaultAspxNavigateUrl_ReturnsTrue()
         {
             // arrange
