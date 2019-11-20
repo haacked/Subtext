@@ -1,4 +1,4 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -12,13 +12,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
     /// <summary>
     /// Some unit tests around updating entries.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class EntryUpdateTests
     {
         string _hostName;
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanDeleteEntry()
         {
             var repository = new DatabaseObjectProvider();
@@ -40,8 +39,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         /// <summary>
         /// Tests that setting the date syndicated to null removes the item from syndication.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void SettingDatePublishedUtcToNullRemovesItemFromSyndication()
         {
             //arrange
@@ -76,16 +74,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
                            "This item should still not be included in main syndication.");
         }
 
-        [SetUp]
-        public void SetUp()
+        [TestInitialize]
+        public void TestInitialize()
         {
             _hostName = UnitTestHelper.GenerateUniqueString();
             UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
         }
     }
 }

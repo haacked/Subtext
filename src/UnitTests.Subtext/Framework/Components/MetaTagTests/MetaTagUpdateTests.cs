@@ -16,20 +16,19 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Text;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
-    [TestFixture]
+    [TestClass]
     public class MetatTagUpdateTests
     {
-        [RowTest]
-        [Row("Steven Harman", "author", null)]
-        [Row("no-cache", null, "cache-control")]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
+        [DataRow("Steven Harman", "author", null)]
+        [DataRow("no-cache", null, "cache-control")]
         public void CanUpdateMetaTag(string content, string name, string httpequiv)
         {
             var blog = UnitTestHelper.CreateBlogAndSetupContext();
@@ -57,8 +56,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             ValidateMetaTags(tag, updTag);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanRemoveNameAndAddHttpEquiv()
         {
             var blog = UnitTestHelper.CreateBlogAndSetupContext();
@@ -76,8 +74,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             ValidateMetaTags(tag, repository.GetMetaTagsForBlog(blog, 0, 100)[0]);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanRemoveHttpEquivAndAddName()
         {
             var blog = UnitTestHelper.CreateBlogAndSetupContext();
@@ -94,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             ValidateMetaTags(tag, repository.GetMetaTagsForBlog(blog, 0, 100)[0]);
         }
 
-        [Test]
+        [TestMethod]
         public void Update_WithInvalidMetaTag_ThrowsArgumentException()
         {
             // arrange
@@ -106,7 +103,7 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             UnitTestHelper.AssertThrows<ArgumentException>(() => repository.Update(metaTag));
         }
 
-        [Test]
+        [TestMethod]
         public void Update_WithNullMetaTag_ThrowsArgumentNullException()
         {
             var repository = new DatabaseObjectProvider();

@@ -18,7 +18,7 @@
 using System;
 using System.Linq;
 using System.Threading;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -32,14 +32,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
     /// <summary>
     /// Tests the methods to obtain the previous and next entry to an entry.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class PreviousNextTests
     {
         /// <summary>
         /// Test the case where we have a previous, but no next entry.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPreviousAndNextEntriesReturnsPreviousWhenNoNextExists()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -67,8 +66,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         /// <summary>
         /// Test the case where we have a next, but no previous entry.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPreviousAndNextEntriesReturnsNextWhenNoPreviousExists()
         {
             var repository = new DatabaseObjectProvider();
@@ -96,8 +94,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         /// <summary>
         /// Test the case where we have both a previous and next.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPreviousAndNextEntriesReturnsBoth()
         {
             var repository = new DatabaseObjectProvider();
@@ -134,8 +131,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         /// <summary>
         /// Test the case where we have more than three entries.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPreviousAndNextEntriesReturnsCorrectEntries()
         {
             var repository = new DatabaseObjectProvider();
@@ -179,8 +175,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTestsi
         /// <summary>
         /// Make sure that previous and next are based on syndication date and not entry id.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPreviousAndNextBasedOnSyndicationDateNotEntryId()
         {
             var repository = new DatabaseObjectProvider();

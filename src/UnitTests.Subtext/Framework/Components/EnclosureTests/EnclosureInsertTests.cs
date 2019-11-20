@@ -16,23 +16,22 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 {
-    [TestFixture]
+    [TestClass]
     public class EnclosureInsertTests
     {
-        [RowTest]
-        [Row("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true,
+        [DatabaseIntegrationTestMethod]
+        [DataRow("My wonderful podcast", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true,
             true, "Did not create enclosure")]
-        [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true, false,
+        [DataRow("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, true, false,
             "Did not create enclosure")]
-        [Row("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, false, true,
+        [DataRow("", "http://codeclimber.net.nz/podcast/mypodcast.mp3", "audio/mpeg", 123456789, false, true,
             "Did not create enclosure")]
-        [RollBack2]
         public void CanInsertEnclosure(string title, string url, string mimetype, long size, bool addToFeed,
                                        bool showWithPost, string errMsg)
         {
@@ -52,14 +51,14 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             UnitTestHelper.AssertEnclosures(enc, newEntry.Enclosure);
         }
 
-        [Test]
+        [TestMethod]
         public void Create_WithNullEnclosure_ThrowsArgumentNullException()
         {
             var repository = new DatabaseObjectProvider();
             UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Create((Enclosure)null));
         }
 
-        [Test]
+        [TestMethod]
         public void Create_WithInvalidEntry_ThrowsArgumentException()
         {
             // arrange
@@ -71,8 +70,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             UnitTestHelper.AssertThrows<ArgumentException>(() => repository.Create(enclosure));
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void EntryWithNoEnclosureHasNullAsEnclosure()
         {
             UnitTestHelper.SetupBlog();

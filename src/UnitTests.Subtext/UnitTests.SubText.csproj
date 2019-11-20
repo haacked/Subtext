@@ -234,6 +234,7 @@
     <Reference Include="System.EnterpriseServices">
       <Name>System.EnterpriseServices</Name>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
@@ -309,9 +310,11 @@
     <Compile Include="DatabaseHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DatabaseIntegrationTestMethodAttribute.cs" />
     <Compile Include="Extensibility\EmailProviderInstantiationTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FileAssert.cs" />
     <Compile Include="Framework\ActionResults\CacheableFileResultTests.cs" />
     <Compile Include="Framework\ActionResults\ExportActionResultTests.cs" />
     <Compile Include="Framework\ActionResults\NotModifiedResultTests.cs" />

@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Web;
 using System.Xml;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -17,14 +17,13 @@ namespace UnitTests.Subtext.Framework.Syndication
     /// <summary>
     /// Summary description for AtomHandlerTests.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class AtomHandlerTests
     {
         /// <summary>
         /// Tests writing a simple RSS feed from some database entries.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void AtomWriterProducesValidFeedFromDatabase()
         {
             string hostName = UnitTestHelper.GenerateUniqueString();

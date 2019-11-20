@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
@@ -14,20 +14,19 @@ using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
-    [TestFixture]
+    [TestClass]
     public class FeedbackTests
     {
         string _hostName = string.Empty;
 
-        [RowTest]
-        [Row(FeedbackStatusFlag.Approved, true, false, false, false)]
-        [Row(FeedbackStatusFlag.ApprovedByModerator, true, false, false, false)]
-        [Row(FeedbackStatusFlag.FalsePositive, true, false, false, true)]
-        [Row(FeedbackStatusFlag.ConfirmedSpam, false, false, true, true)]
-        [Row(FeedbackStatusFlag.FlaggedAsSpam, false, false, false, true)]
-        [Row(FeedbackStatusFlag.NeedsModeration, false, true, false, false)]
-        [Row(FeedbackStatusFlag.Deleted, false, false, true, false)]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
+        [DataRow(FeedbackStatusFlag.Approved, true, false, false, false)]
+        [DataRow(FeedbackStatusFlag.ApprovedByModerator, true, false, false, false)]
+        [DataRow(FeedbackStatusFlag.FalsePositive, true, false, false, true)]
+        [DataRow(FeedbackStatusFlag.ConfirmedSpam, false, false, true, true)]
+        [DataRow(FeedbackStatusFlag.FlaggedAsSpam, false, false, false, true)]
+        [DataRow(FeedbackStatusFlag.NeedsModeration, false, true, false, false)]
+        [DataRow(FeedbackStatusFlag.Deleted, false, false, true, false)]
         public void CanCreateCommentWithStatus(FeedbackStatusFlag status, bool expectedApproved,
                                                bool expectedNeedsModeratorApproval, bool expectedDeleted,
                                                bool expectedFlaggedAsSpam)
@@ -46,8 +45,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
                             "Expected that this item was ever flagged as spam to be " + expectedFlaggedAsSpam);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void ConfirmSpamRemovesApprovedBitAndSetsDeletedBit()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -62,8 +60,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.IsTrue(comment.Deleted, "Should be moved to deleted folder now.");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void DeleteCommentSetsDeletedBit()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -77,8 +74,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.IsTrue(comment.Deleted, "Should be moved to deleted folder now.");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void DestroyCommentByStatusDestroysOnlyThatStatus()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -140,8 +136,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             CreateComments(count, entry, FeedbackStatusFlag.Deleted);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateFeedbackSetsBlogStatsCorrectly()
         {
             var repository = new DatabaseObjectProvider();
@@ -170,8 +165,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(2, info.PingTrackCount, "Blog Ping/Trackback count should be 2");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateEntryDoesNotResetBlogStats()
         {
             var repository = new DatabaseObjectProvider();
@@ -189,8 +183,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(1, info.PingTrackCount, "Blog Ping/Trackback count should be 1");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void DeleteEntrySetsBlogStats()
         {
             var repository = new DatabaseObjectProvider();
@@ -211,7 +204,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(0, blog.PingTrackCount, "Blog Ping/Trackback count should be 0");
         }
 
-        [Test]
+        [TestMethod]
         public void DestroyCommentCannotDestroyActiveComment()
         {
             // arrange
@@ -224,8 +217,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             UnitTestHelper.AssertThrows<InvalidOperationException>(() => service.Destroy(123));
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void ApproveCommentRemovesDeletedAndConfirmedSpamBits()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -248,8 +240,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         /// Create some comments that are approved, approved with moderation, 
         /// approved as not spam.  Make sure we get all of them when we get comments.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanGetAllApprovedComments()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -278,8 +269,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             Assert.AreEqual(commentFour.Id, feedback[0].Id, "The first does not match");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void OnlyApprovedItemsContributeToEntryFeedbackCount()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -320,8 +310,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         /// items that were flagged as spam, but subsequently approved.
         /// (FlaggedAsSpam | Approved).
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanGetItemsFlaggedAsSpam()
         {
             Entry entry = SetupBlogForCommentsAndCreateEntry();
@@ -354,7 +343,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
         /// <summary>
         /// Makes sure that the content checksum hash is being created correctly.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ChecksumHashReturnsChecksumOfCommentBody()
         {
             var comment = new FeedbackItem(FeedbackType.Comment) { Body = "Some Body" };
@@ -407,25 +396,20 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             return entry;
         }
 
-        [SetUp]
-        public void SetUp()
+        [TestInitialize]
+        public void TestInitialize()
         {
             _hostName = UnitTestHelper.GenerateUniqueString();
             UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-        }
-
-        [Test]
+        [TestMethod]
         public void UpdateThrowsArgumentNull()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() => new DatabaseObjectProvider().Update((FeedbackItem)null));
         }
 
-        [Test]
+        [TestMethod]
         public void ApproveThrowsArgumentNull()
         {
             // arrange
@@ -435,7 +419,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             UnitTestHelper.AssertThrowsArgumentNullException(() => new DatabaseObjectProvider().Approve(null, service));
         }
 
-        [Test]
+        [TestMethod]
         public void ConfirmSpamThrowsArgumentNull()
         {
             // arrange
@@ -445,7 +429,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
             UnitTestHelper.AssertThrowsArgumentNullException(() => new DatabaseObjectProvider().ConfirmSpam(null, service));
         }
 
-        [Test]
+        [TestMethod]
         public void DeleteNullCommentThrowsArgumentNull()
         {
             // arrange

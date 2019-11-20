@@ -15,7 +15,7 @@
 
 #endregion
 
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Configuration
     /// <summary>
     /// These are unit tests specifically for the Config class.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class ConfigTests
     {
         string hostName;
@@ -34,8 +34,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Make sure we can correctly find a blog based on it's HostName and
         /// subfolder when the system has multiple blogs with the same Host.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogInfoFindsBlogWithUniqueHostAndSubfolder()
         {
             var repository = new DatabaseObjectProvider();
@@ -53,8 +52,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.AreEqual(info.Subfolder, subfolder2, "Oops! Looks like we found the wrong Blog!");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogInfoDoesNotFindBlogWithWrongSubfolderInMultiBlogSystem()
         {
             var repository = new DatabaseObjectProvider();
@@ -68,8 +66,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         }
 
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void SettingShowEmailAddressInRssFlagDoesntChangeOtherFlags()
         {
             var repository = new DatabaseObjectProvider();
@@ -84,8 +81,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         }
 
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogInfoLoadsOpenIDSettings()
         {
             var repository = new DatabaseObjectProvider();
@@ -102,18 +98,18 @@ namespace UnitTests.Subtext.Framework.Configuration
         }
 
         /// <summary>
-        /// Sets the up test fixture.  This is called once for 
-        /// this test fixture before all the tests run.
+        /// Sets the up test class.  This is called once for 
+        /// this test class before all the tests run.
         /// </summary>
-        [TestFixtureSetUp]
-        public void SetUpTestFixture()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
         {
             //Confirm app settings
             UnitTestHelper.AssertAppSettings();
         }
 
-        [SetUp]
-        public void SetUp()
+        [TestInitialize]
+        public void TestInitialize()
         {
             hostName = UnitTestHelper.GenerateUniqueString();
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "MyBlog");
