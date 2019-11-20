@@ -136,14 +136,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CookComputing.XmlRpcV2, Version=2.5.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\xmlrpcnet.2.5.0\lib\net20\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>
     <Reference Include="FredCK.FCKeditorV2">
       <Name>FredCK.FCKeditorV2</Name>
       <HintPath>..\Dependencies\FredCK.FCKeditorV2.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject">
+    <Reference Include="Ninject, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System">
