@@ -17,21 +17,20 @@
 
 using System.Globalization;
 using System.Threading;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Components;
 using Subtext.Framework.Properties;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 {
-    [TestFixture]
+    [TestClass]
     public class EnclosureGenericTests
     {
-        [RowTest]
-        [Row(100, "100 bytes")]
-        [Row(1024, "1 KB")]
-        [Row(1162, "1,13 KB")]
-        [Row(7862732, "7,5 MB")]
-        [MultipleCulture("it-IT,en-US")]
+        [MultipleCultureTestMethod("it-IT,en-US")]
+        [DataRow(100, "100 bytes")]
+        [DataRow(1024, "1 KB")]
+        [DataRow(1162, "1,13 KB")]
+        [DataRow(7862732, "7,5 MB")]
         public void SizeIsFormattedCorrectly(long size, string expected)
         {
             var enc = new Enclosure {Size = size};
@@ -39,7 +38,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Assert.AreEqual(expected, enc.FormattedSize, "Not the right formatting");
         }
 
-        [Test]
+        [TestMethod]
         public void IsValid_WithZeroEntryId_ReturnsFalse()
         {
             // arrange
@@ -53,7 +52,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Assert.AreEqual(Resources.Enclosure_NeedsAnEntry, enclosure.ValidationMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsValid_WithNullUrl_ReturnsFalse()
         {
             // arrange
@@ -67,7 +66,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Assert.AreEqual(Resources.Enclosure_UrlRequired, enclosure.ValidationMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsValid_WithEmptyUrl_ReturnsFalse()
         {
             // arrange
@@ -81,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Assert.AreEqual(Resources.Enclosure_UrlRequired, enclosure.ValidationMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsValid_WithNullMimeType_ReturnsFalse()
         {
             // arrange
@@ -95,7 +94,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Assert.AreEqual(Resources.Enclosure_MimeTypeRequired, enclosure.ValidationMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsValid_WithEmptyMimeType_ReturnsFalse()
         {
             // arrange
@@ -109,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Assert.AreEqual(Resources.Enclosure_MimeTypeRequired, enclosure.ValidationMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsValid_WithZeroSize_ReturnsFalse()
         {
             // arrange
@@ -123,7 +122,7 @@ namespace UnitTests.Subtext.Framework.Components.EnclosureTests
             Assert.AreEqual(Resources.Enclosure_SizeGreaterThanZero, enclosure.ValidationMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void IsValid_WithValidEnclosure_ReturnsTrue()
         {
             // arrange

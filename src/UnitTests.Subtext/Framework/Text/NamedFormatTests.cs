@@ -1,14 +1,13 @@
 using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Text;
 
 namespace UnitTests.Subtext.Framework.Text
 {
-    [TestFixture]
+    [TestClass]
     public class NamedFormatTests
     {
-        [Test]
-        [MultipleCulture("en-US,en-NZ,it-IT")]
+        [MultipleCultureTestMethod("en-US,en-NZ,it-IT")]
         public void StringFormat_WithMultipleExpressions_FormatsThemAll()
         {
             //arrange
@@ -23,7 +22,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
+        [TestMethod]
         public void StringFormat_WithDoubleEscapedCurlyBraces_DoesNotFormatString()
         {
             //arrange
@@ -36,8 +35,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual("{{foo}}", result);
         }
 
-        [Test]
-        [MultipleCulture("en-US,en-NZ,it-IT")]
+        [MultipleCultureTestMethod("en-US,en-NZ,it-IT")]
         public void StringFormat_WithFormatSurroundedByDoubleEscapedBraces_FormatsString()
         {
             //arrange
@@ -51,8 +49,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual("{{" + expected + "}}", result);
         }
 
-        [Test]
-        [MultipleCulture("en-US,en-NZ,it-IT")]
+        [MultipleCultureTestMethod("en-US,en-NZ,it-IT")]
         public void Format_WithEscapeSequence_EscapesInnerCurlyBraces()
         {
             var o = new {foo = 123.45};
@@ -65,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual("{" + expected + "}", result);
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithEmptyString_ReturnsEmptyString()
         {
             var o = new {foo = 123.45};
@@ -77,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual(string.Empty, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithNoFormats_ReturnsFormatStringAsIs()
         {
             var o = new {foo = 123.45};
@@ -89,8 +86,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual("a b c", result);
         }
 
-        [Test]
-        [MultipleCulture("en-US,en-NZ,it-IT")]
+        [MultipleCultureTestMethod("en-US,en-NZ,it-IT")]
         public void Format_WithFormatType_ReturnsFormattedExpression()
         {
             var o = new {foo = 123.45};
@@ -103,8 +99,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual(expected.ToString(), result);
         }
 
-        [Test]
-        [MultipleCulture("en-US,en-NZ,it-IT")]
+        [MultipleCultureTestMethod("en-US,en-NZ,it-IT")]
         public void Format_WithSubProperty_ReturnsValueOfSubProperty()
         {
             var o = new {foo = new {bar = 123.45}};
@@ -117,7 +112,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual(expected + "ms", result);
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithFormatNameNotInObject_ThrowsFormatException()
         {
             //arrange
@@ -127,7 +122,7 @@ namespace UnitTests.Subtext.Framework.Text
             UnitTestHelper.AssertThrows<FormatException>(() => "{bar}".NamedFormat(o));
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithNoEndFormatBrace_ThrowsFormatException()
         {
             //arrange
@@ -137,7 +132,7 @@ namespace UnitTests.Subtext.Framework.Text
             UnitTestHelper.AssertThrows<FormatException>(() => "{bar".NamedFormat(o));
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithEscapedEndFormatBrace_ThrowsFormatException()
         {
             //arrange
@@ -148,7 +143,7 @@ namespace UnitTests.Subtext.Framework.Text
             UnitTestHelper.AssertThrows<FormatException>(() => "{foo}}".NamedFormat(o));
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithDoubleEscapedEndFormatBrace_ThrowsFormatException()
         {
             //arrange
@@ -158,7 +153,7 @@ namespace UnitTests.Subtext.Framework.Text
             UnitTestHelper.AssertThrows<FormatException>(() => "{foo}}}}bar".NamedFormat(o));
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithDoubleEscapedEndFormatBraceWhichTerminatesString_ThrowsFormatException()
         {
             //arrange
@@ -168,8 +163,7 @@ namespace UnitTests.Subtext.Framework.Text
             UnitTestHelper.AssertThrows<FormatException>(() => "{foo}}}}".NamedFormat(o));
         }
 
-        [Test]
-        [MultipleCulture("en-US,en-NZ,it-IT")]
+        [MultipleCultureTestMethod("en-US,en-NZ,it-IT")]
         public void Format_WithEndBraceFollowedByEscapedEndFormatBraceWhichTerminatesString_FormatsCorrectly()
         {
             var o = new {foo = 123.45};
@@ -182,8 +176,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual(expected + "}", result);
         }
 
-        [Test]
-        [MultipleCulture("en-US,en-NZ,it-IT")]
+        [MultipleCultureTestMethod("en-US,en-NZ,it-IT")]
         public void Format_WithEndBraceFollowedByEscapedEndFormatBrace_FormatsCorrectly()
         {
             var o = new {foo = 123.45};
@@ -196,8 +189,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual(expected + "}bar", result);
         }
 
-        [Test]
-        [MultipleCulture("en-US,en-NZ,it-IT")]
+        [MultipleCultureTestMethod("en-US,en-NZ,it-IT")]
         public void Format_WithEndBraceFollowedByDoubleEscapedEndFormatBrace_FormatsCorrectly()
         {
             var o = new {foo = 123.45};
@@ -210,7 +202,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual(expected + "}}bar", result);
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithNullFormatString_ThrowsArgumentNullException()
         {
             //arrange, act, assert

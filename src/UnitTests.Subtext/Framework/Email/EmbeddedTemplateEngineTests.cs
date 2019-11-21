@@ -1,12 +1,12 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Email;
 
 namespace UnitTests.Subtext.Framework.Email
 {
-    [TestFixture]
+    [TestClass]
     public class EmbeddedTemplateEngineTests
     {
-        [Test]
+        [TestMethod]
         public void GetTemplate_WithCommentReceveid_ReturnsPropertTemplate()
         {
             //arrange

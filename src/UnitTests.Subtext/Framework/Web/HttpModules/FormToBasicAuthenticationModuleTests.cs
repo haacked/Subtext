@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Subtext.Framework.Web.HttpModules
 {
-    [TestFixture]
+    [TestClass]
     public class FormToBasicAuthenticationModuleTests
     {
-        [Test]
+        [TestMethod]
         public void HandleEndRequest_WithNullUser_DoesNotThrowException()
         {
             // Arrange

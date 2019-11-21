@@ -3,37 +3,37 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Net;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Akismet;
 
 namespace UnitTests.Subtext.Akismet
 {
-    [TestFixture]
+    [TestClass]
     public class AkismetApiTests
     {
-        [Test]
+        [TestMethod]
         public void Ctor_WithNullApiKey_ThrowsArgumentNullException()
         {
             // act, assert
             UnitTestHelper.AssertThrowsArgumentNullException(() => new AkismetClient(null, new Uri("http://example.com/"), new HttpClient()));
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithNullBlogUrl_ThrowsArgumentNullException()
         {
             // act, assert
             UnitTestHelper.AssertThrowsArgumentNullException(() => new AkismetClient("api-key", null, new HttpClient()));
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithNullHttpClient_ThrowsArgumentNullException()
         {
             // act, assert
             UnitTestHelper.AssertThrowsArgumentNullException(() => new AkismetClient("api-key", new Uri("http://example.com/"), null));
         }
 
-        [Test]
+        [TestMethod]
         public void CheckCommentForSpam_WithNullComment_ThrowsArgumentNullException()
         {
             // arrange
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Akismet
             UnitTestHelper.AssertThrowsArgumentNullException(() => client.CheckCommentForSpam(null));
         }
 
-        [Test]
+        [TestMethod]
         public void CanSetAndGetCommentProperties()
         {
             var comment = new Comment(IPAddress.Loopback, "Test");
@@ -56,7 +56,7 @@ namespace UnitTests.Subtext.Akismet
             Assert.AreEqual(1, comment.ServerEnvironmentVariables.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void ConstructorSetsApiKeyAndUrl()
         {
             var client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), new HttpClient());
@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.Akismet
             UnitTestHelper.AssertSimpleProperties(client, "ApiKey");
         }
 
-        [Test]
+        [TestMethod]
         public void CanVerifyApiKey()
         {
             //arrange
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.Akismet
             Assert.IsTrue(isVerified, "If the request returns 'valid' we should return true.");
         }
 
-        [Test]
+        [TestMethod]
         public void CanVerifyApiKeyIsWrong()
         {
             //act
@@ -103,7 +103,7 @@ namespace UnitTests.Subtext.Akismet
             Assert.IsFalse(isVerified, "If the request returns 'invalid' then we should return false!");
         }
 
-        [Test]
+        [TestMethod]
         public void CanCheckCommentForSpam()
         {
             string userAgent = GetExpectedUserAgent();
@@ -142,7 +142,7 @@ namespace UnitTests.Subtext.Akismet
                           "If the request returns 'false' then we should return false!");
         }
 
-        [Test]
+        [TestMethod]
         public void CanCheckCommentForSpamWithoutOptionalParams()
         {
             string userAgent = GetExpectedUserAgent();
@@ -176,7 +176,7 @@ namespace UnitTests.Subtext.Akismet
                           "If the request returns 'false' then we should return false!");
         }
 
-        [Test]
+        [TestMethod]
         public void CanCheckCommentWithArbitraryServerParams()
         {
             string userAgent = GetExpectedUserAgent();
@@ -218,9 +218,9 @@ namespace UnitTests.Subtext.Akismet
                            "If the request returns 'false' then we should return false!");
         }
 
-        [RowTest]
-        [Row("submit-ham", true)]
-        [Row("submit-spam", false)]
+        [DataTestMethod]
+        [DataRow("submit-ham", true)]
+        [DataRow("submit-spam", false)]
         public void SubmitHamTest(string urlEnding, bool isHam)
         {
             string userAgent = GetExpectedUserAgent();
@@ -264,7 +264,7 @@ namespace UnitTests.Subtext.Akismet
         /// The comment check call returns "invalid" if the api key is not valid 
         /// on the URL. The apikey must be the first part of the url.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void ThrowsInvalidResponseWhenApiKeyInvalid()
         {
             // arrange

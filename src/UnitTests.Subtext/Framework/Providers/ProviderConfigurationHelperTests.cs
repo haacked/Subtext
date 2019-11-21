@@ -17,7 +17,7 @@
 
 using System.Collections.Specialized;
 using System.Configuration.Provider;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Configuration;
 using Subtext.Providers.BlogEntryEditor.FCKeditor;
@@ -30,10 +30,10 @@ namespace UnitTests.Subtext.Framework.Providers
     /// <summary>
     /// Tests a few methods of the <see cref="ProviderBase"/> class.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class ProviderConfigurationHelperTests
     {
-        [Test]
+        [TestMethod]
         public void CanFindConnectionString()
         {
             Assert.IsNotNull(Config.ConnectionString);
@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Providers
         /// <summary>
         /// Makes sure that we can recognize false setting pointers.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void GetConnectionStringSettingValueFindsConnectionString()
         {
             var configValue = new NameValueCollection {{"connectionStringName", "subtextData"}};
@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Framework.Providers
                                                                                         configValue));
         }
 
-        [Test]
+        [TestMethod]
         public void ProvideEditor_Default_Is_FtbEditor()
         {
             using (var httpRequest = new HttpSimulator("http://localhost").SimulateRequest())

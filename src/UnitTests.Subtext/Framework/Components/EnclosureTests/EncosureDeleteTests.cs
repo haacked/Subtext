@@ -15,7 +15,7 @@
 
 #endregion
 
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -23,11 +23,10 @@ using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 {
-    [TestFixture]
+    [TestClass]
     public class EnclosureDeleteTests
     {
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanDeleteEnclosure()
         {
             Blog blog = UnitTestHelper.CreateBlogAndSetupContext();

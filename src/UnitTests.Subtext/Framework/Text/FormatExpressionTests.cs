@@ -1,12 +1,12 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Text;
 
 namespace UnitTests.Subtext.Framework.Text
 {
-    [TestFixture]
+    [TestClass]
     public class FormatExpressionTests
     {
-        [Test]
+        [TestMethod]
         public void Format_WithExpressionReturningNull_ReturnsEmptyString()
         {
             //arrange
@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual(string.Empty, expr.Eval(new {foo = (string)null}));
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithoutColon_ReadsWholeExpression()
         {
             //arrange
@@ -26,7 +26,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual("foo", expr.Expression);
         }
 
-        [Test]
+        [TestMethod]
         public void Format_WithColon_ParsesoutFormat()
         {
             //arrange
@@ -36,7 +36,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual("#.##", expr.Format);
         }
 
-        [Test]
+        [TestMethod]
         public void Eval_WithNamedExpression_EvalsPropertyOfExpression()
         {
             //arrange
@@ -49,8 +49,7 @@ namespace UnitTests.Subtext.Framework.Text
             Assert.AreEqual("123", result);
         }
 
-        [Test]
-        [MultipleCulture("en-US,en-NZ,it-IT")]
+        [MultipleCultureTestMethod("en-US,en-NZ,it-IT")]
         public void Eval_WithNamedExpressionAndFormat_EvalsPropertyOfExpression()
         {
             //arrange

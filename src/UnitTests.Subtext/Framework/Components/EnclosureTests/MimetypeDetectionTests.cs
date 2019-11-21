@@ -16,64 +16,64 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Framework.Components.EnclosureTests
 {
-    [TestFixture]
+    [TestClass]
     public class MimetypeDetectionTests
     {
-        [Test]
+        [TestMethod]
         public void CanReadMimetypeMappings()
         {
             Assert.AreEqual(6, MimeTypesMapper.Mappings.Count);
         }
 
-        //[Test]
+        //[TestMethod]
         //public void CanGetListOfTypes()
         //{
         //    NameValueCollection list = MimeTypesMapper.Mappings.List;
         //    Assert.AreEqual("audio/mpeg", list[0]);
         //}
 
-        [RowTest]
-        [Row(".mp3", "audio/mpeg")]
-        [Row(".zip", "application/octetstream")]
-        [Row(".pdf", "application/octetstream")]
-        [Row(".mp4", "video/mp4")]
-        [Row(".avi", null)]
+        [DataTestMethod]
+        [DataRow(".mp3", "audio/mpeg")]
+        [DataRow(".zip", "application/octetstream")]
+        [DataRow(".pdf", "application/octetstream")]
+        [DataRow(".mp4", "video/mp4")]
+        [DataRow(".avi", null)]
         public void MimetypeAreMappedCorrectly(string ext, string expectedType)
         {
             Assert.AreEqual(expectedType, MimeTypesMapper.Mappings.GetMimeType(ext));
         }
 
-        [Test]
+        [TestMethod]
         public void GetMimeType_WithNullExtension_ThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() => MimeTypesMapper.Mappings.GetMimeType(null));
         }
 
-        [RowTest]
-        [Row("http://mywonderfulldomain.com/podcast/episode1.mp3", "audio/mpeg")]
-        [Row("http://code.google.com/codeclimbercommons/items/download/linklift-src.1.0.zip", "application/octetstream")
+        [DataTestMethod]
+        [DataRow("http://mywonderfulldomain.com/podcast/episode1.mp3", "audio/mpeg")]
+        [DataRow("http://code.google.com/codeclimbercommons/items/download/linklift-src.1.0.zip", "application/octetstream")
         ]
-        [Row("http://polimi.it/ingdelsoftware/Corso di primo livello/lezione1.pdf", "application/octetstream")]
-        [Row("http://wekarod.com/mvcscreencasts/screencast3.mp4", "video/mp4")]
-        [Row("http://wekarod.com/mvcscreencasts/screencast3", null)]
-        [Row("http://wekarod.com/mvcscreencasts/screencast3.qt", null)]
+        [DataRow("http://polimi.it/ingdelsoftware/Corso di primo livello/lezione1.pdf", "application/octetstream")]
+        [DataRow("http://wekarod.com/mvcscreencasts/screencast3.mp4", "video/mp4")]
+        [DataRow("http://wekarod.com/mvcscreencasts/screencast3", null)]
+        [DataRow("http://wekarod.com/mvcscreencasts/screencast3.qt", null)]
         public void CanDetectCorrectMimeType(string url, string expectedType)
         {
             Assert.AreEqual(expectedType, MimeTypesMapper.Mappings.ParseUrl(url));
         }
 
-        [Test]
+        [TestMethod]
         public void ParseUrl_WithNullUrl_ThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() => MimeTypesMapper.Mappings.ParseUrl(null));
         }
 
-        [Test]
+        [TestMethod]
         public void ParseUrl_WithInvalidUrl_ThrowsArgumentException()
         {
             UnitTestHelper.AssertThrows<ArgumentException>(() => MimeTypesMapper.Mappings.ParseUrl("not/a valid\\url"));

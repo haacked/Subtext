@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Scripting;
 
 namespace UnitTests.Subtext.Scripting
 {
-    [TestFixture]
+    [TestClass]
     public class ScriptSplitterTests
     {
-        [Test]
+        [TestMethod]
         public void ScriptSplitterCanEnumerate()
         {
             var splitter = new ScriptSplitter("This is a test");

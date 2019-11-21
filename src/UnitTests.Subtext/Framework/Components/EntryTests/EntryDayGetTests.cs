@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -30,11 +30,11 @@ using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
-    [TestFixture]
+    [TestClass]
     public class EntryDayGetTests
     {
-        [SetUp]
-        public void Setup()
+        [TestInitialize]
+        public void TestInitialize()
         {
             var repository = new DatabaseObjectProvider();
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -43,8 +43,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             BlogRequest.Current.Blog = repository.GetBlog(hostname, string.Empty);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetSingleDayReturnsDayWithEnclosure()
         {
             //Create some entries.
@@ -82,8 +81,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.AssertEnclosures(enc, entries.ElementAt(2).Enclosure);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogPostsReturnsAllPostsIfPostConfigNoneSpecified()
         {
             // Create four entries.
@@ -133,8 +131,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(1, entryList.ElementAt(2).Count); // One of these don't have a date syndicated.
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogPostsReturnsActiveOnlyAndNoneInFuture()
         {
             //Create some entries.
@@ -171,8 +168,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(1, entryList.ElementAt(1).Count);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogPostsReturnsDaysWithEnclosure()
         {
             //Create some entries.
@@ -216,8 +212,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.AssertEnclosures(enc, entries.ElementAt(2).Enclosure);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetHomePageEntriesReturnsDaysWithEnclosure()
         {
             //Create some entries.
@@ -267,8 +262,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.AssertEnclosures(enc, entries.ElementAt(1).Enclosure);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPostsByCategoryIDReturnsDaysWithEnclosure()
         {
             //Create Category
@@ -326,8 +320,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             UnitTestHelper.AssertEnclosures(enc, entries.ElementAt(1).Enclosure);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPostsByMonthReturnsDaysWithEnclosure()
         {
             //Create some entries.

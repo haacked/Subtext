@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -11,10 +11,10 @@ using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Data
 {
-    [TestFixture]
+    [TestClass]
     public class RepositoryExtensionsTests
     {
-        [Test] //TODO Review
+        [TestMethod] //TODO Review
         public void GroupByDayUsingDateCreated_WithEntriesOnMultipleDays_GroupsEntriesByDay()
         {
             // arrange
@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual("Fourth Entry", thirdDay[0].Title);
         }
 
-        [Test]
+        [TestMethod]
         public void GetBlogPostsForHomePage_GroupsPostsByDateCreated()
         {
             // arrange
@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual("Fourth Entry", thirdDay[0].Title);
         }
 
-        [Test] //todo review
+        [TestMethod] //todo review
         public void GetBlogPostsByCategoryGroupedByDay_GroupsPostsByDateCreated()
         {
             // arrange

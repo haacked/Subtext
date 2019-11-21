@@ -1,4 +1,4 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -6,11 +6,10 @@ using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
-    [TestFixture]
+    [TestClass]
     public class BlogAliasTests
     {
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateBlogAlias()
         {
             // Arrange
@@ -28,8 +27,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.AreNotEqual(alias.Id, NullValue.NullInt32);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogByAliasNoSubfolder()
         {
             var repository = new DatabaseObjectProvider();
@@ -41,8 +39,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.AreEqual(blog.Id, testBlog.Id, "Found the wrong blog.");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogByAliasWithSubfolders()
         {
             var repository = new DatabaseObjectProvider();
@@ -62,8 +59,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.AreEqual(blog2.Id, testBlog2.Id, "Found the wrong blog.");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CheckThatAliasChecksSubfolderIfBlogOnSameHost()
         {
             var repository = new DatabaseObjectProvider();
@@ -76,8 +72,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.IsNull(testBlog, "Should not have found a blog, alias is on same host.");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogAliasById()
         {
             var repository = new DatabaseObjectProvider();
@@ -92,8 +87,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.AreEqual(alias.Id, testAlias.Id, "Found the wrong alias.");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetBlogAliasByBlog()
         {
             var repository = new DatabaseObjectProvider();
@@ -115,11 +109,10 @@ namespace UnitTests.Subtext.Framework.Configuration
             IPagedCollection<BlogAlias> aliases = blog1.GetBlogAliases(new DatabaseObjectProvider(), 0, 10);
             Assert.AreEqual(1, aliases.Count);
             Assert.AreEqual(alias1.Id, aliases[0].Id);
-            Assert.IsEmpty(alias1.Subfolder);
+            Assert.AreEqual(string.Empty, alias1.Subfolder);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CheckBlogNotReturnedWithoutAlias()
         {
             UnitTestHelper.CreateBlogAndSetupContext();
@@ -130,8 +123,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.IsNull(testBlog);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CheckBlogNotReturnedWithInactiveAlias()
         {
             var repository = new DatabaseObjectProvider();
@@ -147,8 +139,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.IsNull(testBlog, "Should not have found a blog");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void UpdateBlogAlias()
         {
             var repository = new DatabaseObjectProvider();
@@ -171,8 +162,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             Assert.AreEqual(host2, testAlias2.Host, "Alias was not updated");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void DeleteBlogAlias()
         {
             Blog blog = UnitTestHelper.CreateBlogAndSetupContext();

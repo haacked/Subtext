@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Web.Admin;
 
 namespace UnitTests.Subtext.SubtextWeb.Admin
 {
-    [TestFixture]
+    [TestClass]
     public class PreferencesTests
     {
-        [Test]
+        [TestMethod]
         public void UsePlainHtmlEditor_IsFalse_ByDefault()
         {
             using (var httpRequest = new HttpSimulator("http://localhost").SimulateRequest())
@@ -22,7 +22,7 @@ namespace UnitTests.Subtext.SubtextWeb.Admin
             }
         }
 
-        [Test]
+        [TestMethod]
         public void UsePlainHtmlEditor_SetValue()
         {
             using (var http = new HttpSimulator("http://localhost").SimulateRequest())

@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -30,11 +30,10 @@ namespace UnitTests.Subtext.Framework
     /// <summary>
     /// Unit tests of Subtext.Framework.Links class methods
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class LinksTests
     {
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanGetCategoriesByPostId()
         {
             UnitTestHelper.SetupBlog();
@@ -61,8 +60,7 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(Config.CurrentBlog.Id, categories.First().BlogId);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanGetActiveCategories()
         {
             UnitTestHelper.SetupBlog();
@@ -83,8 +81,7 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(2, linkCollections.ElementAt(1).Links.Count);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanUpdateLink()
         {
             UnitTestHelper.SetupBlog();
@@ -114,8 +111,7 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(entry.Id, loaded.PostId);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanCreateAndDeleteLink()
         {
             UnitTestHelper.SetupBlog();
@@ -137,8 +133,7 @@ namespace UnitTests.Subtext.Framework
             Assert.IsNull(repository.GetLink(linkId));
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanCreateAndDeleteLinkCategory()
         {
             UnitTestHelper.SetupBlog();
@@ -167,8 +162,7 @@ namespace UnitTests.Subtext.Framework
         /// <summary>
         /// Ensures CreateLinkCategory assigns unique CatIDs
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateLinkCategoryAssignsUniqueCatIDs()
         {
             UnitTestHelper.SetupBlog();
@@ -208,8 +202,7 @@ namespace UnitTests.Subtext.Framework
             Assert.AreNotEqual(second.Id, third.Id);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanGetPostCollectionCategories()
         {
             UnitTestHelper.SetupBlog();
@@ -225,8 +218,7 @@ namespace UnitTests.Subtext.Framework
         /// <summary>
         /// Ensure UpdateLInkCategory updates the correct link category
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void UpdateLinkCategoryIsFine()
         {
             UnitTestHelper.SetupBlog();
@@ -237,7 +229,7 @@ namespace UnitTests.Subtext.Framework
             // Retrieve the categories, grab the first one and update it
             ICollection<LinkCategory> originalCategories = repository.GetCategories(CategoryType.LinkCollection,
                                                                                ActiveFilter.None);
-            Assert.Greater(originalCategories.Count, 0, "Expected some categories in there.");
+            Assert.IsTrue(originalCategories.Count > 0, "Expected some categories in there.");
             LinkCategory linkCat = null;
             foreach (LinkCategory linkCategory in originalCategories)
             {
@@ -329,18 +321,18 @@ namespace UnitTests.Subtext.Framework
         }
 
         /// <summary>
-        /// Sets the up test fixture.  This is called once for 
-        /// this test fixture before all the tests run.
+        /// Sets the up test class.  This is called once for 
+        /// this test class before all the tests run.
         /// </summary>
-        [TestFixtureSetUp]
-        public void SetUpTestFixture()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
         {
             //Confirm app settings
             UnitTestHelper.AssertAppSettings();
         }
 
-        [TearDown]
-        public void TearDown()
+        [TestCleanup]
+        public void TestCleanup()
         {
             HttpContext.Current = null;
         }

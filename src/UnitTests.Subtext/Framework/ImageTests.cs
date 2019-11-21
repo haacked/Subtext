@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -18,7 +18,7 @@ namespace UnitTests.Subtext.Framework
     /// All tests should use the TestDirectory directory. For example, to create that 
     /// directory, just do this: Directory.Create(TestDirectory);
     /// </remarks>
-    [TestFixture]
+    [TestClass]
     public class ImageTests
     {
         private const string TestDirectory = "unit-test-dir";
@@ -26,15 +26,14 @@ namespace UnitTests.Subtext.Framework
         static readonly Byte[] singlePixelBytes =
             Convert.FromBase64String("R0lGODlhAQABAIAAANvf7wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==");
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanUpdate()
         {
             UnitTestHelper.SetupBlog();
             var repository = new DatabaseObjectProvider();
 
             Image image = CreateImageInstance();
-            Assert.GreaterEqualThan(Config.CurrentBlog.Id, 0);
+            Assert.IsTrue(Config.CurrentBlog.Id >= 0);
             Assert.AreEqual(Config.CurrentBlog.Id, image.BlogId);
             int imageId = repository.Insert(image, singlePixelBytes);
 
@@ -53,8 +52,7 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual("A Better Title", loaded.Title, "The title was not updated");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanGetImagesByCategoryId()
         {
             UnitTestHelper.SetupBlog();
@@ -74,8 +72,7 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(imageId, images[0].ImageID);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanSaveImage()
         {
             string filePath = Path.GetFullPath(@TestDirectory + Path.DirectorySeparatorChar + "test.gif");
@@ -84,7 +81,7 @@ namespace UnitTests.Subtext.Framework
             FileAssert.Exists(filePath);
         }
 
-        [Test]
+        [TestMethod]
         public void CanMakeAlbumImages()
         {
             var image = new Image();
@@ -104,7 +101,7 @@ namespace UnitTests.Subtext.Framework
             FileAssert.Exists(image.ThumbNailFilePath);
         }
 
-        [Test]
+        [TestMethod]
         public void InsertImageReturnsFalseForExistingImage()
         {
             var repository = new DatabaseObjectProvider();
@@ -114,8 +111,7 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(NullValue.NullInt32, repository.Insert(image, singlePixelBytes));
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanInsertAndDeleteImage()
         {
             var repository = new DatabaseObjectProvider();
@@ -167,13 +163,13 @@ namespace UnitTests.Subtext.Framework
             return image;
         }
 
-        [Test]
+        [TestMethod]
         public void SaveImageReturnsFalseForInvalidImageName()
         {
             Assert.IsFalse(Images.SaveImage(singlePixelBytes, "!"));
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryDirectoryPath_WithBlogAndCategoryId_ReturnPhysicalDirectoryPath()
         {
             // arrange
@@ -190,69 +186,68 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(@"c:\123\", path);
         }
 
-        [Test]
+        [TestMethod]
         public void DeleteImageThrowsArgumentNullException()
         {
             var repository = new DatabaseObjectProvider();
             UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Delete((Image)null));
         }
 
-        [Test]
+        [TestMethod]
         public void InsertImageThrowsArgumentNullException()
         {
             var repository = new DatabaseObjectProvider();
             UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Insert(null, new byte[0]));
         }
 
-        [Test]
+        [TestMethod]
         public void MakeAlbumImagesThrowsArgumentNullException()
         {
             var repository = new DatabaseObjectProvider();
             UnitTestHelper.AssertThrowsArgumentNullException(() => Images.MakeAlbumImages(null));
         }
 
-        [Test]
+        [TestMethod]
         public void SaveImageThrowsArgumentNullExceptionForNullBuffer()
         {
             var repository = new DatabaseObjectProvider();
             UnitTestHelper.AssertThrowsArgumentNullException(() => Images.SaveImage(null, "x"));
         }
 
-        [Test]
+        [TestMethod]
         public void SaveImageThrowsArgumentNullExceptionForNullFileName()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() => Images.SaveImage(new byte[0], null));
         }
 
-        [Test]
+        [TestMethod]
         public void SaveImageThrowsArgumentExceptionForNullFileName()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() => Images.SaveImage(new byte[0], ""));
         }
 
-        [Test]
+        [TestMethod]
         public void UpdateThrowsArgumentNullExceptionForNullImage()
         {
             var repository = new DatabaseObjectProvider();
             UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Update(null, new byte[0]));
         }
 
-        [Test]
+        [TestMethod]
         public void UpdateThrowsArgumentNullExceptionForNullBuffer()
         {
             var repository = new DatabaseObjectProvider();
             UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Update(new Image(), null));
         }
 
-        [Test]
+        [TestMethod]
         public void UpdateImageThrowsArgumentNullException()
         {
             var repository = new DatabaseObjectProvider();
             UnitTestHelper.AssertThrowsArgumentNullException(() => repository.Update((Image)null));
         }
 
-        [SetUp]
-        public void SetUp()
+        private void DeleteTestFolders()
         {
             if (Directory.Exists(TestDirectory))
             {
@@ -264,10 +259,16 @@ namespace UnitTests.Subtext.Framework
             }
         }
 
-        [TearDown]
-        public void TearDown()
+        [TestInitialize]
+        public void TestInitialize()
         {
-            SetUp();
+            DeleteTestFolders();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            DeleteTestFolders();
         }
     }
 }

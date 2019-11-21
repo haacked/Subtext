@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -19,11 +19,10 @@ namespace UnitTests.Subtext.Framework.Tracking
     /// <summary>
     /// Summary description for TrackbackHandler.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class TrackbackHandlerTests
     {
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void ProcessRequest_WithTrackbacksDisabled_ReturnEmptyResponse()
         {
             //arrange
@@ -50,8 +49,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         /// <summary>
         /// Sends an RSS Snippet for requests made using the "GET" http verb.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void ProcessRequest_WithGetRequest_SendsRssResponse()
         {
             //arrange
@@ -85,8 +83,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         /// <summary>
         /// Sends an error message if the id in the url does not match an existing entry.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void ProcessRequest_WithInvalidEntryId_SendsErrorResponse()
         {
             //arrange
@@ -113,8 +110,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         /// <summary>
         /// Checks the error message returned when the trackback URL does not have an entry id.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void ProcessRequest_WithoutEntryIdInRouteData_SendsErrorResponse()
         {
             //arrange
@@ -141,8 +137,7 @@ namespace UnitTests.Subtext.Framework.Tracking
         /// Makes sure the HTTP handler used to handle trackbacks handles a proper trackback request 
         /// by creating a trackback record in the local system.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void ProcessRequest_WithValidTrackback_CreatesTracbackRecordInDatabase()
         {
             //arrange

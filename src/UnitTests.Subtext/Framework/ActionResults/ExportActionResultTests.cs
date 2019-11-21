@@ -3,17 +3,17 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Xml;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.ImportExport;
 using Subtext.Infrastructure.ActionResults;
 
 namespace UnitTests.Subtext.Framework.ActionResults
 {
-    [TestFixture]
+    [TestClass]
     public class ExportActionResultTests
     {
-        [Test]
+        [TestMethod]
         public void Ctor_WithFileName_SetsFileDownloadName()
         {
             // arrange, act
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             Assert.AreEqual("test", result.FileDownloadName);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_SetsContentType_ToXml()
         {
             // arrange, act
@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             Assert.AreEqual("text/xml", result.ContentType);
         }
 
-        [Test]
+        [TestMethod]
         public void ExecuteResult_WritesToBlogMLWriter()
         {
             // arrange

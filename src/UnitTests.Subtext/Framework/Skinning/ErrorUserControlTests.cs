@@ -1,4 +1,4 @@
-﻿using MbUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Web.Handlers;
@@ -6,10 +6,10 @@ using Subtext.Web.Skins._System.Controls;
 
 namespace UnitTests.Subtext.Framework.Skinning
 {
-    [TestFixture]
+    [TestClass]
     public class ErrorUserControlTests
     {
-        [Test]
+        [TestMethod]
         public void ShowErrorDetails_ForLocalHostNonAdmin_ReturnsTrue()
         {
             // arrange
@@ -26,7 +26,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsTrue(result);
         }
 
-        [Test]
+        [TestMethod]
         public void ShowErrorDetails_ForLocalHostAdmin_ReturnsTrue()
         {
             // arrange
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsTrue(result);
         }
 
-        [Test]
+        [TestMethod]
         public void ShowErrorDetails_ForNonLocalHost_ReturnsFalse()
         {
             // arrange
@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsFalse(result);
         }
 
-        [Test]
+        [TestMethod]
         public void ShowErrorDetails_ForAdminNonLocalHost_ReturnsTrue()
         {
             // arrange

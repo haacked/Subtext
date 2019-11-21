@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -10,7 +10,7 @@ using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.Framework.Services
 {
-    [TestFixture]
+    [TestClass]
     public class CommentFilterTests
     {
         /// <summary>
@@ -18,7 +18,7 @@ namespace UnitTests.Subtext.Framework.Services
         /// by the blog owner (logged in Administrator) don't get 
         /// filtered.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void FilterBeforePersistDoesNotAllowTooManyCommentsWithinCommentDelay()
         {
             //arrange
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Services
         /// by the blog owner (logged in Administrator) don't get 
         /// filtered.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void FilterBeforePersistIgnoresAdminRole()
         {
             //arrange
@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Services
             commentFilter.FilterBeforePersist(new FeedbackItem(FeedbackType.PingTrack) { IpAddress = IPAddress.Parse("127.0.0.1") });
         }
 
-        [Test]
+        [TestMethod]
         public void FilterBeforePersistDoesNotAllowDuplicateComments()
         {
             //arrange
@@ -82,8 +82,7 @@ namespace UnitTests.Subtext.Framework.Services
                 );
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void FilterAfterPersistWithCommentModerationDisabledCausesNewCommentsToBeActive()
         {
             //arrange
@@ -108,8 +107,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsTrue(savedFeedback.Approved);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void FilterAfterPersistWithCommentModerationEnabledCausesNewCommentsToNeedApproval()
         {
             //arrange
@@ -134,7 +132,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsTrue(savedFeedback.NeedsModeratorApproval);
         }
 
-        [Test]
+        [TestMethod]
         public void CommentFilterExceptionMessage_WithOneMinute_ProvidesSingularMessage()
         {
             // arrange
@@ -147,7 +145,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("Sorry, but there is a delay between allowing comments originating from the same source. Please wait for 1 minute and try again.", message);
         }
 
-        [Test]
+        [TestMethod]
         public void CommentFilterExceptionMessage_WithTwoMinutes_ProvidesPluralMessage()
         {
             // arrange

@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Security;
@@ -7,10 +7,10 @@ using Subtext.Web.Controllers;
 
 namespace UnitTests.Subtext.SubtextWeb.Controllers
 {
-    [TestFixture]
+    [TestClass]
     public class AccountControllerTests
     {
-        [Test]
+        [TestMethod]
         public void Logout_LogsUserOut()
         {
             // arrange

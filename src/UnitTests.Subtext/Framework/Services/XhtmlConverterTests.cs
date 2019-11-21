@@ -1,18 +1,18 @@
 using System.Globalization;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Services;
 
 namespace UnitTests.Subtext.Framework.Services
 {
-    [TestFixture]
+    [TestClass]
     public class XhtmlConverterTests
     {
-        [RowTest]
-        [Row("", "")]
-        [Row("This is some text", "This is some text")]
-        [Row("<span>This is some text</span>", "<span>This is some text</span>")]
-        [Row("<img src=\"blah\" />", "<img src=\"blah\" />")]
-        [Row("<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>",
+        [DataTestMethod]
+        [DataRow("", "")]
+        [DataRow("This is some text", "This is some text")]
+        [DataRow("<span>This is some text</span>", "<span>This is some text</span>")]
+        [DataRow("<img src=\"blah\" />", "<img src=\"blah\" />")]
+        [DataRow("<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>",
             "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
         public void Transform_WithValidMarkup_DoesNotChangeIt(string markup, string expected)
         {
@@ -26,7 +26,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Transform_WithAngleBracketInAttributeValue_EncodesAttribute()
         {
             const string html = @"<a title="">"">b</a>";
@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
+        [TestMethod]
         [Ignore("Need to follow up with the SgmlReader on this")]
         public void Transform_WithStyleTag_DoesNotWrapStyleInCdata()
         {
@@ -59,7 +59,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
+        [TestMethod]
         public void Transform_WithConverter_AppliesConverterWhileConvertingHtml()
         {
             const string html = "<p title=\"blah blah\"> blah blah </p>";
@@ -75,7 +75,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertHtmlToXHtmlLeavesNestedMarkupAlone()
         {
             //arrange
@@ -92,15 +92,15 @@ namespace UnitTests.Subtext.Framework.Services
         /// <summary>
         /// Makes sure that IsValidXHTML recognizes invalid markup.
         /// </summary>
-        [RowTest]
-        [Row("<a href=\"xyz\">test<b>Test</b>", "<a href=\"xyz\">test<b>Test</b></a>")]
-        [Row("This <br /><br />is bad <p> XHTML.", "This <br /><br />is bad <p> XHTML.</p>")]
-        [Row("This <br /><br style=\"blah\" />is bad <p> XHTML.",
+        [DataTestMethod]
+        [DataRow("<a href=\"xyz\">test<b>Test</b>", "<a href=\"xyz\">test<b>Test</b></a>")]
+        [DataRow("This <br /><br />is bad <p> XHTML.", "This <br /><br />is bad <p> XHTML.</p>")]
+        [DataRow("This <br /><br style=\"blah\" />is bad <p> XHTML.",
             "This <br /><br style=\"blah\" />is bad <p> XHTML.</p>")]
-        [Row("This <P>is bad </P> XHTML.", "This <p>is bad </p> XHTML.")]
-        [Row("<style type=\"text/css\">\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>",
+        [DataRow("This <P>is bad </P> XHTML.", "This <p>is bad </p> XHTML.")]
+        [DataRow("<style type=\"text/css\">\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>",
             "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
-        [Row("<style type=\"text/css\">\r\n\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>",
+        [DataRow("<style type=\"text/css\">\r\n\r\n<![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>",
             "<style type=\"text/css\"><![CDATA[\r\n.blah\r\n{\r\n  font-size: small;\r\n}\r\n]]></style>")]
         public void ConvertHtmlToXHtmlCorrectsInvalidMarkup(string badMarkup, string corrected)
         {
@@ -114,11 +114,11 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(corrected, result);
         }
 
-        [RowTest]
-        [Row("<a name=\"test\"></a>", "<a name=\"test\"></a>", "Anchor tags should not be self-closed.")]
-        [Row("<a name=\"test\" />", "<a name=\"test\"></a>", "Anchor tags should not be self-closed.")]
-        [Row("<script src=\"test\" />", "<script src=\"test\"></script>", "Script tags should not be self-closed.")]
-        [Row("<script src=\"test\"></script>", "<script src=\"test\"></script>",
+        [DataTestMethod]
+        [DataRow("<a name=\"test\"></a>", "<a name=\"test\"></a>", "Anchor tags should not be self-closed.")]
+        [DataRow("<a name=\"test\" />", "<a name=\"test\"></a>", "Anchor tags should not be self-closed.")]
+        [DataRow("<script src=\"test\" />", "<script src=\"test\"></script>", "Script tags should not be self-closed.")]
+        [DataRow("<script src=\"test\"></script>", "<script src=\"test\"></script>",
             "Script tags should not be self-closed.")]
         public void ConvertHtmlToXhtmlEnsuresSomeTagsMustNotBeSelfClosed(string html, string expected, string message)
         {
@@ -132,13 +132,13 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual(expected, result);
         }
 
-        [RowTest]
-        [Row("br")]
-        [Row("hr")]
-        [Row("meta")]
-        [Row("link")]
-        [Row("input")]
-        [Row("img")]
+        [DataTestMethod]
+        [DataRow("br")]
+        [DataRow("hr")]
+        [DataRow("meta")]
+        [DataRow("link")]
+        [DataRow("input")]
+        [DataRow("img")]
         public void ConvertHtmlToXhtmlEnsuresSomeTagsMustBeSelfClosed(string tag)
         {
             //arrange

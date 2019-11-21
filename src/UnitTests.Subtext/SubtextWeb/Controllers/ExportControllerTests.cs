@@ -1,4 +1,4 @@
-﻿using MbUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.ImportExport;
@@ -7,10 +7,10 @@ using Subtext.Web.Controllers;
 
 namespace UnitTests.Subtext.SubtextWeb.Controllers
 {
-    [TestFixture]
+    [TestClass]
     public class ExportControllerTests
     {
-        [Test]
+        [TestMethod]
         public void Ctor_WithBlogMLSource_SetsSource()
         {
             // arrange
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             Assert.AreEqual(source.Object, controller.Source);
         }
 
-        [Test]
+        [TestMethod]
         public void ExportBlogML_WithEmbedAttachmetsTrue_ReturnsExportActionResultWithEmbedTrue()
         {
             // arrange
@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             Assert.IsTrue(writer.EmbedAttachments);
         }
 
-        [Test]
+        [TestMethod]
         public void ExportBlogML_WithEmbedAttachmentsFalse_ReturnsExportActionResultWithEmbedFalse()
         {
             // arrange
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             Assert.IsFalse(writer.EmbedAttachments);
         }
 
-        [Test]
+        [TestMethod]
         public void ExportBlogML_WithBlogTitle_SetsFileDownloadNameToTitle()
         {
             // arrange
@@ -67,7 +67,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
             Assert.AreEqual("whatever-Export.xml", result.FileDownloadName);
         }
 
-        [Test]
+        [TestMethod]
         public void ExportBlogML_WithBlogTitleHavingIllegalFileNameCharacters_RemovesThoseCharactersFromFileDownloadName()
         {
             // arrange

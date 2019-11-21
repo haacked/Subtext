@@ -1,8 +1,8 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Subtext.SubtextWeb.HostAdmin
 {
-    [TestFixture]
+    [TestClass]
     public class HostAdminPageTests
     {
     }

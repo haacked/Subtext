@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.Security
 {
-    [TestFixture]
+    [TestClass]
     public class AccountServiceTests
     {
-        [Test]
+        [TestMethod]
         public void Logout_ClearsAuthCookie()
         {
             // arrange

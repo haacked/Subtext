@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
@@ -8,11 +8,10 @@ using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
-    [TestFixture]
+    [TestClass]
     public class EntryTagTests
     {
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void TagDoesNotRetrieveDraftEntry()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -30,8 +29,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Assert.AreEqual(0, entries.Count, "Should not retrieve draft entry.");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanTagEntry()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();

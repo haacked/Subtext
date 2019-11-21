@@ -1,15 +1,15 @@
 using System;
 using System.Globalization;
 using System.Web.UI;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Web.Controls.Captcha;
 
 namespace UnitTests.Subtext.SubtextWeb.Controls
 {
-    [TestFixture]
+    [TestClass]
     public class CaptchaTests
     {
-        [Test]
+        [TestMethod]
         public void CanRoundTripCaptchaInfo()
         {
             DateTime date =

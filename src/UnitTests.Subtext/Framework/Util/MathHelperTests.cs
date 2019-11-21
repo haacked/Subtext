@@ -1,13 +1,13 @@
 using System.Drawing;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Util
 {
-    [TestFixture]
+    [TestClass]
     public class MathHelperTests
     {
-        [Test]
+        [TestMethod]
         public void ScaleToFit_WithImageAlreadyFitting_ReturnsOriginalImage()
         {
             // arrange
@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.AreEqual(new Size(8, 4), resized);
         }
 
-        [Test]
+        [TestMethod]
         public void ScaleToFit_ScaledToSameAspectRatio_ScalesExactlyToMaxSize()
         {
             // arrange
@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.AreEqual(new Size(4, 2), resized);
         }
 
-        [Test]
+        [TestMethod]
         public void ScaleToFit_WithImageHavingAspectRatioGreaterThanOneScaledToAspectRatioLessThanOne_ScalesCorrectly()
         {
             // arrange
@@ -47,7 +47,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.AreEqual(new Size(2, 1), resized); // aspect = 2
         }
 
-        [Test]
+        [TestMethod]
         public void ScaleToFit_WithRealisticImageSizes_ScalesProperly()
         {
             // arrange
@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.AreEqual(new Size(640, 416), resized); // aspect = 2
         }
 
-        [Test]
+        [TestMethod]
         public void ScaleToFit_WithImageHavingAspectRatioLessThanOneScaledToAspectRatioGreaterThanOne_ScalesCorrectly()
         {
             // arrange
@@ -74,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Util
             Assert.AreEqual(new Size(2, 3), resized); // aspect = 0.67
         }
 
-        [Test]
+        [TestMethod]
         public void GetAspectRatio_WithLargeRatio_ReturnsCorrectValue() { 
             // arrange
             int width = 111;
@@ -84,7 +84,10 @@ namespace UnitTests.Subtext.Framework.Util
             var result = MathHelper.GetAspectRatio(width, height);
 
             // assert
-            Assert.Between((double)result, (double)3.5806451612903225806451612902, (double)3.5806451612903225806451612904);
+            Assert.AreEqual(
+                3.5806451612903225806451612902,
+                (double)result,
+                0.0000000000000000000000000001);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -12,24 +12,24 @@ using Subtext.Framework.Services.SearchEngine;
 
 namespace UnitTests.Subtext.Framework.Services.SearchEngine
 {
-    [TestFixture]
+    [TestClass]
     public class IndexingServiceTests
     {
         private SearchEngineService _service;
         
-        [SetUp]
+        [TestInitialize]
         public void CreateSearchEngine()
         {
             _service = new SearchEngineService(new RAMDirectory(), new StandardAnalyzer(Version.LUCENE_29), new FullTextSearchEngineSettings());
         }
         
-        [TearDown]
+        [TestCleanup]
         public void DestroySearchEngine()
         {
             _service.Dispose();
         }
 
-        [Test]
+        [TestMethod]
         public void RebuildIndex_LoadEntriesFromRepository()
         {
             var context = new Mock<ISubtextContext>();
@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             repository.Verify(rep => rep.GetEntries(PostType.BlogPost, null, It.IsAny<int>(), It.IsAny<int>()));
         }
 
-        [Test]
+        [TestMethod]
         public void RebuildIndex_AddsDataToIndex()
         {
             var context = new Mock<ISubtextContext>();
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             Assert.AreEqual(1,_service.GetTotalIndexedEntryCount());
         }
 
-        [Test]
+        [TestMethod]
         public void RebuildIndex_WithEntryNotPublished_DoesntAddsDataToIndex()
         {
             var context = new Mock<ISubtextContext>();
@@ -78,7 +78,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
         }
 
 
-        [Test]
+        [TestMethod]
         public void IndexService_WithPublishedPost_AddsPostToIndex()
         {
             var context = new Mock<ISubtextContext>();
@@ -99,7 +99,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             Assert.IsNotNull(entry);
         }
 
-        [Test]
+        [TestMethod]
         public void IndexService_WithNotPublishedPost_DoesntAddsPostToIndex()
         {
             var context = new Mock<ISubtextContext>();
@@ -118,7 +118,7 @@ namespace UnitTests.Subtext.Framework.Services.SearchEngine
             indexService.AddPost(entry);
         }
 
-        [Test]
+        [TestMethod]
         public void IndexService_WithNotPublishedPost_RemovesPostFromIndex()
         {
             var context = new Mock<ISubtextContext>();

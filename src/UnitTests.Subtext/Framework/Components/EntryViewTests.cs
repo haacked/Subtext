@@ -1,4 +1,4 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
@@ -6,10 +6,10 @@ using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Components
 {
-    [TestFixture]
+    [TestClass]
     public class EntryViewTests
     {
-        [Test]
+        [TestMethod]
         public void CtorInitializesIdsToNullValue()
         {
             var view = new EntryView();
@@ -17,15 +17,14 @@ namespace UnitTests.Subtext.Framework.Components
             Assert.AreEqual(NullValue.NullInt32, view.BlogId);
         }
 
-        [Test]
+        [TestMethod]
         public void CanSetAndGetSimpleProperties()
         {
             var view = new EntryView();
             UnitTestHelper.AssertSimpleProperties(view);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanSetAndGetSimpleEntryStatsViewProperties()
         {
             string host = UnitTestHelper.GenerateUniqueString();

@@ -1,15 +1,15 @@
 using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Providers.BlogEntryEditor.FCKeditor;
 
 namespace UnitTests.Subtext.BlogEntryProvider
 {
-    [TestFixture]
+    [TestClass]
     public class FileBrowserConnectorTests
     {
-        [Test]
+        [TestMethod]
         public void FileBrowserConnector_WithNonAdmin_SetsUnauthorizedStatusCode()
         {
             // arrange
@@ -29,7 +29,7 @@ namespace UnitTests.Subtext.BlogEntryProvider
             subtextContext.VerifySet(c => c.HttpContext.Response.StatusCode, 401);
         }
 
-        [Test]
+        [TestMethod]
         public void FileBrowserConnector_WithAdmin_DoesNotSetUnauthorizedStatusCode()
         {
             // arrange

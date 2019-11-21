@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -35,15 +35,14 @@ namespace UnitTests.Subtext.Framework.Syndication
     /// <summary>
     /// Unit tests for the RSSWriter classes.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class RssWriterTests : SyndicationTestBase
     {
-        [RowTest]
-        [Row("Subtext.Web", "", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
-        [Row("Subtext.Web", "blog", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
-        [Row("", "", "http://localhost/images/RSS2Image.gif")]
-        [Row("", "blog", "http://localhost/images/RSS2Image.gif")]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
+        [DataRow("Subtext.Web", "", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
+        [DataRow("Subtext.Web", "blog", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
+        [DataRow("", "", "http://localhost/images/RSS2Image.gif")]
+        [DataRow("", "blog", "http://localhost/images/RSS2Image.gif")]
         public void RssImageUrlConcatenatedProperly(string application, string subfolder, string expected)
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subfolder, application);
@@ -69,8 +68,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// <summary>
         /// Tests writing a simple RSS feed.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void RssWriterProducesValidFeed()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
@@ -249,8 +247,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// on the RFC3229 with feeds 
         /// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html"/>.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void RssWriterHandlesRFC3229DeltaEncoding()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
@@ -342,8 +339,7 @@ namespace UnitTests.Subtext.Framework.Syndication
         /// <summary>
         /// Tests writing a simple RSS feed.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void RssWriterSendsWholeFeedWhenRFC3229Disabled()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
@@ -522,24 +518,14 @@ namespace UnitTests.Subtext.Framework.Syndication
         }
 
         /// <summary>
-        /// Sets the up test fixture.  This is called once for 
-        /// this test fixture before all the tests run.
+        /// Sets the up test class.  This is called once for 
+        /// this test class before all the tests run.
         /// </summary>
-        [TestFixtureSetUp]
-        public void SetUpTestFixture()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
         {
             //Confirm app settings
             UnitTestHelper.AssertAppSettings();
-        }
-
-        [SetUp]
-        public void SetUp()
-        {
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
         }
     }
 }

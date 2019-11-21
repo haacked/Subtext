@@ -1,8 +1,8 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Subtext.Framework.Text
 {
-    [TestFixture]
+    [TestClass]
     public class HtmlToXhtmlTransformationTests
     {
     }

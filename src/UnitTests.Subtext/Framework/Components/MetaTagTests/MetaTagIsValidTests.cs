@@ -15,19 +15,19 @@
 
 #endregion
 
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Components;
 
 namespace UnitTests.Subtext.Framework.Components.MetaTagTests
 {
-    [TestFixture]
+    [TestClass]
     public class MetaTagIsValidTests
     {
-        [RowTest]
-        [Row(null, null, false, "Must supply either a Name or HttpEquiv")]
-        [Row("description", null, true, "Name should be enough")]
-        [Row(null, "expires", true, "HttpEquiv should be enough")]
-        [Row("description", "expires", false, "Can not have both a Name and HttpEquiv!")]
+        [DataTestMethod]
+        [DataRow(null, null, false, "Must supply either a Name or HttpEquiv")]
+        [DataRow("description", null, true, "Name should be enough")]
+        [DataRow(null, "expires", true, "HttpEquiv should be enough")]
+        [DataRow("description", "expires", false, "Can not have both a Name and HttpEquiv!")]
         public void MetaTagRequiresEitherNameOrHttpEquivAttribute(string nameValue, string httpEquivValue,
                                                                   bool isValidResult, string errMsg)
         {
@@ -38,9 +38,9 @@ namespace UnitTests.Subtext.Framework.Components.MetaTagTests
             Assert.AreEqual(tag.IsValid, isValidResult, errMsg);
         }
 
-        [RowTest]
-        [Row(null, false, "The Content attribute requires a value")]
-        [Row("This is some text!", true, "The Content attribute should allow a value")]
+        [DataTestMethod]
+        [DataRow(null, false, "The Content attribute requires a value")]
+        [DataRow("This is some text!", true, "The Content attribute should allow a value")]
         public void MetaTagRequiresContentAttribute(string contentValue, bool isValidResult, string errMsg)
         {
             var tag = new MetaTag(contentValue);

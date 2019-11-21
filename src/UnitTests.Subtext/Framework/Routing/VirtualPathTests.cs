@@ -1,22 +1,22 @@
 using System;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework;
 using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
-    [TestFixture]
+    [TestClass]
     public class VirtualPathTests
     {
-        [Test]
+        [TestMethod]
         public void Ctor_WithNull_ThrowsArgumentNullException()
         {
             //arrange, act, assert
             UnitTestHelper.AssertThrowsArgumentNullException(() => new VirtualPath(null));
         }
 
-        [Test]
+        [TestMethod]
         public void VirtualPath_WithFragment_SetsFragmentPropertyWithFragment()
         {
             //arrange
@@ -27,7 +27,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("#bar", vp.ToFullyQualifiedUrl(new Blog {Host = "localhost"}).Fragment);
         }
 
-        [Test]
+        [TestMethod]
         public void VirtualPath_WithSpecialPoundSequence_ReplacesSequenceWithEncodedPoundSign()
         {
             //arrange
@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/foo%23bar/", vp.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void VirtualPathHasImplicitConversionToString()
         {
             //arrange
@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/foo", s);
         }
 
-        [Test]
+        [TestMethod]
         public void NullString_ConvertsToNullVirtualPath()
         {
             //arrange, act
@@ -60,7 +60,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(vp);
         }
 
-        [Test]
+        [TestMethod]
         public void EmptyString_ConvertsToNullVirtualPath()
         {
             //arrange, act
@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(vp);
         }
 
-        [Test]
+        [TestMethod]
         public void VirtualPathHasImplicitConversionFromString()
         {
             //arrange, act
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/foo", (string)vp);
         }
 
-        [Test]
+        [TestMethod]
         public void ToFullyQualifiedUrl_WithBlog_ReturnsUri()
         {
             //arrange
@@ -93,7 +93,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://localhost/foo", fullyQualified.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void ToFullyQualifiedUrl_WithBlogAndPort_ReturnsUriWithPort()
         {
             //arrange
@@ -114,7 +114,7 @@ namespace UnitTests.Subtext.Framework.Routing
             }
         }
 
-        [Test]
+        [TestMethod]
         public void ToFullyQualifiedUrl_WithQueryString_ReturnsUriWithQueryString()
         {
             var x = new Uri("/foo", UriKind.Relative);
@@ -129,7 +129,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("?a=b", uri.Query);
         }
 
-        [Test]
+        [TestMethod]
         public void ToFullyQualifiedUrl_WithNullVirtualPath_ReturnsNull()
         {
             VirtualPath vp = null;
@@ -137,7 +137,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(vp.ToFullyQualifiedUrl(null));
         }
 
-        [Test]
+        [TestMethod]
         public void ToFullyQualifiedUrl_WithNullBlog_ThrowsArgumentNullException()
         {
             VirtualPath vp = "/";

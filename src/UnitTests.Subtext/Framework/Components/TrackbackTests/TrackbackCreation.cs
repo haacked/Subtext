@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
     /// <summary>
     /// Summary description for TrackbackCreation.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class TrackbackCreation
     {
         /// <summary>
@@ -25,8 +25,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
         /// not set the PostConfig bitmask column correctly.  Thus we could not 
         /// select out the trackbacks.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateTrackbackSetsFeedbackTypeCorrectly()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -57,8 +56,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
         /// <summary>
         /// Make sure that trackbacks show up when displaying feedback for an entry.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void TrackbackShowsUpInFeedbackList()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();

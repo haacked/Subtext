@@ -3,16 +3,16 @@ using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.ModelBinders;
 
 namespace UnitTests.Subtext.Framework.ModelBinders
 {
-    [TestFixture]
+    [TestClass]
     public class XmlModelBinderTests
     {
-        [Test]
+        [TestMethod]
         public void BindModel_WithXmlInInputStream_ReturnsXmlDoc()
         {
             // arrange
@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.ModelBinders
             Assert.AreEqual("test", doc.SelectSingleNode("//node").InnerText);
         }
 
-        [Test]
+        [TestMethod]
         public void BindModel_WithNonTextXmlContentType_ThrowsException()
         {
             // arrange

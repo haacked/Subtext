@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
@@ -11,10 +11,10 @@ using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Email
 {
-    [TestFixture]
+    [TestClass]
     public class EmailServiceTests
     {
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithCurrentUserIsAnAdmin_DoesNotSendEmail()
         {
             //arrange
@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Email
             emailService.EmailCommentToBlogAuthor(comment);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithBlogHavingNullEmail_DoesNotSendEmail()
         {
             //arrange
@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Email
             emailService.EmailCommentToBlogAuthor(comment);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithCommentThatIsTrackback_DoesNotSendEmail()
         {
             //arrange
@@ -74,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Email
             emailService.EmailCommentToBlogAuthor(comment);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithComment_UsesTitleForSubject()
         {
             //arrange
@@ -93,7 +93,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("Comment: the subject (via the blog)", subject);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithCommentHavingNullSource_SendsEmail()
         {
             //arrange
@@ -120,7 +120,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("Comment: the subject (via the blog)", subject);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithCommentFlaggedAsSpam_PrefacesSubjectWithSpamHeader()
         {
             //arrange
@@ -139,7 +139,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("[SPAM Flagged] Comment: the subject (via the blog)", subject);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithCommentHavingEmail_UsesEmailAsFromEmail()
         {
             //arrange
@@ -160,7 +160,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("from@example.com", fromEmail);
         }
 
-        [Test]
+        [TestMethod]
         public void
             EmailCommentToBlogAuthor_WithCommentHavingEmailButUseCommentersEmailAsFromAddressSetToFalse_UsesAdminEmailAsFromEmail
             ()
@@ -183,7 +183,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("admin@example.com", fromEmail);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithCommentHavingNullEmail_UsesProviderEmail()
         {
             //arrange
@@ -220,7 +220,7 @@ namespace UnitTests.Subtext.Framework.Email
             return emailService;
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithBlog_UsesBlogEmailForToEmail()
         {
             //arrange
@@ -251,7 +251,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("test@test.com", toEmail);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithCommentFlaggedAsSpam_SetsSpamField()
         {
             //arrange
@@ -267,7 +267,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("Spam Flagged ", sentMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithCommentHavingId_SetsSourceFieldWithUrlContainingId()
         {
             //arrange
@@ -283,7 +283,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("http://localhost/comment#121", sentMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithEmail_SetsFromEmailAccordingly()
         {
             //arrange
@@ -299,7 +299,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("test@example.com", sentMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithoutEmail_SetsFromEmailToNoneProvided()
         {
             //arrange
@@ -315,7 +315,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("none given", sentMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithAuthor_SetsAuthorName()
         {
             //arrange
@@ -331,7 +331,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("me", sentMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithSourceUrlSpecified_SetsUrl()
         {
             //arrange
@@ -347,7 +347,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("http://example.com/", sentMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithSourceIp_SetsIp()
         {
             //arrange
@@ -363,7 +363,7 @@ namespace UnitTests.Subtext.Framework.Email
             Assert.AreEqual("127.0.0.1", sentMessage);
         }
 
-        [Test]
+        [TestMethod]
         public void EmailCommentToBlogAuthor_WithBodyContainingHtml_CleansHtml()
         {
             //arrange

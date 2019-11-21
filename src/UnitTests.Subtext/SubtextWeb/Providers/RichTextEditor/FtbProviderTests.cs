@@ -19,7 +19,7 @@ using System;
 using System.Collections.Specialized;
 using System.Web.UI.WebControls;
 using FreeTextBoxControls;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Web.Providers.BlogEntryEditor.FTB;
@@ -29,7 +29,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
     /// <summary>
     /// Summary description for FtbProviderTests.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class FtbProviderTests
     {
         readonly string _testToolbarLayout =
@@ -39,15 +39,15 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 
         FtbBlogEntryEditorProvider frtep;
 
-        [SetUp]
-        public void SetUp()
+        [TestInitialize]
+        public void TestInitialize()
         {
             _hostName = UnitTestHelper.GenerateUniqueHostname();
             frtep = new FtbBlogEntryEditorProvider();
             UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
         }
 
-        [Test]
+        [TestMethod]
         public void SetControlID()
         {
             string test = "MyTestControlID";
@@ -55,7 +55,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             Assert.AreEqual(test, frtep.ControlId);
         }
 
-        [Test]
+        [TestMethod]
         public void SetText()
         {
             var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             Assert.AreEqual(test, frtep.Xhtml);
         }
 
-        [Test]
+        [TestMethod]
         public void SetWidth()
         {
             var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             Assert.AreEqual(test, frtep.Width);
         }
 
-        [Test]
+        [TestMethod]
         public void SetHeight()
         {
             var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};
@@ -98,14 +98,14 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             Assert.AreEqual(test, frtep.Height);
         }
 
-        [Test]
+        [TestMethod]
         public void TestInitializationWithNullName()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(
                 () => frtep.Initialize(null, new NameValueCollection()));
         }
 
-        [Test]
+        [TestMethod]
         public void TestInitializationWithNullConfigValue()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() =>
@@ -113,7 +113,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             );
         }
 
-        [Test]
+        [TestMethod]
         public void TestInitializationWithEmptyWebFolder()
         {
             UnitTestHelper.AssertThrows<InvalidOperationException>(() => 
@@ -121,7 +121,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
             );
         }
 
-        [Test]
+        [TestMethod]
         public void TestInitialization()
         {
             var blog = new Blog {Host = "localhost", Subfolder = "subfolder"};

@@ -16,18 +16,18 @@
 #endregion
 
 using System.Web.UI.WebControls;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Web.Controls;
 
 namespace UnitTests.Subtext.SubtextWeb.Controls
 {
-    [TestFixture]
+    [TestClass]
     public class ControlHelperTests
     {
-        [RowTest]
-        [Row("a tooltip", "trying this title", "a tooltip")]
-        [Row((string)null, "this is my title", "this is my title")]
-        [Row("", "", "")]
+        [DataTestMethod]
+        [DataRow("a tooltip", "trying this title", "a tooltip")]
+        [DataRow((string)null, "this is my title", "this is my title")]
+        [DataRow("", "", "")]
         public void OnlyAddTitleWhenNotAlreadyThere(string toolTip, string title, string expectedTitle)
         {
             var link = new HyperLink();
@@ -39,7 +39,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
             Assert.IsNull(link.Attributes["title"], "Oops, looks like we set the title attribute too!");
         }
 
-        [Test]
+        [TestMethod]
         public void OnlyAddCssClassWhenNotAlreadyThere()
         {
             var label = new Label();

@@ -1,5 +1,5 @@
 ﻿using System;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Providers;
@@ -7,10 +7,10 @@ using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
 {
-    [TestFixture]
+    [TestClass]
     public class BlogMLImportSetupTests
     {
-        [Test]
+        [TestMethod]
         public void Ctor_WithBlogHavingDuplicateCommentsDisabled_EnablesDuplicateComments()
         {
             // arrange
@@ -27,7 +27,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.IsTrue(updateCalled);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithBlogHavingDuplicateCommentsEnabled_DoesNotChangeBlog()
         {
             // arrange
@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.IsTrue(blog.DuplicateCommentsEnabled);
         }
 
-        [Test]
+        [TestMethod]
         public void Dispose_WithBlogHavingDuplicateCommentsEnabled_DoesNotChangeBlog()
         {
             // arrange
@@ -59,7 +59,7 @@ namespace UnitTests.Subtext.BlogMl
         }
 
 
-        [Test]
+        [TestMethod]
         public void Dispose_WithBlogHavingDuplicateCommentsDisabled_DisablesDuplicateCommentsAgain()
         {
             // arrange

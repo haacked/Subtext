@@ -1,20 +1,20 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
-    [TestFixture]
+    [TestClass]
     public class BlogGroupTests
     {
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanListBlogGroups()
         {
-            Assert.Greater(new DatabaseObjectProvider().ListBlogGroups(true).Count, 0, "Expected at least one blog group");
+            Assert.IsTrue(
+                new DatabaseObjectProvider().ListBlogGroups(true).Count > 0,
+                "Expected at least one blog group");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanGetBlogGroup()
         {
             Assert.IsNotNull(new DatabaseObjectProvider().GetBlogGroup(1, true), "Expected the default blog group");

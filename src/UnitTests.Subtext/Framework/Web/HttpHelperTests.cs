@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Net;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Util;
@@ -15,7 +15,7 @@ namespace UnitTests.Subtext.Framework.Web
     /// <summary>
     /// Contains tests of our handling of Http.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class HttpHelperTests
     {
         /// <summary>
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Web
         /// settings in Web.config, which we populated in App.config 
         /// for this unit test.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void CanCreateProxy()
         {
             WebRequest request = WebRequest.Create("http://subtextproject.com/");
@@ -35,10 +35,10 @@ namespace UnitTests.Subtext.Framework.Web
         /// Tests that we correctly parse if-modified-since from the request.
         /// Unfortunately, this unit test is time-zone sensitive.
         /// </summary>
-        [RowTest]
-        [Row("4/12/2006", "04/11/2006 5:00 PM")]
-        [Row("12 Apr 2006 06:59:33 GMT", "4/11/2006 11:59:33 PM")]
-        [Row("Wed, 12 Apr 2006 06:59:33 GMT", "04-11-2006 23:59:33")]
+        [DataTestMethod]
+        [DataRow("4/12/2006", "04/11/2006 5:00 PM")]
+        [DataRow("12 Apr 2006 06:59:33 GMT", "4/11/2006 11:59:33 PM")]
+        [DataRow("Wed, 12 Apr 2006 06:59:33 GMT", "04-11-2006 23:59:33")]
         public void TestIfModifiedSinceExtraction(string received, string expected)
         {
             var headers = new NameValueCollection {{"If-Modified-Since", received}};
@@ -56,19 +56,19 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.AreEqual(expectedDate, result);
         }
 
-        [RowTest]
-        [Row("test.css", true)]
-        [Row("test.js", true)]
-        [Row("test.png", true)]
-        [Row("test.gif", true)]
-        [Row("test.jpg", true)]
-        [Row("test.html", true)]
-        [Row("test.xml", true)]
-        [Row("test.htm", true)]
-        [Row("test.txt", true)]
-        [Row("test.aspx", false)]
-        [Row("test.asmx", false)]
-        [Row("test.ashx", false)]
+        [DataTestMethod]
+        [DataRow("test.css", true)]
+        [DataRow("test.js", true)]
+        [DataRow("test.png", true)]
+        [DataRow("test.gif", true)]
+        [DataRow("test.jpg", true)]
+        [DataRow("test.html", true)]
+        [DataRow("test.xml", true)]
+        [DataRow("test.htm", true)]
+        [DataRow("test.txt", true)]
+        [DataRow("test.aspx", false)]
+        [DataRow("test.asmx", false)]
+        [DataRow("test.ashx", false)]
         public void CanDeterimineIsStaticFileRequest(string filename, bool expected)
         {
             // arrange
@@ -78,7 +78,7 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.AreEqual(expected, request.Object.IsStaticFileRequest());
         }
 
-        [Test]
+        [TestMethod]
         public void GetMimeType_WithPngExtension_ReturnsImagePng()
         {
             // arrange, act
@@ -87,7 +87,7 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.AreEqual("image/png", mimeType);
         }
 
-        [Test]
+        [TestMethod]
         public void GetMimeType_WithJpgExtension_ReturnsImageJPEG()
         {
             // arrange, act
@@ -96,7 +96,7 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.AreEqual("image/jpeg", mimeType);
         }
 
-        [Test]
+        [TestMethod]
         public void GetMimeType_WithJpegExtension_ReturnsImageJPEG()
         {
             // arrange, act
@@ -105,7 +105,7 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.AreEqual("image/jpeg", mimeType);
         }
 
-        [Test]
+        [TestMethod]
         public void GetMimeType_WithBmpExtension_ReturnsImageBmp()
         {
             // arrange, act
@@ -114,7 +114,7 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.AreEqual("image/bmp", mimeType);
         }
 
-        [Test]
+        [TestMethod]
         public void GetMimeType_WithGifExtension_ReturnsImageGif()
         {
             // arrange, act
@@ -123,7 +123,7 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.AreEqual("image/gif", mimeType);
         }
 
-        [Test]
+        [TestMethod]
         public void GetMimeType_WithUnknownExtension_ReturnsNone()
         {
             // arrange, act
@@ -132,7 +132,7 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.AreEqual("none", mimeType);
         }
 
-        [Test]
+        [TestMethod]
         public void GetSafeFileName_WithTextContainingInvalidText_RemovesInvalidChars()
         {
             // arrange
@@ -145,7 +145,7 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.AreEqual("This   contains bad chars", fileName);
         }
 
-        [Test]
+        [TestMethod]
         public void GetSafeFileName_WithNullText_ThrowsArgumentNullException()
         {
             // arrange
@@ -155,7 +155,7 @@ namespace UnitTests.Subtext.Framework.Web
             UnitTestHelper.AssertThrowsArgumentNullException(() => text.GetSafeFileName());
         }
 
-        [Test]
+        [TestMethod]
         public void GetSafeFileName_WithEmptyText_ThrowsArgumentNullException()
         {
             // arrange
@@ -165,7 +165,7 @@ namespace UnitTests.Subtext.Framework.Web
             UnitTestHelper.AssertThrowsArgumentNullException(() => text.GetSafeFileName());
         }
 
-        [Test]
+        [TestMethod]
         public void HandleFileNotFound_InIntegratedMode_Returns404StatusCodeWithNoRedirect()
         {
             // arrange
@@ -185,7 +185,7 @@ namespace UnitTests.Subtext.Framework.Web
             httpContext.VerifySet(c => c.Response.StatusDescription, Resources.FileNotFound);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleFileNotFound_InNonIntegratedModeWithNoQueryString_Returns404StatusCodeWithNoRedirect()
         {
             // arrange
@@ -204,7 +204,7 @@ namespace UnitTests.Subtext.Framework.Web
             httpContext.VerifySet(c => c.Response.StatusDescription, Resources.FileNotFound);
         }
 
-        [Test]
+        [TestMethod]
         public void HandleFileNotFound_InNonIntegratedModeWithReferrerInQueryString_DoesNotRedirects()
         {
             // arrange
@@ -223,7 +223,7 @@ namespace UnitTests.Subtext.Framework.Web
             Assert.IsNull(returnUrl, returnUrl + " is not null");
         }
 
-        [Test]
+        [TestMethod]
         public void HandleFileNotFound_InNonIntegratedModeWithUrlHavingExtension_Returns404StatusCodeWithNoRedirect()
         {
             // arrange
@@ -244,7 +244,7 @@ namespace UnitTests.Subtext.Framework.Web
         }
 
 
-        [Test]
+        [TestMethod]
         public void HandleFileNotFound_NonIntegratedModeWithRequestForExtensionlessUrl_RedirectsToUrlWithDefaultAspxAppended()
         {
             // arrange
@@ -263,7 +263,7 @@ namespace UnitTests.Subtext.Framework.Web
             httpContext.Verify(c => c.Response.Redirect("/admin/default.aspx", true));
         }
 
-        [Test]
+        [TestMethod]
         public void HandleFileNotFound_NonIntegratedModeWithApplicatioPathAndRequestForExtensionlessUrl_RedirectsToUrlWithDefaultAspxAppended()
         {
             // arrange
@@ -282,7 +282,7 @@ namespace UnitTests.Subtext.Framework.Web
             httpContext.Verify(c => c.Response.Redirect("/Subtext.Web/admin/default.aspx", true));
         }
 
-        [Test]
+        [TestMethod]
         public void HandleFileNotFound_NonIntegratedModeWithApplicatioPathBlogWithSubfolderHavingDotAndRequestForExtensionlessUrl_RedirectsToUrlWithDefaultAspxAppended()
         {
             // arrange

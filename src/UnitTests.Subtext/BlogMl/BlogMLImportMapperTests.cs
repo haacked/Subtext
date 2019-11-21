@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using BlogML;
 using BlogML.Xml;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -12,10 +12,10 @@ using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogMl
 {
-    [TestFixture]
+    [TestClass]
     public class BlogMLImportMapperTests
     {
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithDateModified_ReturnsItAsDatePublishedUtc()
         {
             // arrange
@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(utcNow, entry.DatePublishedUtc);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithApprovedPost_SetsAppropriatePublishPropertiesOfEntry()
         {
             // arrange
@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.IsTrue(entry.IsAggregated);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithAuthorMatchingBlogAuthor_SetsAuthorNameAndEmail()
         {
             // arrange
@@ -68,7 +68,7 @@ namespace UnitTests.Subtext.BlogMl
         }
 
         // Subtext only supports one author per post.
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithPostHavingTwoAuthors_SetsAuthorAndEmailToFirstAuthor()
         {
             // arrange
@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("spam-me@example.com", entry.Email);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithPostHavingTwoCategories_AddsBothCategoriesToEntry()
         {
             // arrange
@@ -110,7 +110,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("Category C", entry.Categories.Last());
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithTitleTooLong_TruncatesTitleToMaxLength()
         {
             // arrange
@@ -125,7 +125,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(255, entry.Title.Length);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithAuthorTitleTooLong_TruncatesTitleToMaxLength()
         {
             // arrange
@@ -143,7 +143,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(50, entry.Author.Length);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithNullPostNameButWithPostUrlContainingBlogSpotDotCom_UsesLastSegmentAsEntryName()
         {
             // arrange
@@ -157,7 +157,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("the-last-segment", entry.EntryName);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithNullTitleNameButWithPostUrlContainingBlogSpotDotCom_UsesLastSegmentAsTitle()
         {
             // arrange
@@ -171,7 +171,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("the last segment", entry.Title);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithPostHavingBase64EncodedContent_DecodesContent()
         {
             // arrange
@@ -185,7 +185,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("This is a story about a 3 hour voyage", entry.Body);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithPostHavingBase64EncodedExcerpt_DecodesContent()
         {
             // arrange
@@ -199,7 +199,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("This is a story about a 3 hour voyage", entry.Description);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithPostHavingExcerpt_SetsEntryDescription()
         {
             // arrange
@@ -213,7 +213,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("This is a story about a 3 hour voyage", entry.Description);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertBlogPost_WithPostHavingNoTitleAndNoPostName_UsesPostId()
         {
             // arrange
@@ -227,7 +227,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("Post #87618298", entry.Title);
         }
 
-        [Test]
+        [TestMethod]
         public void GetTitleFromEntry_WithPostHavingNoTitle_CreatesUsesPostNameIfAvailable()
         {
             // arrange
@@ -241,7 +241,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual("Hello World", entry.Title);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertCategory_WithTitleTooLong_TruncatesTitleToMaxLength()
         {
             // arrange
@@ -256,7 +256,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(150, linkCategory.Title.Length);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertComment_ReturnsFeedbackItemAsComment()
         {
             // arrange
@@ -270,7 +270,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(FeedbackType.Comment, convertComment.FeedbackType);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertComment_WithUnapprovedComment_SetsFeedbackToTrash()
         {
             // arrange
@@ -285,7 +285,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(FeedbackStatusFlag.NeedsModeration, convertComment.Status);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertComment_WithInvalidUserUrl_IgnoresUrl()
         {
             // arrange
@@ -299,7 +299,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(null, convertComment.SourceUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTrackback_ReturnsFeedbackItemAsPingTrack()
         {
             // arrange
@@ -313,7 +313,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(FeedbackType.PingTrack, convertedTrackback.FeedbackType);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTrackback_WithInvalidSourceUrl_IgnoresUrl()
         {
             // arrange
@@ -327,7 +327,7 @@ namespace UnitTests.Subtext.BlogMl
             Assert.AreEqual(null, convertedTrackback.SourceUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void ConvertTrackback_WithValidSourceUrl_SetsUrlAndAuthorUsingHostname()
         {
             // arrange

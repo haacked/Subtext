@@ -16,7 +16,7 @@
 #endregion
 
 using System.Globalization;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
@@ -29,7 +29,7 @@ namespace UnitTests.Subtext.Framework.Configuration
     /// These are unit tests specifically of the blog creation process, 
     /// as there are many validation rules involved.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class BlogCreationTests
     {
         string _hostName;
@@ -38,8 +38,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Ensures that creating a blog will hash the password 
         /// if UseHashedPassword is set in web.config (as it should be).
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreatingBlogHashesPassword()
         {
             const string password = "MyPassword";
@@ -58,8 +57,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Ran into a problem where saving changes to a blog would rehash the password. 
         /// We need a separate method for changing passwords.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void ModifyingBlogShouldNotChangePassword()
         {
             var repository = new DatabaseObjectProvider();
@@ -78,8 +76,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// If a blog already exists with a domain name and subfolder, one 
         /// cannot create a blog with the same domain name and no subfolder.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreatingBlogWithDuplicateHostNameRequiresSubfolderName()
         {
             var repository = new DatabaseObjectProvider();
@@ -92,8 +89,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// <summary>
         /// Make sure adding two distinct blogs doesn't raise an exception.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreatingMultipleBlogs_WithDistinctProperties_DoesNotThrowException()
         {
             var repository = new DatabaseObjectProvider();
@@ -110,8 +106,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Ensures that one cannot create a blog with a duplicate host 
         /// as another blog when both have no subfolder specified.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateBlogCannotCreateOneWithDuplicateHostAndNoSubfolder()
         {
             var repository = new DatabaseObjectProvider();
@@ -124,8 +119,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Ensures that one cannot create a blog with a duplicate host 
         /// as another blog when both have no subfolder specified.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateBlogCannotCreateBlogWithHostThatIsDuplicateOfAnotherBlogAlias()
         {
             var repository = new DatabaseObjectProvider();
@@ -140,8 +134,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Ensures that one cannot create a blog with a duplicate host 
         /// as another blog when both have no subfolder specified.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateBlogCannotAddAliasThatIsDuplicateOfAnotherBlog()
         {
             var repository = new DatabaseObjectProvider();
@@ -156,8 +149,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Ensures that one cannot create a blog with a duplicate subfolder and host 
         /// as another blog.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateBlogCannotCreateOneWithDuplicateHostAndSubfolder()
         {
             var repository = new DatabaseObjectProvider();
@@ -170,8 +162,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Ensures that one cannot update a blog to have a duplicate subfolder and host 
         /// as another blog.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void UpdateBlogCannotConflictWithDuplicateHostAndSubfolder()
         {
             var repository = new DatabaseObjectProvider();
@@ -188,8 +179,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Ensures that one update a blog to have a duplicate host 
         /// as another blog when both have no subfolder specified.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void UpdateBlogCannotConflictWithDuplicateHost()
         {
             var repository = new DatabaseObjectProvider();
@@ -216,8 +206,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// The URL to the example.com with no subfolder becomes the aggregate blog.
         /// </p>
         /// </remarks>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CreateBlogCannotHideAnotherBlog()
         {
             var repository = new DatabaseObjectProvider();
@@ -240,8 +229,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// The URL to the example.com with no subfolder becomes the aggregate blog.
         /// </p>
         /// </remarks>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void UpdatingBlogCannotHideAnotherBlog()
         {
             var repository = new DatabaseObjectProvider();
@@ -257,8 +245,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// If a blog already exists with a domain name and subfolder, one 
         /// cannot modify another blog to have the same domain name, but with no subfolder.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void UpdatingBlogWithDuplicateHostNameRequiresSubfolderName()
         {
             var repository = new DatabaseObjectProvider();
@@ -277,8 +264,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// This really tests that looking for duplicates doesn't 
         /// include the blog being edited.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void UpdatingBlogIsFine()
         {
             var repository = new DatabaseObjectProvider();
@@ -288,8 +274,7 @@ namespace UnitTests.Subtext.Framework.Configuration
             repository.UpdateConfigData(info); //Make sure no exception is thrown.
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CanUpdateMobileSkin()
         {
             var repository = new DatabaseObjectProvider();
@@ -306,8 +291,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Makes sure that every invalid character is checked 
         /// within the subfolder name.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void EnsureInvalidCharactersMayNotBeUsedInSubfolderName()
         {
             string[] badNames = {
@@ -325,8 +309,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// Makes sure that every invalid character is checked 
         /// within the subfolder name.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void ReservedSubtextWordsAreNotValidForSubfolders()
         {
             string[] badSubfolders = {
@@ -343,33 +326,27 @@ namespace UnitTests.Subtext.Framework.Configuration
         }
 
         /// <summary>
-        /// Sets the up test fixture.  This is called once for 
-        /// this test fixture before all the tests run.
+        /// Sets the up test class.  This is called once for 
+        /// this test class before all the tests run.
         /// </summary>
-        [TestFixtureSetUp]
-        public void SetUpTestFixture()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
         {
             //Confirm app settings
             UnitTestHelper.AssertAppSettings();
         }
 
-        [SetUp]
-        public void SetUp()
+        [TestInitialize]
+        public void TestInitialize()
         {
             _hostName = UnitTestHelper.GenerateUniqueString();
             UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog");
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-        }
-
         /// <summary>
         /// Tests that creating a blog with a reserved keyword (bin) is not allowed.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CannotCreateBlogWithSubfolderNameBin()
         {
             var repository = new DatabaseObjectProvider();
@@ -379,8 +356,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// <summary>
         /// Tests that modifying a blog with a reserved keyword (bin) is not allowed.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CannotRenameBlogToHaveSubfolderNameBin()
         {
             var repository = new DatabaseObjectProvider();
@@ -394,8 +370,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// <summary>
         /// Tests that creating a blog with a reserved keyword (archive) is not allowed.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CannotCreateBlogWithSubfolderNameArchive()
         {
             var repository = new DatabaseObjectProvider();
@@ -405,8 +380,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// <summary>
         /// Tests that creating a blog that ends with . is not allowed
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CannotCreateBlogWithSubfolderNameEndingWithDot()
         {
             var repository = new DatabaseObjectProvider();
@@ -416,8 +390,7 @@ namespace UnitTests.Subtext.Framework.Configuration
         /// <summary>
         /// Tests that creating a blog that contains invalid characters is not allowed.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CannotCreateBlogWithSubfolderNameWithInvalidCharacters()
         {
             var repository = new DatabaseObjectProvider();

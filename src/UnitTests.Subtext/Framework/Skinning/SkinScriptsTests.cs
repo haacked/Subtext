@@ -17,16 +17,16 @@
 
 using System.Collections.Generic;
 using System.Web.Hosting;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.UI.Skinning;
 
 namespace UnitTests.Subtext.Framework.Skinning
 {
-    [TestFixture]
+    [TestClass]
     public class SkinScriptsTests
     {
-        [Test]
+        [TestMethod]
         public void CanGetScriptMergeModeAttribute()
         {
             var pathProvider = new Mock<VirtualPathProvider>();
@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsFalse(templateWithoutScriptMergeMode.MergeScripts, "ScriptMergeMode should be None.");
         }
 
-        [Test]
+        [TestMethod]
         public void ScriptElementCollectionRendererRendersScriptElements()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
@@ -63,7 +63,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsTrue(scriptElements.Contains(script), "Rendered the script improperly. We got: " + scriptElements);
         }
 
-        [Test]
+        [TestMethod]
         public void ScriptElementCollectionRendererRendersJSHandlerScript()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
@@ -80,7 +80,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsTrue(scriptElements.Contains(script), "Rendered the script improperly.");
         }
 
-        [Test]
+        [TestMethod]
         public void SkinsWithNoScriptsAreNotMerged()
         {
             var pathProvider = new Mock<VirtualPathProvider>();
@@ -94,7 +94,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsFalse(canBeMerged, "Skins without scripts should not be mergeable.");
         }
 
-        [Test]
+        [TestMethod]
         public void ScriptsWithRemoteSrcAreNotMerged()
         {
             var pathProvider = new Mock<VirtualPathProvider>();
@@ -108,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsFalse(canBeMerged, "Skins with remote scripts should not be mergeable.");
         }
 
-        [Test]
+        [TestMethod]
         public void ScriptsWithNoneScriptMergeModeAreNotMerged()
         {
             var pathProvider = new Mock<VirtualPathProvider>();
@@ -121,7 +121,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsFalse(canBeMerged, "Skins with ScriptMergeMode=\"DontMerge\" should not be mergeable.");
         }
 
-        [Test]
+        [TestMethod]
         public void ScriptsWithParametricSrcAreNotMerged()
         {
             var pathProvider = new Mock<VirtualPathProvider>();

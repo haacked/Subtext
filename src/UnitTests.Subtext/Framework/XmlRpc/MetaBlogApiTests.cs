@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -18,10 +18,10 @@ using FrameworkEnclosure = Subtext.Framework.Components.Enclosure;
 
 namespace UnitTests.Subtext.Framework.XmlRpc
 {
-    [TestFixture]
+    [TestClass]
     public class MetaBlogApiTests
     {
-        [Test]
+        [TestMethod]
         public void getCategories_ReturnsCategoriesInRepository()
         {
             //arrange
@@ -53,7 +53,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.AreEqual("http://localhost/rss.aspx?catId=42", categories[0].rssUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void newPost_WithCategory_CreatesEntryWithCategory()
         {
             //arrange
@@ -86,7 +86,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.AreEqual("CategoryA", publishedEntry.Categories.First());
         }
 
-        [Test]
+        [TestMethod]
         public void NewPost_WithNullCategories_DoesNotTHrowException()
         {
             //arrange
@@ -118,7 +118,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.AreEqual(0, publishedEntry.Categories.Count, "Should not have added categories.");
         }
 
-        [Test]
+        [TestMethod]
         public void NewPost_WithFutureDate_SyndicatesInTheFuture()
         {
             //arrange
@@ -147,12 +147,12 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             // assert
             Assert.IsNotNull(publishedEntry);
-            Assert.Greater(publishedEntry.DateSyndicated, now.AddDays(.75));
-            Assert.LowerEqualThan(publishedEntry.DateSyndicated, now.AddDays(1));
+            Assert.IsTrue(publishedEntry.DateSyndicated > now.AddDays(.75));
+            Assert.IsTrue(publishedEntry.DateSyndicated <= now.AddDays(1));
             Assert.AreEqual(publishedEntry.DatePublishedUtc.Kind, DateTimeKind.Utc);
         }
 
-        [Test]
+        [TestMethod]
         public void NewPostWithEnclosureCreatesEntryWithEnclosure()
         {
             //arrange
@@ -192,7 +192,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.AreEqual(123456789, publishedEnclosure.Size);
         }
 
-        [Test]
+        [TestMethod]
         public void NewPostAcceptsNullEnclosure()
         {
             //arrange
@@ -223,7 +223,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.IsNull(publishedEntry.Enclosure);
         }
 
-        [Test]
+        [TestMethod]
         public void editPost_WithEntryHavingEnclosure_UpdatesEntryEnclosureWithNewEnclosure()
         {
             //arrange
@@ -260,7 +260,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.AreEqual("http://codeclimber.net.nz/podcast/mypodcastUpdated.mp3", entry.Enclosure.Url);
         }
 
-        [Test]
+        [TestMethod]
         public void editPost_WithEnclosure_AddsNewEnclosure()
         {
             //arrange
@@ -297,7 +297,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.IsTrue(result);
         }
 
-        [Test]
+        [TestMethod]
         public void EditPost_WithoutEnclosure_RemovesEnclosureFromEntry()
         {
             // arrange
@@ -325,8 +325,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.IsTrue(result);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void editPost_WithPostHavingDifferentCategoryThanEntry_UpdatesCategory()
         {
             // arrange
@@ -352,7 +351,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.IsTrue(result);
         }
 
-        [Test]
+        [TestMethod]
         public void editPost_WithNoCategories_RemovesCategoriesFromEntry()
         {
             //arrange
@@ -376,8 +375,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.AreEqual(0, publishedEntry.Categories.Count, "We expected no category.");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetRecentPosts_ReturnsRecentPosts()
         {
             string hostname = UnitTestHelper.GenerateUniqueString();
@@ -476,8 +474,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
                             "Not what we expected for the enclosure size.");
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPages_WithNumberOfPosts_ReturnsPostsInPages()
         {
             //arrange
@@ -572,8 +569,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.AreEqual(enclosureSize, posts[0].enclosure.Value.length);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPost_WithEntryId_ReturnsPostWithCorrectEntryUrl()
         {
             //arrange
@@ -631,8 +627,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Assert.AreEqual(enclosureSize, post.enclosure.Value.length);
         }
 
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetPage_ReturnsPostWithhCorrectEntrUrl()
         {
             //arrange

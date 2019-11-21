@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Web;
 using System.Web.Routing;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -11,10 +11,10 @@ using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
-    [TestFixture]
+    [TestClass]
     public class UrlHelperTests
     {
-        [Test]
+        [TestMethod]
         public void EntryUrl_WithSubfolderAndEntryHavingEntryName_RendersVirtualPathToEntryWithDateAndSlugInUrl()
         {
             //arrange
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/subfolder/archive/2008/01/23/post-slug.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void EntryUrl_WithEntryHavingEntryName_RendersVirtualPathToEntryWithDateAndSlugInUrl()
         {
             //arrange
@@ -69,7 +69,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/archive/2008/01/24/post-slug.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void EntryUrl_WithEntryHavingEntryNameAndPublishedInTheFuture_RendersVirtualPathToEntryWithDateAndSlugInUrl()
         {
             //arrange
@@ -95,7 +95,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/archive/2008/01/24/post-slug.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void EntryUrl_WithEntryWhichIsReallyAnArticle_ReturnsArticleLink()
         {
             //arrange
@@ -117,7 +117,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/articles/post-slug.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void EntryUrl_WithEntryNotHavingEntryName_RendersVirtualPathWithId()
         {
             //arrange
@@ -143,7 +143,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/archive/2008/01/23/123.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void EntryUrlWithAppPath_WithEntryHavingEntryName_RendersVirtualPathToEntryWithDateAndSlugInUrl()
         {
             //arrange
@@ -169,7 +169,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/App/archive/2008/01/23/post-slug.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void EntryUrl_WithNullEntry_ThrowsArgumentNullException()
         {
             //arrange
@@ -181,7 +181,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UnitTestHelper.AssertThrowsArgumentNullException(() => helper.EntryUrl(null));
         }
 
-        [Test]
+        [TestMethod]
         public void EntryUrl_WithEntryHavingPostTypeOfNone_ThrowsArgumentException()
         {
             //arrange
@@ -193,7 +193,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UnitTestHelper.AssertThrows<ArgumentException>(() => helper.EntryUrl(new Entry(PostType.None)));
         }
 
-        [Test]
+        [TestMethod]
         public void FeedbackUrl_WithEntryHavingEntryName_RendersVirtualPathWithFeedbackIdInFragment()
         {
             //arrange
@@ -223,7 +223,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/archive/2008/01/23/post-slug.aspx#321", url);
         }
 
-        [Test]
+        [TestMethod]
         public void FeedbackUrl_WithEntryHavingNoEntryName_RendersVirtualPathWithFeedbackIdInFragment()
         {
             //arrange
@@ -243,7 +243,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/archive/2008/01/23/1234.aspx#321", url);
         }
 
-        [Test]
+        [TestMethod]
         public void FeedbackUrl_WithContactPageFeedback_ReturnsNullUrl()
         {
             //arrange
@@ -261,7 +261,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(url);
         }
 
-        [Test]
+        [TestMethod]
         public void FeedbackUrl_WithNullEntry_ReturnsNullUrl()
         {
             //arrange
@@ -279,7 +279,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(url);
         }
 
-        [Test]
+        [TestMethod]
         public void FeedbackUrl_WithEntryIdEqualToIntMinValue_ReturnsNull()
         {
             //arrange
@@ -303,7 +303,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.IsNull(url);
         }
 
-        [Test]
+        [TestMethod]
         public void FeedbackUrl_WithNullFeedback_ThrowsArgumentNullException()
         {
             //arrange
@@ -313,7 +313,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UnitTestHelper.AssertThrowsArgumentNullException(() => helper.FeedbackUrl(null));
         }
 
-        [Test]
+        [TestMethod]
         public void ImageUrl_WithoutBlogWithAppPathWithoutSubfolderAndImage_ReturnsRootedImageUrl()
         {
             //arrange
@@ -326,7 +326,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/random.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageUrl_WithoutBlogWithEmptyAppPathWithoutSubfolderAndImage_ReturnsRootedImageUrl()
         {
             //arrange
@@ -339,7 +339,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/random.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageUrl_WithoutBlogWithSubfolderAndImage_IgnoresSubfolderInUrl()
         {
             //arrange
@@ -354,7 +354,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/random.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageUrl_WithBlogWithAppPathWithoutSubfolderAndImage_ReturnsUrlForImageUploadDirectory()
         {
             //arrange
@@ -368,7 +368,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/sub/random.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageUrl_WithBlogWithEmptyAppPathWithoutSubfolderAndImage_ReturnsUrlForImageUploadDirectory()
         {
             //arrange
@@ -382,7 +382,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/localhost/random.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageUrl_WithBlogWithSubfolderAndImage_IgnoresSubfolderInUrl()
         {
             //arrange
@@ -397,7 +397,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/random.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryUrl_WithId_ReturnsGalleryUrlWithId()
         {
             //arrange
@@ -410,7 +410,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/gallery/1234.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryUrl_WithImageAndBlogWithSubfolder_ReturnsGalleryUrlWithSubfolder()
         {
             //arrange
@@ -424,7 +424,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/subfolder/gallery/1234.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithNullImage_ThrowsArgumentNullException()
         {
             //arrange
@@ -434,7 +434,7 @@ namespace UnitTests.Subtext.Framework.Routing
             UnitTestHelper.AssertThrowsArgumentNullException(() => helper.GalleryImagePageUrl(null));
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithId_ReturnsGalleryUrlWithId()
         {
             //arrange
@@ -447,7 +447,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/gallery/image/1234.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithImageInBlogWithSubfolder_ReturnsGalleryUrlWithId()
         {
             //arrange
@@ -461,7 +461,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/subfolder/gallery/image/1234.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithImageHavingUrlAndFileName_ReturnsUrlToImage()
         {
             //arrange
@@ -475,7 +475,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/localhost/blog1/1234/o_close.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithBlogHavingSubfolderAndVirtualPathAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
         {
             //arrange
@@ -490,7 +490,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/blog1/1234/o_open.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithBlogHavingSubfolderAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
         {
             //arrange
@@ -505,7 +505,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/localhost/blog1/1234/o_open.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithBlogHavingNoSubfolderAndImageHavingNullUrlAndFileName_ReturnsUrlToImage()
         {
             //arrange
@@ -520,7 +520,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/localhost/1234/o_open.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -534,7 +534,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/blog1/1234/o_close.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithoutAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -549,7 +549,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/localhost/blog1/1234/o_close.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -564,7 +564,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/1234/o_close.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void GalleryImageUrl_WithoutAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -578,7 +578,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/localhost/1234/o_close.gif", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageGalleryDirectoryUrl_WithAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -592,7 +592,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/blog1/1234/", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageGalleryDirectoryUrl_WithoutAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -606,7 +606,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/localhost/blog1/1234/", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageGalleryDirectoryUrl_WithAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -620,7 +620,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/1234/", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageGalleryDirectoryUrl_WithoutAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -634,7 +634,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/localhost/1234/", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageDirectoryUrl_WithAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -648,7 +648,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/blog1/", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageDirectoryUrl_WithoutAppPathWithSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -662,7 +662,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/localhost/blog1/", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageDirectoryUrl_WithAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -676,7 +676,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/localhost/Subtext_Web/", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ImageDirectoryUrl_WithoutAppPathWithoutSubfolderAndImage_ReturnsUrlToImageFile()
         {
             //arrange
@@ -690,7 +690,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/images/localhost/", url);
         }
 
-        [Test]
+        [TestMethod]
         public void AggBugUrl_WithId_ReturnsAggBugUrlWithId()
         {
             //arrange
@@ -703,7 +703,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/aggbug/1234.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void BlogUrl_WithoutSubfolder_ReturnsVirtualPathToBlog()
         {
             //arrange
@@ -716,7 +716,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void BlogUrl_WithSubfolder_ReturnsVirtualPathToBlogWithSubfolder()
         {
             //arrange
@@ -731,7 +731,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/subfolder/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void BlogUrlWithExplicitBlogNotHavingSubfolderAndVirtualPath_WithoutSubfolderInRouteData_ReturnsSubfolder()
         {
             //arrange
@@ -745,7 +745,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void BlogUrlWithExplicitBlogHavingSubfolderAndVirtualPath_WithoutSubfolderInRouteData_ReturnsSubfolder()
         {
             //arrange
@@ -759,7 +759,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/subfolder/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void BlogUrlWithExplicitBlogHavingSubfolder_WithoutSubfolderInRouteData_ReturnsSubfolder()
         {
             //arrange
@@ -773,7 +773,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/subfolder/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void BlogUrl_WithSubfolderAndAppPath_ReturnsSubfolder()
         {
             //arrange
@@ -788,7 +788,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/App/subfolder/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void CategoryUrl_ReturnsURlWithCategoryId()
         {
             //arrange
@@ -801,7 +801,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/category/my-category.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void CategoryRssUrl_ReturnsURlWithCategoryIdInQueryString()
         {
             BlogUrlHelper helper = SetupUrlHelper("/");
@@ -813,7 +813,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/category/My.Category/rss", url);
         }
 
-        [Test]
+        [TestMethod]
         public void AdminUrl_WithoutSubfolder_ReturnsCorrectUrl()
         {
             BlogUrlHelper helper = SetupUrlHelper("/");
@@ -825,7 +825,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/admin/Feedback.aspx?status=2", url);
         }
 
-        [Test]
+        [TestMethod]
         public void AdminUrl_WithSubfolderAndApplicationPath_ReturnsCorrectUrl()
         {
             var routeData = new RouteData();
@@ -839,7 +839,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/subfolder/admin/Feedback.aspx?status=2", url);
         }
 
-        [Test]
+        [TestMethod]
         public void DayUrl_WithDate_ReturnsUrlWithDateInIt()
         {
             //arrange
@@ -856,7 +856,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/archive/2009/01/23.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void RssProxyUrl_WithBlogHavingFeedBurnerName_ReturnsFeedburnerUrl()
         {
             //arrange
@@ -871,7 +871,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://feedproxy.google.com/test", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void RssProxyUrl_WithBlogHavingSyndicationProviderUrl_ReturnsFullUrl()
         {
             //arrange
@@ -886,7 +886,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://feeds.example.com/", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void RssUrl_WithoutRssProxy_ReturnsRssUri()
         {
             //arrange
@@ -900,7 +900,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://example.com/rss.aspx", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void RssUrl_ForBlogWithSubfolderWithoutRssProxy_ReturnsRssUri()
         {
             //arrange
@@ -914,7 +914,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://example.com/Subtext.Web/blog/rss.aspx", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void RssUrl_WithRssProxy_ReturnsProxyUrl()
         {
             //arrange
@@ -928,7 +928,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://feeds.example.com/feed", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void AtomUrl_WithoutRssProxy_ReturnsRssUri()
         {
             //arrange
@@ -942,7 +942,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://example.com/atom.aspx", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void AtomUrl_WithRssProxy_ReturnsRssUri()
         {
             //arrange
@@ -956,7 +956,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://atom.example.com/atom", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void AdminUrl_WithPage_RendersAdminUrlToPage()
         {
             //arrange
@@ -969,7 +969,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/admin/log.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void AdminUrl_WithBlogHavingSubfolder_RendersAdminUrlToPage()
         {
             //arrange
@@ -984,7 +984,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/sub/admin/log.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void AdminUrl_WithBlogHavingSubfolderAndVirtualPath_RendersAdminUrlToPage()
         {
             //arrange
@@ -999,7 +999,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/admin/log.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void AdminRssUrl_WithFeednameAndSubfolderAndApp_ReturnsAdminRssUrl()
         {
             //arrange
@@ -1014,7 +1014,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/admin/ReferrersRss.axd", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void LoginUrl_WithSubfolderAndApp_ReturnsLoginUrlInSubfolder()
         {
             //arrange
@@ -1029,7 +1029,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/login.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void LoginUrl_WithSubfolderAndAppAndReturnUrl_ReturnsLoginUrlWithReturnUrlInQueryString()
         {
             //arrange
@@ -1044,7 +1044,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual(("/Subtext.Web/sub/login.aspx?ReturnUrl=" + HttpUtility.UrlEncode("/Subtext.Web/AdminPage.aspx")).ToLowerInvariant(), url);
         }
 
-        [Test]
+        [TestMethod]
         public void LogoutUrl_WithSubfolderAndApp_ReturnsLoginUrlInSubfolder()
         {
             //arrange
@@ -1059,7 +1059,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/account/logout.ashx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void LogoutUrl_WithoutSubfolderAndApp_ReturnsLoginUrlInSubfolder()
         {
             //arrange
@@ -1073,7 +1073,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/account/logout.ashx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ArchivesUrl_WithSubfolderAndApp_ReturnsUrlWithAppAndSubfolder()
         {
             //arrange
@@ -1088,7 +1088,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/archives.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void ContactFormUrl_WithSubfolderAndApp_ReturnsUrlWithAppAndSubfolder()
         {
             //arrange
@@ -1103,7 +1103,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/contact.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void WlwManifestUrl_WithoutSubfolderWithoutApp_ReturnsPerBlogManifestUrl()
         {
             //arrange
@@ -1116,7 +1116,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/wlwmanifest.xml.ashx", manifestUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void WlwManifestUrl_WithoutSubfolderAndApp_ReturnsPerBlogManifestUrl()
         {
             //arrange
@@ -1129,7 +1129,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/wlwmanifest.xml.ashx", manifestUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void WlwManifestUrl_WithSubfolderAndApp_ReturnsPerBlogManifestUrl()
         {
             //arrange
@@ -1144,7 +1144,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/wlwmanifest.xml.ashx", manifestUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void MetaWeblogApiUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
         {
             //arrange
@@ -1160,7 +1160,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://example.com/Subtext.Web/sub/services/metablogapi.aspx", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void RsdUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
         {
             //arrange
@@ -1176,7 +1176,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("http://example.com/Subtext.Web/sub/rsd.xml.ashx", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void CustomCssUrl_WithSubfolderAndApp_ReturnsFullyQualifiedUrl()
         {
             //arrange
@@ -1191,7 +1191,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/customcss.aspx", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void TagUrl_WithSubfolderAndApp_ReturnsTagUrl()
         {
             //arrange
@@ -1206,7 +1206,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/tags/tagName/default.aspx", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void TagUrl_CorrectlyEncodesPoundCharacter()
         {
             //arrange
@@ -1221,7 +1221,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/tags/C%23/default.aspx", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void TagCloudUrl_WithSubfolderAndApp_ReturnsTagCloudUrl()
         {
             //arrange
@@ -1236,7 +1236,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/sub/tags/default.aspx", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void AppRootUrl_WithSubfolder_ReturnsAppRootAndIgnoresSubfolder()
         {
             //arrange
@@ -1251,7 +1251,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void AppRootUrl_WithSubfolderAndApp_ReturnsAppRootAndIgnoresSubfolder()
         {
             //arrange
@@ -1266,7 +1266,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void EditIcon_WithSubfolderAndApp_ReturnsAppRootAndIgnoresSubfolder()
         {
             //arrange
@@ -1281,7 +1281,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/Subtext.Web/images/icons/edit.gif", url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void HostAdminUrl_WithBlogHavingSubfolder_RendersUrlToHostAdmin()
         {
             //arrange
@@ -1296,7 +1296,7 @@ namespace UnitTests.Subtext.Framework.Routing
             Assert.AreEqual("/hostadmin/default.aspx", url);
         }
 
-        [Test]
+        [TestMethod]
         public void HostAdminUrl_WithAppPathAndBlogHavingSubfolder_RendersUrlToHostAdmin()
         {
             //arrange
@@ -1321,16 +1321,16 @@ namespace UnitTests.Subtext.Framework.Routing
             return UnitTestHelper.SetupUrlHelper(appPath, routeData);
         }
 
-        [RowTest]
-        [Row("http://www.google.com/search?q=asp.net+mvc&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a", "asp.net mvc")]
-        [Row("http://it.search.yahoo.com/search;_ylt=A03uv8bsRjNLZ0ABugAbDQx.?p=asp.net+mvc&fr2=sb-top&fr=yfp-t-709&rd=r1&sao=1", "asp.net mvc")]
-        [Row("http://www.google.com/#hl=en&source=hp&q=asp.net+mvc&btnG=Google+Search&aq=0p&aqi=g-p3g7&oq=as&fp=cbc2f75bf9d43a8f", "asp.net mvc")]
-        [Row("http://www.bing.com/search?q=asp.net+mvc&go=&form=QBLH&filt=all", "asp.net mvc")]
-        [Row("http://www.google.com/search?hl=en&safe=off&client=firefox-a&rls=org.mozilla%3Aen-US%3Aofficial&hs=MUl&q=%22asp.net+mvc%22&aq=f&oq=&aqi=g-p3g7", "\"asp.net mvc\"")]
-        [Row("http://codeclimber.net.nz/search.aspx?q=%22asp.net%20mvc%22", "")]
-        [Row("http://www.google.it/search?rlz=1C1GGLS_enIT354IT354&sourceid=chrome&ie=UTF-8&q=site:http://haacked.com/+water+birth", "water birth")]
-        [Row("http://www.google.it/search?rlz=1C1GGLS_enIT354IT354&sourceid=chrome&ie=UTF-8&q=site:https://haacked.com/+water+birth", "water birth")]
-        [Row("http://www.google.it/search?rlz=1C1GGLS_enIT354IT354&sourceid=chrome&ie=UTF-8&q=water+birth+site:https://haacked.com/", "water birth")]
+        [DataTestMethod]
+        [DataRow("http://www.google.com/search?q=asp.net+mvc&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a", "asp.net mvc")]
+        [DataRow("http://it.search.yahoo.com/search;_ylt=A03uv8bsRjNLZ0ABugAbDQx.?p=asp.net+mvc&fr2=sb-top&fr=yfp-t-709&rd=r1&sao=1", "asp.net mvc")]
+        [DataRow("http://www.google.com/#hl=en&source=hp&q=asp.net+mvc&btnG=Google+Search&aq=0p&aqi=g-p3g7&oq=as&fp=cbc2f75bf9d43a8f", "asp.net mvc")]
+        [DataRow("http://www.bing.com/search?q=asp.net+mvc&go=&form=QBLH&filt=all", "asp.net mvc")]
+        [DataRow("http://www.google.com/search?hl=en&safe=off&client=firefox-a&rls=org.mozilla%3Aen-US%3Aofficial&hs=MUl&q=%22asp.net+mvc%22&aq=f&oq=&aqi=g-p3g7", "\"asp.net mvc\"")]
+        [DataRow("http://codeclimber.net.nz/search.aspx?q=%22asp.net%20mvc%22", "")]
+        [DataRow("http://www.google.it/search?rlz=1C1GGLS_enIT354IT354&sourceid=chrome&ie=UTF-8&q=site:http://haacked.com/+water+birth", "water birth")]
+        [DataRow("http://www.google.it/search?rlz=1C1GGLS_enIT354IT354&sourceid=chrome&ie=UTF-8&q=site:https://haacked.com/+water+birth", "water birth")]
+        [DataRow("http://www.google.it/search?rlz=1C1GGLS_enIT354IT354&sourceid=chrome&ie=UTF-8&q=water+birth+site:https://haacked.com/", "water birth")]
         public void UrlHelper_ExtractKeywordsFromReferrer_ParsesCorrectly(string referralUrl, string expectedResult)
         {
             Uri referrer = new Uri(referralUrl);

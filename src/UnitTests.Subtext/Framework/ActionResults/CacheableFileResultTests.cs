@@ -1,16 +1,16 @@
 using System;
 using System.Web;
 using System.Web.Mvc;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Infrastructure.ActionResults;
 
 namespace UnitTests.Subtext.Framework.ActionResults
 {
-    [TestFixture]
+    [TestClass]
     public class CacheableFileResultTests
     {
-        [Test]
+        [TestMethod]
         public void CtorSetsLastModified()
         {
             // arrange
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             Assert.AreEqual(dateTime, result.LastModified);
         }
 
-        [Test]
+        [TestMethod]
         public void CtorSetsCacheability()
         {
             // arrange, act
@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             Assert.AreEqual(HttpCacheability.Server, result.Cacheability);
         }
 
-        [Test]
+        [TestMethod]
         public void ExecuteResultSetsCacheLastModified()
         {
             // arrange
@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             Assert.AreEqual(dateTime, lastModified);
         }
 
-        [Test]
+        [TestMethod]
         public void ExecuteResultSetsCacheCacheability()
         {
             // arrange
@@ -75,7 +75,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             Assert.AreEqual(HttpCacheability.Public, cacheability);
         }
 
-        [Test]
+        [TestMethod]
         public void ExecuteResultWritesBytesToResponse()
         {
             // arrange
@@ -96,7 +96,7 @@ namespace UnitTests.Subtext.Framework.ActionResults
             result.ExecuteResult(controllerContext);
 
             // assert
-            Assert.AreEqual(new byte[] { 1, 2, 3, 2, 1 }, writtenBytes);
+            CollectionAssert.AreEqual(new byte[] { 1, 2, 3, 2, 1 }, writtenBytes);
         }
     }
 }

@@ -2,16 +2,16 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.Routing;
 
 namespace UnitTests.Subtext.Framework.Routing
 {
-    [TestFixture]
+    [TestClass]
     public class HttpRouteHandlerTests
     {
-        [Test]
+        [TestMethod]
         public void RouteHandler_ConstructedWithType_InstantiatesNewHandlerEveryTime()
         {
             // arrange

@@ -1,17 +1,17 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Extensibility.Collections;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 
 namespace UnitTests.Subtext.Framework.Components
 {
-    [TestFixture]
+    [TestClass]
     public class CollectionBookTests
     {
-        [Test]
+        [TestMethod]
         public void CollectionBook_WithThreePages_IteratesCorrectly()
         {
             var pages = new Collection<IPagedCollection<string>>();
@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.Framework.Components
             Assert.AreEqual("0zeroonetwo1threefourfive2sixseven", concatenation);
         }
 
-        [Test]
+        [TestMethod]
         public void AsFlattenedEnumerable_AllowsEnumeratingAllPagesAsSingleEnumeration()
         {
             var pages = new Collection<IPagedCollection<string>>();

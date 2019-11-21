@@ -1,12 +1,12 @@
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Subtext.Framework.Emoticons;
 
 namespace UnitTests.Subtext.Framework.Emoticons
 {
-    [TestFixture]
+    [TestClass]
     public class EmoticonTests
     {
-        [Test]
+        [TestMethod]
         public void Transform_WithSmiley_TransformsSmiley()
         {
             //arrange
@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework.Emoticons
             Assert.AreEqual(@"<img src=""http://example.com/"" />", result);
         }
 
-        [Test]
+        [TestMethod]
         public void Transform_WithSmileyInText_TransformsSmiley()
         {
             //arrange

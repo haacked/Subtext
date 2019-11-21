@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -15,10 +15,10 @@ namespace UnitTests.Subtext.Framework.Data
     /// <summary>
     /// Summary description for DataHelperTests.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class DataHelperTests
     {
-        [Test]
+        [TestMethod]
         public void ReadFeedbackItem_ReadsParentEntrySyndicated_AsUTC()
         {
             // arrange
@@ -56,7 +56,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(DateTimeKind.Utc, feedback.ParentDatePublishedUtc.Kind);
         }
 
-        [Test]
+        [TestMethod]
         public void ReadValue_WithValueMatchingType_ReturnsValueAsType()
         {
             //arrange
@@ -70,7 +70,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(98008, result);
         }
 
-        [Test]
+        [TestMethod]
         public void ReadValue_WithValueReturningDbNull_ReturnsDefaultValue()
         {
             //arrange
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(8675309, result);
         }
 
-        [Test]
+        [TestMethod]
         public void ReadValue_WithValueReturningNull_ReturnsDefaultValue()
         {
             //arrange
@@ -98,7 +98,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(8675309, result);
         }
 
-        [Test]
+        [TestMethod]
         public void ReadValue_WithValueFuncThrowingFormatException_ReturnsDefaultValue()
         {
             //arrange
@@ -112,7 +112,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(8675309, result);
         }
 
-        [Test]
+        [TestMethod]
         public void ReadValue_WithValueFuncThrowingIndexOutOfRangeException_ReturnsDefaultValue()
         {
             //arrange
@@ -126,7 +126,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(8675309, result);
         }
 
-        [Test]
+        [TestMethod]
         public void AsEnumerable_WithMultipleRows_ReturnsEnumerationOfRows()
         {
             //arrange
@@ -142,7 +142,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(456, result[1]);
         }
 
-        [Test]
+        [TestMethod]
         public void AsPagedCollection_WithMultipleRows_ReturnsPagedCollection()
         {
             //arrange
@@ -161,7 +161,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(2, result.MaxItems);
         }
 
-        [Test]
+        [TestMethod]
         public void ReadObject_WithUriProperty_TriesAndParsesUrlAndSetsIt()
         {
             //arrange
@@ -177,7 +177,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual("http://subtextproject.com/", result.Url.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void ReadObject_WithComplexProperty_DoesNotTryAndSetIt()
         {
             //arrange
@@ -193,7 +193,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(null, result.ComplexObject);
         }
 
-        [Test]
+        [TestMethod]
         public void ReadObject_WithReadOnlyProperty_DoesNotTryAndSetIt()
         {
             //arrange
@@ -209,7 +209,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(false, result.ReadOnlyBoolean);
         }
 
-        [Test]
+        [TestMethod]
         public void IDataReader_WithIntColumnHavingSameNameAsProperty_PopulatesObjectWithPropertySetCorrectly()
         {
             //arrange
@@ -225,7 +225,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(42, result.IntProperty);
         }
 
-        [Test]
+        [TestMethod]
         public void IDataReader_WithStringColumnHavingSameNameAsProperty_PopulatesObjectWithPropertySetCorrectly()
         {
             //arrange
@@ -241,7 +241,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual("Hello world", result.StringProperty);
         }
 
-        [Test]
+        [TestMethod]
         public void IDataReader_WithDateTimeColumnHavingSameNameAsDateTimeProperty_PopulatesObjectWithPropertySetCorrectly()
         {
             //arrange
@@ -258,7 +258,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(now, result.DateProperty);
         }
 
-        [Test]
+        [TestMethod]
         public void IDataReader_WithNullColumn_DoesNotSetProperty()
         {
             //arrange
@@ -274,7 +274,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(null, result.NullableIntProperty);
         }
 
-        [Test]
+        [TestMethod]
         public void IDataReader_WithNullableIntColumnHavingSameNameAsProperty_PopulatesObjectWithNullablePropertySetCorrectly()
         {
             //arrange
@@ -293,7 +293,7 @@ namespace UnitTests.Subtext.Framework.Data
         /// <summary>
         /// Makes sure that we parse the date correctly.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void LoadArchiveCountParsesDateCorrectly()
         {
             // Arrange

@@ -1,16 +1,16 @@
 using System.Web;
 using System.Web.Mvc;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Moq.Stub;
 using Subtext.Infrastructure.ActionResults;
 
 namespace UnitTests.Subtext.Framework.ActionResults
 {
-    [TestFixture]
+    [TestClass]
     public class NotModifiedResultTests
     {
-        [Test]
+        [TestMethod]
         public void NotModifiedResultSends304StatusCodeAndSuppressesContent()
         {
             // arrange

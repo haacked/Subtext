@@ -18,17 +18,17 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Hosting;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
 
 namespace UnitTests.Subtext.Framework.Skinning
 {
-    [TestFixture]
+    [TestClass]
     public class SkinStylesTests
     {
-        [Test]
+        [TestMethod]
         public void CanGetExcludeDefaultStyleAttribute()
         {
             var pathProvider = new Mock<VirtualPathProvider>();
@@ -46,7 +46,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.IsFalse(templateWithoutExcludedDefault.ExcludeDefaultStyle, "ExcludeDefaultStyle should be false.");
         }
 
-        [Test]
+        [TestMethod]
         public void CanGetMergeModeAttribute()
         {
             var pathProvider = new Mock<VirtualPathProvider>();
@@ -72,10 +72,10 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual(StyleMergeMode.None, templateWithoutMergeMode.StyleMergeMode, "MergeMode should be None.");
         }
 
-        [RowTest]
-        [Row("", "", "/Skins/RedBook/print.css", "/Skins/RedBook/style.css")]
-        [Row("blog", "", "/Skins/RedBook/print.css", "/Skins/RedBook/style.css")]
-        [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/RedBook/print.css", "/Subtext.Web/Skins/RedBook/style.css")]
+        [DataTestMethod]
+        [DataRow("", "", "/Skins/RedBook/print.css", "/Skins/RedBook/style.css")]
+        [DataRow("blog", "", "/Skins/RedBook/print.css", "/Skins/RedBook/style.css")]
+        [DataRow("blog", "Subtext.Web", "/Subtext.Web/Skins/RedBook/print.css", "/Subtext.Web/Skins/RedBook/style.css")]
         public void StyleSheetElementCollectionRendererRendersPlainCssLinkElementsWithNoneMergeMode(string subFolder,
                                                                                                     string
                                                                                                         applicationPath,
@@ -103,7 +103,7 @@ namespace UnitTests.Subtext.Framework.Skinning
                           "Expected the default css to be there.");
         }
 
-        [Test]
+        [TestMethod]
         public void RenderStyleElementCollection_WithNoStyles_RendersDefaultStyle()
         {
             // arrange
@@ -121,10 +121,10 @@ namespace UnitTests.Subtext.Framework.Skinning
             Assert.AreEqual(defaultStyle, styleElements.Trim());
         }
 
-        [RowTest]
-        [Row("", "", "/Skins/WPSkin/print.css", "/Skins/WPSkin/style.css")]
-        [Row("blog", "", "/Skins/WPSkin/print.css", "/Skins/WPSkin/style.css")]
-        [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/WPSkin/print.css", "/Subtext.Web/Skins/WPSkin/style.css")]
+        [DataTestMethod]
+        [DataRow("", "", "/Skins/WPSkin/print.css", "/Skins/WPSkin/style.css")]
+        [DataRow("blog", "", "/Skins/WPSkin/print.css", "/Skins/WPSkin/style.css")]
+        [DataRow("blog", "Subtext.Web", "/Subtext.Web/Skins/WPSkin/print.css", "/Subtext.Web/Skins/WPSkin/style.css")]
         public void StyleSheetElementCollectionRenderer_WithNoneMergeModeAndExcludeDefault_RendersPlainCssLinkElements(
             string subFolder, string applicationPath, string expectedPrintCssPath, string expectedDefaultCssPath)
         {
@@ -148,10 +148,10 @@ namespace UnitTests.Subtext.Framework.Skinning
                           "Not expected the default css to be there.");
         }
 
-        [RowTest]
-        [Row("", "", "/Skins/Lightz/print.css", "/Skins/Lightz/style.css", "/Skins/Lightz/light.css")]
-        [Row("blog", "", "/Skins/Lightz/print.css", "/Skins/Lightz/style.css", "/Skins/Lightz/light.css")]
-        [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/Lightz/print.css", "/Subtext.Web/Skins/Lightz/style.css",
+        [DataTestMethod]
+        [DataRow("", "", "/Skins/Lightz/print.css", "/Skins/Lightz/style.css", "/Skins/Lightz/light.css")]
+        [DataRow("blog", "", "/Skins/Lightz/print.css", "/Skins/Lightz/style.css", "/Skins/Lightz/light.css")]
+        [DataRow("blog", "Subtext.Web", "/Subtext.Web/Skins/Lightz/print.css", "/Subtext.Web/Skins/Lightz/style.css",
             "/Subtext.Web/Skins/Lightz/light.css")]
         public void StyleSheetElementCollectionRenderer_WithNoneMergeModeAndSecondaryStyle_RendersPlainCssLinkElements(
             string subFolder, string applicationPath, string expectedPrintCssPath, string expectedDefaultCssPath,
@@ -182,9 +182,9 @@ namespace UnitTests.Subtext.Framework.Skinning
                           "Expected the secondary css to be there.");
         }
 
-        [RowTest]
-        [Row("KeyWest", true)]
-        [Row("Gradient", false)]
+        [DataTestMethod]
+        [DataRow("KeyWest", true)]
+        [DataRow("Gradient", false)]
         public void StyleSheetElementCollectionRendererRendersLinkElementsInRightOrder(string skinKey,
                                                                                        bool expectedFirst)
         {
@@ -214,10 +214,10 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
 
-        [RowTest]
-        [Row("", "", "/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
-        [Row("blog", "", "/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
-        [Row("blog", "Subtext.Web", "/Subtext.Web/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
+        [DataTestMethod]
+        [DataRow("", "", "/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
+        [DataRow("blog", "", "/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
+        [DataRow("blog", "Subtext.Web", "/Subtext.Web/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed")]
         public void StyleSheetElementCollectionRendererRendersMergedCssLinkElements(string subFolder,
                                                                                     string applicationPath,
                                                                                     string expectedPrintCssPath)
@@ -238,25 +238,25 @@ namespace UnitTests.Subtext.Framework.Skinning
                           "Expected the fixed screen css to be there.");
         }
 
-        [RowTest]
-        [Row("AnotherEon001",
+        [DataTestMethod]
+        [DataRow("AnotherEon001",
             @"<link type=""text/css"" rel=""stylesheet"" href=""http://haacked.com/skins/_System/commonstyle.css"" />")]
-        [Row("Gradient",
+        [DataRow("Gradient",
             "<!--[if IE]>\r\n" +
             @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" href=""/Skins/Gradient/css.axd?name=Gradient&media=screen&conditional=if+IE"" />" +
             "\r\n<![endif]-->")]
-        [Row("RedBook-Green.css",
+        [DataRow("RedBook-Green.css",
             "<!--[if IE]>\r\n" +
             @"<link type=""text/css"" rel=""stylesheet"" href=""/Skins/RedBook/css.axd?name=RedBook-Green.css&conditional=if+IE"" />" +
             "\r\n<![endif]-->")]
-        [Row("Nature-leafy.css", "")]
-        [Row("Origami", "")]
-        [Row("Piyo",
+        [DataRow("Nature-leafy.css", "")]
+        [DataRow("Origami", "")]
+        [DataRow("Piyo",
             @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" title=""fixed"" href=""/Skins/Piyo/css.axd?name=Piyo&media=screen&title=fixed"" />" +
             "\r\n" +
             @"<link media=""screen"" type=""text/css"" rel=""stylesheet"" title=""elastic"" href=""/Skins/Piyo/css.axd?name=Piyo&media=screen&title=elastic"" />"
             )]
-        [Row("Submarine",
+        [DataRow("Submarine",
             "<!--[if IE]>\r\n" +
             @"<link type=""text/css"" rel=""stylesheet"" href=""/Skins/Submarine/css.axd?name=Submarine&conditional=if+IE"" />" +
             "\r\n<![endif]-->")]
@@ -279,17 +279,17 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
 
-        [RowTest]
-        [Row("", "print", "", "print.css", true)]
-        [Row("", "print", "fixed", "print.css", false)]
-        [Row("", "", "", "~/skins/_System/csharp.css", true)]
-        [Row("if gte IE 7", "", "", "IE7Patches.css", false)]
-        [Row("", "screen", "", "~/css/lightbox.css", true)]
-        [Row("", "all", "", "Styles/user-styles.css", true)]
-        [Row("", "", "fixed", "print.css", false)]
-        [Row("", "all", "fixed", "Styles/user-styles.css", false)]
-        [Row("if gte IE 7", "all", "", "Styles/user-styles.css", false)]
-        [Row("", "", "", "http://www.google.com/style.css", false)]
+        [DataTestMethod]
+        [DataRow("", "print", "", "print.css", true)]
+        [DataRow("", "print", "fixed", "print.css", false)]
+        [DataRow("", "", "", "~/skins/_System/csharp.css", true)]
+        [DataRow("if gte IE 7", "", "", "IE7Patches.css", false)]
+        [DataRow("", "screen", "", "~/css/lightbox.css", true)]
+        [DataRow("", "all", "", "Styles/user-styles.css", true)]
+        [DataRow("", "", "fixed", "print.css", false)]
+        [DataRow("", "all", "fixed", "Styles/user-styles.css", false)]
+        [DataRow("if gte IE 7", "all", "", "Styles/user-styles.css", false)]
+        [DataRow("", "", "", "http://www.google.com/style.css", false)]
         public void StyleToBeMergedAreCorrectlyDetected(string conditional, string media, string title, string href,
                                                         bool canBeMerged)
         {
@@ -310,7 +310,7 @@ namespace UnitTests.Subtext.Framework.Skinning
             }
         }
 
-        [Test]
+        [TestMethod]
         public void MergedCssDoesntContainDefaultIfExcluded()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
@@ -325,7 +325,7 @@ namespace UnitTests.Subtext.Framework.Skinning
                            "Skin WPSkin should not have the default style.css");
         }
 
-        [Test]
+        [TestMethod]
         public void MergedCssContainsDefaultStyle()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
@@ -341,7 +341,7 @@ namespace UnitTests.Subtext.Framework.Skinning
         }
 
 
-        [Test]
+        [TestMethod]
         public void MergedCssContainsStyleWithMedia()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);
@@ -356,7 +356,7 @@ namespace UnitTests.Subtext.Framework.Skinning
                           "Skin Piyo should have the print css in the merged css");
         }
 
-        [Test]
+        [TestMethod]
         public void MergedCssDoesntContainStyleWithMediaAndTitle()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", string.Empty);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Web;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -15,14 +15,13 @@ using UnitTests.Subtext.Framework.Util;
 
 namespace UnitTests.Subtext.Framework.Syndication.Admin
 {
-    [TestFixture]
+    [TestClass]
     public class ModeratedCommentRssWriterTests : SyndicationTestBase
     {
         /// <summary>
         /// Tests that a valid feed is produced even if a post has no comments.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void CommentRssWriterProducesValidEmptyFeed()
         {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog");
@@ -91,8 +90,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
         /// <summary>
         /// Tests that a valid feed is produced even if a post has no comments.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void Xml_WithOneCommentNeedingModeration_ProducesValidRSSFeedWithTheOneComment()
         {
             // Arrange
@@ -203,7 +201,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
             //Assert.AreEqual(expected, writer.Xml);
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithNullEntryCollection_ThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() =>
@@ -213,7 +211,7 @@ namespace UnitTests.Subtext.Framework.Syndication.Admin
 
         }
 
-        [Test]
+        [TestMethod]
         public void Ctor_WithNullEntry_ThrowsArgumentNullException()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(() =>

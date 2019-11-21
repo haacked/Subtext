@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Specialized;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
@@ -12,7 +12,7 @@ using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext.Framework.Services
 {
-    [TestFixture]
+    [TestClass]
     public class BlogLookupServiceTests
     {
         private static HostInfo CreateHostInfo()
@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Services
             return new HostInfo(new NameValueCollection());
         }
 
-        [Test]
+        [TestMethod]
         public void Request_WithMatchingHost_ReturnsCorrespondingBlog()
         {
             //arrange
@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsNull(result.AlternateUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void Request_WithNonMatchingHostButAlternativeHostMatches_ReturnsBlogWithSpecifiedHost()
         {
             //arrange
@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsNull(result.AlternateUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void Request_MatchingActiveAlias_ReturnsBlogWithSpecifiedHost()
         {
             //arrange
@@ -72,7 +72,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsNull(result.AlternateUrl);
         }
 
-        [Test]
+        [TestMethod]
         public void Request_MatchingActiveAliasWithSubfolder_RedirectsToPrimaryWithoutSubfolder()
         {
             //arrange
@@ -90,7 +90,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("http://www.example.com/foo/bar", result.AlternateUrl.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void Request_MatchingActiveAliasWithoutSubfolder_RedirectsToPrimaryWithSubfolder()
         {
             //arrange
@@ -108,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("http://www.example.com/sub/foo/bar", result.AlternateUrl.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void Request_MatchingActiveAliasWithSubfolder_RedirectsToPrimaryWithDifferentSubfolder()
         {
             //arrange
@@ -128,7 +128,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("http://www.example.com/sub/foo/bar", result.AlternateUrl.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void Request_NotMatchingAnyBlog_ReturnsNull()
         {
             //arrange
@@ -150,7 +150,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.IsNull(result);
         }
 
-        [Test]
+        [TestMethod]
         public void RequestNotMatchingAnyBlog_ButWithAggregateBlogsEnabledAndActiveBlogsInTheSystem_ReturnsAggregateBlog()
         {
             //arrange
@@ -175,7 +175,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreSame(hostInfo.AggregateBlog, result.Blog);
         }
 
-        [Test]
+        [TestMethod]
         public void RequestWithSubfolderNotMatchingAnyBlog_ButWithAggregateBlogsEnabledAndMoreThanOneActiveBlogsInTheSystem_ReturnsNull()
         {
             //arrange
@@ -207,7 +207,7 @@ namespace UnitTests.Subtext.Framework.Services
         /// deploys the database to their production server. The hostname in the db 
         /// should be changed to the new domain.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void
             RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemWithMatchingHostButDifferentSubfolder_RedirectsToOnlyBlog
             ()
@@ -243,7 +243,7 @@ namespace UnitTests.Subtext.Framework.Services
         /// deploys the database to their production server. The hostname in the db 
         /// should be changed to the new domain.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemWithLocalHost_ReturnsThatBlogAndUpdatesItsHost()
         {
             //arrange
@@ -278,7 +278,7 @@ namespace UnitTests.Subtext.Framework.Services
         /// deploys the database to their production server. The hostname in the db 
         /// should be changed to the new domain.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void
             RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemWithLocalHostButNotMatchingSubfolder_ReturnsUpdatesItsHostThenRedirectsToSubfolder
             ()
@@ -309,7 +309,7 @@ namespace UnitTests.Subtext.Framework.Services
             repository.Verify(r => r.UpdateBlog(It.IsAny<Blog>()));
         }
 
-        [Test]
+        [TestMethod]
         public void
             RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemAndSubfolderEqualsAppPath_RedirectsToSingleBlog
             ()
@@ -344,7 +344,7 @@ namespace UnitTests.Subtext.Framework.Services
             Assert.AreEqual("http://example.com/blog/jjameson/", result.AlternateUrl.ToString());
         }
 
-        [Test]
+        [TestMethod]
         public void
             RequestNotMatchingAnyBlog_ButWithASingleBlogInSystemAndSubfolderEqualsEmptyString_RedirectsToSingleBlog
             ()

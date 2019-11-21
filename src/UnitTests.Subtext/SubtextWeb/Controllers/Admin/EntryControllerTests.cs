@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -9,10 +9,10 @@ using Subtext.Web.Controllers;
 
 namespace UnitTests.Subtext.SubtextWeb.Controllers.Admin
 {
-    [TestFixture]
+    [TestClass]
     public class EntryControllerTests
     {
-        [Test]
+        [TestMethod]
         public void Delete_WithEntryId_CallsDeleteEntryOnRepository()
         {
             // arrange
@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers.Admin
             Assert.AreEqual("has been removed", data["predicate"]);
         }
 
-        [Test]
+        [TestMethod]
         public void Destroy_WithEntryId_CallsDestroyFeedbackOnRepository()
         {
             // arrange

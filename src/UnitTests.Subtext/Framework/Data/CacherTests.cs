@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Routing;
-using MbUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -21,10 +21,10 @@ namespace UnitTests.Subtext.Framework.Data
     /// <summary>
     /// Unit tests of the <see cref="Cacher"/> class.
     /// </summary>
-    [TestFixture]
+    [TestClass]
     public class CacherTests
     {
-        [Test]
+        [TestMethod]
         public void GetOrInsert_WithItemNotInCache_InsertsItemReturnedByDelegate()
         {
             // arrange
@@ -47,7 +47,7 @@ namespace UnitTests.Subtext.Framework.Data
                                       null));
         }
 
-        [Test]
+        [TestMethod]
         public void GetOrInsert_WithItemNotInCache_ReturnsNullIfDelegateNullAndDoesNotTryToCache()
         {
             // arrange
@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.IsNull(cached);
         }
 
-        [Test]
+        [TestMethod]
         public void GetOrInsertSliding_WithItemNotInCache_ReturnsNullIfDelegateNullAndDoesNotTryToCache()
         {
             // arrange
@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Data
 
 
 
-        [Test]
+        [TestMethod]
         public void GetEntriesForMonth_WithEntriesInCache_RetrievesFromCache()
         {
             // arrange
@@ -97,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(entry, cachedEntries.First());
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntriesForMonth_WithEntriesNotInCache_RetrievesFromRepositoryAndInsertsInCache()
         {
             // arrange
@@ -116,7 +116,7 @@ namespace UnitTests.Subtext.Framework.Data
             context.Verify(c => c.Cache["EntryMonth:Date200901Blog1001"]);
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntriesForDay_WithEntriesInCache_RetrievesFromCache()
         {
             // arrange
@@ -134,7 +134,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(entry, cachedEntries.First());
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntriesForDay_WithEntriesNotInCache_RetrievesFromRepositoryAndInsertsInCache()
         {
             // arrange
@@ -153,7 +153,7 @@ namespace UnitTests.Subtext.Framework.Data
             context.Verify(c => c.Cache["EntryDay:Date20090123Blog1001"]);
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntriesByCategory_WithEntriesInCache_RetrievesFromCache()
         {
             // arrange
@@ -170,7 +170,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(entry, cachedEntries.First());
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntriesByCategory_WithEntriesNotInCache_RetrievesFromRepositoryAndInsertsInCache()
         {
             // arrange
@@ -188,7 +188,7 @@ namespace UnitTests.Subtext.Framework.Data
             context.Verify(c => c.Cache["EC:Count10Category1BlogId1001"]);
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntriesByTag_WithEntriesInCache_RetrievesFromCache()
         {
             // arrange
@@ -205,7 +205,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(entry, cachedEntries.First());
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntriesByTag_WithEntriesNotInCache_RetrievesFromRepositoryAndInsertsInCache()
         {
             // arrange
@@ -223,7 +223,7 @@ namespace UnitTests.Subtext.Framework.Data
             context.Verify(c => c.Cache["ET:Count10TagTestTagBlogId1001"]);
         }
 
-        [Test]
+        [TestMethod]
         public void GetFeedback_WithFeedbackInCache_RetrievesFromCache()
         {
             // arrange
@@ -241,7 +241,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(feedback, cachedFeedback.First());
         }
 
-        [Test]
+        [TestMethod]
         public void GetFeedback_WithFeedbackNotInCache_RetrievesFromRepositoryAndInsertsInCache()
         {
             // arrange
@@ -260,7 +260,7 @@ namespace UnitTests.Subtext.Framework.Data
             context.Verify(c => c.Cache["ParentEntry:Comments:EntryId322:BlogId1001"]);
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntry_WithEntryIdAndEntryInCache_RetrievesFromCache()
         {
             // arrange
@@ -277,7 +277,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(entry, cachedEntry);
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntry_WithEntryIdAndEntryNotInCache_RetrievesFromRepositoryAndInsertsInCache()
         {
             // arrange
@@ -295,7 +295,7 @@ namespace UnitTests.Subtext.Framework.Data
             context.Verify(c => c.Cache["Entry111BlogId1001"]);
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntry_WithEntryNameAndEntryInCache_RetrievesFromCache()
         {
             // arrange
@@ -314,7 +314,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(entry, cachedEntry);
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntry_WithEntryNameAndEntryInCacheWithPublishDateInFuture_ReturnsNull()
         {
             // arrange
@@ -338,7 +338,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.IsNull(cachedEntry);
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntry_WithEntryNameAndEntryNotInCacheAndHasPublishDateInFuture_ReturnsNull()
         {
             // arrange
@@ -361,7 +361,7 @@ namespace UnitTests.Subtext.Framework.Data
             context.Verify(c => c.Cache["EntryNameentry-slugBlogId1001"]);
         }
 
-        [Test]
+        [TestMethod]
         public void GetEntry_WithEntryNameAndEntryNotInCache_RetrievesFromRepositoryAndInsertsInCache()
         {
             // arrange
@@ -384,7 +384,7 @@ namespace UnitTests.Subtext.Framework.Data
             context.Verify(c => c.Cache["EntryNameentry-slugBlogId1001"]);
         }
 
-        [Test]
+        [TestMethod]
         public void GetTopTags_WithTagsInCache_RetrievesFromCache()
         {
             // arrange
@@ -401,7 +401,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual(tag, cachedTags.First());
         }
 
-        [Test]
+        [TestMethod]
         public void GetTopTags_WithTagsNotInCache_RetrievesFromRepositoryAndInsertsInCache()
         {
             // arrange
@@ -422,7 +422,7 @@ namespace UnitTests.Subtext.Framework.Data
         /// <summary>
         /// This test is to make sure a bug I introduced never happens again.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void GetEntryFromRequest_WithIdInRouteDataMatchingEntryInRepository_ReturnsEntry()
         {
             //arrange
@@ -445,8 +445,7 @@ namespace UnitTests.Subtext.Framework.Data
         /// <summary>
         /// This test is to make sure a bug I introduced never happens again.
         /// </summary>
-        [Test]
-        [RollBack2]
+        [DatabaseIntegrationTestMethod]
         public void GetEntryFromRequest_WithEntryHavingEntryNameButIdInRouteDataMatchingEntryInRepository_RedirectsToUrlWithSlug()
         {
             //arrange
@@ -483,7 +482,7 @@ namespace UnitTests.Subtext.Framework.Data
         /// <summary>
         /// This test is to make sure a bug I introduced never happens again.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void GetEntryFromRequest_WithSlugInRouteDataMatchingEntryInRepository_ReturnsEntry()
         {
             //arrange
@@ -508,7 +507,7 @@ namespace UnitTests.Subtext.Framework.Data
         /// <summary>
         /// This test is to make sure a bug I introduced never happens again.
         /// </summary>
-        [Test]
+        [TestMethod]
         public void GetEntryFromRequest_WithNonExistentEntry_DoesNotThrowNullReferenceException()
         {
             //arrange
@@ -527,7 +526,7 @@ namespace UnitTests.Subtext.Framework.Data
             //None needed.
         }
 
-        [Test]
+        [TestMethod]
         public void SingleCategoryThrowsExceptionIfContextNull()
         {
             UnitTestHelper.AssertThrowsArgumentNullException(
@@ -535,7 +534,7 @@ namespace UnitTests.Subtext.Framework.Data
                 );
         }
 
-        [Test]
+        [TestMethod]
         public void SingleCategoryReturnsNullForNonExistentCategory()
         {
             //arrange
@@ -555,7 +554,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.IsNull(category);
         }
 
-        [Test]
+        [TestMethod]
         public void CanGetCategoryByIdRequest()
         {
             //arrange
@@ -576,7 +575,7 @@ namespace UnitTests.Subtext.Framework.Data
             Assert.AreEqual("this is a test", category.Title);
         }
 
-        [Test]
+        [TestMethod]
         public void CanGetCategoryByNameRequest()
         {
             //arrange
