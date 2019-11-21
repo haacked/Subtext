@@ -79,7 +79,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null, utcNow.AddMinutes(1));
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null, utcNow.AddMinutes(2));
 
+            entryZero.DatePublishedUtc = entryZero.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryZero);
+            entryOne.DatePublishedUtc = entryOne.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryOne);
             entryTwo.DatePublishedUtc = utcNow.AddMinutes(20);
             UnitTestHelper.Create(entryTwo);
@@ -99,12 +101,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
         {
             // Arrange
             var repository = new DatabaseObjectProvider();
-            DateTime now = DateTime.UtcNow;
+            DateTime now = DateTime.UtcNow.AddMinutes(-5);
             Entry entryZero = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-zero", "body-zero", null, now);
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null, now.AddMinutes(1));
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null, now.AddMinutes(2));
 
+            entryZero.DatePublishedUtc = entryZero.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryZero);
+            entryOne.DatePublishedUtc = entryOne.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryOne);
             entryTwo.DatePublishedUtc = DateTime.UtcNow.AddMinutes(20);
             UnitTestHelper.Create(entryTwo);
@@ -121,10 +125,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             // Assert
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
 
-            Assert.AreEqual(entries.First().Id, entryOne.Id,
-                "First item is not the expected entry.");
-            Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id,
-                "Second item is not the expected entry.");
+            Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
         }
 
         [DatabaseIntegrationTestMethod]
@@ -144,7 +146,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             entryOne.Categories.Add("Test Category");
             entryTwo.Categories.Add("Test Category");
 
+            entryZero.DatePublishedUtc = entryZero.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryZero);
+            entryOne.DatePublishedUtc = entryOne.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryOne);
             entryTwo.DatePublishedUtc = DateTime.UtcNow.AddMinutes(20);
             UnitTestHelper.Create(entryTwo);
@@ -170,7 +174,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null, now.AddMinutes(1));
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null, now.AddMinutes(2));
 
+            entryZero.DatePublishedUtc = entryZero.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryZero);
+            entryOne.DatePublishedUtc = entryOne.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryOne);
             entryTwo.DatePublishedUtc = DateTime.UtcNow.AddMinutes(20);
             UnitTestHelper.Create(entryTwo);
@@ -183,20 +189,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             // Assert
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
 
-            var entriesArray = entries.ToArray();
-
-            Assert.IsTrue(
-                Array.FindIndex<Entry>(entriesArray, x => x.Id == entryOne.Id) >= 0,
-                "entryOne not found in results.");
-
-            Assert.IsTrue(
-                Array.FindIndex<Entry>(entriesArray, x => x.Id == entryZero.Id) >= 0,
-                "entryZero not found in results.");
-
-            Assert.AreEqual(entries.First().Id, entryOne.Id,
-                "First item is not the expected entry.");
-            Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id,
-                "Second item is not the expected entry.");
+            Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
+            Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
         }
 
         [DatabaseIntegrationTestMethod]
@@ -209,7 +203,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             Entry entryOne = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-one", "body-one", null, now.AddMinutes(1));
             Entry entryTwo = UnitTestHelper.CreateEntryInstanceForSyndication("me", "title-two", "body-two", null, now.AddMinutes(2));
 
+            entryZero.DatePublishedUtc = entryZero.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryZero);
+            entryOne.DatePublishedUtc = entryOne.DateCreatedUtc.AddSeconds(1);
             UnitTestHelper.Create(entryOne);
             entryTwo.DatePublishedUtc = DateTime.UtcNow.AddMinutes(20);
             UnitTestHelper.Create(entryTwo);
