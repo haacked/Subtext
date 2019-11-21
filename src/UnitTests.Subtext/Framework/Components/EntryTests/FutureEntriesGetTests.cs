@@ -121,8 +121,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             // Assert
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
 
-            Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
-            Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
+            Assert.AreEqual(entries.First().Id, entryOne.Id,
+                "First item is not the expected entry.");
+            Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id,
+                "Second item is not the expected entry.");
         }
 
         [DatabaseIntegrationTestMethod]
@@ -181,8 +183,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             // Assert
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
 
-            Assert.AreEqual(entries.First().Id, entryOne.Id, "Ordering is off.");
-            Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id, "Ordering is off.");
+            Assert.AreEqual(entries.First().Id, entryOne.Id,
+                "First item is not the expected entry.");
+            Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id,
+                "Second item is not the expected entry.");
         }
 
         [DatabaseIntegrationTestMethod]
