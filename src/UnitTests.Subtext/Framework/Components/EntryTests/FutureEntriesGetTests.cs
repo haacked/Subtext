@@ -183,6 +183,16 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             // Assert
             Assert.AreEqual(2, entries.Count, "Expected to find two entries.");
 
+            var entriesArray = entries.ToArray();
+
+            Assert.IsTrue(
+                Array.FindIndex<Entry>(entriesArray, x => x.Id == entryOne.Id) >= 0,
+                "entryOne not found in results.");
+
+            Assert.IsTrue(
+                Array.FindIndex<Entry>(entriesArray, x => x.Id == entryZero.Id) >= 0,
+                "entryZero not found in results.");
+
             Assert.AreEqual(entries.First().Id, entryOne.Id,
                 "First item is not the expected entry.");
             Assert.AreEqual(entries.ElementAt(1).Id, entryZero.Id,
