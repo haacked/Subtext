@@ -91,8 +91,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controllers
       <![CDATA[
         http://localhost/admin/posts/edit.aspx
     ]]>
-    </postEditingUrl>"
-                .Replace(Environment.NewLine, "\n");
+    </postEditingUrl>";
 
             StringAssert.Contains(manifest.Content, expected);
         }
