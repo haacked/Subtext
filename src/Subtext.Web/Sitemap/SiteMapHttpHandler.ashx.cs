@@ -92,7 +92,7 @@ namespace Subtext.Web.SiteMap
                 foreach (Link category in categories.Links)
                 {
                     urlCollection.Add(
-                        new UrlElement(new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog) + category.Url),
+                        new UrlElement(new Uri(category.Url),
                                        DateTime.Today,
                                        ChangeFrequency.Weekly, 0.6M));
                 }
@@ -106,9 +106,11 @@ namespace Subtext.Web.SiteMap
             {
                 foreach (Link archive in archives.Links)
                 {
+                    var archiveUrl = new Uri(archive.Url, UriKind.Relative);
+
                     urlCollection.Add(
                         new UrlElement(
-                            new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog) + archive.Url), DateTime.Today,
+                            new Uri(Url.BlogUrl().ToFullyQualifiedUrl(Blog), archiveUrl), DateTime.Today,
                             ChangeFrequency.Weekly, 0.6M));
                 }
             }
